@@ -53,6 +53,8 @@ def generateNLinearModels(n: int):
         moduleName = f"linearChain{modelID}"
 
         if moduleName in antimony.getModuleNames():
+            # note this might not be needed now that
+            # we are freeing all models in every iteration
             yield antimony.getSBMLString(moduleName)
 
         else:
@@ -75,36 +77,9 @@ def generateNLinearModels(n: int):
                 raise ValueError("AntimonyError: " + antimony.getLastError())
 
             sbml = antimony.getSBMLString(f"linearChain{modelID}")
+            # clear memory associated with antimony
+            # or after a while it'll get clogged and we'll
+            # eventially run out of memory
+            antimony.clearPreviousLoads()
             yield sbml
 
-
-def doPlot(times: np.array, fname=os.path.join(os.path.dirname(__file__), "linearChainRoadRunnerOnly.png")):
-    fig = plt.figure()
-    plt.plot(range(N), times, "ro")
-    plt.xlabel("n species")
-    plt.ylabel("compile time (s)")
-    sns.despine(fig=fig)
-    plt.savefig(fname, dpi=150, bbox_inches='tight')
-
-
-if __name__ == "__main__":
-    # generate N models with $i \in range(N)$ species
-    N = 300
-
-    times = np.zeros((N,))
-    for i, sbmlString in enumerate(generateNLinearModels(N)):
-        start = time.time()
-        rrModel = RoadRunner(sbmlString)
-        times[i] = time.time() - start
-        i += 1
-        if i % 10 == 0:
-            print(i, sum(times[i - 10: i]))
-
-        if i == N - 1:
-            print(sbmlString)
-    total = times.sum()
-
-    print(times)
-    print(f"Took {total} seconds to build {N} models")
-
-    doPlot(times)

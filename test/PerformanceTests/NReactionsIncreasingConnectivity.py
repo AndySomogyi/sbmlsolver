@@ -63,6 +63,8 @@ def generateModelsWithNReactionsIncreasingConnectivity(n: int) -> str:
             moduleName = f"NReactionsIncreasingConnectivity{modelId}"
             # if we've built this model before, it'll be in antimony's cache.
             if moduleName in antimony.getModuleNames():
+                # note this might not be needed now that
+                # we are freeing all models in every iteration
                 yield antimony.getSBMLString(moduleName)
             else:
                 modelString = f"model {moduleName}\n"
@@ -84,6 +86,10 @@ def generateModelsWithNReactionsIncreasingConnectivity(n: int) -> str:
 
                 sbml = antimony.getSBMLString(f"NReactionsIncreasingConnectivity{modelId}")
                 yield sbml
+                # clear memory associated with antimony
+                # or after a while it'll get clogged and we'll
+                # eventially run out of memory
+                antimony.clearPreviousLoads()
 
 
 if __name__ == "__main__":

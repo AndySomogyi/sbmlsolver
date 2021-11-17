@@ -70,6 +70,7 @@ def build_time(sbmlGeneratorFunction: callable, N: int, results_key: str, result
         rrModel = RoadRunner(sbmlString)
         times.append(time.time() - start)
         progressBar(i, N, results_key)
+        del sbmlString
     results[results_key] = times
     return times
 
@@ -92,6 +93,7 @@ def build_and_sim_time(sbmlGeneratorFunction: callable, N: int, results_key: str
         rrModel.simulate(0, 1000, 1001)
         times.append(time.time() - start)
         progressBar(i, N, results_key)
+        del sbmlString
     results[results_key] = times
     return times
 
@@ -117,6 +119,7 @@ def sim_time(sbmlGeneratorFunction: callable, N: int, results_key: str, results:
         rrModel.simulate(0, 1000, 1001)
         times.append(time.time() - start)
         progressBar(i, N, results_key)
+        del sbmlString
     results[results_key] = times
     return times
 
@@ -145,27 +148,27 @@ def plot(results: dict):
 
     def plot_n_reactions_build_time_results(times: np.ndarray):
         fname = os.path.join(os.path.dirname(__file__), "NReactionsUncoupledBuildTimes.png")
-        plotResults(times, fname, "n reactions (uncoupled)", "build time (s)", "NReactions")
+        plotResults(times, fname, "n reactions", "build time (s)", "NReactions (uncoupled)")
 
     def plot_n_reactions_build_and_sim_time_results(times: np.ndarray):
         fname = os.path.join(os.path.dirname(__file__), "NReactionsUncoupledBuildAndSimTimes.png")
-        plotResults(times, fname, "n reactions (uncoupled)", "build and sim time (s)", "NReactions")
+        plotResults(times, fname, "n reactions", "build and sim time (s)", "NReactions (uncoupled)")
 
     def plot_n_reactions_time_results(times: np.ndarray):
         fname = os.path.join(os.path.dirname(__file__), "NReactionsUncoupledSimTimes.png")
-        plotResults(times, fname, "n reactions (uncoupled)", "sim time (s)", "NReactions")
+        plotResults(times, fname, "n reactions", "sim time (s)", "NReactions (uncoupled)")
 
     def plot_n_reactions_increasing_connectivity_build_time_results(times: np.ndarray):
         fname = os.path.join(os.path.dirname(__file__), "NReactionsIncreasingConnectivityBuildTimes.png")
-        plotResults(times, fname, "n reactions (increasing connectivity)", "build time (s)", "NReactions")
+        plotResults(times, fname, "n reactions", "build time (s)", "NReactions (Increasing Connectivity)")
 
     def plot_n_reactions_increasing_connectivity_build_and_sim_time_results(times: np.ndarray):
         fname = os.path.join(os.path.dirname(__file__), "NReactionsIncreasingConnectivityBuildAndSimTimes.png")
-        plotResults(times, fname, "n reactions (increasing connectivity)", "build and sim time (s)", "NReactions")
+        plotResults(times, fname, "n reactions", "build and sim time (s)", "NReactions (Increasing Connectivity)")
 
     def plot_n_reactions_increasing_connectivity_time_results(times: np.ndarray):
         fname = os.path.join(os.path.dirname(__file__), "NReactionsIncreasingConnectivitySimTimes.png")
-        plotResults(times, fname, "n reactions (increasing connectivity)", "sim time (s)", "NReactions")
+        plotResults(times, fname, "n reactions", "sim time (s)", "NReactions (Increasing Connectivity)")
 
     plot_linear_chain_build_time_results(results["NLinearChain_BuildTime"])
     plot_linear_chain_build_and_sim_time_results(results["NLinearChain_BuildAndSimTime"])
@@ -201,7 +204,7 @@ if __name__ == "__main__":
 
     # The N parameter for the functions above.
     # Represents size of the problem to time.
-    N = 200
+    N = 600
 
     if USE_PICKLED_RESULTS and os.path.exists(RESULTS_PICKLE_FILE):
         with open(RESULTS_PICKLE_FILE, 'rb') as f:

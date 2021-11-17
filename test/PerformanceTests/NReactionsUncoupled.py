@@ -61,6 +61,8 @@ def generateModelsWithNUncoupledReactions(n: int) -> str:
         moduleName = f"NReactions{int(np.floor((modelID / 2)))}"
         # if we've built this model before, it'll be in antimony's cache.
         if moduleName in antimony.getModuleNames():
+            # note this might not be needed now that
+            # we are freeing all models in every iteration
             yield antimony.getSBMLString(moduleName)
         else:
             modelString = f"model {moduleName}\n"
@@ -86,37 +88,14 @@ def generateModelsWithNUncoupledReactions(n: int) -> str:
 
             sbml = antimony.getSBMLString(f"NReactions{int(np.floor((modelID / 2)))}")
             yield sbml
+            # clear memory associated with antimony
+            # or after a while it'll get clogged and we'll
+            #eventially run out of memory
+            antimony.clearPreviousLoads()
             modelID += 2
             model_count += 1
-
-
-def doPlot(times: np.array, fname=os.path.join(os.path.dirname(__file__), "linearChainRoadRunnerOnly.png")):
-    fig = plt.figure()
-    plt.plot(range(len(times)), times, "ro")
-    plt.xlabel("n species")
-    plt.ylabel("compile time (s)")
-    sns.despine(fig=fig)
-    plt.savefig(fname, dpi=150, bbox_inches='tight')
 
 
 if __name__ == "__main__":
     # generate N models with $i \in range(N)$ uncoupled reactions
     N = 6
-
-    times = np.zeros((N,))
-    for i, sbmlString in enumerate(generateModelsWithNUncoupledReactions(N)):
-        start = time.time()
-        rrModel = RoadRunner(sbmlString)
-        times[i] = time.time() - start
-        i += 1
-        if (i % 10 == 0):
-            print(i, sum(times[i - 10: i]))
-
-        if i == N - 1:
-            print(sbmlString)
-    total = times.sum()
-
-    print(times)
-    print(f"Took {total} seconds to build {N} models")
-
-    doPlot(times)
