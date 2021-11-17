@@ -538,7 +538,7 @@ public:
          * An enum value that indicates which
          * llvm JIT compiler is being used.
          */
-         LLVM_COMPILER,
+         LLVM_BACKEND,
 
         /**
          * Needs to be the last item in the enum, no mater how many

@@ -20,13 +20,13 @@ public:
 
 
 TEST_F(JitFactoryTests, MCJitFromConfig){
-    Config::setValue(Config::LLVM_COMPILER, Config::LLVM_COMPILER_VALUES::MCJIT);
+    Config::setValue(Config::LLVM_BACKEND, Config::LLVM_COMPILER_VALUES::MCJIT);
     std::unique_ptr<Jit> j = JitFactory::makeJitEngine();
     ASSERT_TRUE(typeid((*j)) == typeid(MCJit));
 }
 
 TEST_F(JitFactoryTests, LLJitFromConfig){
-    Config::setValue(Config::LLVM_COMPILER, Config::LLVM_COMPILER_VALUES::LLJIT);
+    Config::setValue(Config::LLVM_BACKEND, Config::LLVM_COMPILER_VALUES::LLJIT);
     std::unique_ptr<Jit> j = JitFactory::makeJitEngine();
     ASSERT_TRUE(typeid((*j)) == typeid(LLJit));
 }

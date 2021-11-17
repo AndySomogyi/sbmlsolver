@@ -20,6 +20,8 @@ import seaborn as sns
 import multiprocessing as mp
 from multiprocessing.managers import SyncManager
 
+print(roadrunner.__file__)
+
 
 def progressBarLinear(i: int, N: int, name: str):
     """Prints percentage completed when there are N items and we
@@ -195,10 +197,14 @@ if __name__ == "__main__":
     # Plot results
     PLOT_RESULTS = True
 
-    JIT_ENGINE = "MCJit"    # or LLJit
+    JIT_ENGINE = "LLJit"    # or LLJit
     JIT_ENGINE_LIST = ['MCJit', "LLJit"]
     if JIT_ENGINE not in JIT_ENGINE_LIST:
         raise ValueError(JIT_ENGINE)
+
+    if JIT_ENGINE == "LLJit":
+        print("Using LLJit")
+        Config.setValue(Config.LLVM_BACKEND, Config.LLJIT)
 
     # todo use Config to set LLJit / MCJit
 

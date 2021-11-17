@@ -334,7 +334,7 @@ namespace rr {
             modelGeneratorOpt |= LoadSBMLOptions::USE_MCJIT;
 
         Config::LLVM_COMPILER_VALUES whichCompiler =
-                (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_COMPILER).getAs<int>();
+                (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_BACKEND).getAs<int>();
 
         switch (whichCompiler) {
             case Config::MCJIT:

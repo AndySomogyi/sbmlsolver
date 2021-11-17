@@ -133,8 +133,8 @@ TEST_F(LLJitTests, ToObjectFile) {
  * compiles and the model simulates.
  */
 TEST_F(LLJitTests, CheckModelSimulates) {
-//    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::MCJIT);
-    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::LLJIT);
+//    rr::Config::setValue(rr::Config::LLVM_BACKEND, rr::Config::LLVM_COMPILER_VALUES::MCJIT);
+    rr::Config::setValue(rr::Config::LLVM_BACKEND, rr::Config::LLVM_COMPILER_VALUES::LLJIT);
     RoadRunner rr(OpenLinearFlux().str());
     auto data = rr.simulate(0, 10, 11);
     ASSERT_EQ(typeid(*data), typeid(ls::Matrix<double>));
@@ -143,8 +143,8 @@ TEST_F(LLJitTests, CheckModelSimulates) {
 
 
 TEST_F(LLJitTests, GetObjectFromCache) {
-//    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::MCJIT);
-    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::LLJIT);
+//    rr::Config::setValue(rr::Config::LLVM_BACKEND, rr::Config::LLVM_COMPILER_VALUES::MCJIT);
+    rr::Config::setValue(rr::Config::LLVM_BACKEND, rr::Config::LLVM_COMPILER_VALUES::LLJIT);
     RoadRunner rr(OpenLinearFlux().str());
     auto &cache = rrllvm::SBMLModelObjectCache::getObjectCache();
     cache.inspect();

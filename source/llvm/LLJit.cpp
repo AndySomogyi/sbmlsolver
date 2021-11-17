@@ -46,7 +46,6 @@ namespace rrllvm {
 
         /**
          * None, Less, Default or Aggressive are the options.
-         * todo expose to user as optino
          */
         JTMB.setCodeGenOptLevel(llvm::CodeGenOpt::Level::None);
 

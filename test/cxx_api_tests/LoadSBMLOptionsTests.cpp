@@ -106,12 +106,12 @@ TEST_F(LoadSBMLOptionsTests, ConservedMoietyConversionGetterAndSetter){
 
 
 TEST_F(LoadSBMLOptionsTests, LLVMCompilerDefaultToMCJit){
-    Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_COMPILER).getAs<int>();
+    Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_BACKEND).getAs<int>();
     ASSERT_EQ(Config::LLVM_COMPILER_VALUES::MCJIT, val);
 }
 
 TEST_F(LoadSBMLOptionsTests, LLVMCompilerDefaultToMCJitNotLLJit){
-    Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_COMPILER).getAs<int>();
+    Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_BACKEND).getAs<int>();
     ASSERT_NE(Config::LLVM_COMPILER_VALUES::LLJIT, val);
 }
 
@@ -130,14 +130,14 @@ TEST_F(LoadSBMLOptionsTests, LLVMCompilerDefaultToMCJitViaSBMLLoadOptionsNotLLJi
 
 
 TEST_F(LoadSBMLOptionsTests, LLVMCompilerSetToLLJit){
-    Config::setValue(Config::LLVM_COMPILER, Config::LLVM_COMPILER_VALUES::LLJIT);
-    Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_COMPILER).getAs<int>();
+    Config::setValue(Config::LLVM_BACKEND, Config::LLVM_COMPILER_VALUES::LLJIT);
+    Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_BACKEND).getAs<int>();
     ASSERT_EQ(Config::LLVM_COMPILER_VALUES::LLJIT, val);
 }
 
 TEST_F(LoadSBMLOptionsTests, LLVMCompilerSetToLLJitMCJitFalse){
-    Config::setValue(Config::LLVM_COMPILER, Config::LLVM_COMPILER_VALUES::LLJIT);
-    Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_COMPILER).getAs<int>();
+    Config::setValue(Config::LLVM_BACKEND, Config::LLVM_COMPILER_VALUES::LLJIT);
+    Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_BACKEND).getAs<int>();
     ASSERT_NE(Config::LLVM_COMPILER_VALUES::MCJIT, val);
 }
 
