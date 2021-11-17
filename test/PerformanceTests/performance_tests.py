@@ -9,7 +9,7 @@ from typing import List
 import os
 import pickle
 import roadrunner
-from roadrunner import RoadRunner
+from roadrunner import RoadRunner, Config
 import NLinearChain
 import NReactionsUncoupled
 import NReactionsIncreasingConnectivity
@@ -194,6 +194,13 @@ if __name__ == "__main__":
 
     # Plot results
     PLOT_RESULTS = True
+
+    JIT_ENGINE = "MCJit"    # or LLJit
+    JIT_ENGINE_LIST = ['MCJit', "LLJit"]
+    if JIT_ENGINE not in JIT_ENGINE_LIST:
+        raise ValueError(JIT_ENGINE)
+
+    # todo use Config to set LLJit / MCJit
 
     # To collect results from threads we need a shared dict
     # which is provided by the mp.Manager.
