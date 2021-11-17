@@ -1,6 +1,5 @@
 # time how long it takes to build n linear chain models
 from roadrunner import RoadRunner
-import tellurium as te
 import time
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,6 +7,7 @@ import matplotlib
 import seaborn as sns
 import os
 import antimony
+from threading import Lock
 
 sns.set_context("talk")
 matplotlib.use("TkAgg")
@@ -34,7 +34,7 @@ def updateReactions(reactionsString: str, i: int):
     return reactionsString
 
 
-def generateLinearModels(n: int):
+def generateNLinearModels(n: int):
     """Create n models which are in a linear chain. The last model
     will have n species and n-1 reactions.
 
@@ -50,26 +50,32 @@ def generateLinearModels(n: int):
     reactions = "\t// reactions\n"
 
     for modelID in range(2, n + 2):
-        modelString = f"model linearChain{modelID}\n"
-        species = updateSpecies(species, modelID)
-        modelString += species
+        moduleName = f"linearChain{modelID}"
 
-        parameters = updateParameters(parameters, modelID)
-        modelString += parameters
+        if moduleName in antimony.getModuleNames():
+            yield antimony.getSBMLString(moduleName)
 
-        reactions = updateReactions(reactions, modelID)
-        modelString += reactions
-        modelString += "end"
+        else:
+            modelString = f"model {moduleName}\n"
+            species = updateSpecies(species, modelID)
+            modelString += species
 
-        # convert to sbml here.
-        # this helps avoid timing antimony's part in
-        # building a roadrunner model through tellurium
-        err = antimony.loadAntimonyString(modelString)
-        if err < 0:
-            raise ValueError("AntimonyError: " + antimony.getLastError())
+            parameters = updateParameters(parameters, modelID)
+            modelString += parameters
 
-        sbml = antimony.getSBMLString(f"linearChain{modelID}")
-        yield sbml
+            reactions = updateReactions(reactions, modelID)
+            modelString += reactions
+            modelString += "end"
+
+            # convert to sbml here.
+            # this helps avoid timing antimony's part in
+            # building a roadrunner model through tellurium
+            err = antimony.loadAntimonyString(modelString)
+            if err < 0:
+                raise ValueError("AntimonyError: " + antimony.getLastError())
+
+            sbml = antimony.getSBMLString(f"linearChain{modelID}")
+            yield sbml
 
 
 def doPlot(times: np.array, fname=os.path.join(os.path.dirname(__file__), "linearChainRoadRunnerOnly.png")):
@@ -86,12 +92,12 @@ if __name__ == "__main__":
     N = 300
 
     times = np.zeros((N,))
-    for i, sbmlString in enumerate(generateLinearModels(N)):
+    for i, sbmlString in enumerate(generateNLinearModels(N)):
         start = time.time()
         rrModel = RoadRunner(sbmlString)
         times[i] = time.time() - start
         i += 1
-        if (i % 10 == 0):
+        if i % 10 == 0:
             print(i, sum(times[i - 10: i]))
 
         if i == N - 1:
