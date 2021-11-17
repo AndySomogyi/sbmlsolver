@@ -57,8 +57,7 @@ def generateModelsWithNReactionsIncreasingConnectivity(n: int) -> str:
 
     for i in range(n):
         for j in range(n):
-            if i == j:
-                continue
+            # note: we include i == j deliberately.
             modelId = i * n + j
             # only allow a single thread to generate an antimony model at a time
             moduleName = f"NReactionsIncreasingConnectivity{modelId}"
@@ -89,9 +88,9 @@ def generateModelsWithNReactionsIncreasingConnectivity(n: int) -> str:
 
 if __name__ == "__main__":
     # generate N models with $i \in range(N)$ uncoupled reactions
-    N = 3
+    N = 10
 
-    for i in generateModelsWithNReactionsIncreasingConnectivity(N):
+    for i, sbml in enumerate(generateModelsWithNReactionsIncreasingConnectivity(N)):
         print(i)
     # times = np.zeros((N,))
     # for i, sbmlString in enumerate(generateModelsWithNUncoupledReactions(N)):

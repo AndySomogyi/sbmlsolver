@@ -5,12 +5,14 @@ from typing import Optional
 sys.path += [
     r"D:\roadrunner\roadrunner\cmake-build-release\lib\site-packages"
 ]
+from typing import List
 import os
 import pickle
 import roadrunner
 from roadrunner import RoadRunner
 import NLinearChain
 import NReactionsUncoupled
+import NReactionsIncreasingConnectivity
 import numpy as np
 import time
 import matplotlib.pyplot as plt
@@ -19,14 +21,40 @@ import multiprocessing as mp
 from multiprocessing.managers import SyncManager
 
 
-def progressBar(i: int, N: int, name: str=None):
-    if i % 10 == 0:
-        if name:
-            print(f"{name} -- {(i / N * 100)}% completed")
-        else:
-            print(f"{(i / N * 100)}% completed")
+def progressBarLinear(i: int, N: int, name: str):
+    """Prints percentage completed when there are N items and we
+    have processed i of them.
 
-def build_time(sbmlGeneratorFunction: callable, N: int, results_key: str, results: SyncManager.dict) -> np.ndarray:
+    Use this progress bar when the number of models scales linearly
+    with N... aka $i \in {0 .. N}$
+
+    :param i: int < N current iteration number
+    :param N: int total number of expected items.
+    :param name: identifier for task being tracked
+
+    """
+    if i % 10 == 0:
+        print(f"{name}".ljust(60), f"-- {(i / N * 100)}% completed")
+
+
+def progressBarQuadratic(i: int, N: int, name: str):
+    """Prints percentage completed when there are N*N items and we
+    have processed i of them.
+
+    Use this progress bar when the number of models scales quadratically
+    with N... aka $i \in {0 .. N*N}$
+
+    :param i: int < N current iteration number
+    :param N: int sqrt(total number of expected items).
+    :param name: identifier for task being tracked
+
+    """
+    if i % 10 == 0:
+        print(f"{name}".ljust(60), f"-- {(i / (N*N) * 100)}% completed")
+
+
+def build_time(sbmlGeneratorFunction: callable, N: int, results_key: str, results: SyncManager.dict,
+               progressBar=progressBarLinear) -> List[float]:
     """Measure time it takes to build roadrunner models sequence produced
     by the callable sbmlGeneratorFunction
 
@@ -36,19 +64,18 @@ def build_time(sbmlGeneratorFunction: callable, N: int, results_key: str, result
     different quantities in different situations).
     :param N: is passed on to sbmlGeneratorFunction
     """
-    times = np.zeros((N,))
+    times = []
     for i, sbmlString in enumerate(sbmlGeneratorFunction(N)):
         start = time.time()
         rrModel = RoadRunner(sbmlString)
-        times[i] = time.time() - start
-        i += 1
+        times.append(time.time() - start)
         progressBar(i, N, results_key)
     results[results_key] = times
     return times
 
 
 def build_and_sim_time(sbmlGeneratorFunction: callable, N: int, results_key: str,
-                       results: SyncManager.dict) -> np.ndarray:
+                       results: SyncManager.dict, progressBar=progressBarLinear) -> List[float]:
     """Measure time it takes to build roadrunner models sequence produced
     by the callable sbmlGeneratorFunction and run a 1000 time step simulation.
 
@@ -58,19 +85,19 @@ def build_and_sim_time(sbmlGeneratorFunction: callable, N: int, results_key: str
     different quantities in different situations).
     :param N: is passed on to sbmlGeneratorFunction
     """
-    times = np.zeros((N,))
+    times = []
     for i, sbmlString in enumerate(sbmlGeneratorFunction(N)):
         start = time.time()
         rrModel = RoadRunner(sbmlString)
         rrModel.simulate(0, 1000, 1001)
-        times[i] = time.time() - start
-        i += 1
+        times.append(time.time() - start)
         progressBar(i, N, results_key)
     results[results_key] = times
     return times
 
 
-def sim_time(sbmlGeneratorFunction: callable, N: int, results_key: str, results: SyncManager.dict) -> np.ndarray:
+def sim_time(sbmlGeneratorFunction: callable, N: int, results_key: str, results: SyncManager.dict,
+             progressBar=progressBarLinear) -> List[float]:
     """Measure time it takes to simulate a roadrunner model sequence produced
     by the callable sbmlGeneratorFunction.
 
@@ -83,65 +110,75 @@ def sim_time(sbmlGeneratorFunction: callable, N: int, results_key: str, results:
     different quantities in different situations).
     :param N: is passed on to sbmlGeneratorFunction
     """
-    times = np.zeros((N,))
+    times = []
     for i, sbmlString in enumerate(sbmlGeneratorFunction(N)):
         rrModel = RoadRunner(sbmlString)
         start = time.time()
         rrModel.simulate(0, 1000, 1001)
-        times[i] = time.time() - start
-        i += 1
+        times.append(time.time() - start)
         progressBar(i, N, results_key)
     results[results_key] = times
     return times
 
 
-def plotResults(times: np.ndarray, fname: str, xlabel: str, ylabel: str, title: str):
-    fig = plt.figure()
-    plt.plot(range(len(times)), times, "ro")
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-    plt.title(title)
-    sns.despine(fig=fig)
-    plt.savefig(fname, dpi=150, bbox_inches='tight')
-
-
-def plot_linear_chain_build_time_results(times: np.ndarray):
-    fname = os.path.join(os.path.dirname(__file__), "NLinearChainBuildTimes.png")
-    plotResults(times, fname, "n species", "build time (s)", "NLinearChain")
-
-
-def plot_linear_chain_build_and_sim_time_results(times: np.ndarray):
-    fname = os.path.join(os.path.dirname(__file__), "NLinearChainBuildAndSimTimes.png")
-    plotResults(times, fname, "n species", "build and sim time (s)", "NLinearChain")
-
-
-def plot_linear_chain_time_results(times: np.ndarray):
-    fname = os.path.join(os.path.dirname(__file__), "NLinearChainSimTimes.png")
-    plotResults(times, fname, "n species", "sim time (s)", "NLinearChain")
-
-
-def plot_n_reactions_build_time_results(times: np.ndarray):
-    fname = os.path.join(os.path.dirname(__file__), "NReactionsUncoupledBuildTimes.png")
-    plotResults(times, fname, "n reactions (uncoupled)", "build time (s)", "NReactions")
-
-
-def plot_n_reactions_build_and_sim_time_results(times: np.ndarray):
-    fname = os.path.join(os.path.dirname(__file__), "NReactionsUncoupledBuildAndSimTimes.png")
-    plotResults(times, fname, "n reactions (uncoupled)", "build and sim time (s)", "NReactions")
-
-
-def plot_n_reactions_time_results(times: np.ndarray):
-    fname = os.path.join(os.path.dirname(__file__), "NReactionsUncoupledSimTimes.png")
-    plotResults(times, fname, "n reactions (uncoupled)", "sim time (s)", "NReactions")
-
-
 def plot(results: dict):
+    def plotResults(times: np.ndarray, fname: str, xlabel: str, ylabel: str, title: str):
+        fig = plt.figure()
+        plt.plot(range(len(times)), times, "ro")
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.title(title)
+        sns.despine(fig=fig)
+        plt.savefig(fname, dpi=150, bbox_inches='tight')
+
+    def plot_linear_chain_build_time_results(times: np.ndarray):
+        fname = os.path.join(os.path.dirname(__file__), "NLinearChainBuildTimes.png")
+        plotResults(times, fname, "n species", "build time (s)", "NLinearChain")
+
+    def plot_linear_chain_build_and_sim_time_results(times: np.ndarray):
+        fname = os.path.join(os.path.dirname(__file__), "NLinearChainBuildAndSimTimes.png")
+        plotResults(times, fname, "n species", "build and sim time (s)", "NLinearChain")
+
+    def plot_linear_chain_time_results(times: np.ndarray):
+        fname = os.path.join(os.path.dirname(__file__), "NLinearChainSimTimes.png")
+        plotResults(times, fname, "n species", "sim time (s)", "NLinearChain")
+
+    def plot_n_reactions_build_time_results(times: np.ndarray):
+        fname = os.path.join(os.path.dirname(__file__), "NReactionsUncoupledBuildTimes.png")
+        plotResults(times, fname, "n reactions (uncoupled)", "build time (s)", "NReactions")
+
+    def plot_n_reactions_build_and_sim_time_results(times: np.ndarray):
+        fname = os.path.join(os.path.dirname(__file__), "NReactionsUncoupledBuildAndSimTimes.png")
+        plotResults(times, fname, "n reactions (uncoupled)", "build and sim time (s)", "NReactions")
+
+    def plot_n_reactions_time_results(times: np.ndarray):
+        fname = os.path.join(os.path.dirname(__file__), "NReactionsUncoupledSimTimes.png")
+        plotResults(times, fname, "n reactions (uncoupled)", "sim time (s)", "NReactions")
+
+    def plot_n_reactions_increasing_connectivity_build_time_results(times: np.ndarray):
+        fname = os.path.join(os.path.dirname(__file__), "NReactionsIncreasingConnectivityBuildTimes.png")
+        plotResults(times, fname, "n reactions (increasing connectivity)", "build time (s)", "NReactions")
+
+    def plot_n_reactions_increasing_connectivity_build_and_sim_time_results(times: np.ndarray):
+        fname = os.path.join(os.path.dirname(__file__), "NReactionsIncreasingConnectivityBuildAndSimTimes.png")
+        plotResults(times, fname, "n reactions (increasing connectivity)", "build and sim time (s)", "NReactions")
+
+    def plot_n_reactions_increasing_connectivity_time_results(times: np.ndarray):
+        fname = os.path.join(os.path.dirname(__file__), "NReactionsIncreasingConnectivitySimTimes.png")
+        plotResults(times, fname, "n reactions (increasing connectivity)", "sim time (s)", "NReactions")
+
     plot_linear_chain_build_time_results(results["NLinearChain_BuildTime"])
     plot_linear_chain_build_and_sim_time_results(results["NLinearChain_BuildAndSimTime"])
     plot_linear_chain_time_results(results["NLinearChain_SimTime"])
+
     plot_n_reactions_build_time_results(results["NReactionsUncoupled_BuildTime"])
     plot_n_reactions_build_and_sim_time_results(results["NReactionsUncoupled_BuildAndSimTime"])
     plot_n_reactions_time_results(results["NReactionsUncoupled_SimTime"])
+
+    plot_n_reactions_increasing_connectivity_build_time_results(results["NReactionsIncreasingConnectivity_BuildTime"])
+    plot_n_reactions_increasing_connectivity_build_and_sim_time_results(
+        results["NReactionsIncreasingConnectivity_BuildAndSimTime"])
+    plot_n_reactions_increasing_connectivity_time_results(results["NReactionsIncreasingConnectivity_SimTime"])
 
 
 if __name__ == "__main__":
@@ -164,16 +201,14 @@ if __name__ == "__main__":
 
     # The N parameter for the functions above.
     # Represents size of the problem to time.
-    N = 600
-
-    sx = os.path.exists(RESULTS_PICKLE_FILE)
+    N = 200
 
     if USE_PICKLED_RESULTS and os.path.exists(RESULTS_PICKLE_FILE):
         with open(RESULTS_PICKLE_FILE, 'rb') as f:
             results = pickle.load(f)
     else:
 
-        # Run 6 performance tests in separate processes.
+        # Run performance tests in separate processes.
         processes = []
         print("Running NReactionsUncoupled build time")
         p1 = mp.Process(target=build_time, args=(
@@ -232,6 +267,33 @@ if __name__ == "__main__":
         p6.start()
         processes.append(p6)
 
+        print("Running NReactionsIncreasingConnectivity build time")
+        p7 = mp.Process(
+            target=build_time,
+            args=(NReactionsIncreasingConnectivity.generateModelsWithNReactionsIncreasingConnectivity,
+                  int(np.floor(np.sqrt(N))), "NReactionsIncreasingConnectivity_BuildTime", results,
+                  progressBarQuadratic)
+        )
+        p7.start()
+        processes.append(p7)
+
+        print("Running NReactionsIncreasingConnectivity build and sim time")
+        p8 = mp.Process(
+            target=build_and_sim_time,
+            args=(NReactionsIncreasingConnectivity.generateModelsWithNReactionsIncreasingConnectivity, int(np.floor(np.sqrt(N))),
+                  "NReactionsIncreasingConnectivity_BuildAndSimTime", results, progressBarQuadratic))
+        p8.start()
+        processes.append(p8)
+
+        print("Running NReactionsIncreasingConnectivity sim time")
+        p9 = mp.Process(
+            target=sim_time,
+            args=(NReactionsIncreasingConnectivity.generateModelsWithNReactionsIncreasingConnectivity,
+                  int(np.floor(np.sqrt(N))), "NReactionsIncreasingConnectivity_SimTime", results,
+                  progressBarQuadratic))
+        p9.start()
+        processes.append(p9)
+
         for i, p in enumerate(processes):
             p.join()
 
@@ -242,5 +304,6 @@ if __name__ == "__main__":
 
     if PLOT_RESULTS:
         print(results)
-        print(type(results))
+        # print(type(results))
+        # print(len(results["NReactionsIncreasingConnectivity_BuildTime"]))
         plot(results)
