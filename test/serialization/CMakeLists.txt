@@ -6,18 +6,6 @@ if (BUILD_TESTS)
             ${SharedTestFiles}
             ../serialization/state_saving.cpp
     )
-
-    if (BUILD_PYTHON)
-        if ("${RR_PYTHON_TESTING_BUILD_PREFIX}" STREQUAL "")
-            message(ERROR "No RR_PYTHON_TESTING_BUILD_PREFIX variable defined")
-        endif ()
-
-        configure_file(
-                "${CMAKE_CURRENT_SOURCE_DIR}/pickle_tests.py"
-                "${RR_PYTHON_TESTING_BUILD_PREFIX}/pickle_tests.py"
-                COPYONLY
-        )
-    endif ()
 endif ()
 
 

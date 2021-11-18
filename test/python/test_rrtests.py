@@ -1,8 +1,7 @@
 # Test Module for RoadRunner
 #
 # Usage:
-# import rrTester
-# runTester (pathtoModelFile, modelFileName)
+# roadrunner.runTests(pathToRRTests)
 
 
 #-------------------------------------------------------------
@@ -18,14 +17,14 @@
 from __future__ import print_function
 
 import random
-import string
 import roadrunner
 from roadrunner import Config
 # from roadrunner import Logger
 import re
 import numpy
-from numpy import *
 import os
+import glob
+from numpy import zeros
 
 # Module wide file handle
 fHandle = ''
@@ -161,7 +160,7 @@ def checkComplexVecVsUpcomingText(calc):
             break
             expectedValue =  complex(float(words[0], float(words[1])))
             if expectApproximately (expectedValue, calc[i], abs(calc+1e-7)*1E-4) == False:
-                msg = "Expected " + words[j] + ", but calculated " + str(calc[i,j])
+                msg = "Expected " + str(expectedValue) + ", but calculated " + str(calc[i])
                 errorFlag = True
                 break
     print(passMsg (errorFlag, msg))
@@ -607,7 +606,7 @@ def checkSetSpeciesInitialConcentrationsByIndex(rrInstance, testId):
     errorFlag = False
     words = divide(readLine())
     n = rrInstance.model.getNumFloatingSpecies()
-    rrInstance.model.setFloatingSpeciesInitConcentrations(array(list(map(float, words))))
+    rrInstance.model.setFloatingSpeciesInitConcentrations(list(map(float, words)))
     rt = rrInstance.model.getFloatingSpeciesInitConcentrations()
     for i in range (n):
         if expectApproximately(float (words[i]), rt[i], 1E-6) == False:
@@ -913,7 +912,7 @@ def setGetReset(rrInstance, testId):
         errorFlag = True
     print(passMsg (errorFlag))
 
-def testReset(rrInstance, testId):
+def rtestReset(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
     words = divide(readLine())
@@ -928,7 +927,7 @@ def testReset(rrInstance, testId):
         errorFlag = True
     print(passMsg (errorFlag))
     
-def testResetAll(rrInstance, testId):
+def rtestResetAll(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
     words = divide(readLine())
@@ -948,7 +947,7 @@ def testResetAll(rrInstance, testId):
         errorFlag = True
     print(passMsg (errorFlag))
     
-def testResetToOrigin(rrInstance, testId):
+def rtestResetToOrigin(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
     words = divide(readLine())
@@ -961,7 +960,7 @@ def testResetToOrigin(rrInstance, testId):
         errorFlag = True
     print(passMsg (errorFlag))
     
-def testResetConservedTotal(rrInstance, testId):
+def rtestResetConservedTotal(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
     words = divide(readLine())
@@ -975,14 +974,14 @@ def testResetConservedTotal(rrInstance, testId):
         errorFlag = True
     print(passMsg (errorFlag))
 
-def testSetValues(rrInstance, testId):
+def rtestSetValues(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
     words = divide(readLine())
     spe = words[:int(len(words)/2)]
     val = words[int(len(words)/2):]
     val = [float(i) for i in val]
-    n = rrInstance.setValues(spe, val)
+    rrInstance.setValues(spe, val)
     for i in range(len(spe)):
         if not (rrInstance.getValue(spe[i]) == val[i]):
             errorFlag = True
@@ -990,7 +989,6 @@ def testSetValues(rrInstance, testId):
     print(passMsg (errorFlag))
 
 def checkJacobian(rrInstance, testId):
-    # TODO need to update python 2.x printing
     print(("Check " + testId).ljust( rpadding), end="")
     import numpy as n
 
@@ -1492,28 +1490,6 @@ def setIndividualTolerance(rrInstance, testId):
 
 
 
-def scriptTests():
-    print("\nTesting Set and Get Functions")
-    print("-----------------------------")
-    setGetValues(rrInstance.getFloatingSpeciesIds(), 'Set/Get Value (Floats)')
-    setGetValues(rrInstance.getBoundarySpeciesIds(), 'Set/Get Value (Boundary)')
-    setGetValues(rrInstance.getGlobalParameterIds(), 'Set/Get Value (Global Parameters)')
-    setGetValues(rrInstance.getCompartmentIds(), 'Set/Get Value (Compartments)')
-    setGetTimeStart('Set/Get TimeStart')
-    setGetTimeEnd ('Set/Get TimeEnd')
-    setGetNumberOfPoints ('Set/Get Number Of Points')
-    setGetTimeCourseSelectionList ('Set/Get Time Course Selection List')
-    setGetSteadyStateSelectionList ('Set/Get Steady State Selection List')
-    setGetFloatingSpeciesByIndex ('Set/Get Floating Species by Index')
-    setGetBoundarySpeciesByIndex ('Set/Get Boundary Species by Index')
-    setGetCompartmentByIndex ('Set/Get Compartment by Index')
-    setGetGlobalParameterByIndex ('Set/Get Global Parameter buy Index')
-    setGetBoundarySpeciesConcentrations ('Set/Get Boundary Species Concs')
-    setGetFloatingSpeciesConcentrations ('Set/Get Floating Species Concs')
-    setGetInitialFloatingSpeciesConcentrations ('Set/Get Initial Concs')
-    setGetReset ('Set/Get Reset Method')
-
-
 # ------------------------------------------------------------------------
 # List of tests
 functions = {'[Add Species]' : addSpeciesConcentration,
@@ -1608,11 +1584,11 @@ functions = {'[Add Species]' : addSpeciesConcentration,
              '[Species Initial Concentration Ids]': checkFloatingSpeciesInitialConcentrationIds,
              '[Steady State Fluxes]': checkSteadyStateFluxes,
              '[Stoichiometry Matrix]': checkStoichiometryMatrix,
-             '[Test Reset]': testReset,
-             '[Test ResetAll]': testResetAll,
-             '[Test ResetToOrigin]': testResetToOrigin,
-             '[Test ResetConservedTotal]': testResetConservedTotal,
-             '[Test SetValues]': testSetValues,
+             '[Test Reset]': rtestReset,
+             '[Test ResetAll]': rtestResetAll,
+             '[Test ResetToOrigin]': rtestResetToOrigin,
+             '[Test ResetConservedTotal]': rtestResetConservedTotal,
+             '[Test SetValues]': rtestSetValues,
              '[Unscaled Concentration Control Matrix]': checkUnscaledConcentrationControlMatrix,
              '[Unscaled Elasticity Matrix]': checkUnscaledElasticityMatrix,
              '[Unscaled Elasticity Amount Matrix]': checkUnscaledElasticityAmountMatrix,
@@ -1623,7 +1599,16 @@ functions = {'[Add Species]' : addSpeciesConcentration,
 def getDefaultTestDir():
     import os.path as p
     d = p.dirname(__file__)
-    return p.join(d,"test_data")
+    d = p.join(d,"test_data")
+    if (p.exists(d)):
+        return d;
+    d = p.dirname("../rrtest_files/")
+    if (p.exists(d)):
+        return d
+    d = p.dirname("../../../../test/rrtest_files/")
+    if (p.exists(d)):
+        return d
+    raise ValueError("Unable to find directory containing .rrtest files.")
 
 
 def getRRTestDir(starting_path=None, max_depth=4):
@@ -1655,7 +1640,7 @@ def getRRTestDir(starting_path=None, max_depth=4):
     # with parent directory
     return getRRTestDir(os.path.dirname(path))
 
-def runTester (testDir=None):
+def testAllRRTestFiles(testDir=None):
     """
     Run a series of tests from a testing dir.
 
@@ -1698,6 +1683,10 @@ def runTester (testDir=None):
             continue
 
 
+        # create a RoadRunner obj with the sbml from the test file
+        rrInstance = roadrunner.RoadRunner(sbmlStr)
+        print('Successfully loaded model.\n')
+
         # Load any initialization actions
         if testId == '[INITIALIZATION]':
             testId = jumpToNextTest ()
@@ -1709,10 +1698,6 @@ def runTester (testDir=None):
                     print('No initialization function found for ' + testId)
                 testId = jumpToNextTest()
             testId = jumpToNextTest()
-
-        # create a RoadRunner obj with the sbml from the test file
-        rrInstance = roadrunner.RoadRunner(sbmlStr)
-        print('Successfully loaded model.\n')
 
         # Model editing functions
         if testId == '[EDITING]':
@@ -1754,3 +1739,7 @@ def runTester (testDir=None):
         raise FailedTestsError(summary)
 
     return gFailedTests
+
+
+if __name__ == "__main__":
+    testAllRRTestFiles()

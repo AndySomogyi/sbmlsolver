@@ -13,10 +13,10 @@ This runs the built in unit tests..
 """
 
 try:
-    from tester import *
+    from test_rrtests import *
     from testfiles import *
     from SBMLTest import *
 except (ImportError):
-    from .tester import *
+    from .test_rrtests import *
     from .testfiles import *
     from .SBMLTest import *

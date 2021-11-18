@@ -3,7 +3,7 @@ python interface.
 
 This module can also be run directly from the command line as it is 
 a runnable module as::
-    pythom -m "roadrunner.testing"
+    pythom -m "roadrunner.tests"
 
 This module basically has a single function,::
     runTester()

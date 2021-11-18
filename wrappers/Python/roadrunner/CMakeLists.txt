@@ -150,24 +150,6 @@ install(FILES
 
 
 install(
-        FILES
-        testing/__init__.py
-        testing/__main__.py
-        testing/RunTesterWithUnitTest.py
-        testing/README.txt
-        testing/tester.py
-        testing/testfiles.py
-        testing/SBMLTest.py
-        testing/feedback.xml
-        testing/EcoliCore.xml
-        testing/linearPathwayClosed.xml
-        testing/linearPathwayOpen.xml
-        testing/test_1.xml
-        testing/python_api_tests.py
-        DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}/testing
-)
-
-install(
         DIRECTORY stochastic
         DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}
         FILES_MATCHING PATTERN "*.*"
@@ -176,13 +158,13 @@ install(
 file(GLOB rrtest_files1 "${RR_ROOT}/test/rrtest_files/*.rrtest")
 install(
         FILES ${rrtest_files1}
-        DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}/testing/test_data
+        DESTINATION ${RR_PYTHON_TESTING_INSTALL_PREFIX}/test_data
 )
 
 file(GLOB rrtest_files2 "${RR_ROOT}/test/rrtest_files/*.xml")
 install(
         FILES ${rrtest_files2}
-        DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}/testing/test_data
+        DESTINATION ${RR_PYTHON_TESTING_INSTALL_PREFIX}/test_data
 )
 
 

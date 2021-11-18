@@ -24,7 +24,6 @@ configure_file(RoadRunnerTestDirectory.cpp.in "${CMAKE_CURRENT_BINARY_DIR}/RoadR
 set(ThisSourceDirectory "${CMAKE_CURRENT_SOURCE_DIR}")
 set(ThisBinaryDirectory "${CMAKE_CURRENT_BINARY_DIR}")
 set(MOCKUPS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/mockups")
-set(RR_Python_wrapper_dir "${CMAKE_CURRENT_SOURCE_DIR}/../wrappers/Python/roadrunner")
 
 #todo move these to the rr_root/cmake folder
 # Adds a new executable cmake target to cmake.
@@ -51,7 +50,7 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
             "${ThisBinaryDirectory}"
             "${MOCKUPS_DIRECTORY}"
             "${TEST_PLUGIN_INCLUDE}"
-            "${RR_Python_wrapper_dir}" # for PyUtils in tests that need it
+#            "${RR_Python_wrapper_dir}" # for PyUtils in tests that need it
     )
 
     target_link_libraries(${TEST_TARGET} PRIVATE
@@ -234,20 +233,6 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "../wrappers/Python/roadrunner/PyUtils.h"
             "../wrappers/Python/roadrunner/PyUtils.cpp"
             )
-
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactoryTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py" COPYONLY)
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/RoadRunnerTest.py" COPYONLY)
-
-    install(
-            FILES
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py"
-            DESTINATION
-            "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
-    )
 endif ()
 
 
