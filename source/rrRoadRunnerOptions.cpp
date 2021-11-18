@@ -333,10 +333,11 @@ namespace rr {
         if (Config::getBool(Config::LOADSBMLOPTIONS_USE_MCJIT))
             modelGeneratorOpt |= LoadSBMLOptions::USE_MCJIT;
 
-        Config::LLVM_COMPILER_VALUES whichCompiler =
-                (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_BACKEND).getAs<int>();
+        // use the values in Config to update values in Options
+        Config::LLVM_BACKEND_VALUES whichBackend =
+                (Config::LLVM_BACKEND_VALUES)Config::getValue(Config::LLVM_BACKEND).getAs<int>();
 
-        switch (whichCompiler) {
+        switch (whichBackend) {
             case Config::MCJIT:
                 setLLVMBackend(LoadSBMLOptions::MCJIT);
                 break;
@@ -349,11 +350,69 @@ namespace rr {
                 setLLVMBackend(LoadSBMLOptions::MCJIT);
         }
 
+        Config::LLJIT_OPTIMIZATION_LEVELS whichOptLevel
+            = (Config::LLJIT_OPTIMIZATION_LEVELS)Config::getValue(Config::LLJIT_OPTIMIZATION_LEVEL).getAs<int>();
+
+        switch (whichOptLevel) {
+            case Config::NONE:
+                setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS::NONE);
+                break;
+            case Config::LESS:
+                setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS::LESS);
+                break;
+            case Config::DEFAULT:
+                setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS::DEFAULT);
+                break;
+            case Config::AGGRESSIVE:
+                setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS::AGGRESSIVE);
+                break;
+        }
+
         setItem("tempDir", Setting(std::string()));
         setItem("compiler", Setting("LLVM"));
         setItem("supportCodeDir", Setting(std::string()));
 
         loadFlags = 0;
+    }
+
+    void LoadSBMLOptions::setLLVMBackend(LoadSBMLOptions::LLVM_BACKEND_VALUES val){
+            // backend options are multiple choice. So iterate over all and turn them off
+            for (auto backendValue : getAllLLVMBackendValues()){
+                modelGeneratorOpt = modelGeneratorOpt &~ backendValue;
+            }
+
+            // before turning the right one on
+            switch (val){
+                case MCJIT:
+                    modelGeneratorOpt = modelGeneratorOpt | LLVM_BACKEND_VALUES::MCJIT;
+                    break;
+                case LLJIT:
+                    modelGeneratorOpt = modelGeneratorOpt | LLVM_BACKEND_VALUES::LLJIT;
+                    break;
+            }
+        }
+
+    void LoadSBMLOptions::setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS level) {
+        // turn off all options
+        for (auto lljitOptValue: getAllLLJitOptimizationValues()){
+            modelGeneratorOpt = modelGeneratorOpt &~ lljitOptValue;
+        }
+
+        // now turn just the one on
+        switch (level) {
+            case NONE:
+                modelGeneratorOpt = modelGeneratorOpt | LLJIT_OPTIMIZATION_LEVELS::NONE;
+                break;
+            case LESS:
+                modelGeneratorOpt = modelGeneratorOpt | LLJIT_OPTIMIZATION_LEVELS::LESS;
+                break;
+            case DEFAULT:
+                modelGeneratorOpt = modelGeneratorOpt | LLJIT_OPTIMIZATION_LEVELS::DEFAULT;
+                break;
+            case AGGRESSIVE:
+                modelGeneratorOpt = modelGeneratorOpt | LLJIT_OPTIMIZATION_LEVELS::AGGRESSIVE;
+                break;
+        }
     }
 
 } /* namespace rr */

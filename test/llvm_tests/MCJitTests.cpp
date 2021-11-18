@@ -120,8 +120,8 @@ TEST_F(MCJitTests, LoadPowerFunction) {
 }
 
 TEST_F(MCJitTests, CheckModelSimulates) {
-    rr::Config::setValue(rr::Config::LLVM_BACKEND, rr::Config::LLVM_COMPILER_VALUES::MCJIT);
-//    rr::Config::setValue(rr::Config::LLVM_BACKEND, rr::Config::LLVM_COMPILER_VALUES::LLJIT);
+    rr::Config::setValue(rr::Config::LLVM_BACKEND, rr::Config::LLVM_BACKEND_VALUES::MCJIT);
+//    rr::Config::setValue(rr::Config::LLVM_BACKEND, rr::Config::LLVM_BACKEND_VALUES::LLJIT);
     RoadRunner rr(OpenLinearFlux().str());
     auto data = rr.simulate(0, 10, 11);
     ASSERT_EQ(typeid(*data), typeid(ls::Matrix<double>));

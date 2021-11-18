@@ -41,9 +41,9 @@ namespace rrllvm {
          * modelGeneratorOpt to JitFactory::makeJitEngine(opt);
          * @example
          *  @code
-         *   Config::setValue(LLVM_BACKEND, Config::LLVM_COMPILER_VALUES::MCJIT); // default
+         *   Config::setValue(LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::MCJIT); // default
          *   // OR
-         *   Config::setValue(LLVM_BACKEND, Config::LLVM_COMPILER_VALUES::LLJIT); // alternative
+         *   Config::setValue(LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::LLJIT); // alternative
          *   std::unique_ptr<Jit> j = makeJitEngine();
          *  @endcode
          */

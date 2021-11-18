@@ -12,7 +12,7 @@ public:
     RoadRunnerAPITestsWithMCJit() 
         : RoadRunnerAPITests(){
         Logger::setLevel(Logger::LOG_INFORMATION);
-        Config::setValue(Config::LLVM_BACKEND, Config::LLVM_COMPILER_VALUES::MCJIT);
+        Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::MCJIT);
     }
 };
 

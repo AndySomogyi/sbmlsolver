@@ -257,7 +257,7 @@ static void getKeyNames(StringIntMap &keys) {
       rr::Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS;
   keys["VALIDATION_IN_REGENERATION"] = rr::Config::VALIDATION_IN_REGENERATION;
   keys["K_ROWS_PER_WRITE"] = rr::Config::K_ROWS_PER_WRITE;
-  keys["LLVM_BACKEND"] = rr::Config::LLVM_COMPILER_VALUES::MCJIT;
+  keys["LLVM_BACKEND"] = rr::Config::LLVM_BACKEND_VALUES::MCJIT;
   keys["LLJIT_OPTIMIZATION_LEVEL"] = rr::Config::LLJIT_OPTIMIZATION_LEVELS::AGGRESSIVE;
   keys["LLJIT_NUM_THREADS"] = getDefaultNumThreads();
 

@@ -27,18 +27,37 @@ namespace rr
 	class RR_DECLSPEC LoadSBMLOptions : public BasicDictionary
 	{
 	public:
-        enum LLVM_COMPILER_VALUES {
+        enum LLVM_BACKEND_VALUES {
             // keep unique, counting ModelGeneratorOpt
             MCJIT = (0x1 <<  14) ,
             LLJIT = (0x1 <<  15),
         //        LAZYJIT = (0x1 << 0),
         };
 
-        // Manually and ineloquently list the compiler options for iterating over later.
-        static std::vector<LLVM_COMPILER_VALUES> getAllLLVMCompilerValues(){
-            return std::vector<LLVM_COMPILER_VALUES>({
+        enum LLJIT_OPTIMIZATION_LEVELS {
+            NONE = (0x1 << 16),
+            LESS = (0x1 << 17),
+            DEFAULT = (0x1 << 18),
+            AGGRESSIVE = (0x1 << 19)
+        };
+
+
+
+        // Manually and ineloquently list the backend options for iterating over later.
+        static std::vector<LLVM_BACKEND_VALUES> getAllLLVMBackendValues(){
+            return std::vector<LLVM_BACKEND_VALUES>({
                 MCJIT,
                 LLJIT
+            });
+        };
+
+        // Manually and ineloquently list the lljit optimization options
+        static std::vector<LLJIT_OPTIMIZATION_LEVELS> getAllLLJitOptimizationValues(){
+            return std::vector<LLJIT_OPTIMIZATION_LEVELS>({
+                NONE,
+                LESS,
+                DEFAULT,
+                AGGRESSIVE
             });
         };
 
@@ -149,9 +168,12 @@ namespace rr
 			/**
 			* Turn on SBML validation
 			*/
-			TURN_ON_VALIDATION = (0x1 << 12)
+			TURN_ON_VALIDATION = (0x1 << 12),
+
 
 		};
+
+        int LLJIT_NUM_THREADS = 1;
 
 		enum LoadOpt
 		{
@@ -227,30 +249,17 @@ namespace rr
 			loadFlags = val ? loadFlags | TURN_ON_VALIDATION : loadFlags & ~TURN_ON_VALIDATION;
 		}
 
-        inline void setLLVMBackend(LoadSBMLOptions::LLVM_COMPILER_VALUES val){
-            // compiler options are multiple choice. So iterate over all and turn them off
-            for (auto compiler_option : getAllLLVMCompilerValues()){
-                modelGeneratorOpt = modelGeneratorOpt &~ compiler_option;
-            }
-
-            // before turning the right one on
-            switch (val){
-                case MCJIT:
-                    modelGeneratorOpt = modelGeneratorOpt | LLVM_COMPILER_VALUES::MCJIT;
-                    break;
-                case LLJIT:
-                    modelGeneratorOpt = modelGeneratorOpt | LLVM_COMPILER_VALUES::LLJIT;
-                    break;
-            }
-        }
+        inline void setLLVMBackend(LoadSBMLOptions::LLVM_BACKEND_VALUES val);
 
 		~LoadSBMLOptions() override;
 
-	private:
+        void setLLJitOptimizationLevel(LLJIT_OPTIMIZATION_LEVELS levels);
+
+    private:
 
 		// load default values;
 		void defaultInit();
-	};
+    };
 
 
 	/**

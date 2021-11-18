@@ -559,7 +559,7 @@ namespace rr {
             CONFIG_END
         };
 
-        enum LLVM_COMPILER_VALUES {
+        enum LLVM_BACKEND_VALUES {
             MCJIT = 0,
             LLJIT,
 //        LAZYJIT = (0x1 << 0),

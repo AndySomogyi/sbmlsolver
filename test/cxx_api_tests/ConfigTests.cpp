@@ -115,3 +115,50 @@ TEST_F(ConfigTests, stringToKey){
     ASSERT_EQ(0, Config::stringToKey("LOADSBMLOPTIONS_CONSERVED_MOIETIES"));
 }
 
+TEST_F(ConfigTests, SetLLVMBackendToLLJit){
+    Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::LLJIT);
+    int llvmBackendValue = Config::getValue(Config::LLVM_BACKEND).getAs<int>();
+    ASSERT_EQ(1, llvmBackendValue);
+}
+
+TEST_F(ConfigTests, SetLLVMBackendToMCJit){
+    Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::MCJIT);
+    int llvmBackendValue = Config::getValue(Config::LLVM_BACKEND).getAs<int>();
+    ASSERT_EQ(0, llvmBackendValue);
+}
+
+TEST_F(ConfigTests, SetLLJitOptLevelToNone){
+    Config::setValue(Config::LLJIT_OPTIMIZATION_LEVEL, Config::LLJIT_OPTIMIZATION_LEVELS::NONE);
+    int llvmOptLevel = Config::getValue(Config::LLJIT_OPTIMIZATION_LEVEL).getAs<int>();
+    ASSERT_EQ(0, llvmOptLevel);
+}
+
+TEST_F(ConfigTests, SetLLJitOptLevelToLess){
+    Config::setValue(Config::LLJIT_OPTIMIZATION_LEVEL, Config::LLJIT_OPTIMIZATION_LEVELS::LESS);
+    int llvmOptLevel = Config::getValue(Config::LLJIT_OPTIMIZATION_LEVEL).getAs<int>();
+    ASSERT_EQ(1, llvmOptLevel);
+}
+
+TEST_F(ConfigTests, SetLLJitOptLevelToDefault){
+    Config::setValue(Config::LLJIT_OPTIMIZATION_LEVEL, Config::LLJIT_OPTIMIZATION_LEVELS::DEFAULT);
+    int llvmOptLevel = Config::getValue(Config::LLJIT_OPTIMIZATION_LEVEL).getAs<int>();
+    ASSERT_EQ(2, llvmOptLevel);
+}
+
+TEST_F(ConfigTests, SetLLJitOptLevelToAggressive){
+    Config::setValue(Config::LLJIT_OPTIMIZATION_LEVEL, Config::LLJIT_OPTIMIZATION_LEVELS::AGGRESSIVE);
+    int llvmOptLevel = Config::getValue(Config::LLJIT_OPTIMIZATION_LEVEL).getAs<int>();
+    ASSERT_EQ(3, llvmOptLevel);
+}
+
+TEST_F(ConfigTests, SetLLJitNumThreadsTo7){
+    // only print out the default value, which will
+    // be different on different machines ==> bad test
+    std::cout << Config::getValue(Config::LLJIT_NUM_THREADS).getAs<int>() << std::endl;
+    Config::setValue(Config::LLJIT_NUM_THREADS, 7);
+    int numThreads = Config::getValue(Config::LLJIT_NUM_THREADS);
+    ASSERT_EQ(7, numThreads);
+}
+
+
+
