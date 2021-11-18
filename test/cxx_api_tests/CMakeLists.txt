@@ -14,13 +14,30 @@ add_test_executable(test_cxx_api_JacobianTests test_targets JacobianTests.cpp ${
 add_test_executable(test_cxx_api_StructuralAnalysisTests test_targets StructuralAnalysisTests.cpp ${SharedTestFiles})
 add_test_executable(test_cxx_api_MCATests test_targets MCATests.cpp ${SharedTestFiles})
 
+if (BUILD_PYTHON AND BUILD_TESTS)
 
+    ###################################################################################
+    # When (and if) we want tests for the PyUtils source file, we can use the following commented out code.
+    #
 
+    # Test the PyUtils api from C++, enabling us use of the debugger etc.
+    # add_test_executable(test_cxx_api_PyUtilsTests test_targets PyUtilsTests.cpp ${SharedTestFiles}
+    #         ../../wrappers/Python/roadrunner/PyUtils.h
+    #         ../../wrappers/Python/roadrunner/PyUtils.cpp
+    #         )
+    # target_link_libraries(test_cxx_api_PyUtilsTests PRIVATE
+    #         Python::NumPy Python::Python)
+    # target_include_directories(test_cxx_api_PyUtilsTests PRIVATE
+    #         ../../wrappers/Python/include
+    #         )
 
-
-
-
-
+    add_rr_test_swig_library(SettingTestsSwigAPI
+            SettingTestsSwigAPI.i
+            SettingTestsSwigAPI
+            "../../wrappers/Python/roadrunner/PyUtils.cpp"
+            "../../wrappers/Python/roadrunner/PyUtils.h"
+            )
+endif ()
 
 
 

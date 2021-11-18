@@ -32,7 +32,7 @@ import roadrunner
 try:
     import tester
 except ImportError:
-    from . import tester
+    from . import test_rrtests
 print(f"Using roadrunner at {abspath(roadrunner.__file__)}")
 print(f"Running tester at {abspath(tester.__file__)}")
 
@@ -44,4 +44,4 @@ class RunTesterWithUnitTest(unittest.TestCase):
     def test_run_tester(self):
         # indicates 0 tests failed.
         # but will error if number of tests > 0 anyway
-        self.assertEqual(tester.runTester(), 0)
+        self.assertEqual(test_rrtests.testAllRRTestFiles(), 0)
