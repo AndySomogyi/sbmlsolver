@@ -30,11 +30,11 @@ print("Adding roadrunner site-packages to sys.path: ", rr_site_packages_dir)
 
 import roadrunner
 try:
-    import tester
+    import test_rrtests
 except ImportError:
     from . import test_rrtests
 print(f"Using roadrunner at {abspath(roadrunner.__file__)}")
-print(f"Running tester at {abspath(tester.__file__)}")
+print(f"Running tester at {abspath(test_rrtests.__file__)}")
 
 class RunTesterWithUnitTest(unittest.TestCase):
 
