@@ -173,8 +173,6 @@ namespace rr
 
 		};
 
-        int LLJIT_NUM_THREADS = 1;
-
 		enum LoadOpt
 		{
 			/**
@@ -255,6 +253,20 @@ namespace rr
 
         void setLLJitOptimizationLevel(LLJIT_OPTIMIZATION_LEVELS levels);
 
+//        void setLLJitNumThreads(int numThreads);
+//
+//        int getLLJitNumThreads() const;
+
+        /**
+         * Since we need an integer and modelGeneratorOptions
+         * is a bitfield system for toggling individual bits on or off,
+         * we cannot store this value in modelGeneratorOptions.
+         * Therefore we fall back on the global Config system for this
+         * value.
+         * In short, to set the number of threads used by LLJit do:
+         *    Config::setValue(Config::LLJIT_NUM_THREADS, 7);
+         */
+//        int llJitNumThreads;
     private:
 
 		// load default values;

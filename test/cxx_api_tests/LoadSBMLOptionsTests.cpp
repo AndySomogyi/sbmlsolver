@@ -229,6 +229,23 @@ TEST_F(LoadSBMLOptionsTests, LLJITOptimizationLevelAggressiveFromConfig) {
     ASSERT_TRUE(isAggressive);
 }
 
+/**
+ * modelGeneratorOptions is a bit mask system for eloquantly
+ * storing boolean options. However this is not a boolean value
+ * which is a complication. Therefore, instead of having the usual
+ * Config-which-sets-the-default, we only have the Config version.
+ */
+TEST_F(LoadSBMLOptionsTests, DISABLED_LLJitNumThreads) {
+//    LoadSBMLOptions opt;
+//    opt.setItem("LLJit_NUM_THREADS", 6);
+//    ASSERT_EQ(6, opt.getItem("LLJit_NUM_THREADS").getAs<int>());
+}
+
+
+
+
+
+
 
 
 
