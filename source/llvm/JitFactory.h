@@ -28,7 +28,7 @@ namespace rrllvm {
          * @example
          *  @code
          *   LoadSBMLOptions opt;
-         *   opt.setLLVMCompiler(LoadSBMLOptions::MCJIT); // or LoadSBMLOptions::LLJit;
+         *   opt.setLLVMBackend(LoadSBMLOptions::MCJIT); // or LoadSBMLOptions::LLJit;
          *   std::unique_ptr<Jit> j = JitFactory::makeJitEngine(opt.modelGeneratorOpt);
          *  @endcode
          */

@@ -29,6 +29,7 @@
 #include <Poco/Mutex.h>
 // default values of sbml consistency check
 #include <sbml/SBMLDocument.h>
+#include <thread>
 
 // default values of model reset
 #include "rrSelectionRecord.h"
@@ -42,6 +43,13 @@ using std::string;
 namespace rr {
 
 typedef std::unordered_map<std::string, int> StringIntMap;
+
+int getDefaultNumThreads(){
+    int processor_count = std::thread::hardware_concurrency();
+    if (processor_count == 0) // can't detect
+        processor_count = 1;
+    return processor_count;
+}
 
 /**
  * check range of key
@@ -135,8 +143,9 @@ static Setting values[] = {
     Setting(false),                             // ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS
     Setting(true),                              // VALIDATION_IN_REGENERATION
     Setting(1000),                              // K_ROWS_PER_WRITE
-    Setting((std::int32_t)Config::MCJIT),// Config::LLVM_BACKEND                               // K_ROWS_PER_WRITE
-
+    Setting((std::int32_t)Config::MCJIT),       // LLVM_BACKEND
+    Setting((std::int32_t)Config::NONE),        // LLJIT_OPTIMIZATION_LEVEL
+    Setting(getDefaultNumThreads())             // LLJIT_NUM_THREADS
 };
 
 static bool initialized = false;
@@ -249,6 +258,8 @@ static void getKeyNames(StringIntMap &keys) {
   keys["VALIDATION_IN_REGENERATION"] = rr::Config::VALIDATION_IN_REGENERATION;
   keys["K_ROWS_PER_WRITE"] = rr::Config::K_ROWS_PER_WRITE;
   keys["LLVM_BACKEND"] = rr::Config::LLVM_COMPILER_VALUES::MCJIT;
+  keys["LLJIT_OPTIMIZATION_LEVEL"] = rr::Config::LLJIT_OPTIMIZATION_LEVELS::AGGRESSIVE;
+  keys["LLJIT_NUM_THREADS"] = getDefaultNumThreads();
 
   // add space after develop keys to clean up merging.
 
@@ -563,6 +574,10 @@ Config::Keys Config::stringToKey(const std::string &key) {
     return Config::VALIDATION_IN_REGENERATION;
   else if (key == "LLVM_BACKEND")
     return Config::LLVM_BACKEND;
+  else if (key == "LLJIT_OPTIMIZATION_LEVEL")
+    return Config::LLJIT_OPTIMIZATION_LEVEL;
+  else if (key == "LLJIT_NUM_THREADS")
+    return Config::LLJIT_NUM_THREADS;
 
   else
     throw std::runtime_error("No such config key: '" + key + "'");

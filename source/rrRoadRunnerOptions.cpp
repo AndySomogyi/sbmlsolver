@@ -338,15 +338,15 @@ namespace rr {
 
         switch (whichCompiler) {
             case Config::MCJIT:
-                setLLVMCompiler(LoadSBMLOptions::MCJIT);
+                setLLVMBackend(LoadSBMLOptions::MCJIT);
                 break;
             case Config::LLJIT:
-                setLLVMCompiler(LoadSBMLOptions::LLJIT);
+                setLLVMBackend(LoadSBMLOptions::LLJIT);
                 break;
             default:
                 std::string err = "Compiler option is invalid. Defaulting back to MCJit";
                 rrLogWarn << err;
-                setLLVMCompiler(LoadSBMLOptions::MCJIT);
+                setLLVMBackend(LoadSBMLOptions::MCJIT);
         }
 
         setItem("tempDir", Setting(std::string()));

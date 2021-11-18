@@ -46,13 +46,13 @@ public:
  */
 TEST_F(EvalInitialConditionsTests, CheckInitialSpeciesComputedCorrectlyMCJit) {
         LoadSBMLOptions opt;
-        opt.setLLVMCompiler(LoadSBMLOptions::MCJIT);
+    opt.setLLVMBackend(LoadSBMLOptions::MCJIT);
         checkInitialEvaluationSpecies(opt.modelGeneratorOpt, 300000, 12, 25000);
 }
 
 TEST_F(EvalInitialConditionsTests, CheckInitialSpeciesComputedCorrectlyLLJit) {
         LoadSBMLOptions opt;
-        opt.setLLVMCompiler(LoadSBMLOptions::LLJIT);
+    opt.setLLVMBackend(LoadSBMLOptions::LLJIT);
         checkInitialEvaluationSpecies(opt.modelGeneratorOpt, 300000, 12, 25000);
 }
 

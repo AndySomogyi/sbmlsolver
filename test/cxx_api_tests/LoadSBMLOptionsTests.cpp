@@ -105,23 +105,23 @@ TEST_F(LoadSBMLOptionsTests, ConservedMoietyConversionGetterAndSetter){
 
 
 
-TEST_F(LoadSBMLOptionsTests, LLVMCompilerDefaultToMCJit){
+TEST_F(LoadSBMLOptionsTests, LLVMBackendDefaultToMCJit){
     Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_BACKEND).getAs<int>();
     ASSERT_EQ(Config::LLVM_COMPILER_VALUES::MCJIT, val);
 }
 
-TEST_F(LoadSBMLOptionsTests, LLVMCompilerDefaultToMCJitNotLLJit){
+TEST_F(LoadSBMLOptionsTests, LLVMBackendDefaultToMCJitNotLLJit){
     Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_BACKEND).getAs<int>();
     ASSERT_NE(Config::LLVM_COMPILER_VALUES::LLJIT, val);
 }
 
-TEST_F(LoadSBMLOptionsTests, LLVMCompilerDefaultToMCJitViaSBMLLoadOptions){
+TEST_F(LoadSBMLOptionsTests, LLVMBackendDefaultToMCJitViaSBMLLoadOptions){
     LoadSBMLOptions opt;
     bool isMcJit = opt.modelGeneratorOpt & LoadSBMLOptions::MCJIT;
     ASSERT_TRUE(isMcJit);
 }
 
-TEST_F(LoadSBMLOptionsTests, LLVMCompilerDefaultToMCJitViaSBMLLoadOptionsNotLLJit){
+TEST_F(LoadSBMLOptionsTests, LLVMBackendDefaultToMCJitViaSBMLLoadOptionsNotLLJit){
     LoadSBMLOptions opt;
     bool isLLJit = opt.modelGeneratorOpt & LoadSBMLOptions::LLJIT;
     ASSERT_FALSE(isLLJit);
@@ -129,28 +129,28 @@ TEST_F(LoadSBMLOptionsTests, LLVMCompilerDefaultToMCJitViaSBMLLoadOptionsNotLLJi
 
 
 
-TEST_F(LoadSBMLOptionsTests, LLVMCompilerSetToLLJit){
+TEST_F(LoadSBMLOptionsTests, LLVMBackendSetToLLJit){
     Config::setValue(Config::LLVM_BACKEND, Config::LLVM_COMPILER_VALUES::LLJIT);
     Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_BACKEND).getAs<int>();
     ASSERT_EQ(Config::LLVM_COMPILER_VALUES::LLJIT, val);
 }
 
-TEST_F(LoadSBMLOptionsTests, LLVMCompilerSetToLLJitMCJitFalse){
+TEST_F(LoadSBMLOptionsTests, LLVMBackendSetToLLJitMCJitFalse){
     Config::setValue(Config::LLVM_BACKEND, Config::LLVM_COMPILER_VALUES::LLJIT);
     Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_BACKEND).getAs<int>();
     ASSERT_NE(Config::LLVM_COMPILER_VALUES::MCJIT, val);
 }
 
-TEST_F(LoadSBMLOptionsTests, LLVMCompilerSetToLLJitAccessViaLoadSBMLOptions){
+TEST_F(LoadSBMLOptionsTests, LLVMBackendSetToLLJitAccessViaLoadSBMLOptions){
     LoadSBMLOptions opt;
-    opt.setLLVMCompiler(LoadSBMLOptions::LLJIT);
+    opt.setLLVMBackend(LoadSBMLOptions::LLJIT);
     bool isLLJit = opt.modelGeneratorOpt & LoadSBMLOptions::LLJIT;
     ASSERT_TRUE(isLLJit);
 }
 
-TEST_F(LoadSBMLOptionsTests, LLVMCompilerSetToLLJitAccessViaLoadSBMLOptionsNotMCJit){
+TEST_F(LoadSBMLOptionsTests, LLVMBackendSetToLLJitAccessViaLoadSBMLOptionsNotMCJit){
     LoadSBMLOptions opt;
-    opt.setLLVMCompiler(LoadSBMLOptions::LLJIT);
+    opt.setLLVMBackend(LoadSBMLOptions::LLJIT);
     bool isMCJit = opt.modelGeneratorOpt & LoadSBMLOptions::MCJIT;
     ASSERT_FALSE(isMCJit);
 }

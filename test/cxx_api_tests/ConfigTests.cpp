@@ -114,3 +114,4 @@ TEST_F(ConfigTests, writeConfigFile) {
 TEST_F(ConfigTests, stringToKey){
     ASSERT_EQ(0, Config::stringToKey("LOADSBMLOPTIONS_CONSERVED_MOIETIES"));
 }
+

@@ -33,14 +33,14 @@ TEST_F(JitFactoryTests, LLJitFromConfig){
 
 TEST_F(JitFactoryTests, MCJitFromOpt){
     LoadSBMLOptions opt;
-    opt.setLLVMCompiler(LoadSBMLOptions::MCJIT);
+    opt.setLLVMBackend(LoadSBMLOptions::MCJIT);
     std::unique_ptr<Jit> j = JitFactory::makeJitEngine(opt.modelGeneratorOpt);
     ASSERT_TRUE(typeid((*j)) == typeid(MCJit));
 }
 
 TEST_F(JitFactoryTests, LLJitFromOpt){
     LoadSBMLOptions opt;
-    opt.setLLVMCompiler(LoadSBMLOptions::LLJIT);
+    opt.setLLVMBackend(LoadSBMLOptions::LLJIT);
     std::unique_ptr<Jit> j = JitFactory::makeJitEngine(opt.modelGeneratorOpt);
     ASSERT_TRUE(typeid((*j)) == typeid(LLJit));
 }

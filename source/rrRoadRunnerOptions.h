@@ -227,7 +227,7 @@ namespace rr
 			loadFlags = val ? loadFlags | TURN_ON_VALIDATION : loadFlags & ~TURN_ON_VALIDATION;
 		}
 
-        inline void setLLVMCompiler(LoadSBMLOptions::LLVM_COMPILER_VALUES val){
+        inline void setLLVMBackend(LoadSBMLOptions::LLVM_COMPILER_VALUES val){
             // compiler options are multiple choice. So iterate over all and turn them off
             for (auto compiler_option : getAllLLVMCompilerValues()){
                 modelGeneratorOpt = modelGeneratorOpt &~ compiler_option;
