@@ -8,7 +8,7 @@ sys.path += [
     rr_site_packages,
 ]
 from roadrunner.roadrunner import RoadRunner, BasicNewtonIteration
-from roadrunner.testing.TestModelFactory import TestModelFactory
+from roadrunner.tests.TestModelFactory import TestModelFactory
 
 import unittest
 

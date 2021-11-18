@@ -10,7 +10,7 @@ rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
 sys.path += [
     rr_site_packages,
 ]
-from roadrunner.testing import TestModelFactory as tmf
+from roadrunner.tests import TestModelFactory as tmf
 
 
 class RoadRunnerTest(unittest.TestCase):

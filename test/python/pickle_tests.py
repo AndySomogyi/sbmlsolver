@@ -26,7 +26,7 @@ print(f"Python interpreter at: {sys.executable}")
 import roadrunner
 from roadrunner import *
 
-import roadrunner.testing.TestModelFactory as tmf
+import roadrunner.tests.TestModelFactory as tmf
 from roadrunner.roadrunner import RoadRunner
 
 

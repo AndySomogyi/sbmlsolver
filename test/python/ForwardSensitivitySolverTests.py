@@ -10,7 +10,7 @@ sys.path += [
     rr_site_packages,
 ]
 from roadrunner.roadrunner import RoadRunner, ForwardSensitivitySolver
-import roadrunner.testing.TestModelFactory as tmf
+import roadrunner.tests.TestModelFactory as tmf
 
 import unittest
 

@@ -10,7 +10,7 @@ import unittest
 from os.path import dirname, join, exists, abspath, realpath
 import sys
 
-tester_file = join(dirname(__file__), "tester.py")
+tester_file = join(dirname(__file__), "test_rrtests.py")
 if not exists(tester_file):
     raise FileNotFoundError(tester_file)
 

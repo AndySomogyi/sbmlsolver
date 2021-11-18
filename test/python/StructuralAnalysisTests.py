@@ -24,8 +24,8 @@ except ImportError:
     )
     import roadrunner
 
-from roadrunner.testing import TestModelFactory as tmf
-from roadrunner.testing.RoadRunnerTest import RoadRunnerTest
+from roadrunner.tests import TestModelFactory as tmf
+from roadrunner.tests.RoadRunnerTest import RoadRunnerTest
 
 
 class StructuralAnalysisTests(RoadRunnerTest):

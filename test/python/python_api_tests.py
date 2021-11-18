@@ -42,7 +42,7 @@ except ImportError:
 #  tricks some Python unit testing frameworks (such as nose)
 #  into thinking the function TestModelFactory is a test, which will fail.
 #  So we import TestModelFactory as an alias.
-import roadrunner.testing.TestModelFactory as tmf
+import roadrunner.tests.TestModelFactory as tmf
 
 
 class RoadRunnerTests(unittest.TestCase):

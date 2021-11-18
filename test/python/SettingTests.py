@@ -23,7 +23,7 @@ except ImportError:
     )
     import roadrunner
 
-from roadrunner.testing import SettingTestsSwigAPI
+from roadrunner.tests import SettingTestsSwigAPI
 
 
 class SettingTests(unittest.TestCase):

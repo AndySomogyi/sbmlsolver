@@ -282,7 +282,7 @@ class NamedArrayTests(unittest.TestCase):
 
     def test_df_from_simulation(self):
         from roadrunner import RoadRunner
-        from roadrunner.testing import TestModelFactory as tmf
+        from roadrunner.tests import TestModelFactory as tmf
         m = RoadRunner(tmf.SimpleFlux().str())
         sim = m.simulate(0, 10, 11)
         self.assertEqual((11, 3), sim.shape)
@@ -290,7 +290,7 @@ class NamedArrayTests(unittest.TestCase):
 
     def test_df_from_steadystate(self):
         from roadrunner import RoadRunner
-        from roadrunner.testing import TestModelFactory as tmf
+        from roadrunner.tests import TestModelFactory as tmf
         m = RoadRunner(tmf.SimpleFlux().str())
         m.steadyState()
         mat = m.getSteadyStateValuesNamedArray()
