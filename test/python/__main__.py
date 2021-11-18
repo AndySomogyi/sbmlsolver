@@ -19,11 +19,11 @@ print("Adding roadrunner site-packages to sys.path: ", rr_site_packages_dir)
 import roadrunner
 import test_rrtests
 print(f"Using roadrunner at {os.path.abspath(roadrunner.__file__)}")
-print(f"Running tester at {os.path.abspath(test_rrtests.__file__)}")
+print(f"Running test_rrtests at {os.path.abspath(test_rrtests.__file__)}")
 
 roadrunner.sigtrap()
 
-tester.runTester(test_data_dir)
+test_rrtests.testAllRRTestFiles(test_data_dir)
 
 
 
