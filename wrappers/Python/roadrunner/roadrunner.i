@@ -1418,7 +1418,7 @@ namespace std { class ostream{}; }
             import warnings
             if selections is not None:
                 # check that selections is a sequence
-                if not isinstance(selections, collections.Sequence):
+                if not isinstance(selections, collections.abc.Sequence):
                     raise ValueError('Expected a sequence type for selections')
 
                 # check that selections contains only strings
