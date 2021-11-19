@@ -31,7 +31,7 @@ def updateReactions(reactionsString: str, i: int, j: int):
     return reactionsString
 
 
-def generateModelsWithNReactionsIncreasingConnectivity(n: int) -> str:
+def generateModelsWithNSpeciesIncreasingConnectivity(n: int) -> str:
     """Create a model series which all have the same :param n: number of
     species but where each sequential model is increasingly connected.
 
@@ -42,7 +42,7 @@ def generateModelsWithNReactionsIncreasingConnectivity(n: int) -> str:
 
     There should be n^2 models in this series.
 
-    :param n: The largest number of reactions.
+    :param n: The number of species.
     :return: generator. yields a single model at a time
     """
     if n < 1:
@@ -60,7 +60,7 @@ def generateModelsWithNReactionsIncreasingConnectivity(n: int) -> str:
             # note: we include i == j deliberately.
             modelId = i * n + j
             # only allow a single thread to generate an antimony model at a time
-            moduleName = f"NReactionsIncreasingConnectivity{modelId}"
+            moduleName = f"NSpeciesIncreasingConnectivity{modelId}"
             # if we've built this model before, it'll be in antimony's cache.
             if moduleName in antimony.getModuleNames():
                 # note this might not be needed now that
@@ -84,19 +84,19 @@ def generateModelsWithNReactionsIncreasingConnectivity(n: int) -> str:
                 if err < 0:
                     raise ValueError("AntimonyError: " + antimony.getLastError())
 
-                sbml = antimony.getSBMLString(f"NReactionsIncreasingConnectivity{modelId}")
+                sbml = antimony.getSBMLString(f"NSpeciesIncreasingConnectivity{modelId}")
                 yield sbml
                 # clear memory associated with antimony
                 # or after a while it'll get clogged and we'll
-                # eventially run out of memory
+                # eventually run out of memory
                 antimony.clearPreviousLoads()
 
 
 if __name__ == "__main__":
     # generate N models with $i \in range(N)$ uncoupled reactions
-    N = 10
+    N = 3
 
-    for i, sbml in enumerate(generateModelsWithNReactionsIncreasingConnectivity(N)):
+    for i, sbml in enumerate(generateModelsWithNSpeciesIncreasingConnectivity(N)):
         print(i)
     # times = np.zeros((N,))
     # for i, sbmlString in enumerate(generateModelsWithNUncoupledReactions(N)):

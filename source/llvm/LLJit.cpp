@@ -4,6 +4,7 @@
 
 
 #include "LLJit.h"
+#include "rrConfig.h"
 #include "rrLogger.h"
 #include "llvm/IR/Function.h"
 #include "SBMLSupportFunctions.h"
@@ -13,6 +14,7 @@
 #include "llvm/IRReader/IRReader.h"
 #include "llvm/Support/SourceMgr.h"
 #include "SBMLModelObjectCache.h"
+#include "rrRoadRunnerOptions.h"
 
 #if LIBSBML_HAS_PACKAGE_DISTRIB
 
@@ -25,6 +27,21 @@ using namespace rr;
 using namespace sbmlsupport;
 
 namespace rrllvm {
+
+    llvm::CodeGenOpt::Level convertRRCodeGenOptLevelToLLVM(std::uint32_t options){
+        // these should be mutually exclusive
+        if (options & rr::LoadSBMLOptions::NONE)
+            return llvm::CodeGenOpt::None;
+        else if (options & rr::LoadSBMLOptions::LESS)
+            return llvm::CodeGenOpt::Less;
+        else if (options & rr::LoadSBMLOptions::DEFAULT)
+            return llvm::CodeGenOpt::Default;
+        else if (options & rr::LoadSBMLOptions::AGGRESSIVE)
+            return llvm::CodeGenOpt::Aggressive;
+        else {
+            throw std::invalid_argument("None of the LLJIT_OPTIMIZATION_LEVELS are set to true");
+        }
+    }
 
     LLJit::LLJit(std::uint32_t options)
             : Jit(options) {
@@ -47,7 +64,7 @@ namespace rrllvm {
         /**
          * None, Less, Default or Aggressive are the options.
          */
-        JTMB.setCodeGenOptLevel(llvm::CodeGenOpt::Level::None);
+        JTMB.setCodeGenOptLevel(convertRRCodeGenOptLevelToLLVM(options));
 
         // query the target machine builder for its data layout.
         auto DL = JTMB.getDefaultDataLayoutForTarget();
@@ -89,19 +106,25 @@ namespace rrllvm {
         /**
          * todo expose as option to user
          */
-        int numCompileThreads = 1;
+        int numCompileThreads = rr::Config::getValue(rr::Config::LLJIT_NUM_THREADS).getAs<int>();
+        // in case c++ fails to detect num cores from hardware
+        // when using default options.
+        if (numCompileThreads == 0){
+            numCompileThreads = 1;
+        }
 
         // Create the LLJitBuilder
         llvm::orc::LLJITBuilder llJitBuilder;
-        llJitBuilder.setNumCompileThreads(numCompileThreads)
+        llJitBuilder
+                .setNumCompileThreads(numCompileThreads)
                 .setDataLayout(std::move(*DL))
                 .setJITTargetMachineBuilder(std::move(JTMB))
 
-                        /**
-                         * Set a custom compile function that 1) caches objects
-                         * and 2) stores a pointer to the targetMachine for access later.
-                         * The targetMachine pointer is owned by the JITTargetMachineBuilder.
-                         */
+                /**
+                 * Set a custom compile function that 1) caches objects
+                 * and 2) stores a pointer to the targetMachine for access later.
+                 * The targetMachine pointer is owned by the JITTargetMachineBuilder.
+                 */
                 .setCompileFunctionCreator([&](llvm::orc::JITTargetMachineBuilder JTMB)
                                                    -> Expected<std::unique_ptr<llvm::orc::IRCompileLayer::IRCompiler>> {
                     // Create the target machine.

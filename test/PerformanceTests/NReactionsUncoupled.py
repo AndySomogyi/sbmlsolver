@@ -76,7 +76,7 @@ def generateModelsWithNUncoupledReactions(n: int) -> str:
             modelString += reactions
             modelString += "end"
 
-            # print(modelString)
+            print(modelString)
 
             # convert to sbml here.
             # this helps avoid timing antimony's part in
@@ -99,3 +99,6 @@ def generateModelsWithNUncoupledReactions(n: int) -> str:
 if __name__ == "__main__":
     # generate N models with $i \in range(N)$ uncoupled reactions
     N = 6
+
+    for i in generateModelsWithNUncoupledReactions(N):
+        print(i)

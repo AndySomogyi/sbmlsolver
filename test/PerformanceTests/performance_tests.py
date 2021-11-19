@@ -12,7 +12,7 @@ import roadrunner
 from roadrunner import RoadRunner, Config
 import NLinearChain
 import NReactionsUncoupled
-import NReactionsIncreasingConnectivity
+import NSpeciesIncreasingConnectivity
 import numpy as np
 import time
 import matplotlib.pyplot as plt
@@ -33,7 +33,6 @@ def progressBarLinear(i: int, N: int, name: str):
     :param i: int < N current iteration number
     :param N: int total number of expected items.
     :param name: identifier for task being tracked
-
     """
     if i % 10 == 0:
         print(f"{name}".ljust(60), f"-- {(i / N * 100)}% completed")
@@ -52,7 +51,7 @@ def progressBarQuadratic(i: int, N: int, name: str):
 
     """
     if i % 10 == 0:
-        print(f"{name}".ljust(60), f"-- {(i / (N*N) * 100)}% completed")
+        print(f"{name}".ljust(60), f"-- {(i / (N * N) * 100)}% completed")
 
 
 def build_time(sbmlGeneratorFunction: callable, N: int, results_key: str, results: SyncManager.dict,
@@ -126,7 +125,10 @@ def sim_time(sbmlGeneratorFunction: callable, N: int, results_key: str, results:
     return times
 
 
-def plot(results: dict):
+def plot(results: dict, tag: Optional[str] = None, outputDir: Optional[str] = None):
+    if not outputDir:
+        outputDir = os.path.dirname(__file__)
+
     def plotResults(times: np.ndarray, fname: str, xlabel: str, ylabel: str, title: str):
         fig = plt.figure()
         plt.plot(range(len(times)), times, "ro")
@@ -134,42 +136,43 @@ def plot(results: dict):
         plt.ylabel(ylabel)
         plt.title(title)
         sns.despine(fig=fig)
+        fname = os.path.join(outputDir, f"{fname}_{tag}.png")
         plt.savefig(fname, dpi=150, bbox_inches='tight')
 
     def plot_linear_chain_build_time_results(times: np.ndarray):
-        fname = os.path.join(os.path.dirname(__file__), "NLinearChainBuildTimes.png")
+        fname = "NLinearChainBuildTimes"
         plotResults(times, fname, "n species", "build time (s)", "NLinearChain")
 
     def plot_linear_chain_build_and_sim_time_results(times: np.ndarray):
-        fname = os.path.join(os.path.dirname(__file__), "NLinearChainBuildAndSimTimes.png")
+        fname = "NLinearChainBuildAndSimTimes"
         plotResults(times, fname, "n species", "build and sim time (s)", "NLinearChain")
 
     def plot_linear_chain_time_results(times: np.ndarray):
-        fname = os.path.join(os.path.dirname(__file__), "NLinearChainSimTimes.png")
+        fname = "NLinearChainSimTimes"
         plotResults(times, fname, "n species", "sim time (s)", "NLinearChain")
 
     def plot_n_reactions_build_time_results(times: np.ndarray):
-        fname = os.path.join(os.path.dirname(__file__), "NReactionsUncoupledBuildTimes.png")
+        fname = "NReactionsUncoupledBuildTimes"
         plotResults(times, fname, "n reactions", "build time (s)", "NReactions (uncoupled)")
 
     def plot_n_reactions_build_and_sim_time_results(times: np.ndarray):
-        fname = os.path.join(os.path.dirname(__file__), "NReactionsUncoupledBuildAndSimTimes.png")
+        fname = "NReactionsUncoupledBuildAndSimTimes"
         plotResults(times, fname, "n reactions", "build and sim time (s)", "NReactions (uncoupled)")
 
     def plot_n_reactions_time_results(times: np.ndarray):
-        fname = os.path.join(os.path.dirname(__file__), "NReactionsUncoupledSimTimes.png")
+        fname = "NReactionsUncoupledSimTimes"
         plotResults(times, fname, "n reactions", "sim time (s)", "NReactions (uncoupled)")
 
     def plot_n_reactions_increasing_connectivity_build_time_results(times: np.ndarray):
-        fname = os.path.join(os.path.dirname(__file__), "NReactionsIncreasingConnectivityBuildTimes.png")
+        fname = "NReactionsIncreasingConnectivityBuildTimes"
         plotResults(times, fname, "n reactions", "build time (s)", "NReactions (Increasing Connectivity)")
 
     def plot_n_reactions_increasing_connectivity_build_and_sim_time_results(times: np.ndarray):
-        fname = os.path.join(os.path.dirname(__file__), "NReactionsIncreasingConnectivityBuildAndSimTimes.png")
+        fname = "NReactionsIncreasingConnectivityBuildAndSimTimes"
         plotResults(times, fname, "n reactions", "build and sim time (s)", "NReactions (Increasing Connectivity)")
 
     def plot_n_reactions_increasing_connectivity_time_results(times: np.ndarray):
-        fname = os.path.join(os.path.dirname(__file__), "NReactionsIncreasingConnectivitySimTimes.png")
+        fname = "NReactionsIncreasingConnectivitySimTimes"
         plotResults(times, fname, "n reactions", "sim time (s)", "NReactions (Increasing Connectivity)")
 
     plot_linear_chain_build_time_results(results["NLinearChain_BuildTime"])
@@ -187,37 +190,82 @@ def plot(results: dict):
 
 
 if __name__ == "__main__":
+    ##############################################################
+    #   Script options. Could use argparse to turn this into command line.
+    #
+
+    # when present, labels output graphs with a tag to identify them
+    #  Keep the tags unique and make sure they are descriptive.
+    RUN_TAG: str = "Test"
+
+    # set LLVM's LLJIT optimization level
+    LLJIT_OPTIMIZATION = Config.NONE
+
+    # set LLVM's LLJIT num threads
+    # use None to use the default, which is the
+    # maximum number of detected cores (hyperthreadded)
+    LLJIT_NUM_THREADS = None
+
+    # Plot results
+    PLOT_RESULTS = True
+
+    # choose backend - either LLJit or MCJit
+    JIT_ENGINE = "LLJit"
+    JIT_ENGINE_LIST = ['MCJit', "LLJit"]
+    if JIT_ENGINE not in JIT_ENGINE_LIST:
+        raise ValueError(JIT_ENGINE)
+
+    # output directory default to current directory
+    # if RUN_TAG is not "" then OUTPUT_DIR becomes current_directory/RUN_TAG
+    OUTPUT_DIR = os.path.dirname(__file__)
+    if RUN_TAG != "":
+        OUTPUT_DIR = os.path.join(os.path.dirname(__file__), RUN_TAG)
+        if not os.path.exists(OUTPUT_DIR):
+            os.makedirs(OUTPUT_DIR)
+
     # Where to store the results once the script has been executed
-    RESULTS_PICKLE_FILE = os.path.join(os.path.dirname(__file__), "performance_test_results.pickle")
+    RESULTS_PICKLE_FILE = os.path.join(OUTPUT_DIR, f"performance_test_results_{RUN_TAG}.pickle")
 
     # When true, pickled simulation results are be overwritten
     # When false, and if the RESULTS_PICKLE_FILE exists, read from the pickle
     USE_PICKLED_RESULTS = False
 
-    # Plot results
-    PLOT_RESULTS = True
+    # The N parameter for the model generator functions above.
+    # Represents size of the problem series that we are timing.
+    N = 600
 
-    JIT_ENGINE = "LLJit"    # or LLJit
-    JIT_ENGINE_LIST = ['MCJit', "LLJit"]
-    if JIT_ENGINE not in JIT_ENGINE_LIST:
-        raise ValueError(JIT_ENGINE)
-
+    ###############################################################
+    # Implement script options
+    #
+    # set backend
     if JIT_ENGINE == "LLJit":
         print("Using LLJit")
         Config.setValue(Config.LLVM_BACKEND, Config.LLJIT)
+    elif JIT_ENGINE == "MCJit":
+        print("Using MCJit")
+        Config.setValue(Config.LLVM_BACKEND, Config.MCJIT)
+    else:
+        raise ValueError(f"No JitEngine called {JIT_ENGINE}")
 
-    # todo use Config to set LLJit / MCJit
+    # set the LLJit Optimization level
+    Config.setValue(Config.LLJIT_OPTIMIZATION_LEVEL, LLJIT_OPTIMIZATION)
+
+    # set the LLJit number of threads
+    if LLJIT_NUM_THREADS:
+        # otherwise use the default (hardware concurrency)
+        Config.setValue(Config.LLJIT_NUM_THREADS, LLJIT_NUM_THREADS)
 
     # To collect results from threads we need a shared dict
     # which is provided by the mp.Manager.
     manager = mp.Manager()
 
-    # this becomes an "out" parameter
+    # this effectively becomes an "out" parameter
     results = manager.dict()
 
-    # The N parameter for the functions above.
-    # Represents size of the problem to time.
-    N = 600
+    # add tag to pickle results file
+    if RESULTS_PICKLE_FILE.endswith(".pickle"):
+        RESULTS_PICKLE_FILE = RESULTS_PICKLE_FILE[:-7]
+        RESULTS_PICKLE_FILE = f"{RESULTS_PICKLE_FILE}_{RUN_TAG}.pickle"
 
     if USE_PICKLED_RESULTS and os.path.exists(RESULTS_PICKLE_FILE):
         with open(RESULTS_PICKLE_FILE, 'rb') as f:
@@ -230,7 +278,7 @@ if __name__ == "__main__":
         p1 = mp.Process(target=build_time, args=(
             NReactionsUncoupled.generateModelsWithNUncoupledReactions,
             N,
-            "NReactionsUncoupled_BuildTime",
+            f"NReactionsUncoupled_BuildTime",
             results))
         p1.start()
         processes.append(p1)
@@ -283,28 +331,29 @@ if __name__ == "__main__":
         p6.start()
         processes.append(p6)
 
-        print("Running NReactionsIncreasingConnectivity build time")
+        print("Running NSpeciesIncreasingConnectivity build time")
         p7 = mp.Process(
             target=build_time,
-            args=(NReactionsIncreasingConnectivity.generateModelsWithNReactionsIncreasingConnectivity,
+            args=(NSpeciesIncreasingConnectivity.generateModelsWithNSpeciesIncreasingConnectivity,
                   int(np.floor(np.sqrt(N))), "NReactionsIncreasingConnectivity_BuildTime", results,
                   progressBarQuadratic)
         )
         p7.start()
         processes.append(p7)
 
-        print("Running NReactionsIncreasingConnectivity build and sim time")
+        print("Running NSpeciesIncreasingConnectivity build and sim time")
         p8 = mp.Process(
             target=build_and_sim_time,
-            args=(NReactionsIncreasingConnectivity.generateModelsWithNReactionsIncreasingConnectivity, int(np.floor(np.sqrt(N))),
+            args=(NSpeciesIncreasingConnectivity.generateModelsWithNSpeciesIncreasingConnectivity,
+                  int(np.floor(np.sqrt(N))),
                   "NReactionsIncreasingConnectivity_BuildAndSimTime", results, progressBarQuadratic))
         p8.start()
         processes.append(p8)
 
-        print("Running NReactionsIncreasingConnectivity sim time")
+        print("Running NSpeciesIncreasingConnectivity sim time")
         p9 = mp.Process(
             target=sim_time,
-            args=(NReactionsIncreasingConnectivity.generateModelsWithNReactionsIncreasingConnectivity,
+            args=(NSpeciesIncreasingConnectivity.generateModelsWithNSpeciesIncreasingConnectivity,
                   int(np.floor(np.sqrt(N))), "NReactionsIncreasingConnectivity_SimTime", results,
                   progressBarQuadratic))
         p9.start()
@@ -322,4 +371,4 @@ if __name__ == "__main__":
         print(results)
         # print(type(results))
         # print(len(results["NReactionsIncreasingConnectivity_BuildTime"]))
-        plot(results)
+        plot(results, RUN_TAG, OUTPUT_DIR)
