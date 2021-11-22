@@ -14,7 +14,7 @@ with different sbml conditions, such as size and connectivity.
 Currently (as of 18-11-2021) there are three model series generators:
     * NLinearChain.generateNLinearModels
     * NReactionsUncoupled.generateModelsWithNUncoupledReactions
-    * NSpeciesIncreasingConnectivity.generateModelsWithNReactionsIncreasingConnectivity
+    * NSpeciesIncreasingConnectivity.generateModelsWithNSpeciesIncreasingConnectivity
 
 These functions are Python generators that sequentially return 
 bigger or more complicated models. These generators all have a single 

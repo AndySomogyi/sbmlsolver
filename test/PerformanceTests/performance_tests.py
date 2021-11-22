@@ -13,6 +13,7 @@ from roadrunner import RoadRunner, Config
 import NLinearChain
 import NReactionsUncoupled
 import NSpeciesIncreasingConnectivity
+import build_biomodels
 import numpy as np
 import time
 import matplotlib.pyplot as plt
@@ -53,6 +54,17 @@ def progressBarQuadratic(i: int, N: int, name: str):
     if i % 10 == 0:
         print(f"{name}".ljust(60), f"-- {(i / (N * N) * 100)}% completed")
 
+def loadRoadrunnerFromSBMLString(sbml:str):
+    try:
+        rrModel = RoadRunner(sbml)
+        return rrModel
+    except RuntimeError as e:
+        # delay differential equations
+        print(e)
+    except UnicodeDecodeError as e:
+        # UnicodeDecodeError: 'charmap' codec can't decode byte
+        # 0x9d in position 39237: character maps to <undefined>
+        print(e)
 
 def build_time(sbmlGeneratorFunction: callable, N: int, results_key: str, results: SyncManager.dict,
                progressBar=progressBarLinear) -> List[float]:
@@ -68,7 +80,7 @@ def build_time(sbmlGeneratorFunction: callable, N: int, results_key: str, result
     times = []
     for i, sbmlString in enumerate(sbmlGeneratorFunction(N)):
         start = time.time()
-        rrModel = RoadRunner(sbmlString)
+        rrModel = loadRoadrunnerFromSBMLString(sbmlString)
         times.append(time.time() - start)
         progressBar(i, N, results_key)
         del sbmlString
@@ -90,7 +102,7 @@ def build_and_sim_time(sbmlGeneratorFunction: callable, N: int, results_key: str
     times = []
     for i, sbmlString in enumerate(sbmlGeneratorFunction(N)):
         start = time.time()
-        rrModel = RoadRunner(sbmlString)
+        rrModel = loadRoadrunnerFromSBMLString(sbmlString)
         rrModel.simulate(0, 1000, 1001)
         times.append(time.time() - start)
         progressBar(i, N, results_key)
@@ -115,7 +127,7 @@ def sim_time(sbmlGeneratorFunction: callable, N: int, results_key: str, results:
     """
     times = []
     for i, sbmlString in enumerate(sbmlGeneratorFunction(N)):
-        rrModel = RoadRunner(sbmlString)
+        rrModel = loadRoadrunnerFromSBMLString(sbmlString)
         start = time.time()
         rrModel.simulate(0, 1000, 1001)
         times.append(time.time() - start)
@@ -196,10 +208,16 @@ if __name__ == "__main__":
 
     # when present, labels output graphs with a tag to identify them
     #  Keep the tags unique and make sure they are descriptive.
-    RUN_TAG: str = "Test"
+    RUN_TAG: str = "BuildBiomodels_LLJit_AggressiveOpt_16Thread"
+
+    # pick which tests to run (all selected will be run in parallel)
+    RUN_NSPECIES_INCREASING_CONNECTIVITY = False
+    RUN_NLINEAR_CHAIN = False
+    RUN_NREACTIONS_UNCOUPLED = False
+    RUN_BUILD_BIOMODELS = True
 
     # set LLVM's LLJIT optimization level
-    LLJIT_OPTIMIZATION = Config.NONE
+    LLJIT_OPTIMIZATION = Config.AGGRESSIVE
 
     # set LLVM's LLJIT num threads
     # use None to use the default, which is the
@@ -207,7 +225,11 @@ if __name__ == "__main__":
     LLJIT_NUM_THREADS = None
 
     # Plot results
-    PLOT_RESULTS = True
+    PLOT_RESULTS = False
+
+    # Plot a bar graph using all the pickle data that can be found in subdirectories
+    # Value plotted is sum of times in conditions
+    PLOT_BARGRAPH = True
 
     # choose backend - either LLJit or MCJit
     JIT_ENGINE = "LLJit"
@@ -265,7 +287,7 @@ if __name__ == "__main__":
     # add tag to pickle results file
     if RESULTS_PICKLE_FILE.endswith(".pickle"):
         RESULTS_PICKLE_FILE = RESULTS_PICKLE_FILE[:-7]
-        RESULTS_PICKLE_FILE = f"{RESULTS_PICKLE_FILE}_{RUN_TAG}.pickle"
+        RESULTS_PICKLE_FILE = f"{RESULTS_PICKLE_FILE}.pickle"
 
     if USE_PICKLED_RESULTS and os.path.exists(RESULTS_PICKLE_FILE):
         with open(RESULTS_PICKLE_FILE, 'rb') as f:
@@ -274,91 +296,108 @@ if __name__ == "__main__":
 
         # Run performance tests in separate processes.
         processes = []
-        print("Running NReactionsUncoupled build time")
-        p1 = mp.Process(target=build_time, args=(
-            NReactionsUncoupled.generateModelsWithNUncoupledReactions,
-            N,
-            f"NReactionsUncoupled_BuildTime",
-            results))
-        p1.start()
-        processes.append(p1)
 
-        print("Running NReactionsUncoupled build and sim time")
-        p2 = mp.Process(
-            target=build_and_sim_time,
-            args=(
+        if RUN_NREACTIONS_UNCOUPLED:
+            print("Running NReactionsUncoupled build time")
+            p1 = mp.Process(target=build_time, args=(
                 NReactionsUncoupled.generateModelsWithNUncoupledReactions,
                 N,
-                "NReactionsUncoupled_BuildAndSimTime",
-                results)
-        )
-        p2.start()
-        processes.append(p2)
+                f"NReactionsUncoupled_BuildTime",
+                results))
+            p1.start()
+            processes.append(p1)
 
-        print("Running NReactionsUncoupled sim time")
-        p3 = mp.Process(
-            target=sim_time,
-            args=(
-                NReactionsUncoupled.generateModelsWithNUncoupledReactions,
-                N,
-                "NReactionsUncoupled_SimTime",
-                results)
-        )
-        p3.start()
-        processes.append(p3)
+            print("Running NReactionsUncoupled build and sim time")
+            p2 = mp.Process(
+                target=build_and_sim_time,
+                args=(
+                    NReactionsUncoupled.generateModelsWithNUncoupledReactions,
+                    N,
+                    "NReactionsUncoupled_BuildAndSimTime",
+                    results)
+            )
+            p2.start()
+            processes.append(p2)
 
-        print("Running NLinearChain build time")
-        p4 = mp.Process(
-            target=build_time,
-            args=(NLinearChain.generateNLinearModels,
-                  N, "NLinearChain_BuildTime", results)
-        )
-        p4.start()
-        processes.append(p4)
+            print("Running NReactionsUncoupled sim time")
+            p3 = mp.Process(
+                target=sim_time,
+                args=(
+                    NReactionsUncoupled.generateModelsWithNUncoupledReactions,
+                    N,
+                    "NReactionsUncoupled_SimTime",
+                    results)
+            )
+            p3.start()
+            processes.append(p3)
 
-        print("Running NLinearChain build and sim time")
-        p5 = mp.Process(
-            target=build_and_sim_time,
-            args=(NLinearChain.generateNLinearModels, N,
-                  "NLinearChain_BuildAndSimTime", results))
-        p5.start()
-        processes.append(p5)
+        if RUN_NLINEAR_CHAIN:
+            print("Running NLinearChain build time")
+            p4 = mp.Process(
+                target=build_time,
+                args=(NLinearChain.generateNLinearModels,
+                      N, "NLinearChain_BuildTime", results)
+            )
+            p4.start()
+            processes.append(p4)
 
-        print("Running NLinearChain sim time")
-        p6 = mp.Process(
-            target=sim_time,
-            args=(NLinearChain.generateNLinearModels, N, "NLinearChain_SimTime", results))
-        p6.start()
-        processes.append(p6)
+            print("Running NLinearChain build and sim time")
+            p5 = mp.Process(
+                target=build_and_sim_time,
+                args=(NLinearChain.generateNLinearModels, N,
+                      "NLinearChain_BuildAndSimTime", results))
+            p5.start()
+            processes.append(p5)
 
-        print("Running NSpeciesIncreasingConnectivity build time")
-        p7 = mp.Process(
-            target=build_time,
-            args=(NSpeciesIncreasingConnectivity.generateModelsWithNSpeciesIncreasingConnectivity,
-                  int(np.floor(np.sqrt(N))), "NReactionsIncreasingConnectivity_BuildTime", results,
-                  progressBarQuadratic)
-        )
-        p7.start()
-        processes.append(p7)
+            print("Running NLinearChain sim time")
+            p6 = mp.Process(
+                target=sim_time,
+                args=(NLinearChain.generateNLinearModels, N, "NLinearChain_SimTime", results))
+            p6.start()
+            processes.append(p6)
 
-        print("Running NSpeciesIncreasingConnectivity build and sim time")
-        p8 = mp.Process(
-            target=build_and_sim_time,
-            args=(NSpeciesIncreasingConnectivity.generateModelsWithNSpeciesIncreasingConnectivity,
-                  int(np.floor(np.sqrt(N))),
-                  "NReactionsIncreasingConnectivity_BuildAndSimTime", results, progressBarQuadratic))
-        p8.start()
-        processes.append(p8)
+        if RUN_NSPECIES_INCREASING_CONNECTIVITY:
+            print("Running NSpeciesIncreasingConnectivity build time")
+            p7 = mp.Process(
+                target=build_time,
+                args=(NSpeciesIncreasingConnectivity.generateModelsWithNSpeciesIncreasingConnectivity,
+                      int(np.floor(np.sqrt(N))), "NReactionsIncreasingConnectivity_BuildTime", results,
+                      progressBarQuadratic)
+            )
+            p7.start()
+            processes.append(p7)
 
-        print("Running NSpeciesIncreasingConnectivity sim time")
-        p9 = mp.Process(
-            target=sim_time,
-            args=(NSpeciesIncreasingConnectivity.generateModelsWithNSpeciesIncreasingConnectivity,
-                  int(np.floor(np.sqrt(N))), "NReactionsIncreasingConnectivity_SimTime", results,
-                  progressBarQuadratic))
-        p9.start()
-        processes.append(p9)
+            print("Running NSpeciesIncreasingConnectivity build and sim time")
+            p8 = mp.Process(
+                target=build_and_sim_time,
+                args=(NSpeciesIncreasingConnectivity.generateModelsWithNSpeciesIncreasingConnectivity,
+                      int(np.floor(np.sqrt(N))),
+                      "NReactionsIncreasingConnectivity_BuildAndSimTime", results, progressBarQuadratic))
+            p8.start()
+            processes.append(p8)
 
+            print("Running NSpeciesIncreasingConnectivity sim time")
+            p9 = mp.Process(
+                target=sim_time,
+                args=(NSpeciesIncreasingConnectivity.generateModelsWithNSpeciesIncreasingConnectivity,
+                      int(np.floor(np.sqrt(N))), "NReactionsIncreasingConnectivity_SimTime", results,
+                      progressBarQuadratic))
+            p9.start()
+            processes.append(p9)
+
+
+
+        if RUN_BUILD_BIOMODELS:
+            print("Running BuildBuimodels")
+            p10 = mp.Process(
+                target=build_time,
+                args=(build_biomodels.buildBiomodels,
+                      -1, "BuildBiomodels_BuildTime", results,
+                      progressBarLinear))
+            p10.start()
+            processes.append(p10)
+
+        # save data to pickle file
         for i, p in enumerate(processes):
             p.join()
 
@@ -367,8 +406,12 @@ if __name__ == "__main__":
         with open(RESULTS_PICKLE_FILE, 'wb') as f:
             pickle.dump(results, f)
 
-    if PLOT_RESULTS:
+
         print(results)
+    if PLOT_RESULTS:
         # print(type(results))
         # print(len(results["NReactionsIncreasingConnectivity_BuildTime"]))
         plot(results, RUN_TAG, OUTPUT_DIR)
+
+    if PLOT_BARGRAPH:
+        pass # call other script when its ready
