@@ -62,3 +62,4 @@ roadrunner-install-*
 # temp.
 sundials
 test/PerformanceTests/biomodels
+build-msvc
