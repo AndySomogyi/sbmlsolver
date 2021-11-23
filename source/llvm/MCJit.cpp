@@ -43,7 +43,7 @@ namespace rrllvm {
             : Jit(opt),
               engineBuilder(EngineBuilder(std::move(module))) {
 
-        compiledModuleStream = std::make_unique<llvm::raw_svector_ostream>(moduleBuffer);
+        compiledModuleBinaryStream = std::make_unique<llvm::raw_svector_ostream>(moduleBuffer);
 
         engineBuilder
                 .setErrorStr(errString.get())
@@ -291,7 +291,7 @@ namespace rrllvm {
 
     void MCJit::addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx) {
         executionEngine->addModule(std::move(M));
-        optimizeModule();
+        writeObjectToBinaryStream();
     }
 
     void MCJit::addModule() {
@@ -299,19 +299,19 @@ namespace rrllvm {
     }
 
     void MCJit::addModuleViaObjectFile() {
-        optimizeModule();
+        writeObjectToBinaryStream();
 
-        if (compiledModuleStream->str().empty()) {
+        if (compiledModuleBinaryStream->str().empty()) {
             std::string err = "Attempt to add module before its been optimized. Make a call to "
-                              "MCJit::optimizeModule() before addModule()";
+                              "MCJit::writeObjectToBinaryStream() before addModule()";
             rrLogErr << err;
             throw_llvm_exception(err);
         }
 
-        auto memBuffer(llvm::MemoryBuffer::getMemBuffer(compiledModuleStream->str().str()));
+        auto memBuffer(llvm::MemoryBuffer::getMemBuffer(compiledModuleBinaryStream->str().str()));
 
         llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
-                llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(compiledModuleStream->str(), "id"));
+                llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(compiledModuleBinaryStream->str(), "id"));
 
         if (!objectFileExpected) {
             //LS DEBUG:  find a way to get the text out of the error.
@@ -334,7 +334,7 @@ namespace rrllvm {
     }
 
 
-    void MCJit::optimizeModule() {
+    void MCJit::writeObjectToBinaryStream() {
         //Currently we save jitted functions in object file format
         //in save state. Compiling the functions into this format in the first place
         //makes saveState significantly faster than creating the object file when it is called
@@ -353,9 +353,9 @@ namespace rrllvm {
         auto FileType = getCodeGenFileType();
 
 #if LLVM_VERSION_MAJOR == 6
-        if (TargetMachine->addPassesToEmitFile(pass, *compiledModuleStream, FileType))
+        if (TargetMachine->addPassesToEmitFile(pass, *compiledModuleBinaryStream, FileType))
 #elif LLVM_VERSION_MAJOR >= 12
-        if (TargetMachine->addPassesToEmitFile(pass, *compiledModuleStream, nullptr, FileType))
+        if (TargetMachine->addPassesToEmitFile(pass, *compiledModuleBinaryStream, nullptr, FileType))
 #endif
         {
             throw std::logic_error("TargetMachine can't emit a file of type CGFT_ObjectFile");
@@ -612,7 +612,7 @@ namespace rrllvm {
     }
 
     llvm::raw_svector_ostream &MCJit::getCompiledModuleStream() {
-        return *compiledModuleStream;
+        return *compiledModuleBinaryStream;
     }
 
     std::string MCJit::getModuleAsString(std::string sbmlMD5) {

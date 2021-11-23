@@ -47,7 +47,7 @@ namespace rrllvm {
          * @brief Adds the member variable context and associated module
          * to current jit engine. The module is first converted into
          * an in memory object file and then stored as a string
-         * in the member cariable compiledModuleStream.
+         * in the member cariable compiledModuleBinaryStream.
          */
         void addModuleViaObjectFile();
 
@@ -79,7 +79,7 @@ namespace rrllvm {
          * a module is added. In contrast, in MCJit we need to call
          * this ourselves.
          */
-        void optimizeModule();
+        void writeObjectToBinaryStream();
 
         void initFunctionPassManager();
 

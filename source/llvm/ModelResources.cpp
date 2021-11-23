@@ -23,7 +23,6 @@
 #undef max
 
 
-
 #ifdef _MSC_VER
 #pragma warning(disable: 4146)
 #pragma warning(disable: 4141)
@@ -82,6 +81,9 @@ namespace rrllvm {
 
         rr::saveBinary(out, jit->getModuleAsString(sbmlMD5));
 
+        // see comment in loadState
+        rr::saveBinary(out, jit->compiledModuleBinaryStream.get());
+
     }
 
     void ModelResources::loadState(std::istream &in, uint modelGeneratorOpt) {
@@ -100,13 +102,22 @@ namespace rrllvm {
         //Get the object file binary string from the input stream
         rr::loadBinary(in, moduleStr);
 
+        /**
+         * Although we have a LLVM IR module as binary string (moduleStr)
+         * and this is all that is needed to create another model from the
+         * input stream, we still need to have a populated
+         * jit->compiledModuleBinaryStream variable, otherwise a copy of
+         * a roadrunner instance cannot saveState.
+         */
+        rr::loadBinary(in, jit->compiledModuleBinaryStream.get());
+
         //Set up a buffer to read the object code from
         std::unique_ptr<llvm::MemoryBuffer> memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
 
         llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objFile =
                 llvm::object::ObjectFile::createObjectFile(
-                        llvm::MemoryBufferRef(moduleStr, "id"));
-        if (!objFile){
+                        llvm::MemoryBufferRef(moduleStr, sbmlMD5));
+        if (!objFile) {
             std::string err = "Failed to load object data";
             rrLogErr << err;
             llvm::logAllUnhandledErrors(objFile.takeError(), llvm::errs(), err);

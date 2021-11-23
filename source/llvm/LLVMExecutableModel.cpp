@@ -328,7 +328,6 @@ LLVMExecutableModel::LLVMExecutableModel(std::istream& in, uint modelGeneratorOp
     rr::loadBinary(in, tieBreakMap);
     rr::loadBinary(in, mIntegrationStartTime);
 
-    std::cout << getFloatingSpeciesInitAmountsPtr(modelData, 0) << std::endl;
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()

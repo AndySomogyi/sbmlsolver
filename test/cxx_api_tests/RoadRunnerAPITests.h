@@ -375,6 +375,22 @@ public:
         RoadRunner loaded;
         loaded.loadState(fname.string());
         ASSERT_EQ(loaded.getNumberOfFloatingSpecies(), 2);
+        std::cout << *loaded.simulate(0, 10, 11) << std::endl;
+        fs::remove(fname); // clear up written files
+        delete testModel;
+    }
+
+    void loadStateFromCopy() {
+        TestModel *testModel = TestModelFactory("SimpleFlux");
+        RoadRunner rr(testModel->str());
+        RoadRunner rr2(rr);
+        fs::path fname = fs::current_path() / "testSaveState.rr";
+        rr2.saveState(fname.string());
+        ASSERT_TRUE(fs::exists(fname));
+        RoadRunner loaded;
+        loaded.loadState(fname.string());
+        ASSERT_EQ(loaded.getNumberOfFloatingSpecies(), 2);
+        std::cout << *loaded.simulate(0, 10, 11) << std::endl;
         fs::remove(fname); // clear up written files
         delete testModel;
     }

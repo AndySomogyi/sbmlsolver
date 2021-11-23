@@ -4904,6 +4904,7 @@ namespace rr {
                 rr::saveBinary(*outPtr, impl->roadRunnerOptions.jacobianStepSize);
 
                 rr::saveBinary(*outPtr, impl->configurationXML);
+                std::cout << *simulate(0, 10, 11) << std::endl;
                 //Save the model (which saves the model data symbols and model resources)
                 impl->model->saveState(*outPtr);
 

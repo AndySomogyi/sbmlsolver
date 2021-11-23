@@ -138,6 +138,10 @@ TEST_F(RoadRunnerAPITestsWithMCJit, loadState){
     loadState();
 }
 
+TEST_F(RoadRunnerAPITestsWithMCJit, loadStateFromCopy){
+    loadStateFromCopy();
+}
+
 TEST_F(RoadRunnerAPITestsWithMCJit, getSimulationData){
     getSimulationData();
 }
