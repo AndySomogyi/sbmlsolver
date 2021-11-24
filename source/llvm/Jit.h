@@ -300,7 +300,20 @@ namespace rrllvm {
          */
         virtual std::string getModuleAsString(std::string sbmlMD5) = 0;
 
+        /**
+         * @brief MCJit compiles the generated LLVM IR to this binary stream
+         * which is then used both for adding to the Jit as a module and for
+         * saveState.
+         * @details MCJit is the only Jit that uses this. (Its bad interface design
+         * but works at least.). LLJit uses a caching mechanism which allows us
+         * to retrieve object files directly, foregoing the need for this variable.
+         */
+        std::unique_ptr<llvm::raw_svector_ostream> compiledModuleBinaryStream;
 
+        /**
+         * The buffer used by compiledModuleBinaryStream
+         */
+        llvm::SmallVector<char, 10> moduleBuffer;
     protected:
 
          /**
@@ -321,8 +334,6 @@ namespace rrllvm {
 //        llvm::Triple triple;
 //        llvm::DataLayout DataLayout;
         std::uint32_t options;
-        llvm::SmallVector<char, 10> moduleBuffer;
-        std::unique_ptr<llvm::raw_svector_ostream> compiledModuleStream;
 
 
     private:

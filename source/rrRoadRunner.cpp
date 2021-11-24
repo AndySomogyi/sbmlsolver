@@ -4904,7 +4904,6 @@ namespace rr {
                 rr::saveBinary(*outPtr, impl->roadRunnerOptions.jacobianStepSize);
 
                 rr::saveBinary(*outPtr, impl->configurationXML);
-                std::cout << *simulate(0, 10, 11) << std::endl;
                 //Save the model (which saves the model data symbols and model resources)
                 impl->model->saveState(*outPtr);
 
@@ -5054,6 +5053,11 @@ namespace rr {
     }
 
     void RoadRunner::loadState(const std::string &filename) {
+        if (!std::filesystem::exists(filename)){
+            std::string err = "Input argument filename doesn't exist: " + filename;
+            rrLogDebug << err;
+            throw std::invalid_argument(err);
+        }
         std::ifstream ifs(filename, std::ios::binary);
         std::stringstream *ss = new std::stringstream(
                 std::iostream::binary |
