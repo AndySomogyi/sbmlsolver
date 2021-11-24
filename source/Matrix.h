@@ -49,7 +49,7 @@ namespace rr {
         bool operator!=(Matrix<T> &other);
 
         /**
-         * @brief Element-wise compareison between this Matrix<double> with another @param other
+         * @brief Element-wise comparison between this Matrix<double> with another @param other
          * Matrix<double>
          */
         bool almostEquals(Matrix<double> &other, const double &tolerance);

@@ -25,6 +25,7 @@ import numpy
 import os
 import glob
 from numpy import zeros
+import unittest
 
 # Module wide file handle
 fHandle = ''
@@ -1739,6 +1740,17 @@ def testAllRRTestFiles(testDir=None):
         raise FailedTestsError(summary)
 
     return gFailedTests
+
+
+class RunTesterWithUnitTest(unittest.TestCase):
+
+    def setUp(self) -> None:
+        pass
+
+    def test_run_rrtests(self):
+        # indicates 0 tests failed.
+        # but will error if number of tests > 0 anyway
+        self.assertEqual(testAllRRTestFiles(), 0)
 
 
 if __name__ == "__main__":
