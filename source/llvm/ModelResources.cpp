@@ -79,10 +79,21 @@ namespace rrllvm {
 
         rr::saveBinary(out, sbmlMD5);
 
-        rr::saveBinary(out, jit->getModuleAsString(sbmlMD5));
+        std::string moduleAsString = jit->getModuleAsString(sbmlMD5);
+        rr::saveBinary(out, moduleAsString);
+
+        // MCJit uses this variable. LLJit does not.
+        bool usingCompiledModuleBinaryStream = false;
 
         // see comment in loadState
-        rr::saveBinary(out, jit->compiledModuleBinaryStream.get());
+        if (jit->compiledModuleBinaryStream) {
+            usingCompiledModuleBinaryStream = true;
+        }
+        rr::saveBinary(out, usingCompiledModuleBinaryStream);
+
+        if (usingCompiledModuleBinaryStream) {
+            rr::saveBinary(out, jit->compiledModuleBinaryStream.get());
+        }
 
     }
 
@@ -99,8 +110,16 @@ namespace rrllvm {
         rr::loadBinary(in, sbmlMD5);
         assert(!sbmlMD5.empty() && "sbml md5 is empty");
 
-        //Get the object file binary string from the input stream
         rr::loadBinary(in, moduleStr);
+
+        // flag which determines whether we are using
+        // compiledModuleBinaryStream as moduleStr storage (MCJit)
+        // or whether this is automatically cached by LLVM (LLJit)
+        // meaning we can directly access what we need from the cache.
+        bool usingCompiledModuleBinaryStream = false;
+        rr::loadBinary(in, usingCompiledModuleBinaryStream);
+
+        //Get the object file binary string from the input stream
 
         /**
          * Although we have a LLVM IR module as binary string (moduleStr)
@@ -109,7 +128,9 @@ namespace rrllvm {
          * jit->compiledModuleBinaryStream variable, otherwise a copy of
          * a roadrunner instance cannot saveState.
          */
-        rr::loadBinary(in, jit->compiledModuleBinaryStream.get());
+        if (usingCompiledModuleBinaryStream) {
+            rr::loadBinary(in, jit->compiledModuleBinaryStream.get());
+        }
 
         //Set up a buffer to read the object code from
         std::unique_ptr<llvm::MemoryBuffer> memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));

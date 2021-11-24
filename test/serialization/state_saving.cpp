@@ -980,73 +980,171 @@ public:
     }
 };
 
-TEST_F(StateSavingTestsModelData, Brown2004NumBoundarySpecies) {
-    RoadRunner rr(Brown2004().str());
+class StateSavingTestsBrown2004 : public StateSavingTestsModelData{
+public:
+    std::string sbml;
+
+    StateSavingTestsBrown2004():
+        StateSavingTestsModelData(),
+        sbml(Brown2004().str()){}
+};
+
+class StateSavingTestsBrown2004MCJit : public StateSavingTestsBrown2004{
+public:
+    StateSavingTestsBrown2004MCJit()
+        : StateSavingTestsBrown2004(){
+        Config::setValue(Config::LLVM_BACKEND, Config::MCJIT);
+    }
+};
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004NumBoundarySpecies) {
+    RoadRunner rr(sbml);
     compareNumBoundarySpecies(&rr);
 }
 
-TEST_F(StateSavingTestsModelData, Brown2004CompareNumBoundarySpecies) {
-    RoadRunner rr(Brown2004().str());
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumBoundarySpecies) {
+    RoadRunner rr(sbml);
     compareNumBoundarySpecies(&rr);
 }
 
-TEST_F(StateSavingTestsModelData, Brown2004CompareNumCompartments) {
-    RoadRunner rr(Brown2004().str());
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumCompartments) {
+    RoadRunner rr(sbml);
     compareNumCompartments(&rr);
 }
 
-TEST_F(StateSavingTestsModelData, Brown2004CompareNumDependentSpecies) {
-    RoadRunner rr(Brown2004().str());
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumDependentSpecies) {
+    RoadRunner rr(sbml);
     compareNumDependentSpecies(&rr);
 }
 
-TEST_F(StateSavingTestsModelData, Brown2004CompareNumFloatingSpecies) {
-    RoadRunner rr(Brown2004().str());
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumFloatingSpecies) {
+    RoadRunner rr(sbml);
     compareNumFloatingSpecies(&rr);
 }
 
-TEST_F(StateSavingTestsModelData, Brown2004CompareNumGlobalParameters) {
-    RoadRunner rr(Brown2004().str());
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumGlobalParameters) {
+    RoadRunner rr(sbml);
     compareNumGlobalParameters(&rr);
 }
 
-TEST_F(StateSavingTestsModelData, Brown2004CompareNumIndependentSpecies) {
-    RoadRunner rr(Brown2004().str());
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumIndependentSpecies) {
+    RoadRunner rr(sbml);
     compareNumIndependentSpecies(&rr);
 }
 
-TEST_F(StateSavingTestsModelData, Brown2004CompareNumOfReactions) {
-    RoadRunner rr(Brown2004().str());
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumOfReactions) {
+    RoadRunner rr(sbml);
     compareNumOfReactions(&rr);
 }
 
-TEST_F(StateSavingTestsModelData, Brown2004CompareValuesBoundarySpecies) {
-    RoadRunner rr(Brown2004().str());
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareValuesBoundarySpecies) {
+    RoadRunner rr(sbml);
     compareValuesBoundarySpecies(&rr);
 }
 
-TEST_F(StateSavingTestsModelData, Brown2004CompareValuesCompartments) {
-    RoadRunner rr(Brown2004().str());
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareValuesCompartments) {
+    RoadRunner rr(sbml);
     compareValuesCompartments(&rr);
 }
 
-TEST_F(StateSavingTestsModelData, Brown2004CompareValuesFloatingSpecies) {
-    RoadRunner rr(Brown2004().str());
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareValuesFloatingSpecies) {
+    RoadRunner rr(sbml);
     compareValuesFloatingSpecies(&rr);
 }
 
-TEST_F(StateSavingTestsModelData, Brown2004CompareValuesGlobalParameters) {
-    RoadRunner rr(Brown2004().str());
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareValuesGlobalParameters) {
+    RoadRunner rr(sbml);
     compareValuesGlobalParameters(&rr);
 }
 
-TEST_F(StateSavingTestsModelData, Brown2004CompareValuesReactionRates) {
-    RoadRunner rr(Brown2004().str());
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareValuesReactionRates) {
+    RoadRunner rr(sbml);
     compareValuesReactionRates(&rr);
 }
 
-TEST_F(StateSavingTestsModelData, Brown2004CompareSimulationOutput) {
-    RoadRunner rr(Brown2004().str());
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareSimulationOutput) {
+    RoadRunner rr(sbml);
+    compareSimulationOutput(&rr);
+}
+
+
+
+
+class StateSavingTestsBrown2004LLJit : public StateSavingTestsBrown2004{
+public:
+    StateSavingTestsBrown2004LLJit()
+        : StateSavingTestsBrown2004(){
+        Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
+    }
+};
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004NumBoundarySpecies) {
+    RoadRunner rr(sbml);
+    compareNumBoundarySpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumBoundarySpecies) {
+    RoadRunner rr(sbml);
+    compareNumBoundarySpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumCompartments) {
+    RoadRunner rr(sbml);
+    compareNumCompartments(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumDependentSpecies) {
+    RoadRunner rr(sbml);
+    compareNumDependentSpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumFloatingSpecies) {
+    RoadRunner rr(sbml);
+    compareNumFloatingSpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumGlobalParameters) {
+    RoadRunner rr(sbml);
+    compareNumGlobalParameters(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumIndependentSpecies) {
+    RoadRunner rr(sbml);
+    compareNumIndependentSpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumOfReactions) {
+    RoadRunner rr(sbml);
+    compareNumOfReactions(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareValuesBoundarySpecies) {
+    RoadRunner rr(sbml);
+    compareValuesBoundarySpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareValuesCompartments) {
+    RoadRunner rr(sbml);
+    compareValuesCompartments(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareValuesFloatingSpecies) {
+    RoadRunner rr(sbml);
+    compareValuesFloatingSpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareValuesGlobalParameters) {
+    RoadRunner rr(sbml);
+    compareValuesGlobalParameters(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareValuesReactionRates) {
+    RoadRunner rr(sbml);
+    compareValuesReactionRates(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareSimulationOutput) {
+    RoadRunner rr(sbml);
     compareSimulationOutput(&rr);
 }
 
