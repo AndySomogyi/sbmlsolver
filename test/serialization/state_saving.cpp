@@ -980,7 +980,7 @@ public:
     }
 };
 
-TEST_F(StateSavingTestsModelData, BrownNumBoundarySpecies) {
+TEST_F(StateSavingTestsModelData, Brown2004NumBoundarySpecies) {
     RoadRunner rr(Brown2004().str());
     compareNumBoundarySpecies(&rr);
 }
