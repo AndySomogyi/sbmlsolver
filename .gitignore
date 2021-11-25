@@ -63,4 +63,6 @@ roadrunner-install-*
 sundials
 test/PerformanceTests/biomodels
 test/PerformanceTests/biomodels.zip
+test/PerformanceTests/simulations
+test/PerformanceTests/OldData
 build-msvc
