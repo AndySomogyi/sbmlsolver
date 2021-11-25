@@ -12,7 +12,6 @@ import csv
 import unittest
 import numpy as np
 import roadrunner
-import pytest_check as check
 
 class RoadRunnerTests(unittest.TestCase):
     maxDiff = None
