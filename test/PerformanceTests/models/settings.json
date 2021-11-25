@@ -1,0 +1,72 @@
+{
+  "MassAction": {
+    "Small": {
+      "0": {
+        "approx_time_at_steady_state": 1
+      },
+      "1": {
+        "approx_time_at_steady_state": 30
+      },
+      "2": {
+        "approx_time_at_steady_state": 40
+      }
+    },
+    "Medium": {
+      "0": {
+        "approx_time_at_steady_state": 7000
+      },
+      "1": {
+        "approx_time_at_steady_state": 700
+      },
+      "2": {
+        "approx_time_at_steady_state": 500
+      }
+    },
+    "Large": {
+      "0": {
+        "approx_time_at_steady_state": 30000
+      },
+      "1": {
+        "approx_time_at_steady_state": 400
+      },
+      "2": {
+        "approx_time_at_steady_state": 10000
+      }
+    }
+  },
+  "Hanekom": {
+    "Small": {
+      "0": {
+        "approx_time_at_steady_state": 50
+      },
+      "1": {
+        "approx_time_at_steady_state": 50
+      },
+      "2": {
+        "approx_time_at_steady_state": 80
+      }
+    },
+    "Medium": {
+      "0": {
+        "approx_time_at_steady_state": 10000
+      },
+      "1": {
+        "approx_time_at_steady_state": 4000
+      },
+      "2": {
+        "approx_time_at_steady_state": 8000
+      }
+    },
+    "Large": {
+      "0": {
+        "approx_time_at_steady_state": 100000
+      },
+      "1": {
+        "approx_time_at_steady_state": 20000
+      },
+      "2": {
+        "approx_time_at_steady_state": 3000
+      }
+    }
+  }
+}

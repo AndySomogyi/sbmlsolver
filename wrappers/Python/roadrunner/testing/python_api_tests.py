@@ -546,7 +546,7 @@ class RoadRunnerTests(unittest.TestCase):
 
     def test_getSBML(self):
         self.assertIsInstance(
-            self.rr.getSBML(),
+            self.rr.getSBMLFile(),
             str
         )
 

@@ -119,7 +119,6 @@ namespace rrllvm {
         bool usingCompiledModuleBinaryStream = false;
         rr::loadBinary(in, usingCompiledModuleBinaryStream);
 
-        //Get the object file binary string from the input stream
 
         /**
          * Although we have a LLVM IR module as binary string (moduleStr)
@@ -129,6 +128,7 @@ namespace rrllvm {
          * a roadrunner instance cannot saveState.
          */
         if (usingCompiledModuleBinaryStream) {
+            //Get the object file binary string from the input stream
             rr::loadBinary(in, jit->compiledModuleBinaryStream.get());
         }
 
