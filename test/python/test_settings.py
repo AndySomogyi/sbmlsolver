@@ -199,3 +199,6 @@ class SettingTests(unittest.TestCase):
     def test_set_doubleVectorType_in_settings_map(self):
         self.s.setValueInSettings("doubleVectorType", [9.8, 6.5])
         self.assertEqual([9.8, 6.5], self.s.getValueFromSettings("doubleVectorType"))
+
+if __name__ == "__main__":
+    unittest.main()

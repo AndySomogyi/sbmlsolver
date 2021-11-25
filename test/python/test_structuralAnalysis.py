@@ -139,3 +139,7 @@ class StructuralAnalysisTests(RoadRunnerTest):
                    "empty Matrix to empty Python np array")
     def test_BimolecularEnd_ConservationMatrix(self):
         self.checkConservationMatrix("BimolecularEnd")
+
+if __name__ == "__main__":
+    unittest.main()
+

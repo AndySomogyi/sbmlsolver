@@ -279,9 +279,8 @@ class TestModelFactoryTests(unittest.TestCase):
         self.assertEqual(l, ("first", "second", "third", "fourth"))
 
 
-
-
-
+if __name__ == "__main__":
+    unittest.main()
 
 
 

@@ -1,19 +1,12 @@
-from threading import Thread
-from multiprocessing import Queue
-from multiprocessing.pool import ThreadPool
 import numpy as np
 from multiprocessing import Pool
 import unittest
 import pandas as pd
-import pickletools
 import sys
 import pickle
 import os
 import ray
-import time
 import copy
-
-from os.path import dirname, exists, join
 
 print(f"Python interpreter at: {sys.executable}")
 
@@ -24,7 +17,7 @@ print(f"Python interpreter at: {sys.executable}")
 #
 # ]
 import roadrunner
-from roadrunner import *
+# from roadrunner import *
 
 import roadrunner.tests.TestModelFactory as tmf
 from roadrunner.roadrunner import RoadRunner
@@ -55,7 +48,6 @@ class SimulatorActorPath(object):
         self.r: roadrunner.RoadRunner = r
 
     def simulate(self, size=1):
-        import roadrunner
         num_points = 101
         results = np.ndarray((size, num_points, 2))  # 2 for 1 model species and time
         for k in range(size):

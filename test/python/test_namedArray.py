@@ -2,7 +2,6 @@ import numpy as np
 import sys
 
 import pickle
-import pickletools
 import unittest
 import roadrunner
 from roadrunner._roadrunner import NamedArray
