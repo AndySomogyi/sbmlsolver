@@ -147,10 +147,11 @@ set(
         Solver.h
         #        Variant.h
         Setting.h
+        setting_t.h
+        RegistrationFactory.h
         ForwardSensitivitySolver.h
         ForwardSensitivitySolver.h
         SensitivitySolver.h
-        RegistrationFactory.cpp
         Registrable.h
         SensitivitySolverFactory.h
         SteadyStateSolverFactory.h
