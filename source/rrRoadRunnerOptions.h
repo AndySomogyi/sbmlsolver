@@ -233,21 +233,21 @@ namespace rr
 		*/
 		std::vector<std::string> getKeys() const override;
 
-		inline bool getConservedMoietyConversion() const {
+        bool getConservedMoietyConversion() const {
 			return modelGeneratorOpt & CONSERVED_MOIETIES;
 		}
 
-		inline void setConservedMoietyConversion(bool val) {
+        void setConservedMoietyConversion(bool val) {
 			modelGeneratorOpt = val ?
 				modelGeneratorOpt | CONSERVED_MOIETIES :
 				modelGeneratorOpt & ~CONSERVED_MOIETIES;
 		}
 
-		inline void setValidation(bool val) {
+        void setValidation(bool val) {
 			loadFlags = val ? loadFlags | TURN_ON_VALIDATION : loadFlags & ~TURN_ON_VALIDATION;
 		}
 
-        inline void setLLVMBackend(LoadSBMLOptions::LLVM_BACKEND_VALUES val);
+        void setLLVMBackend(LoadSBMLOptions::LLVM_BACKEND_VALUES val);
 
 		~LoadSBMLOptions() override;
 

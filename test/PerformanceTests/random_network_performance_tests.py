@@ -19,13 +19,41 @@ import glob
 import zipfile
 import json
 
-# constants (not parameters)
+########################################################333
+#   Script constants (user options)
+#
+
 JIT_ENGINE_LIST = ['MCJit', "LLJit"]
 KINETICS_TYPES = ['MassAction', "Hanekom"]
 MODEL_SIZES = ["Small", "Medium", "Large"]
 MODEL_REPEATS = [0, 1, 2]
 NANOSECOND_TO_MILLISECOND_CONVERSION_FACTOR = 1000000
 NANOSECOND_TO_SECOND_CONVERSION_FACTOR = 100000000
+
+RUN_LABEL: str = "LLJit_AggressiveOpt"
+
+# how many time steps to simulate
+NUM_SIM_STEPS: int = 50000
+
+# how many repeat simualtions to run
+NUM_REPEAT_SIMS: int = 50
+
+# run the simulations. Saves results to file
+RUN_SIMULATIONS: bool = True
+
+#
+PLOT_SIMULATIONS = True
+
+# set LLVM's LLJIT optimization level
+LLJIT_OPTIMIZATION = Config.AGGRESSIVE
+
+# set LLVM's LLJIT num threads
+# use None to use the default, which is the
+# maximum number of detected cores (hyperthreadded)
+LLJIT_NUM_THREADS = 1
+
+# choose backend - either LLJit or MCJit
+JIT_ENGINE = "LLJit"
 
 
 def _getModelDirectory(kinetics:str, modelSize: str):
@@ -151,41 +179,12 @@ def collectPerformanceData(numSimSteps: int, numRepeats: int, run_label:str):
         results[kinetics] = pd.concat(results[kinetics])
 
     df = pd.concat(results, axis=1)
-    df.index.names = ["Model Size", "Model ID", "Simulation Repeat"]
-    df.columns.name = "kinetics type"
+    df.index.names = ["ModelSize", "ModelID", "SimulationRepeat"]
+    df.columns.name = "KineticsType"
     # df = df.stack(level=0)
     # print(df)
     return df
 
-
-########################################################333
-#   Script constants (user options)
-#
-
-RUN_LABEL: str = "LLJit_AggressiveOpt"
-
-# how many time steps to simulate
-NUM_SIM_STEPS: int = 50000
-
-# how many repeat simualtions to run
-NUM_REPEAT_SIMS: int = 50
-
-# run the simulations. Saves results to file
-RUN_SIMULATIONS: bool = True
-
-#
-PLOT_SIMULATIONS = True
-
-# set LLVM's LLJIT optimization level
-LLJIT_OPTIMIZATION = Config.AGGRESSIVE
-
-# set LLVM's LLJIT num threads
-# use None to use the default, which is the
-# maximum number of detected cores (hyperthreadded)
-LLJIT_NUM_THREADS = 1
-
-# choose backend - either LLJit or MCJit
-JIT_ENGINE = "LLJit"
 
 if __name__ == "__main__":
 
@@ -217,7 +216,7 @@ if __name__ == "__main__":
         for kinetics in KINETICS_TYPES:
             for modelSize in MODEL_SIZES:
                 for repeat in MODEL_REPEATS:
-                    print("running kinetics: ", kinetics, "model size: ", modelSize, "repeat", repeat)
+                    print("running kinetics: ", kinetics, "ModelSize: ", modelSize, "repeat", repeat)
                     sbmlFile = getSBMLFile(kinetics, modelSize, repeat)
                     timeModelSimulation(sbmlFile, settings[kinetics][modelSize][str(repeat)]["approx_time_at_steady_state"],
                                         numSimSteps=NUM_SIM_STEPS, numRepeats=NUM_REPEAT_SIMS)

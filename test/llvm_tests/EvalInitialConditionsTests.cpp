@@ -30,6 +30,7 @@ public:
         Logger::setLevel(Logger::LOG_INFORMATION);
     }
 };
+
 /**
  * Note on EvalInitialConditions (from comment where
  * ffunction is used, not docs):

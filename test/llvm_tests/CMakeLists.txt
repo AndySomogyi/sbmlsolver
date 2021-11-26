@@ -8,7 +8,7 @@ add_test_executable(
         llvm_tests_EvalInitialConditionsTests test_targets
         EvalInitialConditionsTests.cpp
         LLVMGeneratedFunctionTests.h
-        LLVMGeneratedFunctionTests.h
+
 )
 add_test_executable(llvm_tests_JitFactoryTests test_targets JitFactoryTests.cpp)
 
