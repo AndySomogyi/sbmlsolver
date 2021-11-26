@@ -8,12 +8,12 @@ set(SharedTestFiles "${SharedTestFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/SundialsSt
 #)
 
 add_test_executable(
-        test_steady_state_unit_approx test_targets
+        steady_state_approx test_targets
         ApproxSteadyStateDecoratorTests.cpp ${SharedTestFiles}
 )
 
 add_test_executable(
-        test_steady_state_unit_automatic_moiety_conservation test_targets
+        automatic_moiety_conservation test_targets
         AutomaticMoietyConservationTests.cpp
         SundialsSteadyStateSolverUnitTest
         ${SharedTestFiles}
