@@ -55,7 +55,7 @@ class RoadRunnerTests(unittest.TestCase):
         for Z in Zvec:
             if Z<xrange[0] or Z>xrange[1]:
                 nmean_wrong += 1
-        check.less_equal(nmean_wrong, 5)
+        self.assertLessEqual(nmean_wrong, 5)
         return nmean_wrong, Zvec
     
     def countWrongSDs(self, sds, expectedsds, xrange):
@@ -69,7 +69,7 @@ class RoadRunnerTests(unittest.TestCase):
                     nsd_wrong += 1
             elif (np.isinf(Y)):
                 nsd_wrong += 1
-        check.less_equal(nsd_wrong, 5)
+        self.assertLessEqual(nsd_wrong, 5)
         return nsd_wrong, Yvec
     
     def readSettingsFile(self, stochdir, tnum):
