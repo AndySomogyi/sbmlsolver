@@ -284,8 +284,9 @@ class RoadRunnerTests(unittest.TestCase):
     def test_stoch_00004(self):
         self.runOneTest('00004')
 
-    def test_stoch_00005(self):
-        self.runOneTest('00005')
+    # This test passes, but takes a ridiculously long time to do so.
+    # def test_stoch_00005(self):
+    #     self.runOneTest('00005')
 
     def test_stoch_00006(self):
         self.runOneTest('00006')
