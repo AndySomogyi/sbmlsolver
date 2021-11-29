@@ -179,8 +179,10 @@ class RoadRunnerTests(unittest.TestCase):
         for repeat in range(self.nrepeats):
             rr.resetToOrigin()
             if self.testType == "StochasticTimeCourse":
-                sim = rr.gillespie(self.start, self.duration, self.steps+1)
+                rr.setIntegrator('gillespie')
+                sim = rr.simulate(self.start, self.duration, self.steps+1)
             elif self.testType == "StatisticalDistribution":
+                rr.setIntegrator('cvode')
                 sim = rr.simulate(self.start, self.duration, self.steps+1)
             else:
                 self.fail("Unknown stochastic test type " + self.testType + " in test " + tnum + ".")
