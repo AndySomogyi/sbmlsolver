@@ -6,7 +6,8 @@ Created on Tue Apr 28 12:39:24 2020
 """
 
 from __future__ import division
-from os import walk, scandir
+from os import walk, scandir 
+from os.path import isdir
 
 import csv
 import unittest
@@ -18,7 +19,12 @@ class RoadRunnerTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.stochdir = "../sbml-test-suite/stochastic/"
+        cls.stochdir = ""
+        for dir in ["../sbml-test-suite/stochastic/", "../test/sbml-test-suite/stochastic/", "../../test/sbml-test-suite/stochastic/", "../../../test/sbml-test-suite/stochastic/"]:
+            if isdir(dir):
+                cls.stochdir = dir
+        if cls.stochdir == "":
+            cls.fail("Unable to find stochastic test suite directory.")
         cls.outfile = "results.tsv"
         cls.nrepeats = 10000
         
