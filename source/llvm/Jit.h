@@ -319,7 +319,7 @@ namespace rrllvm {
          /**
           *
           */
-         std::string Jit::getProcessTriple() const ;
+         std::string getProcessTriple() const ;
 
         /**
          * @brief use llvm calls to work out which TargetMachine

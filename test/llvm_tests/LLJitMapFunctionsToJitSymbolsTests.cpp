@@ -191,5 +191,10 @@ TEST_F(LLJitMapFunctionsToJitSymbolsTests, CheckGlobalMapping_rr_csr_matrix_set_
     CheckGlobalMapping_rr_csr_matrix_set_nz();
 }
 
+TEST_F(LLJitMapFunctionsToJitSymbolsTests, OnlyBuild) {
+    RoadRunner rr(Brown2004().str());
+
+}
+
 
 

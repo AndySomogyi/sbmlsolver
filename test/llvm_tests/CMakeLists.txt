@@ -12,4 +12,8 @@ add_test_executable(
 )
 add_test_executable(llvm_tests_JitFactoryTests test_targets JitFactoryTests.cpp)
 
+add_executable(BuildAModel BuildAModel.cpp)
+target_link_libraries(BuildAModel PRIVATE roadrunner-static gtest gtest_main)
+#target_include_directories(BuildAModel PRIVATE roadrunner-static)
+
 set(test_targets ${test_targets} PARENT_SCOPE)
