@@ -2877,7 +2877,7 @@ def plotTimeSeriesSens(time:np.array, sens:np.array,
     Example
     ---------
     import roadrunner as rr
-    from roadrunner.testing.TestModelFactory import TestModelFactory, getAvailableTestModels
+    from roadrunner.tests.TestModelFactory import TestModelFactory, getAvailableTestModels
     sbml = TestModelFactory("Venkatraman2010").str()  # get the test model's sbml string
     time, sens, rownames, colnames = model.timeSeriesSensitivities(
         0, 10, 101, params=["keff1", "keff2", "keff3"], species=["tcUPA", "scUPA"])
