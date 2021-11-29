@@ -20,7 +20,7 @@ class RoadRunnerTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.stochdir = ""
-        for dir in ["../sbml-test-suite/stochastic/", "../test/sbml-test-suite/stochastic/", "../../test/sbml-test-suite/stochastic/", "../../../test/sbml-test-suite/stochastic/"]:
+        for dir in ["../sbml-test-suite/stochastic/", "../test/sbml-test-suite/stochastic/", "../../test/sbml-test-suite/stochastic/", "../../../test/sbml-test-suite/stochastic/", "../../../../test/sbml-test-suite/stochastic/", "../../../../../test/sbml-test-suite/stochastic/", "../../../../../../test/sbml-test-suite/stochastic/"]:
             if isdir(dir):
                 cls.stochdir = dir
         if cls.stochdir == "":
