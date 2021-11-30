@@ -1322,6 +1322,12 @@ namespace rr {
             impl->loadOpt = LoadSBMLOptions(dict);
         }
 
+        /**
+         * Load sbml doc here.
+         * After which we only pass around
+         * the sbml doc ptr
+         */
+
         // Check that stoichiometry is defined and, if variable in L2, named.
         //  If not, define it to be 1.0, and name it.
         mCurrentSBML = fixMissingStoichAndMath(mCurrentSBML);

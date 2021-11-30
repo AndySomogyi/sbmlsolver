@@ -125,11 +125,6 @@ namespace rrllvm {
 
         Jit *getJitNonOwning() const;
 
-
-//        llvm::LLVMContext &getContext() const;
-//
-//        llvm::ExecutionEngine &getExecutionEngine() const;
-
         /**
          * nearly all llvm functions expect a pointer to module, so we define this
          * as a pointer type instead of reference, even though we gaurantee this to
@@ -182,16 +177,8 @@ namespace rrllvm {
     private:
 
         /**
-         * set the execution engine's global mappings to the rr functions
-         * that are accessible from the LLVM generated code.
-         */
-//        void addGlobalMapping(const llvm::GlobalValue *gv, void *addr);
-//
-//        void addGlobalMappings();
-
-        /**
          * these point to the same location, ownedDoc is set if we create the doc,
-         * otherwise its 0, meaning we're borrowign the the doc.
+         * otherwise its nullptr, meaning we're borrowing the the doc.
          */
         libsbml::SBMLDocument *ownedDoc;
 
@@ -207,20 +194,8 @@ namespace rrllvm {
          * initialized after the previous two are initialized.
          */
         std::unique_ptr<LLVMModelSymbols> modelSymbols;
-//
-//        std::string *errString;
-
-//        std::unique_ptr<llvm::LLVMContext> context;
-//        std::unique_ptr<llvm::ExecutionEngine> executionEngine;
-//
-//        std::unique_ptr<llvm::Module> module_owner;
-//        llvm::Module *module;
 
         const libsbml::Model *model;
-
-//        std::unique_ptr<llvm::IRBuilder<>> builder;
-//
-//        std::unique_ptr<llvm::legacy::FunctionPassManager> functionPassManager;
 
         /**
          * As the model is being generated, various distributions may be created
@@ -250,7 +225,7 @@ namespace rrllvm {
         unsigned options;
 
         /**
-         * Experimental Jit dependency injection to support multiple different compilation strategies.
+         * Jit dependency injection to support multiple different compilation strategies.
          */
         std::unique_ptr<Jit> jit;
 

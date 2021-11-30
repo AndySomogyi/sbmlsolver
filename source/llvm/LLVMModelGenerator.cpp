@@ -67,7 +67,7 @@ namespace rrllvm {
 
     inline void codeGeneration(ModelGeneratorContext &context, std::uint32_t options);
 
-    inline std::unique_ptr<ModelGeneratorContext>
+    inline ModelGeneratorContext
     createModelGeneratorContext(const std::string &sbml, std::uint32_t options);
 
     inline std::string getSBMLMD5(const std::string &sbml, const std::uint32_t & options);
@@ -220,11 +220,11 @@ namespace rrllvm {
 
     }
 
-    inline std::unique_ptr<ModelGeneratorContext>
+    inline ModelGeneratorContext
     createModelGeneratorContext(const std::string &sbml, std::uint32_t options) {
+        // todo consider whether this can be stack allocated instead -- quicker.
         std::unique_ptr<Jit> j = JitFactory::makeJitEngine(options);
-        std::unique_ptr<ModelGeneratorContext> context = std::make_unique<ModelGeneratorContext>(sbml, options, std::move(j));
-        return std::move(context);
+        return {sbml, options, std::move(j)};
     }
 
     std::string getSBMLMD5(const std::string &sbml, const std::uint32_t & options) {
@@ -292,20 +292,20 @@ namespace rrllvm {
 
         char *docSBML = doc->toSBML();
 
-        std::unique_ptr<ModelGeneratorContext> modelGeneratorContext = createModelGeneratorContext(
+        ModelGeneratorContext modelGeneratorContext = createModelGeneratorContext(
                 reinterpret_cast<const char *>(docSBML), options);
         std::string sbmlMD5 = getSBMLMD5(std::string((const char*) docSBML), options);
         if (modelResources->sbmlMD5.empty()){
             modelResources->sbmlMD5 = sbmlMD5;
         }
-        modelGeneratorContext->getJitNonOwning()->setModuleIdentifier(sbmlMD5);
+        modelGeneratorContext.getJitNonOwning()->setModuleIdentifier(sbmlMD5);
 
         free(docSBML);
 
-        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), modelResources, options);
+        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(&modelGeneratorContext, modelResources, options);
 
         // * MOVE * the bits over from the context to the exe model.
-        modelGeneratorContext->transferObjectsToResources(modelResources);
+        modelGeneratorContext.transferObjectsToResources(modelResources);
         LLVMExecutableModel *newModel = new LLVMExecutableModel(modelResources, modelData);
 
         if (oldModel) {
@@ -539,16 +539,17 @@ namespace rrllvm {
         SharedModelResourcesPtr modelResources = std::make_shared<ModelResources>();
         modelResources->sbmlMD5 = sbmlMD5;
 
-        std::unique_ptr<ModelGeneratorContext> modelGeneratorContext = createModelGeneratorContext(sbml, options);
+        ModelGeneratorContext modelGeneratorContext = createModelGeneratorContext(sbml, options);
 
         // name the llvm module
-        modelGeneratorContext->getJitNonOwning()->setModuleIdentifier(sbmlMD5);
+        modelGeneratorContext.getJitNonOwning()->setModuleIdentifier(sbmlMD5);
 
         // todo figure out whether the various bigs of codegen can be threadded?
         //  Or do things need to happen in a certain order?
         //
-        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), modelResources,
-                                                                    options);
+        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(
+                &modelGeneratorContext, modelResources, options
+                );
 
         // if anything up to this point throws an exception, thats OK, because
         // we have not allocated any memory yet that is not taken care of by
@@ -557,7 +558,7 @@ namespace rrllvm {
         // can now create the model and set its fields.
 
         // * MOVE * the bits over from the context to the exe model.
-        modelGeneratorContext->transferObjectsToResources(modelResources);
+        modelGeneratorContext.transferObjectsToResources(modelResources);
 
         if (!forceReCompile) {
             // check for a chached copy, another thread could have

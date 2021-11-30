@@ -77,10 +77,10 @@ namespace rrllvm {
                                                  llvm::FunctionType *funcType, Module *module);
 
 
-/**
- * returns a VALID sbml document, if the doc has any error,
- * an exception is thrown.
- */
+    /**
+     * returns a VALID sbml document, if the doc has any error,
+     * an exception is thrown.
+     */
     static SBMLDocument *checkedReadSBMLFromString(const char *xml);
 
 // MSVC 2010 and earlier do not include the hyperbolic functions, define there here
@@ -232,16 +232,18 @@ namespace rrllvm {
 
                 this->doc = moietyConverter->getDocument();
 
-                SBMLWriter sw;
-                char *convertedStr = sw.writeToString(_doc);
+                if (rr::Logger::getLevel() <= rr::Logger::LOG_INFORMATION) {
+                    SBMLWriter sw;
+                    char *convertedStr = sw.writeToString(_doc);
 
-                rrLog(Logger::LOG_INFORMATION)
-                    << "***************** Conserved Moiety Converted Document ***************";
-                rrLog(Logger::LOG_INFORMATION) << convertedStr;
-                rrLog(Logger::LOG_INFORMATION)
-                    << "*********************************************************************";
+                    rrLog(Logger::LOG_INFORMATION)
+                        << "***************** Conserved Moiety Converted Document ***************";
+                    rrLog(Logger::LOG_INFORMATION) << convertedStr;
+                    rrLog(Logger::LOG_INFORMATION)
+                        << "*********************************************************************";
 
-                delete convertedStr;
+                    delete convertedStr;
+                }
             } else {
                 this->doc = _doc;
             }
