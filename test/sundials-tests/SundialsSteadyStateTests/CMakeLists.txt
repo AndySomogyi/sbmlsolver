@@ -47,40 +47,6 @@ add_test_executable(
         ${SharedTestFiles}
 )
 
-if (BUILD_PYTHON)
-    # copy Python tests to binary tree site packages
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/SteadyStateSolverTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/SteadyStateSolverTests.py"
-            COPYONLY
-    )
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/AutomaticMoietyConservationAnalysisTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/AutomaticMoietyConservationAnalysisTests.py"
-            COPYONLY
-    )
-    # install python tests to install tree
-    install(
-            FILES
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/SteadyStateSolverTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/AutomaticMoietyConservationAnalysisTests.py"
-            DESTINATION
-            "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
-    )
-endif ()
-
-
-#add_test_executable(
-#        SteadyStateIntegrationTests test_targets
-#        SteadyStateIntegrationTests.h
-##        BasicNewtonIntegrationTests.cpp
-##        DecoratorIntegrationTests.cpp
-##        LinesearchNewtonIntegrationTests.cpp
-##        NLEQ1IntegrationTests.cpp
-##        NLEQ2IntegrationTests.cpp
-#        ${SharedTestFiles}
-#)
-
 
 # make test_targets list global to all tests
 set(test_targets ${test_targets} PARENT_SCOPE)

@@ -1314,7 +1314,7 @@ namespace rr {
                     return real;
                 }
                 std::stringstream err;
-                err << "Eigenvalue is complex (" << real << " + " << imag << " i):  unable to return value as a double.  Request the real and imaginary parts separately with 'eigenReal(" << record.p1 << ") and 'eigenImag(" << record.p1 << ").";
+                err << "Eigenvalue is complex (" << real << "+" << imag << "j):  unable to return value as a double.  Request the real and imaginary parts separately with 'eigenReal(" << record.p1 << ") and 'eigenImag(" << record.p1 << ").";
                 throw std::invalid_argument(err.str());
             }
                 break;

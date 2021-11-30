@@ -37,45 +37,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "../../wrappers/Python/roadrunner/PyUtils.cpp"
             "../../wrappers/Python/roadrunner/PyUtils.h"
             )
-
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/SettingTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/SettingTests.py"
-            COPYONLY
-    )
-
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/StructuralAnalysisTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/StructuralAnalysisTests.py"
-            COPYONLY
-    )
-
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/JacobianTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/JacobianTests.py"
-            COPYONLY
-    )
-
-    install(FILES
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/SettingTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/JacobianTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/StructuralAnalysisTests.py"
-            DESTINATION
-            "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
-            )
-
 endif ()
-
-
-
-
-
-
-
-
-
-
-
 
 
 

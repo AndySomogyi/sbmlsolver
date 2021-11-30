@@ -99,10 +99,6 @@ set(
         conservation/ConservedMoietyPlugin.cpp
         conservation/ConservedMoietyConverter.cpp
         #todo pull test files out of main library sources.
-        testing/CXXExecutableModel.cpp
-        testing/CXXEnzymeExecutableModel.cpp
-        testing/CXXBrusselatorExecutableModel.cpp
-        testing/CXXPiecewiseExecutableModel.cpp
 )
 
 set(
@@ -176,11 +172,6 @@ set(
         conservation/ConservationDocumentPlugin.h
         conservation/ConservedMoietyPlugin.h
         conservation/ConservedMoietyConverter.h
-        #todo pull test files out of main library sources.
-        testing/CXXExecutableModel.h
-        testing/CXXEnzymeExecutableModel.h
-        testing/CXXBrusselatorExecutableModel.h
-        testing/CXXPiecewiseExecutableModel.h
 )
 install(FILES ${rrCoreHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
 
@@ -525,12 +516,5 @@ install(
 #Libxml we can't build right now
 if (${BORLAND})
     target_link_libraries(${target}-static libxml2_xe)
-endif ()
-
-
-if (BUILD_TEST_TOOLS)
-    if (BUILD_LLVM)
-        add_subdirectory(llvm_testing)
-    endif (BUILD_LLVM)
 endif ()
 

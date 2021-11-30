@@ -16,7 +16,6 @@ OPTION (INSTALL_C_EXAMPLES              "Install Tellurium Plugin C Examples"   
 OPTION (INSTALL_CPP_EXAMPLES            "Install Tellurium Plugin CPP Examples"       OFF)
 OPTION (INSTALL_PYTHON_EXAMPLES         "Install Tellurium Plugin PYTHON Examples"    OFF)
 
-add_subdirectory(c)
 add_subdirectory(cpp)
 
 if(INSTALL_PYTHON_EXAMPLES)
