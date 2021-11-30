@@ -1417,10 +1417,6 @@ namespace rr {
             impl->loadOpt = LoadSBMLOptions(dict);
         }
 
-        // Check that stoichiometry is defined and, if variable in L2, named.
-        //  If not, define it to be 1.0, and name it.
-        mCurrentSBML = fixMissingStoichAndMath(mCurrentSBML);
-
         // TODO: add documentation for validations
         if ((impl->loadOpt.loadFlags & LoadSBMLOptions::TURN_ON_VALIDATION) != 0) {
             std::string errors = validateSBML(mCurrentSBML, VALIDATE_GENERAL | VALIDATE_IDENTIFIER | VALIDATE_MATHML |
@@ -1436,7 +1432,11 @@ namespace rr {
             // failed. Its *VERY* expensive to pre-validate the model.
             libsbml::SBMLReader reader;
             impl->document.reset(reader.readSBMLFromString(mCurrentSBML));
-            impl->model.reset(ExecutableModelFactory::createModel(mCurrentSBML, &impl->loadOpt));
+            // Fix various problems that might occur in incomplete SBML models.
+            mCurrentSBML = fixMissingStoichAndMath(impl->document.get());
+
+            std::string md5 = rr::getMD5(mCurrentSBML);
+            impl->model.reset(ExecutableModelFactory::createModel(impl->document.get(), md5, &impl->loadOpt));
         } catch (const rr::UninitializedValueException &e) {
             // catch specifically for UninitializedValueException, otherwise for some
             // reason the message is erased, and an 'unknown error' is displayed to the user.

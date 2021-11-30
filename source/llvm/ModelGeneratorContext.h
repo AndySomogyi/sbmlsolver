@@ -90,11 +90,6 @@ class ModelGeneratorContext
 {
 public:
     /**
-     * load the sbml document from a std::string.
-     */
-    ModelGeneratorContext(std::string const &sbml, unsigned loadSBMLOptions);
-
-    /**
      * attach to an existing sbml document, we borrow a reference to this
      * doc and DO NOT take ownership of it.
      */

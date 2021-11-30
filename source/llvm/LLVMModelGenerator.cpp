@@ -103,11 +103,7 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 {
 	SharedModelResourcesPtr rc = std::make_shared<ModelResources>();
 
-	char* docSBML = doc->toSBML();
-
-	ModelGeneratorContext context(docSBML, options);
-
-	free(docSBML);
+	ModelGeneratorContext context(doc, options);
 
 	// code generation part
 
@@ -683,23 +679,14 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 }
 
 
-ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::uint32_t options)
+ExecutableModel* LLVMModelGenerator::createModel(const libsbml::SBMLDocument* sbml, std::uint32_t options, const std::string& md5)
 {
     bool forceReCompile = options & LoadSBMLOptions::RECOMPILE;
-
-    std::string md5;
 
     // if we force recompile, then we don't need to think
     // about locating a previously compiled model
     if (!forceReCompile)
     {
-        // check for a cached copy
-        md5 = rr::getMD5(sbml);
-
-        if (options & LoadSBMLOptions::CONSERVED_MOIETIES)
-        {
-            md5 += "_conserved";
-        }
 
         SharedModelResourcesPtr sp;
 
