@@ -96,20 +96,20 @@ double atanh(double value)
 
 #endif
 
-ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
-    unsigned options) :
-        ownedDoc(0),
-        doc(_doc),
+ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const* _doc, unsigned options)
+    :
+        ownedDoc(NULL),
+        doc(NULL),
         symbols(NULL),
         modelSymbols(NULL),
         errString(new std::string()),
         context(0),
-        executionEngine(0),
-        builder(0),
-        functionPassManager(0),
+        executionEngine(NULL),
+        builder(NULL),
+        functionPassManager(NULL),
         options(options),
-        moietyConverter(0),
-        random(0)
+        moietyConverter(NULL),
+        random(NULL)
 {
     if(useSymbolCache()) {
         rrLog(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
@@ -121,35 +121,51 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
     {
         if (options & LoadSBMLOptions::CONSERVED_MOIETIES)
         {
-            rrLog(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
-
-            moietyConverter = new rr::conservation::ConservedMoietyConverter();
-
-            if (moietyConverter->setDocument(_doc) != LIBSBML_OPERATION_SUCCESS)
+            if ((rr::Config::getBool(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
+                    rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
             {
-                throw_llvm_exception("error setting conserved moiety converter document");
+                rrLog(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
             }
 
-            if (moietyConverter->convert() != LIBSBML_OPERATION_SUCCESS)
+            // check if already conserved doc
+            if (rr::conservation::ConservationExtension::isConservedMoietyDocument(_doc))
             {
-                throw_llvm_exception("error converting document to conserved moieties");
+                doc = _doc;
             }
+            else
+            {
+                moietyConverter = new rr::conservation::ConservedMoietyConverter();
 
-            this->doc = moietyConverter->getDocument();
+                if (moietyConverter->setDocument(_doc) != LIBSBML_OPERATION_SUCCESS)
+                {
+                    throw_llvm_exception("error setting conserved moiety converter document");
+                }
 
-            SBMLWriter sw;
-            char* convertedStr = sw.writeToString(_doc);
+                if (moietyConverter->convert() != LIBSBML_OPERATION_SUCCESS)
+                {
+                    throw_llvm_exception("error converting document to conserved moieties");
+                }
 
-            rrLog(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
-            rrLog(Logger::LOG_INFORMATION) << convertedStr;
-            rrLog(Logger::LOG_INFORMATION) << "*********************************************************************";
+                doc = moietyConverter->getDocument();
 
-            delete convertedStr;
+                SBMLWriter sw;
+                char* convertedStr = sw.writeToString(doc);
+
+                rrLog(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
+                rrLog(Logger::LOG_INFORMATION) << convertedStr;
+                rrLog(Logger::LOG_INFORMATION) << "*********************************************************************";
+
+                free(convertedStr);
+            }
         }
         else
         {
-            this->doc = _doc;
+            doc = _doc;
         }
+
+        symbols = new LLVMModelDataSymbols(doc->getModel(), options);
+
+        modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
 
         // initialize LLVM
         // TODO check result
@@ -157,38 +173,36 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
 		InitializeNativeTargetAsmPrinter();
 		InitializeNativeTargetAsmParser();
 
-
         context = new LLVMContext();
+
         // Make the module, which holds all the code.
-        module_uniq = std::unique_ptr<Module>(new Module("LLVM Module", *context));
+        module_uniq = std::make_unique<Module>("LLVM Module", *context);
 		module = module_uniq.get();
 
-        builder = new IRBuilder<>(*context);
+		// These were moved up here because they require the module ptr. May need to further edit these functions
+		createLibraryFunctions(module);
+		ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
+
+		builder = new IRBuilder<>(*context);
 
         // engine take ownership of module
-        EngineBuilder engineBuilder(std::unique_ptr<Module>(new Module("Empty LLVM Module", *context)));
+        EngineBuilder engineBuilder(std::move(module_uniq));
+		
+		engineBuilder.setErrorStr(errString)
+			.setMCJITMemoryManager(std::make_unique<SectionMemoryManager>());
 
-        //engineBuilder.setEngineKind(EngineKind::JIT);
-        engineBuilder.setErrorStr(errString);
         executionEngine = engineBuilder.create();
 
-        addGlobalMappings();
+		//executionEngine = EngineBuilder(std::move(module_uniq)).create();
 
-        //I'm just hoping that none of these functions try to call delete on module
-        createLibraryFunctions(module);
+		addGlobalMappings();
 
-        symbols = new LLVMModelDataSymbols(getModel(), options);
-
-        modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
-
-        ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
-
-        // check if _doc has distrib package
+        // check if doc has distrib package
         // Random adds mappings, need call after llvm objs created
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
         const DistribSBMLDocumentPlugin* distrib =
                 static_cast<const DistribSBMLDocumentPlugin*>(
-                        _doc->getPlugin("distrib"));
+                        doc->getPlugin("distrib"));
         if(distrib)
         {
             random = new Random(*this);
@@ -200,6 +214,10 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
     }
     catch(const std::exception&)
     {
+        // we might have allocated memory in a failed ctor,
+        // clean it up here.
+        // destructors are not called on *this* class when exception is raised
+        // in the ctor.
         cleanup();
         throw;
     }
