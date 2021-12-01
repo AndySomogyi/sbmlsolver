@@ -910,12 +910,16 @@ stages:
           - script: |
               # todo put into actual script
               echo "current driectory is: $(pwd)"
-              echo "ls $(ls)"
+              echo "\nls:"
+              ls
               wget -q $(LLVM_DOWNLOAD_LINK)
               tar -zxf $(LLVM_COMPRESSED_FILENAME)
-              mv '$(LLVM_FOLDER_NAME)' '$(LLVM_INSTALL_PREFIX)'
+              echo "\nls:"
+              ls
+              mv '$(LLVM_FOLDER_NAME)/*' '$(LLVM_INSTALL_PREFIX)'
               echo "cd to LLVM_INSTALL_PREFIX: $(LLVM_INSTALL_PREFIX)"
               cd $(LLVM_INSTALL_PREFIX)
+
               echo "ls:"
               ls
             displayName: "Get LLVM"
