@@ -11,6 +11,7 @@ trigger:
     - develop
     - release
     - experimental-release
+    - orc-jit
 
 variables:
   SOURCE_DIR: '$(System.DefaultWorkingDirectory)' # eg /home/vsts/work/1/s
@@ -26,140 +27,144 @@ stages:
 ########################################################################
 # MacOS Build
 #
-  - stage: MacBuildRoadrunnerCpp
-    dependsOn: []
-    jobs:
-      - job: MacBuildRoadrunnerCpp
-        timeoutInMinutes: "0"
-        displayName: MacBuildRoadrunnerCpp
-        continueOnError: "false"
-        pool:
-          vmImage: 'macOS-10.15'
-        strategy:
-          matrix:
-            64-bit Mac Release:
-              BuildType: Release
-            64-bit Mac Debug:
-              BuildType: Debug
-        variables:
-          LLVM_CACHE: 'false'
-        steps:
-          - script: |
-              echo "SOURCE_DIR $(SOURCE_DIR)"
-              echo "BUILD_DIR $(BUILD_DIR)"
-              echo "INSTALL_DIR $(INSTALL_DIR)"
-              echo "LLVM_INSTALL_PREFIX $(LLVM_INSTALL_PREFIX)"
-              echo "DEPS_INSTALL_PREFIX $(DEPS_INSTALL_PREFIX)"
-              echo "Build.DefinitionName $(Build.DefinitionName)"
-              echo "System.DefinitionId	 $(System.DefinitionId)"
-              echo "Agent.OS $(Agent.OS)"
 
-              echo "System.AccessToken  $(System.AccessToken)"
-              echo "System.CollectionId $(System.CollectionId)"
-              echo "System.CollectionUri  $(System.CollectionUri)"
-              echo "System.DefaultWorkingDirectory  $(System.DefaultWorkingDirectory)"
-              echo "System.DefinitionId $(System.DefinitionId)"
-              echo "System.HostType $(System.HostType)"
-              echo "System.JobAttempt $(System.JobAttempt)"
-              echo "System.JobDisplayName $(System.JobDisplayName)"
-              echo "System.JobId  $(System.JobId)"
-              echo "System.JobName  $(System.JobName)"
-              echo "System.PhaseAttempt $(System.PhaseAttempt)"
-              echo "System.PhaseDisplayName $(System.PhaseDisplayName)"
-              echo "System.PhaseName  $(System.PhaseName)"
-              echo "System.StageAttempt $(System.StageAttempt)"
-              echo "System.StageDisplayName $(System.StageDisplayName)"
-              echo "System.StageName  $(System.StageName)"
-              echo "System.PullRequest.IsFork $(System.PullRequest.IsFork)"
-              echo "System.PullRequest.PullRequestId $(System.PullRequest.PullRequestId)"
-              echo "System.PullRequest.PullRequestNumber $(System.PullRequest.PullRequestNumber)"
-              echo "System.PullRequest.SourceBranch $(System.PullRequest.SourceBranch)"
-              echo "System.PullRequest.SourceRepositoryURI $(System.PullRequest.SourceRepositoryURI)"
-              echo "System.PullRequest.TargetBranch $(System.PullRequest.TargetBranch)"
-              echo "System.TeamFoundationCollectionUri $(System.TeamFoundationCollectionUri)"
-              echo "System.TeamProject $(System.TeamProject)"
-              echo "System.TeamProjectId $(System.TeamProjectId)"
-              echo "TF_BUILD $(TF_BUILD)"
-            displayName: Print Variables
-          - script: |
-              mkdir $(LLVM_INSTALL_PREFIX)
-              mkdir $(DEPS_INSTALL_PREFIX)
-            displayName: Make Directories
-          - script: brew install ncurses
-            displayName: install ncurses
-          - task: Cache@2
-            inputs:
-              key: "llvm | $(Agent.OS)"
-              path: $(LLVM_INSTALL_PREFIX)
-              cacheHitVar: LLVM_CACHE
-            displayName: Load cached llvm
-          - script: |
-              # todo put into actual script
-              echo "current driectory is: $(pwd)"
-              echo "ls $(ls)"
-              wget -q https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-clang11.0.3-x64-release.zip
-              unzip llvm-6.x-clang11.0.3-x64-release.zip
-              mv llvm-6.x-clang11.0.3-x64-release/** '$(LLVM_INSTALL_PREFIX)'
-              echo "cd to LLVM_INSTALL_PREFIX: $(LLVM_INSTALL_PREFIX)"
-              cd $(LLVM_INSTALL_PREFIX)
-              echo "ls:"
-              ls
-            displayName: "Get LLVM"
-            condition: ne(variables.LLVM_CACHE, 'true')
-          - task: DownloadPipelineArtifact@2
-            # In this task we go and grab the build artefacts from
-            # the libroadrunner-dependencies package
-            inputs:
-              source: 'specific'
-              project: 'libroadrunner-deps'
-              # pipeline is found in the url when looking at azure in browser.
-              # for example, it looks like this:
-              # - https://dev.azure.com/TheRoadrunnerProject/libroadrunner-deps/_build?definitionId=9
-              pipeline: 9
-              runVersion: 'latest'
-              artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
-              path: $(DEPS_INSTALL_PREFIX)
-            displayName: Download libroadrunner-deps install artifacts
-          - script: |
-              echo "$(DEPS_INSTALL_PREFIX)"
-              echo "cd to $(DEPS_INSTALL_PREFIX)"
-              cd $(DEPS_INSTALL_PREFIX)
-              echo "ls: "
-              ls
-              echo "moving contents of $(DEPS_INSTALL_PREFIX)/install to  $(DEPS_INSTALL_PREFIX)"
-              mv $(DEPS_INSTALL_PREFIX)/install-azure/$(BuildType)/** .
-              rm -r $(DEPS_INSTALL_PREFIX)/install-azure
-              ls
-            displayName: Move Dependencies
-          - script: |
-              echo "Configuring roadrunner"
-              echo "mkdir build directory: $(BUILD_DIR)"
-              mkdir $(BUILD_DIR)
-              echo "CD to build dir: $(BUILD_DIR)"
-              cd $(BUILD_DIR)
-              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
-            displayName: Run CMake Configure Command
-          - script: |
-              echo "less -N $(BUILD_DIR)/source/CMakeFiles/roadrunner.dir/build.make"
-              less -N "$(BUILD_DIR)/source/CMakeFiles/roadrunner.dir/build.make"
-              echo "Building roadrunner"
-              echo "cd to build dir"
-              cd $(BUILD_DIR)
-              cmake --build . --target install --config $(BuildType) -j 12
-            displayName: Run CMake Build Command
-          - script: |
-              echo "cd to build dir $(BUILD_DIR)"
-              cd $(BUILD_DIR)
-              ctest --verbose --extra-verbose --progress
-            displayName: RunCTest
-          - task: CopyFiles@2
-            inputs:
-              contents: '$(INSTALL_DIR)/**'
-              targetFolder: $(Build.ArtifactStagingDirectory)
-            displayName: Copy to Staging Area
-          - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-MacOS10.15-$(BuildType)
-            displayName: Publish
+# Comment out non-python builds
+
+#  - stage: MacBuildRoadrunnerCpp
+#    dependsOn: []
+#    jobs:
+#      - job: MacBuildRoadrunnerCpp
+#        timeoutInMinutes: "0"
+#        displayName: MacBuildRoadrunnerCpp
+#        continueOnError: "false"
+#        pool:
+#          vmImage: 'macOS-10.15'
+#        strategy:
+#          matrix:
+#            64-bit Mac Release:
+#              BuildType: Release
+##            64-bit Mac Debug:
+##              BuildType: Debug
+#        variables:
+#          LLVM_CACHE: 'false'
+#          LLVM_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
+#        steps:
+#          - script: |
+#              echo "SOURCE_DIR $(SOURCE_DIR)"
+#              echo "BUILD_DIR $(BUILD_DIR)"
+#              echo "INSTALL_DIR $(INSTALL_DIR)"
+#              echo "LLVM_INSTALL_PREFIX $(LLVM_INSTALL_PREFIX)"
+#              echo "DEPS_INSTALL_PREFIX $(DEPS_INSTALL_PREFIX)"
+#              echo "Build.DefinitionName $(Build.DefinitionName)"
+#              echo "System.DefinitionId	 $(System.DefinitionId)"
+#              echo "Agent.OS $(Agent.OS)"
+#
+#              echo "System.AccessToken  $(System.AccessToken)"
+#              echo "System.CollectionId $(System.CollectionId)"
+#              echo "System.CollectionUri  $(System.CollectionUri)"
+#              echo "System.DefaultWorkingDirectory  $(System.DefaultWorkingDirectory)"
+#              echo "System.DefinitionId $(System.DefinitionId)"
+#              echo "System.HostType $(System.HostType)"
+#              echo "System.JobAttempt $(System.JobAttempt)"
+#              echo "System.JobDisplayName $(System.JobDisplayName)"
+#              echo "System.JobId  $(System.JobId)"
+#              echo "System.JobName  $(System.JobName)"
+#              echo "System.PhaseAttempt $(System.PhaseAttempt)"
+#              echo "System.PhaseDisplayName $(System.PhaseDisplayName)"
+#              echo "System.PhaseName  $(System.PhaseName)"
+#              echo "System.StageAttempt $(System.StageAttempt)"
+#              echo "System.StageDisplayName $(System.StageDisplayName)"
+#              echo "System.StageName  $(System.StageName)"
+#              echo "System.PullRequest.IsFork $(System.PullRequest.IsFork)"
+#              echo "System.PullRequest.PullRequestId $(System.PullRequest.PullRequestId)"
+#              echo "System.PullRequest.PullRequestNumber $(System.PullRequest.PullRequestNumber)"
+#              echo "System.PullRequest.SourceBranch $(System.PullRequest.SourceBranch)"
+#              echo "System.PullRequest.SourceRepositoryURI $(System.PullRequest.SourceRepositoryURI)"
+#              echo "System.PullRequest.TargetBranch $(System.PullRequest.TargetBranch)"
+#              echo "System.TeamFoundationCollectionUri $(System.TeamFoundationCollectionUri)"
+#              echo "System.TeamProject $(System.TeamProject)"
+#              echo "System.TeamProjectId $(System.TeamProjectId)"
+#              echo "TF_BUILD $(TF_BUILD)"
+#            displayName: Print Variables
+#          - script: |
+#              mkdir $(LLVM_INSTALL_PREFIX)
+#              mkdir $(DEPS_INSTALL_PREFIX)
+#            displayName: Make Directories
+#          - script: brew install ncurses
+#            displayName: install ncurses
+#          - task: Cache@2
+#            inputs:
+#              key: "llvm | $(Agent.OS)"
+#              path: $(LLVM_INSTALL_PREFIX)
+#              cacheHitVar: LLVM_CACHE
+#            displayName: Load cached llvm
+#          - script: |
+#              # todo put into actual script
+#              echo "current driectory is: $(pwd)"
+#              echo "ls $(ls)"
+#              wget -q https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-clang11.0.3-x64-release.zip
+#              unzip llvm-6.x-clang11.0.3-x64-release.zip
+#              mv llvm-6.x-clang11.0.3-x64-release/** '$(LLVM_INSTALL_PREFIX)'
+#              echo "cd to LLVM_INSTALL_PREFIX: $(LLVM_INSTALL_PREFIX)"
+#              cd $(LLVM_INSTALL_PREFIX)
+#              echo "ls:"
+#              ls
+#            displayName: "Get LLVM"
+#            condition: ne(variables.LLVM_CACHE, 'true')
+#          - task: DownloadPipelineArtifact@2
+#            # In this task we go and grab the build artefacts from
+#            # the libroadrunner-dependencies package
+#            inputs:
+#              source: 'specific'
+#              project: 'libroadrunner-deps'
+#              # pipeline is found in the url when looking at azure in browser.
+#              # for example, it looks like this:
+#              # - https://dev.azure.com/TheRoadrunnerProject/libroadrunner-deps/_build?definitionId=9
+#              pipeline: 9
+#              runVersion: 'latest'
+#              artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
+#              path: $(DEPS_INSTALL_PREFIX)
+#            displayName: Download libroadrunner-deps install artifacts
+#          - script: |
+#              echo "$(DEPS_INSTALL_PREFIX)"
+#              echo "cd to $(DEPS_INSTALL_PREFIX)"
+#              cd $(DEPS_INSTALL_PREFIX)
+#              echo "ls: "
+#              ls
+#              echo "moving contents of $(DEPS_INSTALL_PREFIX)/install to  $(DEPS_INSTALL_PREFIX)"
+#              mv $(DEPS_INSTALL_PREFIX)/install-azure/$(BuildType)/** .
+#              rm -r $(DEPS_INSTALL_PREFIX)/install-azure
+#              ls
+#            displayName: Move Dependencies
+#          - script: |
+#              echo "Configuring roadrunner"
+#              echo "mkdir build directory: $(BUILD_DIR)"
+#              mkdir $(BUILD_DIR)
+#              echo "CD to build dir: $(BUILD_DIR)"
+#              cd $(BUILD_DIR)
+#              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
+#            displayName: Run CMake Configure Command
+#          - script: |
+#              echo "less -N $(BUILD_DIR)/source/CMakeFiles/roadrunner.dir/build.make"
+#              less -N "$(BUILD_DIR)/source/CMakeFiles/roadrunner.dir/build.make"
+#              echo "Building roadrunner"
+#              echo "cd to build dir"
+#              cd $(BUILD_DIR)
+#              cmake --build . --target install --config $(BuildType) -j 12
+#            displayName: Run CMake Build Command
+#          - script: |
+#              echo "cd to build dir $(BUILD_DIR)"
+#              cd $(BUILD_DIR)
+#              ctest --verbose --extra-verbose --progress
+#            displayName: RunCTest
+#          - task: CopyFiles@2
+#            inputs:
+#              contents: '$(INSTALL_DIR)/**'
+#              targetFolder: $(Build.ArtifactStagingDirectory)
+#            displayName: Copy to Staging Area
+#          - publish: $(Build.ArtifactStagingDirectory)
+#            artifact: roadrunner-MacOS10.15-$(BuildType)
+#            displayName: Publish
 
   - stage: MacBuildRoadrunnerPython
     dependsOn: []
@@ -193,6 +198,7 @@ stages:
           PipExecutable: '$(PythonRoot)/bin/pip'
 
           LLVM_CACHE: 'false'
+          LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
           SWIG_CACHE: 'false'
           MINICONDA_CACHE: 'false'
         steps:
@@ -227,7 +233,6 @@ stages:
               echo "PythonRoot $(PythonRoot)"
               echo "PythonLibDir $(PythonLibDir)"
               echo "CondaExecutable $(CondaExecutable)"
-#              $(CondaExecutable) -h
             displayName: PrintPythonVariables
           - script: |
               mkdir $(LLVM_INSTALL_PREFIX)
@@ -245,9 +250,9 @@ stages:
               # todo put into actual script
               echo "current driectory is: $(pwd)"
               echo "ls $(ls)"
-              wget -q https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-clang11.0.3-x64-release.zip
-              unzip llvm-6.x-clang11.0.3-x64-release.zip
-              mv llvm-6.x-clang11.0.3-x64-release/** '$(LLVM_INSTALL_PREFIX)'
+              wget -q $(LLVM_DOWNLOAD_LINK)
+              unzip llvm-13.x-Darwin-Release.zip
+              mv llvm-13.x-Darwin-Release/** '$(LLVM_INSTALL_PREFIX)'
               echo "cd to LLVM_INSTALL_PREFIX: $(LLVM_INSTALL_PREFIX)"
               cd $(LLVM_INSTALL_PREFIX)
               echo "ls:"
@@ -379,124 +384,125 @@ stages:
 ########################################################################
 # Windows Build
 #
-  - stage: WindowsBuildRoadrunnerCpp
-    dependsOn: []
-    jobs:
-      - job: WindowsBuildRoadrunnerCpp
-        timeoutInMinutes: "0"
-        displayName: WindowsBuildRoadrunnerCpp
-        continueOnError: "false"
-        pool:
-          vmImage: 'windows-2019'
-        strategy:
-          matrix:
-            64-bit Windows Release:
-              BuildType: Release
-        variables:
-          LLVM_CACHE: 'false'
-        steps:
-          - powershell: |
-              echo "SOURCE_DIR $(SOURCE_DIR)"
-              echo "BUILD_DIR $(BUILD_DIR)"
-              echo "INSTALL_DIR $(INSTALL_DIR)"
-              echo "LLVM_INSTALL_PREFIX $(LLVM_INSTALL_PREFIX)"
-              echo "DEPS_INSTALL_PREFIX $(DEPS_INSTALL_PREFIX)"
-              echo "Build.DefinitionName $(Build.DefinitionName)"
-              echo "System.DefinitionId	 $(System.DefinitionId)"
-              echo "Agent.OS $(Agent.OS)"
-
-              echo "System.AccessToken  $(System.AccessToken)"
-              echo "System.CollectionId $(System.CollectionId)"
-              echo "System.CollectionUri  $(System.CollectionUri)"
-              echo "System.DefaultWorkingDirectory  $(System.DefaultWorkingDirectory)"
-              echo "System.DefinitionId $(System.DefinitionId)"
-              echo "System.HostType $(System.HostType)"
-              echo "System.JobAttempt $(System.JobAttempt)"
-              echo "System.JobDisplayName $(System.JobDisplayName)"
-              echo "System.JobId  $(System.JobId)"
-              echo "System.JobName  $(System.JobName)"
-              echo "System.PhaseAttempt $(System.PhaseAttempt)"
-              echo "System.PhaseDisplayName $(System.PhaseDisplayName)"
-              echo "System.PhaseName  $(System.PhaseName)"
-              echo "System.StageAttempt $(System.StageAttempt)"
-              echo "System.StageDisplayName $(System.StageDisplayName)"
-              echo "System.StageName  $(System.StageName)"
-              echo "System.TeamProject $(System.TeamProject)"
-              echo "System.TeamProjectId $(System.TeamProjectId)"
-              echo "TF_BUILD $(TF_BUILD)"
-            displayName: Print Variables
-          - powershell: |
-              mkdir $(LLVM_INSTALL_PREFIX)
-              mkdir $(DEPS_INSTALL_PREFIX)
-            displayName: Make Directories
-          - task: Cache@2
-            inputs:
-              key: "llvm | $(Agent.OS)"
-              path: $(LLVM_INSTALL_PREFIX)
-              cacheHitVar: LLVM_CACHE
-          - powershell: |
-              $ProgressPreference = 'SilentlyContinue'
-              Invoke-WebRequest https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-release.zip -OutFile llvm-6.x-msvc2019-x64-release.zip
-              Expand-Archive  llvm-6.x-msvc2019-x64-release.zip -Destination $(LLVM_INSTALL_PREFIX)
-              rm llvm-6.x-msvc2019-x64-release.zip # since we are limited to 10gb space per job we clean up zips
-              cd $(LLVM_INSTALL_PREFIX)\llvm-6.x-msvc2019-x64-release
-              echo "pwd: $(pwd)"
-              ls
-              mv * ..
-              cd ..
-              rm -R llvm-6.x-msvc2019-x64-release
-              echo "ls in l_dir: $(LLVM_INSTALL_PREFIX)"
-              ls
-            displayName: "Get LLVM"
-            condition: ne(variables.LLVM_CACHE, 'true')
-            errorActionPreference: 'stop'
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              source: 'specific'
-              project: 'libroadrunner-deps'
-              pipeline: 9
-              runVersion: 'latest'
-              artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
-              path: $(DEPS_INSTALL_PREFIX)
-            displayName: Download libroadrunner-deps install artifacts
-          - powershell: |
-              echo "$(DEPS_INSTALL_PREFIX)"
-              echo "cd to $(DEPS_INSTALL_PREFIX)"
-              cd $(DEPS_INSTALL_PREFIX)
-              echo "ls: "
-              ls
-              echo "moving contents of $(DEPS_INSTALL_PREFIX)/install to  $(DEPS_INSTALL_PREFIX)"
-              mv $(DEPS_INSTALL_PREFIX)/install-azure/$(BuildType)/** .
-              rm -R $(DEPS_INSTALL_PREFIX)/install-azure
-              ls
-            displayName: Move Dependencies
-          - powershell: |
-              echo "Configuring roadrunner"
-              echo "mkdir build directory: $(BUILD_DIR)"
-              mkdir $(BUILD_DIR)
-              echo "CD to build dir: $(BUILD_DIR)"
-              cd $(BUILD_DIR)
-              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
-            displayName: Run CMake Configure Command
-          - powershell: |
-              echo "Building roadrunner"
-              echo "cd to build dir"
-              cd $(BUILD_DIR)
-              cmake --build . --target install --config $(BuildType) -j 12
-            displayName: Run CMake Build Command
-          - powershell: |
-              echo "cd to build dir $(BUILD_DIR)"
-              cd $(BUILD_DIR)
-              ctest --verbose --extra-verbose --progress
-            displayName: RunCTest
-          - task: CopyFiles@2
-            inputs:
-              contents: '$(INSTALL_DIR)/**'
-              targetFolder: $(Build.ArtifactStagingDirectory)
-            displayName: Copy to Staging Area
-          - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-$(Agent.OS)-$(BuildType)
-            displayName: Publish
+# Comment out non-python builds
+#  - stage: WindowsBuildRoadrunnerCpp
+#    dependsOn: []
+#    jobs:
+#      - job: WindowsBuildRoadrunnerCpp
+#        timeoutInMinutes: "0"
+#        displayName: WindowsBuildRoadrunnerCpp
+#        continueOnError: "false"
+#        pool:
+#          vmImage: 'windows-2019'
+#        strategy:
+#          matrix:
+#            64-bit Windows Release:
+#              BuildType: Release
+#        variables:
+#          LLVM_CACHE: 'false'
+#        steps:
+#          - powershell: |
+#              echo "SOURCE_DIR $(SOURCE_DIR)"
+#              echo "BUILD_DIR $(BUILD_DIR)"
+#              echo "INSTALL_DIR $(INSTALL_DIR)"
+#              echo "LLVM_INSTALL_PREFIX $(LLVM_INSTALL_PREFIX)"
+#              echo "DEPS_INSTALL_PREFIX $(DEPS_INSTALL_PREFIX)"
+#              echo "Build.DefinitionName $(Build.DefinitionName)"
+#              echo "System.DefinitionId	 $(System.DefinitionId)"
+#              echo "Agent.OS $(Agent.OS)"
+#
+#              echo "System.AccessToken  $(System.AccessToken)"
+#              echo "System.CollectionId $(System.CollectionId)"
+#              echo "System.CollectionUri  $(System.CollectionUri)"
+#              echo "System.DefaultWorkingDirectory  $(System.DefaultWorkingDirectory)"
+#              echo "System.DefinitionId $(System.DefinitionId)"
+#              echo "System.HostType $(System.HostType)"
+#              echo "System.JobAttempt $(System.JobAttempt)"
+#              echo "System.JobDisplayName $(System.JobDisplayName)"
+#              echo "System.JobId  $(System.JobId)"
+#              echo "System.JobName  $(System.JobName)"
+#              echo "System.PhaseAttempt $(System.PhaseAttempt)"
+#              echo "System.PhaseDisplayName $(System.PhaseDisplayName)"
+#              echo "System.PhaseName  $(System.PhaseName)"
+#              echo "System.StageAttempt $(System.StageAttempt)"
+#              echo "System.StageDisplayName $(System.StageDisplayName)"
+#              echo "System.StageName  $(System.StageName)"
+#              echo "System.TeamProject $(System.TeamProject)"
+#              echo "System.TeamProjectId $(System.TeamProjectId)"
+#              echo "TF_BUILD $(TF_BUILD)"
+#            displayName: Print Variables
+#          - powershell: |
+#              mkdir $(LLVM_INSTALL_PREFIX)
+#              mkdir $(DEPS_INSTALL_PREFIX)
+#            displayName: Make Directories
+#          - task: Cache@2
+#            inputs:
+#              key: "llvm | $(Agent.OS)"
+#              path: $(LLVM_INSTALL_PREFIX)
+#              cacheHitVar: LLVM_CACHE
+#          - powershell: |
+#              $ProgressPreference = 'SilentlyContinue'
+#              Invoke-WebRequest https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-release.zip -OutFile llvm-6.x-msvc2019-x64-release.zip
+#              Expand-Archive  llvm-6.x-msvc2019-x64-release.zip -Destination $(LLVM_INSTALL_PREFIX)
+#              rm llvm-6.x-msvc2019-x64-release.zip # since we are limited to 10gb space per job we clean up zips
+#              cd $(LLVM_INSTALL_PREFIX)\llvm-6.x-msvc2019-x64-release
+#              echo "pwd: $(pwd)"
+#              ls
+#              mv * ..
+#              cd ..
+#              rm -R llvm-6.x-msvc2019-x64-release
+#              echo "ls in l_dir: $(LLVM_INSTALL_PREFIX)"
+#              ls
+#            displayName: "Get LLVM"
+#            condition: ne(variables.LLVM_CACHE, 'true')
+#            errorActionPreference: 'stop'
+#          - task: DownloadPipelineArtifact@2
+#            inputs:
+#              source: 'specific'
+#              project: 'libroadrunner-deps'
+#              pipeline: 9
+#              runVersion: 'latest'
+#              artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
+#              path: $(DEPS_INSTALL_PREFIX)
+#            displayName: Download libroadrunner-deps install artifacts
+#          - powershell: |
+#              echo "$(DEPS_INSTALL_PREFIX)"
+#              echo "cd to $(DEPS_INSTALL_PREFIX)"
+#              cd $(DEPS_INSTALL_PREFIX)
+#              echo "ls: "
+#              ls
+#              echo "moving contents of $(DEPS_INSTALL_PREFIX)/install to  $(DEPS_INSTALL_PREFIX)"
+#              mv $(DEPS_INSTALL_PREFIX)/install-azure/$(BuildType)/** .
+#              rm -R $(DEPS_INSTALL_PREFIX)/install-azure
+#              ls
+#            displayName: Move Dependencies
+#          - powershell: |
+#              echo "Configuring roadrunner"
+#              echo "mkdir build directory: $(BUILD_DIR)"
+#              mkdir $(BUILD_DIR)
+#              echo "CD to build dir: $(BUILD_DIR)"
+#              cd $(BUILD_DIR)
+#              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
+#            displayName: Run CMake Configure Command
+#          - powershell: |
+#              echo "Building roadrunner"
+#              echo "cd to build dir"
+#              cd $(BUILD_DIR)
+#              cmake --build . --target install --config $(BuildType) -j 12
+#            displayName: Run CMake Build Command
+#          - powershell: |
+#              echo "cd to build dir $(BUILD_DIR)"
+#              cd $(BUILD_DIR)
+#              ctest --verbose --extra-verbose --progress
+#            displayName: RunCTest
+#          - task: CopyFiles@2
+#            inputs:
+#              contents: '$(INSTALL_DIR)/**'
+#              targetFolder: $(Build.ArtifactStagingDirectory)
+#            displayName: Copy to Staging Area
+#          - publish: $(Build.ArtifactStagingDirectory)
+#            artifact: roadrunner-$(Agent.OS)-$(BuildType)
+#            displayName: Publish
 
   - stage: WindowsBuildRoadrunnerPython
     dependsOn: []
@@ -534,7 +540,8 @@ stages:
           SWIG_EXECUTABLE: '$(SWIG_INSTALL_PREFIX)/swig.exe'
           SWIG_CACHE: 'false'
           LLVM_CACHE: 'false'
-
+          LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-win32-rel.zip'
+          LLVM_COMPRESSED_FILENAME: 'llvm-13.x-win32-rel.zip'
         steps:
           - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
             displayName: Add conda to PATH
@@ -560,16 +567,18 @@ stages:
               path: $(LLVM_INSTALL_PREFIX)
               cacheHitVar: LLVM_CACHE
           - powershell: |
+              LLVM_DOWNLOAD_LINK
+              LLVM_COMPRESSED_FILENAME
               $ProgressPreference = 'SilentlyContinue'
-              Invoke-WebRequest https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-release.zip -OutFile llvm-6.x-msvc2019-x64-release.zip
-              Expand-Archive  llvm-6.x-msvc2019-x64-release.zip -Destination $(LLVM_INSTALL_PREFIX)
-              rm llvm-6.x-msvc2019-x64-release.zip # since we are limited to 10gb space per job we clean up zips
-              cd $(LLVM_INSTALL_PREFIX)\llvm-6.x-msvc2019-x64-release
+              Invoke-WebRequest $(LLVM_DOWNLOAD_LINK) -OutFile $(LLVM_COMPRESSED_FILENAME)
+              Expand-Archive  $(LLVM_COMPRESSED_FILENAME) -Destination $(LLVM_INSTALL_PREFIX)
+              rm $(LLVM_COMPRESSED_FILENAME) # since we are limited to 10gb space per job we clean up zips
+              # cd $(LLVM_INSTALL_PREFIX)\llvm-6.x-msvc2019-x64-release
               echo "pwd: $(pwd)"
               ls
               mv * ..
               cd ..
-              rm -R llvm-6.x-msvc2019-x64-release
+              # rm -R llvm-6.x-msvc2019-x64-release
               echo "ls in l_dir: $(LLVM_INSTALL_PREFIX)"
               ls
             displayName: "Get LLVM"
@@ -695,148 +704,148 @@ stages:
 #########################################################################
 ## Linux Build
 ##
-  - stage: LinuxBuildRoadrunnerCpp
-    dependsOn: []
-    jobs:
-      - job: LinuxBuildRoadrunnerCpp
-        timeoutInMinutes: "0"
-        displayName: LinuxBuildRoadrunnerCpp
-        continueOnError: "false"
-        pool:
-          vmImage: 'Ubuntu-18.04'
-        strategy:
-          matrix:
-            64-bit Linux Release:
-              BuildType: Release
-            64-bit Linux Debug:
-              BuildType: Debug
-        steps:
-          # we cannot upload prebuilt binaries onto github for linux debug version because of github file size limits.
-          # therefore we do this build with Release llvm for both debug and release. Oddly enough it seems to work.
-          - script: |
-              echo "SOURCE_DIR $(SOURCE_DIR)"
-              echo "BUILD_DIR $(BUILD_DIR)"
-              echo "INSTALL_DIR $(INSTALL_DIR)"
-              echo "LLVM_INSTALL_PREFIX $(LLVM_INSTALL_PREFIX)"
-              echo "DEPS_INSTALL_PREFIX $(DEPS_INSTALL_PREFIX)"
-              echo "Build.DefinitionName $(Build.DefinitionName)"
-              echo "System.DefinitionId	 $(System.DefinitionId)"
-              echo "Agent.OS $(Agent.OS)"
-
-              echo "System.AccessToken  $(System.AccessToken)"
-              echo "System.CollectionId $(System.CollectionId)"
-              echo "System.CollectionUri  $(System.CollectionUri)"
-              echo "System.DefaultWorkingDirectory  $(System.DefaultWorkingDirectory)"
-              echo "System.DefinitionId $(System.DefinitionId)"
-              echo "System.HostType $(System.HostType)"
-              echo "System.JobAttempt $(System.JobAttempt)"
-              echo "System.JobDisplayName $(System.JobDisplayName)"
-              echo "System.JobId  $(System.JobId)"
-              echo "System.JobName  $(System.JobName)"
-              echo "System.PhaseAttempt $(System.PhaseAttempt)"
-              echo "System.PhaseDisplayName $(System.PhaseDisplayName)"
-              echo "System.PhaseName  $(System.PhaseName)"
-              echo "System.StageAttempt $(System.StageAttempt)"
-              echo "System.StageDisplayName $(System.StageDisplayName)"
-              echo "System.StageName  $(System.StageName)"
-              echo "System.PullRequest.IsFork $(System.PullRequest.IsFork)"
-              echo "System.PullRequest.PullRequestId $(System.PullRequest.PullRequestId)"
-              echo "System.PullRequest.PullRequestNumber $(System.PullRequest.PullRequestNumber)"
-              echo "System.PullRequest.SourceBranch $(System.PullRequest.SourceBranch)"
-              echo "System.PullRequest.SourceRepositoryURI $(System.PullRequest.SourceRepositoryURI)"
-              echo "System.PullRequest.TargetBranch $(System.PullRequest.TargetBranch)"
-              echo "System.TeamFoundationCollectionUri $(System.TeamFoundationCollectionUri)"
-              echo "System.TeamProject $(System.TeamProject)"
-              echo "System.TeamProjectId $(System.TeamProjectId)"
-              echo "TF_BUILD $(TF_BUILD)"
-            displayName: Print Variables
-          - script: |
-              mkdir $(LLVM_INSTALL_PREFIX)
-              mkdir $(DEPS_INSTALL_PREFIX)
-            displayName: Make Directories
-          - task: Cache@2
-            inputs:
-              key: "llvm | $(Agent.OS)"
-              path: $(LLVM_INSTALL_PREFIX)
-              cacheHitVar: LLVM_CACHE
-            displayName: Cache llvm
-          - script: |
-              echo "gcc $(gcc --version)"
-              echo "g++ $(g++ --version)"
-              sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-              sudo apt-get update
-              sudo apt-get install -y gcc-10 g++-10
-              sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
-            displayName: Install g++10
-          - script: |
-              # todo put into actual script
-              echo "current driectory is: $(pwd)"
-              echo "ls $(ls)"
-              wget -q https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5-x64-release.tar.gz
-              tar -zxf llvm-6.x-gcc7.5-x64-release.tar.gz
-              mv llvm-6.x-gcc7.5-x64-release/** '$(LLVM_INSTALL_PREFIX)'
-              echo "cd to LLVM_INSTALL_PREFIX: $(LLVM_INSTALL_PREFIX)"
-              cd $(LLVM_INSTALL_PREFIX)
-              echo "ls:"
-              ls
-            displayName: "Get LLVM"
-            condition: ne(variables.LLVM_CACHE, 'true')
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              source: 'specific'
-              project: 'libroadrunner-deps'
-              pipeline: 9
-              runVersion: 'latest'
-              artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
-              path: $(DEPS_INSTALL_PREFIX)
-            displayName: Download libroadrunner-deps install artifacts
-          - script: |
-              echo "$(DEPS_INSTALL_PREFIX)"
-              echo "cd to $(DEPS_INSTALL_PREFIX)"
-              cd $(DEPS_INSTALL_PREFIX)
-              echo "ls: "
-              ls
-              echo "moving contents of $(DEPS_INSTALL_PREFIX)/install to  $(DEPS_INSTALL_PREFIX)"
-              mv $(DEPS_INSTALL_PREFIX)/install-azure/$(BuildType)/** .
-              rm -r $(DEPS_INSTALL_PREFIX)/install-azure
-              ls
-            displayName: Move Dependencies
-          - script: |
-              export CC=/usr/bin/gcc-10
-              export CXX=/usr/bin/g++-10
-              export C=/usr/bin/gcc-10
-              echo "Configuring roadrunner"
-              echo "mkdir build directory: $(BUILD_DIR)"
-              mkdir $(BUILD_DIR)
-              echo "CD to build dir: $(BUILD_DIR)"
-              cd $(BUILD_DIR)
-              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
-            displayName: Run CMake Configure Command
-          - script: |
-              export CC=/usr/bin/gcc-10
-              export CXX=/usr/bin/g++-10
-              export C=/usr/bin/gcc-10
-              echo "Building roadrunner"
-              echo "cd to build dir"
-              cd $(BUILD_DIR)
-              cmake --build . --target install --config $(BuildType) -j 12
-            displayName: Run CMake Build Command
-          - script: |
-              export CC=/usr/bin/gcc-10
-              export CXX=/usr/bin/g++-10
-              export C=/usr/bin/gcc-10
-              echo "cd to build dir $(BUILD_DIR)"
-              cd $(BUILD_DIR)
-              ctest --verbose --extra-verbose --progress
-            displayName: RunCTest
-          - task: CopyFiles@2
-            inputs:
-              contents: '$(INSTALL_DIR)/**'
-              targetFolder: $(Build.ArtifactStagingDirectory)
-            displayName: Copy to Staging Area
-          - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-$(Agent.OS)-$(BuildType)
-            displayName: Publish
+#  - stage: LinuxBuildRoadrunnerCpp
+#    dependsOn: []
+#    jobs:
+#      - job: LinuxBuildRoadrunnerCpp
+#        timeoutInMinutes: "0"
+#        displayName: LinuxBuildRoadrunnerCpp
+#        continueOnError: "false"
+#        pool:
+#          vmImage: 'Ubuntu-18.04'
+#        strategy:
+#          matrix:
+#            64-bit Linux Release:
+#              BuildType: Release
+#            64-bit Linux Debug:
+#              BuildType: Debug
+#        steps:
+#          # we cannot upload prebuilt binaries onto github for linux debug version because of github file size limits.
+#          # therefore we do this build with Release llvm for both debug and release. Oddly enough it seems to work.
+#          - script: |
+#              echo "SOURCE_DIR $(SOURCE_DIR)"
+#              echo "BUILD_DIR $(BUILD_DIR)"
+#              echo "INSTALL_DIR $(INSTALL_DIR)"
+#              echo "LLVM_INSTALL_PREFIX $(LLVM_INSTALL_PREFIX)"
+#              echo "DEPS_INSTALL_PREFIX $(DEPS_INSTALL_PREFIX)"
+#              echo "Build.DefinitionName $(Build.DefinitionName)"
+#              echo "System.DefinitionId	 $(System.DefinitionId)"
+#              echo "Agent.OS $(Agent.OS)"
+#
+#              echo "System.AccessToken  $(System.AccessToken)"
+#              echo "System.CollectionId $(System.CollectionId)"
+#              echo "System.CollectionUri  $(System.CollectionUri)"
+#              echo "System.DefaultWorkingDirectory  $(System.DefaultWorkingDirectory)"
+#              echo "System.DefinitionId $(System.DefinitionId)"
+#              echo "System.HostType $(System.HostType)"
+#              echo "System.JobAttempt $(System.JobAttempt)"
+#              echo "System.JobDisplayName $(System.JobDisplayName)"
+#              echo "System.JobId  $(System.JobId)"
+#              echo "System.JobName  $(System.JobName)"
+#              echo "System.PhaseAttempt $(System.PhaseAttempt)"
+#              echo "System.PhaseDisplayName $(System.PhaseDisplayName)"
+#              echo "System.PhaseName  $(System.PhaseName)"
+#              echo "System.StageAttempt $(System.StageAttempt)"
+#              echo "System.StageDisplayName $(System.StageDisplayName)"
+#              echo "System.StageName  $(System.StageName)"
+#              echo "System.PullRequest.IsFork $(System.PullRequest.IsFork)"
+#              echo "System.PullRequest.PullRequestId $(System.PullRequest.PullRequestId)"
+#              echo "System.PullRequest.PullRequestNumber $(System.PullRequest.PullRequestNumber)"
+#              echo "System.PullRequest.SourceBranch $(System.PullRequest.SourceBranch)"
+#              echo "System.PullRequest.SourceRepositoryURI $(System.PullRequest.SourceRepositoryURI)"
+#              echo "System.PullRequest.TargetBranch $(System.PullRequest.TargetBranch)"
+#              echo "System.TeamFoundationCollectionUri $(System.TeamFoundationCollectionUri)"
+#              echo "System.TeamProject $(System.TeamProject)"
+#              echo "System.TeamProjectId $(System.TeamProjectId)"
+#              echo "TF_BUILD $(TF_BUILD)"
+#            displayName: Print Variables
+#          - script: |
+#              mkdir $(LLVM_INSTALL_PREFIX)
+#              mkdir $(DEPS_INSTALL_PREFIX)
+#            displayName: Make Directories
+#          - task: Cache@2
+#            inputs:
+#              key: "llvm | $(Agent.OS)"
+#              path: $(LLVM_INSTALL_PREFIX)
+#              cacheHitVar: LLVM_CACHE
+#            displayName: Cache llvm
+#          - script: |
+#              echo "gcc $(gcc --version)"
+#              echo "g++ $(g++ --version)"
+#              sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+#              sudo apt-get update
+#              sudo apt-get install -y gcc-10 g++-10
+#              sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
+#            displayName: Install g++10
+#          - script: |
+#              # todo put into actual script
+#              echo "current driectory is: $(pwd)"
+#              echo "ls $(ls)"
+#              wget -q https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5-x64-release.tar.gz
+#              tar -zxf llvm-6.x-gcc7.5-x64-release.tar.gz
+#              mv llvm-6.x-gcc7.5-x64-release/** '$(LLVM_INSTALL_PREFIX)'
+#              echo "cd to LLVM_INSTALL_PREFIX: $(LLVM_INSTALL_PREFIX)"
+#              cd $(LLVM_INSTALL_PREFIX)
+#              echo "ls:"
+#              ls
+#            displayName: "Get LLVM"
+#            condition: ne(variables.LLVM_CACHE, 'true')
+#          - task: DownloadPipelineArtifact@2
+#            inputs:
+#              source: 'specific'
+#              project: 'libroadrunner-deps'
+#              pipeline: 9
+#              runVersion: 'latest'
+#              artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
+#              path: $(DEPS_INSTALL_PREFIX)
+#            displayName: Download libroadrunner-deps install artifacts
+#          - script: |
+#              echo "$(DEPS_INSTALL_PREFIX)"
+#              echo "cd to $(DEPS_INSTALL_PREFIX)"
+#              cd $(DEPS_INSTALL_PREFIX)
+#              echo "ls: "
+#              ls
+#              echo "moving contents of $(DEPS_INSTALL_PREFIX)/install to  $(DEPS_INSTALL_PREFIX)"
+#              mv $(DEPS_INSTALL_PREFIX)/install-azure/$(BuildType)/** .
+#              rm -r $(DEPS_INSTALL_PREFIX)/install-azure
+#              ls
+#            displayName: Move Dependencies
+#          - script: |
+#              export CC=/usr/bin/gcc-10
+#              export CXX=/usr/bin/g++-10
+#              export C=/usr/bin/gcc-10
+#              echo "Configuring roadrunner"
+#              echo "mkdir build directory: $(BUILD_DIR)"
+#              mkdir $(BUILD_DIR)
+#              echo "CD to build dir: $(BUILD_DIR)"
+#              cd $(BUILD_DIR)
+#              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
+#            displayName: Run CMake Configure Command
+#          - script: |
+#              export CC=/usr/bin/gcc-10
+#              export CXX=/usr/bin/g++-10
+#              export C=/usr/bin/gcc-10
+#              echo "Building roadrunner"
+#              echo "cd to build dir"
+#              cd $(BUILD_DIR)
+#              cmake --build . --target install --config $(BuildType) -j 12
+#            displayName: Run CMake Build Command
+#          - script: |
+#              export CC=/usr/bin/gcc-10
+#              export CXX=/usr/bin/g++-10
+#              export C=/usr/bin/gcc-10
+#              echo "cd to build dir $(BUILD_DIR)"
+#              cd $(BUILD_DIR)
+#              ctest --verbose --extra-verbose --progress
+#            displayName: RunCTest
+#          - task: CopyFiles@2
+#            inputs:
+#              contents: '$(INSTALL_DIR)/**'
+#              targetFolder: $(Build.ArtifactStagingDirectory)
+#            displayName: Copy to Staging Area
+#          - publish: $(Build.ArtifactStagingDirectory)
+#            artifact: roadrunner-$(Agent.OS)-$(BuildType)
+#            displayName: Publish
 
   - stage: LinuxBuildRoadrunnerPython
     dependsOn: []
@@ -869,6 +878,9 @@ stages:
           PipExecutable: '$(PythonRoot)/bin/pip'
           SWIG_CACHE: 'false'
           LLVM_CACHE: 'false'
+          LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm13-ubuntu-gcc10-rel.tar.gz'
+          LLVM_COMPRESSED_FILENAME: 'llvm13-ubuntu-gcc10-rel.tar.gz'
+          LLVM_FOLDER_NAME: 'llvm13-ubuntu-gcc10-rel'
         steps:
           - bash: echo "##vso[task.prependpath]$CONDA/bin"
             displayName: Add conda to PATH
@@ -901,9 +913,9 @@ stages:
               # todo put into actual script
               echo "current driectory is: $(pwd)"
               echo "ls $(ls)"
-              wget -q https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5-x64-release.tar.gz
-              tar -zxf llvm-6.x-gcc7.5-x64-release.tar.gz
-              mv llvm-6.x-gcc7.5-x64-release/** '$(LLVM_INSTALL_PREFIX)'
+              wget -q $(LLVM_DOWNLOAD_LINK)
+              tar -zxf $(LLVM_COMPRESSED_FILENAME)
+              mv '$(LLVM_FOLDER_NAME)' '$(LLVM_INSTALL_PREFIX)'
               echo "cd to LLVM_INSTALL_PREFIX: $(LLVM_INSTALL_PREFIX)"
               cd $(LLVM_INSTALL_PREFIX)
               echo "ls:"
@@ -1070,7 +1082,7 @@ stages:
               PythonName: py39
         pool:
           vmImage: 'ubuntu-18.04'
-        container: ciaranwelsh/roadrunner-manylinux2014-base:latest
+        container: ciaranwelsh/roadrunner-manylinux2014-base:llvm-13.x
         variables:
           CCACHE_DIR: '$(Pipeline.Workspace)/ccache'
           BUILD_DIRECTORY: '$(System.DefaultWorkingDirectory)/build'
@@ -1168,9 +1180,9 @@ stages:
               echo "sudo yum install -y ncurses-devel"
               sudo yum install -y ncurses-devel
 
-              # && cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$roadrunnerInstall37 -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=/Miniconda3/envs/py37 -DSWIG_EXECUTABLE=$swigExec ..
-              echo "cmake command: cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) .."
-              cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) ..
+              # && cmake -DLLVM_INSTALL_PREFIX=/llvm-13.x/install-llvm-13.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$roadrunnerInstall37 -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=/Miniconda3/envs/py37 -DSWIG_EXECUTABLE=$swigExec ..
+              echo "cmake command: cmake -DLLVM_INSTALL_PREFIX=/llvm-13.x/install-llvm-13.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) .."
+              cmake -DLLVM_INSTALL_PREFIX=/llvm-13.x/install-llvm-13.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) ..
               cmake --build . --target install --config Release -j 12
               ctest --verbose --extra-verbose --output-on-failure
 

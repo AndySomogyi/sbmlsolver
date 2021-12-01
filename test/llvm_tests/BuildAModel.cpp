@@ -24,10 +24,10 @@ public:
 TEST_F(BuildAModel, build){
     Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
     Config::setValue(Config::LOADSBMLOPTIONS_RECOMPILE, true);
-    Config::setValue(Config::LLJIT_NUM_THREADS, 15);
+    Config::setValue(Config::LLJIT_NUM_THREADS, 1);
 
     std::string fname = R"(D:\roadrunner\roadrunner\test\PerformanceTests\models\LargeHanekomNetworks\0.sbml)";
-    for (int i=0; i<10; i++){
+    for (int i=0; i<1; i++){
         RoadRunner rr(fname);
     }
 }
