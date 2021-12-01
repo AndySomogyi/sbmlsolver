@@ -46,8 +46,8 @@ RUN yum install -y pcre-devel.x86_64
 
 ENV swig_source_dir /swig-4.0.2
 ENV swig_install_dir /swig-4.0.2/install-swig-4.0.2
-
-RUN  mkdir -p $swig_source_dir && wget -q https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz
+RUN pwd
+RUN  mkdir -p $swig_source_dir && wget -q --no-check-certificate https://netcologne.dl.sourceforge.net/project/swig/swig/swig-4.0.2/swig-4.0.2.tar.gz
 RUN  tar -xf swig-4.0.2.tar.gz
 RUN  cd $swig_source_dir && ./configure --prefix=$swig_install_dir
 RUN  cd $swig_source_dir && make -j 12 && make install
