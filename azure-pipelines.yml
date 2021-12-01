@@ -924,7 +924,7 @@ stages:
               tar -zxf $(LLVM_COMPRESSED_FILENAME)
               echo "\nls:"
               ls
-              mv '$(LLVM_FOLDER_NAME)/*' '$(LLVM_INSTALL_PREFIX)'
+              mv $(LLVM_FOLDER_NAME)/* $(LLVM_INSTALL_PREFIX)
               echo "cd to LLVM_INSTALL_PREFIX: $(LLVM_INSTALL_PREFIX)"
               cd $(LLVM_INSTALL_PREFIX)
 
