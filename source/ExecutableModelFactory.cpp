@@ -66,11 +66,15 @@ Compiler* Compiler::New() {
 }
 
 ExecutableModel* rr::ExecutableModelFactory::createModel(
-        const std::string& sbml, const Dictionary* dict)
+        const libsbml::SBMLDocument* sbml, std::string md5, const Dictionary* dict)
 {
     LoadSBMLOptions opt(dict);
+    if (opt.modelGeneratorOpt & LoadSBMLOptions::CONSERVED_MOIETIES)
+    {
+        md5 += "_conserved";
+    }
 
-    return rrllvm::LLVMModelGenerator::createModel(sbml, opt.modelGeneratorOpt);
+    return rrllvm::LLVMModelGenerator::createModel(sbml, opt.modelGeneratorOpt, md5);
 }
 
 ExecutableModel *rr::ExecutableModelFactory::createModel(std::istream& in, uint modelGeneratorOpt)

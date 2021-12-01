@@ -67,7 +67,7 @@ std::string validateSBML(const std::string src, unsigned opt
 * Assumes unit stoichiometry where not specified
 * @return SBML std::string with stoich fixed
 */
-std::string fixMissingStoichAndMath(const std::string sbml);
+std::string fixMissingStoichAndMath(libsbml::SBMLDocument* sbml);
 
 } /* namespace rr */
 
