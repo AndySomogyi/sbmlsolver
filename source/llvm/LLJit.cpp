@@ -74,16 +74,16 @@ namespace rrllvm {
             llvm::logAllUnhandledErrors(std::move(DL.takeError()), llvm::errs(), err);
             throw_llvm_exception(err);
         }
-#ifndef NDEBUG // defined in llvm. JITTargetMachineBuilderPrinter only exists in dbg builds
-        if (Logger::getLevel() <= Logger::Level::LOG_DEBUG) {
-            std::string s;
-            llvm::raw_string_ostream os(s);
-            llvm::orc::JITTargetMachineBuilderPrinter jtmbp(JTMB, "RoadRunnnerJTMBPrinter");
-            jtmbp.print(os);
-            rrLogDebug << "JitTargetMachineBuilder information: ";
-            rrLogDebug << s;
-        }
-#endif
+//#ifndef NDEBUG // defined in llvm. JITTargetMachineBuilderPrinter only exists in dbg builds
+//        if (Logger::getLevel() <= Logger::Level::LOG_DEBUG) {
+//            std::string s;
+//            llvm::raw_string_ostream os(s);
+//            llvm::orc::JITTargetMachineBuilderPrinter jtmbp(JTMB, "RoadRunnnerJTMBPrinter");
+//            jtmbp.print(os);
+//            rrLogDebug << "JitTargetMachineBuilder information: ";
+//            rrLogDebug << s;
+//        }
+//#endif
         llvm::Expected<std::unique_ptr<llvm::TargetMachine>> expectedTargetMachine = JTMB.createTargetMachine();
         if (!expectedTargetMachine) {
             std::string err = "Could not create target machine";

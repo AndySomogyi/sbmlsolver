@@ -143,10 +143,11 @@ if (LLVM_CONFIG_EXECUTABLE)
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )
     if (NOT LLVM_FLAGS)
-        message(FATAL_ERROR "The LLVM_FLAGS variable does not exist. This means
-that the llvm-config binary could not be executed by cmake to query for
-LLVM flags. Sometimes this happens because you do not have execution permissions
-on llvm-config. Other times this happens when LLVM_INSTALL_PREFIX does not point to the
+        message(STATUS "LLVM_INSTALL_PREFIX ${LLVM_INSTALL_PREFIX}")
+        message(FATAL_ERROR "The LLVM_FLAGS variable does not exist. This means\
+that the llvm-config binary could not be executed by cmake to query for\
+LLVM flags. Sometimes this happens because you do not have execution permissions\
+on llvm-config. Other times this happens when LLVM_INSTALL_PREFIX does not point to the\
 correct location. ")
     endif ()
 #    message(STATUS "LLVM_FLAGS ${LLVM_FLAGS}")
