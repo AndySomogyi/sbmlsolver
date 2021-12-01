@@ -258,7 +258,7 @@ stages:
               echo "ls:"
               ls
             displayName: "Get LLVM"
-            condition: ne(variables.LLVM_CACHE, 'true')
+            condition: ne(variables.LLVM_CACHE, 'false')
           - task: DownloadPipelineArtifact@2
             inputs:
               source: 'specific'
@@ -580,7 +580,7 @@ stages:
               echo "ls in l_dir: $(LLVM_INSTALL_PREFIX)"
               ls
             displayName: "Get LLVM"
-            condition: ne(variables.LLVM_CACHE, 'true')
+            condition: ne(variables.LLVM_CACHE, 'false')
             errorActionPreference: 'stop'
           - task: DownloadPipelineArtifact@2
             inputs:
@@ -919,7 +919,7 @@ stages:
               echo "ls:"
               ls
             displayName: "Get LLVM"
-            condition: ne(variables.LLVM_CACHE, 'true')
+            condition: ne(variables.LLVM_CACHE, 'false')
           - task: DownloadPipelineArtifact@2
             inputs:
               source: 'specific'
