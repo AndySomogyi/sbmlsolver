@@ -257,6 +257,12 @@ stages:
               cd $(LLVM_INSTALL_PREFIX)
               echo "ls:"
               ls
+              cd $(LLVM_INSTALL_PREFIX)/bin
+              echo "ls:"
+              ls
+              echo "give execute permissions to llvm-config using chmod 777 *"
+              chmod 777 llvm-config
+
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
           - task: DownloadPipelineArtifact@2
@@ -602,13 +608,15 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          - task: Cache@2
-            inputs:
-              key: "Swig | $(Agent.OS)"
-              path: $(SWIG_INSTALL_PREFIX)
-              cacheHitVar: SWIG_CACHE
-            displayName: Cache Swig-4.0.2
+#          - task: Cache@2
+#            inputs:
+#              key: "Swig | $(Agent.OS)"
+#              path: $(SWIG_INSTALL_PREFIX)
+#              cacheHitVar: SWIG_CACHE
+#            displayName: Cache Swig-4.0.2
           - powershell: |
+              echo "make swig source dir if not exists"
+              [System.IO.Directory]::CreateDirectory('$(SWIG_SOURCE_DIR)')
               echo "cd to swig source dir: $(SWIG_SOURCE_DIR)"
               cd $(SWIG_SOURCE_DIR)
               echo "ls"
