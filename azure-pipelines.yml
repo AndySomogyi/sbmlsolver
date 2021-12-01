@@ -241,11 +241,11 @@ stages:
           - script: brew install ncurses
             displayName: install ncurses
           - task: Cache@2
-            inputs:
-              key: "llvm | $(Agent.OS)"
-              path: $(LLVM_INSTALL_PREFIX)
-              cacheHitVar: LLVM_CACHE
-            displayName: Load cached llvm
+#            inputs:
+#              key: "llvm | $(Agent.OS)"
+#              path: $(LLVM_INSTALL_PREFIX)
+#              cacheHitVar: LLVM_CACHE
+#            displayName: Load cached llvm
           - script: |
               # todo put into actual script
               echo "current driectory is: $(pwd)"
@@ -258,7 +258,7 @@ stages:
               echo "ls:"
               ls
             displayName: "Get LLVM"
-            condition: ne(variables.LLVM_CACHE, 'false')
+            condition: ne(variables.LLVM_CACHE, 'true')
           - task: DownloadPipelineArtifact@2
             inputs:
               source: 'specific'
@@ -561,11 +561,11 @@ stages:
               mkdir -p $(INSTALL_DIR)
               mkdir -p $(BUILD_DIR)
             displayName: Make Directories
-          - task: Cache@2
-            inputs:
-              key: "llvm | $(Agent.OS)"
-              path: $(LLVM_INSTALL_PREFIX)
-              cacheHitVar: LLVM_CACHE
+#          - task: Cache@2
+#            inputs:
+#              key: "llvm | $(Agent.OS)"
+#              path: $(LLVM_INSTALL_PREFIX)
+#              cacheHitVar: LLVM_CACHE
           - powershell: |
               $ProgressPreference = 'SilentlyContinue'
               Invoke-WebRequest $(LLVM_DOWNLOAD_LINK) -OutFile $(LLVM_COMPRESSED_FILENAME)
@@ -580,7 +580,7 @@ stages:
               echo "ls in l_dir: $(LLVM_INSTALL_PREFIX)"
               ls
             displayName: "Get LLVM"
-            condition: ne(variables.LLVM_CACHE, 'false')
+            condition: ne(variables.LLVM_CACHE, 'true')
             errorActionPreference: 'stop'
           - task: DownloadPipelineArtifact@2
             inputs:
@@ -901,12 +901,12 @@ stages:
               sudo apt-get install -y gcc-10 g++-10
               sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
             displayName: Install g++10
-          - task: Cache@2
-            inputs:
-              key: "llvm | $(Agent.OS)"
-              path: $(LLVM_INSTALL_PREFIX)
-              cacheHitVar: LLVM_CACHE
-            displayName: Cache llvm
+#          - task: Cache@2
+#            inputs:
+#              key: "llvm | $(Agent.OS)"
+#              path: $(LLVM_INSTALL_PREFIX)
+#              cacheHitVar: LLVM_CACHE
+#            displayName: Cache llvm
           - script: |
               # todo put into actual script
               echo "current driectory is: $(pwd)"
@@ -919,7 +919,7 @@ stages:
               echo "ls:"
               ls
             displayName: "Get LLVM"
-            condition: ne(variables.LLVM_CACHE, 'false')
+            condition: ne(variables.LLVM_CACHE, 'true')
           - task: DownloadPipelineArtifact@2
             inputs:
               source: 'specific'
