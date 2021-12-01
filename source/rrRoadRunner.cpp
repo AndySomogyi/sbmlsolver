@@ -1446,6 +1446,9 @@ namespace rr {
             // and an 'unknown error' is displayed to the user.
             throw e;
         }
+        catch (const std::runtime_error& e) {
+            throw e;
+        }
         catch (const std::exception &e) {
             std::string errors = validateSBML(mCurrentSBML);
 
