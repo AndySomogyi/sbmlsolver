@@ -102,6 +102,9 @@ option(BUILD_LLVM "Build the LLVM back end" ON)
 # note I've tried using the C backend and it no longer compiles. Could be useful to keep though
 option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" OFF)
 
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "../roadrunner-${CMAKE_GENERATOR_PLATFORM}-${CMAKE_BUILD_TYPE}" CACHE PATH "..." FORCE)
+endif()
 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "Build the SWIG generated python wrapper" OFF)

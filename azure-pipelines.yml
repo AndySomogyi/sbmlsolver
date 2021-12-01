@@ -792,7 +792,7 @@ stages:
               echo "cd $(BUILD_DIRECTORY)"
               cd $(BUILD_DIRECTORY)
 
-              echo "$(PipExecutable) install numpy pytest"
+              $(PipExecutable) install -r $(SOURCE_DIR)/requirements.txt
               $(PipExecutable) install -r $(SOURCE_DIR)/test-requirements.txt
 
               echo "sudo yum install -y ncurses-devel"
