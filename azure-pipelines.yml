@@ -130,6 +130,7 @@ stages:
               $(PipExecutable) install requests
               $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
               echo "give execute permissions to llvm-config using chmod 777 *"
+              cd $(LLVM_INSTALL_PREFIX)/bin
               chmod 777 llvm-config
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
