@@ -127,6 +127,7 @@ stages:
 #              cacheHitVar: LLVM_CACHE
 #            displayName: Load cached llvm
           - script: |
+              $(PipExecutable) install requests
               $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
               echo "give execute permissions to llvm-config using chmod 777 *"
               chmod 777 llvm-config
