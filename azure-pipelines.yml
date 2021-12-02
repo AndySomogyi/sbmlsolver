@@ -473,7 +473,6 @@ stages:
               where.exe conda
               where.exe python
               echo "PythonVersion $(PythonVersion)"
-              echo "PythonName $(PythonName)"
               echo "MinicondaRoot $(MinicondaRoot)"
               echo "PythonRoot $(PythonRoot)"
               echo "PythonLibDir $(PythonLibDir)"
