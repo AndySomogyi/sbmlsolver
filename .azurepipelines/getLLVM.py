@@ -55,7 +55,7 @@ abs_downloaded_llvm_folder = join(args.llvm_install_prefix, downloaded_llvm_fold
 
 # dont download if we already have it
 if not isdir(join(abs_downloaded_llvm_folder, "bin")):
-    print(f"downloading llvm-13.x from {args.llvm_download_link}")
+    print("downloading llvm-13.x from {}".format(args.llvm_download_link))
     r = requests.get(args.llvm_download_link, stream=True)
     if ext == ".zip":
         z = zipfile.ZipFile(io.BytesIO(r.content))
