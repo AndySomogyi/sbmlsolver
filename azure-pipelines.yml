@@ -425,6 +425,8 @@ stages:
           LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-win32-rel.zip'
           LLVM_CACHE: 'false'
           MinicondaRoot : 'C:\Miniconda'
+          PythonName: 'py39'
+          PythonVersion: '3.9'
           PythonRoot: '$(MinicondaRoot)\envs\$(PythonName)'
           PythonLibDir: '$(PythonRoot)\Lib'
           PythonScriptsDir: '$(PythonRoot)\Scripts'
@@ -473,6 +475,7 @@ stages:
               where.exe conda
               where.exe python
               echo "PythonVersion $(PythonVersion)"
+              echo "PythonName $(PythonName)"
               echo "MinicondaRoot $(MinicondaRoot)"
               echo "PythonRoot $(PythonRoot)"
               echo "PythonLibDir $(PythonLibDir)"
