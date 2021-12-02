@@ -272,12 +272,14 @@ stages:
 #              cacheHitVar: LLVM_CACHE
 #            displayName: Load cached llvm
           - script: |
-              python ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
+              $(PipExecutable) install requests
+              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
               echo "give execute permissions to llvm-config using chmod 777 *"
+              cd $(LLVM_INSTALL_PREFIX)/bin
               chmod 777 llvm-config
-
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
+
           - task: DownloadPipelineArtifact@2
             inputs:
               source: 'specific'
@@ -471,9 +473,8 @@ stages:
 #              cacheHitVar: LLVM_CACHE
 
           - script: |
-              python ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
-              echo "give execute permissions to llvm-config using chmod 777 *"
-              chmod 777 llvm-config
+              $(PipExecutable) install requests
+              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
 
@@ -589,9 +590,8 @@ stages:
 #              path: $(LLVM_INSTALL_PREFIX)
 #              cacheHitVar: LLVM_CACHE
           - script: |
+              $(PipExecutable) install requests
               $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
-              echo "give execute permissions to llvm-config using chmod 777 *"
-              chmod 777 llvm-config
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
 
@@ -733,6 +733,11 @@ stages:
             64-bit Linux Debug:
               BuildType: Debug
         variables:
+          MinicondaRoot : '/usr/share/miniconda'
+          PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
+          PythonLibDir: '$(PythonRoot)/lib'
+          PythonExecutable: '$(PythonRoot)/bin/python'
+          PipExecutable: '$(PythonRoot)/bin/pip'
           LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm13-ubuntu-gcc10-rel.tar.gz'
         steps:
           # we cannot upload prebuilt binaries onto github for linux debug version because of github file size limits.
@@ -920,8 +925,10 @@ stages:
 #              cacheHitVar: LLVM_CACHE
 #            displayName: Cache llvm
           - script: |
-              python ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
+              $(PipExecutable) install requests
+              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
               echo "give execute permissions to llvm-config using chmod 777 *"
+              cd $(LLVM_INSTALL_PREFIX)/bin
               chmod 777 llvm-config
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
