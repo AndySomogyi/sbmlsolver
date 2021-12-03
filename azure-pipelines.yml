@@ -55,6 +55,8 @@ stages:
           CondaExecutable: '$(MinicondaRoot)/condabin/conda'
           PipExecutable: '$(PythonRoot)/bin/pip'
         steps:
+          - powershell: git checkout orc-jit
+            displayName: TemporaryCheckoutOrcJitBranch
           - script: |
               echo "SOURCE_DIR $(SOURCE_DIR)"
               echo "BUILD_DIR $(BUILD_DIR)"
@@ -434,6 +436,8 @@ stages:
           PipExecutable: '$(PythonScriptsDir)\pip.exe'
 
         steps:
+          - powershell: git checkout orc-jit
+            displayName: TemporaryCheckoutOrcJitBranch
           - powershell: |
               echo "SOURCE_DIR $(SOURCE_DIR)"
               echo "BUILD_DIR $(BUILD_DIR)"
@@ -481,11 +485,11 @@ stages:
               echo "PythonLibDir $(PythonLibDir)"
             displayName: PrintPythonVariables
 
-#          - task: Cache@2
-#            inputs:
-#              key: "llvm | $(Agent.OS)"
-#              path: $(LLVM_INSTALL_PREFIX)
-#              cacheHitVar: LLVM_CACHE
+          - task: Cache@2
+            inputs:
+              key: "llvm | $(Agent.OS)"
+              path: $(LLVM_INSTALL_PREFIX)
+              cacheHitVar: LLVM_CACHE
 
           - script: |
               echo "Creating new conda environment"
@@ -766,6 +770,8 @@ stages:
           PipExecutable: '$(PythonRoot)/bin/pip'
           LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm13-ubuntu-gcc10-rel.tar.gz'
         steps:
+          - powershell: git checkout orc-jit
+            displayName: TemporaryCheckoutOrcJitBranch
           # we cannot upload prebuilt binaries onto github for linux debug version because of github file size limits.
           # therefore we do this build with Release llvm for both debug and release. Oddly enough it seems to work.
           - script: |
