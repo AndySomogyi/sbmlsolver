@@ -486,11 +486,11 @@ stages:
               echo "PythonLibDir $(PythonLibDir)"
             displayName: PrintPythonVariables
 
-#          - task: Cache@2
-#            inputs:
-#              key: "llvm | $(Agent.OS)"
-#              path: $(LLVM_INSTALL_PREFIX)
-#              cacheHitVar: LLVM_CACHE
+          - task: Cache@2
+            inputs:
+              key: "llvm | $(Agent.OS)"
+              path: $(LLVM_INSTALL_PREFIX)
+              cacheHitVar: LLVM_CACHE
 
           - script: |
               echo "Creating new conda environment"
@@ -769,6 +769,8 @@ stages:
           PythonLibDir: '$(PythonRoot)/lib'
           PythonExecutable: '$(PythonRoot)/bin/python'
           PipExecutable: '$(PythonRoot)/bin/pip'
+          PythonName: '3.9'
+          PythonVersion: 'py39'
           LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm13-ubuntu-gcc10-rel.tar.gz'
         steps:
           - powershell: git checkout orc-jit
@@ -816,6 +818,7 @@ stages:
               mkdir $(LLVM_INSTALL_PREFIX)
               mkdir $(DEPS_INSTALL_PREFIX)
             displayName: Make Directories
+
 #          - task: Cache@2
 #            inputs:
 #              key: "llvm | $(Agent.OS)"
@@ -831,9 +834,12 @@ stages:
               sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
             displayName: Install g++10
           - script: |
-              python ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
-              echo "give execute permissions to llvm-config using chmod 777 *"
-              chmod 777 llvm-config
+              eval "$(conda shell.bash hook)"
+              conda create -y --name $(PythonName) python=$(PythonVersion)
+              $(PipExecutable) install requests
+              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
+              echo "give execute permissions to llvm-config using chmod 777"
+              chmod 777 $(LLVM_INSTALL_PREFIX)/bin/llvm-config
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
           - task: DownloadPipelineArtifact@2
