@@ -488,8 +488,14 @@ stages:
 #              cacheHitVar: LLVM_CACHE
 
           - script: |
+              echo "Creating new conda environment"
+              conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
+              echo "pip help:"
+              $(PipExecutable) install --help
+              echo "$(PipExecutable) install requests"
               $(PipExecutable) install requests
-              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
+              echo "$(PythonExecutable) .\.azurepipelines\getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)"
+              $(PythonExecutable) .\.azurepipelines\getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
 
@@ -605,6 +611,11 @@ stages:
 #              path: $(LLVM_INSTALL_PREFIX)
 #              cacheHitVar: LLVM_CACHE
           - script: |
+              echo "Creating new conda environment"
+              conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
+              echo "pip help:"
+              $(PipExecutable) install --help
+
               $(PipExecutable) install requests
               $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
             displayName: "Get LLVM"
