@@ -77,4 +77,15 @@ RUN ( \
 RUN useradd -m user \
   && yes password | passwd user
 RUN yum install -y initscripts
-#CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "/etc/ssh/sshd_config_test_clion"]
+
+RUN printf "#!bin/bash \n\
+/Miniconda3/envs/py39/bin/pip install numpy\n\
+if [ ! -d /roadrunner ]; then\n\
+	git clone https://github.com/sys-bio/roadrunner.git\n\
+fi\n\
+cd /roadrunner\n\
+mkdir build\n\
+cd build\n\
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../../Roadrunner-release -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DLLVM_INSTALL_PREFIX=/llvm-13.x/install-llvm-13.x -DBUILD_TESTS=ON -DBUILD_PYTHON=ON -DSWIG_EXECUTABLE=/swig-4.0.2/swig -DPython_ROOT_DIR=/Miniconda3/envs/py39 ..\n\
+cmake --build . --target install --config Release -j 16\n" > /build-roadrunner.sh
+
