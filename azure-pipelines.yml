@@ -508,7 +508,6 @@ stages:
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
-
           - powershell: |
               echo "$(DEPS_INSTALL_PREFIX)"
               echo "cd to $(DEPS_INSTALL_PREFIX)"

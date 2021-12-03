@@ -36,11 +36,6 @@ RUN cd /llvm-13.x/llvm && mkdir build && cd build \
 RUN cd /llvm-13.x/llvm/build \
     && cmake --build . --target install --config Release -j 12
 
-RUN git clone https://github.com/sys-bio/libroadrunner-deps.git --recurse-submodules
-RUN cd libroadrunner-deps && mkdir build && cd build \
-    && cmake -DCMAKE_INSTALL_PREFIX=../install-libroadrunner-deps -DCMAKE_BUILD_TYPE=Release .. \
-    && cmake --build . --target install --config Release -j 12
-
 
 RUN yum install -y pcre-devel.x86_64
 
@@ -77,6 +72,12 @@ RUN ( \
 RUN useradd -m user \
   && yes password | passwd user
 RUN yum install -y initscripts
+
+RUN git clone https://github.com/sys-bio/libroadrunner-deps.git --recurse-submodules
+RUN cd libroadrunner-deps && mkdir build && cd build \
+    && cmake -DCMAKE_INSTALL_PREFIX=../install-libroadrunner-deps -DCMAKE_BUILD_TYPE=Release .. \
+    && cmake --build . --target install --config Release -j 12
+
 
 RUN printf "#!bin/bash \n\
 /Miniconda3/envs/py39/bin/pip install numpy\n\
