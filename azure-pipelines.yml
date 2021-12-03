@@ -421,10 +421,11 @@ stages:
           matrix:
             64-bit Windows Release:
               BuildType: Release
+              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-win32-rel.zip'
             64-bit Windows Debug:
               BuildType: Debug
+              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-win32-dbg.zip'
         variables:
-          LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-win32-rel.zip'
           LLVM_CACHE: 'false'
           MinicondaRoot : 'C:\Miniconda'
           PythonName: 'py39'
