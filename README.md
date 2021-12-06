@@ -24,6 +24,10 @@ libroadrunner is a C/C++ library that supports simulation of SBML based models. 
 
 We provide C/C++, Python and Julia bindings.
 
+Sometimes the link to the C API docs goes bad in the readthedocs. If this happens, here is a permanent link that should remain whatever happens:
+
+[C API Documnention](https://sys-bio.github.io/roadrunner/OriginalDoxygenStyleDocs/html/index.html)
+
 # Installation
 Python front end (stable):
 
