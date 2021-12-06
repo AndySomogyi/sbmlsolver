@@ -259,7 +259,7 @@ namespace rrllvm {
         }
     }
 
-    const llvm::DataLayout &LLJit::getDataLayout() {
+    const llvm::DataLayout &LLJit::getDataLayout() const {
         return llJit->getDataLayout();
     }
 
@@ -380,5 +380,7 @@ namespace rrllvm {
         }
         return s;
     };
+
+
 
 }

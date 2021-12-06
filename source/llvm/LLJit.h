@@ -40,7 +40,7 @@ namespace rrllvm {
 
         void addObjectFile(rrOwningBinary owningObject) override;
 
-        const llvm::DataLayout &getDataLayout() override;
+        const llvm::DataLayout &getDataLayout() const override;
 
         void addModule(llvm::Module *M) override;
 
@@ -76,6 +76,7 @@ namespace rrllvm {
         friend std::ostream& operator<<(std::ostream& os, LLJit* llJit);
 
         std::string getModuleAsString(std::string sbmlMD5) override;
+
 
     private:
 

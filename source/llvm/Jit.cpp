@@ -50,7 +50,7 @@ namespace rrllvm {
     }
 
     Jit::Jit()
-        : Jit(LoadSBMLOptions().modelGeneratorOpt){}
+            : Jit(LoadSBMLOptions().modelGeneratorOpt) {}
 
     llvm::Module *Jit::getModuleNonOwning() {
         return moduleNonOwning;
@@ -62,6 +62,14 @@ namespace rrllvm {
 
     void Jit::setModuleIdentifier(const std::string &id) {
         moduleNonOwning->setModuleIdentifier(id);
+    }
+
+    std::string Jit::mangleName(const std::string& unmangledName) const {
+
+        std::string mangledName;
+        llvm::raw_string_ostream mangledNameStream(mangledName);
+        llvm::Mangler::getNameWithPrefix(mangledNameStream, unmangledName, getDataLayout());
+        return mangledNameStream.str();
     }
 
     llvm::IRBuilder<> *Jit::getBuilderNonOwning() {
@@ -100,8 +108,10 @@ namespace rrllvm {
                 "getEventPriority"));
         modelResources->getEventDelayPtr = reinterpret_cast<GetEventDelayCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "getEventDelay"));
-        modelResources->eventTriggerPtr = reinterpret_cast<EventTriggerCodeGen::FunctionPtr>(lookupFunctionAddress("eventTrigger"));
-        modelResources->eventAssignPtr = reinterpret_cast<EventAssignCodeGen::FunctionPtr>(lookupFunctionAddress("eventAssign"));
+        modelResources->eventTriggerPtr = reinterpret_cast<EventTriggerCodeGen::FunctionPtr>(lookupFunctionAddress(
+                "eventTrigger"));
+        modelResources->eventAssignPtr = reinterpret_cast<EventAssignCodeGen::FunctionPtr>(lookupFunctionAddress(
+                "eventAssign"));
         modelResources->evalVolatileStoichPtr = reinterpret_cast<EvalVolatileStoichCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "evalVolatileStoich"));
         modelResources->evalConversionFactorPtr = reinterpret_cast<EvalConversionFactorCodeGen::FunctionPtr>(lookupFunctionAddress(
@@ -305,6 +315,7 @@ namespace rrllvm {
         }
         return target;
     }
+
 
 }
 

@@ -35,7 +35,7 @@ namespace rrllvm {
 
         void addObjectFile(std::unique_ptr<llvm::MemoryBuffer> obj) override;
 
-        const llvm::DataLayout& getDataLayout() override;
+        const llvm::DataLayout& getDataLayout() const override;
 
         void addModule() override;
 

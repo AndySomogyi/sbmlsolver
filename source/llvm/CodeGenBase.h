@@ -13,6 +13,7 @@
 #include "LLVMException.h"
 #include "rrLogger.h"
 #include <Poco/Logger.h>
+#include "llvm/IR/Mangler.h"
 
 using rr::Logger;
 using rr::getLogger;
@@ -42,8 +43,7 @@ public:
 
         if(functionPassManager)
         {
-            // todo uncomment this
-//            functionPassManager->run(*func);
+            //functionPassManager->run(*func);
         }
 
 		return func;

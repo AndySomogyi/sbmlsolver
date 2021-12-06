@@ -15,6 +15,7 @@
 #include "llvm/Object/ObjectFile.h"
 #include "llvm/ExecutionEngine/ObjectCache.h"
 #include "rrSparse.h"
+#include "llvm/IR/Mangler.h"
 
 namespace rr {
     class ExecutableModel;
@@ -231,7 +232,7 @@ namespace rrllvm {
         /**
          * @brief get the DataLayout currently in use in the Jit
          */
-        virtual const llvm::DataLayout &getDataLayout() = 0;
+        virtual const llvm::DataLayout &getDataLayout() const = 0;
 
         /**
          * @brief lookup the sbml with the md5 @param sbmlMD5 in the compiled object cache.
@@ -283,6 +284,8 @@ namespace rrllvm {
         std::string getDefaultTargetTriple() const;
 
         void setModuleIdentifier(const std::string &id) ;
+
+        std::string mangleName(const std::string& unmangledName) const;
 
         /**
          * @brief get a binary string representation of the current

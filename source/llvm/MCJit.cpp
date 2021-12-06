@@ -237,13 +237,7 @@ namespace rrllvm {
     }
 
     std::uint64_t MCJit::lookupFunctionAddress(const std::string &name) {
-        rrLogDebug << "unmangled name: " << name;
-        std::string MangledName;
-        raw_string_ostream MangledNameStream(MangledName);
-        llvm::Mangler::getNameWithPrefix(MangledNameStream, name, getDataLayout());
-        rrLogDebug << "mangled name: " << MangledNameStream.str();
-
-        void *v = executionEngine->getPointerToNamedFunction(MangledNameStream.str());
+        void *v = executionEngine->getPointerToNamedFunction(mangleName(name));
         return (std::uint64_t) v;
     }
 
@@ -285,7 +279,7 @@ namespace rrllvm {
 //        getExecutionEngineNonOwning()->finalizeObject();
 //    };
 
-    const llvm::DataLayout &MCJit::getDataLayout() {
+    const llvm::DataLayout &MCJit::getDataLayout() const {
         return getExecutionEngineNonOwning()->getDataLayout();
     }
 
