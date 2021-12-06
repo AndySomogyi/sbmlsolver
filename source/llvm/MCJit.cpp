@@ -11,6 +11,7 @@
 #include "rrLogger.h"
 #include "ModelResources.h"
 #include "llvm/IR/AssemblyAnnotationWriter.h"
+#include "llvm/IR/Mangler.h"
 
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
 
@@ -236,20 +237,15 @@ namespace rrllvm {
     }
 
     std::uint64_t MCJit::lookupFunctionAddress(const std::string &name) {
-#ifdef __APPLE__
-        // on macos the name of the function is prepended by an underscore!
-        // this appears to only be an issue with MCJit not LLJit
-        std::string n = "_"+name;
-#else
-        std::string n = name;
-#endif
-        void* v = executionEngine->getPointerToNamedFunction(n);
+        rrLogDebug << "unmangled name: " << name;
+        std::string MangledName;
+        raw_string_ostream MangledNameStream(MangledName);
+        llvm::Mangler::getNameWithPrefix(MangledNameStream, name, getDataLayout());
+        rrLogDebug << "mangled name: " << MangledNameStream.str();
+
+        void *v = executionEngine->getPointerToNamedFunction(MangledNameStream.str());
         return (std::uint64_t) v;
     }
-
-//    std::uint64_t MCJit::getStructAddress(const std::string &name) {
-//        return (std::uint64_t) executionEngine->getPointerToGlobalIfAvailable(name);
-//    }
 
     llvm::TargetMachine *MCJit::getTargetMachine() {
         return executionEngine->getTargetMachine();
@@ -315,12 +311,12 @@ namespace rrllvm {
             rrLogErr << err;
             throw_llvm_exception(err);
         }
-        rrLogCriticalCiaran << "module as str " << compiledModuleBinaryStream->str().str();
 
         auto memBuffer(llvm::MemoryBuffer::getMemBuffer(compiledModuleBinaryStream->str().str()));
 
         llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
-                llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(compiledModuleBinaryStream->str(), "id"));
+                llvm::object::ObjectFile::createObjectFile(
+                        llvm::MemoryBufferRef(compiledModuleBinaryStream->str(), "id"));
 
         if (!objectFileExpected) {
             //LS DEBUG:  find a way to get the text out of the error.
@@ -361,7 +357,6 @@ namespace rrllvm {
         llvm::legacy::PassManager pass;
         auto FileType = getCodeGenFileType();
 
-        rrLogCriticalCiaran << "before "<<compiledModuleBinaryStream->str().str();
 
 #if LLVM_VERSION_MAJOR == 6
         if (TargetMachine->addPassesToEmitFile(pass, *compiledModuleBinaryStream, FileType))
@@ -372,10 +367,7 @@ namespace rrllvm {
             throw std::logic_error("TargetMachine can't emit a file of type CGFT_ObjectFile");
         }
 
-        rrLogCriticalCiaran << "middle "<<compiledModuleBinaryStream->str().str();
         pass.run(*getModuleNonOwning());
-        rrLogCriticalCiaran << "after "<<compiledModuleBinaryStream->str().str();
-
     }
 
 
@@ -630,7 +622,7 @@ namespace rrllvm {
 
     std::string MCJit::getModuleAsString(std::string sbmlMD5) {
         std::string s = getCompiledModuleStream().str().str();
-        if (s.empty()){
+        if (s.empty()) {
             std::string err = "Unable to convert module to string. Have you made a call to addModule or addObject yet?";
             rrLogErr << err;
             throw_llvm_exception(err);

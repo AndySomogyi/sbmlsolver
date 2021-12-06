@@ -62,7 +62,7 @@ namespace rrllvm {
          * where the moiety conservation is turned on, the sbmlMD5 will be identical. Therefore it is appended
          * with the string "_conserved".
          */
-        std::unique_ptr<llvm::MemoryBuffer> getCompiledModelFromCache(const std::string& sbmlMD5);
+        std::unique_ptr<llvm::MemoryBuffer> getCompiledModelFromCache(const std::string& sbmlMD5) override;
 
         llvm::orc::LLJIT *getLLJitNonOwning();
 

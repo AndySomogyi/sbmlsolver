@@ -28,7 +28,7 @@ using namespace sbmlsupport;
 
 namespace rrllvm {
 
-    llvm::CodeGenOpt::Level convertRRCodeGenOptLevelToLLVM(std::uint32_t options){
+    llvm::CodeGenOpt::Level convertRRCodeGenOptLevelToLLVM(std::uint32_t options) {
         // these should be mutually exclusive
         if (options & rr::LoadSBMLOptions::NONE)
             return llvm::CodeGenOpt::None;
@@ -109,7 +109,7 @@ namespace rrllvm {
         int numCompileThreads = rr::Config::getValue(rr::Config::LLJIT_NUM_THREADS).getAs<int>();
         // in case c++ fails to detect num cores from hardware
         // when using default options.
-        if (numCompileThreads == 0){
+        if (numCompileThreads == 0) {
             numCompileThreads = 1;
         }
 
@@ -120,11 +120,11 @@ namespace rrllvm {
                 .setDataLayout(std::move(*DL))
                 .setJITTargetMachineBuilder(std::move(JTMB))
 
-                /**
-                 * Set a custom compile function that 1) caches objects
-                 * and 2) stores a pointer to the targetMachine for access later.
-                 * The targetMachine pointer is owned by the JITTargetMachineBuilder.
-                 */
+                        /**
+                         * Set a custom compile function that 1) caches objects
+                         * and 2) stores a pointer to the targetMachine for access later.
+                         * The targetMachine pointer is owned by the JITTargetMachineBuilder.
+                         */
                 .setCompileFunctionCreator([&](llvm::orc::JITTargetMachineBuilder JTMB)
                                                    -> Expected<std::unique_ptr<llvm::orc::IRCompileLayer::IRCompiler>> {
                     // Create the target machine.
@@ -230,16 +230,22 @@ namespace rrllvm {
     };
 
     std::uint64_t LLJit::lookupFunctionAddress(const std::string &name) {
-        auto expectedSymbol = llJit->lookup(name);
+        rrLogCriticalCiaran << "name is: " << name << std::endl;
+        llvm::Expected<llvm::JITEvaluatedSymbol> expectedSymbol = llJit->lookup(name);
         if (!expectedSymbol) {
+//            expectedSymbol = llJit->lookup("_" + name);
+//            if (!expectedSymbol) {
             std::string err = "Could not find symbol " + name;
             rrLogErr << err;
             llvm::logAllUnhandledErrors(
                     std::move(expectedSymbol.takeError()),
                     llvm::errs(),
                     "[symbol lookup error] ");
+//            }
+//            throw std::logic_error(err);
         }
         llvm::JITEvaluatedSymbol symbol = *expectedSymbol;
+        rrLogInfo << "LLJit had loaded jit'd function called " << name;
         return symbol.getAddress();
     }
 

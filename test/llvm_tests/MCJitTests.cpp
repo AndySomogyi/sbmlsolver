@@ -16,7 +16,9 @@ using namespace rrllvm;
 
 class MCJitTests : public ::testing::Test {
 public:
-    MCJitTests() = default;
+    MCJitTests() {
+        Logger::setLevel(Logger::LOG_DEBUG);
+    };
 
 //    template<typename FnPtr>
 //    void checkLibFn(const std::string& funcName, double expected) {
@@ -130,13 +132,6 @@ TEST_F(MCJitTests, CheckModelSimulates) {
     ASSERT_EQ(typeid(*data), typeid(ls::Matrix<double>));
 }
 
-
-TEST_F(MCJitTests, t) {
-    LoadSBMLOptions opt;
-    MCJit mcJit(opt.modelGeneratorOpt);
-    auto *tm = mcJit.getTargetMachine();
-    int x = 4;
-}
 
 
 
