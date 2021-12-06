@@ -236,7 +236,15 @@ namespace rrllvm {
     }
 
     std::uint64_t MCJit::lookupFunctionAddress(const std::string &name) {
-        return (std::uint64_t) executionEngine->getPointerToNamedFunction(name);
+#ifdef __APPLE__
+        // on macos the name of the function is prepended by an underscore!
+        // this appears to only be an issue with MCJit not LLJit
+        std::string n = "_"+name;
+#else
+        std::string n = name;
+#endif
+        void* v = executionEngine->getPointerToNamedFunction(n);
+        return (std::uint64_t) v;
     }
 
 //    std::uint64_t MCJit::getStructAddress(const std::string &name) {
@@ -302,11 +310,12 @@ namespace rrllvm {
         writeObjectToBinaryStream();
 
         if (compiledModuleBinaryStream->str().empty()) {
-            std::string err = "Attempt to add module before its been optimized. Make a call to "
+            std::string err = "Attempt to add module before its been written to binary. Make a call to "
                               "MCJit::writeObjectToBinaryStream() before addModule()";
             rrLogErr << err;
             throw_llvm_exception(err);
         }
+        rrLogCriticalCiaran << "module as str " << compiledModuleBinaryStream->str().str();
 
         auto memBuffer(llvm::MemoryBuffer::getMemBuffer(compiledModuleBinaryStream->str().str()));
 
@@ -352,6 +361,8 @@ namespace rrllvm {
         llvm::legacy::PassManager pass;
         auto FileType = getCodeGenFileType();
 
+        rrLogCriticalCiaran << "before "<<compiledModuleBinaryStream->str().str();
+
 #if LLVM_VERSION_MAJOR == 6
         if (TargetMachine->addPassesToEmitFile(pass, *compiledModuleBinaryStream, FileType))
 #elif LLVM_VERSION_MAJOR >= 12
@@ -361,7 +372,9 @@ namespace rrllvm {
             throw std::logic_error("TargetMachine can't emit a file of type CGFT_ObjectFile");
         }
 
+        rrLogCriticalCiaran << "middle "<<compiledModuleBinaryStream->str().str();
         pass.run(*getModuleNonOwning());
+        rrLogCriticalCiaran << "after "<<compiledModuleBinaryStream->str().str();
 
     }
 

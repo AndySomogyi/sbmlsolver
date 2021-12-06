@@ -39,6 +39,7 @@ public:
         );
 
         llvm::Function *FibFn = llvm::Function::Create(FibFTy, llvm::Function::ExternalLinkage, "fib", M);
+//        llvm::Function *FibFn = llvm::Function::Create(FibFTy, llvm::Function::LinkOnceAnyLinkage, "fib", M);
 
         //Add a basic memory block
         llvm::BasicBlock *BB = llvm::BasicBlock::Create(ctx, "EntryBlock", FibFn);
@@ -105,8 +106,10 @@ TEST_F(MCJitTests, CreateJittedFibonacci) {
     MCJit mcJit(opt.modelGeneratorOpt);
     CreateFibFunction(mcJit.getModuleNonOwning());
     mcJit.addModule();
+    // call to finalize???
 //    std::cout << mcJit.emitToString();
     fibonacciFnPtr fibPtr = (int (*)(int)) mcJit.lookupFunctionAddress("fib");
+    std::cout << fibPtr(13 ) << std::endl;
     ASSERT_EQ(fibPtr(4), 3);
 }
 
