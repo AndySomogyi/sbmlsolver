@@ -818,9 +818,11 @@ TEST_F(StateSavingTests, FROM_SCRATCH_9) {
 }
 
 TEST_F(StateSavingTests, LOAD_ON_NEW_INSTANCE) {
-    RoadRunner rri;
-    rri.loadState("test-save-state.rr");
-    ASSERT_TRUE(rri.getBoundarySpeciesByIndex(0) == 0);
+    RoadRunner rri1(OpenLinearFlux().str());
+    rri1.saveState("test-save-state.rr");
+    RoadRunner rri2;
+    rri2.loadState("test-save-state.rr");
+    ASSERT_TRUE(rri2.getFloatingSpeciesByIndex(0) == 0);
 }
 
 
