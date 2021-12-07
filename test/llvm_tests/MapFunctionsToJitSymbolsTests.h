@@ -166,7 +166,9 @@ public:
         double expected = -1.1071487177940904;
         std::string funcName = "arccot";
         arccotFnTy fnPtr = (arccotFnTy) jit->lookupFunctionAddress(funcName);
+        rrLogCriticalCiaran << fnPtr(-0.5);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
+
     }
 
     void CheckGlobalMapping_rr_arccot_negzeroFnTy() {
@@ -328,7 +330,7 @@ public:
 
     void CheckGlobalMapping_rr_csr_matrix_get_nz() {
         double expected = 3;
-        std::string funcName = "rr_csr_matrix_get_nz";
+        std::string funcName = "csr_matrix_get_nz";
 
         csr_matrix_get_nz_FnTy csr_matrix_get_nz = (csr_matrix_get_nz_FnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_FALSE(csr_matrix_get_nz == nullptr);
@@ -337,7 +339,7 @@ public:
 
     void CheckGlobalMapping_rr_csr_matrix_set_nz() {
         double expected = 3;
-        std::string funcName = "rr_csr_matrix_set_nz";
+        std::string funcName = "csr_matrix_set_nz";
 
         csr_matrix_set_nz_FnTy csr_matrix_set_nz = (csr_matrix_set_nz_FnTy) jit->lookupFunctionAddress(funcName);
         std::cout << csr_matrix_set_nz << std::endl;

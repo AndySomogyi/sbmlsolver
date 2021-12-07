@@ -80,7 +80,7 @@ namespace rrllvm {
 
     private:
 
-        void mapFunctionToJitAbsoluteSymbol(const std::string &funcName, std::uint64_t funcAddress);
+        void mapFunctionToAbsoluteSymbol(const std::string &funcName, std::uint64_t funcAddress);
 
         std::unique_ptr<llvm::orc::LLJIT> llJit;
         llvm::TargetMachine* targetMachineNonOwning = nullptr;

@@ -20,13 +20,13 @@ double spf_abs(double x);
 
 double powerf(double base, double exponent);
 
-int factoriali(int a);
+int rr_factoriali(int a);
 
-double factoriald(double a);
+double rr_factoriald(double a);
 
-double rootd(double a, double b);
+double rr_rootd(double a, double b);
 
-double logd(double base, double number);
+double rr_logd(double base, double number);
 
 double sec(double a);
 
@@ -41,7 +41,7 @@ double arccot(double a);
  *
  * Idiotic hack to pass test case 959
  */
-double arccot_negzero(double a);
+double rr_arccot_negzero(double a);
 
 //// Inverse cotangent - ratio numerator and denominator provided
 double arccot2(double a, double b);
@@ -91,10 +91,10 @@ double arctanh(double a);
 double quotient(double a, double b);
 
 //// Maximum of two double numbers
-double max(double a, double b);
+double rr_max(double a, double b);
 
 //// Minimum of two double numbers
-double min(double a, double b);
+double rr_min(double a, double b);
 
 
 double rr_pow(double a, double b);

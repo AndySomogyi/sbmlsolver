@@ -15,6 +15,7 @@
 #include "llvm/Support/SourceMgr.h"
 #include "SBMLModelObjectCache.h"
 #include "rrRoadRunnerOptions.h"
+#include "rrSparse.h"
 
 #if LIBSBML_HAS_PACKAGE_DISTRIB
 
@@ -27,6 +28,9 @@ using namespace rr;
 using namespace sbmlsupport;
 
 namespace rrllvm {
+
+#define strToFnPtrMapElement(funcName, fnPtr)    {llJit->mangleAndIntern(funcName), JITEvaluatedSymbol::fromPointer(fnPtr)}
+
 
     llvm::CodeGenOpt::Level convertRRCodeGenOptLevelToLLVM(std::uint32_t options) {
         // these should be mutually exclusive
@@ -162,90 +166,124 @@ namespace rrllvm {
         LLJit::mapDistribFunctionsToJitSymbols();
     }
 
-    void LLJit::mapFunctionsToJitSymbols() {
+//    void LLJit::mapFunctionsToJitSymbols2() {
+//        using namespace rr;
+//
+//        mapFunctionToAbsoluteSymbol("arccot", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccot));
+//        mapFunctionToAbsoluteSymbol("rr_arccot_negzero",
+//                                    reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_arccot_negzero));
+//        mapFunctionToAbsoluteSymbol("arccoth", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccoth));
+//        mapFunctionToAbsoluteSymbol("arccsc", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccsc));
+//        mapFunctionToAbsoluteSymbol("arccsch", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccsch));
+//        mapFunctionToAbsoluteSymbol("arcsec", reinterpret_cast<std::uint64_t>(&sbmlsupport::arcsec));
+//        mapFunctionToAbsoluteSymbol("arcsech", reinterpret_cast<std::uint64_t>(&sbmlsupport::arcsech));
+//        mapFunctionToAbsoluteSymbol("cot", reinterpret_cast<std::uint64_t>(&sbmlsupport::cot));
+//        mapFunctionToAbsoluteSymbol("coth", reinterpret_cast<std::uint64_t>(&sbmlsupport::coth));
+//        mapFunctionToAbsoluteSymbol("csc", reinterpret_cast<std::uint64_t>(&sbmlsupport::csc));
+//        mapFunctionToAbsoluteSymbol("csch", reinterpret_cast<std::uint64_t>(&sbmlsupport::csch));
+//        mapFunctionToAbsoluteSymbol("rr_factoriali", reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_factoriali));
+//        mapFunctionToAbsoluteSymbol("rr_factoriald", reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_factoriald));
+//        mapFunctionToAbsoluteSymbol("rr_logd", reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_logd));
+//        mapFunctionToAbsoluteSymbol("rr_rootd", reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_rootd));
+//        mapFunctionToAbsoluteSymbol("sec", reinterpret_cast<std::uint64_t>(&sbmlsupport::sec));
+//        mapFunctionToAbsoluteSymbol("sech", reinterpret_cast<std::uint64_t>(&sbmlsupport::sech));
+//        mapFunctionToAbsoluteSymbol("arccosh", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccosh));
+//        mapFunctionToAbsoluteSymbol("arcsinh", reinterpret_cast<std::uint64_t>(&sbmlsupport::arcsinh));
+//        mapFunctionToAbsoluteSymbol("arctanh", reinterpret_cast<std::uint64_t>(&sbmlsupport::arctanh));
+//        mapFunctionToAbsoluteSymbol("quotient", reinterpret_cast<std::uint64_t>(&sbmlsupport::quotient));
+//        mapFunctionToAbsoluteSymbol("rr_max", reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_max));
+//        mapFunctionToAbsoluteSymbol("rr_min", reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_min));
+//        mapFunctionToAbsoluteSymbol("csr_matrix_get_nz", reinterpret_cast<std::uint64_t>(&csr_matrix_get_nz));
+//        mapFunctionToAbsoluteSymbol("csr_matrix_set_nz", reinterpret_cast<std::uint64_t>(&csr_matrix_set_nz));
+//    }
 
-        mapFunctionToJitAbsoluteSymbol("rr_csr_matrix_get_nz", reinterpret_cast<std::uint64_t>(&rr::csr_matrix_get_nz));
-        mapFunctionToJitAbsoluteSymbol("rr_csr_matrix_set_nz", reinterpret_cast<std::uint64_t>(&rr::csr_matrix_set_nz));
-        mapFunctionToJitAbsoluteSymbol("arccot", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccot));
-        mapFunctionToJitAbsoluteSymbol("rr_arccot_negzero",
-                                       reinterpret_cast<std::uint64_t>(&sbmlsupport::arccot_negzero));
-        mapFunctionToJitAbsoluteSymbol("arccoth", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccoth));
-        mapFunctionToJitAbsoluteSymbol("arccsc", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccsc));
-        mapFunctionToJitAbsoluteSymbol("arccsch", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccsch));
-        mapFunctionToJitAbsoluteSymbol("arcsec", reinterpret_cast<std::uint64_t>(&sbmlsupport::arcsec));
-        mapFunctionToJitAbsoluteSymbol("arcsech", reinterpret_cast<std::uint64_t>(&sbmlsupport::arcsech));
-        mapFunctionToJitAbsoluteSymbol("cot", reinterpret_cast<std::uint64_t>(&sbmlsupport::cot));
-        mapFunctionToJitAbsoluteSymbol("coth", reinterpret_cast<std::uint64_t>(&sbmlsupport::coth));
-        mapFunctionToJitAbsoluteSymbol("csc", reinterpret_cast<std::uint64_t>(&sbmlsupport::csc));
-        mapFunctionToJitAbsoluteSymbol("csch", reinterpret_cast<std::uint64_t>(&sbmlsupport::csch));
-        mapFunctionToJitAbsoluteSymbol("rr_factoriali", reinterpret_cast<std::uint64_t>(&sbmlsupport::factoriali));
-        mapFunctionToJitAbsoluteSymbol("rr_factoriald", reinterpret_cast<std::uint64_t>(&sbmlsupport::factoriald));
-        mapFunctionToJitAbsoluteSymbol("rr_logd", reinterpret_cast<std::uint64_t>(&sbmlsupport::logd));
-        mapFunctionToJitAbsoluteSymbol("rr_rootd", reinterpret_cast<std::uint64_t>(&sbmlsupport::rootd));
-        mapFunctionToJitAbsoluteSymbol("sec", reinterpret_cast<std::uint64_t>(&sbmlsupport::sec));
-        mapFunctionToJitAbsoluteSymbol("sech", reinterpret_cast<std::uint64_t>(&sbmlsupport::sech));
-        mapFunctionToJitAbsoluteSymbol("arccosh", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccosh));
-        mapFunctionToJitAbsoluteSymbol("arcsinh", reinterpret_cast<std::uint64_t>(&sbmlsupport::arcsinh));
-        mapFunctionToJitAbsoluteSymbol("arctanh", reinterpret_cast<std::uint64_t>(&sbmlsupport::arctanh));
-        mapFunctionToJitAbsoluteSymbol("quotient", reinterpret_cast<std::uint64_t>(&sbmlsupport::quotient));
-        mapFunctionToJitAbsoluteSymbol("rr_max", reinterpret_cast<std::uint64_t>(&sbmlsupport::max));
-        mapFunctionToJitAbsoluteSymbol("rr_min", reinterpret_cast<std::uint64_t>(&sbmlsupport::min));
+    void LLJit::mapFunctionsToJitSymbols() {
+        llvm::Error err = llJit->getMainJITDylib().define(llvm::orc::absoluteSymbols(
+                {
+                        strToFnPtrMapElement("arccot", &sbmlsupport::arccot),
+                        strToFnPtrMapElement("rr_arccot_negzero", &sbmlsupport::rr_arccot_negzero),
+                        strToFnPtrMapElement("arccoth", &sbmlsupport::arccoth),
+                        strToFnPtrMapElement("arccsc", &sbmlsupport::arccsc),
+                        strToFnPtrMapElement("arccsch", &sbmlsupport::arccsch),
+                        strToFnPtrMapElement("arcsec", &sbmlsupport::arcsec),
+                        strToFnPtrMapElement("arcsech", &sbmlsupport::arcsech),
+                        strToFnPtrMapElement("cot", &sbmlsupport::cot),
+                        strToFnPtrMapElement("coth", &sbmlsupport::coth),
+                        strToFnPtrMapElement("csc", &sbmlsupport::csc),
+                        strToFnPtrMapElement("csch", &sbmlsupport::csch),
+                        strToFnPtrMapElement("rr_factoriali", &sbmlsupport::rr_factoriali),
+                        strToFnPtrMapElement("rr_factoriald", &sbmlsupport::rr_factoriald),
+                        strToFnPtrMapElement("rr_logd", &sbmlsupport::rr_logd),
+                        strToFnPtrMapElement("rr_rootd", &sbmlsupport::rr_rootd),
+                        strToFnPtrMapElement("sec", &sbmlsupport::sec),
+                        strToFnPtrMapElement("sech", &sbmlsupport::sech),
+                        strToFnPtrMapElement("arccosh", &sbmlsupport::arccosh),
+                        strToFnPtrMapElement("arcsinh", &sbmlsupport::arcsinh),
+                        strToFnPtrMapElement("arctanh", &sbmlsupport::arctanh),
+                        strToFnPtrMapElement("quotient", &sbmlsupport::quotient),
+                        strToFnPtrMapElement("rr_max", &sbmlsupport::rr_max),
+                        strToFnPtrMapElement("rr_min", &sbmlsupport::rr_min),
+                        strToFnPtrMapElement("csr_matrix_get_nz", &rr::csr_matrix_get_nz),
+                        strToFnPtrMapElement("csr_matrix_set_nz", &rr::csr_matrix_set_nz),
+                }
+        ));
+        if (err) {
+            llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "[ error mapping functions to symbols ]");
+        }
+
     }
 
     void LLJit::mapDistribFunctionsToJitSymbols() {
+        // todo merge with mapFunctionsToJitSymbols. Creation of one map with more elements faster then two with less.
 #if LIBSBML_HAS_PACKAGE_DISTRIB
-
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_uniform", reinterpret_cast<std::uint64_t>(&distrib_uniform));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_normal", reinterpret_cast<std::uint64_t>(&distrib_normal));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_normal_four", reinterpret_cast<std::uint64_t>(&distrib_normal_four));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_bernoulli", reinterpret_cast<std::uint64_t>(&distrib_bernoulli));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_binomial", reinterpret_cast<std::uint64_t>(&distrib_binomial));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_binomial_four",
-                                       reinterpret_cast<std::uint64_t>(&distrib_binomial_four));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_cauchy", reinterpret_cast<std::uint64_t>(&distrib_cauchy));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_cauchy_one", reinterpret_cast<std::uint64_t>(&distrib_cauchy_one));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_cauchy_four", reinterpret_cast<std::uint64_t>(&distrib_cauchy_four));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_chisquare", reinterpret_cast<std::uint64_t>(&distrib_chisquare));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_chisquare_three",
-                                       reinterpret_cast<std::uint64_t>(&distrib_chisquare_three));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_exponential", reinterpret_cast<std::uint64_t>(&distrib_exponential));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_exponential_three",
-                                       reinterpret_cast<std::uint64_t>(&distrib_exponential_three));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_gamma", reinterpret_cast<std::uint64_t>(&distrib_gamma));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_gamma_four", reinterpret_cast<std::uint64_t>(&distrib_gamma_four));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_laplace", reinterpret_cast<std::uint64_t>(&distrib_laplace));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_laplace_one", reinterpret_cast<std::uint64_t>(&distrib_laplace_one));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_laplace_four",
-                                       reinterpret_cast<std::uint64_t>(&distrib_laplace_four));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_lognormal", reinterpret_cast<std::uint64_t>(&distrib_lognormal));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_lognormal_four",
-                                       reinterpret_cast<std::uint64_t>(&distrib_lognormal_four));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_poisson", reinterpret_cast<std::uint64_t>(&distrib_poisson));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_poisson_three",
-                                       reinterpret_cast<std::uint64_t>(&distrib_poisson_three));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_rayleigh", reinterpret_cast<std::uint64_t>(&distrib_rayleigh));
-        mapFunctionToJitAbsoluteSymbol("rr_distrib_rayleigh_three",
-                                       reinterpret_cast<std::uint64_t>(&distrib_rayleigh_three));
+        llvm::Error err = llJit->getMainJITDylib().define(llvm::orc::absoluteSymbols(
+                {
+                        strToFnPtrMapElement("rr_distrib_uniform", &distrib_uniform),
+                        strToFnPtrMapElement("rr_distrib_normal", &distrib_normal),
+                        strToFnPtrMapElement("rr_distrib_normal_four", &distrib_normal_four),
+                        strToFnPtrMapElement("rr_distrib_bernoulli", &distrib_bernoulli),
+                        strToFnPtrMapElement("rr_distrib_binomial", &distrib_binomial),
+                        strToFnPtrMapElement("rr_distrib_binomial_four", &distrib_binomial_four),
+                        strToFnPtrMapElement("rr_distrib_cauchy", &distrib_cauchy),
+                        strToFnPtrMapElement("rr_distrib_cauchy_one", &distrib_cauchy_one),
+                        strToFnPtrMapElement("rr_distrib_cauchy_four", &distrib_cauchy_four),
+                        strToFnPtrMapElement("rr_distrib_chisquare", &distrib_chisquare),
+                        strToFnPtrMapElement("rr_distrib_chisquare_three", &distrib_chisquare_three),
+                        strToFnPtrMapElement("rr_distrib_exponential", &distrib_exponential),
+                        strToFnPtrMapElement("rr_distrib_exponential_three", &distrib_exponential_three),
+                        strToFnPtrMapElement("rr_distrib_gamma", &distrib_gamma),
+                        strToFnPtrMapElement("rr_distrib_gamma_four", &distrib_gamma_four),
+                        strToFnPtrMapElement("rr_distrib_laplace", &distrib_laplace),
+                        strToFnPtrMapElement("rr_distrib_laplace_one", &distrib_laplace_one),
+                        strToFnPtrMapElement("rr_distrib_laplace_four", &distrib_laplace_four),
+                        strToFnPtrMapElement("rr_distrib_lognormal", &distrib_lognormal),
+                        strToFnPtrMapElement("rr_distrib_lognormal_four", &distrib_lognormal_four),
+                        strToFnPtrMapElement("rr_distrib_poisson", &distrib_poisson),
+                        strToFnPtrMapElement("rr_distrib_poisson_three", &distrib_poisson_three),
+                        strToFnPtrMapElement("rr_distrib_rayleigh", &distrib_rayleigh),
+                        strToFnPtrMapElement("rr_distrib_rayleigh_three", &distrib_rayleigh_three),
+                }
+        ));
+        if (err){
+            llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "[ distrib functions failed to map to symbols ]");
+        }
 #endif
     };
 
     std::uint64_t LLJit::lookupFunctionAddress(const std::string &name) {
-        rrLogCriticalCiaran << "name is: " << name << std::endl;
+        // automatically looks up manged name
         llvm::Expected<llvm::JITEvaluatedSymbol> expectedSymbol = llJit->lookup(name);
         if (!expectedSymbol) {
-//            expectedSymbol = llJit->lookup("_" + name);
-//            if (!expectedSymbol) {
-            std::string err = "Could not find symbol " + name;
+            std::string err = "Could not find symbol " + mangleName(name);
             rrLogErr << err;
             llvm::logAllUnhandledErrors(
                     std::move(expectedSymbol.takeError()),
                     llvm::errs(),
                     "[symbol lookup error] ");
-//            }
-//            throw std::logic_error(err);
+            throw std::logic_error(err);
         }
         llvm::JITEvaluatedSymbol symbol = *expectedSymbol;
-        rrLogInfo << "LLJit had loaded jit'd function called " << name;
+        rrLogInfo << "LLJit has loaded jit'd function called " << name;
         return symbol.getAddress();
     }
 
@@ -298,6 +336,7 @@ namespace rrllvm {
 
     void LLJit::addObjectFile(std::unique_ptr<llvm::object::ObjectFile> objectFile) {
 //        llJit->addObjectFile(std::move(objectFile));
+
     }
 
 
@@ -347,28 +386,6 @@ namespace rrllvm {
         }
     }
 
-    /**
-     * @brief makes a function available in the Jit'd address
-     * space.
-     * @details for instance, there might be a function called
-     * Foo in the main roadrunner program. This function
-     * produces a mapping between Foo and a name so that the
-     * function can be used from Jit.
-     */
-    void LLJit::mapFunctionToJitAbsoluteSymbol(const std::string &funcName, std::uint64_t funcAddress) {
-
-        auto symbolStringPool = llJit->getExecutionSession().getExecutorProcessControl().getSymbolStringPool();
-        orc::SymbolStringPtr symbPtr = symbolStringPool->intern(funcName);
-
-        // JITTargetAddress is uint64 typedefd
-        llvm::JITSymbolFlags flg;
-        llvm::JITEvaluatedSymbol symb(funcAddress, flg);
-        if (llvm::Error err = llJit->getMainJITDylib().define(
-                llvm::orc::absoluteSymbols({{symbPtr, symb}}))) {
-            llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "Could not add symbol " + funcName);
-        }
-    }
-
     std::string LLJit::getModuleAsString(std::string sbmlMD5) {
         std::unique_ptr<llvm::MemoryBuffer> memBuf = getCompiledModelFromCache(sbmlMD5);
         MemoryBufferRef memBufRef = memBuf->getMemBufferRef();
@@ -380,7 +397,6 @@ namespace rrllvm {
         }
         return s;
     };
-
 
 
 }

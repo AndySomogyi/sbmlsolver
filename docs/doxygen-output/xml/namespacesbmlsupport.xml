@@ -81,9 +81,9 @@
       </memberdef>
       <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a8c97244a050fadf1c71a4f858a924111" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
-        <definition>double sbmlsupport::logd</definition>
+        <definition>double sbmlsupport::rr_logd</definition>
         <argsstring>(double base, double number)</argsstring>
-        <name>logd</name>
+        <name>rr_logd</name>
         <param>
           <type>double</type>
           <declname>base</declname>
@@ -102,9 +102,9 @@
       </memberdef>
       <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a7970330200bb8d7163df5cba4a964fa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
-        <definition>double sbmlsupport::factoriald</definition>
+        <definition>double sbmlsupport::rr_factoriald</definition>
         <argsstring>(double a)</argsstring>
-        <name>factoriald</name>
+        <name>rr_factoriald</name>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -119,9 +119,9 @@
       </memberdef>
       <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1af1db43b882ed83de04557635386af0af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int sbmlsupport::factoriali</definition>
+        <definition>int sbmlsupport::rr_factoriali</definition>
         <argsstring>(int a)</argsstring>
-        <name>factoriali</name>
+        <name>rr_factoriali</name>
         <param>
           <type>int</type>
           <declname>a</declname>
@@ -136,9 +136,9 @@
       </memberdef>
       <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a9f572bedab4cfbff7712dcb16c5861ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
-        <definition>double sbmlsupport::rootd</definition>
+        <definition>double sbmlsupport::rr_rootd</definition>
         <argsstring>(double a, double b)</argsstring>
-        <name>rootd</name>
+        <name>rr_rootd</name>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -208,9 +208,9 @@
       </memberdef>
       <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1aff15eddec741ebfb9c25c82f91445996" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
-        <definition>double sbmlsupport::arccot_negzero</definition>
+        <definition>double sbmlsupport::rr_arccot_negzero</definition>
         <argsstring>(double a)</argsstring>
-        <name>arccot_negzero</name>
+        <name>rr_arccot_negzero</name>
         <param>
           <type>double</type>
           <declname>a</declname>

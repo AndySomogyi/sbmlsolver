@@ -32,7 +32,7 @@ public:
     /**
      * todo default arguments on virtual methods are prohibited.
      */
-    virtual llvm::Value *loadSymbolValue(const std::string& symbol, const llvm::ArrayRef<llvm::Value*>& args = llvm::ArrayRef<llvm::Value*>());
+    virtual llvm::Value *loadSymbolValue(const std::string& symbol, const llvm::ArrayRef<llvm::Value*>& args = llvm::ArrayRef<llvm::Value*>()) override;
 
 private:
     llvm::Value *modelData;

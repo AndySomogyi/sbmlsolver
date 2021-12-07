@@ -10,6 +10,7 @@
 #include "rrConfig.h"
 #include "SBMLModelObjectCache.h"
 #include "rrUtils.h"
+#include "ModelResources.h"
 
 using namespace rr;
 using namespace rrllvm;
@@ -119,10 +120,18 @@ TEST_F(MCJitTests, LoadPowerFunction) {
     // proxy for all functions that need to be loaded as llvm::Function.
     LoadSBMLOptions opt;
     MCJit mcJit(opt.modelGeneratorOpt);
-    llvm::Function *fn = mcJit.getModuleNonOwning()->getFunction("pow");
-    mcJit.addModule();
-    ASSERT_TRUE(fn);
+    auto fnPtr = (powFnTy)mcJit.lookupFunctionAddress("pow");
+    ASSERT_EQ(fnPtr(2, 2), 4);
 }
+
+TEST_F(MCJitTests, LoadQuotientFunction) {
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    auto fnPtr  = (quotientFnTy)mcJit.lookupFunctionAddress("quotient");
+    ASSERT_EQ(fnPtr(4, 2), 2);
+}
+
+
 
 TEST_F(MCJitTests, CheckModelSimulates) {
     rr::Config::setValue(rr::Config::LLVM_BACKEND, rr::Config::LLVM_BACKEND_VALUES::MCJIT);

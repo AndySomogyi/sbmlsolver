@@ -145,7 +145,7 @@ static Setting values[] = {
     Setting(1000),                              // K_ROWS_PER_WRITE
     Setting((std::int32_t)Config::MCJIT),       // LLVM_BACKEND
     Setting((std::int32_t)Config::NONE),        // LLJIT_OPTIMIZATION_LEVEL
-    Setting(getDefaultNumThreads())             // LLJIT_NUM_THREADS
+    Setting(1)                      // LLJIT_NUM_THREADS
 };
 
 static bool initialized = false;

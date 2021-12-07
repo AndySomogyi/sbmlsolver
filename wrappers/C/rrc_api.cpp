@@ -3608,6 +3608,9 @@ bool rrcCallConv resetToOrigin(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
+        rrLogWarn << "Copied from clang tidy: Implicit conversion from "
+                     "'rr::SelectionRecord::SelectionType' to 'int' "
+                     "changes value from 4294967295 to -1";
         rri->reset(SelectionRecord::ALL);
         return true;
     catch_bool_macro

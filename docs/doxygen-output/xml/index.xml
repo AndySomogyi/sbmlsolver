@@ -4957,14 +4957,14 @@
     <member refid="SBMLSupportFunctions_8cpp_1acef68935c61c3e569ca22c18d924cbbb" kind="function"><name>poweri</name></member>
     <member refid="SBMLSupportFunctions_8cpp_1a634b8f32d30418671054b9137fb08009" kind="function"><name>spf_abs</name></member>
     <member refid="SBMLSupportFunctions_8cpp_1af3391d7553edee64d6bf72b402a69a0f" kind="function"><name>powerf</name></member>
-    <member refid="SBMLSupportFunctions_8cpp_1a8c97244a050fadf1c71a4f858a924111" kind="function"><name>logd</name></member>
-    <member refid="SBMLSupportFunctions_8cpp_1a7970330200bb8d7163df5cba4a964fa2" kind="function"><name>factoriald</name></member>
-    <member refid="SBMLSupportFunctions_8cpp_1af1db43b882ed83de04557635386af0af" kind="function"><name>factoriali</name></member>
-    <member refid="SBMLSupportFunctions_8cpp_1a9f572bedab4cfbff7712dcb16c5861ee" kind="function"><name>rootd</name></member>
+    <member refid="SBMLSupportFunctions_8cpp_1a8c97244a050fadf1c71a4f858a924111" kind="function"><name>rr_logd</name></member>
+    <member refid="SBMLSupportFunctions_8cpp_1a7970330200bb8d7163df5cba4a964fa2" kind="function"><name>rr_factoriald</name></member>
+    <member refid="SBMLSupportFunctions_8cpp_1af1db43b882ed83de04557635386af0af" kind="function"><name>rr_factoriali</name></member>
+    <member refid="SBMLSupportFunctions_8cpp_1a9f572bedab4cfbff7712dcb16c5861ee" kind="function"><name>rr_rootd</name></member>
     <member refid="SBMLSupportFunctions_8cpp_1a8aae2e6a2fe511218136996da43f7106" kind="function"><name>sec</name></member>
     <member refid="SBMLSupportFunctions_8cpp_1a21bfd8de51b7807c0408570c97dd3836" kind="function"><name>cot</name></member>
     <member refid="SBMLSupportFunctions_8cpp_1a253927b5dc3abc5da2de518a6844f49b" kind="function"><name>arccot</name></member>
-    <member refid="SBMLSupportFunctions_8cpp_1aff15eddec741ebfb9c25c82f91445996" kind="function"><name>arccot_negzero</name></member>
+    <member refid="SBMLSupportFunctions_8cpp_1aff15eddec741ebfb9c25c82f91445996" kind="function"><name>rr_arccot_negzero</name></member>
     <member refid="SBMLSupportFunctions_8cpp_1ae624cff3fe2fabce43fa6366be1f370c" kind="function"><name>arccot2</name></member>
     <member refid="SBMLSupportFunctions_8cpp_1ac8bd531eb7bb06ec642c19dcd3d6fd10" kind="function"><name>arcsec</name></member>
     <member refid="SBMLSupportFunctions_8cpp_1ab52e133afca99a24bf5f00dc1d6768bb" kind="function"><name>csc</name></member>

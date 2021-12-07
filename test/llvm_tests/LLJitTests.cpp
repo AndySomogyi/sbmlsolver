@@ -78,25 +78,37 @@ TEST_F(LLJitTests, FibonacciCached) {
 
 }
 
-TEST_F(LLJitTests, LoadPowerFunctiond) {
+TEST_F(LLJitTests, LoadPowerFunction) {
     LoadSBMLOptions opt;
     LLJit llJit(opt.modelGeneratorOpt);
-    llvm::Function* fn = llJit.getModuleNonOwning()->getFunction("pow");
-    llJit.addModule();
-    ASSERT_TRUE(fn);
+    auto fnPtr = (powFnTy) llJit.lookupFunctionAddress("pow");
+    ASSERT_EQ(fnPtr(2, 2), 4);
+}
+
+TEST_F(LLJitTests, LoadQuotientFunction) {
+    LoadSBMLOptions opt;
+    LLJit llJit(opt.modelGeneratorOpt);
+    auto fnPtr = (quotientFnTy) llJit.lookupFunctionAddress("quotient");
+    ASSERT_EQ(fnPtr(4, 2), 2);
+}
+
+TEST_F(LLJitTests, Loadrr_minFunction) {
+    LoadSBMLOptions opt;
+    LLJit llJit(opt.modelGeneratorOpt);
+    auto fnPtr = (quotientFnTy) llJit.lookupFunctionAddress("rr_min");
+    ASSERT_EQ(fnPtr(4, 2), 2);
+}
+
+TEST_F(LLJitTests, Loadrr_csr_matrix_get_nzFunction) {
+    LoadSBMLOptions opt;
+    LLJit llJit(opt.modelGeneratorOpt);
+    auto addr = llJit.lookupFunctionAddress("csr_matrix_get_nz");
+    ASSERT_TRUE(addr);
 }
 
 TEST_F(LLJitTests, SetModuleIdentifier) {
     LoadSBMLOptions opt;
     LLJit llJit(opt.modelGeneratorOpt);
-    llJit.setModuleIdentifier("FibMod");
-    ASSERT_STREQ("FibMod", llJit.getModuleNonOwning()->getModuleIdentifier().c_str());
-}
-
-TEST_F(LLJitTests, CreateUsingSBMLString) {
-    LoadSBMLOptions opt;
-    LLJit llJit(opt.modelGeneratorOpt);
-
     llJit.setModuleIdentifier("FibMod");
     ASSERT_STREQ("FibMod", llJit.getModuleNonOwning()->getModuleIdentifier().c_str());
 }
@@ -115,7 +127,6 @@ TEST_F(LLJitTests, CheckModelSimulates) {
 }
 
 
-
 TEST_F(LLJitTests, GetObjectFromCache) {
 //    rr::Config::setValue(rr::Config::LLVM_BACKEND, rr::Config::LLVM_BACKEND_VALUES::MCJIT);
     rr::Config::setValue(rr::Config::LLVM_BACKEND, rr::Config::LLVM_BACKEND_VALUES::LLJIT);
@@ -129,7 +140,7 @@ TEST_F(LLJitTests, GetObjectFromCache) {
     std::unique_ptr<llvm::MemoryBuffer> objectBuf = cache.getObject(m.get());
 
     Expected<std::unique_ptr<llvm::object::ObjectFile>>
-    objFile = llvm::object::ObjectFile::createObjectFile(objectBuf->getMemBufferRef());
+            objFile = llvm::object::ObjectFile::createObjectFile(objectBuf->getMemBufferRef());
 
     if (!objFile) {
         //LS DEBUG:  find a way to get the text out of the error.

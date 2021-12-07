@@ -33,13 +33,13 @@
 <codeline lineno="20"><highlight class="normal"></highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>powerf(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>base,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>exponent);</highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>factoriali(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rr_factoriali(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>factoriald(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_factoriald(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
 <codeline lineno="26"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rootd(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_rootd(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b);</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>logd(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>base,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>number);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_logd(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>base,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>number);</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sec(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
@@ -47,7 +47,7 @@
 <codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//</highlight></codeline>
 <codeline lineno="37"><highlight class="comment"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>arccot(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight></codeline>
-<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>arccot_negzero(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_arccot_negzero(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
 <codeline lineno="47"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>arccot2(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b);</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"></highlight></codeline>

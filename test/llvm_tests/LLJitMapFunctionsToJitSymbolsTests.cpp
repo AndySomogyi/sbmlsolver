@@ -16,7 +16,9 @@ using namespace rrllvm;
 class LLJitMapFunctionsToJitSymbolsTests : public MapFunctionsToJitSymbolsTests {
 public:
     LLJitMapFunctionsToJitSymbolsTests()
-        : MapFunctionsToJitSymbolsTests(std::make_unique<LLJit>(LoadSBMLOptions().modelGeneratorOpt)){};
+        : MapFunctionsToJitSymbolsTests(std::make_unique<LLJit>(LoadSBMLOptions().modelGeneratorOpt)){
+        Logger::setLevel(Logger::LOG_DEBUG);
+    };
 };
 
 TEST_F(LLJitMapFunctionsToJitSymbolsTests, CheckLibFuncPow) {

@@ -44,8 +44,8 @@ namespace rrllvm
 
 const char* ModelDataIRBuilder::LLVMModelDataName = "rr_LLVMModelData";
 const char* ModelDataIRBuilder::csr_matrixName = "rr_csr_matrix";
-const char* ModelDataIRBuilder::csr_matrix_set_nzName = "rr_csr_matrix_set_nz";
-const char* ModelDataIRBuilder::csr_matrix_get_nzName = "rr_csr_matrix_get_nz";
+const char* ModelDataIRBuilder::csr_matrix_set_nzName = "csr_matrix_set_nz";
+const char* ModelDataIRBuilder::csr_matrix_get_nzName = "csr_matrix_get_nz";
 
 
 static bool isAliasOrPointer(ModelDataFields f)

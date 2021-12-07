@@ -397,7 +397,7 @@ namespace rrllvm {
         addGlobalMapping(
                 createGlobalMappingFunction("rr_arccot_negzero",
                                             FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::arccot_negzero);
+                (void *) sbmlsupport::rr_arccot_negzero);
 
         // AST_FUNCTION_ARCCOTH:
         addGlobalMapping(
@@ -457,24 +457,24 @@ namespace rrllvm {
         addGlobalMapping(
                 createGlobalMappingFunction("rr_factoriali",
                                             FunctionType::get(int_type, args_i1, false), moduleNonOwning),
-                (void *) sbmlsupport::factoriali);
+                (void *) sbmlsupport::rr_factoriali);
 
         addGlobalMapping(
                 createGlobalMappingFunction("rr_factoriald",
                                             FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::factoriald);
+                (void *) sbmlsupport::rr_factoriald);
 
         // AST_FUNCTION_LOG:
         addGlobalMapping(
                 createGlobalMappingFunction("rr_logd",
                                             FunctionType::get(double_type, args_d2, false), moduleNonOwning),
-                (void *) sbmlsupport::logd);
+                (void *) sbmlsupport::rr_logd);
 
         // AST_FUNCTION_ROOT:
         addGlobalMapping(
                 createGlobalMappingFunction("rr_rootd",
                                             FunctionType::get(double_type, args_d2, false), moduleNonOwning),
-                (void *) sbmlsupport::rootd);
+                (void *) sbmlsupport::rr_rootd);
 
         // AST_FUNCTION_SEC:
         addGlobalMapping(
@@ -516,13 +516,13 @@ namespace rrllvm {
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_max",
                                             FunctionType::get(double_type, args_d2, false), moduleNonOwning),
-                (void *) (sbmlsupport::max));
+                (void *) (sbmlsupport::rr_max));
 
         // AST_FUNCTION_MIN:
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_min",
                                             FunctionType::get(double_type, args_d2, false), moduleNonOwning),
-                (void *) (sbmlsupport::min));
+                (void *) (sbmlsupport::rr_min));
 
     }
 

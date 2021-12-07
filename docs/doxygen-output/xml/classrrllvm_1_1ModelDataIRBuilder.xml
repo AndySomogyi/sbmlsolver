@@ -36,7 +36,7 @@
         <definition>const char * rrllvm::ModelDataIRBuilder::csr_matrix_set_nzName</definition>
         <argsstring></argsstring>
         <name>csr_matrix_set_nzName</name>
-        <initializer>= &quot;rr_csr_matrix_set_nz&quot;</initializer>
+        <initializer>= &quot;csr_matrix_set_nz&quot;</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -50,7 +50,7 @@
         <definition>const char * rrllvm::ModelDataIRBuilder::csr_matrix_get_nzName</definition>
         <argsstring></argsstring>
         <name>csr_matrix_get_nzName</name>
-        <initializer>= &quot;rr_csr_matrix_get_nz&quot;</initializer>
+        <initializer>= &quot;csr_matrix_get_nz&quot;</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
