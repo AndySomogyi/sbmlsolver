@@ -11,7 +11,6 @@ trigger:
     - develop
     - release
     - experimental-release
-    - orc-jit
 
 variables:
   SOURCE_DIR: '$(System.DefaultWorkingDirectory)' # eg /home/vsts/work/1/s
