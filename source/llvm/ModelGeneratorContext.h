@@ -96,7 +96,7 @@ namespace rrllvm {
          * attach to an existing sbml document, we borrow a reference to this
          * doc and DO NOT take ownership of it.
          */
-        ModelGeneratorContext::ModelGeneratorContext(
+        ModelGeneratorContext(
                 const libsbml::SBMLDocument *_doc,
                 unsigned options,
                 std::unique_ptr<Jit> jitEngine);

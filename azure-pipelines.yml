@@ -122,12 +122,12 @@ stages:
 
           - script: brew install ncurses
             displayName: install ncurses
-#          - task: Cache@2
-#            inputs:
-#              key: "llvm | $(Agent.OS)"
-#              path: $(LLVM_INSTALL_PREFIX)
-#              cacheHitVar: LLVM_CACHE
-#            displayName: Load cached llvm
+          - task: Cache@2
+            inputs:
+              key: "llvm | $(Agent.OS)"
+              path: $(LLVM_INSTALL_PREFIX)
+              cacheHitVar: LLVM_CACHE
+            displayName: Load cached llvm
           - script: |
               $(PipExecutable) install requests
               $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
@@ -268,12 +268,12 @@ stages:
             displayName: Make Directories
           - script: brew install ncurses
             displayName: install ncurses
-#          - task: Cache@2
-#            inputs:
-#              key: "llvm | $(Agent.OS)"
-#              path: $(LLVM_INSTALL_PREFIX)
-#              cacheHitVar: LLVM_CACHE
-#            displayName: Load cached llvm
+          - task: Cache@2
+            inputs:
+              key: "llvm | $(Agent.OS)"
+              path: $(LLVM_INSTALL_PREFIX)
+              cacheHitVar: LLVM_CACHE
+            displayName: Load cached llvm
           - script: |
               $(PipExecutable) install requests
               $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
@@ -613,11 +613,11 @@ stages:
               mkdir -p $(INSTALL_DIR)
               mkdir -p $(BUILD_DIR)
             displayName: Make Directories
-#          - task: Cache@2
-#            inputs:
-#              key: "llvm | $(Agent.OS)"
-#              path: $(LLVM_INSTALL_PREFIX)
-#              cacheHitVar: LLVM_CACHE
+          - task: Cache@2
+            inputs:
+              key: "llvm | $(Agent.OS)"
+              path: $(LLVM_INSTALL_PREFIX)
+              cacheHitVar: LLVM_CACHE
           - script: |
               echo "Creating new conda environment"
               conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
@@ -650,12 +650,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-#          - task: Cache@2
-#            inputs:
-#              key: "Swig | $(Agent.OS)"
-#              path: $(SWIG_INSTALL_PREFIX)
-#              cacheHitVar: SWIG_CACHE
-#            displayName: Cache Swig-4.0.2
+          - task: Cache@2
+            inputs:
+              key: "Swig | $(Agent.OS)"
+              path: $(SWIG_INSTALL_PREFIX)
+              cacheHitVar: SWIG_CACHE
+            displayName: Cache Swig-4.0.2
           - powershell: |
               echo "make swig source dir if not exists"
               [System.IO.Directory]::CreateDirectory('$(SWIG_SOURCE_DIR)')
@@ -823,12 +823,12 @@ stages:
               mkdir $(DEPS_INSTALL_PREFIX)
             displayName: Make Directories
 
-#          - task: Cache@2
-#            inputs:
-#              key: "llvm | $(Agent.OS)"
-#              path: $(LLVM_INSTALL_PREFIX)
-#              cacheHitVar: LLVM_CACHE
-#            displayName: Cache llvm
+          - task: Cache@2
+            inputs:
+              key: "llvm | $(Agent.OS)"
+              path: $(LLVM_INSTALL_PREFIX)
+              cacheHitVar: LLVM_CACHE
+            displayName: Cache llvm
           - script: |
               echo "gcc $(gcc --version)"
               echo "g++ $(g++ --version)"
@@ -962,12 +962,12 @@ stages:
               sudo apt-get install -y gcc-10 g++-10
               sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
             displayName: Install g++10
-#          - task: Cache@2
-#            inputs:
-#              key: "llvm | $(Agent.OS)"
-#              path: $(LLVM_INSTALL_PREFIX)
-#              cacheHitVar: LLVM_CACHE
-#            displayName: Cache llvm
+          - task: Cache@2
+            inputs:
+              key: "llvm | $(Agent.OS)"
+              path: $(LLVM_INSTALL_PREFIX)
+              cacheHitVar: LLVM_CACHE
+            displayName: Cache llvm
           - script: |
               $(PipExecutable) install requests
               $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
