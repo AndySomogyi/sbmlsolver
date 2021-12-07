@@ -41,6 +41,7 @@
 #include "rrSelectionRecord.h"
 #include "rrException.h"
 #include "rrConfig.h"
+#include "rrRoadRunnerOptions.h"
 
 // Most Unix systems have a getch in libcurses, but this introduces
 // an un-needed depencency, as we can write our own getch easily.
@@ -114,6 +115,15 @@ std::string getMD5(const std::string& text)
     Poco::MD5Engine md5;
     md5.update(text);
     std::string digestString(Poco::DigestEngine::digestToHex(md5.digest()));
+    return digestString;
+}
+
+std::string getSBMLMD5(const std::string& text, int modelGenOpt)
+{
+    std::string digestString = getMD5(text);
+    if (modelGenOpt & rr::LoadSBMLOptions::CONSERVED_MOIETIES) {
+        digestString += "_conserved";
+    }
     return digestString;
 }
 

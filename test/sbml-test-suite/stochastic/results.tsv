@@ -1,0 +1,191 @@
+Test #	Level/Version	Synopsis	nWrongMeans	nWrongSDs	nWrongLogMeans	nWrongLogSDs
+00001	00001-sbml-l2v1.xml	Basic two-reaction system	0	0	None	None
+00001	00001-sbml-l3v2.xml	Basic two-reaction system	0	0	None	None
+00002	00002-sbml-l2v1.xml	Basic two-reaction system with local parameters.	0	0	None	None
+00002	00002-sbml-l3v2.xml	Basic two-reaction system with local parameters.	0	0	None	None
+00004	00004-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00004	00004-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00006	00006-sbml-l2v1.xml	Basic two-reaction system with boundary species	0	0	None	None
+00006	00006-sbml-l3v2.xml	Basic two-reaction system with boundary species	0	0	None	None
+00007	00007-sbml-l2v1.xml	Basic two-reaction system with two species	0	0	None	None
+00007	00007-sbml-l3v2.xml	Basic two-reaction system with two species	0	0	None	None
+00008	00008-sbml-l2v1.xml	Basic two-reaction system	0	0	None	None
+00008	00008-sbml-l3v2.xml	Basic two-reaction system	0	0	None	None
+00009	00009-sbml-l2v1.xml	Basic two-reaction system	0	0	None	None
+00009	00009-sbml-l3v2.xml	Basic two-reaction system	0	0	None	None
+00010	00010-sbml-l2v1.xml	Basic two-reaction system	0	0	None	None
+00010	00010-sbml-l3v2.xml	Basic two-reaction system	0	0	None	None
+00011	00011-sbml-l2v1.xml	Basic two-reaction system	0	0	None	None
+00011	00011-sbml-l3v2.xml	Basic two-reaction system	0	0	None	None
+00012	00012-sbml-l2v1.xml	Basic two-reaction system	0	0	None	None
+00012	00012-sbml-l3v2.xml	Basic two-reaction system	0	0	None	None
+00013	00013-sbml-l2v1.xml	Basic two-reaction system	0	0	None	None
+00013	00013-sbml-l3v2.xml	Basic two-reaction system	0	0	None	None
+00014	00014-sbml-l2v1.xml	Basic two-reaction system	0	0	None	None
+00014	00014-sbml-l3v2.xml	Basic two-reaction system	0	0	None	None
+00015	00015-sbml-l2v1.xml	Basic two-reaction system	0	0	None	None
+00015	00015-sbml-l3v2.xml	Basic two-reaction system	0	0	None	None
+00016	00016-sbml-l2v1.xml	Basic two-reaction system	0	0	None	None
+00016	00016-sbml-l3v2.xml	Basic two-reaction system	0	0	None	None
+00017	00017-sbml-l2v1.xml	Basic two-reaction system	0	0	None	None
+00017	00017-sbml-l3v2.xml	Basic two-reaction system	0	0	None	None
+00018	00018-sbml-l2v1.xml	Basic two-reaction system	0	0	None	None
+00018	00018-sbml-l3v2.xml	Basic two-reaction system	0	0	None	None
+00019	00019-sbml-l2v1.xml	Basic two-reaction system plus an assignment rule	0	0	None	None
+00019	00019-sbml-l3v2.xml	Basic two-reaction system plus an assignment rule	0	0	None	None
+00020	00020-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00020	00020-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00021	00021-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00021	00021-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00022	00022-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00022	00022-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00023	00023-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00023	00023-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00024	00024-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00024	00024-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00025	00025-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00025	00025-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00026	00026-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00026	00026-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00027	00027-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00027	00027-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00030	00030-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00030	00030-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00031	00031-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00031	00031-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00033	00033-sbml-l2v1.xml	Basic two-reaction system with event.	0	0	None	None
+00033	00033-sbml-l3v2.xml	Basic two-reaction system with event.	0	0	None	None
+00034	00034-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00034	00034-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00035	00035-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00035	00035-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00036	00036-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00036	00036-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00037	00037-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00037	00037-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00038	00038-sbml-l2v1.xml	Basic two-reaction system.	1	0	None	None
+00038	00038-sbml-l3v2.xml	Basic two-reaction system.	1	0	None	None
+00039	00039-sbml-l2v1.xml	Basic two-reaction system.	0	0	None	None
+00039	00039-sbml-l3v2.xml	Basic two-reaction system.	0	0	None	None
+00040	00040-sbml-l3v1.xml	NormalDistribution test	0	0	None	None
+00040	00040-sbml-l3v2.xml	NormalDistribution test	0	0	None	None
+00041	00041-sbml-l3v1.xml	NormalDistribution test	1	0	None	None
+00041	00041-sbml-l3v2.xml	NormalDistribution test	0	0	None	None
+00042	00042-sbml-l3v1.xml	UniformDistribution test	0	0	None	None
+00042	00042-sbml-l3v2.xml	UniformDistribution test	0	0	None	None
+00043	00043-sbml-l3v1.xml	ExponentialDistribution test	0	0	None	None
+00043	00043-sbml-l3v2.xml	ExponentialDistribution test	0	0	None	None
+00044	00044-sbml-l3v1.xml	ExponentialDistribution test	0	0	None	None
+00044	00044-sbml-l3v2.xml	ExponentialDistribution test	0	3	None	None
+00045	00045-sbml-l3v1.xml	GammaDistribution test	0	1	None	None
+00045	00045-sbml-l3v2.xml	GammaDistribution test	0	0	None	None
+00046	00046-sbml-l3v1.xml	GammaDistribution test	0	1	None	None
+00046	00046-sbml-l3v2.xml	GammaDistribution test	0	0	None	None
+00047	00047-sbml-l3v1.xml	PoissonDistribution test	0	1	None	None
+00047	00047-sbml-l3v2.xml	PoissonDistribution test	0	1	None	None
+00048	00048-sbml-l3v1.xml	CauchyDistribution with one argument test	0	None	None	None
+00048	00048-sbml-l3v2.xml	CauchyDistribution with one argument test	0	None	None	None
+00049	00049-sbml-l3v1.xml	CauchyDistribution test	0	None	None	None
+00049	00049-sbml-l3v2.xml	CauchyDistribution test	0	None	None	None
+00050	00050-sbml-l3v1.xml	ChiSquareDistribution test	0	0	None	None
+00050	00050-sbml-l3v2.xml	ChiSquareDistribution test	0	0	None	None
+00051	00051-sbml-l3v1.xml	ChiSquareDistribution test	0	0	None	None
+00051	00051-sbml-l3v2.xml	ChiSquareDistribution test	0	1	None	None
+00052	00052-sbml-l3v1.xml	Rayleigh Distribution test	0	0	None	None
+00052	00052-sbml-l3v2.xml	Rayleigh Distribution test	0	0	None	None
+00053	00053-sbml-l3v1.xml	BernoulliDistribution test	0	0	None	None
+00053	00053-sbml-l3v2.xml	BernoulliDistribution test	1	0	None	None
+00054	00054-sbml-l3v1.xml	LaplaceDistribution test (one argument)	0	0	None	None
+00054	00054-sbml-l3v2.xml	LaplaceDistribution test (one argument)	0	0	None	None
+00055	00055-sbml-l3v1.xml	LaplaceDistribution test	0	1	None	None
+00055	00055-sbml-l3v2.xml	LaplaceDistribution test	0	2	None	None
+00056	00056-sbml-l3v1.xml	LogNormalDistribution test	None	None	1	1
+00056	00056-sbml-l3v2.xml	LogNormalDistribution test	None	None	1	1
+00057	00057-sbml-l3v1.xml	BinomialDistribution test	0	0	None	None
+00057	00057-sbml-l3v2.xml	BinomialDistribution test	0	0	None	None
+00058	00058-sbml-l3v1.xml	BinomialDistribution test with truncation	0	0	None	None
+00058	00058-sbml-l3v2.xml	BinomialDistribution test with truncation	0	0	None	None
+00059	00059-sbml-l3v1.xml	CauchyDistribution test with truncation	0	None	None	None
+00059	00059-sbml-l3v2.xml	CauchyDistribution test with truncation	0	None	None	None
+00060	00060-sbml-l3v1.xml	ChiSquareDistribution test with truncation	0	0	None	None
+00060	00060-sbml-l3v2.xml	ChiSquareDistribution test with truncation	0	0	None	None
+00061	00061-sbml-l3v1.xml	ExponentialDistribution test with truncation	0	0	None	None
+00061	00061-sbml-l3v2.xml	ExponentialDistribution test with truncation	0	0	None	None
+00062	00062-sbml-l3v1.xml	GammaDistribution test with truncation	0	0	None	None
+00062	00062-sbml-l3v2.xml	GammaDistribution test with truncation	1	0	None	None
+00063	00063-sbml-l3v1.xml	LaplaceDistribution test with truncation	0	0	None	None
+00063	00063-sbml-l3v2.xml	LaplaceDistribution test with truncation	0	0	None	None
+00064	00064-sbml-l3v1.xml	LogNormalDistribution test with truncation	None	None	1	1
+00064	00064-sbml-l3v2.xml	LogNormalDistribution test with truncation	None	None	1	1
+00065	00065-sbml-l3v1.xml	PoissonDistribution test with truncation	1	2	None	None
+00065	00065-sbml-l3v2.xml	PoissonDistribution test with truncation	1	0	None	None
+00066	00066-sbml-l3v1.xml	Rayleigh Distribution test with truncation	0	0	None	None
+00066	00066-sbml-l3v2.xml	Rayleigh Distribution test with truncation	0	0	None	None
+00067	00067-sbml-l3v1.xml	NormalDistribution test	0	0	None	None
+00067	00067-sbml-l3v2.xml	NormalDistribution test	2	0	None	None
+00068	00068-sbml-l3v1.xml	ExponentialDistribution test	0	0	None	None
+00068	00068-sbml-l3v2.xml	ExponentialDistribution test	0	0	None	None
+00069	00069-sbml-l3v1.xml	NormalDistribution test with lower truncation	0	0	None	None
+00069	00069-sbml-l3v2.xml	NormalDistribution test with lower truncation	0	0	None	None
+00070	00070-sbml-l3v1.xml	NormalDistribution test with upper truncation bound	0	0	None	None
+00070	00070-sbml-l3v2.xml	NormalDistribution test with upper truncation bound	1	0	None	None
+00071	00071-sbml-l3v1.xml	NormalDistribution test with lower inclusive bound	0	1	None	None
+00071	00071-sbml-l3v2.xml	NormalDistribution test with lower inclusive bound	0	0	None	None
+00072	00072-sbml-l3v1.xml	NormalDistribution test with upper inclusive bound	0	1	None	None
+00072	00072-sbml-l3v2.xml	NormalDistribution test with upper inclusive bound	0	0	None	None
+00073	00073-sbml-l3v1.xml	NormalDistribution test with upper and lower bounds	0	0	None	None
+00073	00073-sbml-l3v2.xml	NormalDistribution test with upper and lower bounds	0	0	None	None
+00074	00074-sbml-l3v1.xml	NormalDistribution test with upper and lower bounds	0	0	None	None
+00074	00074-sbml-l3v2.xml	NormalDistribution test with upper and lower bounds	0	0	None	None
+00075	00075-sbml-l3v1.xml	NormalDistribution test with asymmetric bounds	0	0	None	None
+00075	00075-sbml-l3v2.xml	NormalDistribution test with asymmetric bounds	0	0	None	None
+00076	00076-sbml-l3v1.xml	NormalDistribution test with two-sided truncation greater than the mean	0	0	None	None
+00076	00076-sbml-l3v2.xml	NormalDistribution test with two-sided truncation greater than the mean	0	0	None	None
+00077	00077-sbml-l3v1.xml	ExponentialDistribution test with a lower bound	0	0	None	None
+00077	00077-sbml-l3v2.xml	ExponentialDistribution test with a lower bound	0	1	None	None
+00078	00078-sbml-l3v1.xml	ExponentialDistribution test with an upper bound	0	0	None	None
+00078	00078-sbml-l3v2.xml	ExponentialDistribution test with an upper bound	0	0	None	None
+00079	00079-sbml-l3v1.xml	ExponentialDistribution test with bounded range	0	0	None	None
+00079	00079-sbml-l3v2.xml	ExponentialDistribution test with bounded range	0	0	None	None
+00080	00080-sbml-l3v1.xml	NormalDistribution test	0	0	None	None
+00080	00080-sbml-l3v2.xml	NormalDistribution test	1	0	None	None
+00081	00081-sbml-l3v1.xml	NormalDistribution test	0	0	None	None
+00081	00081-sbml-l3v2.xml	NormalDistribution test	0	0	None	None
+00082	00082-sbml-l3v1.xml	UniformDistribution test	0	0	None	None
+00082	00082-sbml-l3v2.xml	UniformDistribution test	0	0	None	None
+00083	00083-sbml-l3v1.xml	ExponentialDistribution test	0	2	None	None
+00083	00083-sbml-l3v2.xml	ExponentialDistribution test	0	0	None	None
+00084	00084-sbml-l3v1.xml	ExponentialDistribution test	0	0	None	None
+00084	00084-sbml-l3v2.xml	ExponentialDistribution test	0	0	None	None
+00085	00085-sbml-l3v1.xml	GammaDistribution test	0	1	None	None
+00085	00085-sbml-l3v2.xml	GammaDistribution test	0	1	None	None
+00086	00086-sbml-l3v1.xml	GammaDistribution test	0	0	None	None
+00086	00086-sbml-l3v2.xml	GammaDistribution test	0	0	None	None
+00087	00087-sbml-l3v1.xml	PoissonDistribution test	0	0	None	None
+00087	00087-sbml-l3v2.xml	PoissonDistribution test	0	0	None	None
+00088	00088-sbml-l3v1.xml	NormalDistribution test	1	0	None	None
+00088	00088-sbml-l3v2.xml	NormalDistribution test	0	0	None	None
+00089	00089-sbml-l3v1.xml	ExponentialDistribution test	0	0	None	None
+00089	00089-sbml-l3v2.xml	ExponentialDistribution test	0	0	None	None
+00090	00090-sbml-l3v1.xml	BinomialDistribution test	0	0	None	None
+00090	00090-sbml-l3v2.xml	BinomialDistribution test	0	0	None	None
+00091	00091-sbml-l3v1.xml	Normal Distribution test	0	0	None	None
+00091	00091-sbml-l3v2.xml	Normal Distribution test	0	0	None	None
+00092	00092-sbml-l3v1.xml	UniformDistribution test	0	0	None	None
+00092	00092-sbml-l3v2.xml	UniformDistribution test	0	0	None	None
+00093	00093-sbml-l3v1.xml	Uniform distribution test	0	0	None	None
+00093	00093-sbml-l3v2.xml	Uniform distribution test	0	0	None	None
+00094	00094-sbml-l3v1.xml	Gamma distribution test	0	0	None	None
+00094	00094-sbml-l3v2.xml	Gamma distribution test	0	1	None	None
+00095	00095-sbml-l3v1.xml	Gamma distribution test	0	0	None	None
+00095	00095-sbml-l3v2.xml	Gamma distribution test	1	0	None	None
+00096	00096-sbml-l3v1.xml	NormalDistribution test	0	1	None	None
+00096	00096-sbml-l3v2.xml	NormalDistribution test	0	1	None	None
+00097	00097-sbml-l3v1.xml	NormalDistribution test	1	1	None	None
+00097	00097-sbml-l3v2.xml	NormalDistribution test	0	0	None	None
+00098	00098-sbml-l3v1.xml	NormalDistribution test	0	0	None	None
+00098	00098-sbml-l3v2.xml	NormalDistribution test	0	1	None	None
+00099	00099-sbml-l3v1.xml	NormalDistribution test	1	1	None	None
+00099	00099-sbml-l3v2.xml	NormalDistribution test	0	1	None	None
+00100	00100-sbml-l3v1.xml	NormalDistribution test	0	0	None	None
+00100	00100-sbml-l3v2.xml	NormalDistribution test	1	0	None	None

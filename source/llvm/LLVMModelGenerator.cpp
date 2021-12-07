@@ -68,7 +68,7 @@ namespace rrllvm {
     inline void codeGeneration(ModelGeneratorContext &context, std::uint32_t options);
 
     inline ModelGeneratorContext
-    createModelGeneratorContext(const std::string &sbml, std::uint32_t options);
+    createModelGeneratorContext(const libsbml::SBMLDocument* sbml, std::uint32_t options);
 
     inline std::string getSBMLMD5(const std::string &sbml, const std::uint32_t & options);
 
@@ -220,13 +220,6 @@ namespace rrllvm {
 
     }
 
-    inline ModelGeneratorContext
-    createModelGeneratorContext(const std::string &sbml, std::uint32_t options) {
-        // todo consider whether this can be stack allocated instead -- quicker.
-        std::unique_ptr<Jit> j = JitFactory::makeJitEngine(options);
-        return {sbml, options, std::move(j)};
-    }
-
     std::string getSBMLMD5(const std::string &sbml, const std::uint32_t & options) {
         std::string sbmlMD5;
         sbmlMD5 = rr::getMD5(sbml);
@@ -292,8 +285,8 @@ namespace rrllvm {
 
         char *docSBML = doc->toSBML();
 
-        ModelGeneratorContext modelGeneratorContext = createModelGeneratorContext(
-                reinterpret_cast<const char *>(docSBML), options);
+        ModelGeneratorContext modelGeneratorContext(doc, options, JitFactory::makeJitEngine(options));
+
         std::string sbmlMD5 = getSBMLMD5(std::string((const char*) docSBML), options);
         if (modelResources->sbmlMD5.empty()){
             modelResources->sbmlMD5 = sbmlMD5;
@@ -496,16 +489,8 @@ namespace rrllvm {
     }
 
 
-    ExecutableModel *LLVMModelGenerator::createModel(const std::string &sbml, std::uint32_t options) {
+    ExecutableModel *LLVMModelGenerator::createModel(const libsbml::SBMLDocument* sbml, const std::string& sbmlMD5, std::uint32_t options) {
         bool forceReCompile = options & LoadSBMLOptions::RECOMPILE;
-
-        /**
-         * The sbml md5 is used as the LLVM module name.
-         * This facilitates object caching via rrObjectCache since
-         * the LLVM module name is the key in the object map used to
-         * cache the objects.
-         */
-        std::string sbmlMD5 = getSBMLMD5(sbml, options);
 
         // if we force recompile, then we don't need to think
         // about locating a previously compiled model
@@ -537,9 +522,16 @@ namespace rrllvm {
         }
 
         SharedModelResourcesPtr modelResources = std::make_shared<ModelResources>();
+
+        /**
+         * The sbml md5 is used as the LLVM module name.
+         * This facilitates object caching via rrObjectCache since
+         * the LLVM module name is the key in the object map used to
+         * cache the objects.
+         */
         modelResources->sbmlMD5 = sbmlMD5;
 
-        ModelGeneratorContext modelGeneratorContext = createModelGeneratorContext(sbml, options);
+        ModelGeneratorContext modelGeneratorContext(sbml, options, JitFactory::makeJitEngine(options));
 
         // name the llvm module
         modelGeneratorContext.getJitNonOwning()->setModuleIdentifier(sbmlMD5);

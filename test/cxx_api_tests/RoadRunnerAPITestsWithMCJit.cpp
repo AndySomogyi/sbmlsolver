@@ -11,7 +11,7 @@ class RoadRunnerAPITestsWithMCJit : public RoadRunnerAPITests {
 public:
     RoadRunnerAPITestsWithMCJit() 
         : RoadRunnerAPITests(){
-        Logger::setLevel(Logger::LOG_INFORMATION);
+        Logger::setLevel(Logger::LOG_WARNING);
         Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::MCJIT);
     }
 };

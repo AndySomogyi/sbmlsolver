@@ -94,12 +94,17 @@ public:
 
     void getIds() {
         std::list<std::string> expected(
-                {"S1", "S2", "[S1]", "[S2]",
-                 "default_compartment", "kf", "kb", "_J0",
-                 "_J1", "init([S1])", "init([S2])", "init(S1)",
-                 "init(S2)", "S1'", "S2'", "eigen(S1)", "eigenReal(S1)",
-                 "eigenImag(S1)", "eigen(S2)", "eigenReal(S2)",
-                 "eigenImag(S2)"}
+                {"S1", "S2", "[S1]", "[S2]", "default_compartment", "kf", "kb", "_J0", "_J1", "init([S1])",
+                 "init([S2])", "init(S1)", "init(S2)", "init(default_compartment)", "init(kf)", "init(kb)", "S1'",
+                 "S2'", "[S1]'", "[S2]'", "stoich(S1, _J0)", "stoich(S1, _J1)", "stoich(S2, _J0)", "stoich(S2, _J1)",
+                 "uec(_J0, S1)", "uec(_J0, S2)", "uec(_J0, kf)", "uec(_J0, kb)", "uec(_J1, S1)", "uec(_J1, S2)",
+                 "uec(_J1, kf)", "uec(_J1, kb)", "ec(_J0, S1)", "ec(_J0, S2)", "ec(_J0, kf)", "ec(_J0, kb)",
+                 "ec(_J1, S1)", "ec(_J1, S2)", "ec(_J1, kf)", "ec(_J1, kb)", "ucc(_J0, kf)", "ucc(_J0, kb)",
+                 "ucc(_J1, kf)", "ucc(_J1, kb)", "ucc(S1, kf)", "ucc(S1, kb)", "ucc(S2, kf)", "ucc(S2, kb)",
+                 "cc(_J0, kf)", "cc(_J0, kb)", "cc(_J1, kf)", "cc(_J1, kb)", "cc(S1, kf)", "cc(S1, kb)", "cc(S2, kf)",
+                 "cc(S2, kb)", "eigen(S1)", "eigenReal(S1)", "eigenImag(S1)", "eigen(S2)", "eigenReal(S2)",
+                 "eigenImag(S2)",
+                }
         );
         RoadRunner rr(sbml);
         std::list<std::string> l;
@@ -172,7 +177,7 @@ public:
         RoadRunner rr1(testModel->str());
         RoadRunner rr2(testModel->str());
         delete testModel;
-    //    ASSERT_TRUE(rr1 == rr2);
+        //    ASSERT_TRUE(rr1 == rr2);
     }
 
     /**
@@ -186,7 +191,7 @@ public:
         RoadRunner rr2(testModel2->str());
         delete testModel;
         delete testModel2;
-    //    ASSERT_TRUE(rr1 != rr2);
+        //    ASSERT_TRUE(rr1 != rr2);
     }
 
     void getInstanceID() {
@@ -477,7 +482,7 @@ public:
         auto x = rr.getSelections();
         std::vector<std::string> actual;
         actual.reserve(x.size());
-        for (auto i : x) {
+        for (auto i: x) {
             actual.push_back(i.to_string());
         }
         ASSERT_EQ(expected, actual);
@@ -1185,7 +1190,7 @@ public:
     void DISABLED_addPriority() {
         RoadRunner rr(SimpleFlux().str());
         rr.addEvent("E1", true, "time > 4.0", true);
-    //    rr.addPriority("E1")
+        //    rr.addPriority("E1")
     }
 
     /*
@@ -1194,7 +1199,7 @@ public:
     void DISABLED_addDelay() {
         RoadRunner rr(SimpleFlux().str());
         rr.addEvent("E1", true, "time > 4.0", true);
-    //    rr.addDelay("E1", )
+        //    rr.addDelay("E1", )
     }
 
     /**
@@ -1203,7 +1208,7 @@ public:
     void DISABLED_addEventAssignment() {
         RoadRunner rr(SimpleFlux().str());
         rr.addEvent("E1", true, "time > 4.0", true);
-    //    rr.addEventAssignment()
+        //    rr.addEventAssignment()
 
     }
 
@@ -1378,7 +1383,7 @@ public:
      */
     void DISABLED_makeSensitivitySolver() {
         RoadRunner rr(SimpleFlux().str());
-    //    rr.makeSensitivitySolver();
+        //    rr.makeSensitivitySolver();
 
     }
 
@@ -1545,7 +1550,7 @@ public:
      */
     void DISABLED_sensitivitySolverExistsWhenFalse() {
         RoadRunner rr(SimpleFlux().str());
-    //    ASSERT_TRUE(rr.sensitivitySolverExists("forward"));
+        //    ASSERT_TRUE(rr.sensitivitySolverExists("forward"));
     }
 
 

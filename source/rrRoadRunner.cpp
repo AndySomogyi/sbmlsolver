@@ -1435,7 +1435,7 @@ namespace rr {
             // Fix various problems that might occur in incomplete SBML models.
             mCurrentSBML = fixMissingStoichAndMath(impl->document.get());
 
-            std::string md5 = rr::getMD5(mCurrentSBML);
+            std::string md5 = rr::getSBMLMD5(mCurrentSBML, impl->loadOpt.modelGeneratorOpt);
             impl->model.reset(ExecutableModelFactory::createModel(impl->document.get(), md5, &impl->loadOpt));
         } catch (const rr::UninitializedValueException &e) {
             // catch specifically for UninitializedValueException, otherwise for some

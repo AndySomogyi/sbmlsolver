@@ -103,14 +103,14 @@ namespace rrllvm {
 
 #endif
 
-    ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned options,
+    ModelGeneratorContext::ModelGeneratorContext(const libsbml::SBMLDocument* doc_, unsigned options,
                                                  std::unique_ptr<Jit> jitEngine)
             :
-            ownedDoc(0),
-            doc(0),
-            symbols(0),
+            ownedDoc(nullptr),
+            doc(nullptr),
+            symbols(nullptr),
             options(options),
-            random(0),
+            random(nullptr),
             jit(std::move(jitEngine)) {
         if (useSymbolCache()) {
             rrLog(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
@@ -119,7 +119,6 @@ namespace rrllvm {
         }
 
         try {
-            ownedDoc = checkedReadSBMLFromString(sbml.c_str());
 
             if (options & LoadSBMLOptions::CONSERVED_MOIETIES) {
                 if ((rr::Config::getBool(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
@@ -128,12 +127,12 @@ namespace rrllvm {
                 }
 
                 // check if already conserved doc
-                if (rr::conservation::ConservationExtension::isConservedMoietyDocument(ownedDoc)) {
-                    doc = ownedDoc;
+                if (rr::conservation::ConservationExtension::isConservedMoietyDocument(doc_)) {
+                    doc = doc_;
                 } else {
                     moietyConverter = std::make_unique<rr::conservation::ConservedMoietyConverter>();
 
-                    if (moietyConverter->setDocument(ownedDoc) != LIBSBML_OPERATION_SUCCESS) {
+                    if (moietyConverter->setDocument(doc_) != LIBSBML_OPERATION_SUCCESS) {
                         throw_llvm_exception("error setting conserved moiety converter document");
                     }
 
@@ -143,19 +142,21 @@ namespace rrllvm {
 
                     doc = moietyConverter->getDocument();
 
-                    SBMLWriter sw;
-                    char *convertedStr = sw.writeToString(doc);
+                    if (rr::Logger::getLevel() <= rr::Logger::LOG_INFORMATION) {
+                        SBMLWriter sw;
+                        char *convertedStr = sw.writeToString(doc);
 
-                    rrLog(Logger::LOG_INFORMATION)
-                        << "***************** Conserved Moiety Converted Document ***************";
-                    rrLog(Logger::LOG_INFORMATION) << convertedStr;
-                    rrLog(Logger::LOG_INFORMATION)
-                        << "*********************************************************************";
+                        rrLog(Logger::LOG_INFORMATION)
+                            << "***************** Conserved Moiety Converted Document ***************";
+                        rrLog(Logger::LOG_INFORMATION) << convertedStr;
+                        rrLog(Logger::LOG_INFORMATION)
+                            << "*********************************************************************";
 
-                    free(convertedStr);
+                        free(convertedStr);
+                    }
                 }
             } else {
-                doc = ownedDoc;
+                doc = doc_;
             }
 
             model = doc->getModel();
@@ -174,8 +175,6 @@ namespace rrllvm {
             ModelDataIRBuilder::createModelDataStructType(jit->getModuleNonOwning(), nullptr, *symbols);
 
 
-            // addGlobalMappings();
-
             // check if doc has distrib package
             // Random adds mappings, need call after llvm objs created
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
@@ -187,99 +186,12 @@ namespace rrllvm {
             }
 #endif
 
-//        initFunctionPassManager();
-
         }
         catch (const std::exception &) {
             // we might have allocated memory in a failed ctor,
             // clean it up here.
             // destructors are not called on *this* class when exception is raised
             // in the ctor.
-            cleanup();
-            throw;
-        }
-    }
-
-    ModelGeneratorContext::ModelGeneratorContext(
-            libsbml::SBMLDocument const *_doc,
-            unsigned options,
-            std::unique_ptr<Jit> jitEngine ) :
-            ownedDoc(0),
-            doc(_doc),
-            symbols(NULL),
-            options(options),
-            random(nullptr),
-            jit(std::move(jitEngine)) {
-        if (useSymbolCache()) {
-            rrLog(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
-        } else {
-            rrLog(Logger::LOG_INFORMATION) << "Not using LLVM symbol/value cache";
-        }
-
-        try {
-            if (options & LoadSBMLOptions::CONSERVED_MOIETIES) {
-                rrLog(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
-
-                moietyConverter = std::make_unique<rr::conservation::ConservedMoietyConverter>();
-
-                if (moietyConverter->setDocument(_doc) != LIBSBML_OPERATION_SUCCESS) {
-                    throw_llvm_exception("error setting conserved moiety converter document");
-                }
-
-                if (moietyConverter->convert() != LIBSBML_OPERATION_SUCCESS) {
-                    throw_llvm_exception("error converting document to conserved moieties");
-                }
-
-                this->doc = moietyConverter->getDocument();
-
-                if (rr::Logger::getLevel() <= rr::Logger::LOG_INFORMATION) {
-                    SBMLWriter sw;
-                    char *convertedStr = sw.writeToString(_doc);
-
-                    rrLog(Logger::LOG_INFORMATION)
-                        << "***************** Conserved Moiety Converted Document ***************";
-                    rrLog(Logger::LOG_INFORMATION) << convertedStr;
-                    rrLog(Logger::LOG_INFORMATION)
-                        << "*********************************************************************";
-
-                    delete convertedStr;
-                }
-            } else {
-                this->doc = _doc;
-            }
-
-
-            /**
-             * these calls has been moved to Jit constructor
-             */
-            // jit->mapFunctionsToJitSymbols();
-            // createCLibraryFunctions(module);
-
-            symbols = new LLVMModelDataSymbols(doc->getModel(), options);
-
-            modelSymbols = std::make_unique<LLVMModelSymbols>(getModel(), *symbols);
-
-            ModelDataIRBuilder::createModelDataStructType(jit->getModuleNonOwning(), nullptr, *symbols);
-
-            // check if _doc has distrib package
-            // Random adds mappings, need call after llvm objs created
-#ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-            const DistribSBMLDocumentPlugin *distrib =
-                    static_cast<const DistribSBMLDocumentPlugin *>(
-                            _doc->getPlugin("distrib"));
-            if (distrib) {
-                // Random uses global mappings, which is a deprecated API. We need
-                // to figure out what replaces the global mapping and work out a flexible
-                // way to adjust Random.
-                // For now, comment out.
-                random = new Random(*this);
-            }
-#endif
-
-//        initFunctionPassManager(); // handled in MCJit
-
-        }
-        catch (const std::exception &) {
             cleanup();
             throw;
         }
