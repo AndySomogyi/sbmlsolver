@@ -299,7 +299,7 @@ endif() #BUILD_RR_PLUGINS
 
 #List the semantic_STS last, since it takes much longer to run than the others.
 # (fyi, build the run-ctest-exclude-sbml-test-suite target - see below)
-add_subdirectory(semantic_STS)
+#add_subdirectory(semantic_STS)
 
 
 #######################################################################

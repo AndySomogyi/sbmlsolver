@@ -151,8 +151,7 @@ protected:
 
     llvm::Function *verifyFunction()
     {
-        poco_information(getLogger(),
-            std::string("function: ") + to_string(function));
+        rrLogInfo << std::string("function: ") + to_string(function);
 
         /// verifyFunction - Check a function for errors, printing messages on stderr.
         /// Return true if the function is corrupt.

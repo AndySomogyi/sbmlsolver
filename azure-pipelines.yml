@@ -146,7 +146,8 @@ stages:
               # for example, it looks like this:
               # - https://dev.azure.com/TheRoadrunnerProject/libroadrunner-deps/_build?definitionId=9
               pipeline: 9
-              runVersion: 'latest'
+              runVersion: 'latestFromBranch'
+              runBranch: master
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -287,7 +288,8 @@ stages:
               source: 'specific'
               project: 'libroadrunner-deps'
               pipeline: 9
-              runVersion: 'latest'
+              runVersion: 'latestFromBranch'
+              runBranch: master
               artifact: libroadrunner-deps-$(Agent.OS)-Release
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -509,7 +511,8 @@ stages:
               source: 'specific'
               project: 'libroadrunner-deps'
               pipeline: 9
-              runVersion: 'latest'
+              runVersion: 'latestFromBranch'
+              runBranch: master
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -631,7 +634,8 @@ stages:
               source: 'specific'
               project: 'libroadrunner-deps'
               pipeline: 9
-              runVersion: 'latest'
+              runVersion: 'latestFromBranch'
+              runBranch: master
               artifact: libroadrunner-deps-$(Agent.OS)-Release
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -847,7 +851,8 @@ stages:
               source: 'specific'
               project: 'libroadrunner-deps'
               pipeline: 9
-              runVersion: 'latest'
+              runVersion: 'latestFromBranch'
+              runBranch: master
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -977,7 +982,8 @@ stages:
               source: 'specific'
               project: 'libroadrunner-deps'
               pipeline: 9
-              runVersion: 'latest'
+              runVersion: 'latestFromBranch'
+              runBranch: master
               artifact: libroadrunner-deps-$(Agent.OS)-Release
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts

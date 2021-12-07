@@ -177,6 +177,8 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Asan")
     # and they will only work if CMake can find address sanitizer
     # executable.
     #
+    # Only works on macos.
+    #
     # The Asan build is based on the Debug build, but with a few extra flags
     #
     get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
@@ -194,21 +196,25 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Asan")
         endif ()
     endif ()
 
+    set(WHICH_SANITIZER "address" CACHE STRING "which sanitizer to use. address, memory, thread, leak, undefined")
+    set(SANITIZER_OPTIONS "-fno-omit-frame-pointer" CACHE STRING "options to pass to command -fsanitize")
+
+    message(STATUS "WHICH_SANITIZER ${WHICH_SANITIZER}")
 
     set(CMAKE_C_FLAGS_ASAN
-            "${CMAKE_C_FLAGS_DEBUG} -fsanitize=address -fno-omit-frame-pointer" CACHE STRING
+            "${CMAKE_C_FLAGS_DEBUG} -fsanitize=${WHICH_SANITIZER} ${SANITIZER_OPTIONS}" CACHE STRING
             "Flags used by the C compiler for Asan build type or configuration." FORCE)
 
     set(CMAKE_CXX_FLAGS_ASAN
-            "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address -fno-omit-frame-pointer" CACHE STRING
+            "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=${WHICH_SANITIZER} ${SANITIZER_OPTIONS}" CACHE STRING
             "Flags used by the C++ compiler for Asan build type or configuration." FORCE)
 
     set(CMAKE_EXE_LINKER_FLAGS_ASAN
-            "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} -fsanitize=address" CACHE STRING
+            "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} -fsanitize=${WHICH_SANITIZER}" CACHE STRING
             "Linker flags to be used to create executables for Asan build type." FORCE)
 
     set(CMAKE_SHARED_LINKER_FLAGS_ASAN
-            "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} -fsanitize=address" CACHE STRING
+            "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} -fsanitize=${WHICH_SANITIZER}" CACHE STRING
             "Linker lags to be used to create shared libraries for Asan build type." FORCE)
 endif ()
 
