@@ -752,12 +752,12 @@ stages:
 ########################################################################
 # Ubuntu Build
 #
-  - stage: LinuxBuildRoadrunnerCpp
+  - stage: UbuntuBuildRoadrunnerCpp
     dependsOn: [ ]
     jobs:
-      - job: LinuxBuildRoadrunnerCpp
+      - job: UbuntuBuildRoadrunnerCpp
         timeoutInMinutes: "0"
-        displayName: LinuxBuildRoadrunnerCpp
+        displayName: UbuntuBuildRoadrunnerCpp
         continueOnError: "false"
         pool:
           vmImage: 'Ubuntu-18.04'
@@ -773,8 +773,8 @@ stages:
           PythonLibDir: '$(PythonRoot)/lib'
           PythonExecutable: '$(PythonRoot)/bin/python'
           PipExecutable: '$(PythonRoot)/bin/pip'
-          PythonName: '3.9'
-          PythonVersion: 'py39'
+          PythonName: 'py39'
+          PythonVersion: '3.9'
           LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm13-ubuntu-gcc10-rel.tar.gz'
         steps:
           - powershell: git checkout orc-jit
@@ -904,12 +904,12 @@ stages:
             artifact: roadrunner-$(Agent.OS)-$(BuildType)
             displayName: Publish
 
-  - stage: LinuxBuildRoadrunnerPython
+  - stage: UbuntuBuildRoadrunnerPython
     dependsOn: []
     jobs:
-      - job: LinuxBuildRoadrunnerPython
+      - job: UbuntuBuildRoadrunnerPython
         timeoutInMinutes: "0"
-        displayName: LinuxBuildRoadrunnerPython
+        displayName: UbuntuBuildRoadrunnerPython
         continueOnError: "false"
         pool:
           vmImage: 'Ubuntu-18.04'
