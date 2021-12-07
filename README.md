@@ -40,9 +40,12 @@ Experimental front end:
 `pip install libroadrunner-experimental`
 
 # Documentation
+
 [Python API Documentation](http://sys-bio.github.io/roadrunner/)
 
 [C API Documention](https://sys-bio.github.io/roadrunner/OriginalDoxygenStyleDocs/html/index.html)
+
+# Copyright
 
 Copyright 2013-2021
 
