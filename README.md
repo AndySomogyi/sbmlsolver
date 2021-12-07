@@ -92,19 +92,21 @@ downloaded from http://sourceforge.net/projects/libroadrunner/files and can be i
 ready for use.
 
 ## Docker images
-Currently we have a manylinux2014 "base" and "build" docker images. The 
+Currently we have a manylinux2014 [build](https://hub.docker.com/repository/docker/ciaranwelsh/roadrunner-manylinux2014-base) docker image. The 
 base provides the environment you need to be able to build roadrunner 
-yourself on manylinux2014 (centos 7). The "build" image, in constrast
-is an image where roadrunner has already been built on top of the "base" 
-image. 
+yourself on manylinux2014 (centos 8).  
+
+There are two docker tags associated with roadrunner depending on which 
+version of llvm you want to build with. The options are llvm-13.x for newer 
+roadrunner versions (> v2.2.0) and llvm-6.x for older.
 
 To get the base image: 
 
-`docker pull ciaranwelsh/roadrunner-manylinux2014-base:latest`
+`docker pull ciaranwelsh/roadrunner-manylinux2014-base:llvm-13.x`
 
 and the build image:
 
-`docker pull ciaranwelsh/roadrunner-manylinux2014-build:latest`
+`docker pull ciaranwelsh/roadrunner-manylinux2014-build:llvm-13.x`
 
 Docker build scripts can be found under the `docker` directory from the roadrunner
 root directory. 
