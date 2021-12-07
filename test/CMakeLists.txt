@@ -265,6 +265,7 @@ add_subdirectory(sundials-tests)
 add_subdirectory(python)
 add_subdirectory(cxx_api_tests)
 add_subdirectory(serialization)
+add_subdirectory(PerformanceTests)
 
 if (WIN32 AND BUILD_RR_PLUGINS)
    set(

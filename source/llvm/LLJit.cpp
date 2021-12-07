@@ -111,11 +111,14 @@ namespace rrllvm {
          * todo expose as option to user
          */
         int numCompileThreads = rr::Config::getValue(rr::Config::LLJIT_NUM_THREADS).getAs<int>();
+
         // in case c++ fails to detect num cores from hardware
         // when using default options.
         if (numCompileThreads == 0) {
             numCompileThreads = 1;
         }
+
+        rrLogDebug << "Compiling model with LLJit, num threads: " << numCompileThreads;
 
         // Create the LLJitBuilder
         llvm::orc::LLJITBuilder llJitBuilder;

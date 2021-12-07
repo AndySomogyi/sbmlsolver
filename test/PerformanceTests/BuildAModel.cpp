@@ -22,6 +22,7 @@ public:
  */
 
 TEST_F(BuildAModel, build){
+//    Logger::setLevel(Logger::LOG_DEBUG);
     Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
     Config::setValue(Config::LOADSBMLOPTIONS_RECOMPILE, true);
     Config::setValue(Config::LLJIT_NUM_THREADS, 1);
