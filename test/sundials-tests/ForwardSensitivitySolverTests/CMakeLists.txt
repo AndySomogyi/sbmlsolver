@@ -5,27 +5,3 @@ add_test_executable(test_sundials_FFSIntegrationTests test_targets FFSIntegratio
 
 
 
-if (BUILD_PYTHON AND BUILD_TESTS)
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/ForwardSensitivitySolverTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/ForwardSensitivitySolverTests.py"
-            COPYONLY
-    )
-
-    install(FILES
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/ForwardSensitivitySolverTests.py"
-            DESTINATION
-            "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
-            )
-
-endif ()
-
-
-
-
-
-
-
-
-
-

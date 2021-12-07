@@ -55,6 +55,18 @@ namespace rr {
               duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION)), times(), hstep(0) {
     }
 
+    void SimulateOptions::reset()
+    {
+        reset_model = false;
+        structured_result = Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT);
+        copy_result = Config::getBool(Config::SIMULATEOPTIONS_COPY_RESULT);
+        steps = Config::getInt(Config::SIMULATEOPTIONS_STEPS);
+        start = 0;
+        duration = Config::getDouble(Config::SIMULATEOPTIONS_DURATION);
+        times.clear();
+        hstep = 0;
+    }
+
     void SimulateOptions::loadSBMLSettings(const std::string &fname) {
         if (!fname.size()) {
             rrLog(Logger::LOG_ERROR) << "Empty file name for setings file";

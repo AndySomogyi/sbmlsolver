@@ -19,8 +19,6 @@ set(RRP_NELDER_MEAD_SOURCES
 add_library(${target} MODULE ${RRP_NELDER_MEAD_SOURCES})
 
 target_link_libraries (${target} PRIVATE
-  telpluginsBaseClass-static
-  telplugins_math-static
   telplugins_c_api
 )
 

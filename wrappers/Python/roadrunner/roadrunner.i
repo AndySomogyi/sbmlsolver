@@ -1418,7 +1418,7 @@ namespace std { class ostream{}; }
             import warnings
             if selections is not None:
                 # check that selections is a sequence
-                if not isinstance(selections, collections.Sequence):
+                if not isinstance(selections, collections.abc.Sequence):
                     raise ValueError('Expected a sequence type for selections')
 
                 # check that selections contains only strings
@@ -1454,6 +1454,7 @@ namespace std { class ostream{}; }
             o = self.__simulateOptions
             originalSteps = o.steps
             originalVSS = True;
+            o.reset()
 
             if self.getIntegrator().hasValue('variable_step_size'):
                 originalVSS = self.getIntegrator().getValue('variable_step_size')
@@ -1471,6 +1472,9 @@ namespace std { class ostream{}; }
 
             if points is not None:
                 o.steps = points - 1
+            elif steps is not None:
+                o.steps = steps
+
 
             if selections is not None:
                 self.timeCourseSelections = selections
@@ -1484,9 +1488,6 @@ namespace std { class ostream{}; }
                 o.output_file = output_file
             else:
                 o.output_file = ""
-
-            if steps is not None:
-                o.steps = steps
 
             result = self._simulate(o)
 
@@ -2699,8 +2700,10 @@ namespace std { class ostream{}; }
         def __getattr__(self, name):
             if name in self.getSettings():
                 return Solver.getValue(self, name)
-            else:
+            elif name in self.__dict__:
                 return self.__dict__[name]
+            else:
+                raise AttributeError(name)
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
@@ -2782,8 +2785,10 @@ namespace std { class ostream{}; }
         def __getattr__(self, name):
             if(name in self.getSettings()):
                 return Solver.getValue(self, name)
-            else:
+            elif name in self.__dict__:
                 return self.__dict__[name]
+            else:
+                raise AttributeError(name)
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
@@ -2812,8 +2817,10 @@ namespace std { class ostream{}; }
         def __getattr__(self, name):
             if(name in self.getSettings()):
                 return Solver.getValue(self, name)
-            else:
+            elif name in self.__dict__:
                 return self.__dict__[name]
+            else:
+                raise AttributeError(name)
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
@@ -2870,7 +2877,7 @@ def plotTimeSeriesSens(time:np.array, sens:np.array,
     Example
     ---------
     import roadrunner as rr
-    from roadrunner.testing.TestModelFactory import TestModelFactory, getAvailableTestModels
+    from roadrunner.tests.TestModelFactory import TestModelFactory, getAvailableTestModels
     sbml = TestModelFactory("Venkatraman2010").str()  # get the test model's sbml string
     time, sens, rownames, colnames = model.timeSeriesSensitivities(
         0, 10, 101, params=["keff1", "keff2", "keff3"], species=["tcUPA", "scUPA"])

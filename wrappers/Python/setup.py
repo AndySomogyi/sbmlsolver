@@ -25,7 +25,7 @@ EXPERIMENTAL = True
 
 setup(
     name='libroadrunner-experimental' if EXPERIMENTAL else "libroadrunner",
-    author='J Kyle Medley, Andy Somogyi, Herbert Sauro',
+    author='Andy Somogyi, J Kyle Medley, Lucian Smith, Ciaran Welsh, Herbert Sauro',
     author_email='tellurium-discuss@u.washington.edu',
     classifiers=[
         'Intended Audience :: Science/Research',
@@ -40,17 +40,17 @@ setup(
     long_description=open("README.md").read().strip(),
     long_description_content_type="text/markdown",
     url='http://libroadrunner.org',
-    packages=['roadrunner', 'roadrunner.testing', 'roadrunner.stochastic'],
+    packages=['roadrunner', 'roadrunner.tests', 'roadrunner.stochastic'],
     package_dir={
         'roadrunner': 'site-packages/roadrunner',
-        'roadrunner.testing': 'site-packages/roadrunner/testing',
+        'roadrunner.tests': 'site-packages/roadrunner/tests',
         'roadrunner.stochastic': 'site-packages/roadrunner/stochastic'
     },
     package_data={
         # add dll, won't hurt unix, not there anyway
         'roadrunner': ['_roadrunner*', '*.so', '*.so.*', '*.dll', '*.txt', '*.dylib', '*.pyd'],
-        'roadrunner.testing': ['*.so', '*.so.*', '*.dll', '*.dylib', '*.pyd',
-                               '*.xml', '*.txt', '*.dat', 'dsmts/*.xml', 'dsmts/*.csv', 'test_data/*']
+        'roadrunner.tests': ['*.so', '*.so.*', '*.dll', '*.dylib', '*.pyd',
+                               '*.xml', '*.txt', '*.dat', 'test_data/*']
     },
     # read dependencies directly from requirements.txt, Then, manage them
     # only from one place.

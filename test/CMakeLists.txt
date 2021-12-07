@@ -24,7 +24,6 @@ configure_file(RoadRunnerTestDirectory.cpp.in "${CMAKE_CURRENT_BINARY_DIR}/RoadR
 set(ThisSourceDirectory "${CMAKE_CURRENT_SOURCE_DIR}")
 set(ThisBinaryDirectory "${CMAKE_CURRENT_BINARY_DIR}")
 set(MOCKUPS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/mockups")
-set(RR_Python_wrapper_dir "${CMAKE_CURRENT_SOURCE_DIR}/../wrappers/Python/roadrunner")
 
 #todo move these to the rr_root/cmake folder
 # Adds a new executable cmake target to cmake.
@@ -51,7 +50,7 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
             "${ThisBinaryDirectory}"
             "${MOCKUPS_DIRECTORY}"
             "${TEST_PLUGIN_INCLUDE}"
-            "${RR_Python_wrapper_dir}" # for PyUtils in tests that need it
+#            "${RR_Python_wrapper_dir}" # for PyUtils in tests that need it
     )
 
     target_link_libraries(${TEST_TARGET} PRIVATE
@@ -234,20 +233,6 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "../wrappers/Python/roadrunner/PyUtils.h"
             "../wrappers/Python/roadrunner/PyUtils.cpp"
             )
-
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactoryTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py" COPYONLY)
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/RoadRunnerTest.py" COPYONLY)
-
-    install(
-            FILES
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py"
-            DESTINATION
-            "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
-    )
 endif ()
 
 
@@ -321,17 +306,19 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     endmacro()
 
 
-    add_pytest_to_ctest(python_tests_AutomaticMoietyConservationAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/AutomaticMoietyConservationAnalysisTests.py")
-    add_pytest_to_ctest(python_tests_ForwardSensitivitySolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/ForwardSensitivitySolverTests.py")
-    add_pytest_to_ctest(python_tests_IntegratorTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/IntegratorTests.py")
-    add_pytest_to_ctest(python_tests_python_api_tests "${RR_PYTHON_TESTING_BUILD_PREFIX}/python_api_tests.py")
-    add_pytest_to_ctest(python_tests_SettingTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/SettingTests.py")
-    add_pytest_to_ctest(python_tests_SteadyStateSolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/SteadyStateSolverTests.py")
-    add_pytest_to_ctest(python_tests_StructuralAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/StructuralAnalysisTests.py")
-    add_pytest_to_ctest(python_tests_TestModelFactoryTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py")
-    add_pytest_to_ctest(python_tests_RunRRTestsFromPython "${RR_PYTHON_TESTING_BUILD_PREFIX}/RunTesterWithUnitTest.py")
-    add_pytest_to_ctest(python_tests_NamedArrayTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/NamedArrayTests.py")
-    add_pytest_to_ctest(python_tests_PickleTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/pickle_tests.py")
+    add_pytest_to_ctest(python_tests_AutomaticMoietyConservationAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_automaticMoietyConservationAnalysis.py")
+    add_pytest_to_ctest(python_tests_ForwardSensitivitySolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_forwardSensitivitySolver.py")
+    add_pytest_to_ctest(python_tests_IntegratorTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_integrator.py")
+    #add_pytest_to_ctest(python_tests_JacobianTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_jacobian.py")
+    add_pytest_to_ctest(python_tests_TestModelFactoryTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_modelFactory.py")
+    add_pytest_to_ctest(python_tests_NamedArrayTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_namedArray.py")
+    #add_pytest_to_ctest(python_tests_PickleTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_pickle.py")
+    add_pytest_to_ctest(python_tests_Python_api_tests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_python_api.py")
+    add_pytest_to_ctest(python_tests_RRTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_rrtests.py")
+    add_pytest_to_ctest(python_tests_RunStochasticTestSuite "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_runStochasticTestSuite.py")
+    add_pytest_to_ctest(python_tests_SettingTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_settings.py")
+    add_pytest_to_ctest(python_tests_SteadyStateSolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_steadyStateSolver.py")
+    #add_pytest_to_ctest(python_tests_StructuralAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_structuralAnalysis.py")
 
     message(STATUS "PyTestTests ${PyTestTests}")
 

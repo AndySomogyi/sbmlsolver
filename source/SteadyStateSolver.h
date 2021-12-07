@@ -42,13 +42,6 @@ namespace rr
 
         ~SteadyStateSolver() override = default;
 
-        /**
-        * @author JKM
-        * @brief Called whenever a new model is loaded to allow integrator
-        * to reset internal state
-        */
-        virtual void syncWithModel(ExecutableModel* m) override = 0;
-
         virtual double solve() = 0;
 
         virtual void loadConfigSettings();

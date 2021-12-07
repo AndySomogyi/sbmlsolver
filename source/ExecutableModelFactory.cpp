@@ -16,11 +16,9 @@
 #pragma warning(disable: 4267)
 #pragma warning(disable: 4624)
 #endif
-
 #include "llvm/LLVMModelGenerator.h"
 #include "llvm/LLVMCompiler.h"
 #include "llvm/LLVMExecutableModel.h"
-
 #ifdef _MSC_VER
 #pragma warning(default: 4146)
 #pragma warning(default: 4141)
@@ -36,10 +34,6 @@
 #include "rrLogger.h"
 #include <string>
 #include <algorithm>
-
-#include "testing/CXXExecutableModel.h"
-#include "testing/CXXEnzymeExecutableModel.h"
-#include "rrConfig.h"
 
 namespace rr {
 
@@ -70,16 +64,17 @@ static ModelGenerator* createModelGenerator(const std::string& compiler, const s
         return new rrllvm::LLVMCompiler();
     }
 
-    ExecutableModel *rr::ExecutableModelFactory::createModel(
-            const std::string &sbml, const Dictionary *dict) {
-        LoadSBMLOptions opt(dict);
-
-        if (opt.hasKey("cxxEnzymeTest")) {
-            return new rrtesting::CXXEnzymeExecutableModel(dict);
-        }
-
-        return rrllvm::LLVMModelGenerator::createModel(sbml, opt.modelGeneratorOpt);
+ExecutableModel* rr::ExecutableModelFactory::createModel(
+        const libsbml::SBMLDocument* sbml, std::string md5, const Dictionary* dict)
+{
+    LoadSBMLOptions opt(dict);
+    if (opt.modelGeneratorOpt & LoadSBMLOptions::CONSERVED_MOIETIES)
+    {
+        md5 += "_conserved";
     }
+
+    return rrllvm::LLVMModelGenerator::createModel(sbml, opt.modelGeneratorOpt, md5);
+}
 
     ExecutableModel *rr::ExecutableModelFactory::createModel(std::istream &in, uint modelGeneratorOpt) {
         return new rrllvm::LLVMExecutableModel(in, modelGeneratorOpt);

@@ -132,147 +132,117 @@ void setSpeciesRefId(SpeciesReference* sr, const std::string& idbase)
     }
 }
 
-std::string fixMissingStoichAndMath(const std::string sbml) {
+std::string fixMissingStoichAndMath(libsbml::SBMLDocument* doc)
+{
+    Model* m = doc->getModel();
 
-    SBMLDocument *doc = NULL;
-
-    bool sbml_decl_okay = false;
-
-    // check for <?xml
-    size_t pos = sbml.find("<");
-    if (pos != std::string::npos) {
-      pos = sbml.find("?", pos+1);
-      if (pos != std::string::npos) {
-        pos = sbml.find("xml", pos+1);
-        if (pos != std::string::npos)
-          sbml_decl_okay = true;
-      }
-    }
-
-    // check for <sbml
-    pos = sbml.find("<");
-    if (pos != std::string::npos) {
-      pos = sbml.find("sbml", pos+1);
-      if (pos != std::string::npos)
-        sbml_decl_okay = true;
-    }
-
-    if (!sbml_decl_okay)
-      throw std::runtime_error("SBML document must begin with an XML declaration or an SBML declaration");
-
-    try {
-        doc = readSBMLFromString(sbml.c_str());
-
-        Model* m = doc->getModel();
-
-        if (!m) {
-            if (doc->getNumErrors(libsbml::LIBSBML_SEV_ERROR) > 0)
+    if (!m) {
+        if (doc->getNumErrors(libsbml::LIBSBML_SEV_ERROR) > 0)
+        {
+            const libsbml::SBMLError* err = doc->getErrorWithSeverity(0, libsbml::LIBSBML_SEV_ERROR); //Will only work on XML errors after https://github.com/sbmlteam/libsbml/pull/169
+            string errmsg = "  The XML content is incorrect.";
+            if (err)
             {
-                const libsbml::SBMLError* err = doc->getError(0); //DEBUG should be doc->getErrorWithSeverity(0, libsbml::LIBSBML_SEV_ERROR); but won't work yet due to libsbml bug.  See https://github.com/sbmlteam/libsbml/pull/169
-                string errmsg = err->getMessage();
-                throw std::runtime_error("SBML document unable to be read.  Error from libsbml:\n" + doc->getErrorWithSeverity(0, libsbml::LIBSBML_SEV_ERROR)->getMessage());
+                errmsg = "  Error from libsbml:\n" + err->getMessage();
             }
-            //Otherwise, the document is fine, it just has no model:
-            std::string result = writeSBMLToStdString(doc);
-            delete doc;
-            return result;
+            throw std::runtime_error("SBML document unable to be read." + errmsg);
         }
-
-        //Initial Assignments with no math:
-        std::vector<std::string> badias;
-        for (unsigned int ia = 0; ia < m->getNumInitialAssignments(); ia++)
-        {
-            InitialAssignment* init = m->getInitialAssignment(ia);
-            if (!init->isSetMath())
-            {
-                badias.push_back(init->getId());
-            }
-        }
-        for (size_t badia = 0; badia < badias.size(); badia++)
-        {
-            delete m->removeInitialAssignment(badias[badia]);
-        }
-
-        //Rules with no math:
-        std::vector<std::string> badrules;
-        for (unsigned int r = 0; r < m->getNumRules(); r++)
-        {
-            Rule* rule = m->getRule(r);
-            if (!rule->isSetMath())
-            {
-                badrules.push_back(rule->getId());
-            }
-        }
-        for (size_t badrule = 0; badrule < badrules.size(); badrule++)
-        {
-            delete m->removeRule(badrules[badrule]);
-        }
-
-        //Event Triggers with no math:
-        std::vector<std::string> badevents;
-        for (unsigned int e = 0; e < m->getNumEvents(); e++)
-        {
-            Event* event = m->getEvent(e);
-            if (!event->isSetTrigger() || !event->getTrigger()->isSetMath())
-            {
-                if (!event->isSetId())
-                {
-                    event->setId("REMOVEME_" + std::to_string(e));
-                }
-                badevents.push_back(event->getId());
-                continue;
-            }
-            //Event assignments, priorities, and delays are handled separately.
-        }
-        for (size_t badevent = 0; badevent < badevents.size(); badevent++)
-        {
-            delete m->removeEvent(badevents[badevent]);
-        }
-
-        for (unsigned int j = 0; j<m->getNumReactions(); ++j) {
-            Reaction* r = m->getReaction(j);
-            if (!r)
-                throw std::runtime_error("No reaction");
-
-            // check stoich defined on reactants / products
-            for (unsigned int k = 0; k<r->getNumReactants(); ++k) {
-                SpeciesReference* s = r->getReactant(k);
-                if (!isStoichDefined(s))
-                    if (s->setStoichiometry(1.) != LIBSBML_OPERATION_SUCCESS) {
-                        throw std::runtime_error("Unable to set stoichiometry");
-                    }
-                if (s->isSetStoichiometryMath()) {
-                    std::string id = s->getId();
-                    if (!s->isSetId()) {
-                        setSpeciesRefId(s, r->getId() + "_reactant_" + s->getSpecies() + "_stoichiometry");
-                    }
-                }
-            }
-
-            for (unsigned int k = 0; k<r->getNumProducts(); ++k) {
-                SpeciesReference* s = r->getProduct(k);
-                if (!isStoichDefined(s))
-                    if (s->setStoichiometry(1.) != LIBSBML_OPERATION_SUCCESS) {
-                        throw std::runtime_error("Unable to set stoichiometry");
-                    }
-                if (s->isSetStoichiometryMath()) {
-                    std::string id = s->getId();
-                    if (!s->isSetId()) {
-                        setSpeciesRefId(s, r->getId() + "_product_" + s->getSpecies() + "_stoichiometry");
-                    }
-                }
-            }
-
-            // modifiers have no stoichiometry
-        }
-
-    } catch(...) {
+        //Otherwise, the document is fine, it just has no model:
+        std::string result = writeSBMLToStdString(doc);
         delete doc;
-        throw;
+        return result;
+    }
+
+    //Initial Assignments with no math:
+    std::vector<std::string> badias;
+    for (unsigned int ia = 0; ia < m->getNumInitialAssignments(); ia++)
+    {
+        InitialAssignment* init = m->getInitialAssignment(ia);
+        if (!init->isSetMath())
+        {
+            badias.push_back(init->getId());
+        }
+    }
+    for (size_t badia = 0; badia < badias.size(); badia++)
+    {
+        delete m->removeInitialAssignment(badias[badia]);
+    }
+
+    //Rules with no math:
+    std::vector<std::string> badrules;
+    for (unsigned int r = 0; r < m->getNumRules(); r++)
+    {
+        Rule* rule = m->getRule(r);
+        if (!rule->isSetMath())
+        {
+            badrules.push_back(rule->getId());
+        }
+    }
+    for (size_t badrule = 0; badrule < badrules.size(); badrule++)
+    {
+        delete m->removeRule(badrules[badrule]);
+    }
+
+    //Event Triggers with no math:
+    std::vector<std::string> badevents;
+    for (unsigned int e = 0; e < m->getNumEvents(); e++)
+    {
+        Event* event = m->getEvent(e);
+        if (!event->isSetTrigger() || !event->getTrigger()->isSetMath())
+        {
+            if (!event->isSetId())
+            {
+                event->setId("REMOVEME_" + std::to_string(e));
+            }
+            badevents.push_back(event->getId());
+            continue;
+        }
+        //Event assignments, priorities, and delays are handled separately.
+    }
+    for (size_t badevent = 0; badevent < badevents.size(); badevent++)
+    {
+        delete m->removeEvent(badevents[badevent]);
+    }
+
+    //Stoichiometries
+    for (unsigned int j = 0; j < m->getNumReactions(); ++j) {
+        Reaction* r = m->getReaction(j);
+        if (!r)
+            throw std::runtime_error("No reaction");
+
+        // check stoich defined on reactants / products
+        for (unsigned int k = 0; k < r->getNumReactants(); ++k) {
+            SpeciesReference* s = r->getReactant(k);
+            if (!isStoichDefined(s))
+                if (s->setStoichiometry(1.) != LIBSBML_OPERATION_SUCCESS) {
+                    throw std::runtime_error("Unable to set stoichiometry");
+                }
+            if (s->isSetStoichiometryMath()) {
+                std::string id = s->getId();
+                if (!s->isSetId()) {
+                    setSpeciesRefId(s, r->getId() + "_reactant_" + s->getSpecies() + "_stoichiometry");
+                }
+            }
+        }
+
+        for (unsigned int k = 0; k < r->getNumProducts(); ++k) {
+            SpeciesReference* s = r->getProduct(k);
+            if (!isStoichDefined(s))
+                if (s->setStoichiometry(1.) != LIBSBML_OPERATION_SUCCESS) {
+                    throw std::runtime_error("Unable to set stoichiometry");
+                }
+            if (s->isSetStoichiometryMath()) {
+                std::string id = s->getId();
+                if (!s->isSetId()) {
+                    setSpeciesRefId(s, r->getId() + "_product_" + s->getSpecies() + "_stoichiometry");
+                }
+            }
+        }
+
+        // modifiers have no stoichiometry
     }
 
     std::string result = writeSBMLToStdString(doc);
-    delete doc;
     return result;
 }
 

@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.16)
 
 set(ROADRUNNER_VERSION_MAJOR 2)
 set(ROADRUNNER_VERSION_MINOR 1)
-set(ROADRUNNER_VERSION_PATCH 2)
+set(ROADRUNNER_VERSION_PATCH 4)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
 project(
@@ -124,12 +124,12 @@ if (BUILD_PYTHON)
     # build directories
     set(PYTHON_PACKAGE_SITE_DIR_BUILD_TREE "${CMAKE_BINARY_DIR}/lib/site-packages" CACHE PATH "Path to Python site packages directory in the build tree")
     set(PYTHON_PACKAGE_BUILD_PREFIX "${PYTHON_PACKAGE_SITE_DIR_BUILD_TREE}/roadrunner")
-    set(RR_PYTHON_TESTING_BUILD_PREFIX "${PYTHON_PACKAGE_BUILD_PREFIX}/testing")
+    set(RR_PYTHON_TESTING_BUILD_PREFIX "${PYTHON_PACKAGE_BUILD_PREFIX}/tests")
 
     # install directories
     set(PYTHON_PACKAGE_SITE_DIR "${CMAKE_INSTALL_PREFIX}/site-packages" CACHE PATH "Path to Python site packages directory in the install tree")
     set(PYTHON_PACKAGE_INSTALL_PREFIX "${PYTHON_PACKAGE_SITE_DIR}/roadrunner")#CACHE PATH "Destination for roadrunner python bindings.")
-    set(RR_PYTHON_TESTING_INSTALL_PREFIX "${PYTHON_PACKAGE_INSTALL_PREFIX}/testing")
+    set(RR_PYTHON_TESTING_INSTALL_PREFIX "${PYTHON_PACKAGE_INSTALL_PREFIX}/tests")
 
 
     # plugin directories
@@ -507,7 +507,7 @@ if (BUILD_TESTS)
 
     message(STATUS "building tests")
 
-    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*.*")
+    file(GLOB PYTHON_TEST_FILES "test/python/*.*")
 
     file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/test/rrtest_files/*.rrtest")
 
@@ -516,21 +516,21 @@ if (BUILD_TESTS)
     foreach (f ${PYTHON_TEST_FILES})
         if (NOT IS_DIRECTORY ${f})
             get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY)
+            configure_file(${f} lib/site-packages/roadrunner/tests/${FILE_NAME} COPYONLY)
         endif ()
     endforeach ()
 
     foreach (f ${PYTHON_TEST_DATA})
         if (NOT IS_DIRECTORY ${f})
             get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+            configure_file(${f} lib/site-packages/roadrunner/tests/test_data/${FILE_NAME} COPYONLY)
         endif ()
     endforeach ()
 
     foreach (f ${TEST_DATA_XML})
         if (NOT IS_DIRECTORY ${f})
             get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+            configure_file(${f} lib/site-packages/roadrunner/tests/test_data/${FILE_NAME} COPYONLY)
         endif ()
     endforeach ()
 

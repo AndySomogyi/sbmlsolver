@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v2.5.2 on 2014-09-22 11:05 with libSBML version 5.10.2. -->
+<!-- Created by libAntimony version v2.13.0 with libSBML version 5.19.1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model id="Conserved_Cycle" name="Conserved_Cycle">
+  <model metaid="Conserved_Cycle" id="Conserved_Cycle" name="Conserved_Cycle">
     <listOfFunctionDefinitions>
       <functionDefinition id="MM">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -69,6 +69,9 @@
       <species id="S1" compartment="default_compartment" initialConcentration="2.82" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
       <species id="S2" compartment="default_compartment" initialConcentration="5.27" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
     </listOfSpecies>
+    <listOfParameters>
+      <parameter id="Vm" value="8.52" constant="true"/>
+    </listOfParameters>
     <listOfReactions>
       <reaction id="J0" reversible="true" fast="false">
         <listOfReactants>
@@ -83,7 +86,7 @@
               <ci> MM </ci>
               <ci> S1 </ci>
               <ci> S2 </ci>
-              <cn> 8.52 </cn>
+              <ci> Vm </ci>
               <cn> 3.25 </cn>
               <cn> 7.43 </cn>
               <cn> 7.02 </cn>

@@ -17,9 +17,7 @@ set(RRP_ADD_NOISE_SOURCES
 add_library(${target} MODULE ${RRP_ADD_NOISE_SOURCES})
 
 target_link_libraries(${target} PRIVATE
-        telpluginsBaseClass-static
-        telplugins_math-static
-        telplugins_common-static
+        telplugins_c_api
         )
 
 target_compile_definitions(${target} PRIVATE

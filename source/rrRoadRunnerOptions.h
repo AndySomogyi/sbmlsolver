@@ -397,6 +397,11 @@ namespace rr
 
 		virtual double getNext(size_t step);
 
+		/**
+		* Reset all values to defaults. 
+		*/
+		virtual void reset();
+
     private:
 
 		double hstep; //Used if we have a duration and number of steps, but not 'times'.

@@ -5,6 +5,7 @@
 #include "rrOSSpecifics.h"
 
 #include <iostream>
+#include <list>
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "ExecutableModelFactory.h"
@@ -188,9 +189,9 @@ namespace rr {
  * assert that numbers are similar.
  */
 #ifdef abs
-#define assert_similar(a, b) assert(abs(a - b) < 1e-13)
+#define assert_similar(a, b) assert(a==b || (b != 0 && abs(a/b - 1) < 1e-6))
 #else
-#define assert_similar(a, b) assert(std::abs(a - b) < 1e-13)
+#define assert_similar(a, b) assert(a==b || (b != 0 && std::abs(a/b - 1) < 1e-6))
 #endif
 
 /**
@@ -527,8 +528,6 @@ namespace rr {
     RoadRunner::RoadRunner(const std::string &uriOrSBML,
                            const Dictionary *options) :
             impl(new RoadRunnerImpl(uriOrSBML, options)) {
-
-        rrLogInfo << "Instantiating a roadrunner model from uri or sbml";
         /**
          * The main program should call this function to
          * initialize the native target corresponding to the host.  This is useful
@@ -1150,6 +1149,90 @@ namespace rr {
 
                 break;
 
+            case SelectionRecord::FLOATING_CONCENTRATION_RATE:
+            {
+                dResult = 0;
+                std::stringstream err;
+                try {
+                    impl->model->getFloatingSpeciesAmountRates(1, &record.index, &dResult);
+                }
+                catch (std::out_of_range) {
+                    err << "No rate available for floating species " << record.p1
+                        << ": if conserved moieties are enabled, this species may be defined by an implied assignment rule instead, and its rate cannot be determined.";
+                    throw std::invalid_argument(err.str());
+                }
+                try {
+                    int compidx = impl->model->getCompartmentIndexForFloatingSpecies(record.index);
+                    string compid = impl->model->getCompartmentId(compidx);
+                    double comprate = getValue(compid + "'");
+                    double compvol = getValue(compid);
+                    double species_conc = getValue("[" + record.p1 + "]");
+                    dResult = (dResult - (comprate * species_conc)) / compvol;
+                }
+                catch (std::invalid_argument) {
+                    err << "No rate available for the concentration of floating species " << record.p1
+                        << ": its compartment is defined by an assignment rule, and its rate of change cannot be calculated.";
+                    throw std::invalid_argument(err.str());
+                }
+                break;
+            }
+            case SelectionRecord::BOUNDARY_CONCENTRATION_RATE:
+            {
+                dResult = 0;
+                std::stringstream err;
+                try {
+                    dResult = getValue(record.p1 + "'");
+                }
+                catch (std::out_of_range) {
+                    err << "No rate available for boundary species " << record.p1
+                        << ": if it is defined by an assignment rule, its rate cannot be determined.";
+                    throw std::invalid_argument(err.str());
+                }
+                try {
+                    int compidx = impl->model->getCompartmentIndexForBoundarySpecies(record.index);
+                    string compid = impl->model->getCompartmentId(compidx);
+                    double comprate = getValue(compid + "'");
+                    double compvol = getValue(compid);
+                    double species_conc = getValue("[" + record.p1 + "]");
+                    dResult = (dResult - (comprate * species_conc)) / compvol;
+                }
+                catch (std::invalid_argument) {
+                    err << "No rate available for the concentration of boundary species " << record.p1
+                        << ": its compartment is defined by an assignment rule, and its rate of change cannot be calculated.";
+                    throw std::invalid_argument(err.str());
+                }
+                break;
+            }
+            case SelectionRecord::COMPARTMENT_RATE:
+            case SelectionRecord::GLOBAL_PARAMETER_RATE:
+            case SelectionRecord::BOUNDARY_AMOUNT_RATE:
+            {
+                dResult = 0;
+                list<string> rrs, ars;
+                impl->model->getRateRuleIds(rrs);
+                impl->model->getAssignmentRuleIds(ars);
+                for (list<string>::iterator ar = ars.begin(); ar != ars.end(); ar++)
+                {
+                    if (*ar == record.p1)
+                    {
+                        std::stringstream err;
+                        err << "No rate available for compartment " << record.p1
+                            << " because the volume is defined by an assignment rule.";
+                        throw std::invalid_argument(err.str());
+                    }
+                }
+                int index = 0;
+                for (list<string>::iterator rr = rrs.begin(); rr != rrs.end(); rr++)
+                {
+                    if (*rr == record.p1)
+                    {
+                        impl->model->getRateRuleRates(1, &index, &dResult);
+                        break;
+                    }
+                    index++;
+                }
+                break;
+            }
             case SelectionRecord::COMPARTMENT:
                 impl->model->getCompartmentVolumes(1, &record.index, &dResult);
                 break;
@@ -1221,6 +1304,18 @@ namespace rr {
                 }
 
                 return std::imag(eig[index]);
+            }
+                break;
+            case SelectionRecord::EIGENVALUE_COMPLEX: {
+                double real = getValue("eigenReal(" + record.p1 + ")");
+                double imag = getValue("eigenImag(" + record.p1 + ")");
+                if (imag == 0)
+                {
+                    return real;
+                }
+                std::stringstream err;
+                err << "Eigenvalue is complex (" << real << "+" << imag << "j):  unable to return value as a double.  Request the real and imaginary parts separately with 'eigenReal(" << record.p1 << ") and 'eigenImag(" << record.p1 << ").";
+                throw std::invalid_argument(err.str());
             }
                 break;
             case SelectionRecord::INITIAL_FLOATING_CONCENTRATION: {
@@ -1322,16 +1417,6 @@ namespace rr {
             impl->loadOpt = LoadSBMLOptions(dict);
         }
 
-        /**
-         * Load sbml doc here.
-         * After which we only pass around
-         * the sbml doc ptr
-         */
-
-        // Check that stoichiometry is defined and, if variable in L2, named.
-        //  If not, define it to be 1.0, and name it.
-        mCurrentSBML = fixMissingStoichAndMath(mCurrentSBML);
-
         // TODO: add documentation for validations
         if ((impl->loadOpt.loadFlags & LoadSBMLOptions::TURN_ON_VALIDATION) != 0) {
             std::string errors = validateSBML(mCurrentSBML, VALIDATE_GENERAL | VALIDATE_IDENTIFIER | VALIDATE_MATHML |
@@ -1347,7 +1432,11 @@ namespace rr {
             // failed. Its *VERY* expensive to pre-validate the model.
             libsbml::SBMLReader reader;
             impl->document.reset(reader.readSBMLFromString(mCurrentSBML));
-            impl->model.reset(ExecutableModelFactory::createModel(mCurrentSBML, &impl->loadOpt));
+            // Fix various problems that might occur in incomplete SBML models.
+            mCurrentSBML = fixMissingStoichAndMath(impl->document.get());
+
+            std::string md5 = rr::getMD5(mCurrentSBML);
+            impl->model.reset(ExecutableModelFactory::createModel(impl->document.get(), md5, &impl->loadOpt));
         } catch (const rr::UninitializedValueException &e) {
             // catch specifically for UninitializedValueException, otherwise for some
             // reason the message is erased, and an 'unknown error' is displayed to the user.
@@ -1355,6 +1444,9 @@ namespace rr {
         } catch (const rrllvm::LLVMException &e) {
             // catch specifically for LLVMException, otherwise the exception type is removed, 
             // and an 'unknown error' is displayed to the user.
+            throw e;
+        }
+        catch (const std::runtime_error& e) {
             throw e;
         }
         catch (const std::exception &e) {
@@ -1624,7 +1716,7 @@ namespace rr {
         } else if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0) {
             parameterType = ptGlobalParameter;
         } else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0) {
-            parameterType = ptConservationParameter;
+            throw std::invalid_argument("Cannot calculate elasticities for conserved moieties.");
         } else {
             throw CoreException(format("Unable to locate variable: [{0}]", parameterName));
         }
@@ -1710,6 +1802,10 @@ namespace rr {
                 originalParameterValue = 0;
                 impl->model->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
             } else if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0) {
+                if (impl->model->getConservedMoietyIndex(parameterName) >= 0)
+                {
+                    throw std::invalid_argument("Cannot calculate elasticities for conserved moieties.");
+                }
                 parameterType = ptGlobalParameter;
                 originalParameterValue = 0;
                 impl->model->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
@@ -3560,8 +3656,6 @@ namespace rr {
                 throw CoreException(gEmptyModelMessage);
             }
 
-            mcaSteadyState();
-
             ParameterType parameterType;
             VariableType variableType;
             double originalParameterValue;
@@ -3583,6 +3677,23 @@ namespace rr {
             } else {
                 throw CoreException("Unable to locate variable: [" + variableNameMod + "]");
             }
+
+            //Save the current state before calculating the steady state so we can restore it later.
+            int nfloat = impl->model->getNumFloatingSpecies();
+            double* floats = new double[nfloat];
+            impl->model->getFloatingSpeciesAmounts(nfloat, 0, floats);
+            int nboundary = impl->model->getNumBoundarySpecies();
+            double* boundaries = new double[nboundary];
+            impl->model->getBoundarySpeciesAmounts(nboundary, 0, boundaries);
+            int ncomp = impl->model->getNumCompartments();
+            double* comps = new double[ncomp];
+            impl->model->getCompartmentVolumes(ncomp, 0, comps);
+            int nparam = impl->model->getNumGlobalParameters();
+            double* params = new double[nparam];
+            impl->model->getGlobalParameterValues(nparam, 0, params);
+            //std::stringstream* orig_state = saveStateS();
+
+            mcaSteadyState();
 
             // Check for the parameter name
             if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0) {
@@ -3631,22 +3742,28 @@ namespace rr {
                 double f1 = fd2 + 8 * fi;
                 double f2 = -(8 * fd + fi2);
 
-                // What ever happens, make sure we restore the parameter level
-                impl->setParameterValue(parameterType, parameterIndex, originalParameterValue);
-                steadyState();
+                // What ever happens, make sure we restore the original state
+                impl->model->setFloatingSpeciesAmounts(nfloat, 0, floats);
+                impl->model->setBoundarySpeciesAmounts(nboundary, 0, boundaries);
+                impl->model->setCompartmentVolumes(ncomp, 0, comps);
+                impl->model->setGlobalParameterValues(nparam, 0, params);
+                //loadStateS(orig_state);
 
                 return 1 / (12 * hstep) * (f1 + f2);
             }
             catch (...) //Catch anything... and do 'finalizeObject'
             {
-                // What ever happens, make sure we restore the parameter level
-                impl->setParameterValue(parameterType, parameterIndex, originalParameterValue);
-                mcaSteadyState();
+                // What ever happens, make sure we restore the original state
+                impl->model->setFloatingSpeciesAmounts(nfloat, 0, floats);
+                impl->model->setBoundarySpeciesAmounts(nboundary, 0, boundaries);
+                impl->model->setCompartmentVolumes(ncomp, 0, comps);
+                impl->model->setGlobalParameterValues(nparam, 0, params);
+                //loadStateS(orig_state);
                 throw;
             }
         }
         catch (const Exception &e) {
-            throw CoreException("Unexpected error from getuCC(): ", e.Message());
+            throw CoreException("Unable to calculate control coefficients in getuCC(), perhaps due to an inability to reach the steady state.  Error from the calculation: ", e.Message());
         }
     }
 
@@ -3708,6 +3825,9 @@ namespace rr {
         GetValueFuncPtr getInitValuePtr = 0;
         SetValueFuncPtr setValuePtr = 0;
         SetValueFuncPtr setInitValuePtr = 0;
+        GetValueFuncPtr getInitVolumesPtr = &ExecutableModel::getCompartmentInitVolumes;
+        SetValueFuncPtr setInitVolumesPtr = &ExecutableModel::setCompartmentInitVolumes;
+        GetValueFuncPtr getCurrentVolumesPtr = &ExecutableModel::getCompartmentVolumes;
 
         if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).getAs<std::int32_t>() ==
             Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS) {
@@ -3723,7 +3843,7 @@ namespace rr {
         }
 
         double value;
-        double originalConc = 0;
+        double origCurrentVal = 0;
         double result = std::numeric_limits<double>::quiet_NaN();
 
         // note setting init values auotmatically sets the current values to the
@@ -3731,62 +3851,71 @@ namespace rr {
 
         // this causes a reset, so need to save the current amounts to set them back
         // as init conditions.
-        std::vector<double> conc(self.model->getNumFloatingSpecies());
+        std::vector<double> currentVals(self.model->getNumFloatingSpecies());
+        (self.model.get()->*getValuePtr)(currentVals.size(), 0, &currentVals[0]);
 
-        (self.model.get()->*getValuePtr)(conc.size(), 0, &conc[0]);
+        //If the initial volumes have changed, we have to set them, but we'll need to reset them later.
+        std::vector<double> origInitVolumes(self.model->getNumCompartments());
+        (self.model.get()->*getInitVolumesPtr)(origInitVolumes.size(), 0, &origInitVolumes[0]);
 
-        // Dpon't try to compute any elasticiteis if there a numerically suspicious values
-        for (int i = 0; i < conc.size() - 1; i++)
-            if (fabs(conc[i]) > 1E100) {
+        std::vector<double> currentVolumes(self.model->getNumCompartments());
+        (self.model.get()->*getCurrentVolumesPtr)(currentVolumes.size(), 0, &currentVolumes[0]);
+
+        // Don't try to compute any elasticities if there a numerically suspicious values
+        for (int i = 0; i < currentVals.size() - 1; i++)
+            if (fabs(currentVals[i]) > 1E100) {
                 throw std::runtime_error(
                         "Floating species concentations are of the order of 1E100, unable to compute elasticities");
             }
 
         // save the original init values
-        std::vector<double> initConc(self.model->getNumFloatingSpecies());
-        (self.model.get()->*getInitValuePtr)(initConc.size(), 0, &initConc[0]);
+        std::vector<double> origInitVal(self.model->getNumFloatingSpecies());
+        (self.model.get()->*getInitValuePtr)(origInitVal.size(), 0, &origInitVal[0]);
 
         // get the original value
-        (self.model.get()->*getValuePtr)(1, &speciesIndex, &originalConc);
+        (self.model.get()->*getValuePtr)(1, &speciesIndex, &origCurrentVal);
 
         // now we start changing things
         try {
-            // set init amounts to current amounts, restore them later.
+            //First set the initial volumes so everything else matches.
+            (self.model.get()->*setInitVolumesPtr)(currentVolumes.size(), 0, &currentVolumes[0]);
+
+            // Now set init amounts to current amounts, restore them later.
             // have to do this as this is only way to set conserved moiety values
-            (self.model.get()->*setInitValuePtr)(conc.size(), 0, &conc[0]);
+            (self.model.get()->*setInitValuePtr)(currentVals.size(), 0, &currentVals[0]);
 
             // sanity check
-            assert_similar(originalConc, conc[speciesIndex]);
+            assert_similar(origCurrentVal, currentVals[speciesIndex]);
             double tmp = 0;
             (self.model.get()->*getInitValuePtr)(1, &speciesIndex, &tmp);
-            assert_similar(originalConc, tmp);
+            assert_similar(origCurrentVal, tmp);
             (self.model.get()->*getValuePtr)(1, &speciesIndex, &tmp);
-            assert_similar(originalConc, tmp);
+            assert_similar(origCurrentVal, tmp);
 
             // things check out, start fiddling...
 
-            double hstep = self.mDiffStepSize * originalConc;
+            double hstep = self.mDiffStepSize * origCurrentVal;
             if (fabs(hstep) < 1E-12) {
                 hstep = self.mDiffStepSize;
             }
 
-            value = originalConc + hstep;
+            value = origCurrentVal + hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
 
             double fi = 0;
             self.model->getReactionRates(1, &reactionId, &fi);
 
-            value = originalConc + 2 * hstep;
+            value = origCurrentVal + 2 * hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
             double fi2 = 0;
             self.model->getReactionRates(1, &reactionId, &fi2);
 
-            value = originalConc - hstep;
+            value = origCurrentVal - hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
             double fd = 0;
             self.model->getReactionRates(1, &reactionId, &fd);
 
-            value = originalConc - 2 * hstep;
+            value = origCurrentVal - 2 * hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
             double fd2 = 0;
             self.model->getReactionRates(1, &reactionId, &fd2);
@@ -3799,26 +3928,26 @@ namespace rr {
 
             result = 1 / (12 * hstep) * (f1 + f2);
         }
-        catch (const std::exception &) {
-            // What ever happens, make sure we restore the species level
-            (self.model.get()->*setInitValuePtr)(
-                    initConc.size(), 0, &initConc[0]);
+        catch (const std::exception& e) {
+            // Whatever happens, make sure we restore the species and volumes levels
+            (self.model.get()->*setInitVolumesPtr)(origInitVolumes.size(), 0, &origInitVolumes[0]);
+            (self.model.get()->*setInitValuePtr)(origInitVal.size(), 0, &origInitVal[0]);
 
             // only set the indep species, setting dep species is not permitted.
             (self.model.get()->*setValuePtr)(
-                    self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
+                    self.model->getNumIndFloatingSpecies(), 0, &currentVals[0]);
 
             // re-throw the exception.
-            throw;
+            throw e;
         }
 
-        // What ever happens, make sure we restore the species level
+        // Whatever happens, make sure we restore the species and volumes levels
         (self.model.get()->*setInitValuePtr)(
-                initConc.size(), 0, &initConc[0]);
+                origInitVal.size(), 0, &origInitVal[0]);
 
         // only set the indep species, setting dep species is not permitted.
         (self.model.get()->*setValuePtr)(
-                self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
+                self.model->getNumIndFloatingSpecies(), 0, &currentVals[0]);
 
         return result;
     }
@@ -4275,31 +4404,71 @@ namespace rr {
             case SelectionRecord::FLOATING_AMOUNT_RATE:
                 if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0) {
                     break;
+                } else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::BOUNDARY_AMOUNT_RATE;
+                    break;
+                } else if ((sel.index = impl->model->getGlobalParameterIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::GLOBAL_PARAMETER_RATE;
+                    break;
+                } else if ((sel.index = impl->model->getCompartmentIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::COMPARTMENT_RATE;
+                    break;
                 } else {
-                    throw Exception("Invalid id '" + str + "' for floating amount rate");
+                    throw Exception("Invalid id '" + str + "' for rate of change: must be a floating species, global parameter, or compartment.");
                     break;
                 }
-            case SelectionRecord::ELASTICITY:
-            case SelectionRecord::UNSCALED_ELASTICITY:
+            case SelectionRecord::FLOATING_CONCENTRATION_RATE:
+                if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0) {
+                    break;
+                }
+                else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::BOUNDARY_CONCENTRATION_RATE;
+                    break;
+                }
+                else {
+                    throw Exception("Invalid id '" + str + "' for concentration rate of change: must be a floating species.");
+                    break;
+                }
             case SelectionRecord::CONTROL:
             case SelectionRecord::UNSCALED_CONTROL:
                 // check that the control coef args are valid
                 if (impl->model->getReactionIndex(sel.p1) >= 0 ||
-                    impl->model->getFloatingSpeciesIndex(sel.p1) >= 0) {
+                    impl->model->getFloatingSpeciesIndex(sel.p1) >= 0)
+                {
                     if (impl->model->getGlobalParameterIndex(sel.p2) >= 0 ||
                         impl->model->getBoundarySpeciesIndex(sel.p2) >= 0 ||
                         impl->model->getConservedMoietyIndex(sel.p2) >= 0) {
-                        rrLog(Logger::LOG_INFORMATION) <<
-                                                       "Valid metabolic control selection: " << sel.to_repr();
-                    } else {
-                        throw Exception("The second argument to a metabolic control "
-                                        "coefficient selection, " + sel.p2 + ", must be either "
-                                                                             "a global parameter, boundary species or conserved sum");
+                        rrLog(Logger::LOG_INFORMATION) << "Valid metabolic control selection: " << sel.to_repr();
                     }
-                } else {
-                    throw Exception("The first argument to a metabolic control "
-                                    "coefficient selection, " + sel.p1 + ", must be either "
-                                                                         "a reaction, floating species or conserved sum");
+                    else
+                    {
+                        throw Exception("The second argument to a metabolic control coefficient selection, " + sel.p2 + ", must be either a global parameter, boundary species or conserved sum");
+                    }
+                }
+                else
+                {
+                    throw Exception("The first argument to a metabolic control coefficient selection, " + sel.p1 + ", must be either a reaction or a floating species.");
+                }
+
+                break;
+            case SelectionRecord::ELASTICITY:
+            case SelectionRecord::UNSCALED_ELASTICITY:
+                // check that the elasticity coef args are valid
+                if (impl->model->getReactionIndex(sel.p1) >= 0)
+                {
+                    if (impl->model->getGlobalParameterIndex(sel.p2) >= 0 ||
+                        impl->model->getBoundarySpeciesIndex(sel.p2) >= 0 ||
+                        impl->model->getFloatingSpeciesIndex(sel.p2) >= 0) {
+                        rrLog(Logger::LOG_INFORMATION) << "Valid elasticity coefficient selection: " << sel.to_repr();
+                    }
+                    else
+                    {
+                        throw Exception("The second argument to an elasticity coefficient selection, " + sel.p2 + ", must be either a global parameter or a species.");
+                    }
+                }
+                else
+                {
+                    throw Exception("The first argument to a metabolic control coefficient selection, " + sel.p1 + ", must be a reaction.");
                 }
 
                 break;

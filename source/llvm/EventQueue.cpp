@@ -74,7 +74,7 @@ Event::Event(const Event& o) :
 
 Event& Event::operator=(const Event& rhs )
 {
-    delete data;
+    delete[] data;
     model = rhs.model;
     id = rhs.id;
     delay = rhs.delay;
