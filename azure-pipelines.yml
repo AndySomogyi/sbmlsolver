@@ -608,11 +608,11 @@ stages:
               mkdir -p $(INSTALL_DIR)
               mkdir -p $(BUILD_DIR)
             displayName: Make Directories
-          - task: Cache@2
-            inputs:
-              key: "llvm | $(Agent.OS)"
-              path: $(LLVM_INSTALL_PREFIX)
-              cacheHitVar: LLVM_CACHE
+#          - task: Cache@2
+#            inputs:
+#              key: "llvm | $(Agent.OS)"
+#              path: $(LLVM_INSTALL_PREFIX)
+#              cacheHitVar: LLVM_CACHE
           - script: |
               echo "Creating new conda environment"
               conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
