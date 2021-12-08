@@ -1037,7 +1037,7 @@ stages:
 
               echo "cd'ing to build dir $(BUILD_DIR)"
               cd $(BUILD_DIR)/lib/site-packages/
-              $(PythonExecutable) lib/site-packages/roadrunner/tests/test_runStochasticTestSuite.py
+              $(PythonExecutable) roadrunner/tests/test_runStochasticTestSuite.py
               rm roadrunner/tests/test_runStochasticTestSuite.py
               cd $(BUILD_DIR)
               cmake --build . --target run-pytest-tests -j4
