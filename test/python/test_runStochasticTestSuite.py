@@ -10,6 +10,7 @@ from __future__ import division
 import os.path
 from os import walk, scandir
 from os.path import isdir
+import time
 
 import sys
 
@@ -170,7 +171,7 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertFalse(last == "")
         return (first, last)
 
-    def writeResults(self, tnum, lv, nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong):
+    def writeResults(self, tnum, lv, nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong, time_tot, redo):
         self.results.write(tnum)
         self.results.write("\t" + lv)
         self.results.write("\t" + self.synopsis)
@@ -178,6 +179,8 @@ class RoadRunnerTests(unittest.TestCase):
         self.results.write("\t" + str(nsd_wrong))
         self.results.write("\t" + str(nlnmean_wrong))
         self.results.write("\t" + str(nlnsd_wrong))
+        self.results.write("\t" + str(time_tot))
+        self.results.write("\t" + str(redo))
         self.results.write("\n")
 
     def simulateFile(self, fname, tnum, expected_results):
@@ -250,6 +253,8 @@ class RoadRunnerTests(unittest.TestCase):
         (file1, file2) = self.getFirstAndLastFilesFrom(testfiles)
 
         for file in (file1, file2):
+            t1 = time.time()
+            redo = False
             (nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong) = self.simulateFile(file, tnum, expected_results)
             if (nmean_wrong and nmean_wrong > 3) or \
                     (nsd_wrong and nsd_wrong > 5) or \
@@ -257,8 +262,10 @@ class RoadRunnerTests(unittest.TestCase):
                     (nlnsd_wrong and nlnsd_wrong > 5):
                 # Re-run it to see if we just got unlucky:
                 (nmean_wrong, nsd_wrong, nlmean_wrong, nlnds_wrong) = self.simulateFile(file, tnum, expected_results)
-
-            self.writeResults(tnum, file, nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong)
+                redo = True
+            time_tot = time.time() - t1
+            self.writeResults(tnum, file, nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong, time_tot, redo)
+            print("Test file", file, "total time:", time_tot)
             if nmean_wrong is not None:
                 self.assertLessEqual(nmean_wrong, 3)
             if nsd_wrong is not None:
