@@ -1031,20 +1031,6 @@ stages:
 
             displayName: Build With Python
           - script: |
-              echo ". ~/.bashrc"
-              . ~/.bashrc
-              $(CondaExecutable) activate $(PythonName)
-
-              echo "cd'ing to build dir $(BUILD_DIR)"
-              cd $(BUILD_DIR)/lib/site-packages/
-              $(PythonExecutable) roadrunner/tests/test_runStochasticTestSuite.py
-              rm roadrunner/tests/test_runStochasticTestSuite.py
-              cd $(BUILD_DIR)
-              cmake --build . --target run-pytest-tests -j4
-
-            displayName: Run Tests
-
-          - script: |
               echo "cd to $(INSTALL_DIRECTORY)"
               cd $(INSTALL_DIRECTORY)
 
@@ -1061,6 +1047,22 @@ stages:
               # echo "wheel is: $wheel"
               # $(PipExecutable) install $wheel
             displayName: Build Pip Wheel
+          - script: |
+              echo ". ~/.bashrc"
+              . ~/.bashrc
+              echo "Install roadrunner locally."
+              $(PythonExecutable) -m pip install dist/libroad*
+
+              $(CondaExecutable) activate $(PythonName)
+
+              echo "cd'ing to build dir $(BUILD_DIR)"
+              cd $(BUILD_DIR)
+              $(PythonExecutable) lib/site-packages/roadrunner/tests/test_runStochasticTestSuite.py
+              rm lib/site-packages/roadrunner/tests/test_runStochasticTestSuite.py
+              cmake --build . --target run-pytest-tests -j4
+
+            displayName: Run Tests
+
           - task: CopyFiles@2
             inputs:
               sourceFolder: '$(INSTALL_DIRECTORY)'
