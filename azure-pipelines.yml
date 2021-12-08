@@ -1036,9 +1036,10 @@ stages:
               $(CondaExecutable) activate $(PythonName)
 
               echo "cd'ing to build dir $(BUILD_DIR)"
-              cd $(BUILD_DIR)
+              cd $(BUILD_DIR)/lib/site-packages/
               $(PythonExecutable) lib/site-packages/roadrunner/tests/test_runStochasticTestSuite.py
-              rm lib/site-packages/roadrunner/tests/test_runStochasticTestSuite.py
+              rm roadrunner/tests/test_runStochasticTestSuite.py
+              cd $(BUILD_DIR)
               cmake --build . --target run-pytest-tests -j4
 
             displayName: Run Tests
