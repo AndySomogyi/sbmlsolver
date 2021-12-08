@@ -1039,7 +1039,7 @@ stages:
 
               $(PipExecutable) install numpy pytest
               echo "$(PythonExecutable) ./setup.py bdist_wheel"
-              $(PythonExecutable) ./setup.py bdist_wheel
+              $(PythonExecutable) ./setup.py bdist_wheel install
               $(PythonExecutable) ./setup_rrplugins.py bdist_wheel
 
               # cd dist
@@ -1050,9 +1050,6 @@ stages:
           - script: |
               echo ". ~/.bashrc"
               . ~/.bashrc
-              echo "Install roadrunner locally."
-              $(PythonExecutable) -m pip install dist/libroad*
-
               $(CondaExecutable) activate $(PythonName)
 
               echo "cd'ing to build dir $(BUILD_DIR)"
