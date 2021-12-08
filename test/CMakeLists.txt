@@ -320,7 +320,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     add_pytest_to_ctest(python_tests_SteadyStateSolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_steadyStateSolver.py")
     #add_pytest_to_ctest(python_tests_StructuralAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_structuralAnalysis.py")
 
-    # add_pytest_to_ctest(python_tests_RunStochasticTestSuite "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_runStochasticTestSuite.py")
+    add_pytest_to_ctest(python_tests_RunStochasticTestSuite "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_runStochasticTestSuite.py")
 
     message(STATUS "PyTestTests ${PyTestTests}")
 
