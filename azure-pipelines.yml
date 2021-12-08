@@ -176,11 +176,11 @@ stages:
               cd $(BUILD_DIR)
               cmake --build . --target install --config $(BuildType) -j 12
             displayName: Run CMake Build Command
-          - script: |
-              echo "cd to build dir $(BUILD_DIR)"
-              cd $(BUILD_DIR)
-              ctest --verbose --extra-verbose --progress
-            displayName: RunCTest
+#          - script: |
+#              echo "cd to build dir $(BUILD_DIR)"
+#              cd $(BUILD_DIR)
+#              ctest --verbose --extra-verbose --progress
+#            displayName: RunCTest
           - task: CopyFiles@2
             inputs:
               contents: '$(INSTALL_DIR)/**'
@@ -535,13 +535,13 @@ stages:
               cd $(BUILD_DIR)
               cmake --build . --target install --config $(BuildType) -j 12
             displayName: Run CMake Build Command
-          - powershell: |
-              echo "cd to build dir $(BUILD_DIR)"
-              cd $(BUILD_DIR)
-              if ($(BuildType) -eq "Release"){
-              ctest --verbose --extra-verbose --progress
-              }
-            displayName: RunCTest
+#          - powershell: |
+#              echo "cd to build dir $(BUILD_DIR)"
+#              cd $(BUILD_DIR)
+#              if ( '$(BuildType)' -eq "Release"){
+#                ctest --verbose --extra-verbose --progress
+#              }
+#            displayName: RunCTest
           - task: CopyFiles@2
             inputs:
               contents: '$(INSTALL_DIR)/**'
