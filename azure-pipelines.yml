@@ -419,9 +419,11 @@ stages:
           matrix:
             64-bit Windows Release:
               BuildType: Release
+              BuildTests: 'ON'
               LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-msvc2022-x64-rel.zip'
             64-bit Windows Debug:
               BuildType: Debug
+              BuildTests: 'OFF'
               LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-msvc2022-x64-dbg.zip'
         variables:
           LLVM_CACHE: 'false'
@@ -529,11 +531,7 @@ stages:
               mkdir $(BUILD_DIR)
               echo "CD to build dir: $(BUILD_DIR)"
               cd $(BUILD_DIR)
-              $build_tests = "ON"
-              if ("$(BuildType)" -eq "Debug"){
-                $build_tests = "OFF"
-              }
-              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=$build_tests -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
+              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=$(BuildTests) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
             displayName: Run CMake Configure Command
           - powershell: |
               echo "Building roadrunner"
