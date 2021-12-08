@@ -382,9 +382,6 @@ TEST_F(RandomTestsMCJit, checkDistrib_rayleigh_three){
 }
 
 
-#if LLVM_VERSION_MAJOR >= 13
-
-
 class RandomTestsRRLLJit : public RandomTests {
 public:
     RandomTestsRRLLJit()
@@ -488,7 +485,6 @@ TEST_F(RandomTestsRRLLJit, checkDistrib_rayleigh_three){
 }
 
 
-#endif // LLVM_VERSION_MAJOR >= 13
 
 
 
