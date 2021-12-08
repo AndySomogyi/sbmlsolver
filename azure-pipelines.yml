@@ -484,11 +484,11 @@ stages:
               echo "PythonLibDir $(PythonLibDir)"
             displayName: PrintPythonVariables
 
-          - task: Cache@2
-            inputs:
-              key: "llvm | $(Agent.OS)"
-              path: $(LLVM_INSTALL_PREFIX)
-              cacheHitVar: LLVM_CACHE
+#          - task: Cache@2
+#            inputs:
+#              key: "llvm | $(Agent.OS)"
+#              path: $(LLVM_INSTALL_PREFIX)
+#              cacheHitVar: LLVM_CACHE
 
           - script: |
               echo "Creating new conda environment"
