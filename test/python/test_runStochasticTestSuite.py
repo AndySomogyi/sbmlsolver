@@ -93,6 +93,7 @@ class RoadRunnerTests(unittest.TestCase):
                     line = line.replace(" ", "")
                     lvec = line.strip().split(":")
                     settings[lvec[0]] = lvec[1]
+        f.close()
         if "start" not in settings:
             self.fail("Missing 'start' setting for test \"{}\"".format(tnum))
         if "duration" not in settings:
@@ -129,6 +130,7 @@ class RoadRunnerTests(unittest.TestCase):
                     self.testType = line.strip().split(":")[1].strip()
                 if "packagesPresent" in line:
                     self.package = line.strip().split(":")[1].strip()
+        f.close()
 
     def readExpectedResults(self, stochdir, tnum):
 
@@ -145,6 +147,7 @@ class RoadRunnerTests(unittest.TestCase):
                     continue
                 for n, entry in enumerate(lvec):
                     expected_results[header[n]].append(float(entry))
+        csvfile.close()
         return expected_results
 
     def getFirstAndLastFilesFrom(self, stochfiles):
@@ -216,21 +219,21 @@ class RoadRunnerTests(unittest.TestCase):
                     sdvec = np.std(all_results[var], axis=0)
                 nmean_wrong, Zvec = self.countWrongMeans(means[var], expected_results[var + "-mean"], sdvec,
                                                          self.meanRange)
-                print("Number means outside expected range:", nmean_wrong)
+                print("Number means for", var, "outside expected range:", nmean_wrong)
             if (var + "-sd") in self.output:
                 sds[var] = np.std(all_results[var], axis=0)
                 nsd_wrong, Yvec = self.countWrongSDs(sds[var], expected_results[var + "-sd"], self.sdRange)
-                print("Number standard deviations outside expected range:", nsd_wrong)
+                print("Number standard deviations for", var, "outside expected range:", nsd_wrong)
             lnvar = "ln(" + var + ")"
             if (lnvar + "-mean") in self.output:
                 means[lnvar] = np.mean(np.log(all_results[var]), axis=0)
                 nlnmean_wrong, Zvec = self.countWrongMeans(means[lnvar], expected_results[lnvar + "-mean"],
                                                            expected_results[lnvar + "-sd"], self.meanRange)
-                print("Number ln-means outside expected range:", nlnmean_wrong)
+                print("Number ln-means for", var, "outside expected range:", nlnmean_wrong)
             if (lnvar + "-sd") in self.output:
                 sds[lnvar] = np.std(np.log(all_results[var]), axis=0)
                 nlnsd_wrong, Yvec = self.countWrongSDs(sds[lnvar], expected_results[lnvar + "-sd"], self.sdRange)
-                print("Number ln-standard deviations outside expected range:", nlnsd_wrong)
+                print("Number ln-standard deviations for", var, "outside expected range:", nlnsd_wrong)
         return (nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong)
 
     def runOneTest(self, tnum):
@@ -354,8 +357,9 @@ class RoadRunnerTests(unittest.TestCase):
     def test_stoch_00022(self):
         self.runOneTest('00022')
 
-    def test_stoch_00023(self):
-        self.runOneTest('00023')
+    # This test passes, but takes a ridiculously long time to do so.
+    # def test_stoch_00023(self):
+    #     self.runOneTest('00023')
 
     def test_stoch_00024(self):
         self.runOneTest('00024')
