@@ -1039,9 +1039,18 @@ stages:
 
               $(PipExecutable) install numpy pytest
               echo "$(PythonExecutable) ./setup.py bdist_wheel"
-              $(PythonExecutable) ./setup.py bdist_wheel install
+              $(PythonExecutable) ./setup.py install
+              $(PythonExecutable) ./setup.py bdist_wheel
               $(PythonExecutable) ./setup_rrplugins.py bdist_wheel
 
+              echo ". ~/.bashrc"
+              . ~/.bashrc
+              $(CondaExecutable) activate $(PythonName)
+
+              echo "cd'ing to build dir $(BUILD_DIR)"
+              cd $(BUILD_DIR)
+              $(PythonExecutable) lib/site-packages/roadrunner/tests/test_runStochasticTestSuite.py
+              rm lib/site-packages/roadrunner/tests/test_runStochasticTestSuite.py
               # cd dist
               # wheel=$(realpath $(ls))
               # echo "wheel is: $wheel"
