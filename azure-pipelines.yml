@@ -1039,7 +1039,7 @@ stages:
 
               $(PipExecutable) install numpy pytest
               echo "$(PythonExecutable) ./setup.py bdist_wheel"
-              $(PythonExecutable) ./setup.py install
+              $(PythonExecutable) ./setup.py install --user
               $(PythonExecutable) ./setup.py bdist_wheel
               $(PythonExecutable) ./setup_rrplugins.py bdist_wheel
 
