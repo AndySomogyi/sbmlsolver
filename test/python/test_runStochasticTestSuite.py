@@ -11,6 +11,7 @@ import os.path
 from os import walk, scandir
 from os.path import isdir
 import time
+import platform
 
 import sys
 
@@ -30,7 +31,6 @@ class RoadRunnerTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        print("Setting up class.")
         cls.stochdir = ""
         for dir in ["../sbml-test-suite/stochastic/", "../test/sbml-test-suite/stochastic/",
                     "../../test/sbml-test-suite/stochastic/", "../../../test/sbml-test-suite/stochastic/",
@@ -40,7 +40,6 @@ class RoadRunnerTests(unittest.TestCase):
                 cls.stochdir = dir
         if cls.stochdir == "":
             raise ValueError("Unable to find stochastic test suite directory.")
-        print("Using stochdir", cls.stochdir)
         cls.outfile = "results.tsv"
         cls.nrepeats = 10000
 
@@ -49,7 +48,6 @@ class RoadRunnerTests(unittest.TestCase):
 
         cls.stochdirs = [f.path for f in scandir(cls.stochdir) if f.is_dir()]
 
-        print("Opening results file", cls.stochdir + cls.outfile)
         cls.results = open(cls.stochdir + cls.outfile, "w")
         cls.results.write("Test #")
         cls.results.write("\tLevel/Version")
@@ -172,6 +170,8 @@ class RoadRunnerTests(unittest.TestCase):
                     first = fname
         self.assertFalse(first == "")
         self.assertFalse(last == "")
+        if (platform.system()=="Linux"):
+            return (last)
         return (first, last)
 
     def writeResults(self, tnum, lv, nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong, time_tot, redo):
@@ -253,9 +253,9 @@ class RoadRunnerTests(unittest.TestCase):
         self.readMFile(testdir, tnum)
 
         expected_results = self.readExpectedResults(testdir, tnum)
-        (file1, file2) = self.getFirstAndLastFilesFrom(testfiles)
+        files = self.getFirstAndLastFilesFrom(testfiles)
 
-        for file in (file1, file2):
+        for file in files:
             t1 = time.time()
             redo = False
             (nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong) = self.simulateFile(file, tnum, expected_results)
