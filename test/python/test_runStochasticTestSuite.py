@@ -57,6 +57,8 @@ class RoadRunnerTests(unittest.TestCase):
         cls.results.write("\tnWrongLogMeans")
         cls.results.write("\tnWrongLogSDs")
         cls.results.write("\n")
+        
+        print(platform.uname())
 
     @classmethod
     def tearDownClass(cls) -> None:
