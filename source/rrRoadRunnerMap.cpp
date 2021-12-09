@@ -39,6 +39,9 @@ namespace rr {
         keys_.push_back(rr->getModelName());
         rrMap_.insert({rr->getModelName(), std::move(rr)});
     }
+    void RoadRunnerMap::insert(const std::vector<std::string> &v) {
+        loadParallel(v);
+    }
 
     void RoadRunnerMap::remove(const std::string &key) {
         auto it = std::find(keys_.begin(), keys_.end(), key);
@@ -99,10 +102,15 @@ namespace rr {
 
     void RoadRunnerMap::loadParallel(const std::vector<std::string> &sbmlFilesOrStrings) {
         for (auto sbml: sbmlFilesOrStrings) {
-            pool.push_task([&sbml, this]() {
-                insert(sbml);
+            pool.push_task([&sbml, this]() -> void {
+                insert(std::cref(sbml));
             });
         }
+        /**
+         * If we do not wait for all tasks to be complete, the destruction process will begin
+         * and one thread will have deleted something in use by another. Then we become sad face.
+         */
+        pool.wait_for_tasks();
     }
 
 }

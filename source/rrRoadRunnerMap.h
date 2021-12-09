@@ -34,6 +34,8 @@ namespace rr {
 
         void insert(const std::string &sbmlOrFile);
 
+        void insert(const std::vector<std::string> &sbmlStringsOrFiles);
+
         void remove(const std::string &key);
 
         UnorderedMap::iterator begin() noexcept;

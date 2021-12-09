@@ -24,6 +24,7 @@ configure_file(RoadRunnerTestDirectory.cpp.in "${CMAKE_CURRENT_BINARY_DIR}/RoadR
 set(ThisSourceDirectory "${CMAKE_CURRENT_SOURCE_DIR}")
 set(ThisBinaryDirectory "${CMAKE_CURRENT_BINARY_DIR}")
 set(MOCKUPS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/mockups")
+set(SBMLTestSuiteRoot "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/semantic")
 
 #todo move these to the rr_root/cmake folder
 # Adds a new executable cmake target to cmake.
