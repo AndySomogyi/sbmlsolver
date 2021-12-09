@@ -51,15 +51,7 @@ namespace rr {
         return rrMap_.begin();
     }
 
-    UnorderedMap::const_local_iterator RoadRunnerMap::cbegin() const noexcept {
-        return rrMap_.cbegin();
-    }
-
     UnorderedMap::iterator RoadRunnerMap::end() noexcept {
-        return rrMap_.end();
-    }
-
-    UnorderedMap::const_local_iterator RoadRunnerMap::cend() const noexcept {
         return rrMap_.end();
     }
 

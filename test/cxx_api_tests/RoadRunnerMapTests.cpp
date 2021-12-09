@@ -24,7 +24,7 @@ public:
 
 
 TEST_F(RoadRunnerMapTests, c){
-    RoadRunnerMap rrm(sbml);
+    RoadRunnerMap rrm(sbml, 2);
 }
 
 

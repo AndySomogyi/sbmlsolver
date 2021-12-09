@@ -38,11 +38,7 @@ namespace rr {
 
         UnorderedMap::iterator begin() noexcept;
 
-        UnorderedMap::const_local_iterator cbegin() const noexcept;
-
         UnorderedMap::iterator end() noexcept;
-
-        UnorderedMap::const_local_iterator cend() const noexcept;
 
         bool empty() const;
 
