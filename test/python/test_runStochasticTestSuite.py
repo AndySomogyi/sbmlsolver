@@ -171,8 +171,8 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertFalse(first == "")
         self.assertFalse(last == "")
         if (platform.system()=="Linux"):
-            return (last)
-        return (first, last)
+            return [last]
+        return [first, last]
 
     def writeResults(self, tnum, lv, nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong, time_tot, redo):
         self.results.write(tnum)
