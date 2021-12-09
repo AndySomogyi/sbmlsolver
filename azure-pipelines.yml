@@ -1031,6 +1031,17 @@ stages:
 
             displayName: Build With Python
           - script: |
+              echo ". ~/.bashrc"
+              . ~/.bashrc
+              $(CondaExecutable) activate $(PythonName)
+
+              echo "cd'ing to build dir $(BUILD_DIR)"
+              cd $(BUILD_DIR)
+              cmake --build . --target run-pytest-tests -j4
+
+            displayName: Run Tests
+
+          - script: |
               echo "cd to $(INSTALL_DIRECTORY)"
               cd $(INSTALL_DIRECTORY)
 
@@ -1039,36 +1050,14 @@ stages:
 
               $(PipExecutable) install numpy pytest
               echo "$(PythonExecutable) ./setup.py bdist_wheel"
-              $(PythonExecutable) ./setup.py install --user
               $(PythonExecutable) ./setup.py bdist_wheel
               $(PythonExecutable) ./setup_rrplugins.py bdist_wheel
 
-              echo ". ~/.bashrc"
-              . ~/.bashrc
-              $(CondaExecutable) activate $(PythonName)
-
-              echo "cd'ing to build dir $(BUILD_DIR)"
-              cd $(BUILD_DIR)
-              $(PythonExecutable) lib/site-packages/roadrunner/tests/test_runStochasticTestSuite.py
-              rm lib/site-packages/roadrunner/tests/test_runStochasticTestSuite.py
               # cd dist
               # wheel=$(realpath $(ls))
               # echo "wheel is: $wheel"
               # $(PipExecutable) install $wheel
             displayName: Build Pip Wheel
-          - script: |
-              echo ". ~/.bashrc"
-              . ~/.bashrc
-              $(CondaExecutable) activate $(PythonName)
-
-              echo "cd'ing to build dir $(BUILD_DIR)"
-              cd $(BUILD_DIR)
-              $(PythonExecutable) lib/site-packages/roadrunner/tests/test_runStochasticTestSuite.py
-              rm lib/site-packages/roadrunner/tests/test_runStochasticTestSuite.py
-              cmake --build . --target run-pytest-tests -j4
-
-            displayName: Run Tests
-
           - task: CopyFiles@2
             inputs:
               sourceFolder: '$(INSTALL_DIRECTORY)'

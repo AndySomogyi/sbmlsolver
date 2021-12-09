@@ -172,7 +172,7 @@ class RoadRunnerTests(unittest.TestCase):
                     first = fname
         self.assertFalse(first == "")
         self.assertFalse(last == "")
-        if (platform.system()=="Linux"):
+        if (platform.release()=="5.4.0-1063-azure"):
             return [last]
         return [first, last]
 
@@ -245,6 +245,10 @@ class RoadRunnerTests(unittest.TestCase):
         return (nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong)
 
     def runOneTest(self, tnum):
+        if platform.release()=="5.4.0-1063-azure" and (int(tnum)>50 or int(tnum) < 30):
+            #This runs a handful of the original stochastic test suite, and the first 10 distrib tests.
+            print("Skipping test", tnum, "because it takes too long on azure.")
+            return
         print("Running test " + tnum)
         testdir = self.stochdir + "/" + tnum + "/"
         testfiles = []
