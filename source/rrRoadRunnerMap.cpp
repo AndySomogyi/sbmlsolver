@@ -101,8 +101,9 @@ namespace rr {
      */
 
     void RoadRunnerMap::loadParallel(const std::vector<std::string> &sbmlFilesOrStrings) {
-        for (auto sbml: sbmlFilesOrStrings) {
+        for (auto& sbml: sbmlFilesOrStrings) {
             pool.push_task([&sbml, this]() -> void {
+//                std::cout << sbml << std::endl;
                 insert(std::cref(sbml));
             });
         }

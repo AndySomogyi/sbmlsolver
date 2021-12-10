@@ -1399,7 +1399,7 @@ namespace rr {
     }
 
     void RoadRunner::load(const std::string &uriOrSbml, const Dictionary *dict) {
-        std::lock_guard<std::mutex> lock(rrMtx);
+//        std::lock_guard<std::mutex> lock(rrMtx);
         std::string mCurrentSBML = SBMLReader::read(uriOrSbml);
 
         // chomp any leading or trailing whitespace

@@ -22,6 +22,8 @@ public:
             throw std::invalid_argument("Path to sbml test suite does not exist");
         }
         Logger::setLevel(Logger::LOG_WARNING);
+
+        // little easy list of sbmls
         std::vector<std::string> input({
                                                OpenLinearFlux().str(),
                                                SimpleFlux().str(),
@@ -52,20 +54,21 @@ public:
     std::vector<std::string> getFirstNModelsFromSTS(int N){
         std::vector<std::string> vec(N);
         for (int i=1; i<=N; i++){
+            int idx = i-1;
             try{
-                vec[i] = constructSTSXmlFile(i, 3, 2);
+                vec[idx] = constructSTSXmlFile(i, 3, 2);
             } catch (std::exception& e){
                 try {
-                    vec[i] = constructSTSXmlFile(i, 2, 4);
+                    vec[idx] = constructSTSXmlFile(i, 2, 4);
                 } catch (std::exception &e){
                     try {
-                        vec[i] = constructSTSXmlFile(i, 2, 3);
+                        vec[idx] = constructSTSXmlFile(i, 2, 3);
                     } catch (std::exception &e){
                         try {
-                            vec[i] = constructSTSXmlFile(i, 2, 2);
+                            vec[idx] = constructSTSXmlFile(i, 2, 2);
                         } catch (std::exception &e){
                             try{
-                                vec[i] = constructSTSXmlFile(i, 2, 1);
+                                vec[idx] = constructSTSXmlFile(i, 2, 1);
                             } catch (std::exception &e){
                                 throw std::logic_error("can't locate sbml file");
                             }
@@ -79,11 +82,20 @@ public:
 };
 
 
-TEST_F(RoadRunnerMapTests, c) {
-    int N = 1000;
-    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
-    RoadRunnerMap rrm(sbmlFiles, 1);
+//TEST_F(RoadRunnerMapTests, serial) {
+//    int N = 1000;
+//    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
+//    std::unordered_map<std::string, std::unique_ptr<RoadRunner>> rrMap;
+//    for (auto &f : sbmlFiles){
+//        std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(f);
+//        rrMap[rr->getModelName()] = std::move(rr);
+//    }
+//}
 
+TEST_F(RoadRunnerMapTests, ParallelWith16Threads) {
+    int N = 100;
+    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
+    RoadRunnerMap rrm(sbmlFiles, 2);
 }
 
 //TEST_F(RoadRunnerMapTests, d) {
