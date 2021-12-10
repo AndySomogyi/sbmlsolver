@@ -4,6 +4,7 @@
 
 #include "gtest/gtest.h"
 #include "rrRoadRunnerMap.h"
+#include "rrConfig.h"
 #include "TestModelFactory.h"
 #include <filesystem>
 
@@ -21,7 +22,7 @@ public:
         if (!std::filesystem::exists(SBMLTestSuiteRoot)){
             throw std::invalid_argument("Path to sbml test suite does not exist");
         }
-        Logger::setLevel(Logger::LOG_WARNING);
+        Logger::setLevel(Logger::LOG_DEBUG);
 
         // little easy list of sbmls
         std::vector<std::string> input({
@@ -83,7 +84,8 @@ public:
 
 
 //TEST_F(RoadRunnerMapTests, serial) {
-//    int N = 1000;
+//    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
+//    int N = 100;
 //    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
 //    std::unordered_map<std::string, std::unique_ptr<RoadRunner>> rrMap;
 //    for (auto &f : sbmlFiles){
@@ -93,9 +95,10 @@ public:
 //}
 
 TEST_F(RoadRunnerMapTests, ParallelWith16Threads) {
+    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
     int N = 100;
     std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
-    RoadRunnerMap rrm(sbmlFiles, 2);
+    RoadRunnerMap rrm(sbmlFiles, 1);
 }
 
 //TEST_F(RoadRunnerMapTests, d) {
