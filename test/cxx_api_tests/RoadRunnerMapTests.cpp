@@ -4,6 +4,7 @@
 
 #include "gtest/gtest.h"
 #include "rrRoadRunnerMap.h"
+#include "rrConfig.h"
 #include "TestModelFactory.h"
 #include <filesystem>
 
@@ -18,7 +19,7 @@ public:
         throw std::logic_error("The SBMLTestSuiteRoot variable is not defined even though it has been "
                                "set with target_compile_definitions")';
 #endif
-        if (!std::filesystem::exists(SBMLTestSuiteRoot)){
+        if (!std::filesystem::exists(SBMLTestSuiteRoot)) {
             throw std::invalid_argument("Path to sbml test suite does not exist");
         }
         Logger::setLevel(Logger::LOG_WARNING);
@@ -33,17 +34,17 @@ public:
         sbml.swap(input);
     }
 
-    std::string constructSTSXmlFile(int caseId, int level, int version){
+    std::string constructSTSXmlFile(int caseId, int level, int version) {
         std::ostringstream caseOs;
         std::ostringstream fname;
 
         caseOs << std::setfill('0') << std::setw(5) << caseId;
-        fname <<  caseOs.str() << "-sbml-l" << level << "v" << version << ".xml";
+        fname << caseOs.str() << "-sbml-l" << level << "v" << version << ".xml";
 
         std::filesystem::path root = SBMLTestSuiteRoot;
         std::filesystem::path caseDir = root / caseOs.str();
-        std::filesystem::path xmlFile = caseDir / fname.str() ;
-        if (!std::filesystem::exists(xmlFile)){
+        std::filesystem::path xmlFile = caseDir / fname.str();
+        if (!std::filesystem::exists(xmlFile)) {
             std::ostringstream os;
             os << "file not found : " << xmlFile;
             throw std::logic_error(os.str());
@@ -51,25 +52,30 @@ public:
         return xmlFile.string();
     }
 
-    std::vector<std::string> getFirstNModelsFromSTS(int N){
+    std::vector<std::string> getFirstNModelsFromSTS(int N, int start = 1) {
         std::vector<std::string> vec(N);
-        for (int i=1; i<=N; i++){
-            int idx = i-1;
-            try{
+        for (int i = start; i <= N; i++) {
+            int idx = i - 1;
+            try {
                 vec[idx] = constructSTSXmlFile(i, 3, 2);
-            } catch (std::exception& e){
+            } catch (std::exception &e) {
+                rrLogWarn << "Failed to find case " << i << "l" << 3 << "v" << 2;
                 try {
                     vec[idx] = constructSTSXmlFile(i, 2, 4);
-                } catch (std::exception &e){
+                } catch (std::exception &e) {
+                    rrLogWarn << "Failed to find case " << i << "l" << 2 << "v" << 4;
                     try {
                         vec[idx] = constructSTSXmlFile(i, 2, 3);
-                    } catch (std::exception &e){
+                    } catch (std::exception &e) {
+                        rrLogWarn << "Failed to find case " << i << "l" << 2 << "v" << 2;
                         try {
                             vec[idx] = constructSTSXmlFile(i, 2, 2);
-                        } catch (std::exception &e){
-                            try{
+                        } catch (std::exception &e) {
+                            rrLogWarn << "Failed to find case " << i << "l" << 2 << "v" << 2;
+                            try {
                                 vec[idx] = constructSTSXmlFile(i, 2, 1);
-                            } catch (std::exception &e){
+                            } catch (std::exception &e) {
+                                rrLogErr << "Failed to find case " << i << "l" << 2 << "v" << 1;
                                 throw std::logic_error("can't locate sbml file");
                             }
                         }
@@ -82,20 +88,30 @@ public:
 };
 
 
-//TEST_F(RoadRunnerMapTests, serial) {
-//    int N = 1000;
-//    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
-//    std::unordered_map<std::string, std::unique_ptr<RoadRunner>> rrMap;
-//    for (auto &f : sbmlFiles){
-//        std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(f);
-//        rrMap[rr->getModelName()] = std::move(rr);
-//    }
-//}
+TEST_F(RoadRunnerMapTests, serial) {
+    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
+    int N = 1000;
+    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
+    std::unordered_map<std::string, std::unique_ptr<RoadRunner>> rrMap;
+    for (auto &f: sbmlFiles) {
+        std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(f);
+        rrMap[rr->getModelName()] = std::move(rr);
+    }
+}
 
 TEST_F(RoadRunnerMapTests, ParallelWith16Threads) {
-    int N = 100;
-    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
-    RoadRunnerMap rrm(sbmlFiles, 2);
+    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
+    int N = 1;
+    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N, 28);
+    RoadRunnerMap rrm(sbmlFiles, 16);
+}
+
+TEST_F(RoadRunnerMapTests, m28) {
+    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
+    RoadRunner rr(constructSTSXmlFile(28, 3, 2));
+
+    func = module->getFunction("rr_factoriald");
+
 }
 
 //TEST_F(RoadRunnerMapTests, d) {
@@ -140,7 +156,25 @@ TEST_F(RoadRunnerMapTests, ParallelWith16Threads) {
 //
 
 
-
+//static int counter;
+//static std::mutex mtx;
+//void incrementCounter(){
+//    mtx.lock();
+//    counter++;
+//    std::cout << "Counter : " << counter << std::endl;
+//    mtx.unlock();
+//    // ... some more parallel code (so no lock_guard)
+//}
+//
+//TEST(Question, WhyDoesThisCauseDataRace){
+//    int N = 1000;
+//    thread_pool pool(2);
+//    for (int i=0; i<N; i++){
+//        pool.push_task([](){
+//            incrementCounter();
+//        });
+//    }
+//}
 
 
 
