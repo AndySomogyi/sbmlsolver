@@ -53,7 +53,7 @@ print("downloaded_llvm_folder, ext".ljust(20), downloaded_llvm_folder, ext)
 # we expect a folder called bin in
 abs_downloaded_llvm_folder = join(args.llvm_install_prefix, downloaded_llvm_folder)
 
-# dont download if we already have it
+# Don't download if we already have it
 if not isdir(join(abs_downloaded_llvm_folder, "bin")):
     print("downloading llvm-13.x from {}".format(args.llvm_download_link))
     r = requests.get(args.llvm_download_link, stream=True)

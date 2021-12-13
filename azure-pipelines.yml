@@ -53,8 +53,8 @@ stages:
           CondaExecutable: '$(MinicondaRoot)/condabin/conda'
           PipExecutable: '$(PythonRoot)/bin/pip'
         steps:
-          - powershell: git checkout orc-jit
-            displayName: TemporaryCheckoutOrcJitBranch
+          - checkout: self
+            submodules: recursive
           - script: |
               echo "SOURCE_DIR $(SOURCE_DIR)"
               echo "BUILD_DIR $(BUILD_DIR)"
@@ -225,8 +225,8 @@ stages:
           SWIG_CACHE: 'false'
           MINICONDA_CACHE: 'false'
         steps:
-          - bash: git checkout orc-jit
-            displayName: TemporaryCheckoutOrcJitBranch
+          - checkout: self
+            submodules: recursive
           - bash: echo "##vso[task.prependpath]$CONDA/bin"
             displayName: Add conda to PATH
 
@@ -424,7 +424,7 @@ stages:
             64-bit Windows Debug:
               BuildType: Debug
               BuildTests: OFF
-              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-msvc2022-x64-relwithdbginfo.zip'
+              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-msvc2022-x64-dbg.zip'
         variables:
           LLVM_CACHE: 'false'
           MinicondaRoot : 'C:\Miniconda'
@@ -437,8 +437,8 @@ stages:
           PipExecutable: '$(PythonScriptsDir)\pip.exe'
 
         steps:
-          - powershell: git checkout orc-jit
-            displayName: TemporaryCheckoutOrcJitBranch
+          - checkout: self
+            submodules: recursive
           - powershell: |
               echo "SOURCE_DIR $(SOURCE_DIR)"
               echo "BUILD_DIR $(BUILD_DIR)"
@@ -590,8 +590,8 @@ stages:
           LLVM_CACHE: 'false'
           LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-win32-rel.zip'
         steps:
-          - powershell: git checkout orc-jit
-            displayName: TemporaryCheckoutOrcJitBranch
+          - checkout: self
+            submodules: recursive
           - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
             displayName: Add conda to PATH
           - powershell: |
@@ -774,10 +774,10 @@ stages:
           PythonVersion: '3.9'
           LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm13-ubuntu-gcc10-rel.tar.gz'
         steps:
-          - powershell: git checkout orc-jit
-            displayName: TemporaryCheckoutOrcJitBranch
+          - checkout: self
+            submodules: recursive
           # we cannot upload prebuilt binaries onto github for linux debug version because of github file size limits.
-          # therefore we do this build with Release llvm for both debug and release. Oddly enough it seems to work.
+          # therefore we do this build with Release llvm for both debug and release.
           - script: |
               echo "SOURCE_DIR $(SOURCE_DIR)"
               echo "BUILD_DIR $(BUILD_DIR)"
@@ -942,9 +942,6 @@ stages:
         steps:
           - checkout: self
             submodules: recursive
-
-          - bash: git checkout orc-jit
-            displayName: TemporaryCheckoutOrcJitBranch
 
           - script: |
 
