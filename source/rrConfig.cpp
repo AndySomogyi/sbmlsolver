@@ -27,6 +27,7 @@
 // somebody will likely call this multithread and then bitch and moan if
 // there is an issue, so lock it.
 #include <thread>
+#include <mutex>
 // default values of sbml consistency check
 #include <sbml/SBMLDocument.h>
 #include <thread>

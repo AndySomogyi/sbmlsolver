@@ -34,8 +34,6 @@ namespace rrllvm {
 
         void mapFunctionsToJitSymbols() override;
 
-        void mapDistribFunctionsToJitSymbols() override;
-
         std::uint64_t lookupFunctionAddress(const std::string &name) override;
 
         void addObjectFile(rrOwningBinary owningObject) override;

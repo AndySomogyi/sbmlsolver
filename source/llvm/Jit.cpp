@@ -11,6 +11,7 @@
 #include "llvm/Support/Host.h"
 #include "SBMLModelObjectCache.h"
 #include "rrRoadRunnerOptions.h"
+#include "SBMLSupportFunctions.h"
 
 using namespace rr;
 
@@ -64,7 +65,7 @@ namespace rrllvm {
         moduleNonOwning->setModuleIdentifier(id);
     }
 
-    std::string Jit::mangleName(const std::string& unmangledName) const {
+    std::string Jit::mangleName(const std::string &unmangledName) const {
 
         std::string mangledName;
         llvm::raw_string_ostream mangledNameStream(mangledName);
@@ -314,6 +315,84 @@ namespace rrllvm {
             llvm::errs() << err;
         }
         return target;
+    }
+
+    FnMap Jit::externalFunctionSignatures() const {
+        llvm::Type *double_type = llvm::Type::getDoubleTy(*context);
+        llvm::Type *int_type = llvm::Type::getInt32Ty(*context);
+        llvm::Type *voidPtrType = llvm::Type::getInt8PtrTy(*context);
+
+        llvm::Type *args_i1[] = {int_type};
+        llvm::Type *args_d1[] = {double_type};
+        llvm::Type *args_d2[] = {double_type, double_type};
+        llvm::Type *args_void_double_quadruple[] = {voidPtrType, double_type, double_type, double_type, double_type};
+        llvm::Type *args_void_double_triple[] = {voidPtrType, double_type, double_type, double_type};
+        llvm::Type *args_void_double_double[] = {voidPtrType, double_type, double_type};
+        llvm::Type *args_void_double[] = {voidPtrType, double_type};
+
+        llvm::FunctionType *fnTy_double_argsd1 = llvm::FunctionType::get(double_type, args_d1, false);
+        llvm::FunctionType *fnTy_double_argsd2 = llvm::FunctionType::get(double_type, args_d2, false);
+        llvm::FunctionType *fnTy_int_argsi1 = llvm::FunctionType::get(int_type, args_i1, false);
+        llvm::FunctionType *fnTy_double_void_d4 = llvm::FunctionType::get(double_type, args_void_double_quadruple,
+                                                                          false);
+        llvm::FunctionType *fnTy_double_void_d3 = llvm::FunctionType::get(double_type, args_void_double_triple, false);
+        llvm::FunctionType *fnTy_double_void_d2 = llvm::FunctionType::get(double_type, args_void_double_double, false);
+        llvm::FunctionType *fnTy_double_void_d1 = llvm::FunctionType::get(double_type, args_void_double, false);
+
+
+        FnMap fnTyMap{
+                {"arccot", {fnTy_double_argsd1, &sbmlsupport::arccot}},
+                {"rr_arccot_negzero", {fnTy_double_argsd1, &sbmlsupport::rr_arccot_negzero}},
+                {"arccoth", {fnTy_double_argsd1, &sbmlsupport::arccoth}},
+                {"arccsc", {fnTy_double_argsd1, &sbmlsupport::arccsc}},
+                {"arccsch", {fnTy_double_argsd1, &sbmlsupport::arccsch}},
+                {"arcsec", {fnTy_double_argsd1, &sbmlsupport::arcsec}},
+                {"arcsech", {fnTy_double_argsd1, &sbmlsupport::arcsech}},
+                {"cot", {fnTy_double_argsd1, &sbmlsupport::cot}},
+                {"coth", {fnTy_double_argsd1, &sbmlsupport::coth}},
+                {"csc", {fnTy_double_argsd1, &sbmlsupport::csc}},
+                {"csch", {fnTy_double_argsd1, &sbmlsupport::csch}},
+                {"rr_factoriali", {fnTy_int_argsi1, &sbmlsupport::rr_factoriali}},
+                {"rr_factoriald", {fnTy_double_argsd1, &sbmlsupport::rr_factoriald}},
+                {"rr_logd", {fnTy_double_argsd2, &sbmlsupport::rr_logd}},
+                {"rr_rootd", {fnTy_double_argsd2, &sbmlsupport::rr_rootd}},
+                {"sec", {fnTy_double_argsd1, &sbmlsupport::sec}},
+                {"sech", {fnTy_double_argsd1, &sbmlsupport::sech}},
+                {"arccosh", {fnTy_double_argsd1, &sbmlsupport::arccosh}},
+                {"arcsinh", {fnTy_double_argsd1, &sbmlsupport::arcsinh}},
+                {"arctanh", {fnTy_double_argsd1, &sbmlsupport::arctanh}},
+                {"quotient", {fnTy_double_argsd2, &sbmlsupport::quotient}},
+                {"rr_max", {fnTy_double_argsd2, &sbmlsupport::rr_max}},
+                {"rr_min", {fnTy_double_argsd2, &sbmlsupport::rr_min}},
+#ifdef LIBSBML_HAS_PACKAGE_DISTRIB
+                {"rr_distrib_uniform", {fnTy_double_void_d2, &distrib_uniform}},
+                {"rr_distrib_normal", {fnTy_double_void_d2, &distrib_normal}},
+                {"rr_distrib_normal_four", {fnTy_double_void_d4, &distrib_normal_four}},
+                {"rr_distrib_binomial", {fnTy_double_void_d2, &distrib_bernoulli}},
+                {"rr_distrib_bernoulli", {fnTy_double_void_d1, &distrib_binomial}},
+                {"rr_distrib_binomial_four", {fnTy_double_void_d4, &distrib_binomial_four}},
+                {"rr_distrib_cauchy", {fnTy_double_void_d2, &distrib_cauchy}},
+                {"rr_distrib_cauchy_one", {fnTy_double_void_d1, &distrib_cauchy_one}},
+                {"rr_distrib_cauchy_four", {fnTy_double_void_d4, &distrib_cauchy_four}},
+                {"rr_distrib_chisquare", {fnTy_double_void_d2, &distrib_chisquare}},
+                {"rr_distrib_chisquare_three", {fnTy_double_void_d3, &distrib_chisquare_three}},
+                {"rr_distrib_exponential", {fnTy_double_void_d2, &distrib_exponential}},
+                {"rr_distrib_exponential_three", {fnTy_double_void_d3, &distrib_exponential_three}},
+                {"rr_distrib_gamma", {fnTy_double_void_d2, &distrib_gamma}},
+                {"rr_distrib_gamma_four", {fnTy_double_void_d4, &distrib_gamma_four}},
+                {"rr_distrib_laplace", {fnTy_double_void_d2, &distrib_laplace}},
+                {"rr_distrib_laplace_one", {fnTy_double_void_d1, &distrib_laplace_one}},
+                {"rr_distrib_laplace_four", {fnTy_double_void_d4, &distrib_laplace_four}},
+                {"rr_distrib_lognormal", {fnTy_double_void_d2, &distrib_lognormal}},
+                {"rr_distrib_lognormal_four", {fnTy_double_void_d4, &distrib_lognormal_four}},
+                {"rr_distrib_poisson", {fnTy_double_void_d2, &distrib_poisson}},
+                {"rr_distrib_poisson_three", {fnTy_double_void_d3, &distrib_poisson_three}},
+                {"rr_distrib_rayleigh", {fnTy_double_void_d2, &distrib_rayleigh}},
+                {"rr_distrib_rayleigh_three", {fnTy_double_void_d3, &distrib_rayleigh_three}},
+#endif
+        };
+
+        return fnTyMap;
     }
 
 

@@ -112,8 +112,8 @@ TEST_F(RoadRunnerMapTests, m28) {
     RoadRunner rr(FactorialInRateLaw().str());
     std::cout << *rr.simulate(0, 10, 100) << std::endl;
 //    func = module->getFunction("rr_factoriald");
-
 }
+
 /**
  * An interesting API idea. Discus with lucian.
  * We could use the sbml file or string as keys in the dictionary.
