@@ -58,13 +58,14 @@
 #include <sbml/conversion/SBMLLocalParameterConverter.h>
 #include <sbml/conversion/SBMLLevelVersionConverter.h>
 #include <sbml/UnitKind.h>
+#include <thread>
+#include <thread_pool.hpp>
 
 #include <iostream>
 #include <math.h>
 #include <assert.h>
 #include <rr-libstruct/lsLibStructural.h>
 #include <Poco/File.h>
-#include <Poco/Mutex.h>
 #include <list>
 #include <cstdlib>
 #include <fstream>
@@ -79,12 +80,9 @@
 
 namespace rr {
 
-    using Poco::Mutex;
     using ls::ComplexMatrix;
     using ls::DoubleMatrix;
     using ls::LibStructural;
-
-    static Mutex roadRunnerMutex;
 
     typedef std::vector<std::string> string_vector;
 
@@ -360,14 +358,17 @@ namespace rr {
         }
 
         ~RoadRunnerImpl() {
+            rrMtx.lock();
             rrLog(Logger::LOG_DEBUG) << __FUNC__ << ", global instance count: " << mInstanceCount;
+            rrMtx.unlock();
 
             delete compiler;
             delete mLS;
 
             deleteAllSolvers();
-
-            mInstanceCount--;
+            rrMtx.lock();
+            mInstanceCount--; // static, so one thread at a time
+            rrMtx.unlock();
         }
 
         void deleteAllSolvers() {
@@ -487,6 +488,7 @@ namespace rr {
 
 
     int RoadRunner::getInstanceCount() {
+        std::lock_guard<std::mutex> lock(rrMtx);
         return mInstanceCount;
     }
 
@@ -507,8 +509,11 @@ namespace rr {
         SensitivitySolverFactory::Register();
 
         //Increase instance count..
-        mInstanceCount++;
-        impl->mInstanceID = mInstanceCount;
+        rrMtx.lock();
+        mInstanceCount++; // static, so one thread at a time
+        impl->mInstanceID = mInstanceCount; 
+        rrMtx.unlock();
+
 
         // make CVODE the default integrator
         setIntegrator("cvode");
@@ -565,8 +570,11 @@ namespace rr {
         load(uriOrSBML, options);
 
         //Increase instance count..
-        mInstanceCount++;
+        rrMtx.lock();
+        mInstanceCount++; // static, so one thread at a time
         impl->mInstanceID = mInstanceCount;
+        rrMtx.unlock();
+
 
     }
 
@@ -587,8 +595,11 @@ namespace rr {
         setTempDir(tempDir);
 
         //Increase instance count..
-        mInstanceCount++;
-        impl->mInstanceID = mInstanceCount;
+        rrMtx.lock();
+        mInstanceCount++; // static, so one thread at a time
+        impl->mInstanceID = mInstanceCount; 
+        rrMtx.unlock();
+
 
         // make CVODE the default integrator
         setIntegrator("cvode");
@@ -652,8 +663,11 @@ namespace rr {
         reset(SelectionRecord::TIME);
 
         //Increase instance count..
-        mInstanceCount++;
-        impl->mInstanceID = mInstanceCount;
+        rrMtx.lock();
+        mInstanceCount++; // static, so one thread at a time
+        impl->mInstanceID = mInstanceCount; 
+        rrMtx.unlock();
+
 
     }
 
@@ -727,7 +741,7 @@ namespace rr {
 
 
     ls::LibStructural *RoadRunner::getLibStruct() {
-        Mutex::ScopedLock lock(roadRunnerMutex);
+        std::lock_guard<std::mutex> lock(rrMtx);
 
         if (impl->mLS) {
             return impl->mLS;
@@ -1401,8 +1415,7 @@ namespace rr {
     }
 
     void RoadRunner::load(const std::string &uriOrSbml, const Dictionary *dict) {
-        Mutex::ScopedLock lock(roadRunnerMutex);
-
+//        std::lock_guard<std::mutex> lock(rrMtx);
         std::string mCurrentSBML = SBMLReader::read(uriOrSbml);
 
         // chomp any leading or trailing whitespace

@@ -13,9 +13,11 @@
 #include "llvm/Target/TargetMachine.h"
 #include "llvm/IRReader/IRReader.h"
 #include "llvm/Support/SourceMgr.h"
+#include "llvm/ExecutionEngine/Orc/ObjectLinkingLayer.h"
 #include "SBMLModelObjectCache.h"
 #include "rrRoadRunnerOptions.h"
 #include "rrSparse.h"
+#include <thread>
 
 #if LIBSBML_HAS_PACKAGE_DISTRIB
 
@@ -31,6 +33,7 @@ namespace rrllvm {
 
 #define strToFnPtrMapElement(funcName, fnPtr)    {llJit->mangleAndIntern(funcName), JITEvaluatedSymbol::fromPointer(fnPtr)}
 
+    static std::mutex LLJitMtx;
 
     llvm::CodeGenOpt::Level convertRRCodeGenOptLevelToLLVM(std::uint32_t options) {
         // these should be mutually exclusive
@@ -70,6 +73,18 @@ namespace rrllvm {
          */
         JTMB.setCodeGenOptLevel(convertRRCodeGenOptLevelToLLVM(options));
 
+        // enable position independent code
+        JTMB.setRelocationModel(llvm::Reloc::PIC_);
+
+        // augment the default options
+        llvm::TargetOptions targetOptions = JTMB.getOptions();
+
+
+        targetOptions.ThreadModel = llvm::ThreadModel::POSIX;
+
+        targetOptions.AllowFPOpFusion = FPOpFusion::Fast;
+        JTMB.setOptions(targetOptions);
+
         // query the target machine builder for its data layout.
         auto DL = JTMB.getDefaultDataLayoutForTarget();
         if (!DL) {
@@ -78,16 +93,7 @@ namespace rrllvm {
             llvm::logAllUnhandledErrors(std::move(DL.takeError()), llvm::errs(), err);
             throw_llvm_exception(err);
         }
-//#ifndef NDEBUG // defined in llvm. JITTargetMachineBuilderPrinter only exists in dbg builds
-//        if (Logger::getLevel() <= Logger::Level::LOG_DEBUG) {
-//            std::string s;
-//            llvm::raw_string_ostream os(s);
-//            llvm::orc::JITTargetMachineBuilderPrinter jtmbp(JTMB, "RoadRunnnerJTMBPrinter");
-//            jtmbp.print(os);
-//            rrLogDebug << "JitTargetMachineBuilder information: ";
-//            rrLogDebug << s;
-//        }
-//#endif
+
         llvm::Expected<std::unique_ptr<llvm::TargetMachine>> expectedTargetMachine = JTMB.createTargetMachine();
         if (!expectedTargetMachine) {
             std::string err = "Could not create target machine";
@@ -166,112 +172,31 @@ namespace rrllvm {
         llJit->getMainJITDylib().addGenerator(std::move(*DLSG));
 
         LLJit::mapFunctionsToJitSymbols();
-        LLJit::mapDistribFunctionsToJitSymbols();
+
     }
 
-//    void LLJit::mapFunctionsToJitSymbols2() {
-//        using namespace rr;
-//
-//        mapFunctionToAbsoluteSymbol("arccot", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccot));
-//        mapFunctionToAbsoluteSymbol("rr_arccot_negzero",
-//                                    reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_arccot_negzero));
-//        mapFunctionToAbsoluteSymbol("arccoth", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccoth));
-//        mapFunctionToAbsoluteSymbol("arccsc", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccsc));
-//        mapFunctionToAbsoluteSymbol("arccsch", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccsch));
-//        mapFunctionToAbsoluteSymbol("arcsec", reinterpret_cast<std::uint64_t>(&sbmlsupport::arcsec));
-//        mapFunctionToAbsoluteSymbol("arcsech", reinterpret_cast<std::uint64_t>(&sbmlsupport::arcsech));
-//        mapFunctionToAbsoluteSymbol("cot", reinterpret_cast<std::uint64_t>(&sbmlsupport::cot));
-//        mapFunctionToAbsoluteSymbol("coth", reinterpret_cast<std::uint64_t>(&sbmlsupport::coth));
-//        mapFunctionToAbsoluteSymbol("csc", reinterpret_cast<std::uint64_t>(&sbmlsupport::csc));
-//        mapFunctionToAbsoluteSymbol("csch", reinterpret_cast<std::uint64_t>(&sbmlsupport::csch));
-//        mapFunctionToAbsoluteSymbol("rr_factoriali", reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_factoriali));
-//        mapFunctionToAbsoluteSymbol("rr_factoriald", reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_factoriald));
-//        mapFunctionToAbsoluteSymbol("rr_logd", reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_logd));
-//        mapFunctionToAbsoluteSymbol("rr_rootd", reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_rootd));
-//        mapFunctionToAbsoluteSymbol("sec", reinterpret_cast<std::uint64_t>(&sbmlsupport::sec));
-//        mapFunctionToAbsoluteSymbol("sech", reinterpret_cast<std::uint64_t>(&sbmlsupport::sech));
-//        mapFunctionToAbsoluteSymbol("arccosh", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccosh));
-//        mapFunctionToAbsoluteSymbol("arcsinh", reinterpret_cast<std::uint64_t>(&sbmlsupport::arcsinh));
-//        mapFunctionToAbsoluteSymbol("arctanh", reinterpret_cast<std::uint64_t>(&sbmlsupport::arctanh));
-//        mapFunctionToAbsoluteSymbol("quotient", reinterpret_cast<std::uint64_t>(&sbmlsupport::quotient));
-//        mapFunctionToAbsoluteSymbol("rr_max", reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_max));
-//        mapFunctionToAbsoluteSymbol("rr_min", reinterpret_cast<std::uint64_t>(&sbmlsupport::rr_min));
-//        mapFunctionToAbsoluteSymbol("csr_matrix_get_nz", reinterpret_cast<std::uint64_t>(&csr_matrix_get_nz));
-//        mapFunctionToAbsoluteSymbol("csr_matrix_set_nz", reinterpret_cast<std::uint64_t>(&csr_matrix_set_nz));
-//    }
 
     void LLJit::mapFunctionsToJitSymbols() {
-        llvm::Error err = llJit->getMainJITDylib().define(llvm::orc::absoluteSymbols(
-                {
-                        strToFnPtrMapElement("arccot", &sbmlsupport::arccot),
-                        strToFnPtrMapElement("rr_arccot_negzero", &sbmlsupport::rr_arccot_negzero),
-                        strToFnPtrMapElement("arccoth", &sbmlsupport::arccoth),
-                        strToFnPtrMapElement("arccsc", &sbmlsupport::arccsc),
-                        strToFnPtrMapElement("arccsch", &sbmlsupport::arccsch),
-                        strToFnPtrMapElement("arcsec", &sbmlsupport::arcsec),
-                        strToFnPtrMapElement("arcsech", &sbmlsupport::arcsech),
-                        strToFnPtrMapElement("cot", &sbmlsupport::cot),
-                        strToFnPtrMapElement("coth", &sbmlsupport::coth),
-                        strToFnPtrMapElement("csc", &sbmlsupport::csc),
-                        strToFnPtrMapElement("csch", &sbmlsupport::csch),
-                        strToFnPtrMapElement("rr_factoriali", &sbmlsupport::rr_factoriali),
-                        strToFnPtrMapElement("rr_factoriald", &sbmlsupport::rr_factoriald),
-                        strToFnPtrMapElement("rr_logd", &sbmlsupport::rr_logd),
-                        strToFnPtrMapElement("rr_rootd", &sbmlsupport::rr_rootd),
-                        strToFnPtrMapElement("sec", &sbmlsupport::sec),
-                        strToFnPtrMapElement("sech", &sbmlsupport::sech),
-                        strToFnPtrMapElement("arccosh", &sbmlsupport::arccosh),
-                        strToFnPtrMapElement("arcsinh", &sbmlsupport::arcsinh),
-                        strToFnPtrMapElement("arctanh", &sbmlsupport::arctanh),
-                        strToFnPtrMapElement("quotient", &sbmlsupport::quotient),
-                        strToFnPtrMapElement("rr_max", &sbmlsupport::rr_max),
-                        strToFnPtrMapElement("rr_min", &sbmlsupport::rr_min),
-                        strToFnPtrMapElement("csr_matrix_get_nz", &rr::csr_matrix_get_nz),
-                        strToFnPtrMapElement("csr_matrix_set_nz", &rr::csr_matrix_set_nz),
-                }
-        ));
+        llvm::DenseMap<llvm::orc::SymbolStringPtr, llvm::JITEvaluatedSymbol> map{};
+        for (auto [fnName, fnTy_addr_pair] : externalFunctionSignatures()){
+            auto [fnTy, addr] = fnTy_addr_pair;
+            std::string mangled = mangleName(fnName);
+            Function::Create(fnTy, Function::ExternalLinkage, mangled, getModuleNonOwning());
+            map.insert({
+                llJit->mangleAndIntern(fnName), JITEvaluatedSymbol::fromPointer(addr)
+            });
+        }
+
+        map.insert({llJit->mangleAndIntern(ModelDataIRBuilder::csr_matrix_set_nzName), JITEvaluatedSymbol::fromPointer(&rr::csr_matrix_set_nz)});
+        map.insert({llJit->mangleAndIntern(ModelDataIRBuilder::csr_matrix_get_nzName), JITEvaluatedSymbol::fromPointer(&rr::csr_matrix_get_nz)});
+
+        llvm::Error err = llJit->getMainJITDylib().define(llvm::orc::absoluteSymbols(map));
         if (err) {
             llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "[ error mapping functions to symbols ]");
         }
 
     }
 
-    void LLJit::mapDistribFunctionsToJitSymbols() {
-        // todo merge with mapFunctionsToJitSymbols. Creation of one map with more elements faster then two with less.
-#if LIBSBML_HAS_PACKAGE_DISTRIB
-        llvm::Error err = llJit->getMainJITDylib().define(llvm::orc::absoluteSymbols(
-                {
-                        strToFnPtrMapElement("rr_distrib_uniform", &distrib_uniform),
-                        strToFnPtrMapElement("rr_distrib_normal", &distrib_normal),
-                        strToFnPtrMapElement("rr_distrib_normal_four", &distrib_normal_four),
-                        strToFnPtrMapElement("rr_distrib_bernoulli", &distrib_bernoulli),
-                        strToFnPtrMapElement("rr_distrib_binomial", &distrib_binomial),
-                        strToFnPtrMapElement("rr_distrib_binomial_four", &distrib_binomial_four),
-                        strToFnPtrMapElement("rr_distrib_cauchy", &distrib_cauchy),
-                        strToFnPtrMapElement("rr_distrib_cauchy_one", &distrib_cauchy_one),
-                        strToFnPtrMapElement("rr_distrib_cauchy_four", &distrib_cauchy_four),
-                        strToFnPtrMapElement("rr_distrib_chisquare", &distrib_chisquare),
-                        strToFnPtrMapElement("rr_distrib_chisquare_three", &distrib_chisquare_three),
-                        strToFnPtrMapElement("rr_distrib_exponential", &distrib_exponential),
-                        strToFnPtrMapElement("rr_distrib_exponential_three", &distrib_exponential_three),
-                        strToFnPtrMapElement("rr_distrib_gamma", &distrib_gamma),
-                        strToFnPtrMapElement("rr_distrib_gamma_four", &distrib_gamma_four),
-                        strToFnPtrMapElement("rr_distrib_laplace", &distrib_laplace),
-                        strToFnPtrMapElement("rr_distrib_laplace_one", &distrib_laplace_one),
-                        strToFnPtrMapElement("rr_distrib_laplace_four", &distrib_laplace_four),
-                        strToFnPtrMapElement("rr_distrib_lognormal", &distrib_lognormal),
-                        strToFnPtrMapElement("rr_distrib_lognormal_four", &distrib_lognormal_four),
-                        strToFnPtrMapElement("rr_distrib_poisson", &distrib_poisson),
-                        strToFnPtrMapElement("rr_distrib_poisson_three", &distrib_poisson_three),
-                        strToFnPtrMapElement("rr_distrib_rayleigh", &distrib_rayleigh),
-                        strToFnPtrMapElement("rr_distrib_rayleigh_three", &distrib_rayleigh_three),
-                }
-        ));
-        if (err){
-            llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "[ distrib functions failed to map to symbols ]");
-        }
-#endif
-    };
 
     std::uint64_t LLJit::lookupFunctionAddress(const std::string &name) {
         // automatically looks up manged name

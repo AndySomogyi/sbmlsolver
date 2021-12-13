@@ -23,8 +23,6 @@ namespace rrllvm {
 
         void mapFunctionsToJitSymbols() override;
 
-        void mapDistribFunctionsToJitSymbols() override;
-
         void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> modelResources) override;
 
         std::uint64_t lookupFunctionAddress(const std::string& name) override;
@@ -64,12 +62,6 @@ namespace rrllvm {
         std::string getModuleAsString(std::string sbmlMD5) override;
 
     private:
-        Function *createGlobalMappingFunction(const char *funcName, llvm::FunctionType *funcType, Module *module);
-
-        void addGlobalMapping(const llvm::GlobalValue *gv, void *addr);
-
-        void addGlobalMappings();
-
         /**
          * @brief make the calls to PassManager to
          * optimize the LLVM IR module.

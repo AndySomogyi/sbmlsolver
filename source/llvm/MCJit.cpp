@@ -52,7 +52,6 @@ namespace rrllvm {
         executionEngine = std::unique_ptr<ExecutionEngine>(engineBuilder.create());
 
         MCJit::mapFunctionsToJitSymbols();
-        MCJit::mapDistribFunctionsToJitSymbols();
         MCJit::initFunctionPassManager();
     }
 
@@ -62,169 +61,18 @@ namespace rrllvm {
     }
 
     void MCJit::mapFunctionsToJitSymbols() {
-        addGlobalMappings();
+        llvm::sys::DynamicLibrary::LoadLibraryPermanently(nullptr); // for symbols in current process
+
+        for (auto [fnName, fnTy_addr_pair] : externalFunctionSignatures()){
+            auto [fnTy, addr] = fnTy_addr_pair;
+            Function::Create(fnTy, Function::ExternalLinkage, mangleName(fnName), getModuleNonOwning());
+            llvm::sys::DynamicLibrary::AddSymbol(mangleName(fnName), addr);
+        }
+
+        // The functions for these have already been created in ModelDataIRBuilder, so we only need to add the symbol to the library
+        llvm::sys::DynamicLibrary::AddSymbol(ModelDataIRBuilder::csr_matrix_set_nzName, (void*) rr::csr_matrix_set_nz);
+        llvm::sys::DynamicLibrary::AddSymbol(ModelDataIRBuilder::csr_matrix_get_nzName, (void*) rr::csr_matrix_get_nz);
     }
-
-    void MCJit::mapDistribFunctionsToJitSymbols() {
-//        LLVMContext &context = *.getJitNonOwning()->getContextNonOwning();
-//    llvm::ExecutionEngine *executionEngine = &ctx.getExecutionEngine();
-        Type *double_type = Type::getDoubleTy(*context);
-
-
-        // LLVM does not appear to have a true void ptr, so just use a pointer
-        // to a byte, pointers are all the same size anyway.
-        // used for the LLVMModelData::random which is not accessed by
-        // generated llvm code anyway.
-        // see also, llvm::StructType *ModelDataIRBuilder::createModelDataStructType(...)
-        Type *voidPtrType = Type::getInt8PtrTy(*context);
-
-        Type *args_void_double_quadruple[] = {voidPtrType, double_type, double_type, double_type, double_type};
-
-        Type *args_void_double_triple[] = {voidPtrType, double_type, double_type, double_type};
-
-        Type *args_void_double_double[] = {voidPtrType, double_type, double_type};
-
-        Type *args_void_double[] = {voidPtrType, double_type};
-
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_uniform",
-                                            FunctionType::get(double_type, args_void_double_double, false),
-                                            moduleNonOwning),
-                (void *) distrib_uniform);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_normal",
-                                            FunctionType::get(double_type, args_void_double_double, false),
-                                            moduleNonOwning),
-                (void *) distrib_normal);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_normal_four",
-                                            FunctionType::get(double_type, args_void_double_quadruple, false),
-                                            moduleNonOwning),
-                (void *) distrib_normal_four);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_binomial",
-                                            FunctionType::get(double_type, args_void_double_double, false),
-                                            moduleNonOwning),
-                (void *) distrib_binomial);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_bernoulli",
-                                            FunctionType::get(double_type, args_void_double, false), moduleNonOwning),
-                (void *) distrib_bernoulli);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_binomial_four",
-                                            FunctionType::get(double_type, args_void_double_quadruple, false),
-                                            moduleNonOwning),
-                (void *) distrib_binomial_four);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_cauchy",
-                                            FunctionType::get(double_type, args_void_double_double, false),
-                                            moduleNonOwning),
-                (void *) distrib_cauchy);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_cauchy_one",
-                                            FunctionType::get(double_type, args_void_double, false), moduleNonOwning),
-                (void *) distrib_cauchy_one);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_cauchy_four",
-                                            FunctionType::get(double_type, args_void_double_quadruple, false),
-                                            moduleNonOwning),
-                (void *) distrib_cauchy_four);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_chisquare",
-                                            FunctionType::get(double_type, args_void_double, false), moduleNonOwning),
-                (void *) distrib_chisquare);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_chisquare_three",
-                                            FunctionType::get(double_type, args_void_double_triple, false),
-                                            moduleNonOwning),
-                (void *) distrib_chisquare_three);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_exponential",
-                                            FunctionType::get(double_type, args_void_double, false), moduleNonOwning),
-                (void *) distrib_exponential);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_exponential_three",
-                                            FunctionType::get(double_type, args_void_double_triple, false),
-                                            moduleNonOwning),
-                (void *) distrib_exponential_three);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_gamma",
-                                            FunctionType::get(double_type, args_void_double_double, false),
-                                            moduleNonOwning),
-                (void *) distrib_gamma);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_gamma_four",
-                                            FunctionType::get(double_type, args_void_double_quadruple, false),
-                                            moduleNonOwning),
-                (void *) distrib_gamma_four);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_laplace",
-                                            FunctionType::get(double_type, args_void_double_double, false),
-                                            moduleNonOwning),
-                (void *) distrib_laplace);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_laplace_one",
-                                            FunctionType::get(double_type, args_void_double, false), moduleNonOwning),
-                (void *) distrib_laplace_one);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_laplace_four",
-                                            FunctionType::get(double_type, args_void_double_quadruple, false),
-                                            moduleNonOwning),
-                (void *) distrib_laplace_four);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_lognormal",
-                                            FunctionType::get(double_type, args_void_double_double, false),
-                                            moduleNonOwning),
-                (void *) distrib_lognormal);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_lognormal_four",
-                                            FunctionType::get(double_type, args_void_double_quadruple, false),
-                                            moduleNonOwning),
-                (void *) distrib_lognormal_four);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_poisson",
-                                            FunctionType::get(double_type, args_void_double, false), moduleNonOwning),
-                (void *) distrib_poisson);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_poisson_three",
-                                            FunctionType::get(double_type, args_void_double_triple, false),
-                                            moduleNonOwning),
-                (void *) distrib_poisson_three);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_rayleigh",
-                                            FunctionType::get(double_type, args_void_double, false), moduleNonOwning),
-                (void *) distrib_rayleigh);
-
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_distrib_rayleigh_three",
-                                            FunctionType::get(double_type, args_void_double_triple, false),
-                                            moduleNonOwning),
-                (void *) distrib_rayleigh_three);
-
-    };
 
     void MCJit::transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> modelResources) {
         Jit::transferObjectsToResources(modelResources);
@@ -267,17 +115,9 @@ namespace rrllvm {
             throw std::invalid_argument("Failed to load object data");
         }
         std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
-//        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(
-//                std::move(objectFile),
-//                std::move(memBuffer)
-//        );
-
         getExecutionEngineNonOwning()->addObjectFile(std::move(objectFile));
     }
 
-//    void MCJit::finalizeObject() {
-//        getExecutionEngineNonOwning()->finalizeObject();
-//    };
 
     const llvm::DataLayout &MCJit::getDataLayout() const {
         return getExecutionEngineNonOwning()->getDataLayout();
@@ -364,167 +204,6 @@ namespace rrllvm {
         pass.run(*getModuleNonOwning());
     }
 
-
-    Function *MCJit::createGlobalMappingFunction(const char *funcName, llvm::FunctionType *funcType, Module *module) {
-        // This was InternalLinkage, but it needs to be external for JIT'd code to see it
-        return Function::Create(funcType, Function::ExternalLinkage, funcName, module);
-    }
-
-    void MCJit::addGlobalMapping(const llvm::GlobalValue *gv, void *addr) {
-        llvm::sys::DynamicLibrary::AddSymbol(gv->getName(), addr);
-        executionEngine->addGlobalMapping(gv, addr);
-    }
-
-    void MCJit::addGlobalMappings() {
-        Type *double_type = Type::getDoubleTy(*context);
-        Type *int_type = Type::getInt32Ty(*context);
-        Type *args_i1[] = {int_type};
-        Type *args_d1[] = {double_type};
-        Type *args_d2[] = {double_type, double_type};
-
-        llvm::sys::DynamicLibrary::LoadLibraryPermanently(nullptr);
-
-        addGlobalMapping(ModelDataIRBuilder::getCSRMatrixSetNZDecl(moduleNonOwning), (void *) rr::csr_matrix_set_nz);
-        addGlobalMapping(ModelDataIRBuilder::getCSRMatrixGetNZDecl(moduleNonOwning), (void *) rr::csr_matrix_get_nz);
-
-        // AST_FUNCTION_ARCCOT:
-        llvm::RTDyldMemoryManager::getSymbolAddressInProcess("arccot");
-        addGlobalMapping(
-                createGlobalMappingFunction("arccot",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::arccot);
-
-        addGlobalMapping(
-                createGlobalMappingFunction("rr_arccot_negzero",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::rr_arccot_negzero);
-
-        // AST_FUNCTION_ARCCOTH:
-        addGlobalMapping(
-                createGlobalMappingFunction("arccoth",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::arccoth);
-
-        // AST_FUNCTION_ARCCSC:
-        addGlobalMapping(
-                createGlobalMappingFunction("arccsc",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::arccsc);
-
-        // AST_FUNCTION_ARCCSCH:
-        addGlobalMapping(
-                createGlobalMappingFunction("arccsch",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::arccsch);
-
-        // AST_FUNCTION_ARCSEC:
-        addGlobalMapping(
-                createGlobalMappingFunction("arcsec",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::arcsec);
-
-        // AST_FUNCTION_ARCSECH:
-        addGlobalMapping(
-                createGlobalMappingFunction("arcsech",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::arcsech);
-
-        // AST_FUNCTION_COT:
-        addGlobalMapping(
-                createGlobalMappingFunction("cot",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::cot);
-
-        // AST_FUNCTION_COTH:
-        addGlobalMapping(
-                createGlobalMappingFunction("coth",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::coth);
-
-        // AST_FUNCTION_CSC:
-        addGlobalMapping(
-                createGlobalMappingFunction("csc",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::csc);
-
-        // AST_FUNCTION_CSCH:
-        addGlobalMapping(
-                createGlobalMappingFunction("csch",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::csch);
-
-        // AST_FUNCTION_FACTORIAL:
-        addGlobalMapping(
-                createGlobalMappingFunction("rr_factoriali",
-                                            FunctionType::get(int_type, args_i1, false), moduleNonOwning),
-                (void *) sbmlsupport::rr_factoriali);
-
-        addGlobalMapping(
-                createGlobalMappingFunction("rr_factoriald",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::rr_factoriald);
-
-        // AST_FUNCTION_LOG:
-        addGlobalMapping(
-                createGlobalMappingFunction("rr_logd",
-                                            FunctionType::get(double_type, args_d2, false), moduleNonOwning),
-                (void *) sbmlsupport::rr_logd);
-
-        // AST_FUNCTION_ROOT:
-        addGlobalMapping(
-                createGlobalMappingFunction("rr_rootd",
-                                            FunctionType::get(double_type, args_d2, false), moduleNonOwning),
-                (void *) sbmlsupport::rr_rootd);
-
-        // AST_FUNCTION_SEC:
-        addGlobalMapping(
-                createGlobalMappingFunction("sec",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::sec);
-
-        // AST_FUNCTION_SECH:
-        addGlobalMapping(
-                createGlobalMappingFunction("sech",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) sbmlsupport::sech);
-
-        // AST_FUNCTION_ARCCOSH:
-        addGlobalMapping(
-                createGlobalMappingFunction("arccosh",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) static_cast<double (*)(double)>(acosh));
-
-        // AST_FUNCTION_ARCSINH:
-        addGlobalMapping(
-                createGlobalMappingFunction("arcsinh",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) static_cast<double (*)(double)>(asinh));
-
-        // AST_FUNCTION_ARCTANH:
-        addGlobalMapping(
-                createGlobalMappingFunction("arctanh",
-                                            FunctionType::get(double_type, args_d1, false), moduleNonOwning),
-                (void *) static_cast<double (*)(double)>(atanh));
-
-        // AST_FUNCTION_QUOTIENT:
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("quotient",
-                                            FunctionType::get(double_type, args_d2, false), moduleNonOwning),
-                (void *) sbmlsupport::quotient);
-
-        // AST_FUNCTION_MAX:
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_max",
-                                            FunctionType::get(double_type, args_d2, false), moduleNonOwning),
-                (void *) (sbmlsupport::rr_max));
-
-        // AST_FUNCTION_MIN:
-        executionEngine->addGlobalMapping(
-                createGlobalMappingFunction("rr_min",
-                                            FunctionType::get(double_type, args_d2, false), moduleNonOwning),
-                (void *) (sbmlsupport::rr_min));
-
-    }
 
     void MCJit::initFunctionPassManager() {
         if (options & LoadSBMLOptions::OPTIMIZE) {

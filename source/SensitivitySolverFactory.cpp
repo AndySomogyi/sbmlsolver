@@ -15,9 +15,9 @@ namespace rr {
     }
 
     void SensitivitySolverFactory::Register() {
+        std::lock_guard<std::mutex> mtx(sensitivityRegistrationMutex);
         static bool flag = false;
         if (!flag) {
-            std::lock_guard<std::mutex> mtx(sensitivityRegistrationMutex);
             SensitivitySolverFactory::getInstance().registerSolver(new ForwardSensitivitySolver);
             flag = true;
         }

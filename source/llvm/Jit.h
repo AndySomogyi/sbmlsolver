@@ -24,7 +24,9 @@ namespace rr {
 
 namespace rrllvm {
     class Random;
+
     class ModelResources;
+
     class SBMLModelObjectCache;
 
     template<typename FunctionPtrType>
@@ -84,41 +86,46 @@ namespace rrllvm {
     using rr_minFnTy = FnPtr_d2;
 
     // for a sparse matrix used in llvm world
-    using csr_matrix_set_nz_FnTy = rr::csr_matrix* (*)(int, int, double);
-    using csr_matrix_get_nz_FnTy = rr::csr_matrix* (*)(int, int);
+    using csr_matrix_set_nz_FnTy = rr::csr_matrix *(*)(int, int, double);
+    using csr_matrix_get_nz_FnTy = rr::csr_matrix *(*)(int, int);
 
     // function signatures for distrib
-    using DistribFnTy_d1 = double (*)(Random*, double);
-    using DistribFnTy_d2 = double (*)(Random*, double, double);
-    using DistribFnTy_d3 = double (*)(Random*, double, double, double);
-    using DistribFnTy_d4 = double (*)(Random*, double, double, double, double);
+    using DistribFnTy_d1 = double (*)(Random *, double);
+    using DistribFnTy_d2 = double (*)(Random *, double, double);
+    using DistribFnTy_d3 = double (*)(Random *, double, double, double);
+    using DistribFnTy_d4 = double (*)(Random *, double, double, double, double);
 
-    using distrib_uniform_FnTy           = DistribFnTy_d2;
-    using distrib_normal_FnTy            = DistribFnTy_d2;
-    using distrib_normal_four_FnTy       = DistribFnTy_d4;
-    using distrib_bernoulli_FnTy         = DistribFnTy_d1;
-    using distrib_binomial_FnTy          = DistribFnTy_d2;
-    using distrib_binomial_four_FnTy     = DistribFnTy_d4;
-    using distrib_cauchy_FnTy            = DistribFnTy_d2;
-    using distrib_cauchy_one_FnTy        = DistribFnTy_d1;
-    using distrib_cauchy_four_FnTy       = DistribFnTy_d4;
-    using distrib_chisquare_FnTy         = DistribFnTy_d1;
-    using distrib_chisquare_three_FnTy   = DistribFnTy_d3;
-    using distrib_exponential_FnTy       = DistribFnTy_d1;
+    using distrib_uniform_FnTy = DistribFnTy_d2;
+    using distrib_normal_FnTy = DistribFnTy_d2;
+    using distrib_normal_four_FnTy = DistribFnTy_d4;
+    using distrib_bernoulli_FnTy = DistribFnTy_d1;
+    using distrib_binomial_FnTy = DistribFnTy_d2;
+    using distrib_binomial_four_FnTy = DistribFnTy_d4;
+    using distrib_cauchy_FnTy = DistribFnTy_d2;
+    using distrib_cauchy_one_FnTy = DistribFnTy_d1;
+    using distrib_cauchy_four_FnTy = DistribFnTy_d4;
+    using distrib_chisquare_FnTy = DistribFnTy_d1;
+    using distrib_chisquare_three_FnTy = DistribFnTy_d3;
+    using distrib_exponential_FnTy = DistribFnTy_d1;
     using distrib_exponential_three_FnTy = DistribFnTy_d3;
-    using distrib_gamma_FnTy             = DistribFnTy_d2;
-    using distrib_gamma_four_FnTy        = DistribFnTy_d4;
-    using distrib_laplace_FnTy           = DistribFnTy_d2;
-    using distrib_laplace_one_FnTy       = DistribFnTy_d1;
-    using distrib_laplace_four_FnTy      = DistribFnTy_d4;
-    using distrib_lognormal_FnTy         = DistribFnTy_d2;
-    using distrib_lognormal_four_FnTy    = DistribFnTy_d4;
-    using distrib_poisson_FnTy           = DistribFnTy_d1;
-    using distrib_poisson_three_FnTy     = DistribFnTy_d3;
-    using distrib_rayleigh_FnTy          = DistribFnTy_d1;
-    using distrib_rayleigh_three_FnTy    = DistribFnTy_d3;
+    using distrib_gamma_FnTy = DistribFnTy_d2;
+    using distrib_gamma_four_FnTy = DistribFnTy_d4;
+    using distrib_laplace_FnTy = DistribFnTy_d2;
+    using distrib_laplace_one_FnTy = DistribFnTy_d1;
+    using distrib_laplace_four_FnTy = DistribFnTy_d4;
+    using distrib_lognormal_FnTy = DistribFnTy_d2;
+    using distrib_lognormal_four_FnTy = DistribFnTy_d4;
+    using distrib_poisson_FnTy = DistribFnTy_d1;
+    using distrib_poisson_three_FnTy = DistribFnTy_d3;
+    using distrib_rayleigh_FnTy = DistribFnTy_d1;
+    using distrib_rayleigh_three_FnTy = DistribFnTy_d3;
 
     using rrOwningBinary = llvm::object::OwningBinary<llvm::object::ObjectFile>;
+
+    /**
+     * {FunctionName : {functionType, (void*)FnAddress}}
+     */
+    using FnMap = std::unordered_map<std::string, std::pair<llvm::FunctionType *, void *>>;
 
     /**
      * @brief superclass of all Jit types. Builds the machinery necessary
@@ -158,7 +165,7 @@ namespace rrllvm {
          * to be jitted, but if distrib is not available there are no adverse consequences
          * other than no being able to simulate models that depend on libsbml distrib.
          */
-        virtual void mapDistribFunctionsToJitSymbols() = 0;
+//        virtual void mapDistribFunctionsToJitSymbols() = 0;
 
         /**
          * @brief defaulted virtual destructor
@@ -279,13 +286,13 @@ namespace rrllvm {
         /**
          * @brief get the stream that stores a compiled module as binary.
          */
-        llvm::raw_svector_ostream& getCompiledModuleStream();
+        llvm::raw_svector_ostream &getCompiledModuleStream();
 
         std::string getDefaultTargetTriple() const;
 
-        void setModuleIdentifier(const std::string &id) ;
+        void setModuleIdentifier(const std::string &id);
 
-        std::string mangleName(const std::string& unmangledName) const;
+        std::string mangleName(const std::string &unmangledName) const;
 
         /**
          * @brief get a binary string representation of the current
@@ -319,16 +326,22 @@ namespace rrllvm {
         llvm::SmallVector<char, 10> moduleBuffer;
     protected:
 
-         /**
-          *
-          */
-         std::string getProcessTriple() const ;
+        /**
+         *
+         */
+        std::string getProcessTriple() const;
 
         /**
          * @brief use llvm calls to work out which TargetMachine
          * is currently being used.
          */
-        const llvm::Target* getDefaultTargetMachine() const;
+        const llvm::Target *getDefaultTargetMachine() const;
+
+        /**
+         * @brief returns a mapping between function names and function signatures
+         */
+        FnMap externalFunctionSignatures() const;
+
 
         std::unique_ptr<llvm::LLVMContext> context;
         std::unique_ptr<llvm::Module> module;
@@ -367,8 +380,8 @@ namespace rrllvm {
          */
         void createCLibraryFunctions();
 
-    };
 
+    };
 }
 
 #endif //ROADRUNNER_JIT_H

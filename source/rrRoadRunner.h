@@ -5,6 +5,7 @@
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerOptions.h"
 #include "sbml/Species.h"
+#include <thread>
 
 #ifdef _MSC_VER
 #pragma warning(disable: 26812)
@@ -45,14 +46,16 @@ namespace rr {
     template<class IndexType, class DataType>
     class Matrix3D;
 
-/**
- * The main RoadRunner class.
- *
- * The RoadRunner class is responsible for loading and simulating SBML models.
- *
- * MemoryManagment: Any pointer returned by a get... method is owned by the
- * RoadRunner object and does NOT have to be deleted.
- */
+    static std::mutex rrMtx;
+
+    /**
+     * The main RoadRunner class.
+     *
+     * The RoadRunner class is responsible for loading and simulating SBML models.
+     *
+     * MemoryManagment: Any pointer returned by a get... method is owned by the
+     * RoadRunner object and does NOT have to be deleted.
+     */
     class RR_DECLSPEC RoadRunner {
 
     public:

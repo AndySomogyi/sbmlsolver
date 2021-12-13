@@ -10,6 +10,8 @@ using namespace rr;
 
 namespace rrllvm {
 
+    static std::mutex mtx;
+
     SBMLModelObjectCache &SBMLModelObjectCache::getObjectCache() {
         static SBMLModelObjectCache objectCacheInstance;
         return objectCacheInstance;
@@ -17,6 +19,7 @@ namespace rrllvm {
 
     void SBMLModelObjectCache::notifyObjectCompiled(const llvm::Module *M, llvm::MemoryBufferRef ObjBuffer) {
         rrLogDebug << "module: " << M->getModuleIdentifier() << " is compiled";
+        std::lock_guard<std::mutex> lock(mtx);
         cachedObjects[M->getModuleIdentifier()] = llvm::MemoryBuffer::getMemBufferCopy(
                 ObjBuffer.getBuffer(), ObjBuffer.getBufferIdentifier());
     }
@@ -35,6 +38,7 @@ namespace rrllvm {
     std::vector<std::string> SBMLModelObjectCache::inspect() {
         std::vector<std::string> v;
         rrLogDebug << "Number of cached models is: " << cachedObjects.size();
+        std::lock_guard<std::mutex> lock(mtx);
         for (auto &x: cachedObjects) {
             rrLogDebug << "Found cached model called: " << x.first().str();
             v.push_back(x.first().str());
@@ -43,6 +47,7 @@ namespace rrllvm {
     }
 
     void SBMLModelObjectCache::addToCache(const std::string &key, std::unique_ptr<llvm::MemoryBuffer> mb) {
+        std::lock_guard<std::mutex> lock(mtx);
         cachedObjects.insert({key, std::move(mb)});
     }
 

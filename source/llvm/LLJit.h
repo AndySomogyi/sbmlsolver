@@ -34,8 +34,6 @@ namespace rrllvm {
 
         void mapFunctionsToJitSymbols() override;
 
-        void mapDistribFunctionsToJitSymbols() override;
-
         std::uint64_t lookupFunctionAddress(const std::string &name) override;
 
         void addObjectFile(rrOwningBinary owningObject) override;
@@ -80,7 +78,7 @@ namespace rrllvm {
 
     private:
 
-        void mapFunctionToAbsoluteSymbol(const std::string &funcName, std::uint64_t funcAddress);
+//        void mapFunctionToAbsoluteSymbol(const std::string &funcName, std::uint64_t funcAddress);
 
         std::unique_ptr<llvm::orc::LLJIT> llJit;
         llvm::TargetMachine* targetMachineNonOwning = nullptr;

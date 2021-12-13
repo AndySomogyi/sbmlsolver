@@ -24,6 +24,7 @@ configure_file(RoadRunnerTestDirectory.cpp.in "${CMAKE_CURRENT_BINARY_DIR}/RoadR
 set(ThisSourceDirectory "${CMAKE_CURRENT_SOURCE_DIR}")
 set(ThisBinaryDirectory "${CMAKE_CURRENT_BINARY_DIR}")
 set(MOCKUPS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/mockups")
+set(SBMLTestSuiteRoot "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/semantic")
 
 #todo move these to the rr_root/cmake folder
 # Adds a new executable cmake target to cmake.
@@ -58,6 +59,9 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
             ${TEST_PLUGIN_LIB}
             gtest gtest_main gmock gmock_main
     )
+
+    # Add root of sbml test suite to all test targets.
+    target_compile_definitions(${TEST_TARGET} PRIVATE "SBMLTestSuiteRoot=\"${SBMLTestSuiteRoot}\"")
 
     # This causes a weird build error whereby it is no longer possible
     # to name a class the name as the binary filename. However, since w

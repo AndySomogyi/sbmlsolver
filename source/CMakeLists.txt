@@ -99,6 +99,8 @@ set(
         conservation/ConservedMoietyPlugin.cpp
         conservation/ConservedMoietyConverter.cpp
         #todo pull test files out of main library sources.
+        rrRoadRunnerMap.cpp
+        thread-pool/thread_pool.hpp
 )
 
 set(
@@ -173,6 +175,8 @@ set(
         conservation/ConservationDocumentPlugin.h
         conservation/ConservedMoietyPlugin.h
         conservation/ConservedMoietyConverter.h
+
+        rrRoadRunnerMap.h
 )
 install(FILES ${rrCoreHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
 
@@ -392,6 +396,7 @@ target_compile_definitions(${target}-static PUBLIC STATIC_RR)
 set(INCLUDE_DIRS "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/llvm>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/thread-pool>"
         "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
         "$<BUILD_INTERFACE:${DEPENDENCY_INCLUDE_DIR}>"
         # though roadrunner does not link libxml2 directly, it does
