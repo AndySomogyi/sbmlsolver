@@ -8,6 +8,7 @@
 #include <filesystem>
 #include "RoadRunnerTest.h"
 #include "rrException.h"
+#include "rrConfig.h"
 
 using namespace testing;
 using namespace rr;
@@ -22,7 +23,9 @@ class SbmlTestSuite : public RoadRunnerTest
 {
 public:
 
-    SbmlTestSuite() = default;
+    SbmlTestSuite() {
+        Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
+    };
 
     bool RunTest(int caseNumber)
     {

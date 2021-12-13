@@ -71,7 +71,7 @@ namespace rr {
         bool contains(const std::string& key);
 #endif
 
-        unsigned int numProc ;
+        unsigned int numProc = 1;
 
     private:
 

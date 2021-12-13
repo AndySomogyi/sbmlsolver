@@ -79,16 +79,10 @@ namespace rrllvm {
         // augment the default options
         llvm::TargetOptions targetOptions = JTMB.getOptions();
 
-        rrLogCriticalCiaran << " Two options, POSIX and Single threaded enviornments. Its possible that "
-                               "C++ 17 uses thread on windows based in pthread and its also "
-                               "possible that POSIX just breaks on windows. Therefore, "
-                               "delete this log statement once you've worked out whether "
-                               "you need to pop an ifdef in here for windows";
+
         targetOptions.ThreadModel = llvm::ThreadModel::POSIX;
 
-
         targetOptions.AllowFPOpFusion = FPOpFusion::Fast;
-        rrLogCriticalCiaran << "Look into the other options in TargetOptions.h. Useful?";
         JTMB.setOptions(targetOptions);
 
         // query the target machine builder for its data layout.

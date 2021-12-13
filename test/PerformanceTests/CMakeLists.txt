@@ -1,4 +1,3 @@
-add_test_executable(BuildAModel test_targets BuildAModel.cpp)
 
 
 

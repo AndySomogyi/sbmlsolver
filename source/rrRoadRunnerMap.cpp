@@ -20,8 +20,12 @@ namespace rr {
 
     void RoadRunnerMap::insert(const std::string &key, std::unique_ptr<RoadRunner> roadRunner) {
         std::lock_guard lock(rrMapMtx);
-        keys_.push_back(key);
-        rrMap_.insert({key, std::move(roadRunner)});
+        try {
+            keys_.push_back(key);
+            rrMap_.insert({key, std::move(roadRunner)});
+        } catch (std::exception &e) {
+            rrLogErr << "Model with key \"" << key << "\" did not load due to the following exception: \n " << e.what();
+        }
     }
 
     void RoadRunnerMap::insert(std::unique_ptr<RoadRunner> roadRunner) {
@@ -33,16 +37,28 @@ namespace rr {
 
     void RoadRunnerMap::insert(const std::string &key, const std::string &sbmlOrFile) {
         std::lock_guard lock(rrMapMtx);
-        keys_.push_back(key);
-        rrMap_.insert({key, std::make_unique<RoadRunner>(sbmlOrFile)});
+        try {
+            keys_.push_back(key);
+            rrMap_.insert({key, std::make_unique<RoadRunner>(sbmlOrFile)});
+        } catch (std::exception &e) {
+            rrLogErr << "Model with key \"" << key << "\" and sbmlOrFile : \n" << sbmlOrFile
+                      << "\n did not load due to the following exception: \n" << e.what();
+        }
+
     }
 
     void RoadRunnerMap::insert(const std::string &sbmlOrFile) {
-        auto rr = std::make_unique<RoadRunner>(sbmlOrFile);
-        std::lock_guard lock(rrMapMtx);
-        keys_.push_back(rr->getModelName());
-        rrMap_.insert({rr->getModelName(), std::move(rr)});
+        try {
+            auto rr = std::make_unique<RoadRunner>(sbmlOrFile);
+            std::lock_guard lock(rrMapMtx);
+            keys_.push_back(rr->getModelName());
+            rrMap_.insert({rr->getModelName(), std::move(rr)});
+        } catch (std::exception &e) {
+            rrLogErr << "Model with key sbmlOrFile \"" << sbmlOrFile << "\" did not load due to the following exception \n" << e.what();
+        }
+
     }
+
     void RoadRunnerMap::insert(const std::vector<std::string> &v) {
         loadParallel(v);
     }
@@ -84,7 +100,6 @@ namespace rr {
 
     std::unique_ptr<RoadRunner> RoadRunnerMap::steal(const std::string &key) {
         return std::move(rrMap_.at(key));
-
     }
 
     size_t RoadRunnerMap::count(const std::string &key) {
@@ -105,9 +120,8 @@ namespace rr {
      */
 
     void RoadRunnerMap::loadParallel(const std::vector<std::string> &sbmlFilesOrStrings) {
-        for (auto& sbml: sbmlFilesOrStrings) {
+        for (auto &sbml: sbmlFilesOrStrings) {
             pool.push_task([&sbml, this]() -> void {
-//                std::cout << sbml << std::endl;
                 insert(std::cref(sbml));
             });
         }
