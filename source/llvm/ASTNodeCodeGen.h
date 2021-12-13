@@ -13,6 +13,9 @@
 #include "LLVMIncludes.h"
 #include "CodeGen.h"
 #include "ModelGeneratorContext.h"
+#include <thread>
+
+static std::mutex ASTNodeMtx;
 
 namespace libsbml
 {

@@ -13,6 +13,15 @@
 namespace rr {
 
     /**
+     * Mutex for use in RoadRunnerMap. We need to be careful that
+     * we don't cause a deadlock by interaction with rrMtx, which
+     * is exclusively for use at the individual RoadRunner level.
+     *
+     */
+    static std::mutex rrMapMtx;
+
+
+    /**
      * Unordered map for use with RoadRunnerMap. This type will do the 
      * heavy lifting. Pointers to roadrunner models are stack allocated. 
      * If this is insufficient, then we'll convert this to unique_ptr. 

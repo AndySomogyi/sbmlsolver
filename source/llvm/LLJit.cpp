@@ -13,9 +13,11 @@
 #include "llvm/Target/TargetMachine.h"
 #include "llvm/IRReader/IRReader.h"
 #include "llvm/Support/SourceMgr.h"
+#include "llvm/ExecutionEngine/Orc/ObjectLinkingLayer.h"
 #include "SBMLModelObjectCache.h"
 #include "rrRoadRunnerOptions.h"
 #include "rrSparse.h"
+#include <thread>
 
 #if LIBSBML_HAS_PACKAGE_DISTRIB
 
@@ -31,6 +33,7 @@ namespace rrllvm {
 
 #define strToFnPtrMapElement(funcName, fnPtr)    {llJit->mangleAndIntern(funcName), JITEvaluatedSymbol::fromPointer(fnPtr)}
 
+    static std::mutex LLJitMtx;
 
     llvm::CodeGenOpt::Level convertRRCodeGenOptLevelToLLVM(std::uint32_t options) {
         // these should be mutually exclusive
@@ -69,6 +72,24 @@ namespace rrllvm {
          * None, Less, Default or Aggressive are the options.
          */
         JTMB.setCodeGenOptLevel(convertRRCodeGenOptLevelToLLVM(options));
+
+        // enable position independent code
+        JTMB.setRelocationModel(llvm::Reloc::PIC_);
+
+        // augment the default options
+        llvm::TargetOptions targetOptions = JTMB.getOptions();
+
+        rrLogCriticalCiaran << " Two options, POSIX and Single threaded enviornments. Its possible that "
+                               "C++ 17 uses thread on windows based in pthread and its also "
+                               "possible that POSIX just breaks on windows. Therefore, "
+                               "delete this log statement once you've worked out whether "
+                               "you need to pop an ifdef in here for windows";
+        targetOptions.ThreadModel = llvm::ThreadModel::POSIX;
+
+
+        targetOptions.AllowFPOpFusion = FPOpFusion::Fast;
+        rrLogCriticalCiaran << "Look into the other options in TargetOptions.h. Useful?";
+        JTMB.setOptions(targetOptions);
 
         // query the target machine builder for its data layout.
         auto DL = JTMB.getDefaultDataLayoutForTarget();
@@ -149,7 +170,13 @@ namespace rrllvm {
                     return std::make_unique<llvm::orc::TMOwningSimpleCompiler>(
                             std::move(*TM),
                             &SBMLModelObjectCache::getObjectCache());
-                });
+                })
+                // same linking layer as default. But be explicit.
+                .setObjectLinkingLayerCreator(
+                        [&](llvm::orc::ExecutionSession &ES, const llvm::Triple &TT) {
+                            return std::make_unique<llvm::orc::ObjectLinkingLayer>(
+                                    ES, std::make_unique<jitlink::InProcessMemoryManager>());
+                        });
 
 
         auto llJitExpected = llJitBuilder.create();
@@ -167,9 +194,33 @@ namespace rrllvm {
 
         LLJit::mapFunctionsToJitSymbols();
         LLJit::mapDistribFunctionsToJitSymbols();
+
+
     }
 
-//    void LLJit::mapFunctionsToJitSymbols2() {
+//    /**
+//     * @brief makes a function available in the Jit'd address
+//     * space.
+//     * @details for instance, there might be a function called
+//     * Foo in the main roadrunner program. This function
+//     * produces a mapping between Foo and a name so that the
+//     * function can be used from Jit.
+//     */
+//    void LLJit::mapFunctionToJitAbsoluteSymbol(const std::string &funcName, std::uint64_t funcAddress) {
+//
+//        auto symbolStringPool = llJit->getExecutionSession().getExecutorProcessControl().getSymbolStringPool();
+//        orc::SymbolStringPtr symbPtr = symbolStringPool->intern(funcName);
+//
+//        // JITTargetAddress is uint64 typedefd
+//        llvm::JITSymbolFlags flg;
+//        llvm::JITEvaluatedSymbol symb(funcAddress, flg);
+//        if (llvm::Error err = llJit->getMainJITDylib().define(
+//                llvm::orc::absoluteSymbols({{symbPtr, symb}}))) {
+//            llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "Could not add symbol " + funcName);
+//        }
+//    }
+
+//    void LLJit::mapFunctionsToJitSymbols() {
 //        using namespace rr;
 //
 //        mapFunctionToAbsoluteSymbol("arccot", reinterpret_cast<std::uint64_t>(&sbmlsupport::arccot));
@@ -201,6 +252,29 @@ namespace rrllvm {
 //    }
 
     void LLJit::mapFunctionsToJitSymbols() {
+        Type *double_type = Type::getDoubleTy(*context);
+        Type *int_type = Type::getInt32Ty(*context);
+        Type *args_i1[] = {int_type};
+        Type *args_d1[] = {double_type};
+        Type *args_d2[] = {double_type, double_type};
+
+//        llvm::sys::DynamicLibrary::AddSymbol("arccot", (void*)&sbmlsupport::arccot);
+//        llvm::FunctionType* fnTy = FunctionType::get(double_type, args_d1, false);
+//        llvm::Function* fn = Function::Create(fnTy, Function::ExternalLinkage, "arccot", getModuleNonOwning());
+//        getModuleNonOwning()->getOrInsertFunction("arccot", fnTy);
+//
+//        llvm::sys::DynamicLibrary::AddSymbol("rr_factoriali", (void*)&sbmlsupport::rr_factoriali);
+//        auto fiTy = FunctionType::get(int_type, args_i1, false);
+//        llvm::Function* fiFn = Function::Create(fiTy, Function::ExternalLinkage, "rr_factoriali", getModuleNonOwning());
+//        getModuleNonOwning()->getOrInsertFunction("rr_factoriali", fiTy);
+
+//        llvm::sys::DynamicLibrary::AddSymbol("rr_factoriald", (void*)&sbmlsupport::rr_factoriald);
+        auto fdTy = FunctionType::get(int_type, args_d1, false);
+        llvm::Function* fdFn = Function::Create(fdTy, Function::ExternalLinkage, "rr_factoriald", getModuleNonOwning());
+//        getModuleNonOwning()->getOrInsertFunction("rr_factoriali", fdTy);
+
+
+
         llvm::Error err = llJit->getMainJITDylib().define(llvm::orc::absoluteSymbols(
                 {
                         strToFnPtrMapElement("arccot", &sbmlsupport::arccot),
@@ -236,6 +310,7 @@ namespace rrllvm {
 
     }
 
+
     void LLJit::mapDistribFunctionsToJitSymbols() {
         // todo merge with mapFunctionsToJitSymbols. Creation of one map with more elements faster then two with less.
 #if LIBSBML_HAS_PACKAGE_DISTRIB
@@ -267,7 +342,7 @@ namespace rrllvm {
                         strToFnPtrMapElement("rr_distrib_rayleigh_three", &distrib_rayleigh_three),
                 }
         ));
-        if (err){
+        if (err) {
             llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "[ distrib functions failed to map to symbols ]");
         }
 #endif

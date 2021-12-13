@@ -358,14 +358,17 @@ namespace rr {
         }
 
         ~RoadRunnerImpl() {
+            rrMtx.lock();
             rrLog(Logger::LOG_DEBUG) << __FUNC__ << ", global instance count: " << mInstanceCount;
+            rrMtx.unlock();
 
             delete compiler;
             delete mLS;
 
             deleteAllSolvers();
-
-            mInstanceCount--;
+            rrMtx.lock();
+            mInstanceCount--; // static, so one thread at a time
+            rrMtx.unlock();
         }
 
         void deleteAllSolvers() {
@@ -485,6 +488,7 @@ namespace rr {
 
 
     int RoadRunner::getInstanceCount() {
+        std::lock_guard<std::mutex> lock(rrMtx);
         return mInstanceCount;
     }
 
@@ -505,8 +509,11 @@ namespace rr {
         SensitivitySolverFactory::Register();
 
         //Increase instance count..
-        mInstanceCount++;
-        impl->mInstanceID = mInstanceCount;
+        rrMtx.lock();
+        mInstanceCount++; // static, so one thread at a time
+        impl->mInstanceID = mInstanceCount; 
+        rrMtx.unlock();
+
 
         // make CVODE the default integrator
         setIntegrator("cvode");
@@ -563,8 +570,11 @@ namespace rr {
         load(uriOrSBML, options);
 
         //Increase instance count..
-        mInstanceCount++;
+        rrMtx.lock();
+        mInstanceCount++; // static, so one thread at a time
         impl->mInstanceID = mInstanceCount;
+        rrMtx.unlock();
+
 
     }
 
@@ -585,8 +595,11 @@ namespace rr {
         setTempDir(tempDir);
 
         //Increase instance count..
-        mInstanceCount++;
-        impl->mInstanceID = mInstanceCount;
+        rrMtx.lock();
+        mInstanceCount++; // static, so one thread at a time
+        impl->mInstanceID = mInstanceCount; 
+        rrMtx.unlock();
+
 
         // make CVODE the default integrator
         setIntegrator("cvode");
@@ -650,8 +663,11 @@ namespace rr {
         reset(SelectionRecord::TIME);
 
         //Increase instance count..
-        mInstanceCount++;
-        impl->mInstanceID = mInstanceCount;
+        rrMtx.lock();
+        mInstanceCount++; // static, so one thread at a time
+        impl->mInstanceID = mInstanceCount; 
+        rrMtx.unlock();
+
 
     }
 
