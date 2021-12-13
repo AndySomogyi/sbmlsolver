@@ -19,23 +19,27 @@ namespace rr {
     }
 
     void RoadRunnerMap::insert(const std::string &key, std::unique_ptr<RoadRunner> roadRunner) {
+        std::lock_guard lock(rrMapMtx);
         keys_.push_back(key);
         rrMap_.insert({key, std::move(roadRunner)});
     }
 
     void RoadRunnerMap::insert(std::unique_ptr<RoadRunner> roadRunner) {
         const std::string &k = roadRunner->getModelName();
+        std::lock_guard lock(rrMapMtx);
         keys_.push_back(k);
         rrMap_.insert({k, std::move(roadRunner)});
     }
 
     void RoadRunnerMap::insert(const std::string &key, const std::string &sbmlOrFile) {
+        std::lock_guard lock(rrMapMtx);
         keys_.push_back(key);
         rrMap_.insert({key, std::make_unique<RoadRunner>(sbmlOrFile)});
     }
 
     void RoadRunnerMap::insert(const std::string &sbmlOrFile) {
         auto rr = std::make_unique<RoadRunner>(sbmlOrFile);
+        std::lock_guard lock(rrMapMtx);
         keys_.push_back(rr->getModelName());
         rrMap_.insert({rr->getModelName(), std::move(rr)});
     }

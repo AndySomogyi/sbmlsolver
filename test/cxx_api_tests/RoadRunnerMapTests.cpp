@@ -107,13 +107,19 @@ TEST_F(RoadRunnerMapTests, ParallelWith16Threads) {
 }
 
 TEST_F(RoadRunnerMapTests, m28) {
-    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
-    RoadRunner rr(constructSTSXmlFile(28, 3, 2));
-
-    func = module->getFunction("rr_factoriald");
+//    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
+//    RoadRunner rr(constructSTSXmlFilile(28, 3, 2));
+    RoadRunner rr(FactorialInRateLaw().str());
+    std::cout << *rr.simulate(0, 10, 100) << std::endl;
+//    func = module->getFunction("rr_factoriald");
 
 }
-
+/**
+ * An interesting API idea. Discus with lucian.
+ * We could use the sbml file or string as keys in the dictionary.
+ * Under the hood we'd use the MD5 as the actual key.
+ * Model name might be a bit fickle
+ */
 //TEST_F(RoadRunnerMapTests, d) {
 //    RoadRunner rr(OpenLinearFlux().str());
 //}

@@ -372,7 +372,7 @@ namespace rrllvm {
 
     void MCJit::addGlobalMapping(const llvm::GlobalValue *gv, void *addr) {
         llvm::sys::DynamicLibrary::AddSymbol(gv->getName(), addr);
-        executionEngine->addGlobalMapping(gv, addr);
+//        executionEngine->addGlobalMapping(gv, addr);
     }
 
     void MCJit::addGlobalMappings() {
@@ -388,7 +388,6 @@ namespace rrllvm {
         addGlobalMapping(ModelDataIRBuilder::getCSRMatrixGetNZDecl(moduleNonOwning), (void *) rr::csr_matrix_get_nz);
 
         // AST_FUNCTION_ARCCOT:
-        llvm::RTDyldMemoryManager::getSymbolAddressInProcess("arccot");
         addGlobalMapping(
                 createGlobalMappingFunction("arccot",
                                             FunctionType::get(double_type, args_d1, false), moduleNonOwning),

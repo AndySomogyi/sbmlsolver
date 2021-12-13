@@ -47,9 +47,11 @@ public:
     void checkFunctionLoadsUsingModule(Jit* jit, const std::string& fnName){
         llvm::Function* fn = jit->getModuleNonOwning()->getFunction(fnName);
         if (!fn){
-            std::cerr << "Function \"" << fnName << "\" could not be loaded";
+            rrLogCritical << "Function \"" << fnName << "\" could not be loaded";
         }
         ASSERT_TRUE(fn);
+
+
     }
 
     void CheckLibFuncPow() {
