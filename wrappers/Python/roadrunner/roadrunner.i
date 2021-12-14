@@ -45,6 +45,7 @@
     #include <rrExecutableModel.h>
     #include <rrRoadRunnerOptions.h>
     #include <rrRoadRunner.h>
+    #include <rrRoadRunnerMap.h>
     #include <SteadyStateSolver.h>
     #include <rrLogger.h>
     #include <rrConfig.h>
@@ -189,6 +190,7 @@
     SWIG_exception(SWIG_RuntimeError, e.what());
   }
 }
+
 
 
 /**
@@ -653,6 +655,19 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 
 %ignore rr::RoadRunner::RoadRunner(const std::string&, const std::string&, const std::string&);
+/**
+ * We do not need the mutexes in python
+ */
+%ignore rr::rrMtx;
+%ignore rr::rrMapMtx;
+/**
+ * Steal does not make sense in Python,
+ * instead the reference will allways be
+ * borrowed
+ */
+%ignore rr::RoadRunnerMap::steal;
+%ignore rr::RoadRunnerMap::insert(std::unique_ptr<RoadRunner> roadRunner);
+%ignore rr::RoadRunnerMap::insert(const std::string &key, std::unique_ptr<RoadRunner> roadRunner);
 
 %ignore rr::RoadRunner::addCapabilities;
 %ignore rr::RoadRunner::getFloatingSpeciesIds;
@@ -1033,6 +1048,7 @@ namespace std { class ostream{}; }
 
 %thread;
 %include <rrRoadRunner.h>
+%include <rrRoadRunnerMap.h>
 %nothread;
 
 %include <rrSelectionRecord.h>
@@ -2963,7 +2979,43 @@ solvers = integrators + steadyStateSolvers
 %include "RK45Integrator.h"
 %include "EulerIntegrator.h"
 
+%extend rr::RoadRunnerMap{
 
+    void rr::RoadRunnerMap::insert(const std::string &key, PyObject* rrPyObject) {
+        rr::RoadRunner* ptr = nullptr;
+        swig_type_info * rr_swig_type = SWIGTYPE_p_rr__RoadRunner;
+        int own = 1;
+
+        int res = SWIG_ConvertPtrAndOwn(rrPyObject,(void**)(&ptr),rr_swig_type, SWIG_POINTER_EXCEPTION & SWIG_POINTER_EXCEPTION, &own);
+        if (SWIG_IsOK(res)) {
+          // success code
+            std::unique_ptr<rr::RoadRunner> rrPtr(ptr);
+            ($self)->insert(key, std::move(rrPtr));
+        } else {
+          // fail code
+          throw std::logic_error("Failed to convert RoadRunner Python object into a "
+                                 "C++ pointer type");
+        }
+    }
+
+    void rr::RoadRunnerMap::insert(PyObject* rrPyObject) {
+        rr::RoadRunner* ptr = nullptr;
+        swig_type_info * rr_swig_type = SWIGTYPE_p_rr__RoadRunner;
+
+        int own = 1;
+        int res = SWIG_ConvertPtrAndOwn(rrPyObject,(void**)(&ptr),rr_swig_type, SWIG_POINTER_EXCEPTION & SWIG_POINTER_EXCEPTION, &own);
+        if (SWIG_IsOK(res)) {
+          // success code
+            std::unique_ptr<rr::RoadRunner> rrPtr(ptr);
+            ($self)->insert(rrPtr->getModelName(), std::move(rrPtr));
+        } else {
+          // fail code
+          throw std::logic_error("Failed to convert RoadRunner Python object into a "
+                                 "C++ pointer type");
+        }
+    }
+
+};
 
 
 

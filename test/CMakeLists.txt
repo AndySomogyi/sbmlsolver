@@ -76,7 +76,7 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
     # link to roadrunner-static, the flags needed should be transitive
     #    add_compile_definitions(${TEST_TARGET} PRIVATE STATIC_RR)
 
-    add_dependencies(${TEST_TARGET} roadrunner gtest gtest_main gmock gmock_main rr-mockups)
+    add_dependencies(${TEST_TARGET} roadrunner-static gtest gtest_main gmock gmock_main rr-mockups)
     set_target_properties(${TEST_TARGET} PROPERTIES LINKER_LANGUAGE CXX)
 
     # Add to ctest.
@@ -141,7 +141,6 @@ macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             SOURCES ${SWIG_INTERFACE_FILE} ${ARGN}
             )
 
-    #    set(CMAKE_SWIG_FLAGS "-py3 -castmode -keyword")
     set_target_properties(
             ${SWIG_TARGET_NAME} PROPERTIES
 
@@ -178,12 +177,12 @@ macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             "${RR_DEPENDENCIES_INSTALL_PREFIX}/include/rr-libstruct"
             "${Python_INCLUDE_DIRS}"
             "${Python_NumPy_INCLUDE_DIRS}"
-            #            $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
+            $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
             )
     if (NOT APPLE)
         target_link_libraries(${SWIG_TARGET_NAME} PUBLIC
                 rr-mockups
-                roadrunner
+                roadrunner-static
                 Python::Python # remember, includes will just come with linking Python::Python
                 Python::NumPy  # remember, includes will just come with linking Python::NumPy
                 )
@@ -192,12 +191,12 @@ macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
         set_target_properties(${SWIG_TARGET_NAME}
                 PROPERTIES
                 LINK_FLAGS "-undefined dynamic_lookup"
-                INSTALL_RPATH "@loader_path/../../lib;@loader_path/"
+                INSTALL_RPATH "@loader_path/../../lib;@loader_path/../../bin;@loader_path/;@loader_path/..@loader_path/../.."
                 INSTALL_NAME_DIR "@rpath"
                 )
         swig_link_libraries(${SWIG_TARGET_NAME} PUBLIC
                 rr-mockups
-                roadrunner
+                roadrunner-static
                 # Since we are using "-undefined dynamic_lookup"
                 # we do not need to link to Python here - they will
                 # be found at runtime.
@@ -326,7 +325,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     add_pytest_to_ctest(python_tests_ForwardSensitivitySolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_forwardSensitivitySolver.py")
     add_pytest_to_ctest(python_tests_IntegratorTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_integrator.py")
     #add_pytest_to_ctest(python_tests_JacobianTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_jacobian.py")
-    add_pytest_to_ctest(python_tests_TestModelFactoryTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_modelFactory.py")
+    add_pytest_to_ctest(python_tests_TestModelFactoryTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_testModelFactory.py")
     add_pytest_to_ctest(python_tests_NamedArrayTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_namedArray.py")
     #add_pytest_to_ctest(python_tests_PickleTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_pickle.py")
     add_pytest_to_ctest(python_tests_Python_api_tests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_python_api.py")
@@ -336,6 +335,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     #add_pytest_to_ctest(python_tests_StructuralAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_structuralAnalysis.py")
 
     add_pytest_to_ctest(python_tests_RunStochasticTestSuite "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_runStochasticTestSuite.py")
+    add_pytest_to_ctest(python_tests_RoadRunnerMap "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_roadrunner_map.py")
 
     message(STATUS "PyTestTests ${PyTestTests}")
 
@@ -343,7 +343,6 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             run-pytest-tests
             ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
     )
-    #    add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI)
 endif ()
 
 #########################################################

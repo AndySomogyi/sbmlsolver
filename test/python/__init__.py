@@ -16,7 +16,7 @@ try:
     from test_rrtests import *
     from testfiles import *
     from SBMLTest import *
-except (ImportError):
+except ImportError:
     from .test_rrtests import *
     from .testfiles import *
     from .SBMLTest import *

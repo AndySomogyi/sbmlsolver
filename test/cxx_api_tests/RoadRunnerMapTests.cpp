@@ -42,7 +42,13 @@ public:
     }
 };
 
+/**
+ * Use case00001 where possible since it is guarenteed to exist, unless a RoadRunnerMap
+ * is default constructed.
+ */
+
 TEST_F(RoadRunnerMapTests, getKeys) {
+    Config::setValue(Config::LLVM_BACKEND, Config::MCJIT);
     RoadRunnerMap rrm(sbmlFiles, 1);
     auto keys = rrm.getKeys();
     auto expectedKeys = getExpectedKeys();
@@ -271,6 +277,7 @@ TEST_F(RoadRunnerMapTests, CountWhenFalse) {
     RoadRunnerMap rrm(sbmlFiles, 3);
     ASSERT_FALSE(rrm.count("NotInMap"));
 }
+
 
 
 TEST_F(RoadRunnerMapTests, Request0Threads) {

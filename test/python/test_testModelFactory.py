@@ -17,7 +17,8 @@ print(f"Running  {__file__}")
 sys.path += [
     rr_site_packages,
 ]
-from roadrunner.tests import TestModelFactory as tmf
+import roadrunner
+import roadrunner.tests.TestModelFactory as tmf
 
 
 class TestModelFactoryTests(unittest.TestCase):
