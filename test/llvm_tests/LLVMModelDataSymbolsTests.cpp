@@ -26,10 +26,6 @@ public:
     };
 };
 
-TEST_F(LLVMModelDataSymbolTests, t){
-    RoadRunner roadRunner(OpenLinearFlux().str());
-}
-
 //
 TEST_F(LLVMModelDataSymbolTests, ModelName){
     model->setName("Mmmmodel");
@@ -37,11 +33,7 @@ TEST_F(LLVMModelDataSymbolTests, ModelName){
     ASSERT_STREQ("Mmmmodel", sym.getModelName().c_str());
 }
 
-TEST_F(LLVMModelDataSymbolTests, r){
 
-
-
-}
 
 
 
