@@ -13,7 +13,6 @@ using namespace rr;
 
 class STS {
 public:
-    std::vector<std::string> sbml;
 
     STS();
 

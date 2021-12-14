@@ -264,6 +264,9 @@ set(
         "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp" # need explicit extensions here (for some reason)
+        # todo make this its own binary and link it.
+        "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/STS.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/STS.h"
 )
 
 add_subdirectory(mockups)

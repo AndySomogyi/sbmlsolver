@@ -1,246 +1,290 @@
 //
 // Created by Ciaran on 09/12/2021.
 //
-
-#include "gtest/gtest.h"
+#include "STS.h"
 #include "rrRoadRunnerMap.h"
 #include "rrConfig.h"
-#include "TestModelFactory.h"
 #include <filesystem>
+#include "gtest/gtest.h"
 
 using namespace rr;
 
-class RoadRunnerMapTests : public ::testing::Test {
-public:
-    std::vector<std::string> sbml;
-
-    RoadRunnerMapTests() {
-#ifndef SBMLTestSuiteRoot
-        throw std::logic_error("The SBMLTestSuiteRoot variable is not defined even though it has been "
-                               "set with target_compile_definitions")';
-#endif
-        if (!std::filesystem::exists(SBMLTestSuiteRoot)) {
-            throw std::invalid_argument("Path to sbml test suite does not exist");
-        }
-        Logger::setLevel(Logger::LOG_WARNING);
-
-        // little easy list of sbmls
-        std::vector<std::string> input({
-                                               OpenLinearFlux().str(),
-                                               SimpleFlux().str(),
-                                               Brown2004().str(),
-                                               Venkatraman2010().str()
-                                       });
-        sbml.swap(input);
-    }
-
-    std::string constructSTSXmlFile(int caseId, int level, int version) {
-        std::ostringstream caseOs;
-        std::ostringstream fname;
-
-        caseOs << std::setfill('0') << std::setw(5) << caseId;
-        fname << caseOs.str() << "-sbml-l" << level << "v" << version << ".xml";
-
-        std::filesystem::path root = SBMLTestSuiteRoot;
-        std::filesystem::path caseDir = root / caseOs.str();
-        std::filesystem::path xmlFile = caseDir / fname.str();
-        if (!std::filesystem::exists(xmlFile)) {
-            std::ostringstream os;
-            os << "file not found : " << xmlFile;
-            throw std::logic_error(os.str());
-        }
-        return xmlFile.string();
-    }
-
-    std::vector<std::string> getFirstNModelsFromSTS(int N, int start = 1) {
-        if (start < 1){
-            throw std::invalid_argument("start must be 1 or more");
-        }
-        int end = start + N;
-        int maxSize = 1809;
-        if (end > maxSize){
-            throw std::invalid_argument("start + N must be less than or equal to 1809: " + std::to_string(end));
-        }
-        std::vector<std::string> vec(N);
-        for (int i = start; i < end; i++) {
-            int idx = i - start;
-            try {
-                vec[idx] = constructSTSXmlFile(i, 3, 2);
-            } catch (std::exception &e) {
-                rrLogWarn << "Failed to find case " << i << ", l" << 3 << "v" << 2;
-                try {
-                    vec[idx] = constructSTSXmlFile(i, 3, 1);
-                } catch (std::exception &e) {
-                    rrLogWarn << "Failed to find case " << i << ", l" << 3 << "v" << 1;
-                    try {
-                        vec[idx] = constructSTSXmlFile(i, 2, 4);
-                    } catch (std::exception &e) {
-                        rrLogWarn << "Failed to find case " << i << ", l" << 2 << "v" << 4;
-                        try {
-                            vec[idx] = constructSTSXmlFile(i, 2, 3);
-                        } catch (std::exception &e) {
-                            rrLogWarn << "Failed to find case " << i << ", l" << 2 << "v" << 2;
-                            try {
-                                vec[idx] = constructSTSXmlFile(i, 2, 2);
-                            } catch (std::exception &e) {
-                                rrLogWarn << "Failed to find case " << i << ", l" << 2 << "v" << 2;
-                                try {
-                                    vec[idx] = constructSTSXmlFile(i, 2, 1);
-                                } catch (std::exception &e) {
-                                    rrLogErr << "Failed to find case " << i << ", l" << 2 << "v" << 1;
-                                    throw std::logic_error("can't locate sbml file");
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return vec;
-    }
-};
 
 /**
  * We can install VTune profiler in the cloud. woop.
  * https://www.intel.com/content/www/us/en/develop/documentation/vtune-help/top/set-up-analysis-target/targets-in-a-cloud-environment.html
  */
 
-static int N = 20;
+class RoadRunnerMapTests : public ::testing::Test {
+public:
+    STS sts;
+    std::vector<std::string> sbmlFiles;
+    /**
+     * number of sbml files to use. You can change this number
+     * without affecting the accuracy of the tests.
+     * Kept low by default for running the tests quickly on azure.
+     */
+    int N = 5;
 
-TEST_F(RoadRunnerMapTests, serial) {
-    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
-    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
-    std::unordered_map<std::string, std::unique_ptr<RoadRunner>> rrMap;
-    for (auto &f: sbmlFiles) {
-        std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(f);
-        rrMap[rr->getModelName()] = std::move(rr);
+    RoadRunnerMapTests() {
+        sbmlFiles = sts.getFirstNModelsFromSTS(N);
     }
+
+    std::vector<std::string> getExpectedKeys() const {
+        std::vector<std::string> expected(N);
+        for (int caseID = 1; caseID <= N; caseID++) {
+            int idx = caseID - 1;
+            std::ostringstream os;
+            os << std::setfill('0') << std::setw(5) << caseID;
+            expected[idx] = "case" + os.str();
+        }
+        return expected;
+    }
+};
+
+TEST_F(RoadRunnerMapTests, getKeys) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    auto keys = rrm.getKeys();
+    auto expectedKeys = getExpectedKeys();
+    /**
+    * The order of getKeys() is not guarenteed to be the same each time
+    * because of multithreading, so we sort before making the comparison.
+    */
+    std::vector<std::string> actual = rrm.getKeys();
+    std::sort(expectedKeys.begin(), expectedKeys.end());
+    std::sort(actual.begin(), actual.end());
+    ASSERT_EQ(expectedKeys, keys);
 }
 
-TEST_F(RoadRunnerMapTests, ParallelWith16Threads) {
-    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
-    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
-    RoadRunnerMap rrm(sbmlFiles, 16);
+TEST_F(RoadRunnerMapTests, size) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    auto keys = rrm.getKeys();
+    ASSERT_EQ(N, rrm.size());
 }
 
-TEST_F(RoadRunnerMapTests, ParallelWith16Threads) {
-    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
-    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
-    RoadRunnerMap rrm(sbmlFiles, 16);
+TEST_F(RoadRunnerMapTests, InsertUniquePtrToRRModel_Size) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.constructSTSXmlFile(50, 2, 4));
+    rrm.insert(std::move(rr));
+    ASSERT_EQ(N + 1, rrm.size());
 }
 
-TEST_F(RoadRunnerMapTests, ParallelWith16Threads) {
-    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
-    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
-    RoadRunnerMap rrm(sbmlFiles, 16);
+TEST_F(RoadRunnerMapTests, InsertUniquePtrToRRModel_KeysUpdated) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.constructSTSXmlFile(50, 2, 4));
+    rrm.insert(std::move(rr));
+    ASSERT_STREQ("case00050", rrm.getKeys()[rrm.size() - 1].c_str());
 }
 
-TEST_F(RoadRunnerMapTests, ParallelWith16Threads) {
-    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
-    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
-    RoadRunnerMap rrm(sbmlFiles, 16);
+TEST_F(RoadRunnerMapTests, InsertUniquePtrToRRModel_CustomKey) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.constructSTSXmlFile(50, 2, 4));
+    rrm.insert("MyKey", std::move(rr));
+    ASSERT_STREQ("MyKey", rrm.getKeys()[rrm.size() - 1].c_str());
 }
 
-TEST_F(RoadRunnerMapTests, ParallelWith16Threads) {
-    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
-    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
-    RoadRunnerMap rrm(sbmlFiles, 16);
+TEST_F(RoadRunnerMapTests, InsertRRModelFromSBMLFile) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    rrm.insert(sts.constructSTSXmlFile(50, 2, 4));
+    ASSERT_STREQ("case00050", rrm.getKeys()[rrm.size() - 1].c_str());
 }
 
-TEST_F(RoadRunnerMapTests, ParallelWith16Threads) {
-    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
-    std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
-    RoadRunnerMap rrm(sbmlFiles, 16);
+TEST_F(RoadRunnerMapTests, InsertRRModelFromSBMLFile_WithCustomKey) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    rrm.insert("MyKey", sts.constructSTSXmlFile(50, 2, 4));
+    ASSERT_STREQ("MyKey", rrm.getKeys()[rrm.size() - 1].c_str());
 }
 
-//TEST_F(RoadRunnerMapTests, OneAtTime) {
-//    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
-//    int N = 1809;
-//    for (int i=1807; i<N; i++){
-//        std::cout << i << std::endl;
-//        std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(1, i);
-//        RoadRunnerMap rrm(sbmlFiles, 16);
-////        for (auto & [modelName, rr] : rrm){
-////            std::cout << *rr->simulate(0, 10, 100) << std::endl;
-////        }
-//    }
-//}
-//
-//TEST_F(RoadRunnerMapTests, m28) {
-////    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
-//    RoadRunner rr(constructSTSXmlFile(533, 3, 2));
-////    RoadRunner rr(FactorialInRateLaw().str());
-////    std::cout << *rr.simulate(0, 10, 100) << std::endl;
-////    func = module->getFunction("rr_factoriald");
-//}
+TEST_F(RoadRunnerMapTests, InsertFromVectorOfSBMLFiles_Size) {
+    RoadRunnerMap rrm(sbmlFiles, 2);
+    const std::vector<std::string> &more = sts.getFirstNModelsFromSTS(N, N+1);
+    rrm.insert(more);
+    ASSERT_EQ(N * 2, rrm.size());
+}
+
+
+TEST_F(RoadRunnerMapTests, InsertFromVectorOfSBMLFiles_Keys) {
+    // This test will break if N = NumTestsInSBMLTestSuite / 2;
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    const std::vector<std::string> &more = sts.getFirstNModelsFromSTS(N, N+1);
+    rrm.insert(more);
+    std::vector<std::string> expected(N*2);
+    int idx = 0;
+    for (int caseID = 1; caseID <= N; caseID++) {
+        std::ostringstream os;
+        os << std::setfill('0') << std::setw(5) << caseID;
+        expected[idx++] = "case" + os.str();
+    }
+    for (int caseID = N+1; caseID < N+1+N; caseID++) {
+        std::ostringstream os;
+        os << std::setfill('0') << std::setw(5) << caseID;
+        expected[idx++] = "case" + os.str();
+    }
+
+    /**
+     * The order of getKeys() is not guarenteed to be the same each time
+     * because of multithreading, so we sort before making the comparison.
+     */
+    std::vector<std::string> actual = rrm.getKeys();
+    std::sort(expected.begin(), expected.end());
+    std::sort(actual.begin(), actual.end());
+    ASSERT_EQ(expected, actual);
+}
+
+
+TEST_F(RoadRunnerMapTests, Remove_Size) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    ASSERT_EQ(N, rrm.size());
+    std::ostringstream thirdCase;
+    // N = x + y; 
+    rrm.remove("case00001");
+    ASSERT_EQ(N - 1, rrm.size());
+}
+
+TEST_F(RoadRunnerMapTests, Remove_CorrectModelRemoved) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    auto it = rrm.findKey("case00001");
+    // first make sure key is in the map
+    ASSERT_NE(it, rrm.keysEnd());
+    // access it
+    RoadRunner *rr = rrm[*it];
+    // now remove it and check that it is not in the map
+    rrm.remove("case00001");
+    it = std::find(rrm.keysBegin(), rrm.keysEnd(), "case00001");
+    ASSERT_EQ(it, rrm.keysEnd());
+}
+
+TEST_F(RoadRunnerMapTests, Remove_KeysListAlsoRemoved) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    auto it = rrm.findKey("case00001");
+    // first make sure key is in the map
+    ASSERT_NE(it, rrm.keysEnd());
+    // now remove it and check that it is not in the map
+    rrm.remove("case00001");
+    it = rrm.findKey("case00001");
+    ASSERT_EQ(it, rrm.keysEnd());
+}
+
+TEST_F(RoadRunnerMapTests, RangeBasedLoop) {
+    RoadRunnerMap rrm(sbmlFiles, 3);
+    // RoadRunner obj is unqiue ptr, so we must use a reference here
+    std::vector<int> actual(N);
+    int caseId = 1;
+    int idx = caseId-1;
+    for (auto&[modelName, rr]: rrm) {
+        actual[idx++] = rr->getInstanceID();
+        caseId++;
+    }
+    /**
+     * The order of ids is not guarenteed to be the same each time
+     * because of multithreading, so we sort before making the comparison.
+     */
+    idx = 0;
+    std::vector<int> expected(N);
+    for (caseId = 1; caseId <= N; caseId++) {
+        expected[idx++] = caseId;
+    }
+    std::sort(expected.begin(), expected.end());
+    std::sort(actual.begin(), actual.end());
+    ASSERT_EQ(expected, actual);
+}
+
+TEST_F(RoadRunnerMapTests, IteratorBasedLoop) {
+    RoadRunnerMap rrm(sbmlFiles, 3);
+    // RoadRunner obj is unqiue ptr, so we must use a reference here
+    std::vector<int> actual(sbmlFiles.size());
+    int i = 0;
+    for (auto it = rrm.begin(); it != rrm.end(); ++it) {
+        auto&[modelName, rr] = *it;
+        actual[i] = rr->getInstanceID();
+        i++;
+    }
+    /**
+     * The order of ids is not guarenteed to be the same each time
+     * because of multithreading, so we sort before making the comparison.
+     */
+    std::vector<int> expected(N);
+    for (i = 1; i <= N; i++) {
+        expected[i-1] = i;
+    }
+    ASSERT_EQ(expected, actual);
+}
+
+TEST_F(RoadRunnerMapTests, EmptyWhenTrue) {
+    RoadRunnerMap rrm;
+    ASSERT_TRUE(rrm.empty());
+}
+
+TEST_F(RoadRunnerMapTests, EmptyWhenFalse) {
+    RoadRunnerMap rrm(sbmlFiles, 3);
+    ASSERT_FALSE(rrm.empty());
+}
+
+TEST_F(RoadRunnerMapTests, Clear) {
+    RoadRunnerMap rrm(sbmlFiles, 3);
+    ASSERT_FALSE(rrm.empty());
+    rrm.clear();
+    ASSERT_TRUE(rrm.empty());
+}
 
 /**
- * An interesting API idea. Discus with lucian.
- * We could use the sbml file or string as keys in the dictionary.
- * Under the hood we'd use the MD5 as the actual key.
- * Model name might be a bit fickle
+ * The getter operator [] returns a borrowed reference. It is still owned by the RoadRunnerMap
  */
-//TEST_F(RoadRunnerMapTests, d) {
-//    RoadRunner rr(OpenLinearFlux().str());
-//}
-//
-//#include "thread_pool.hpp"
-//#include <thread>
-//#include <iostream>
-//
-//static std::mutex mtx;
-//static void printString(const std::string& s) {
-//    std::lock_guard lock(mtx);
-//    std::hash<std::thread::id> tid{};
-//    auto id = tid(std::this_thread::get_id()) ;
-//    std::cout << "thread: " << id << " " << s << std::endl;
-//}
-//
-//TEST(test, t) {
-//    /**
-//     * Order of variable declaration is important.
-//     * We have one vector and many threads. When reclaiming memory,
-//     * the vector needs to be destructed after all jobs have been completed.
-//     * So you can do this by either decl v before pool so pool gets destr before v
-//     * or waiting for all threads to finish before the end of fn.
-//     */
-//    int N = 1000000;
-//    std::vector<std::string> v(N);
-//    thread_pool pool(12);
-//    for (int i = 0; i < N; i++) {
-//        v[i] = std::to_string(i);
-//    }
-//    for (auto &s: v) {
-//        pool.push_task([&s]() {
-//            printString(s);
-//        });
-//    }
-//    pool.wait_for_tasks();
-//
-//}
-//
-//
+TEST_F(RoadRunnerMapTests, GetterOperator_CheckThatWeGetBorrowedReference) {
+    RoadRunnerMap rrm(sbmlFiles, 3);
+    unsigned int original = rrm.size();
+    RoadRunner *rr = rrm["case00001"];
+    unsigned int now = rrm.size();
+    ASSERT_EQ(original, now);
+}
+
+TEST_F(RoadRunnerMapTests, Steal_NumElements) {
+    RoadRunnerMap rrm(sbmlFiles, 3);
+    std::unique_ptr<RoadRunner> rr = rrm.steal("case00001");
+    ASSERT_EQ(N - 1, rrm.size());
+}
+
+TEST_F(RoadRunnerMapTests, Steal_NumKeysUpdated) {
+    RoadRunnerMap rrm(sbmlFiles, 3);
+    std::unique_ptr<RoadRunner> rr = rrm.steal("case00001");
+    ASSERT_EQ(N - 1, rrm.getKeys().size());
+}
+
+TEST_F(RoadRunnerMapTests, Find_WhenKeyIsInMap) {
+    RoadRunnerMap rrm(sbmlFiles, 3);
+    auto it = rrm.find("case00001");
+    ASSERT_NE(it, rrm.end());
+}
+
+TEST_F(RoadRunnerMapTests, Find_WhenKeyIsNotInMap) {
+    RoadRunnerMap rrm(sbmlFiles, 3);
+    auto it = rrm.find("NotInMap");
+    ASSERT_EQ(it, rrm.end());
+}
+
+TEST_F(RoadRunnerMapTests, CountWhenTrue) {
+    RoadRunnerMap rrm(sbmlFiles, 3);
+    ASSERT_TRUE(rrm.count("case00001"));
+}
+
+TEST_F(RoadRunnerMapTests, CountWhenFalse) {
+    RoadRunnerMap rrm(sbmlFiles, 3);
+    ASSERT_FALSE(rrm.count("NotInMap"));
+}
 
 
-//static int counter;
-//static std::mutex mtx;
-//void incrementCounter(){
-//    mtx.lock();
-//    counter++;
-//    std::cout << "Counter : " << counter << std::endl;
-//    mtx.unlock();
-//    // ... some more parallel code (so no lock_guard)
-//}
-//
-//TEST(Question, WhyDoesThisCauseDataRace){
-//    int N = 1000;
-//    thread_pool pool(2);
-//    for (int i=0; i<N; i++){
-//        pool.push_task([](){
-//            incrementCounter();
-//        });
-//    }
-//}
+TEST_F(RoadRunnerMapTests, Request0Threads) {
+    ASSERT_THROW(
+            RoadRunnerMap rrm(sbmlFiles, 0);,
+            std::invalid_argument
+    );
+}
+
+
+
+
+
+
 
 
 
