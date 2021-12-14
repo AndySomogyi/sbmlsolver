@@ -483,16 +483,3 @@ TEST_F(RandomTestsRRLLJit, checkDistrib_rayleigh){
 TEST_F(RandomTestsRRLLJit, checkDistrib_rayleigh_three){
     checkDistrib_rayleigh_three();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

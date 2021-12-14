@@ -51,9 +51,9 @@ namespace rr {
         return processor_count;
     }
 
-/**
- * check range of key
- */
+    /**
+     * check range of key
+     */
 #define CHECK_RANGE(key)                                                       \
   {                                                                            \
     if (key < 0 || key >= rr::Config::CONFIG_END) {                            \
@@ -61,10 +61,10 @@ namespace rr {
     }                                                                          \
   }
 
-/**
- * strip any leading or trailing whitespace
- */
-    static std::string strip(const std::string &in) {
+     /**
+      * strip any leading or trailing whitespace
+      */
+    static std::string strip(const std::string& in) {
         std::string out;
         std::string::const_iterator b = in.begin(), e = in.end();
 
@@ -115,7 +115,7 @@ namespace rr {
             Setting(false),                             // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
             Setting(int(AllChecksON & UnitsCheckOFF)),   // SBML_APPLICABLEVALIDATORS
             Setting(0.00001),                           // ROADRUNNER_JACOBIAN_STEP_SIZE
-            Setting((int) (SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING)), // MODEL_RESET
+            Setting((int)(SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING)), // MODEL_RESET
             Setting(1.e-12),                            // CVODE_MIN_ABSOLUTE
             Setting(1.e-6),                             // CVODE_MIN_RELATIVE
             Setting(true),                              // SIMULATEOPTIONS_COPY_RESULT
@@ -131,7 +131,7 @@ namespace rr {
             Setting(1e-20),                             // STEADYSTATE_MINIMUM_DAMPING
             Setting(0),                                 // STEADYSTATE_BROYDEN
             Setting(3),                                 // STEADYSTATE_LINEARITY
-            Setting((std::int32_t) Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS), // ROADRUNNER_JACOBIAN_MODE
+            Setting((std::int32_t)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS), // ROADRUNNER_JACOBIAN_MODE
             Setting(std::string(".")),              // TEMP_DIR_PATH,
             Setting(std::string("")),               // LOGGER_LOG_FILE_PATH,
             Setting(-1),                 // RANDOM_SEED
@@ -143,8 +143,8 @@ namespace rr {
             Setting(false),                             // ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS
             Setting(true),                              // VALIDATION_IN_REGENERATION
             Setting(1000),                              // K_ROWS_PER_WRITE
-            Setting((std::int32_t) Config::MCJIT),       // LLVM_BACKEND
-            Setting((std::int32_t) Config::NONE),        // LLJIT_OPTIMIZATION_LEVEL
+            Setting((std::int32_t)Config::MCJIT),       // LLVM_BACKEND
+            Setting((std::int32_t)Config::NONE),        // LLJIT_OPTIMIZATION_LEVEL
             Setting(1)                      // LLJIT_NUM_THREADS
     };
 
@@ -156,7 +156,7 @@ namespace rr {
 
         if (!initialized) {
             assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Setting) &&
-                   "values array size different than CONFIG_END");
+                "values array size different than CONFIG_END");
 
             std::string confPath = rr::Config::getConfigFilePath();
 
@@ -164,7 +164,8 @@ namespace rr {
                 if (confPath.size() > 0) {
                     rr::Config::readConfigFile(confPath);
                 }
-            } catch (std::exception &e) {
+            }
+            catch (std::exception& e) {
                 rrLog(rr::Logger::LOG_WARNING)
                     << "error reading configuration file: " << confPath << ", "
                     << e.what();
@@ -173,74 +174,74 @@ namespace rr {
         }
     }
 
-/**
- * load the names of the keys and values into a std::map
- */
-    static void getKeyNames(StringIntMap &keys) {
+    /**
+     * load the names of the keys and values into a std::map
+     */
+    static void getKeyNames(StringIntMap& keys) {
         std::lock_guard lock(configMutex);
         keys["LOADSBMLOPTIONS_CONSERVED_MOIETIES"] =
-                rr::Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES;
+            rr::Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES;
         keys["LOADSBMLOPTIONS_RECOMPILE"] = rr::Config::LOADSBMLOPTIONS_RECOMPILE;
         keys["LOADSBMLOPTIONS_READ_ONLY"] = rr::Config::LOADSBMLOPTIONS_READ_ONLY;
         keys["LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS"] =
-                rr::Config::LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS;
+            rr::Config::LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS;
         keys["LOADSBMLOPTIONS_OPTIMIZE_GVN"] =
-                rr::Config::LOADSBMLOPTIONS_OPTIMIZE_GVN;
+            rr::Config::LOADSBMLOPTIONS_OPTIMIZE_GVN;
         keys["LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION"] =
-                rr::Config::LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION;
+            rr::Config::LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION;
         keys["LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING"] =
-                rr::Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING;
+            rr::Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING;
         keys["LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION"] =
-                rr::Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION;
+            rr::Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION;
         keys["LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION"] =
-                rr::Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION;
+            rr::Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION;
         keys["LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER"] =
-                rr::Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER;
+            rr::Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER;
         keys["LOADSBMLOPTIONS_USE_MCJIT"] = rr::Config::LOADSBMLOPTIONS_USE_MCJIT;
         keys["SIMULATEOPTIONS_STEPS"] = rr::Config::SIMULATEOPTIONS_STEPS;
         keys["SIMULATEOPTIONS_DURATION"] = rr::Config::SIMULATEOPTIONS_DURATION;
         keys["SIMULATEOPTIONS_ABSOLUTE"] = rr::Config::SIMULATEOPTIONS_ABSOLUTE;
         keys["SIMULATEOPTIONS_RELATIVE"] = rr::Config::SIMULATEOPTIONS_RELATIVE;
         keys["SIMULATEOPTIONS_STRUCTURED_RESULT"] =
-                rr::Config::SIMULATEOPTIONS_STRUCTURED_RESULT;
+            rr::Config::SIMULATEOPTIONS_STRUCTURED_RESULT;
         keys["SIMULATEOPTIONS_STIFF"] = rr::Config::SIMULATEOPTIONS_STIFF;
         keys["SIMULATEOPTIONS_MULTI_STEP"] = rr::Config::SIMULATEOPTIONS_MULTI_STEP;
         keys["SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP"] =
-                rr::Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP;
+            rr::Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP;
         keys["SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP"] =
-                rr::Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP;
+            rr::Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP;
         keys["SIMULATEOPTIONS_INTEGRATOR"] = rr::Config::SIMULATEOPTIONS_INTEGRATOR;
         keys["SIMULATEOPTIONS_INITIAL_TIMESTEP"] =
-                rr::Config::SIMULATEOPTIONS_INITIAL_TIMESTEP;
+            rr::Config::SIMULATEOPTIONS_INITIAL_TIMESTEP;
         keys["SIMULATEOPTIONS_MINIMUM_TIMESTEP"] =
-                rr::Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP;
+            rr::Config::SIMULATEOPTIONS_MINIMUM_TIMESTEP;
         keys["SIMULATEOPTIONS_MAXIMUM_TIMESTEP"] =
-                rr::Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP;
+            rr::Config::SIMULATEOPTIONS_MAXIMUM_TIMESTEP;
         keys["SIMULATEOPTIONS_MAXIMUM_NUM_STEPS"] =
-                rr::Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS;
+            rr::Config::SIMULATEOPTIONS_MAXIMUM_NUM_STEPS;
         keys["ROADRUNNER_DISABLE_WARNINGS"] = rr::Config::ROADRUNNER_DISABLE_WARNINGS;
         keys["ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES"] =
-                rr::Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES;
+            rr::Config::ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES;
         keys["SBML_APPLICABLEVALIDATORS"] = rr::Config::SBML_APPLICABLEVALIDATORS;
         keys["ROADRUNNER_JACOBIAN_STEP_SIZE"] =
-                rr::Config::ROADRUNNER_JACOBIAN_STEP_SIZE;
+            rr::Config::ROADRUNNER_JACOBIAN_STEP_SIZE;
         keys["MODEL_RESET"] = rr::Config::MODEL_RESET;
         keys["CVODE_MIN_ABSOLUTE"] = rr::Config::CVODE_MIN_ABSOLUTE;
         keys["CVODE_MIN_RELATIVE"] = rr::Config::CVODE_MIN_RELATIVE;
         keys["SIMULATEOPTIONS_COPY_RESULT"] = rr::Config::SIMULATEOPTIONS_COPY_RESULT;
         keys["STEADYSTATE_PRESIMULATION"] = rr::Config::STEADYSTATE_PRESIMULATION;
         keys["STEADYSTATE_PRESIMULATION_MAX_STEPS"] =
-                rr::Config::STEADYSTATE_PRESIMULATION_MAX_STEPS;
+            rr::Config::STEADYSTATE_PRESIMULATION_MAX_STEPS;
         keys["STEADYSTATE_PRESIMULATION_TIME"] =
-                rr::Config::STEADYSTATE_PRESIMULATION_TIME;
+            rr::Config::STEADYSTATE_PRESIMULATION_TIME;
         keys["STEADYSTATE_APPROX"] = rr::Config::STEADYSTATE_APPROX;
         keys["STEADYSTATE_APPROX_TOL"] = rr::Config::STEADYSTATE_APPROX_TOL;
         keys["STEADYSTATE_APPROX_MAX_STEPS"] =
-                rr::Config::STEADYSTATE_APPROX_MAX_STEPS;
+            rr::Config::STEADYSTATE_APPROX_MAX_STEPS;
         keys["STEADYSTATE_APPROX_TIME"] = rr::Config::STEADYSTATE_APPROX_TIME;
         keys["STEADYSTATE_RELATIVE"] = rr::Config::STEADYSTATE_RELATIVE;
         keys["STEADYSTATE_MAXIMUM_NUM_STEPS"] =
-                rr::Config::STEADYSTATE_MAXIMUM_NUM_STEPS;
+            rr::Config::STEADYSTATE_MAXIMUM_NUM_STEPS;
         keys["STEADYSTATE_MINIMUM_DAMPING"] = rr::Config::STEADYSTATE_MINIMUM_DAMPING;
         keys["STEADYSTATE_BROYDEN"] = rr::Config::STEADYSTATE_BROYDEN;
         keys["STEADYSTATE_LINEARITY"] = rr::Config::STEADYSTATE_LINEARITY;
@@ -251,11 +252,11 @@ namespace rr {
         keys["PYTHON_ENABLE_NAMED_MATRIX"] = rr::Config::PYTHON_ENABLE_NAMED_MATRIX;
         keys["LLVM_SYMBOL_CACHE"] = rr::Config::LLVM_SYMBOL_CACHE;
         keys["OPTIMIZE_REACTION_RATE_SELECTION"] =
-                rr::Config::OPTIMIZE_REACTION_RATE_SELECTION;
+            rr::Config::OPTIMIZE_REACTION_RATE_SELECTION;
         keys["LOADSBMLOPTIONS_PERMISSIVE"] = rr::Config::LOADSBMLOPTIONS_PERMISSIVE;
         keys["MAX_OUTPUT_ROWS"] = rr::Config::MAX_OUTPUT_ROWS;
         keys["ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS"] =
-                rr::Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS;
+            rr::Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS;
         keys["VALIDATION_IN_REGENERATION"] = rr::Config::VALIDATION_IN_REGENERATION;
         keys["K_ROWS_PER_WRITE"] = rr::Config::K_ROWS_PER_WRITE;
         keys["LLVM_BACKEND"] = rr::Config::LLVM_BACKEND_VALUES::MCJIT;
@@ -265,12 +266,12 @@ namespace rr {
         // add space after develop keys to clean up merging.
 
         assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Setting) &&
-               "values array size different than CONFIG_END");
+            "values array size different than CONFIG_END");
         assert(rr::Config::CONFIG_END == keys.size() &&
-               "number of keys in std::map does not match static values");
+            "number of keys in std::map does not match static values");
     }
 
-    static std::string reverseLookup(StringIntMap &keys, Config::Keys k) {
+    static std::string reverseLookup(StringIntMap& keys, Config::Keys k) {
         std::lock_guard lock(configMutex);
         for (StringIntMap::iterator i = keys.begin(); i != keys.end(); ++i) {
             if (i->second == k)
@@ -287,9 +288,10 @@ namespace rr {
 
         for (int n = 0; n < CONFIG_END; ++n) {
             try {
-                std::string key_str = reverseLookup(m, (Config::Keys) n);
+                std::string key_str = reverseLookup(m, (Config::Keys)n);
                 result.push_back(key_str);
-            } catch (std::runtime_error) {
+            }
+            catch (std::runtime_error) {
                 continue;
             }
         }
@@ -317,7 +319,7 @@ namespace rr {
 
     std::string Config::getConfigFilePath() {
         // check env var
-        const char *env = std::getenv("ROADRUNNER_CONFIG");
+        const char* env = std::getenv("ROADRUNNER_CONFIG");
         std::string path;
         Poco::Path ppath;
 
@@ -382,21 +384,21 @@ namespace rr {
         values[key] = std::move(value);
     }
 
-/*void Config::setValues(const std::vector<Keys> keys, const
-std::vector<Setting> values)
-{
+    /*void Config::setValues(const std::vector<Keys> keys, const
+        std::vector<Setting> values)
+    {
         auto keyit = keys.begin();
         auto valueit = values.begin();
         while (keyit != keys.end() && valueit != values.end()) {
-                setValue(*keyit, *valueit);
+            setValue(*keyit, *valueit);
         }
-}*/
+    }*/
 
-    void Config::readConfigFile(const std::string &path) {
+    void Config::readConfigFile(const std::string& path) {
         std::lock_guard lock(configMutex);
 
         const Poco::RegularExpression re(R"(^\s*(\w*)\s*:\s*(.*)\s*$)",
-                                         RegularExpression::RE_CASELESS);
+            RegularExpression::RE_CASELESS);
         StringIntMap keys;
         std::ifstream in(path.c_str());
 
@@ -420,7 +422,8 @@ std::vector<Setting> values)
                     rrLog(Logger::LOG_INFORMATION)
                         << "read key " << i->first
                         << " with value: " << values[i->second].get<std::string>();
-                } else {
+                }
+                else {
                     rrLog(Logger::LOG_WARNING)
                         << "invalid key: \"" << matches[1] << "\" in " << path;
                 }
@@ -442,7 +445,7 @@ std::vector<Setting> values)
         return values[key].get<bool>();
     }
 
-    void Config::writeConfigFile(const std::string &path) {
+    void Config::writeConfigFile(const std::string& path) {
         std::lock_guard lock(configMutex);
 
         std::ofstream out(path.c_str());
@@ -456,12 +459,12 @@ std::vector<Setting> values)
 
         getKeyNames(keys);
 
-        for (auto[keyName, keyEnumeration]: keys) {
+        for (auto [keyName, keyEnumeration] : keys) {
             out << keyName << ": " << values[keyEnumeration].toString() << std::endl;
         }
     }
 
-    Config::Keys Config::stringToKey(const std::string &key) {
+    Config::Keys Config::stringToKey(const std::string& key) {
         if (key == "LOADSBMLOPTIONS_CONSERVED_MOIETIES")
             return Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES;
         else if (key == "LOADSBMLOPTIONS_RECOMPILE")

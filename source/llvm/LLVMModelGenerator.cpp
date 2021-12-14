@@ -65,17 +65,17 @@ namespace rrllvm {
     static Poco::Mutex cachedModelsMutex;
     static ModelResourcesPtrMap cachedModelResources;
 
-    inline void codeGeneration(ModelGeneratorContext &context, std::uint32_t options);
+    inline void codeGeneration(ModelGeneratorContext& context, std::uint32_t options);
 
     inline ModelGeneratorContext
-    createModelGeneratorContext(const libsbml::SBMLDocument* sbml, std::uint32_t options);
+        createModelGeneratorContext(const libsbml::SBMLDocument* sbml, std::uint32_t options);
 
-    inline std::string getSBMLMD5(const std::string &sbml, const std::uint32_t & options);
+    inline std::string getSBMLMD5(const std::string& sbml, const std::uint32_t& options);
 
-    inline LLVMModelData *codeGenAddModuleAndMakeModelData(
-                ModelGeneratorContext *modelGeneratorContext,
-                std::shared_ptr<ModelResources> &modelResources,
-                std::uint32_t options);
+    inline LLVMModelData* codeGenAddModuleAndMakeModelData(
+        ModelGeneratorContext* modelGeneratorContext,
+        std::shared_ptr<ModelResources>& modelResources,
+        std::uint32_t options);
     /**
      * copy the cached model fields between a cached model, and a
      * executable model.
@@ -84,9 +84,9 @@ namespace rrllvm {
      * because they do compleltly different things, and have completly
      * differnt deletion semantics
      */
-    // this is not used anywhere -- delete??.
+     // this is not used anywhere -- delete??.
     template<typename a_type, typename b_type>
-    void copyCachedModel(a_type *src, b_type *dst) {
+    void copyCachedModel(a_type* src, b_type* dst) {
         dst->symbols = src->symbols;
         dst->context = src->context;
         dst->executionEngine = src->executionEngine;
@@ -110,7 +110,7 @@ namespace rrllvm {
         dst->evalConversionFactorPtr = src->evalConversionFactorPtr;
     }
 
-    inline void codeGeneration(ModelGeneratorContext &context, std::uint32_t options) {
+    inline void codeGeneration(ModelGeneratorContext& context, std::uint32_t options) {
         EvalInitialConditionsCodeGen(context).createFunction();
         EvalReactionRatesCodeGen(context).createFunction();
         GetBoundarySpeciesAmountCodeGen(context).createFunction();
@@ -128,24 +128,24 @@ namespace rrllvm {
         EvalVolatileStoichCodeGen(context).createFunction();
         EvalConversionFactorCodeGen(context).createFunction();
 
-        Function *setBoundarySpeciesAmountIR = nullptr;
-        Function *setBoundarySpeciesConcentrationIR;
-        Function *setFloatingSpeciesConcentrationIR = nullptr;
-        Function *setCompartmentVolumeIR = nullptr;
-        Function *setFloatingSpeciesAmountIR = nullptr;
-        Function *setGlobalParameterIR = nullptr;
-        Function *getFloatingSpeciesInitConcentrationsIR = nullptr;
-        Function *setFloatingSpeciesInitConcentrationsIR = nullptr;
-        Function *getFloatingSpeciesInitAmountsIR = nullptr;
-        Function *setFloatingSpeciesInitAmountsIR = nullptr;
-        Function *getBoundarySpeciesInitConcentrationsIR = nullptr;
-        Function *setBoundarySpeciesInitConcentrationsIR = nullptr;
-        Function *getBoundarySpeciesInitAmountsIR = nullptr;
-        Function *setBoundarySpeciesInitAmountsIR = nullptr;
-        Function *getCompartmentInitVolumesIR = nullptr;
-        Function *setCompartmentInitVolumesIR = nullptr;
-        Function *getGlobalParameterInitValueIR = nullptr;
-        Function *setGlobalParameterInitValueIR = nullptr;
+        Function* setBoundarySpeciesAmountIR = nullptr;
+        Function* setBoundarySpeciesConcentrationIR;
+        Function* setFloatingSpeciesConcentrationIR = nullptr;
+        Function* setCompartmentVolumeIR = nullptr;
+        Function* setFloatingSpeciesAmountIR = nullptr;
+        Function* setGlobalParameterIR = nullptr;
+        Function* getFloatingSpeciesInitConcentrationsIR = nullptr;
+        Function* setFloatingSpeciesInitConcentrationsIR = nullptr;
+        Function* getFloatingSpeciesInitAmountsIR = nullptr;
+        Function* setFloatingSpeciesInitAmountsIR = nullptr;
+        Function* getBoundarySpeciesInitConcentrationsIR = nullptr;
+        Function* setBoundarySpeciesInitConcentrationsIR = nullptr;
+        Function* getBoundarySpeciesInitAmountsIR = nullptr;
+        Function* setBoundarySpeciesInitAmountsIR = nullptr;
+        Function* getCompartmentInitVolumesIR = nullptr;
+        Function* setCompartmentInitVolumesIR = nullptr;
+        Function* getGlobalParameterInitValueIR = nullptr;
+        Function* setGlobalParameterInitValueIR = nullptr;
         if (options & LoadSBMLOptions::READ_ONLY) {
             setBoundarySpeciesAmountIR = nullptr;
             setBoundarySpeciesConcentrationIR = nullptr;
@@ -153,57 +153,59 @@ namespace rrllvm {
             setCompartmentVolumeIR = nullptr;
             setFloatingSpeciesAmountIR = nullptr;
             setGlobalParameterIR = nullptr;
-        } else {
+        }
+        else {
             setBoundarySpeciesAmountIR =
-                    SetBoundarySpeciesAmountCodeGen(context).createFunction();
+                SetBoundarySpeciesAmountCodeGen(context).createFunction();
 
             setBoundarySpeciesConcentrationIR =
-                    SetBoundarySpeciesConcentrationCodeGen(context).createFunction();
+                SetBoundarySpeciesConcentrationCodeGen(context).createFunction();
 
             setFloatingSpeciesConcentrationIR =
-                    SetFloatingSpeciesConcentrationCodeGen(context).createFunction();
+                SetFloatingSpeciesConcentrationCodeGen(context).createFunction();
 
             setCompartmentVolumeIR =
-                    SetCompartmentVolumeCodeGen(context).createFunction();
+                SetCompartmentVolumeCodeGen(context).createFunction();
 
             setFloatingSpeciesAmountIR =
-                    SetFloatingSpeciesAmountCodeGen(context).createFunction();
+                SetFloatingSpeciesAmountCodeGen(context).createFunction();
 
             setGlobalParameterIR =
-                    SetGlobalParameterCodeGen(context).createFunction();
+                SetGlobalParameterCodeGen(context).createFunction();
         }
 
         if (options & LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS) {
             getFloatingSpeciesInitConcentrationsIR =
-                    GetFloatingSpeciesInitConcentrationCodeGen(context).createFunction();
+                GetFloatingSpeciesInitConcentrationCodeGen(context).createFunction();
             setFloatingSpeciesInitConcentrationsIR =
-                    SetFloatingSpeciesInitConcentrationCodeGen(context).createFunction();
+                SetFloatingSpeciesInitConcentrationCodeGen(context).createFunction();
 
             getFloatingSpeciesInitAmountsIR =
-                    GetFloatingSpeciesInitAmountCodeGen(context).createFunction();
+                GetFloatingSpeciesInitAmountCodeGen(context).createFunction();
             setFloatingSpeciesInitAmountsIR =
-                    SetFloatingSpeciesInitAmountCodeGen(context).createFunction();
+                SetFloatingSpeciesInitAmountCodeGen(context).createFunction();
 
             getBoundarySpeciesInitConcentrationsIR =
-                    GetBoundarySpeciesInitConcentrationCodeGen(context).createFunction();
+                GetBoundarySpeciesInitConcentrationCodeGen(context).createFunction();
             setBoundarySpeciesInitConcentrationsIR =
-                    SetBoundarySpeciesInitConcentrationCodeGen(context).createFunction();
+                SetBoundarySpeciesInitConcentrationCodeGen(context).createFunction();
 
             getBoundarySpeciesInitAmountsIR =
-                    GetBoundarySpeciesInitAmountCodeGen(context).createFunction();
+                GetBoundarySpeciesInitAmountCodeGen(context).createFunction();
             setBoundarySpeciesInitAmountsIR =
-                    SetBoundarySpeciesInitAmountCodeGen(context).createFunction();
+                SetBoundarySpeciesInitAmountCodeGen(context).createFunction();
 
             getCompartmentInitVolumesIR =
-                    GetCompartmentInitVolumeCodeGen(context).createFunction();
+                GetCompartmentInitVolumeCodeGen(context).createFunction();
             setCompartmentInitVolumesIR =
-                    SetCompartmentInitVolumeCodeGen(context).createFunction();
+                SetCompartmentInitVolumeCodeGen(context).createFunction();
 
             getGlobalParameterInitValueIR =
-                    GetGlobalParameterInitValueCodeGen(context).createFunction();
+                GetGlobalParameterInitValueCodeGen(context).createFunction();
             setGlobalParameterInitValueIR =
-                    SetGlobalParameterInitValueCodeGen(context).createFunction();
-        } else {
+                SetGlobalParameterInitValueCodeGen(context).createFunction();
+        }
+        else {
             getFloatingSpeciesInitConcentrationsIR = nullptr;
             setFloatingSpeciesInitConcentrationsIR = nullptr;
             getFloatingSpeciesInitAmountsIR = nullptr;
@@ -220,7 +222,7 @@ namespace rrllvm {
 
     }
 
-    std::string getSBMLMD5(const std::string &sbml, const std::uint32_t & options) {
+    std::string getSBMLMD5(const std::string& sbml, const std::uint32_t& options) {
         std::string sbmlMD5;
         sbmlMD5 = rr::getMD5(sbml);
 
@@ -235,10 +237,10 @@ namespace rrllvm {
      * @details these operations are required in multiple places and so they are
      * factored out into a single function.
      */
-    LLVMModelData *codeGenAddModuleAndMakeModelData(
-            ModelGeneratorContext *modelGeneratorContext,
-            std::shared_ptr<ModelResources> &modelResources,
-            std::uint32_t options) {
+    LLVMModelData* codeGenAddModuleAndMakeModelData(
+        ModelGeneratorContext* modelGeneratorContext,
+        std::shared_ptr<ModelResources>& modelResources,
+        std::uint32_t options) {
 
         // Do all code generation here. This populates the IR module representing
         // this sbml model.
@@ -251,19 +253,19 @@ namespace rrllvm {
          */
         modelGeneratorContext->getJitNonOwning()->addModule();
 
-        LLVMModelData *modelData = createModelData(modelGeneratorContext->getModelDataSymbols(),
-                                                   modelGeneratorContext->getRandom());
+        LLVMModelData* modelData = createModelData(modelGeneratorContext->getModelDataSymbols(),
+            modelGeneratorContext->getRandom());
 
         uint llvmsize = ModelDataIRBuilder::getModelDataSize(
-                modelGeneratorContext->getJitNonOwning()->getModuleNonOwning(),
-                modelGeneratorContext->getJitNonOwning()->getDataLayout()
+            modelGeneratorContext->getJitNonOwning()->getModuleNonOwning(),
+            modelGeneratorContext->getJitNonOwning()->getDataLayout()
         );
 
         if (llvmsize != modelData->size) {
             std::stringstream s;
 
             s << "LLVM Model Data size " << llvmsize << " is different from " <<
-              "C++ size of LLVM ModelData, " << modelData->size;
+                "C++ size of LLVM ModelData, " << modelData->size;
 
             LLVMModelData_free(modelData);
 
@@ -279,27 +281,27 @@ namespace rrllvm {
 
     }
 
-    ExecutableModel *
-    LLVMModelGenerator::regenerateModel(rr::ExecutableModel *oldModel, libsbml::SBMLDocument *doc, uint options) {
+    ExecutableModel*
+        LLVMModelGenerator::regenerateModel(rr::ExecutableModel* oldModel, libsbml::SBMLDocument* doc, uint options) {
         SharedModelResourcesPtr modelResources = std::make_shared<ModelResources>();
 
-        char *docSBML = doc->toSBML();
+        char* docSBML = doc->toSBML();
 
         ModelGeneratorContext modelGeneratorContext(doc, options, JitFactory::makeJitEngine(options));
 
-        std::string sbmlMD5 = getSBMLMD5(std::string((const char*) docSBML), options);
-        if (modelResources->sbmlMD5.empty()){
+        std::string sbmlMD5 = getSBMLMD5(std::string((const char*)docSBML), options);
+        if (modelResources->sbmlMD5.empty()) {
             modelResources->sbmlMD5 = sbmlMD5;
         }
         modelGeneratorContext.getJitNonOwning()->setModuleIdentifier(sbmlMD5);
 
         free(docSBML);
 
-        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(&modelGeneratorContext, modelResources, options);
+        LLVMModelData* modelData = codeGenAddModuleAndMakeModelData(&modelGeneratorContext, modelResources, options);
 
         // * MOVE * the bits over from the context to the exe model.
         modelGeneratorContext.transferObjectsToResources(modelResources);
-        LLVMExecutableModel *newModel = new LLVMExecutableModel(modelResources, modelData);
+        LLVMExecutableModel* newModel = new LLVMExecutableModel(modelResources, modelData);
 
         if (oldModel) {
             // the stored SBML document will not keep updated, so we need to
@@ -341,7 +343,8 @@ namespace rrllvm {
                     if (!newModel->symbols->hasAssignmentRule(id) && !newModel->symbols->hasRateRule(id)) {
                         newModel->modelData->floatingSpeciesAmountsAlias[index] = value;
                         //newModel->setFloatingSpeciesAmounts(1, &index, &value);
-                    } else if (newModel->symbols->hasRateRule(id)) {
+                    }
+                    else if (newModel->symbols->hasRateRule(id)) {
                         // copy to rate rule value data block
                         std::vector<std::string>::iterator it = std::find(newSymbols.begin(), newSymbols.end(), id);
                         if (it != newSymbols.end()) {
@@ -370,7 +373,8 @@ namespace rrllvm {
                     if (!newModel->symbols->hasAssignmentRule(id) && !newModel->symbols->hasRateRule(id)) {
                         newModel->modelData->boundarySpeciesAmountsAlias[index] = value;
                         //newModel->setBoundarySpeciesAmounts(1, &index, &value);
-                    } else if (newModel->symbols->hasRateRule(id)) {
+                    }
+                    else if (newModel->symbols->hasRateRule(id)) {
                         // copy to rate rule value data block
                         std::vector<std::string>::iterator it = std::find(newSymbols.begin(), newSymbols.end(), id);
                         if (it != newSymbols.end()) {
@@ -378,7 +382,8 @@ namespace rrllvm {
                             index = std::distance(newSymbols.begin(), it);
                             newModel->modelData->rateRuleValuesAlias[index] = value;
                         }
-                    } else {
+                    }
+                    else {
                         if (!newModel->symbols->hasInitialAssignmentRule(id)) {
                             double initValue = 0;
                             oldModel->getBoundarySpeciesInitAmounts(1, &i, &initValue);
@@ -424,7 +429,8 @@ namespace rrllvm {
                     if (!newModel->symbols->hasAssignmentRule(id) && !newModel->symbols->hasRateRule(id)) {
                         newModel->modelData->compartmentVolumesAlias[index] = value;
                         //newModel->setCompartmentVolumes(1, &index, &value);
-                    } else if (newModel->symbols->hasRateRule(id)) {
+                    }
+                    else if (newModel->symbols->hasRateRule(id)) {
                         // copy to rate rule value data block
                         std::vector<std::string>::iterator it = std::find(newSymbols.begin(), newSymbols.end(), id);
                         if (it != newSymbols.end()) {
@@ -471,7 +477,8 @@ namespace rrllvm {
                     if (!newModel->symbols->hasAssignmentRule(id) && !newModel->symbols->hasRateRule(id)) {
                         newModel->modelData->globalParametersAlias[index] = value;
                         //newModel->setGlobalParameterValues(1, &index, &value);
-                    } else if (newModel->symbols->hasRateRule(id)) {
+                    }
+                    else if (newModel->symbols->hasRateRule(id)) {
                         // copy to rate rule value data block
                         std::vector<std::string>::iterator it = std::find(newSymbols.begin(), newSymbols.end(), id);
                         if (it != newSymbols.end()) {
@@ -489,7 +496,7 @@ namespace rrllvm {
     }
 
 
-    ExecutableModel *LLVMModelGenerator::createModel(const libsbml::SBMLDocument* sbml, const std::string& sbmlMD5, std::uint32_t options) {
+    ExecutableModel* LLVMModelGenerator::createModel(const libsbml::SBMLDocument* sbml, const std::string& sbmlMD5, std::uint32_t options) {
         bool forceReCompile = options & LoadSBMLOptions::RECOMPILE;
 
         // if we force recompile, then we don't need to think
@@ -515,9 +522,10 @@ namespace rrllvm {
             if (sp) {
                 rrLog(Logger::LOG_DEBUG) << "found a cached model for \"" << sbmlMD5 << "\"";
                 return new LLVMExecutableModel(sp, createModelData(*sp->symbols, sp->random));
-            } else {
+            }
+            else {
                 rrLog(Logger::LOG_DEBUG) << "no cached model found for " << sbmlMD5
-                                         << ", creating new one";
+                    << ", creating new one";
             }
         }
 
@@ -539,9 +547,9 @@ namespace rrllvm {
         // todo figure out whether the various bigs of codegen can be threadded?
         //  Or do things need to happen in a certain order?
         //
-        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(
-                &modelGeneratorContext, modelResources, options
-                );
+        LLVMModelData* modelData = codeGenAddModuleAndMakeModelData(
+            &modelGeneratorContext, modelResources, options
+        );
 
         // if anything up to this point throws an exception, thats OK, because
         // we have not allocated any memory yet that is not taken care of by
@@ -564,21 +572,22 @@ namespace rrllvm {
 
             // whilst we have it locked, clear any expired ptrs
             for (ModelResourcesPtrMap::const_iterator j = cachedModelResources.begin();
-                 j != cachedModelResources.end();) {
+                j != cachedModelResources.end();) {
                 if (j->second.expired()) {
                     rrLog(Logger::LOG_DEBUG) <<
-                                             "removing expired model resource for hash " << sbmlMD5;
+                        "removing expired model resource for hash " << sbmlMD5;
 
                     j = cachedModelResources.erase(j);
-                } else {
+                }
+                else {
                     ++j;
                 }
             }
 
             if ((i = cachedModelResources.find(sbmlMD5)) == cachedModelResources.end()) {
                 rrLog(Logger::LOG_DEBUG) << "could not find existing cached resource "
-                                            "for hash " << sbmlMD5 <<
-                                         ", inserting new resources into cache";
+                    "for hash " << sbmlMD5 <<
+                    ", inserting new resources into cache";
 
                 cachedModelResources[sbmlMD5] = modelResources;
             }
@@ -591,19 +600,19 @@ namespace rrllvm {
 
 
 
-/************ LLVM Utility Functions, TODO: Move To Separate File ************/
+    /************ LLVM Utility Functions, TODO: Move To Separate File ************/
 
-/**
- * C++ 11 style to_string for LLVM types
- */
-    std::string to_string(const llvm::Value *value) {
+    /**
+     * C++ 11 style to_string for LLVM types
+     */
+    std::string to_string(const llvm::Value* value) {
         std::string str;
         llvm::raw_string_ostream stream(str);
         value->print(stream);
         return str;
     }
 
-    LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols, const Random *random) {
+    LLVMModelData* createModelData(const rrllvm::LLVMModelDataSymbols& symbols, const Random* random) {
         uint modelDataBaseSize = sizeof(LLVMModelData);
 
         uint numIndCompartments = static_cast<uint>(symbols.getIndependentCompartmentSize());
@@ -621,21 +630,21 @@ namespace rrllvm {
         uint numReactions = static_cast<uint>(symbols.getReactionSize());
 
         uint modelDataSize = modelDataBaseSize +
-                             sizeof(double) * (
-                                     numIndCompartments +
-                                     numInitCompartments +
-                                     numInitFloatingSpecies +
-                                     numIndBoundarySpecies +
-                                     numInitBoundarySpecies +
-                                     numIndGlobalParameters +
-                                     numInitGlobalParameters +
-                                     numReactions +
-                                     numRateRules +
-                                     numIndFloatingSpecies
-                             );
+            sizeof(double) * (
+                numIndCompartments +
+                numInitCompartments +
+                numInitFloatingSpecies +
+                numIndBoundarySpecies +
+                numInitBoundarySpecies +
+                numIndGlobalParameters +
+                numInitGlobalParameters +
+                numReactions +
+                numRateRules +
+                numIndFloatingSpecies
+                );
 
-        LLVMModelData *modelData = (LLVMModelData *) calloc(
-                modelDataSize, sizeof(unsigned char));
+        LLVMModelData* modelData = (LLVMModelData*)calloc(
+            modelDataSize, sizeof(unsigned char));
 
         modelData->size = modelDataSize;
         modelData->numIndCompartments = numIndCompartments;
@@ -685,16 +694,16 @@ namespace rrllvm {
         modelData->floatingSpeciesAmountsAlias = &modelData->data[offset];
         offset += numIndFloatingSpecies;
 
-        assert (modelDataBaseSize + offset * sizeof(double) == modelDataSize &&
-                "LLVMModelData size not equal to base size + data");
+        assert(modelDataBaseSize + offset * sizeof(double) == modelDataSize &&
+            "LLVMModelData size not equal to base size + data");
 
         // allocate the stoichiometry matrix
-        const std::vector<uint> &stoichRowIndx = symbols.getStoichRowIndx();
-        const std::vector<uint> &stoichColIndx = symbols.getStoichColIndx();
+        const std::vector<uint>& stoichRowIndx = symbols.getStoichRowIndx();
+        const std::vector<uint>& stoichColIndx = symbols.getStoichColIndx();
         std::vector<double> stoichValues(stoichRowIndx.size(), 0);
 
         modelData->stoichiometry = rr::csr_matrix_new(numIndFloatingSpecies, numReactions,
-                                                      stoichRowIndx, stoichColIndx, stoichValues);
+            stoichRowIndx, stoichColIndx, stoichValues);
 
         // make a copy of the random object
         modelData->random = random ? new Random(*random) : 0;

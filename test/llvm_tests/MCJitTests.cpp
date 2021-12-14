@@ -131,8 +131,6 @@ TEST_F(MCJitTests, LoadQuotientFunction) {
     ASSERT_EQ(fnPtr(4, 2), 2);
 }
 
-
-
 TEST_F(MCJitTests, CheckModelSimulates) {
     rr::Config::setValue(rr::Config::LLVM_BACKEND, rr::Config::LLVM_BACKEND_VALUES::MCJIT);
 //    rr::Config::setValue(rr::Config::LLVM_BACKEND, rr::Config::LLVM_BACKEND_VALUES::LLJIT);
@@ -140,10 +138,3 @@ TEST_F(MCJitTests, CheckModelSimulates) {
     auto data = rr.simulate(0, 10, 11);
     ASSERT_EQ(typeid(*data), typeid(ls::Matrix<double>));
 }
-
-
-
-
-
-
-

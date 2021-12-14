@@ -76,7 +76,7 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
     # link to roadrunner-static, the flags needed should be transitive
     #    add_compile_definitions(${TEST_TARGET} PRIVATE STATIC_RR)
 
-    add_dependencies(${TEST_TARGET} roadrunner-static gtest gtest_main gmock gmock_main rr-mockups)
+    add_dependencies(${TEST_TARGET} roadrunner gtest gtest_main gmock gmock_main rr-mockups)
     set_target_properties(${TEST_TARGET} PROPERTIES LINKER_LANGUAGE CXX)
 
     # Add to ctest.
@@ -174,7 +174,7 @@ macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             "${CMAKE_CURRENT_SOURCE_DIR}"
             "${RR_ROOT}/wrappers/Python/include"
             "${RR_ROOT}/wrappers/Python/roadrunner"
-            $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>
+            $<TARGET_PROPERTY:roadrunner,INCLUDE_DIRECTORIES>
             "${RR_DEPENDENCIES_INSTALL_PREFIX}/include/rr-libstruct"
             "${Python_INCLUDE_DIRS}"
             "${Python_NumPy_INCLUDE_DIRS}"
@@ -183,7 +183,7 @@ macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
     if (NOT APPLE)
         target_link_libraries(${SWIG_TARGET_NAME} PUBLIC
                 rr-mockups
-                roadrunner-static
+                roadrunner
                 Python::Python # remember, includes will just come with linking Python::Python
                 Python::NumPy  # remember, includes will just come with linking Python::NumPy
                 )
@@ -197,7 +197,7 @@ macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
                 )
         swig_link_libraries(${SWIG_TARGET_NAME} PUBLIC
                 rr-mockups
-                roadrunner-static
+                roadrunner
                 # Since we are using "-undefined dynamic_lookup"
                 # we do not need to link to Python here - they will
                 # be found at runtime.

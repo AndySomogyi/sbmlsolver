@@ -275,22 +275,22 @@ LLVMExecutableModel::LLVMExecutableModel(
 
 LLVMExecutableModel::LLVMExecutableModel(std::istream& in, uint modelGeneratorOpt) :
     ExecutableModel(),
-	resources(new ModelResources()),
-	dirty(0),
-	conversionFactor(1.0),
-	flags(defaultFlags())
+    resources(new ModelResources()),
+    dirty(0),
+    conversionFactor(1.0),
+    flags(defaultFlags())
 {
-	modelData = LLVMModelData_from_save(in);
-	resources->loadState(in, modelGeneratorOpt);
+    modelData = LLVMModelData_from_save(in);
+    resources->loadState(in, modelGeneratorOpt);
 
     symbols = resources->symbols;
-	eventListeners = std::vector<EventListenerPtr>(modelData->numEvents, EventListenerPtr());
-	eventAssignTimes.resize(modelData->numEvents);
-	
+    eventListeners = std::vector<EventListenerPtr>(modelData->numEvents, EventListenerPtr());
+    eventAssignTimes.resize(modelData->numEvents);
 
-	evalInitialConditionsPtr = resources->evalInitialConditionsPtr;
-	evalReactionRatesPtr = resources->evalReactionRatesPtr;
-	getBoundarySpeciesAmountPtr = resources->getBoundarySpeciesAmountPtr;
+
+    evalInitialConditionsPtr = resources->evalInitialConditionsPtr;
+    evalReactionRatesPtr = resources->evalReactionRatesPtr;
+    getBoundarySpeciesAmountPtr = resources->getBoundarySpeciesAmountPtr;
     getFloatingSpeciesAmountPtr = resources->getFloatingSpeciesAmountPtr;
     getBoundarySpeciesConcentrationPtr = resources->getBoundarySpeciesConcentrationPtr;
     getFloatingSpeciesConcentrationPtr = resources->getFloatingSpeciesConcentrationPtr;
@@ -300,7 +300,7 @@ LLVMExecutableModel::LLVMExecutableModel(std::istream& in, uint modelGeneratorOp
     getEventTriggerPtr = resources->getEventTriggerPtr;
     getEventPriorityPtr = resources->getEventPriorityPtr;
     getEventDelayPtr = resources->getEventDelayPtr;
-	eventTriggerPtr = resources->eventTriggerPtr;
+    eventTriggerPtr = resources->eventTriggerPtr;
     eventAssignPtr = resources->eventAssignPtr;
     evalVolatileStoichPtr = resources->evalVolatileStoichPtr;
     evalConversionFactorPtr = resources->evalConversionFactorPtr;

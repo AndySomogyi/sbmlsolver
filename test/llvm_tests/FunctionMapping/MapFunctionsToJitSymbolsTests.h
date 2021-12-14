@@ -179,7 +179,6 @@ public:
         double expected = -1.1071487177940904;
         std::string funcName = "arccot";
         arccotFnTy fnPtr = (arccotFnTy) jit->lookupFunctionAddress(funcName);
-        rrLogCriticalCiaran << fnPtr(-0.5);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
 
     }

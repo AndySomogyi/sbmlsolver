@@ -483,7 +483,7 @@ target_link_libraries(
 #get_target_property(v ${target}-static LINK_FLAGS)
 #MESSAGE(STATUS "vty ${v}")
 
-add_library(${target} SHARED ${rrSources} ${rrHeaders} llvm/JitFactory.cpp llvm/JitFactory.h)
+add_library(${target} SHARED ${rrSources} ${rrHeaders})
 target_compile_definitions(${target} PRIVATE EXPORT_RR)
 target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES>)
 target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,INCLUDE_DIRECTORIES>)
