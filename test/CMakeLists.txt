@@ -24,7 +24,10 @@ configure_file(RoadRunnerTestDirectory.cpp.in "${CMAKE_CURRENT_BINARY_DIR}/RoadR
 set(ThisSourceDirectory "${CMAKE_CURRENT_SOURCE_DIR}")
 set(ThisBinaryDirectory "${CMAKE_CURRENT_BINARY_DIR}")
 set(MOCKUPS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/mockups")
-set(SBMLTestSuiteRoot "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/semantic")
+
+set(SBMLTestSuiteRoot "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite")
+set(SBMLTestSuiteSemantic "${SBMLTestSuiteRoot}/semantic")
+set(SBMLTestSuiteStochastic "${SBMLTestSuiteRoot}/stochastic")
 
 #todo move these to the rr_root/cmake folder
 # Adds a new executable cmake target to cmake.
@@ -51,6 +54,7 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
             "${ThisBinaryDirectory}"
             "${MOCKUPS_DIRECTORY}"
             "${TEST_PLUGIN_INCLUDE}"
+            ${SBMLTestSuiteRoot}
 #            "${RR_Python_wrapper_dir}" # for PyUtils in tests that need it
     )
 
@@ -61,7 +65,11 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
     )
 
     # Add root of sbml test suite to all test targets.
-    target_compile_definitions(${TEST_TARGET} PRIVATE "SBMLTestSuiteRoot=\"${SBMLTestSuiteRoot}\"")
+    target_compile_definitions(${TEST_TARGET} PRIVATE
+            "SBMLTestSuiteRoot=\"${SBMLTestSuiteRoot}\""
+            "SBMLTestSuiteSemantic=\"${SBMLTestSuiteSemantic}\""
+            "SBMLTestSuiteStochastic=\"${SBMLTestSuiteStochastic}\""
+            )
 
     # This causes a weird build error whereby it is no longer possible
     # to name a class the name as the binary filename. However, since w
