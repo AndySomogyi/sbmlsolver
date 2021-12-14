@@ -349,18 +349,6 @@ RR_DECLSPEC Poco::Logger &getLogger();
 #define rrLogInfo      rrLog(Logger::LOG_INFORMATION)
 #define rrLogDebug     rrLog(Logger::LOG_DEBUG)
 
-/**
- * Temporary logging commands to differentiate mine from the original.
- * This will help me these up at the end.
- */
-#define rrLogFatalCiaran rrLogFatal
-#define rrLogCriticalCiaran rrLogCritical
-#define rrLogErrCiaran rrLogErr
-#define rrLogWarnCiaran rrLogWarn
-#define rrLogNoticeCiaran rrLogNotice
-#define rrLogInfoCiaran rrLogInfo
-#define rrLogDebugCiaran rrLogDebug
-
 } /* namespace rr */
 
 

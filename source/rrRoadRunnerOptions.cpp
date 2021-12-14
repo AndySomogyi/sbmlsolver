@@ -49,10 +49,15 @@ namespace rr {
 
 
     SimulateOptions::SimulateOptions()
-            : reset_model(false), structured_result(Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT)),
-              copy_result(Config::getBool(Config::SIMULATEOPTIONS_COPY_RESULT)),
-              steps(Config::getInt(Config::SIMULATEOPTIONS_STEPS)), start(0),
-              duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION)), times(), hstep(0) {
+        : reset_model(false)
+        , structured_result(Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
+        , copy_result(Config::getBool(Config::SIMULATEOPTIONS_COPY_RESULT))
+        , steps(Config::getInt(Config::SIMULATEOPTIONS_STEPS))
+        , start(0)
+        , duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION))
+        , times()
+        , hstep(0) 
+    {
     }
 
     void SimulateOptions::reset()
@@ -216,15 +221,16 @@ namespace rr {
         if (times.empty())//!hasKey("times"))
         {
             hstep = duration / steps;
-        } else {
+        }
+        else {
             if (steps != times.size() - 1) {
                 if (steps == Config::getInt(Config::SIMULATEOPTIONS_STEPS)) {
                     steps = times.size() - 1;
-                } else {
+                }
+                else {
                     std::stringstream err;
-                    err
-                            << "If the 'times' and the 'steps' settings are both used, the number of steps must equal the length of the 'times' vector, minus one.  The length of the 'times' vector is "
-                            << times.size() << ", and the 'steps' setting is " << steps << ".";
+                    err << "If the 'times' and the 'steps' settings are both used, the number of steps must equal the length of the 'times' vector, minus one.  The length of the 'times' vector is "
+                        << times.size() << ", and the 'steps' setting is " << steps << ".";
                     throw std::invalid_argument(err.str());
                 }
             }
@@ -235,11 +241,11 @@ namespace rr {
                 if (start == 0) //The default.
                 {
                     start = times[0];
-                } else {
+                }
+                else {
                     std::stringstream err;
-                    err
-                            << "If the 'times' and the 'start' settings are both used, the first value of 'times' must equal the value of 'start'.  Instead, 'start' is "
-                            << start << ", and the first value of 'times' is " << times[0] << ".";
+                    err << "If the 'times' and the 'start' settings are both used, the first value of 'times' must equal the value of 'start'.  Instead, 'start' is "
+                        << start << ", and the first value of 'times' is " << times[0] << ".";
                     throw std::invalid_argument(err.str());
                 }
             }
@@ -248,9 +254,8 @@ namespace rr {
                 double hstep = times[tv] - prev;
                 if (hstep <= 0) {
                     std::stringstream err;
-                    err
-                            << "The 'times' setting must be a vector of time values that start at the time value at the initial state of the model and increase along the vector.  The value "
-                            << times[tv] << " is less than or equal to the previous value of " << prev << ".";
+                    err << "The 'times' setting must be a vector of time values that start at the time value at the initial state of the model and increase along the vector.  The value "
+                        << times[tv] << " is less than or equal to the previous value of " << prev << ".";
                     throw std::invalid_argument(err.str());
                 }
                 prev = times[tv];

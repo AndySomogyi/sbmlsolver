@@ -8,12 +8,12 @@ set(SharedTestFiles "${SharedTestFiles}" "${CMAKE_CURRENT_SOURCE_DIR}/SundialsSt
 #)
 
 add_test_executable(
-        steady_state_approx test_targets
+        test_sundials_steady_state_approx test_targets
         ApproxSteadyStateDecoratorTests.cpp ${SharedTestFiles}
 )
 
 add_test_executable(
-        automatic_moiety_conservation test_targets
+        test_sundials_automatic_moiety_conservation test_targets
         AutomaticMoietyConservationTests.cpp
         SundialsSteadyStateSolverUnitTest
         ${SharedTestFiles}
@@ -33,7 +33,7 @@ add_test_executable(
 )
 
 add_test_executable(
-        test_unit_svd test_targets SVDTests.cpp ${SharedTestFiles}
+        test_sundials_unit_svd test_targets SVDTests.cpp ${SharedTestFiles}
 )
 
 add_test_executable(
@@ -50,17 +50,3 @@ add_test_executable(
 
 # make test_targets list global to all tests
 set(test_targets ${test_targets} PARENT_SCOPE)
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -66,29 +66,30 @@ public:
             int idx = i - start;
             try {
                 vec[idx] = constructSTSXmlFile(i, 3, 2);
-            } catch (std::exception &e) {
-                rrLogWarn << "Failed to find case " << i << ", l" << 3 << "v" << 2;
+            }
+            catch (std::exception& e) {
                 try {
                     vec[idx] = constructSTSXmlFile(i, 3, 1);
-                } catch (std::exception &e) {
-                    rrLogWarn << "Failed to find case " << i << ", l" << 3 << "v" << 1;
+                }
+                catch (std::exception& e) {
                     try {
                         vec[idx] = constructSTSXmlFile(i, 2, 4);
-                    } catch (std::exception &e) {
-                        rrLogWarn << "Failed to find case " << i << ", l" << 2 << "v" << 4;
+                    }
+                    catch (std::exception& e) {
                         try {
                             vec[idx] = constructSTSXmlFile(i, 2, 3);
-                        } catch (std::exception &e) {
-                            rrLogWarn << "Failed to find case " << i << ", l" << 2 << "v" << 2;
+                        }
+                        catch (std::exception& e) {
                             try {
                                 vec[idx] = constructSTSXmlFile(i, 2, 2);
-                            } catch (std::exception &e) {
-                                rrLogWarn << "Failed to find case " << i << ", l" << 2 << "v" << 2;
+                            }
+                            catch (std::exception& e) {
                                 try {
                                     vec[idx] = constructSTSXmlFile(i, 2, 1);
-                                } catch (std::exception &e) {
+                                }
+                                catch (std::exception& e) {
                                     rrLogErr << "Failed to find case " << i << ", l" << 2 << "v" << 1;
-                                    throw std::logic_error("can't locate sbml file");
+                                    throw std::logic_error("Can't locate any sbml files for test.");
                                 }
                             }
                         }
@@ -241,18 +242,3 @@ TEST_F(RoadRunnerMapTests, ParallelWith16Threads) {
 //        });
 //    }
 //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

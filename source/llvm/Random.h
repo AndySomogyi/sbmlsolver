@@ -19,19 +19,19 @@ namespace rrllvm {
          * creates a new Random object and adds the distrib as global mappings
          * to the execution engine.
          */
-        Random(class ModelGeneratorContext &ctx);
+        Random(class ModelGeneratorContext& ctx);
 
         /**
          * copy constructor, copy the distributions but reset the RNG to what
          * is specified by the config.
          */
-        Random(const Random &other);
+        Random(const Random& other);
 
         /**
          * assignment operator, copies the fields from the
          * other object, but does not re-intialize them.
          */
-        Random &operator=(const Random &rhs);
+        Random& operator=(const Random& rhs);
 
         /**
          * default ctor, this obviously does not add any mappings to a
@@ -62,12 +62,12 @@ namespace rrllvm {
         /**
         * used by random distributions
         */
-       static constexpr unsigned long long min() { return 0; };
+        static constexpr unsigned long long min() { return 0; };
 
-       /**
-        * used by random distrbutions
-        */
-       static constexpr unsigned long long max() { return 1; };
+        /**
+         * used by random distrbutions
+         */
+        static constexpr unsigned long long max() { return 1; };
 #else
 
         /**
@@ -117,30 +117,30 @@ namespace rrllvm {
 
     };
 
-    double distrib_uniform(Random *random, double _min, double _max);
-    double distrib_normal(Random *random, double mu, double sigma);
-    double distrib_normal_four(Random *random, double mu, double sigma, double _min, double _max);
-    double distrib_bernoulli(Random *random, double prob);
-    double distrib_binomial(Random *random, double nTrials, double probabilityOfSuccess);
-    double distrib_binomial_four(Random *random, double nTrials, double probabilityOfSuccess, double _min, double _max);
-    double distrib_cauchy(Random *random, double location, double scale);
-    double distrib_cauchy_one(Random *random, double scale);
-    double distrib_cauchy_four(Random *random, double location, double scale, double _min, double _max);
-    double distrib_chisquare(Random *random, double degreesOfFreedom);
-    double distrib_chisquare_three(Random *random, double degreesOfFreedom, double _min, double _max);
-    double distrib_exponential(Random *random, double lambda);
-    double distrib_exponential_three(Random *random, double lambda, double _min, double _max);
-    double distrib_gamma(Random *random, double shape, double scale);
-    double distrib_gamma_four(Random *random, double shape, double scale, double _min, double _max);
-    double distrib_laplace(Random *random, double location, double scale);
-    double distrib_laplace_one(Random *random, double scale);
-    double distrib_laplace_four(Random *random, double location, double scale, double _min, double _max);
-    double distrib_lognormal(Random *random, double mu, double sigma);
-    double distrib_lognormal_four(Random *random, double mu, double sigma, double _min, double _max);
-    double distrib_poisson(Random *random, double lambda);
-    double distrib_poisson_three(Random *random, double lambda, double _min, double _max);
-    double distrib_rayleigh(Random *random, double scale);
-    double distrib_rayleigh_three(Random *random, double scale, double _min, double _max);
+    double distrib_uniform(Random* random, double _min, double _max);
+    double distrib_normal(Random* random, double mu, double sigma);
+    double distrib_normal_four(Random* random, double mu, double sigma, double _min, double _max);
+    double distrib_bernoulli(Random* random, double prob);
+    double distrib_binomial(Random* random, double nTrials, double probabilityOfSuccess);
+    double distrib_binomial_four(Random* random, double nTrials, double probabilityOfSuccess, double _min, double _max);
+    double distrib_cauchy(Random* random, double location, double scale);
+    double distrib_cauchy_one(Random* random, double scale);
+    double distrib_cauchy_four(Random* random, double location, double scale, double _min, double _max);
+    double distrib_chisquare(Random* random, double degreesOfFreedom);
+    double distrib_chisquare_three(Random* random, double degreesOfFreedom, double _min, double _max);
+    double distrib_exponential(Random* random, double lambda);
+    double distrib_exponential_three(Random* random, double lambda, double _min, double _max);
+    double distrib_gamma(Random* random, double shape, double scale);
+    double distrib_gamma_four(Random* random, double shape, double scale, double _min, double _max);
+    double distrib_laplace(Random* random, double location, double scale);
+    double distrib_laplace_one(Random* random, double scale);
+    double distrib_laplace_four(Random* random, double location, double scale, double _min, double _max);
+    double distrib_lognormal(Random* random, double mu, double sigma);
+    double distrib_lognormal_four(Random* random, double mu, double sigma, double _min, double _max);
+    double distrib_poisson(Random* random, double lambda);
+    double distrib_poisson_three(Random* random, double lambda, double _min, double _max);
+    double distrib_rayleigh(Random* random, double scale);
+    double distrib_rayleigh_three(Random* random, double scale, double _min, double _max);
 
 
 } /* namespace rrllvm */

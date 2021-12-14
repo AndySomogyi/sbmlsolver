@@ -34,13 +34,13 @@ public:
 /**
  * Note on EvalInitialConditions (from comment where
  * ffunction is used, not docs):
- *     // initializes the model to the init values specified in the sbml, and
+    // initializes the model to the init values specified in the sbml, and
     // copies these to the initial initial conditions (not a typo),
     // sets the 'init(...)' values to the sbml specified init values.
  */
 
 /**
- * Put 300K particles of S1 into Cell of size 12 (units of ???), what is the
+ * Put 300K particles of S1 into Cell of size 12 (any units), what is the
  * concentration of S1?
  * 25000 * 12 = 300000
  * 300000 / 12 = 25000
@@ -191,21 +191,3 @@ TEST_F(EvalInitialConditionsTests, CheckInitialSpeciesComputedCorrectlyLLJit) {
 //}
 //
 //
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -67,12 +67,3 @@ public:
 };
 
 using fibonacciFnPtr = int (*)(int);
-
-
-
-
-
-
-
-
-

@@ -17,11 +17,11 @@ public:
     RoadRunnerMapTests() {
 #ifndef SBMLTestSuiteRoot
         throw std::logic_error("The SBMLTestSuiteRoot variable is not defined even though it has been "
-                               "set with target_compile_definitions")';
+            "set with target_compile_definitions")';
 #endif
-        if (!std::filesystem::exists(SBMLTestSuiteRoot)) {
-            throw std::invalid_argument("Path to sbml test suite does not exist");
-        }
+            if (!std::filesystem::exists(SBMLTestSuiteRoot)) {
+                throw std::invalid_argument("Path to sbml test suite does not exist");
+            }
         Logger::setLevel(Logger::LOG_WARNING);
 
         // little easy list of sbmls
@@ -30,7 +30,7 @@ public:
                                                SimpleFlux().str(),
                                                Brown2004().str(),
                                                Venkatraman2010().str()
-                                       });
+            });
         sbml.swap(input);
     }
 
@@ -53,12 +53,12 @@ public:
     }
 
     std::vector<std::string> getFirstNModelsFromSTS(int N, int start = 1) {
-        if (start < 1){
+        if (start < 1) {
             throw std::invalid_argument("start must be 1 or more");
         }
         int end = start + N;
         int maxSize = 1809;
-        if (end > maxSize){
+        if (end > maxSize) {
             throw std::invalid_argument("start + N must be less than or equal to 1809: " + std::to_string(end));
         }
         std::vector<std::string> vec(N);
@@ -66,29 +66,30 @@ public:
             int idx = i - start;
             try {
                 vec[idx] = constructSTSXmlFile(i, 3, 2);
-            } catch (std::exception &e) {
-                rrLogWarn << "Failed to find case " << i << ", l" << 3 << "v" << 2;
+            }
+            catch (std::exception& e) {
                 try {
                     vec[idx] = constructSTSXmlFile(i, 3, 1);
-                } catch (std::exception &e) {
-                    rrLogWarn << "Failed to find case " << i << ", l" << 3 << "v" << 1;
+                }
+                catch (std::exception& e) {
                     try {
                         vec[idx] = constructSTSXmlFile(i, 2, 4);
-                    } catch (std::exception &e) {
-                        rrLogWarn << "Failed to find case " << i << ", l" << 2 << "v" << 4;
+                    }
+                    catch (std::exception& e) {
                         try {
                             vec[idx] = constructSTSXmlFile(i, 2, 3);
-                        } catch (std::exception &e) {
-                            rrLogWarn << "Failed to find case " << i << ", l" << 2 << "v" << 2;
+                        }
+                        catch (std::exception& e) {
                             try {
                                 vec[idx] = constructSTSXmlFile(i, 2, 2);
-                            } catch (std::exception &e) {
-                                rrLogWarn << "Failed to find case " << i << ", l" << 2 << "v" << 2;
+                            }
+                            catch (std::exception& e) {
                                 try {
                                     vec[idx] = constructSTSXmlFile(i, 2, 1);
-                                } catch (std::exception &e) {
+                                }
+                                catch (std::exception& e) {
                                     rrLogErr << "Failed to find case " << i << ", l" << 2 << "v" << 1;
-                                    throw std::logic_error("can't locate sbml file");
+                                    throw std::logic_error("Can't locate any sbml files for test.");
                                 }
                             }
                         }
@@ -111,7 +112,7 @@ TEST_F(RoadRunnerMapTests, serial) {
     Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
     std::vector<std::string> sbmlFiles = getFirstNModelsFromSTS(N);
     std::unordered_map<std::string, std::unique_ptr<RoadRunner>> rrMap;
-    for (auto &f: sbmlFiles) {
+    for (auto& f : sbmlFiles) {
         std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(f);
         rrMap[rr->getModelName()] = std::move(rr);
     }
@@ -241,18 +242,3 @@ TEST_F(RoadRunnerMapTests, ParallelWith16Threads) {
 //        });
 //    }
 //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
