@@ -32,15 +32,6 @@ TEST_F(LLJitMapFunctionsToJitSymbolsTests, CheckLibFuncFabs){
     CheckLibFuncFabs();
 }
 
-TEST_F(LLJitMapFunctionsToJitSymbolsTests, CheckLibFuncFabs2){
-    double expected = 5.3;
-    std::string funcName = "fabsd";
-    llvm::Function* f = jit->getModuleNonOwning()->getFunction(funcName);
-    std::cout << f << std::endl;
-//    fabsFnTy fnPtr = (fabsFnTy) jit->getModuleNonOwning()->getFunction(funcName);
-//    ASSERT_EQ(expected, fnPtr(-5.3));
-}
-
 TEST_F(LLJitMapFunctionsToJitSymbolsTests, CheckLibFuncAcos){
     CheckLibFuncAcos();
 }
