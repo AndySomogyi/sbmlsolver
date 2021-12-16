@@ -89,7 +89,6 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_BINARY_DIR}/roadrunner.py" "${PYTHON_PACKAGE_BUILD_PREFIX}/roadrunner.py"
 )
 get_filename_component(OneUp ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
-
 target_include_directories(roadrunner_python PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}"
         "${OneUp}/include"
