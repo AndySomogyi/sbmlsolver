@@ -246,13 +246,13 @@ TEST_F(RoadRunnerMapTests, GetterOperator_CheckThatWeGetBorrowedReference) {
 
 TEST_F(RoadRunnerMapTests, Steal_NumElements) {
     RoadRunnerMap rrm(sbmlFiles, 3);
-    std::unique_ptr<RoadRunner> rr = rrm.steal("case00001");
+    std::unique_ptr<RoadRunner> rr = std::unique_ptr<RoadRunner>(rrm.steal("case00001"));
     ASSERT_EQ(N - 1, rrm.size());
 }
 
 TEST_F(RoadRunnerMapTests, Steal_NumKeysUpdated) {
     RoadRunnerMap rrm(sbmlFiles, 3);
-    std::unique_ptr<RoadRunner> rr = rrm.steal("case00001");
+    std::unique_ptr<RoadRunner> rr = std::unique_ptr<RoadRunner>(rrm.steal("case00001"));
     ASSERT_EQ(N - 1, rrm.getKeys().size());
 }
 
