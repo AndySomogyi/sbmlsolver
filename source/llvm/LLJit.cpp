@@ -178,17 +178,25 @@ namespace rrllvm {
 
     void LLJit::mapFunctionsToJitSymbols() {
         llvm::DenseMap<llvm::orc::SymbolStringPtr, llvm::JITEvaluatedSymbol> map{};
-        for (auto [fnName, fnTy_addr_pair] : externalFunctionSignatures()){
-            auto [fnTy, addr] = fnTy_addr_pair;
+        for (auto[fnName, fnTy_addr_pair]: externalFunctionSignatures()) {
+            auto[fnTy, addr] = fnTy_addr_pair;
             std::string mangled = mangleName(fnName);
             Function::Create(fnTy, Function::ExternalLinkage, mangled, getModuleNonOwning());
             map.insert({
-                llJit->mangleAndIntern(fnName), JITEvaluatedSymbol::fromPointer(addr)
-            });
+                               llJit->mangleAndIntern(fnName), JITEvaluatedSymbol::fromPointer(addr)
+                       });
         }
+        // these call out to functions that create the necessary function if
+        // not already been created before.
+        ModelDataIRBuilder::getCSRMatrixSetNZDecl(getModuleNonOwning());
+        ModelDataIRBuilder::getCSRMatrixGetNZDecl(getModuleNonOwning());
 
-        map.insert({llJit->mangleAndIntern(ModelDataIRBuilder::csr_matrix_set_nzName), JITEvaluatedSymbol::fromPointer(&rr::csr_matrix_set_nz)});
-        map.insert({llJit->mangleAndIntern(ModelDataIRBuilder::csr_matrix_get_nzName), JITEvaluatedSymbol::fromPointer(&rr::csr_matrix_get_nz)});
+        map.insert({llJit->mangleAndIntern(std::string(ModelDataIRBuilder::csr_matrix_set_nzName)),
+                    JITEvaluatedSymbol::fromPointer(&rr::csr_matrix_set_nz)}
+        );
+        map.insert({llJit->mangleAndIntern(std::string(ModelDataIRBuilder::csr_matrix_get_nzName)),
+                    JITEvaluatedSymbol::fromPointer(&rr::csr_matrix_get_nz)}
+        );
 
         llvm::Error err = llJit->getMainJITDylib().define(llvm::orc::absoluteSymbols(map));
         if (err) {
