@@ -63,6 +63,11 @@ namespace rrllvm {
     void MCJit::mapFunctionsToJitSymbols() {
         llvm::sys::DynamicLibrary::LoadLibraryPermanently(nullptr); // for symbols in current process
 
+        // these call out to functions that create the necessary function if
+        // not already been created before.
+        ModelDataIRBuilder::getCSRMatrixSetNZDecl(getModuleNonOwning());
+        ModelDataIRBuilder::getCSRMatrixGetNZDecl(getModuleNonOwning());
+
         for (auto [fnName, fnTy_addr_pair] : externalFunctionSignatures()){
             auto [fnTy, addr] = fnTy_addr_pair;
             Function::Create(fnTy, Function::ExternalLinkage, mangleName(fnName), getModuleNonOwning());

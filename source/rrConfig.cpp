@@ -395,7 +395,6 @@ namespace rr {
     }*/
 
     void Config::readConfigFile(const std::string& path) {
-        std::lock_guard lock(configMutex);
 
         const Poco::RegularExpression re(R"(^\s*(\w*)\s*:\s*(.*)\s*$)",
             RegularExpression::RE_CASELESS);
@@ -446,8 +445,6 @@ namespace rr {
     }
 
     void Config::writeConfigFile(const std::string& path) {
-        std::lock_guard lock(configMutex);
-
         std::ofstream out(path.c_str());
 
         if (!out) {
