@@ -33,6 +33,23 @@ namespace rr {
         return keys_;
     }
 
+    std::vector<RoadRunner*> RoadRunnerMap::getValues() const{
+        std::vector<RoadRunner*> v(size());
+        int i = 0;
+        for (auto& [name, ptr ]: rrMap_){
+            v[i++] = ptr.get();
+        }
+        return v;
+    }
+
+    std::vector<std::pair<std::string, RoadRunner*>> RoadRunnerMap::getItems() const{
+        std::vector<std::pair<std::string, RoadRunner*>> v(size());
+        int i = 0;
+        for (auto& [name, ptr ]: rrMap_){
+            v[i++] = {name, ptr.get()};
+        }
+        return v;
+    }
 
     void RoadRunnerMap::insert(std::unique_ptr<RoadRunner> roadRunner) {
         const std::string &k = roadRunner->getModelName();
@@ -121,6 +138,22 @@ namespace rr {
         rrMap_.clear();
     }
 
+//    std::unique_ptr<RoadRunner> RoadRunnerMap::popKey(const std::string& key){
+//        if (count(key) == 0){
+//            std::ostringstream err;
+//            err << "key \"" << key << "\" not in RoadRunnerMap. These are your keys: ";
+//            for (auto& k : getKeys()){
+//                err << k << ", ";
+//            }
+//            err << std::endl;
+//            rrLogErr << err.str();
+//            throw std::invalid_argument(err.str());
+//        }
+//        std::unique_ptr<RoadRunner> r = std::move(steal(key));
+//        remove(key);
+//        return std::move(r);
+//    }
+
     RoadRunner *RoadRunnerMap::operator[](const std::string &key) {
         return borrow(key);
     }
@@ -129,7 +162,7 @@ namespace rr {
         return rrMap_.at(key).get();
     }
 
-    std::unique_ptr<RoadRunner> RoadRunnerMap::steal(const std::string &key) {
+    RoadRunner* RoadRunnerMap::steal(const std::string &key) {
         if (count(key) == 0){
             return {};
         }
@@ -138,7 +171,7 @@ namespace rr {
         auto vecIt = findKey(key);
         rrMap_.erase(mapIt);
         keys_.erase(vecIt);
-        return std::move(p);
+        return p.release();
     }
 
     size_t RoadRunnerMap::count(const std::string &key) {
@@ -190,7 +223,7 @@ namespace rr {
         }
     }
 
-    unsigned int RoadRunnerMap::getNumThreads(unsigned int n) const{
+    unsigned int RoadRunnerMap::getNumThreads() const{
         return numThreads_;
     }
 

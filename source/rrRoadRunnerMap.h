@@ -58,6 +58,19 @@ namespace rr {
         std::vector<std::string> getKeys() const;
 
         /**
+         * @brief return values of the map as a RoadRunnervector.
+         * @details the RoadRunner* instances are still owned by the RoadRunnerMap
+         * Linear complexity in the size of the map.
+         */
+        std::vector<RoadRunner *> getValues() const;
+
+        /**
+         * @brief get items of this map as vector of std::pair<std::string, RoadRuner*> types.
+         * @details pointers are owned by the RoadRunnerMap -- so do not delete. O(N).
+         */
+        std::vector<std::pair<std::string, RoadRunner *>> getItems() const;
+
+        /**
          * @brief Insert a @param roadRunner roadrunner model into the map.
          * @details The model must already be a unique pointer. The key for accessing the map
          * will be the model name. Loading another model with the same name will overwrite
@@ -178,6 +191,14 @@ namespace rr {
         void clear();
 
         /**
+         * @brief Remove item @param key from the RoadRunnerMap and return the
+         * corresponding RoadRunner model.
+         * @details the returned RoadRunner pointer is a borrowed reference, owned by
+         * the RoadRunnerMap.
+         */
+        std::unique_ptr<RoadRunner> popKey(const std::string &key);
+
+        /**
          * @brief Getter operator. Returns a *borrowed* reference to a
          * roadruner model that is owned by the RoadRunnerMap.
          * @details Implemented using the RoadRunnerMap::borrow method
@@ -193,9 +214,12 @@ namespace rr {
 
         /**
          * @brief Take a roadrunner object out of the map.
-         * @details
+         * @details the returned pointer is owned by the caller
+         * and must be deleted.
+         * @note not returning a unique_ptr<RoadRunner> because
+         * it plays havok with swig.
          */
-        std::unique_ptr<RoadRunner> steal(const std::string &key);
+        RoadRunner* steal(const std::string &key);
 
         /**
          * @brief count the number of keys with value @param key.
@@ -240,7 +264,7 @@ namespace rr {
         /**
          * @brief get the number of threds in the thread_pool
          */
-        unsigned int getNumThreads(unsigned int n) const;
+        unsigned int getNumThreads() const;
 
     private:
         /**
