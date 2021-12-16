@@ -138,6 +138,7 @@ TEST_F(LLJitTests, GetObjectFromCache) {
     LLVMContext ctx;
     auto m = std::make_unique<llvm::Module>(md5, ctx);
     std::unique_ptr<llvm::MemoryBuffer> objectBuf = cache.getObject(m.get());
+    ASSERT_TRUE(objectBuf->getMemBufferRef());
 
     Expected<std::unique_ptr<llvm::object::ObjectFile>>
             objFile = llvm::object::ObjectFile::createObjectFile(objectBuf->getMemBufferRef());
@@ -151,12 +152,8 @@ TEST_F(LLJitTests, GetObjectFromCache) {
     }
     LLJit llJit(LoadSBMLOptions().modelGeneratorOpt);
     llJit.addObjectFile(std::move(*objFile));
-//    typedef double (*PtrTy)(LLVMModelData*, size_t)
-//    PtrTy getBoundarySpeciesAmountPtr
-//        = reinterpret_cast<PtrTy>(llJit->lookupFunctionAddress("getBoundarySpeciesAmount"));
-//
-//    LLVMModelData llvmModelData;
-//
+
+    // todo more assertions?
 
 }
 
