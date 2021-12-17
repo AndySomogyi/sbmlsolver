@@ -53,6 +53,9 @@ cmake-*
 build
 out
 
+#test output file(s?)
+test/sbml-test-suite/stochastic/results.tsv
+
 install-release
 build-debug
 build-release
