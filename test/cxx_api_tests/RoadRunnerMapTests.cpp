@@ -213,6 +213,8 @@ TEST_F(RoadRunnerMapTests, IteratorBasedLoop) {
     for (i = 1; i <= N; i++) {
         expected[i-1] = i;
     }
+    std::sort(actual.begin(), actual.end());
+    std::sort(expected.begin(), expected.end());
     ASSERT_EQ(expected, actual);
 }
 

@@ -16,6 +16,7 @@
 #include "llvm/ExecutionEngine/ObjectCache.h"
 #include "rrSparse.h"
 #include "llvm/IR/Mangler.h"
+#include <unordered_map>
 
 namespace rr {
     class ExecutableModel;
