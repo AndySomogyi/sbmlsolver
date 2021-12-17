@@ -80,7 +80,7 @@ static llvm::cl::opt<bool> Verbose(
 void buildSerial() {
     STS sts;
     Config::setValue(Config::LLVM_BACKEND, WhichJit.getValue());
-    std::vector<std::string> sbmlFiles = sts.getFirstNModelsFromSTS(NModels.getValue(), Start.getValue());
+    std::vector<std::string> sbmlFiles = sts.getModelsFromSTS(Start.getValue(), Start.getValue() + NModels.getValue());
     std::unordered_map<std::string, std::unique_ptr<RoadRunner>> rrMap;
     for (auto &f: sbmlFiles) {
         if (Verbose.getValue()) {
@@ -97,7 +97,7 @@ void buildSerial() {
 void buildParallel() {
     STS sts;
     Config::setValue(Config::LLVM_BACKEND, WhichJit.getValue());
-    std::vector<std::string> sbmlFiles = sts.getFirstNModelsFromSTS(NModels.getValue(), Start.getValue());
+    std::vector<std::string> sbmlFiles = sts.getModelsFromSTS(Start.getValue(), Start.getValue() + NModels.getValue());
     if (Verbose.getValue()) {
         std::cout << "Loading the following: \n";
         for (auto f : sbmlFiles){

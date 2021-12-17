@@ -267,7 +267,7 @@ set(
         "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/STS.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/STS.h"
 )
-
+add_subdirectory(sbml-test-suite)
 add_subdirectory(mockups)
 add_subdirectory(c_api_core)
 add_subdirectory(llvm_tests)
