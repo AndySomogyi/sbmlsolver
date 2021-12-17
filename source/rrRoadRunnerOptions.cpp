@@ -354,9 +354,9 @@ namespace rr {
                 setLLVMBackend(LoadSBMLOptions::LLJIT);
                 break;
             default:
-                std::string err = "Compiler option is invalid. Defaulting back to MCJit";
+                std::string err = "Compiler option is invalid";
                 rrLogWarn << err;
-                setLLVMBackend(LoadSBMLOptions::MCJIT);
+                throw std::invalid_argument(err);
         }
 
         Config::LLJIT_OPTIMIZATION_LEVELS whichOptLevel
