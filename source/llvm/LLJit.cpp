@@ -218,15 +218,6 @@ namespace rrllvm {
             llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "[ error mapping functions to symbols ]");
         }
 
-        err = llJit->getMainJITDylib().define(llvm::orc::absoluteSymbols(
-                {
-                        strToFnPtrMapElement("arccot", &sbmlsupport::arccot)
-                }
-        ));
-        if (err) {
-            llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "[ error mapping functions to symbols ]");
-        }
-
     }
 
 
@@ -295,8 +286,7 @@ namespace rrllvm {
     }
 
     void LLJit::addObjectFile(std::unique_ptr<llvm::object::ObjectFile> objectFile) {
-//        llJit->addObjectFile(std::move(objectFile));
-
+        // Only needed for MCJit, which will be removed in the distant future.
     }
 
 

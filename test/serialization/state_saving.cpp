@@ -21,12 +21,15 @@
 #include "test_util.h"
 #include <filesystem>
 #include "RoadRunnerTest.h"
+#include <mutex>
 
 using namespace testing;
 using namespace std;
 using namespace ls;
 using namespace rr;
 using std::filesystem::path;
+
+static std::mutex SerializationMutex;
 
 /**
  * Suggestions for improving this test suite:
@@ -391,7 +394,10 @@ bool StateSavingTests::StateRunTestModelFromScratch(void(*generate)(RoadRunner *
         if (!simulation.LoadSettings((modelFilePath / settingsFileName).string())) {
             throw (Exception("Failed loading simulation settings"));
         }
+
+        SerializationMutex.lock();
         generate(&rr, fname);
+        SerializationMutex.unlock();
         //Then Simulate model
         if (!simulation.Simulate()) {
             throw (Exception("Failed running simulation"));
@@ -470,14 +476,14 @@ TEST_F(StateSavingTests, COPY_RR_TWICE2) {
 }
 
 
-TEST_F(StateSavingTests, SAVE_STATE_1) {
+TEST_F(StateSavingTests, SaveThenLoad) {
     ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri, std::string fname) {
         rri->saveState(fname);
         rri->loadState(fname);
     }));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_2) {
+TEST_F(StateSavingTests, SaveThenLoadTwice) {
     ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri, std::string fname) {
         rri->saveState(fname);
         rri->loadState(fname);
@@ -517,14 +523,14 @@ TEST_F(StateSavingTests, DISABLED_SAVE_STATE_5) {
     }));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_6) {
+TEST_F(StateSavingTests, SaveThenLoadWithADifferentModel) {
     ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri, std::string fname) {
         rri->saveState(fname);
         rri->loadState(fname);
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_7) {
+TEST_F(StateSavingTests, SaveThenLoadWithADiffentModelTwice) {
     ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri, std::string fname) {
         rri->saveState(fname);
         rri->loadState(fname);
@@ -554,7 +560,7 @@ TEST_F(StateSavingTests, DISABLED_SAVE_STATE_10) {
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_11) {
+TEST_F(StateSavingTests, SimulateThenSaveLoadThenReset) {
     ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri, std::string fname) {
         rri->simulate();
         rri->saveState(fname);
@@ -563,7 +569,7 @@ TEST_F(StateSavingTests, SAVE_STATE_11) {
     }));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_12) {
+TEST_F(StateSavingTests, SimulateThenSaveLoadThenResetWithDifferentModel) {
     ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri, std::string fname) {
         rri->simulate();
         rri->saveState(fname);
@@ -572,14 +578,14 @@ TEST_F(StateSavingTests, SAVE_STATE_12) {
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_13) {
+TEST_F(StateSavingTests, SaveThenLoadCase1120) {
     ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri, std::string fname) {
         rri->saveState(fname);
         rri->loadState(fname);
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_14) {
+TEST_F(StateSavingTests, SaveThenLoadTwiceCase1120) {
     ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri, std::string fname) {
         rri->saveState(fname);
         rri->loadState(fname);
@@ -609,12 +615,12 @@ TEST_F(StateSavingTests, DISABLED_SAVE_STATE_17) {
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_18) {
+TEST_F(StateSavingTests, SaveThenLoadAndSimulateCase1120) {
     ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri, std::string fname) {
         rri->simulate();
         rri->saveState(fname);
         rri->loadState(fname);
-        rri->reset(SelectionRecord::ALL);
+        rri->reset((int)SelectionRecord::ALL);
     }, "l3v1"));
 }
 

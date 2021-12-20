@@ -138,6 +138,7 @@ TEST_F(LLJitTests, GetObjectFromCacheUsingOriginalString) {
     LLVMContext ctx;
     auto m = std::make_unique<llvm::Module>(md5, ctx);
 
+    ASSERT_TRUE(m && "module loaded from LLJit cache is nullptr");
     /**
      * Test will segfault here if no model was found.
      */

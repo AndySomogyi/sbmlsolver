@@ -39,7 +39,7 @@ TEST_F(RoadRunnerAPITestsWithMCJit, GetFullJacobianUsingAmtMode){
 }
 
 TEST_F(RoadRunnerAPITestsWithMCJit, GetFullJacobianUsingAmtModeAsLong){
-    GetFullJacobianUsingAmtModeAsLong();
+        GetFullJacobianUsingAmtModeAsLong();
 }
 
 TEST_F(RoadRunnerAPITestsWithMCJit, getIds){

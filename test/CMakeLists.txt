@@ -268,19 +268,19 @@ set(
         "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/STS.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/STS.h"
 )
-add_subdirectory(sbml-test-suite)
+add_subdirectory(sbml-test-suite) # doesn't actually contain tests, just a little interface into the STS
 add_subdirectory(mockups)
 add_subdirectory(c_api_core)
-#add_subdirectory(llvm_tests)
-#add_subdirectory(c_api_rrtests)
-#add_subdirectory(model_analysis)
-#add_subdirectory(model_editing)
-#add_subdirectory(sbml_features)
-#add_subdirectory(sundials-tests)
-#add_subdirectory(python)
-#add_subdirectory(cxx_api_tests)
-#add_subdirectory(serialization)
-#add_subdirectory(PerformanceTests)
+add_subdirectory(llvm_tests)
+add_subdirectory(c_api_rrtests)
+add_subdirectory(model_analysis)
+add_subdirectory(model_editing)
+add_subdirectory(sbml_features)
+add_subdirectory(sundials-tests)
+add_subdirectory(cxx_api_tests)
+add_subdirectory(serialization)
+add_subdirectory(PerformanceTests)
+add_subdirectory(python)
 
 if (WIN32 AND BUILD_RR_PLUGINS)
    set(
@@ -299,8 +299,7 @@ if (WIN32 AND BUILD_RR_PLUGINS)
 endif() #BUILD_RR_PLUGINS
 
 #List the semantic_STS last, since it takes much longer to run than the others.
-# (fyi, build the run-ctest-exclude-sbml-test-suite target - see below)
-#add_subdirectory(semantic_STS)
+add_subdirectory(semantic_STS)
 
 
 #######################################################################
