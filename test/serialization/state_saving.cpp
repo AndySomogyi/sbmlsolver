@@ -39,7 +39,6 @@ using std::filesystem::path;
  *      debugger to figure out what went wrong.
  *
  * See StateSavingTestsModelData for examples.
- *
  */
 class StateSavingTests : public RoadRunnerTest {
 public:
@@ -193,10 +192,10 @@ bool StateSavingTests::RunStateSavingTest(void(*modification)(RoadRunner *, std:
 bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner *, std::string), std::string version) {
 //    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
     bool result(false);
-    RoadRunner *rr, *rr2, *rr3;
+    std::unique_ptr<RoadRunner> rr, rr2, rr3;
 
     //Create instance..
-    rr = new RoadRunner();
+    rr = std::make_unique< RoadRunner>();
     string testName(UnitTest::GetInstance()->current_test_info()->name());
     string suiteName(UnitTest::GetInstance()->current_test_info()->test_suite_name());
 
@@ -225,7 +224,7 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
 
         TestSuiteModelSimulation simulation(dataOutputFolder);
 
-        simulation.UseEngine(rr);
+        simulation.UseEngine(rr.get());
 
         //Read SBML models.....
         string modelFilePath((rrTestDir_ / path("sbml-test-suite") / path("semantic")).string());
@@ -275,15 +274,16 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
             throw (Exception("Failed loading simulation settings"));
         }
         //Perform the model editing action
-        rr2 = new RoadRunner(*rr);
+        rr2 = std::make_unique<RoadRunner>(*rr);
         int rr2id = rr2->getInstanceID();
-        modification(rr2, fname);
+        modification(rr2.get(), fname);
         EXPECT_EQ(rr2->getInstanceID(), rr2id);
-        rr3 = new RoadRunner(*rr2);
+        rr3 = std::make_unique<RoadRunner>(*rr2);
+
         EXPECT_NE(rr->getInstanceID(), rr2->getInstanceID());
         EXPECT_NE(rr->getInstanceID(), rr3->getInstanceID());
         EXPECT_NE(rr2->getInstanceID(), rr3->getInstanceID());
-        simulation.UseEngine(rr3);
+        simulation.UseEngine(rr3.get());
         //Then Simulate model
         if (!simulation.Simulate()) {
             throw (Exception("Failed running simulation"));
@@ -313,9 +313,6 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
         result = false;
     }
 
-    delete rr;
-    delete rr2;
-    delete rr3;
     delete doc;
     return result;
 }
@@ -571,7 +568,7 @@ TEST_F(StateSavingTests, SAVE_STATE_12) {
         rri->simulate();
         rri->saveState(fname);
         rri->loadState(fname);
-        rri->reset(SelectionRecord::ALL);
+        rri->reset((int)SelectionRecord::ALL);
     }, "l3v1"));
 }
 

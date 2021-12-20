@@ -17,7 +17,7 @@ using namespace rr;
 
 class RoadRunnerMapTests : public ::testing::Test {
 public:
-    STS sts;
+    STS<SemanticSTSModel> sts;
     std::vector<std::string> sbmlFiles;
     /**
      * number of sbml files to use. You can change this number
@@ -27,7 +27,7 @@ public:
     int N = 5;
 
     RoadRunnerMapTests() {
-        sbmlFiles = sts.getFirstNModelsFromSTS(N);
+        sbmlFiles = sts.getModelsFromSTS(1, N+1);
     }
 
     std::vector<std::string> getExpectedKeys() const {
@@ -70,40 +70,40 @@ TEST_F(RoadRunnerMapTests, size) {
 
 TEST_F(RoadRunnerMapTests, InsertUniquePtrToRRModel_Size) {
     RoadRunnerMap rrm(sbmlFiles, 1);
-    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.constructSTSXmlFile(50, 2, 4));
+    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.getModelNFromSTS(50, 2, 4));
     rrm.insert(std::move(rr));
     ASSERT_EQ(N + 1, rrm.size());
 }
 
 TEST_F(RoadRunnerMapTests, InsertUniquePtrToRRModel_KeysUpdated) {
     RoadRunnerMap rrm(sbmlFiles, 1);
-    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.constructSTSXmlFile(50, 2, 4));
+    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.getModelNFromSTS(50, 2, 4));
     rrm.insert(std::move(rr));
     ASSERT_STREQ("case00050", rrm.getKeys()[rrm.size() - 1].c_str());
 }
 
 TEST_F(RoadRunnerMapTests, InsertUniquePtrToRRModel_CustomKey) {
     RoadRunnerMap rrm(sbmlFiles, 1);
-    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.constructSTSXmlFile(50, 2, 4));
+    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.getModelNFromSTS(50, 2, 4));
     rrm.insert("MyKey", std::move(rr));
     ASSERT_STREQ("MyKey", rrm.getKeys()[rrm.size() - 1].c_str());
 }
 
 TEST_F(RoadRunnerMapTests, InsertRRModelFromSBMLFile) {
     RoadRunnerMap rrm(sbmlFiles, 1);
-    rrm.insert(sts.constructSTSXmlFile(50, 2, 4));
+    rrm.insert(sts.getModelNFromSTS(50, 2, 4));
     ASSERT_STREQ("case00050", rrm.getKeys()[rrm.size() - 1].c_str());
 }
 
 TEST_F(RoadRunnerMapTests, InsertRRModelFromSBMLFile_WithCustomKey) {
     RoadRunnerMap rrm(sbmlFiles, 1);
-    rrm.insert("MyKey", sts.constructSTSXmlFile(50, 2, 4));
+    rrm.insert("MyKey", sts.getModelNFromSTS(50, 2, 4));
     ASSERT_STREQ("MyKey", rrm.getKeys()[rrm.size() - 1].c_str());
 }
 
 TEST_F(RoadRunnerMapTests, InsertFromVectorOfSBMLFiles_Size) {
     RoadRunnerMap rrm(sbmlFiles, 2);
-    const std::vector<std::string> &more = sts.getFirstNModelsFromSTS(N, N+1);
+    const std::vector<std::string> &more = sts.getModelsFromSTS(N+1, N+1+N);
     rrm.insert(more);
     ASSERT_EQ(N * 2, rrm.size());
 }
@@ -112,7 +112,7 @@ TEST_F(RoadRunnerMapTests, InsertFromVectorOfSBMLFiles_Size) {
 TEST_F(RoadRunnerMapTests, InsertFromVectorOfSBMLFiles_Keys) {
     // This test will break if N = NumTestsInSBMLTestSuite / 2;
     RoadRunnerMap rrm(sbmlFiles, 1);
-    const std::vector<std::string> &more = sts.getFirstNModelsFromSTS(N, N+1);
+    const std::vector<std::string> &more = sts.getModelsFromSTS(N+1, N+1+N);
     rrm.insert(more);
     std::vector<std::string> expected(N*2);
     int idx = 0;
@@ -213,6 +213,8 @@ TEST_F(RoadRunnerMapTests, IteratorBasedLoop) {
     for (i = 1; i <= N; i++) {
         expected[i-1] = i;
     }
+    std::sort(actual.begin(), actual.end());
+    std::sort(expected.begin(), expected.end());
     ASSERT_EQ(expected, actual);
 }
 

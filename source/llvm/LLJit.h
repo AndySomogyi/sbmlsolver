@@ -30,6 +30,10 @@ namespace rrllvm {
 
         LLJit() = default;
 
+        ~LLJit() override = default;
+
+        std::string mangleName(const std::string &unmangledName) const override;
+
         explicit LLJit(std::uint32_t options);
 
         void mapFunctionsToJitSymbols() override;

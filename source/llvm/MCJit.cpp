@@ -59,22 +59,29 @@ namespace rrllvm {
     ExecutionEngine *MCJit::getExecutionEngineNonOwning() const {
         return executionEngine.get();
     }
+    std::string MCJit::mangleName(const std::string &unmangledName) const {
+        std::string mangledName;
+        llvm::raw_string_ostream mangledNameStream(mangledName);
+        llvm::Mangler::getNameWithPrefix(mangledNameStream, unmangledName, getDataLayout());
+        return mangledNameStream.str();
+    }
 
     void MCJit::mapFunctionsToJitSymbols() {
         llvm::sys::DynamicLibrary::LoadLibraryPermanently(nullptr); // for symbols in current process
 
-        // these call out to functions that create the necessary function if
-        // not already been created before.
-        ModelDataIRBuilder::getCSRMatrixSetNZDecl(getModuleNonOwning());
-        ModelDataIRBuilder::getCSRMatrixGetNZDecl(getModuleNonOwning());
 
         for (auto [fnName, fnTy_addr_pair] : externalFunctionSignatures()){
             auto [fnTy, addr] = fnTy_addr_pair;
-            Function::Create(fnTy, Function::ExternalLinkage, mangleName(fnName), getModuleNonOwning());
-            llvm::sys::DynamicLibrary::AddSymbol(mangleName(fnName), addr);
+            rrLogDebug << "Creating function \"" << fnName << "\"; fn type: " << toStringRef(fnTy).str() << "; at addr: " <<addr;
+            Function::Create(fnTy, Function::ExternalLinkage, fnName, getModuleNonOwning());
+            llvm::sys::DynamicLibrary::AddSymbol(fnName, addr);
         }
 
-        // The functions for these have already been created in ModelDataIRBuilder, so we only need to add the symbol to the library
+        // these call out to functions that create the necessary function if
+        // not already been created before (see getCSRMatrixSetNZDecl)
+        ModelDataIRBuilder::getCSRMatrixSetNZDecl(getModuleNonOwning());
+        ModelDataIRBuilder::getCSRMatrixGetNZDecl(getModuleNonOwning());
+        // Add the symbol to the library
         llvm::sys::DynamicLibrary::AddSymbol(ModelDataIRBuilder::csr_matrix_set_nzName, (void*) rr::csr_matrix_set_nz);
         llvm::sys::DynamicLibrary::AddSymbol(ModelDataIRBuilder::csr_matrix_get_nzName, (void*) rr::csr_matrix_get_nz);
     }

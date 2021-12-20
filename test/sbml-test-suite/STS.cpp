@@ -5,100 +5,280 @@
 #include "STS.h"
 #include <filesystem>
 
-std::string errorMsg(const std::string& varName){
+class FileNotFound : public std::logic_error {
+public:
+    explicit FileNotFound(const std::string &msg);
+};
+
+FileNotFound::FileNotFound(const std::string &msg) : logic_error(msg) {}
+
+std::string errorMsg(const std::filesystem::path &varName) {
     std::ostringstream os;
-    os << "The \""<<varName<<"\" variable is not defined. Make sure you have added it to your library or "
-                             "executable using cmake's target_compile_options command";
+    os << "The \"" << varName << "\" variable is not defined. Make sure you have added it to your library or "
+                                 "executable using cmake's target_compile_options command";
     return os.str();
 }
 
-STS::STS() {
+STSModel::STSModel(unsigned int caseID) : caseId(caseID) {
 #ifndef SBMLTestSuiteRoot
     throw std::logic_error(errorMsg("SBMLTestSuiteRoot"));
 #endif
-#ifndef SBMLTestSuiteSemantic
-    throw std::logic_error(errorMsg("SBMLTestSuiteSemantic"));
-#endif
-#ifndef SBMLTestSuiteStochastic
-    throw std::logic_error(errorMsg("SBMLTestSuiteStochastic"));
-#endif
+
     if (!std::filesystem::exists(SBMLTestSuiteRoot)) {
         throw std::invalid_argument("Path to SBMLTestSuiteRoot does not exist");
     }
-    if (!std::filesystem::exists(SBMLTestSuiteSemantic)) {
-        throw std::invalid_argument("Path to SBMLTestSuiteSemantic does not exist");
-    }
-    if (!std::filesystem::exists(SBMLTestSuiteStochastic)) {
-        throw std::invalid_argument("Path to SBMLTestSuiteStochastic does not exist");
-    }
-
-    Logger::setLevel(Logger::LOG_WARNING);
-
+    root_ = SBMLTestSuiteRoot;
+    std::ostringstream caseIdStream;
+    caseIdStream << std::setw(5) << std::setfill('0') << caseID;
+    caseIdStr_ = caseIdStream.str();
 }
 
-std::string STS::constructSTSXmlFile(int caseId, int level, int version) {
-    std::ostringstream caseOs;
-    std::ostringstream fname;
+std::string STSModel::buildCaseDir() {
+    return (root_ / caseIdStr_).string();
+};
 
-    caseOs << std::setfill('0') << std::setw(5) << caseId;
-    fname << caseOs.str() << "-sbml-l" << level << "v" << version << ".xml";
 
-    std::filesystem::path root = SBMLTestSuiteSemantic;
-    std::filesystem::path caseDir = root / caseOs.str();
-    std::filesystem::path xmlFile = caseDir / fname.str();
-    if (!std::filesystem::exists(xmlFile)) {
-        std::ostringstream os;
-        os << "file not found : " << xmlFile;
-        throw std::logic_error(os.str());
-    }
-    return xmlFile.string();
+std::string STSModel::getRootDirectory() {
+    return root_.string();
 }
 
-std::vector<std::string> STS::getFirstNModelsFromSTS(int N, int start) {
-        if (start < 1){
-            throw std::invalid_argument("start must be 1 or more");
-        }
-        int end = start + N;
-        int maxSize = 1809;
-        if (end > maxSize){
-            throw std::invalid_argument("start + N must be less than or equal to 1809: " + std::to_string(end));
-        }
-        std::vector<std::string> vec(N);
-        for (int i = start; i < end; i++) {
-            int idx = i - start;
+std::string STSModel::getLevelAndVersion(int level, int version) {
+    std::ostringstream levelAndVersion;
+    levelAndVersion << caseIdStr_ << "-sbml-l" << level << "v" << version << ".xml";
+    std::filesystem::path p = caseDir_ / levelAndVersion.str();
+    if (!std::filesystem::exists(p)) {
+        throw FileNotFound(p.string());
+    }
+    return p.string();
+}
+
+std::string STSModel::getNewestLevelAndVersion() {
+        try {
+            return getLevelAndVersion(3, 2);
+        } catch (std::exception &e) {
             try {
-                vec[idx] = constructSTSXmlFile(i, 3, 2);
+                return getLevelAndVersion(3, 1);
             } catch (std::exception &e) {
-                rrLogInfo << "Failed to find case " << i << ", l" << 3 << "v" << 2 << ". Looking for another version...";
                 try {
-                    vec[idx] = constructSTSXmlFile(i, 3, 1);
+                    return getLevelAndVersion(2, 4);
                 } catch (std::exception &e) {
-                    rrLogInfo << "Failed to find case " << i << ", l" << 3 << "v" << 1 << ". Looking for another version...";
                     try {
-                        vec[idx] = constructSTSXmlFile(i, 2, 4);
+                        return getLevelAndVersion(2, 3);
                     } catch (std::exception &e) {
-                        rrLogInfo << "Failed to find case " << i << ", l" << 2 << "v" << 4 << ". Looking for another version...";
                         try {
-                            vec[idx] = constructSTSXmlFile(i, 2, 3);
+                            return getLevelAndVersion(2, 2);
                         } catch (std::exception &e) {
-                            rrLogInfo << "Failed to find case " << i << ", l" << 2 << "v" << 2 << ". Looking for another version...";
                             try {
-                                vec[idx] = constructSTSXmlFile(i, 2, 2);
+                                return getLevelAndVersion(2, 1);
                             } catch (std::exception &e) {
-                                rrLogInfo << "Failed to find case " << i << ", l" << 2 << "v" << 2 << ". Looking for another version...";
-                                try {
-                                    vec[idx] = constructSTSXmlFile(i, 2, 1);
-                                } catch (std::exception &e) {
-                                    rrLogErr << "Failed to find case " << i << ", l" << 2 << "v" << 1;
-                                    throw std::logic_error("can't locate sbml file");
-                                }
+                                rrLogErr << "Failed to find case l" << 2 << "v" << 1;
+                                throw std::logic_error("can't locate sbml file");
                             }
                         }
                     }
                 }
             }
         }
-        return vec;
+        return {};
+}
+
+std::string STSModel::getModelDescriptionFile() {
+    std::ostringstream desc;
+    desc << caseIdStr_ << "-model.m";
+    std::filesystem::path p = caseDir_ / desc.str();
+    if (!std::filesystem::exists(p)) {
+        throw FileNotFound(p.string());
+    }
+    return p.string();
+}
+
+std::string STSModel::getResultsFile() {
+    std::ostringstream res;
+    res << caseIdStr_ << "-results.csv";
+    std::filesystem::path p = caseDir_ / res.str();
+    if (!std::filesystem::exists(p)) {
+        throw FileNotFound(p.string());
+    }
+    return p.string();
+}
+
+std::string STSModel::getSettingsFile() {
+    std::ostringstream settings;
+    settings << caseIdStr_ << "-settings.txt";
+    std::filesystem::path p = caseDir_ / settings.str();
+    if (!std::filesystem::exists(p)) {
+        throw FileNotFound(p.string());
+    }
+    return p.string();
+}
+
+unsigned int STSModel::getCaseId() const {
+    return caseId;
+}
+
+SemanticSTSModel::SemanticSTSModel(unsigned int caseId)
+        : STSModel(caseId) {
+#ifndef SBMLTestSuiteSemantic
+    throw std::logic_error(errorMsg("SBMLTestSuiteSemantic"));
+#endif
+    if (!std::filesystem::exists(SBMLTestSuiteSemantic)) {
+        throw std::invalid_argument("Path to SBMLTestSuiteSemantic does not exist");
     }
 
+    root_ = SBMLTestSuiteSemantic;
+    if (caseId < 1 || caseId > 1809) {
+        throw std::invalid_argument("Models in the stochastic STS are numbered 1 through 1809 inclusive");
+    }
+    caseDir_ = SemanticSTSModel::buildCaseDir();
+}
 
+unsigned int SemanticSTSModel::maxNum() {
+    return 1809;
+}
+
+StochasticSTSModel::StochasticSTSModel(unsigned int caseId)
+        : STSModel(caseId) {
+#ifndef SBMLTestSuiteStochastic
+    throw std::logic_error(errorMsg("SBMLTestSuiteStochastic"));
+#endif
+    if (!std::filesystem::exists(SBMLTestSuiteStochastic)) {
+        throw std::invalid_argument("Path to SBMLTestSuiteStochastic does not exist");
+    }
+    root_ = SBMLTestSuiteStochastic;
+    if (caseId < 1 || caseId > 100) {
+        throw std::invalid_argument("Models in the stochastic STS are numbered 1 through 100 inclusive");
+    }
+    caseDir_ = StochasticSTSModel::buildCaseDir();
+
+}
+
+
+std::filesystem::path StochasticSTSModel::getMeanFile() {
+    // solution relies on fact that there is only 1 file with .mean.csv in the name
+    for (auto & curr : std::filesystem::directory_iterator(caseDir_)){
+        if (curr.path().string().find("-mean.csv") != std::string::npos) {
+            return curr.path();
+        }
+    }
+    // if we get here then file not exist
+    throw FileNotFound("dsmts-xxx-xx-mean.csv");
+    return {};
+}
+
+std::filesystem::path StochasticSTSModel::getSDFile() {
+    // solution relies on fact that there is only 1 file with .mean.csv in the name
+    for (auto &curr: std::filesystem::directory_iterator(caseDir_)) {
+        if (curr.path().string().find("-sd.csv") != std::string::npos) {
+            return curr.path();
+        }
+    }
+    // if we get here then file not exist
+    throw FileNotFound("dsmts-xxx-xx-sd.csv");
+    return {};
+}
+
+
+std::filesystem::path StochasticSTSModel::getModFile() {
+    // solution relies on fact that there is only 1 file with .mean.csv in the name
+    for (auto & curr : std::filesystem::directory_iterator(caseDir_)){
+        if (curr.path().string().find(".mod") != std::string::npos) {
+            return curr.path();
+        }
+    }
+    // if we get here then file not exist
+    throw FileNotFound("dsmts-xxx-xx.mod");
+    return {};
+}
+
+unsigned int StochasticSTSModel::maxNum() {
+    return 100;
+}
+
+
+
+//std::filesystem::path STS::getModelNFromSTS(int caseId, int level, int version) {
+//    std::ostringstream caseOs;
+//    std::ostringstream fname;
+//
+//    caseOs << std::setfill('0') << std::setw(5) << caseId;
+//    fname << caseOs.str() << "-sbml-l" << level << "v" << version << ".xml";
+//
+//    std::filesystem::path root = SBMLTestSuiteSemantic;
+//    std::filesystem::path caseDir = root / caseOs.str();
+//    std::filesystem::path xmlFile = caseDir / fname.str();
+//    if (!std::filesystem::exists(xmlFile)) {
+//        std::ostringstream os;
+//        os << "file not found : " << xmlFile;
+//        throw std::invalid_argument(os.str());
+//    }
+//    return xmlFile.string();
+//}
+//
+//std::filesystem::path STS::getNewestModelNFromSTS(int caseId) {
+//    if (caseId < 1 || caseId > 1809) {
+//        throw std::invalid_argument("caseId must be between 1 and 1809");
+//    }
+//    try {
+//        return getModelNFromSTS(caseId, 3, 2);
+//    } catch (std::exception &e) {
+//        rrLogInfo << "Failed to find case " << caseId << ", l" << 3 << "v" << 2 << ". Looking for another version...";
+//        try {
+//            return getModelNFromSTS(caseId, 3, 1);
+//        } catch (std::exception &e) {
+//            rrLogInfo << "Failed to find case " << caseId << ", l" << 3 << "v" << 1
+//                      << ". Looking for another version...";
+//            try {
+//                return getModelNFromSTS(caseId, 2, 4);
+//            } catch (std::exception &e) {
+//                rrLogInfo << "Failed to find case " << caseId << ", l" << 2 << "v" << 4
+//                          << ". Looking for another version...";
+//                try {
+//                    return getModelNFromSTS(caseId, 2, 3);
+//                } catch (std::exception &e) {
+//                    rrLogInfo << "Failed to find case " << caseId << ", l" << 2 << "v" << 2
+//                              << ". Looking for another version...";
+//                    try {
+//                        return getModelNFromSTS(caseId, 2, 2);
+//                    } catch (std::exception &e) {
+//                        rrLogInfo << "Failed to find case " << caseId << ", l" << 2 << "v" << 2
+//                                  << ". Looking for another version...";
+//                        try {
+//                            return getModelNFromSTS(caseId, 2, 1);
+//                        } catch (std::exception &e) {
+//                            rrLogErr << "Failed to find case " << caseId << ", l" << 2 << "v" << 1;
+//                            throw std::logic_error("can't locate sbml file");
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    return {};
+//}
+//
+//
+//std::vector<std::filesystem::path> STS::getFirstNModelsFromSTS(int N, int start) {
+//    if (start < 1) {
+//        throw std::invalid_argument("start must be 1 or more");
+//    }
+//    int end = start + N;
+//    int maxSize = 1809;
+//    if (end > maxSize) {
+//        throw std::invalid_argument("start + N must be less than or equal to 1809: " + std::to_string(end));
+//    }
+//    std::vector<std::filesystem::path> vec(N);
+//    for (int i = start; i < end; i++) {
+//        int idx = i - start;
+//        vec[idx] = getNewestModelNFromSTS(i);
+//    }
+//    return vec;
+//}
+//
+//std::vector<std::filesystem::path> STS::getModelsFromSTS(const std::vector<int> &caseIDs) {
+//    std::vector<std::filesystem::path> vec(caseIDs.size());
+//    int i = 0;
+//    for (auto caseId: caseIDs) {
+//        vec[i++] = getNewestModelNFromSTS(caseId);
+//    }
+//    return vec;
+//}

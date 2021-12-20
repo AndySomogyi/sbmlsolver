@@ -21,6 +21,11 @@ namespace rrllvm {
 
         explicit MCJit(std::uint32_t options);
 
+        ~MCJit() override = default;
+
+
+        std::string mangleName(const std::string &unmangledName) const override;
+
         void mapFunctionsToJitSymbols() override;
 
         void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> modelResources) override;
@@ -82,8 +87,6 @@ namespace rrllvm {
         std::unique_ptr<ExecutionEngine> executionEngine;
         std::unique_ptr<llvm::legacy::FunctionPassManager> functionPassManager;
         std::unique_ptr<std::string> errString;
-
-
 
     };
 

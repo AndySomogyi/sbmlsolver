@@ -60,6 +60,7 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
 
     target_link_libraries(${TEST_TARGET} PRIVATE
 #            rr-mockups
+            roadrunner-static
             ${TEST_PLUGIN_LIB}
             gtest gtest_main gmock gmock_main
     )
@@ -267,7 +268,7 @@ set(
         "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/STS.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/STS.h"
 )
-
+add_subdirectory(sbml-test-suite)
 add_subdirectory(mockups)
 add_subdirectory(c_api_core)
 add_subdirectory(llvm_tests)
