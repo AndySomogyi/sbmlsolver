@@ -50,6 +50,13 @@ namespace rrllvm {
         }
     }
 
+    std::string LLJit::mangleName(const std::string &unmangledName) const {
+        std::string mangledName;
+        llvm::raw_string_ostream mangledNameStream(mangledName);
+        llvm::Mangler::getNameWithPrefix(mangledNameStream, unmangledName, getDataLayout());
+        return mangledNameStream.str();
+    }
+
     LLJit::LLJit(std::uint32_t options)
             : Jit(options) {
 
@@ -180,8 +187,16 @@ namespace rrllvm {
         llvm::DenseMap<llvm::orc::SymbolStringPtr, llvm::JITEvaluatedSymbol> map{};
         for (auto[fnName, fnTy_addr_pair]: externalFunctionSignatures()) {
             auto[fnTy, addr] = fnTy_addr_pair;
-            std::string mangled = mangleName(fnName);
-            Function::Create(fnTy, Function::ExternalLinkage, mangled, getModuleNonOwning());
+            /**
+             * A note on name mangling. LLVM docs, tutorials and examples all use name mangling
+             * for function names. We can do this here by using the mangleName functor and then pass
+             * this as input to Function::Create (3rd arg). However, if we want to do this, we
+             * need to mangle the names at the time these functions are needed (ASTNodeCodeGen),
+             * or we wont be able to locate them. This is easily doable but currently I don't see
+             * much point, as we're not likely to have many name clashes.
+             */
+            // std::string mangled = mangleName(fnName);
+            Function::Create(fnTy, Function::ExternalLinkage, fnName, getModuleNonOwning());
             map.insert({
                                llJit->mangleAndIntern(fnName), JITEvaluatedSymbol::fromPointer(addr)
                        });
@@ -199,6 +214,15 @@ namespace rrllvm {
         );
 
         llvm::Error err = llJit->getMainJITDylib().define(llvm::orc::absoluteSymbols(map));
+        if (err) {
+            llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "[ error mapping functions to symbols ]");
+        }
+
+        err = llJit->getMainJITDylib().define(llvm::orc::absoluteSymbols(
+                {
+                        strToFnPtrMapElement("arccot", &sbmlsupport::arccot)
+                }
+        ));
         if (err) {
             llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "[ error mapping functions to symbols ]");
         }

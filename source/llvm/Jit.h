@@ -293,7 +293,7 @@ namespace rrllvm {
 
         void setModuleIdentifier(const std::string &id);
 
-        std::string mangleName(const std::string &unmangledName) const;
+        virtual std::string mangleName(const std::string &unmangledName) const;
 
         /**
          * @brief get a binary string representation of the current
@@ -348,8 +348,6 @@ namespace rrllvm {
         std::unique_ptr<llvm::Module> module;
         llvm::Module *moduleNonOwning = nullptr;
         std::unique_ptr<llvm::IRBuilder<>> builder;
-//        llvm::Triple triple;
-//        llvm::DataLayout DataLayout;
         std::uint32_t options;
 
 

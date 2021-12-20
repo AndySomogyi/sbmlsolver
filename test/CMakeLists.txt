@@ -60,6 +60,7 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
 
     target_link_libraries(${TEST_TARGET} PRIVATE
 #            rr-mockups
+            roadrunner-static
             ${TEST_PLUGIN_LIB}
             gtest gtest_main gmock gmock_main
     )

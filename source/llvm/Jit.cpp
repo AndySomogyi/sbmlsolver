@@ -67,7 +67,6 @@ namespace rrllvm {
     }
 
     std::string Jit::mangleName(const std::string &unmangledName) const {
-
         std::string mangledName;
         llvm::raw_string_ostream mangledNameStream(mangledName);
         llvm::Mangler::getNameWithPrefix(mangledNameStream, unmangledName, getDataLayout());
