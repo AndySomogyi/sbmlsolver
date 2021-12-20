@@ -30,7 +30,6 @@
 #include <mutex>
 // default values of sbml consistency check
 #include <sbml/SBMLDocument.h>
-#include <thread>
 
 // default values of model reset
 #include "rrSelectionRecord.h"
