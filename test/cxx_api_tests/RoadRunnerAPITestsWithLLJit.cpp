@@ -11,7 +11,7 @@ class RoadRunnerAPITestsWithLLJit : public RoadRunnerAPITests {
 public:
     RoadRunnerAPITestsWithLLJit() 
         : RoadRunnerAPITests(){
-        Logger::setLevel(Logger::LOG_ERROR);
+        Logger::setLevel(Logger::LOG_DEBUG);
         Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::LLJIT);
     }
 };
@@ -44,6 +44,14 @@ TEST_F(RoadRunnerAPITestsWithLLJit, GetFullJacobianUsingAmtModeAsLong){
 
 TEST_F(RoadRunnerAPITestsWithLLJit, getIds){
     getIds();
+}
+
+TEST_F(RoadRunnerAPITestsWithLLJit, getIdsAfterRegenerate){
+    getIdsAfterRegenerate();
+}
+
+TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_getIdsAfterSetConservedMoiety){
+    getIdsAfterSetConservedMoiety();
 }
 
 TEST_F(RoadRunnerAPITestsWithLLJit, LoadModelWithOnlyLayoutInformation){

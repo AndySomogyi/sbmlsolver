@@ -109,6 +109,63 @@ public:
         RoadRunner rr(sbml);
         std::list<std::string> l;
         rr.getIds(SelectionRecord::ALL, l);
+        l.sort();
+        expected.sort();
+        ASSERT_EQ(expected, l);
+    }
+
+    void getIdsAfterRegenerate() {
+        std::list<std::string> expected(
+                {"S1", "S2", "[S1]", "[S2]", "default_compartment", "kf", "kb", "_J0", "_J1", "init([S1])",
+                 "init([S2])", "init(S1)", "init(S2)", "init(default_compartment)", "init(kf)", "init(kb)", "S1'",
+                 "S2'", "[S1]'", "[S2]'", "stoich(S1, _J0)", "stoich(S1, _J1)", "stoich(S2, _J0)", "stoich(S2, _J1)",
+                 "uec(_J0, S1)", "uec(_J0, S2)", "uec(_J0, kf)", "uec(_J0, kb)", "uec(_J1, S1)", "uec(_J1, S2)",
+                 "uec(_J1, kf)", "uec(_J1, kb)", "ec(_J0, S1)", "ec(_J0, S2)", "ec(_J0, kf)", "ec(_J0, kb)",
+                 "ec(_J1, S1)", "ec(_J1, S2)", "ec(_J1, kf)", "ec(_J1, kb)", "ucc(_J0, kf)", "ucc(_J0, kb)",
+                 "ucc(_J1, kf)", "ucc(_J1, kb)", "ucc(S1, kf)", "ucc(S1, kb)", "ucc(S2, kf)", "ucc(S2, kb)",
+                 "cc(_J0, kf)", "cc(_J0, kb)", "cc(_J1, kf)", "cc(_J1, kb)", "cc(S1, kf)", "cc(S1, kb)", "cc(S2, kf)",
+                 "cc(S2, kb)", "eigen(S1)", "eigenReal(S1)", "eigenImag(S1)", "eigen(S2)", "eigenReal(S2)",
+                 "eigenImag(S2)",
+                }
+        );
+        expected.sort();
+        RoadRunner rr(sbml);
+        rr.regenerateModel();
+
+        std::list<std::string> l;
+        rr.getIds(SelectionRecord::ALL, l);
+        l.sort();
+        ASSERT_EQ(expected, l);
+    }
+
+    void getIdsAfterSetConservedMoiety() {
+        std::list<std::string> expected(
+                {
+                        "S1", "S1'", "S2", "[S1]", "[S1]'", "[S2]", "_CSUM0", "_J0", "_J1", "cc(S1, _CSUM0)",
+                        "cc(S1, kb)", "cc(S1, kf)", "cc(S2, _CSUM0)", "cc(S2, kb)", "cc(S2, kf)", "cc(_J0, _CSUM0)",
+                        "cc(_J0, kb)", "cc(_J0, kf)", "cc(_J1, _CSUM0)", "cc(_J1, kb)", "cc(_J1, kf)",
+                        "default_compartment", "ec(_J0, S1)", "ec(_J0, S2)", "ec(_J0, kb)", "ec(_J0, kf)",
+                        "ec(_J1, S1)", "ec(_J1, S2)", "ec(_J1, kb)", "ec(_J1, kf)", "eigen(S1)", "eigen(S2)",
+                        "eigenImag(S1)", "eigenImag(S2)", "eigenReal(S1)", "eigenReal(S2)", "init(S1)", "init(S2)",
+                        "init([S1])", "init([S2])", "init(_CSUM0)", "init(default_compartment)", "init(kb)", "init(kf)",
+                        "kb", "kf", "stoich(S1, _J0)", "stoich(S1, _J1)", "ucc(S1, _CSUM0)", "ucc(S1, kb)",
+                        "ucc(S1, kf)", "ucc(S2, _CSUM0)", "ucc(S2, kb)", "ucc(S2, kf)", "ucc(_J0, _CSUM0)",
+                        "ucc(_J0, kb)", "ucc(_J0, kf)", "ucc(_J1, _CSUM0)", "ucc(_J1, kb)", "ucc(_J1, kf)",
+                        "uec(_J0, S1)", "uec(_J0, S2)", "uec(_J0, kb)", "uec(_J0, kf)", "uec(_J1, S1)", "uec(_J1, S2)",
+                        "uec(_J1, kb)", "uec(_J1, kf)",}
+        );
+        RoadRunner rr(sbml);
+        rr.setConservedMoietyAnalysis(true);
+        std::list<std::string> l;
+        rr.getIds(SelectionRecord::ALL, l);
+        expected.sort();
+        l.sort();
+        auto it = l.begin();
+        while (it != l.end()) {
+            std::cout << *it << std::endl;
+            it++;
+        }
+
         ASSERT_EQ(expected, l);
     }
 

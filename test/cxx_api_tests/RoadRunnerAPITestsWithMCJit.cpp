@@ -46,6 +46,14 @@ TEST_F(RoadRunnerAPITestsWithMCJit, getIds){
     getIds();
 }
 
+TEST_F(RoadRunnerAPITestsWithMCJit, getIdsAfterRegenerate){
+    getIdsAfterRegenerate();
+}
+
+TEST_F(RoadRunnerAPITestsWithMCJit, DISABLED_getIdsAfterSetConservedMoiety){
+    getIdsAfterSetConservedMoiety();
+}
+
 TEST_F(RoadRunnerAPITestsWithMCJit, LoadModelWithOnlyLayoutInformation){
     LoadModelWithOnlyLayoutInformation();
 }

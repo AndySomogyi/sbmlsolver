@@ -1,6 +1,3 @@
-//
-// Created by Ciaran on 20/05/2021.
-//
 
 #include "gtest/gtest.h"
 #include "rrSelectionRecord.h"
