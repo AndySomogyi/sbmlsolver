@@ -63,10 +63,9 @@ Value* EvalRateRuleRatesCodeGen::codeGen()
             // check if this rate rule applies to species, we only deal with
             // amounts and rates of change of amounts, so need to convert
             // accordingly
-            const SBase* sbase = const_cast<Model*>(model)->getElementBySId(rateRule->getVariable());
-            if (sbase && sbase->getTypeCode() == SBML_SPECIES)
+            const Species* species = const_cast<Model*>(model)->getSpecies(rateRule->getVariable());
+            if (species)
             {
-                const Species* species = static_cast<const Species*>(sbase);
                 if (!species->getHasOnlySubstanceUnits())
                 {
                     // product rule, need to check if we have a rate rule for the

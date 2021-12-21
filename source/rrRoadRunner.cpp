@@ -1022,6 +1022,22 @@ namespace rr {
         return impl->loadOpt.getItem("tempDir");
     }
 
+    const libsbml::SBase* RoadRunner::getElementWithMathematicalMeaning(const libsbml::Model* model, const std::string& id)
+    {
+        const libsbml::SBase* element = model->getSpecies(id);
+        if (!element) {
+            element = model->getParameter(id);
+            if (!element) {
+                element = model->getCompartment(id);
+                if (!element) {
+                    libsbml::ListOfReactions* lor = const_cast<libsbml::ListOfReactions*>(model->getListOfReactions());
+                    element = lor->getElementBySId(id);
+                }
+            }
+        }
+        return element;
+    }
+
     size_t RoadRunner::createDefaultTimeCourseSelectionList() {
         std::vector<std::string> selections;
         std::vector<std::string> oFloating = getFloatingSpeciesIds();
@@ -6086,7 +6102,7 @@ namespace rr {
     }
 
     void checkAddRule(const std::string &vid, libsbml::Model *sbmlModel) {
-        libsbml::SBase *sbase = sbmlModel->getElementBySId(vid);
+        libsbml::SBase *sbase = const_cast<libsbml::SBase*>(RoadRunner::getElementWithMathematicalMeaning(sbmlModel, vid));
         if (sbase == NULL) {
             throw std::invalid_argument(
                     "Unable to add rule because no variable with ID " + vid + " was found in the model.");
