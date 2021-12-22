@@ -267,7 +267,8 @@ set(
         "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/STS.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/STS.h"
 )
-add_subdirectory(sbml-test-suite) # doesn't actually contain tests, just a little interface into the STS
+# doesn't actually contain tests, just an interface into the STS
+add_subdirectory(sbml-test-suite)
 add_subdirectory(mockups)
 add_subdirectory(c_api_core)
 add_subdirectory(llvm_tests)
@@ -298,7 +299,7 @@ if (WIN32 AND BUILD_RR_PLUGINS)
 endif() #BUILD_RR_PLUGINS
 
 #List the semantic_STS last, since it takes much longer to run than the others.
-#add_subdirectory(semantic_STS)
+add_subdirectory(semantic_STS)
 
 
 #######################################################################

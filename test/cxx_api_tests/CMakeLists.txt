@@ -1,5 +1,3 @@
-#add_test_executable(variant_tests test_targets variant_tests.cpp)
-
 add_test_executable(test_cxx_api_SettingTests test_targets SettingTests.cpp)
 add_test_executable(test_cxx_api_RoadRunnerAPITestsMCJit test_targets RoadRunnerAPITests.h RoadRunnerAPITestsWithMCJit.cpp ${SharedTestFiles})
 add_test_executable(test_cxx_api_RoadRunnerAPITestsLLJit test_targets RoadRunnerAPITests.h RoadRunnerAPITestsWithLLJit.cpp ${SharedTestFiles})

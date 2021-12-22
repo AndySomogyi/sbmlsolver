@@ -11,6 +11,8 @@ namespace rr {
 
     RoadRunnerMap::RoadRunnerMap(const std::vector<std::string> &sbmlStringsOrFiles, unsigned int numThreads)
             : numThreads_(numThreads) {
+        // we don't want multiple threads trying to use constructor at the same time
+        std::lock_guard lock(rrMapMtx);
         if (numThreads_ == 0){
             std::ostringstream err;
             err << "User has requested " << numThreads_ << " threads. Please choose a number greater than 0.";
@@ -20,20 +22,24 @@ namespace rr {
         // provide a way to avoid the overhead of creating and managing the thread_pool
         // For instance, if we are only loading 3 models, the overhead might not be worth it
         if (numThreads_ > 1){
+            rrLogCritical << "Instantiating a map with " << numThreads_ << " threads";
             pool = std::make_unique<thread_pool>(numThreads);
             loadParallel(sbmlStringsOrFiles);
         }
 
         else {
+            rrLogCritical << "Instantiating a map in serial mode, 1 thread.";
             loadSerial(sbmlStringsOrFiles);
         }
     }
 
     std::vector<std::string> RoadRunnerMap::getKeys() const {
+        std::lock_guard lock(rrMapMtx);
         return keys_;
     }
 
     std::vector<RoadRunner*> RoadRunnerMap::getValues() const{
+        std::lock_guard lock(rrMapMtx);
         std::vector<RoadRunner*> v(size());
         int i = 0;
         for (auto& [name, ptr ]: rrMap_){
@@ -43,6 +49,7 @@ namespace rr {
     }
 
     std::vector<std::pair<std::string, RoadRunner*>> RoadRunnerMap::getItems() const{
+        std::lock_guard lock(rrMapMtx);
         std::vector<std::pair<std::string, RoadRunner*>> v(size());
         int i = 0;
         for (auto& [name, ptr ]: rrMap_){
@@ -100,6 +107,7 @@ namespace rr {
     }
 
     void RoadRunnerMap::remove(const std::string &key) {
+        std::lock_guard lock(rrMapMtx);
         auto it = findKey(key);
         if (it == keys_.end())
             return;
@@ -111,30 +119,37 @@ namespace rr {
     }
 
     UnorderedMap::iterator RoadRunnerMap::begin() noexcept {
+        std::lock_guard lock(rrMapMtx);
         return rrMap_.begin();
     }
 
     UnorderedMap::iterator RoadRunnerMap::end() noexcept {
+        std::lock_guard lock(rrMapMtx);
         return rrMap_.end();
     }
 
     std::vector<std::string>::iterator RoadRunnerMap::keysBegin() {
+        std::lock_guard lock(rrMapMtx);
         return keys_.begin();
     }
 
     std::vector<std::string>::iterator  RoadRunnerMap::keysEnd() {
+        std::lock_guard lock(rrMapMtx);
         return keys_.end();
     }
 
     bool RoadRunnerMap::empty() const {
+        std::lock_guard lock(rrMapMtx);
         return rrMap_.empty();
     }
 
     unsigned int RoadRunnerMap::size() const {
+        std::lock_guard lock(rrMapMtx);
         return rrMap_.size();
     }
 
     void RoadRunnerMap::clear() {
+        std::lock_guard lock(rrMapMtx);
         rrMap_.clear();
     }
 
@@ -155,14 +170,17 @@ namespace rr {
 //    }
 
     RoadRunner *RoadRunnerMap::operator[](const std::string &key) {
+        std::lock_guard lock(rrMapMtx);
         return borrow(key);
     }
 
     RoadRunner *RoadRunnerMap::borrow(const std::string &key) {
+        std::lock_guard lock(rrMapMtx);
         return rrMap_.at(key).get();
     }
 
     RoadRunner* RoadRunnerMap::steal(const std::string &key) {
+        std::lock_guard lock(rrMapMtx);
         if (count(key) == 0){
             return {};
         }
@@ -175,23 +193,28 @@ namespace rr {
     }
 
     size_t RoadRunnerMap::count(const std::string &key) {
+        std::lock_guard lock(rrMapMtx);
         return rrMap_.count(key);
     }
 
     UnorderedMap::iterator RoadRunnerMap::find(const std::string &key) {
+        std::lock_guard lock(rrMapMtx);
         return rrMap_.find(key);
     }
 
     std::vector<std::string>::iterator RoadRunnerMap::findKey(const std::string& key){
+        std::lock_guard lock(rrMapMtx);
         return std::find(keys_.begin(), keys_.end(), key);
     }
 
 #if __cplusplus >= 202002L
     bool RoadRunnerMap::contains(const std::string& key);
+        std::lock_guard lock(rrMapMtx);
         return rrMap_.contains(key);
 #endif
 
     void RoadRunnerMap::setNumThreads(unsigned int n){
+        std::lock_guard lock(rrMapMtx);
         // do not do anything if the user asks for the same number of threads
         // that already exist
         if (n == numThreads_)
@@ -224,6 +247,7 @@ namespace rr {
     }
 
     unsigned int RoadRunnerMap::getNumThreads() const{
+        std::lock_guard lock(rrMapMtx);
         return numThreads_;
     }
 
