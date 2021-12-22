@@ -18,31 +18,29 @@
 #include "rrUtils.h"
 #include "rrException.h"
 #include "rrLogger.h"
+
+#include "rrRoadRunner.h"
 #include "RoadRunnerTest.h"
 #include <filesystem>
 
 using namespace std;
+using namespace rr;
 using namespace rrc;
 using namespace Poco;
 using namespace Poco::XML;
 using std::filesystem::path;
 
 #include "CAPICoreTest.h"
-#define CALLRR(rrHandle) ((RoadRunner*)rrHandle)
 
 CAPICoreTest::CAPICoreTest() {
     cAPICoreModelsDir = rrTestModelsDir_ / "CAPICore";
     if (!fs::exists(cAPICoreModelsDir)) {
         throw std::invalid_argument("CAPICoreTest::CAPICoreTest(): " + cAPICoreModelsDir.string());
     }
-    gRR = createRRInstance();
+    gRR = (RRHandle) &r;
 
     // make a copy each time so the original doesn't get modified inplace
     testModelFilePath = cAPICoreModelsDir / path("Test_1.xml");
-};
-
-CAPICoreTest::~CAPICoreTest() {
-    freeRRInstance(gRR);
 };
 
 std::string CAPICoreTest::getListOfReactionsText(const string &fName) {
@@ -73,58 +71,68 @@ std::string CAPICoreTest::getListOfReactionsText(const string &fName) {
 
 
 TEST_F(CAPICoreTest, VERSION) {
-    string versionInfo = CALLRR(gRR)->getExtendedVersionInfo();
-    std::cout << versionInfo << std::endl;
+    RoadRunner aRR;
+    string versionInfo = aRR.getExtendedVersionInfo();
 }
 
 
 TEST_F(CAPICoreTest, LOGGING) {
     // save log level
     int logLevel = rr::Logger::getLevel();
+
+    RRHandle aRR = createRRInstance();
     rr::Logger::setLevel(rr::Logger::LOG_INFORMATION);
     enableLoggingToFile();
     logMsg(CL_PRIO_INFORMATION, "A log message before closing the logger");
     disableLoggingToFile();
     logMsg(CL_PRIO_INFORMATION, "This message is not written to the logger");
+    freeRRInstance(aRR);
+
     // restore log level
     rr::Logger::setLevel(logLevel);
 }
 
 
 TEST_F(CAPICoreTest, ReloadingModelModelRecompilation) {
+    RRHandle aRR = createRRInstance();
     std::cout << testModelFilePath << std::endl;
     EXPECT_TRUE(std::filesystem::exists(testModelFilePath));
 
-    EXPECT_TRUE(loadSBMLFromFileE(gRR, testModelFilePath.string().c_str(), true));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath.string().c_str(), true));
 
     //Load the same model again, but do not recompile the model DLL..
-    EXPECT_TRUE(loadSBMLFromFileE(gRR, testModelFilePath.string().c_str(), true));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath.string().c_str(), true));
+    freeRRInstance(aRR);
 }
 
 TEST_F(CAPICoreTest, ReloadingModelNoModelRecompilation) {
+    RRHandle aRR = createRRInstance();
     EXPECT_TRUE(std::filesystem::exists(testModelFilePath));
-    EXPECT_TRUE(loadSBMLFromFileE(gRR, testModelFilePath.string().c_str(), true));
+
+    EXPECT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath.string().c_str(), true));
 
     //Load the same model again, but do not recompile the model DLL..
-    EXPECT_TRUE(loadSBMLFromFileE(gRR, testModelFilePath.string().c_str(), false));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath.string().c_str(), false));
+    freeRRInstance(aRR);
 }
 
 TEST_F(CAPICoreTest, LoadingModelMultipleInstances) {
-    RRHandle gRR1 = createRRInstance();
-    RRHandle gRR2 = createRRInstance();
+    RRHandle aRR1 = createRRInstance();
+    RRHandle aRR2 = createRRInstance();
 
-    EXPECT_TRUE(loadSBMLFromFileE(gRR1, testModelFilePath.string().c_str(), true));
-    EXPECT_TRUE(loadSBMLFromFileE(gRR2, testModelFilePath.string().c_str(), true));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR1, testModelFilePath.string().c_str(), true));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR2, testModelFilePath.string().c_str(), true));
 
     //Load the same model again, but do not recompile the model DLL..
-    EXPECT_TRUE(loadSBMLFromFileE(gRR1, testModelFilePath.string().c_str(), false));
-    EXPECT_TRUE(loadSBMLFromFileE(gRR2, testModelFilePath.string().c_str(), false));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR1, testModelFilePath.string().c_str(), false));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR2, testModelFilePath.string().c_str(), false));
 
-    freeRRInstance(gRR1);
-    freeRRInstance(gRR2);
+    freeRRInstance(aRR1);
+    freeRRInstance(aRR2);
 }
 
 TEST_F(CAPICoreTest, ParsingModelXML) {
+
     string modelXML = getListOfReactionsText(testModelFilePath.string());
     EXPECT_TRUE(modelXML.size() > 0);
 }
@@ -139,31 +147,31 @@ TEST_F(CAPICoreTest, GeneratingModelHash) {
 
 TEST_F(CAPICoreTest, LoadModelFromString) {
     string xml = getFileContent((testModelFilePath.string()));
-    RRHandle gRR1 = createRRInstance();
-    RRHandle gRR2 = createRRInstance();
-    EXPECT_TRUE(loadSBML(gRR1, xml.c_str()));
-    EXPECT_TRUE(loadSBMLEx(gRR2, xml.c_str(), true));
+    RRHandle aRR1 = createRRInstance();
+    RRHandle aRR2 = createRRInstance();
+    EXPECT_TRUE(loadSBML(aRR1, xml.c_str()));
+    EXPECT_TRUE(loadSBMLEx(aRR2, xml.c_str(), true));
 
     //Load the same model again, but do not recompile the model DLL..
-    EXPECT_TRUE(loadSBMLEx(gRR1, xml.c_str(), false));
-    EXPECT_TRUE(loadSBMLEx(gRR2, xml.c_str(), false));
-    freeRRInstance(gRR1);
-    freeRRInstance(gRR2);
+    EXPECT_TRUE(loadSBMLEx(aRR1, xml.c_str(), false));
+    EXPECT_TRUE(loadSBMLEx(aRR2, xml.c_str(), false));
+    freeRRInstance(aRR1);
+    freeRRInstance(aRR2);
 }
 
 TEST_F(CAPICoreTest, SimulateTimes) {
     string xml = getFileContent((testModelFilePath.string()));
-    RRHandle gRR1 = createRRInstance();
-    EXPECT_TRUE(loadSBML(gRR1, xml.c_str()));
+    RRHandle aRR1 = createRRInstance();
+    EXPECT_TRUE(loadSBML(aRR1, xml.c_str()));
     double times[4] = {0, 1, 5, 10};
-    RRCDataPtr results = simulateTimes(gRR1, times, 4);
+    RRCDataPtr results = simulateTimes(aRR1, times, 4);
     EXPECT_EQ(results->RSize, 4);
     int csize = results->CSize;
     EXPECT_EQ(results->Data[0 * csize], 0);
     EXPECT_EQ(results->Data[1 * csize], 1);
     EXPECT_EQ(results->Data[2 * csize], 5);
     EXPECT_EQ(results->Data[3 * csize], 10);
-    freeRRInstance(gRR1);
+    freeRRInstance(aRR1);
     freeRRCData(results);
 }
 
@@ -207,12 +215,20 @@ TEST_F(CAPICoreTest, GetMicroSeconds) {
 #endif
 
 
+TEST_F(CAPICoreTest, CheckRegisteredIntegrators) {
+    auto *rr = (RoadRunner *) createRRInstance();
+    auto integratorNames = rr->getRegisteredIntegratorNames();
+    ASSERT_EQ(integratorNames, std::vector<std::string>({"cvode", "gillespie", "rk4", "rk45", "euler"}));
+    delete rr;
+}
+
 TEST_F(CAPICoreTest, CheckRK4WorksFromC) {
     // This code is the contents of createRRInstance in the C api
     char *capiLocation = getRRCAPILocation(); // return type is dynamically allocated.
     string rrInstallFolder(getParentFolder(capiLocation));
     free(capiLocation);
     std::filesystem::path supportCodeDir = std::filesystem::path(rrInstallFolder) /= "rr_support";
+    RoadRunner rr("", getTempDir(), supportCodeDir.string());
     // end
 
     // This code is from the top of checkRRTest
@@ -239,35 +255,18 @@ TEST_F(CAPICoreTest, CheckRK4WorksFromC) {
         sbml = (rrTestDir_ / path("rrtest_files") / sbml).string();
         EXPECT_TRUE(std::filesystem::exists(sbml));
     }
-    if (!loadSBMLEx((RoadRunner*)gRR, sbml.c_str(), true)) {
+    if (!loadSBMLEx(&rr, sbml.c_str(), true)) {
         EXPECT_TRUE(false);
     }
 
     SimulateOptions opt;
     opt.start = 0;
     opt.duration = 10;
-    auto *cvode = CALLRR(gRR)->simulate(&opt);
-    CALLRR(gRR)->setIntegrator("rk4");
-    auto *rk4 = CALLRR(gRR)->simulate(&opt);
+    auto *cvode = rr.simulate(&opt);
+
+    rr.setIntegrator("rk4");
+    auto *rk4 = rr.simulate(&opt);
     for (int k = 0; k < cvode->CSize(); k++) {
         EXPECT_NEAR((*cvode)(cvode->RSize() - 1, k), (*rk4)(rk4->RSize() - 1, k), 1e-6);
     }
 }
-
-
-
-
-TEST_F(CAPICoreTest, CheckRegisteredIntegrators) {
-    auto *rr = (RoadRunner *) createRRInstance();
-    auto *rr2 = (RoadRunner *) createRRInstance();
-    auto integratorNames = rr->getRegisteredIntegratorNames();
-    std::vector<std::string> expected({"cvode", "gillespie", "rk4", "rk45", "euler"});
-    std::sort(integratorNames.begin(), integratorNames.end());
-    std::sort(expected.begin(), expected.end());
-
-    ASSERT_EQ(integratorNames, expected);
-    delete rr;
-    delete rr2;
-}
-
-

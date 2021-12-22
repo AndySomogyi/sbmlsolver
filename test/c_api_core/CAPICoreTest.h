@@ -40,21 +40,16 @@ public:
     fs::path cAPICoreModelsDir;
 
     RRHandle gRR;
+    rr::RoadRunner r;
 
     path testModelFilePath;
 
     CAPICoreTest();
 
-    ~CAPICoreTest() override;
+    ~CAPICoreTest() override = default;
 
     std::string getListOfReactionsText(const string &fName);
 };
 
 
 #endif // ROADRUNNER_CAPICORETEST
-
-
-
-
-
-
