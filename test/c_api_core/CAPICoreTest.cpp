@@ -247,7 +247,6 @@ TEST_F(CAPICoreTest, CheckRK4WorksFromC) {
     opt.start = 0;
     opt.duration = 10;
     auto *cvode = CALLRR(gRR)->simulate(&opt);
-
     CALLRR(gRR)->setIntegrator("rk4");
     auto *rk4 = CALLRR(gRR)->simulate(&opt);
     for (int k = 0; k < cvode->CSize(); k++) {
@@ -262,7 +261,11 @@ TEST_F(CAPICoreTest, CheckRegisteredIntegrators) {
     auto *rr = (RoadRunner *) createRRInstance();
     auto *rr2 = (RoadRunner *) createRRInstance();
     auto integratorNames = rr->getRegisteredIntegratorNames();
-    ASSERT_EQ(integratorNames, std::vector<std::string>({"cvode", "gillespie", "rk4", "rk45", "euler"}));
+    std::vector<std::string> expected({"cvode", "gillespie", "rk4", "rk45", "euler"});
+    std::sort(integratorNames.begin(), integratorNames.end());
+    std::sort(expected.begin(), expected.end());
+
+    ASSERT_EQ(integratorNames, expected);
     delete rr;
     delete rr2;
 }
