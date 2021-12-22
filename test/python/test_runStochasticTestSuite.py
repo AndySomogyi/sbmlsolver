@@ -16,7 +16,8 @@ import platform
 import sys
 
 sys.path += [
-    r"D:\roadrunner\roadrunner\cmake-build-release\lib\site-packages"
+    r"D:\roadrunner\roadrunner\cmake-build-release\lib\site-packages",
+    r"/Users/ciaranwelsh/Documents/roadrunner/cmake-build-release-llvm-13/lib/site-packages"
 ]
 
 import csv
@@ -191,8 +192,8 @@ class RoadRunnerTests(unittest.TestCase):
     def simulateFile(self, fname, tnum, expected_results):
         try:
             rr = roadrunner.RoadRunner(self.stochdir + "/" + tnum + "/" + fname)
-        except:
-            self.fail("Unable to load test file ", fname, "; perhaps an unknown distrib csymbol.")
+        except :
+            raise ValueError("Unable to load test file " +  fname + "; perhaps an unknown distrib csymbol.")
         rr.timeCourseSelections = ['time'] + self.variables
         all_results = {}
         means = {}
@@ -264,7 +265,7 @@ class RoadRunnerTests(unittest.TestCase):
         for file in files:
             t1 = time.time()
             redo = False
-            (nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong) = self.simulateFile(file, tnum, expected_results)
+            nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong = self.simulateFile(file, tnum, expected_results)
             if (nmean_wrong and nmean_wrong > 3) or \
                     (nsd_wrong and nsd_wrong > 5) or \
                     (nlnmean_wrong and nlnmean_wrong > 3) or \
@@ -299,7 +300,7 @@ class RoadRunnerTests(unittest.TestCase):
             self.runOneTest(tnum)
 
     # Run this and then paste into source code below.
-    def createRunTestSource():
+    def createRunTestSource(self):
         for n in range(100):
             tnum = str(n + 1).zfill(5)
             print("    def test_stoch_" + tnum + "(self):")
