@@ -24,7 +24,7 @@ class SbmlTestSuite : public RoadRunnerTest
 public:
 
     SbmlTestSuite() {
-        Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
+//        Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
     };
 
     bool RunTest(int caseNumber)

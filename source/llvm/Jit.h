@@ -43,7 +43,6 @@ namespace rrllvm {
     using FnPtr_d2 = double (*)(double x, double y);
 
     // these are taken from C library by createCLibraryFunctions
-    using powFnTy = FnPtr_d2;
     using fabsFnTy = FnPtr_d1;
     using acosFnTy = FnPtr_d1;
     using asinFnTy = FnPtr_d1;
@@ -60,6 +59,7 @@ namespace rrllvm {
     using tanFnTy = FnPtr_d1;
     using tanhFnTy = FnPtr_d1;
     using fmodFnTy = FnPtr_d2;
+    using powFnTy = FnPtr_d2;
 
     // these are defined locally by roadrunner in SBMLSupportFunctions
     using arccotFnTy = FnPtr_d1;
@@ -73,15 +73,15 @@ namespace rrllvm {
     using cothFnTy = FnPtr_d1;
     using cscFnTy = FnPtr_d1;
     using cschFnTy = FnPtr_d1;
-    using rr_factorialiFnTy = FnPtr_i1;
-    using rr_factorialdFnTy = FnPtr_d1;
-    using rr_logdFnTy = FnPtr_d2;
-    using rr_rootdFnTy = FnPtr_d2;
     using secFnTy = FnPtr_d1;
     using sechFnTy = FnPtr_d1;
     using arccoshFnTy = FnPtr_d1;
     using arcsinhFnTy = FnPtr_d1;
     using arctanhFnTy = FnPtr_d1;
+    using rr_factorialdFnTy = FnPtr_d1;
+    using rr_factorialiFnTy = FnPtr_i1;
+    using rr_logdFnTy = FnPtr_d2;
+    using rr_rootdFnTy = FnPtr_d2;
     using quotientFnTy = FnPtr_d2;
     using rr_maxFnTy = FnPtr_d2;
     using rr_minFnTy = FnPtr_d2;
@@ -96,30 +96,30 @@ namespace rrllvm {
     using DistribFnTy_d3 = double (*)(Random *, double, double, double);
     using DistribFnTy_d4 = double (*)(Random *, double, double, double, double);
 
+    using distrib_bernoulli_FnTy = DistribFnTy_d1;
+    using distrib_cauchy_one_FnTy = DistribFnTy_d1;
+    using distrib_chisquare_FnTy = DistribFnTy_d1;
+    using distrib_exponential_FnTy = DistribFnTy_d1;
+    using distrib_laplace_one_FnTy = DistribFnTy_d1;
+    using distrib_poisson_FnTy = DistribFnTy_d1;
+    using distrib_rayleigh_FnTy = DistribFnTy_d1;
     using distrib_uniform_FnTy = DistribFnTy_d2;
     using distrib_normal_FnTy = DistribFnTy_d2;
-    using distrib_normal_four_FnTy = DistribFnTy_d4;
-    using distrib_bernoulli_FnTy = DistribFnTy_d1;
     using distrib_binomial_FnTy = DistribFnTy_d2;
-    using distrib_binomial_four_FnTy = DistribFnTy_d4;
     using distrib_cauchy_FnTy = DistribFnTy_d2;
-    using distrib_cauchy_one_FnTy = DistribFnTy_d1;
-    using distrib_cauchy_four_FnTy = DistribFnTy_d4;
-    using distrib_chisquare_FnTy = DistribFnTy_d1;
-    using distrib_chisquare_three_FnTy = DistribFnTy_d3;
-    using distrib_exponential_FnTy = DistribFnTy_d1;
-    using distrib_exponential_three_FnTy = DistribFnTy_d3;
     using distrib_gamma_FnTy = DistribFnTy_d2;
-    using distrib_gamma_four_FnTy = DistribFnTy_d4;
     using distrib_laplace_FnTy = DistribFnTy_d2;
-    using distrib_laplace_one_FnTy = DistribFnTy_d1;
-    using distrib_laplace_four_FnTy = DistribFnTy_d4;
     using distrib_lognormal_FnTy = DistribFnTy_d2;
-    using distrib_lognormal_four_FnTy = DistribFnTy_d4;
-    using distrib_poisson_FnTy = DistribFnTy_d1;
+    using distrib_chisquare_three_FnTy = DistribFnTy_d3;
+    using distrib_exponential_three_FnTy = DistribFnTy_d3;
     using distrib_poisson_three_FnTy = DistribFnTy_d3;
-    using distrib_rayleigh_FnTy = DistribFnTy_d1;
     using distrib_rayleigh_three_FnTy = DistribFnTy_d3;
+    using distrib_normal_four_FnTy = DistribFnTy_d4;
+    using distrib_binomial_four_FnTy = DistribFnTy_d4;
+    using distrib_cauchy_four_FnTy = DistribFnTy_d4;
+    using distrib_gamma_four_FnTy = DistribFnTy_d4;
+    using distrib_laplace_four_FnTy = DistribFnTy_d4;
+    using distrib_lognormal_four_FnTy = DistribFnTy_d4;
 
     using rrOwningBinary = llvm::object::OwningBinary<llvm::object::ObjectFile>;
 

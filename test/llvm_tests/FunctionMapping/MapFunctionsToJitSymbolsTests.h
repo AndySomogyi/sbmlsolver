@@ -5,8 +5,11 @@
 #ifndef ROADRUNNER_MAPFUNCTIONSTOJITSYMBOLSTESTS_H
 #define ROADRUNNER_MAPFUNCTIONSTOJITSYMBOLSTESTS_H
 
+#include <llvm/IR/Verifier.h>
+#include <llvm/IR/Instruction.h>
 #include "rrSparse.h"
 #include "Jit.h"
+#include "rrConfig.h"
 
 using namespace rr;
 using namespace rrllvm;
@@ -44,14 +47,12 @@ public:
         ASSERT_NEAR(expected, actual, 1e-5);
     }
 
-    void checkFunctionLoadsUsingModule(Jit* jit, const std::string& fnName){
-        llvm::Function* fn = jit->getModuleNonOwning()->getFunction(fnName);
-        if (!fn){
+    void checkFunctionLoadsUsingModule(const std::string &fnName) {
+        llvm::Function *fn = jit->getModuleNonOwning()->getFunction(fnName);
+        if (!fn) {
             rrLogCritical << "Function \"" << fnName << "\" could not be loaded";
         }
         ASSERT_TRUE(fn);
-
-
     }
 
     void CheckLibFuncPow() {
@@ -355,248 +356,272 @@ public:
         ASSERT_FALSE(csr_matrix_set_nz == nullptr);
     }
 
-
-    void check_pow_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "pow");
+    void check_pow_ViaModule() {
+        checkFunctionLoadsUsingModule("pow");
     }
 
-    void check_fabs_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "fabs");
+    void check_fabs_ViaModule() {
+        checkFunctionLoadsUsingModule("fabs");
     }
 
-    void check_acos_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "acos");
+    void check_acos_ViaModule() {
+        checkFunctionLoadsUsingModule("acos");
     }
 
-    void check_asin_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "asin");
+    void check_asin_ViaModule() {
+        checkFunctionLoadsUsingModule("asin");
     }
 
-    void check_atan_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "atan");
+    void check_atan_ViaModule() {
+        checkFunctionLoadsUsingModule("atan");
     }
 
-    void check_ceil_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "ceil");
+    void check_ceil_ViaModule() {
+        checkFunctionLoadsUsingModule("ceil");
     }
 
-    void check_cos_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "cos");
+    void check_cos_ViaModule() {
+        checkFunctionLoadsUsingModule("cos");
     }
 
-    void check_cosh_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "cosh");
+    void check_cosh_ViaModule() {
+        checkFunctionLoadsUsingModule("cosh");
     }
 
-    void check_exp_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "exp");
+    void check_exp_ViaModule() {
+        checkFunctionLoadsUsingModule("exp");
     }
 
-    void check_floor_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "floor");
+    void check_floor_ViaModule() {
+        checkFunctionLoadsUsingModule("floor");
     }
 
-    void check_log_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "log");
+    void check_log_ViaModule() {
+        checkFunctionLoadsUsingModule("log");
     }
 
-    void check_log10_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "log10");
+    void check_log10_ViaModule() {
+        checkFunctionLoadsUsingModule("log10");
     }
 
-    void check_sin_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "sin");
+    void check_sin_ViaModule() {
+        checkFunctionLoadsUsingModule("sin");
     }
 
-    void check_sinh_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "sinh");
+    void check_sinh_ViaModule() {
+        checkFunctionLoadsUsingModule("sinh");
     }
 
-    void check_tan_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "tan");
+    void check_tan_ViaModule() {
+        checkFunctionLoadsUsingModule("tan");
     }
 
-    void check_tanh_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "tanh");
+    void check_tanh_ViaModule() {
+        checkFunctionLoadsUsingModule("tanh");
     }
 
-    void check_fmod_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "fmod");
+    void check_fmod_ViaModule() {
+        checkFunctionLoadsUsingModule("fmod");
     }
 
-    void check_arccot_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "arccot");
+    void check_arccot_ViaModule() {
+        checkFunctionLoadsUsingModule("arccot");
     }
 
-    void check_rr_arccot_negzero_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_arccot_negzero");
+    void check_rr_arccot_negzero_ViaModule() {
+        checkFunctionLoadsUsingModule("rr_arccot_negzero");
     }
 
-    void check_arccoth_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "arccoth");
+    void check_arccoth_ViaModule() {
+        checkFunctionLoadsUsingModule("arccoth");
     }
 
-    void check_arccsc_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "arccsc");
+    void check_arccsc_ViaModule() {
+        checkFunctionLoadsUsingModule("arccsc");
     }
 
-    void check_arccsch_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "arccsch");
+    void check_arccsch_ViaModule() {
+        checkFunctionLoadsUsingModule("arccsch");
     }
 
-    void check_arcsec_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "arcsec");
+    void check_arcsec_ViaModule() {
+        checkFunctionLoadsUsingModule("arcsec");
     }
 
-    void check_arcsech_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "arcsech");
+    void check_arcsech_ViaModule() {
+        checkFunctionLoadsUsingModule("arcsech");
     }
 
-    void check_cot_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "cot");
+    void check_cot_ViaModule() {
+        checkFunctionLoadsUsingModule("cot");
     }
 
-    void check_coth_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "coth");
+    void check_coth_ViaModule() {
+        checkFunctionLoadsUsingModule("coth");
     }
 
-    void check_csc_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "csc");
+    void check_csc_ViaModule() {
+        checkFunctionLoadsUsingModule("csc");
     }
 
-    void check_csch_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "csch");
+    void check_csch_ViaModule() {
+        checkFunctionLoadsUsingModule("csch");
     }
 
-    void check_rr_factoriali_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_factoriali");
+    void check_rr_factoriali_ViaModule() {
+        checkFunctionLoadsUsingModule("rr_factoriali");
     }
 
-    void check_rr_factoriald_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_factoriald");
+    void check_rr_factoriald_ViaModule() {
+        checkFunctionLoadsUsingModule("rr_factoriald");
     }
 
-    void check_rr_logd_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_logd");
+    void check_rr_logd_ViaModule() {
+        checkFunctionLoadsUsingModule("rr_logd");
     }
 
-    void check_rr_rootd_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_rootd");
+    void check_rr_rootd_ViaModule() {
+        checkFunctionLoadsUsingModule("rr_rootd");
     }
 
-    void check_sec_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "sec");
+    void check_sec_ViaModule() {
+        checkFunctionLoadsUsingModule("sec");
     }
 
-    void check_sech_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "sech");
+    void check_sech_ViaModule() {
+        checkFunctionLoadsUsingModule("sech");
     }
 
-    void check_arccosh_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "arccosh");
+    void check_arccosh_ViaModule() {
+        checkFunctionLoadsUsingModule("arccosh");
     }
 
-    void check_arcsinh_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "arcsinh");
+    void check_arcsinh_ViaModule() {
+        checkFunctionLoadsUsingModule("arcsinh");
     }
 
-    void check_arctanh_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "arctanh");
+    void check_arctanh_ViaModule() {
+        checkFunctionLoadsUsingModule("arctanh");
     }
 
-    void check_quotient_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "quotient");
+    void check_quotient_ViaModule() {
+        checkFunctionLoadsUsingModule("quotient");
     }
 
-    void check_rr_max_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_max");
+    void check_rr_max_ViaModule() {
+        checkFunctionLoadsUsingModule("rr_max");
     }
 
-    void check_rr_min_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_min");
+    void check_rr_min_ViaModule() {
+        checkFunctionLoadsUsingModule("rr_min");
     }
 
-    void check_csr_matrix_get_nz_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "csr_matrix_get_nz");
+    void check_csr_matrix_get_nz_ViaModule() {
+        checkFunctionLoadsUsingModule("csr_matrix_get_nz");
     }
 
-    void check_csr_matrix_set_nz_ViaModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "csr_matrix_set_nz");
+    void check_csr_matrix_set_nz_ViaModule() {
+        checkFunctionLoadsUsingModule("csr_matrix_set_nz");
     }
 
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-    void check_rr_distrib_uniform_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_uniform");
+
+    void check_rr_distrib_uniform_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_uniform");
     }
-    void check_rr_distrib_normal_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_normal");
+
+    void check_rr_distrib_normal_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_normal");
     }
-    void check_rr_distrib_normal_four_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_normal_four");
+
+    void check_rr_distrib_normal_four_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_normal_four");
     }
-    void check_rr_distrib_bernoulli_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_bernoulli");
+
+    void check_rr_distrib_bernoulli_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_bernoulli");
     }
-    void check_rr_distrib_binomial_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_binomial");
+
+    void check_rr_distrib_binomial_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_binomial");
     }
-    void check_rr_distrib_binomial_four_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_binomial_four");
+
+    void check_rr_distrib_binomial_four_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_binomial_four");
     }
-    void check_rr_distrib_cauchy_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_cauchy");
+
+    void check_rr_distrib_cauchy_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_cauchy");
     }
-    void check_rr_distrib_cauchy_one_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_cauchy_one");
+
+    void check_rr_distrib_cauchy_one_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_cauchy_one");
     }
-    void check_rr_distrib_cauchy_four_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_cauchy_four");
+
+    void check_rr_distrib_cauchy_four_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_cauchy_four");
     }
-    void check_rr_distrib_chisquare_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_chisquare");
+
+    void check_rr_distrib_chisquare_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_chisquare");
     }
-    void check_rr_distrib_chisquare_three_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_chisquare_three");
+
+    void check_rr_distrib_chisquare_three_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_chisquare_three");
     }
-    void check_rr_distrib_exponential_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_exponential");
+
+    void check_rr_distrib_exponential_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_exponential");
     }
-    void check_rr_distrib_exponential_three_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_exponential_three");
+
+    void check_rr_distrib_exponential_three_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_exponential_three");
     }
-    void check_rr_distrib_gamma_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_gamma");
+
+    void check_rr_distrib_gamma_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_gamma");
     }
-    void check_rr_distrib_gamma_four_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_gamma_four");
+
+    void check_rr_distrib_gamma_four_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_gamma_four");
     }
-    void check_rr_distrib_laplace_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_laplace");
+
+    void check_rr_distrib_laplace_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_laplace");
     }
-    void check_rr_distrib_laplace_one_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_laplace_one");
+
+    void check_rr_distrib_laplace_one_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_laplace_one");
     }
-    void check_rr_distrib_laplace_four_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_laplace_four");
+
+    void check_rr_distrib_laplace_four_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_laplace_four");
     }
-    void check_rr_distrib_lognormal_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_lognormal");
+
+    void check_rr_distrib_lognormal_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_lognormal");
     }
-    void check_rr_distrib_lognormal_four_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_lognormal_four");
+
+    void check_rr_distrib_lognormal_four_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_lognormal_four");
     }
-    void check_rr_distrib_poisson_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_poisson");
+
+    void check_rr_distrib_poisson_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_poisson");
     }
-    void check_rr_distrib_poisson_three_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_poisson_three");
+
+    void check_rr_distrib_poisson_three_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_poisson_three");
     }
-    void check_rr_distrib_rayleigh_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_rayleigh");
+
+    void check_rr_distrib_rayleigh_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_rayleigh");
     }
-    void check_rr_distrib_rayleigh_three_LoadsFromModule(){
-        checkFunctionLoadsUsingModule(jit.get(), "rr_distrib_rayleigh_three");
+
+    void check_rr_distrib_rayleigh_three_LoadsFromModule() {
+        checkFunctionLoadsUsingModule("rr_distrib_rayleigh_three");
     }
+
 #endif
 
 
