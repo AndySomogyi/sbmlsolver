@@ -713,6 +713,17 @@ public:
     std::string modelName() override;
 };
 
+class OneEvent10Triggers: public TestModel, public TimeSeriesResult {
+public:
+    std::string str() override;
+
+    std::string modelName() override;
+
+    rr::Matrix<double> timeSeriesResult() override;
+
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
+
+};
 
 /**
  * @brief returns a vector of strings that are the

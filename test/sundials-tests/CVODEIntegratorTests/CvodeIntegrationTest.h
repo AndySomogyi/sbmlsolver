@@ -21,7 +21,7 @@ public:
 
     CVODEIntegratorTests() {
         Logger::setFormattingPattern("%U:%u:%l: %t");
-        Logger::setLevel(Logger::LOG_DEBUG);
+        Logger::setLevel(Logger::LOG_WARNING);
     };
 
     /**
@@ -120,7 +120,6 @@ public:
         Matrix<double> simulationResults(trueValues.numRows(), trueValues.numCols());
         int numStates = model->getStateVector(nullptr);
         double *stateVector = new double[numStates];
-
         // collect initial state
         simulationResults(0, 0) = model->getTime();
         model->getStateVector(stateVector);
