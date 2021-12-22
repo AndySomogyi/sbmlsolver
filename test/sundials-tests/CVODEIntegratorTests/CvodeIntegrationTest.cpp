@@ -44,8 +44,9 @@ TEST_F(CVODEIntegratorTests, OneEvent10TriggersWithRoadRunner) {
 }
 
 
+
 /**
- * These tests use the model instead of the RoadRunner interface.
+ * These tests use the LLVMExecutableModel instead of the RoadRunner interface.
  */
 
 TEST_F(CVODEIntegratorTests, TestSimpleFluxWithModel) {

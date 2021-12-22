@@ -155,18 +155,12 @@ protected:
 
         /// verifyFunction - Check a function for errors, printing messages on stderr.
         /// Return true if the function is corrupt.
-//#if (LLVM_VERSION_MAJOR == 3) && (LLVM_VERSION_MINOR >= 5)
-#if (LLVM_VERSION_MAJOR >= 6)
         if (llvm::verifyFunction(*function))
-#else
-        if (llvm::verifyFunction(*function, llvm::AbortProcessAction))
-#endif
         {
-            poco_error(getLogger(),
-                    "Corrupt Generated Function, "  + to_string(function));
+            std::string err = "Corrupt Generated Function, "  + to_string(function);
+            rrLogErr << err;
 
-            throw LLVMException("Generated function is corrupt, see stderr",
-                    __FUNC__);
+            throw LLVMException(err);
         }
 
         return function;

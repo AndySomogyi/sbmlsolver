@@ -333,8 +333,7 @@ namespace rrllvm {
         llvm::FunctionType *fnTy_double_argsd1 = llvm::FunctionType::get(double_type, args_d1, false);
         llvm::FunctionType *fnTy_double_argsd2 = llvm::FunctionType::get(double_type, args_d2, false);
         llvm::FunctionType *fnTy_int_argsi1 = llvm::FunctionType::get(int_type, args_i1, false);
-        llvm::FunctionType *fnTy_double_void_d4 = llvm::FunctionType::get(double_type, args_void_double_quadruple,
-                                                                          false);
+        llvm::FunctionType *fnTy_double_void_d4 = llvm::FunctionType::get(double_type, args_void_double_quadruple,false);
         llvm::FunctionType *fnTy_double_void_d3 = llvm::FunctionType::get(double_type, args_void_double_triple, false);
         llvm::FunctionType *fnTy_double_void_d2 = llvm::FunctionType::get(double_type, args_void_double_double, false);
         llvm::FunctionType *fnTy_double_void_d1 = llvm::FunctionType::get(double_type, args_void_double, false);
@@ -365,20 +364,20 @@ namespace rrllvm {
                 {"rr_max", {fnTy_double_argsd2, (void*)&sbmlsupport::rr_max}},
                 {"rr_min", {fnTy_double_argsd2, (void*)&sbmlsupport::rr_min}},
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-                {"rr_distrib_bernoulli", {fnTy_double_void_d1, (void*)&distrib_binomial}},
+                {"rr_distrib_bernoulli", {fnTy_double_void_d1, (void*)&distrib_bernoulli}},
                 {"rr_distrib_cauchy_one", {fnTy_double_void_d1, (void*)&distrib_cauchy_one}},
                 {"rr_distrib_laplace_one", {fnTy_double_void_d1, (void*)&distrib_laplace_one}},
+                {"rr_distrib_exponential", {fnTy_double_void_d1, (void*)&distrib_exponential}},
                 {"rr_distrib_uniform", {fnTy_double_void_d2, (void*)&distrib_uniform}},
                 {"rr_distrib_normal", {fnTy_double_void_d2, (void*)&distrib_normal}},
-                {"rr_distrib_binomial", {fnTy_double_void_d2, (void*)&distrib_bernoulli}},
+                {"rr_distrib_binomial", {fnTy_double_void_d2, (void*)&distrib_binomial}},
                 {"rr_distrib_cauchy", {fnTy_double_void_d2, (void*)&distrib_cauchy}},
-                {"rr_distrib_chisquare", {fnTy_double_void_d2, (void*)&distrib_chisquare}},
-                {"rr_distrib_exponential", {fnTy_double_void_d2, (void*)&distrib_exponential}},
+                {"rr_distrib_chisquare", {fnTy_double_void_d1, (void*)&distrib_chisquare}},
                 {"rr_distrib_gamma", {fnTy_double_void_d2, (void*)&distrib_gamma}},
                 {"rr_distrib_laplace", {fnTy_double_void_d2, (void*)&distrib_laplace}},
                 {"rr_distrib_lognormal", {fnTy_double_void_d2, (void*)&distrib_lognormal}},
-                {"rr_distrib_poisson", {fnTy_double_void_d2, (void*)&distrib_poisson}},
-                {"rr_distrib_rayleigh", {fnTy_double_void_d2, (void*)&distrib_rayleigh}},
+                {"rr_distrib_poisson", {fnTy_double_void_d1, (void*)&distrib_poisson}},
+                {"rr_distrib_rayleigh", {fnTy_double_void_d1, (void*)&distrib_rayleigh}},
                 {"rr_distrib_chisquare_three", {fnTy_double_void_d3, (void*)&distrib_chisquare_three}},
                 {"rr_distrib_exponential_three", {fnTy_double_void_d3, (void*)&distrib_exponential_three}},
                 {"rr_distrib_poisson_three", {fnTy_double_void_d3, (void*)&distrib_poisson_three}},

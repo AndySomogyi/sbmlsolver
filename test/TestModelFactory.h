@@ -725,6 +725,25 @@ public:
 
 };
 
+#if LIBSBML_HAS_PACKAGE_DISTRIB
+/**
+ * This is a duplicate of model 43 from the stochastic test suite.
+ * Its useful to have a model fromt the stochastic STS represented
+ * in the TestModelFactory, despite being duplicate.
+ */
+class StochasticTestSuiteCase43: public TestModel, public TimeSeriesResult {
+public:
+    std::string str() override;
+
+    std::string modelName() override;
+
+    rr::Matrix<double> timeSeriesResult() override;
+
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
+
+};
+#endif
+
 /**
  * @brief returns a vector of strings that are the
  * names of the classes that inherit from TestModel.

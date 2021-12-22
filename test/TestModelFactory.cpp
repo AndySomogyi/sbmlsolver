@@ -3050,7 +3050,133 @@ std::unordered_map<std::string, rr::Setting> OneEvent10Triggers::timeSeriesSetti
             {"steps",    100}
     };
 };
+#if LIBSBML_HAS_PACKAGE_DISTRIB
 
+std::string StochasticTestSuiteCase43::str() {
+    return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+           "<sbml xmlns:distrib=\"http://www.sbml.org/sbml/level3/version1/distrib/version1\" xmlns=\"http://www.sbml.org/sbml/level3/version2/core\" level=\"3\" version=\"2\" distrib:required=\"true\">\n"
+           "  <model>\n"
+           "    <listOfCompartments>\n"
+           "      <compartment id=\"C\" spatialDimensions=\"3\" size=\"1\" constant=\"true\"/>\n"
+           "    </listOfCompartments>\n"
+           "    <listOfSpecies>\n"
+           "      <species id=\"X\" compartment=\"C\" initialAmount=\"0\" hasOnlySubstanceUnits=\"true\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+           "    </listOfSpecies>\n"
+           "    <listOfParameters>\n"
+           "      <parameter id=\"t\" value=\"0\" constant=\"false\"/>\n"
+           "    </listOfParameters>\n"
+           "    <listOfRules>\n"
+           "      <rateRule variable=\"t\">\n"
+           "        <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "          <cn type=\"integer\"> 1 </cn>\n"
+           "        </math>\n"
+           "      </rateRule>\n"
+           "    </listOfRules>\n"
+           "    <listOfEvents>\n"
+           "      <event id=\"E0\" useValuesFromTriggerTime=\"true\">\n"
+           "        <trigger initialValue=\"true\" persistent=\"true\">\n"
+           "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "            <apply>\n"
+           "              <geq/>\n"
+           "              <ci> t </ci>\n"
+           "              <cn> 0.5 </cn>\n"
+           "            </apply>\n"
+           "          </math>\n"
+           "        </trigger>\n"
+           "        <listOfEventAssignments>\n"
+           "          <eventAssignment variable=\"X\">\n"
+           "            <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "              <apply>\n"
+           "                <csymbol encoding=\"text\" definitionURL=\"http://www.sbml.org/sbml/symbols/distrib/exponential\"> exponential </csymbol>\n"
+           "                <cn type=\"integer\"> 1 </cn>\n"
+           "              </apply>\n"
+           "            </math>\n"
+           "          </eventAssignment>\n"
+           "          <eventAssignment variable=\"t\">\n"
+           "            <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "              <apply>\n"
+           "                <minus/>\n"
+           "                <cn> 0.5 </cn>\n"
+           "              </apply>\n"
+           "            </math>\n"
+           "          </eventAssignment>\n"
+           "        </listOfEventAssignments>\n"
+           "      </event>\n"
+           "    </listOfEvents>\n"
+           "  </model>\n"
+           "</sbml>";
+}
+
+std::string StochasticTestSuiteCase43::modelName() {
+    return "StochasticTestSuiteCase43";
+}
+
+rr::Matrix<double> StochasticTestSuiteCase43::timeSeriesResult() {
+    return {
+            //time,X-mean,X-sd
+            {0,  0, 0},
+            {1,  1, 1},
+            {2,  1, 1},
+            {3,  1, 1},
+            {4,  1, 1},
+            {5,  1, 1},
+            {6,  1, 1},
+            {7,  1, 1},
+            {8,  1, 1},
+            {9,  1, 1},
+            {10, 1, 1},
+            {11, 1, 1},
+            {12, 1, 1},
+            {13, 1, 1},
+            {14, 1, 1},
+            {15, 1, 1},
+            {16, 1, 1},
+            {17, 1, 1},
+            {18, 1, 1},
+            {19, 1, 1},
+            {20, 1, 1},
+            {21, 1, 1},
+            {22, 1, 1},
+            {23, 1, 1},
+            {24, 1, 1},
+            {25, 1, 1},
+            {26, 1, 1},
+            {27, 1, 1},
+            {28, 1, 1},
+            {29, 1, 1},
+            {30, 1, 1},
+            {31, 1, 1},
+            {32, 1, 1},
+            {33, 1, 1},
+            {34, 1, 1},
+            {35, 1, 1},
+            {36, 1, 1},
+            {37, 1, 1},
+            {38, 1, 1},
+            {39, 1, 1},
+            {40, 1, 1},
+            {41, 1, 1},
+            {42, 1, 1},
+            {43, 1, 1},
+            {44, 1, 1},
+            {45, 1, 1},
+            {46, 1, 1},
+            {47, 1, 1},
+            {48, 1, 1},
+            {49, 1, 1},
+            {50, 1, 1},
+    };
+}
+
+std::unordered_map<std::string, rr::Setting> StochasticTestSuiteCase43::timeSeriesSettings() {
+    return {
+            {"start",    0},
+            {"duration", 50},
+            {"steps",    50}
+    };
+}
+
+#endif
 
 std::vector<std::string> getAvailableTestModels() {
     return std::vector<std::string>(
@@ -3068,7 +3194,10 @@ std::vector<std::string> getAvailableTestModels() {
                     "ModelWithLocalParameters",
                     "BimolecularEnd",
                     "BatchImmigrationDeath03",
-                    "OneEvent10Triggers"
+                    "OneEvent10Triggers",
+#if LIBSBML_HAS_PACKAGE_DISTRIB
+                    "StochasticTestSuiteCase43"
+#endif
             });
 }
 
@@ -3102,6 +3231,11 @@ TestModel *TestModelFactory(const std::string &modelName) {
         return new BatchImmigrationDeath03();
     } else if (modelName == "OneEvent10Triggers") {
         return new OneEvent10Triggers();
+    }
+#if LIBSBML_HAS_PACKAGE_DISTRIB
+    else if (modelName == "StochasticTestSuiteCase43") {
+        return new StochasticTestSuiteCase43();
+#endif
     } else {
         std::ostringstream err;
         err << "TestModelFactory::TestModelFactory(): no model called \"" << modelName << "\" found. ";
