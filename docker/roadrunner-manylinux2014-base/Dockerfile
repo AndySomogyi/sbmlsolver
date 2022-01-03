@@ -13,6 +13,7 @@ RUN yum install -y wget
 # instructions: https://linuxhostsupport.com/blog/how-to-install-gcc-on-centos-7/
 RUN wget http://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-11.1.0/gcc-11.1.0.tar.gz
 RUN tar zxf gcc-11.1.0.tar.gz && yum -y install bzip2
+RUN rm gcc-11.1.0.tar.gz
 RUN cd gcc-11.1.0 && ./contrib/download_prerequisites
 RUN cd gcc-11.1.0 && mkdir build && cd build && ../configure --prefix=/usr/local/gcc-11.1.0 --disable-multilib
 RUN cd gcc-11.1.0/build && make -j 12
@@ -32,10 +33,10 @@ RUN /Miniconda3/bin/conda init && bash ~/.bashrc && . ~/.bashrc
 RUN git clone https://github.com/sys-bio/llvm-13.x.git \
     && cd llvm-13.x
 RUN cd /llvm-13.x/llvm && mkdir build && cd build \
-    && cmake -DCMAKE_INSTALL_PREFIX=/llvm-13.x/install-llvm-13.x -DCMAKE_BUILD_TYPE=Release ..
+    && cmake -DCMAKE_INSTALL_PREFIX=/install-llvm-13.x -DCMAKE_BUILD_TYPE=Release ..
 RUN cd /llvm-13.x/llvm/build \
     && cmake --build . --target install --config Release -j 12
-
+RUN rm -rf /llvm-13.x
 
 RUN yum install -y pcre-devel.x86_64
 
@@ -87,6 +88,6 @@ fi\n\
 cd /roadrunner\n\
 mkdir build\n\
 cd build\n\
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../../Roadrunner-release -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DLLVM_INSTALL_PREFIX=/llvm-13.x/install-llvm-13.x -DBUILD_TESTS=ON -DBUILD_PYTHON=ON -DSWIG_EXECUTABLE=/swig-4.0.2/swig -DPython_ROOT_DIR=/Miniconda3/envs/py39 ..\n\
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_RR_PLUGINS=ON -DCMAKE_INSTALL_PREFIX=../../Roadrunner-release -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DLLVM_INSTALL_PREFIX=/install-llvm-13.x -DBUILD_TESTS=ON -DBUILD_PYTHON=ON -DSWIG_EXECUTABLE=/swig-4.0.2/swig -DPython_ROOT_DIR=/Miniconda3/envs/py39 ..\n\
 cmake --build . --target install --config Release -j 16\n" > /build-roadrunner.sh
 
