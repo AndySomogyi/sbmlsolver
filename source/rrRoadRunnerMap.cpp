@@ -12,7 +12,7 @@ namespace rr {
     RoadRunnerMap::RoadRunnerMap(const std::vector<std::string> &sbmlStringsOrFiles, unsigned int numThreads)
             : numThreads_(numThreads) {
         // we don't want multiple threads trying to use constructor at the same time
-        std::lock_guard lock(rrMapMtx);
+//        std::lock_guard lock(rrMapMtx);
         if (numThreads_ == 0){
             std::ostringstream err;
             err << "User has requested " << numThreads_ << " threads. Please choose a number greater than 0.";
@@ -22,34 +22,36 @@ namespace rr {
         // provide a way to avoid the overhead of creating and managing the thread_pool
         // For instance, if we are only loading 3 models, the overhead might not be worth it
         if (numThreads_ > 1){
-            rrLogCritical << "Instantiating a map with " << numThreads_ << " threads";
+            rrLogInfo << "Instantiating a map with " << numThreads_ << " threads";
             pool = std::make_unique<thread_pool>(numThreads);
             loadParallel(sbmlStringsOrFiles);
         }
 
         else {
-            rrLogCritical << "Instantiating a map in serial mode, 1 thread.";
+            rrLogInfo << "Instantiating a map in serial mode, 1 thread.";
             loadSerial(sbmlStringsOrFiles);
         }
     }
 
     std::vector<std::string> RoadRunnerMap::getKeys() const {
-        std::lock_guard lock(rrMapMtx);
-        return keys_;
+        std::vector<std::string> keys(size());
+        int i = 0;
+        for (auto& [name, ptr ]: rrMap_){
+            keys[i++] = name;
+        }
+        return keys;
     }
 
     std::vector<RoadRunner*> RoadRunnerMap::getValues() const{
-        std::lock_guard lock(rrMapMtx);
-        std::vector<RoadRunner*> v(size());
+        std::vector<RoadRunner*> values(size());
         int i = 0;
         for (auto& [name, ptr ]: rrMap_){
-            v[i++] = ptr.get();
+            values[i++] = ptr.get();
         }
-        return v;
+        return values;
     }
 
     std::vector<std::pair<std::string, RoadRunner*>> RoadRunnerMap::getItems() const{
-        std::lock_guard lock(rrMapMtx);
         std::vector<std::pair<std::string, RoadRunner*>> v(size());
         int i = 0;
         for (auto& [name, ptr ]: rrMap_){
@@ -60,15 +62,13 @@ namespace rr {
 
     void RoadRunnerMap::insert(std::unique_ptr<RoadRunner> roadRunner) {
         const std::string &k = roadRunner->getModelName();
-        std::lock_guard lock(rrMapMtx);
-        keys_.push_back(k);
+        std::lock_guard<std::mutex> lock(rrMapMtx);
         rrMap_.insert({k, std::move(roadRunner)});
     }
 
     void RoadRunnerMap::insert(const std::string &key, std::unique_ptr<RoadRunner> roadRunner) {
-        std::lock_guard lock(rrMapMtx);
         try {
-            keys_.push_back(key);
+            std::lock_guard<std::mutex> lock(rrMapMtx);
             rrMap_.insert({key, std::move(roadRunner)});
         } catch (std::exception &e) {
             rrLogErr << "Model with key \"" << key << "\" did not load due to the following exception: \n " << e.what();
@@ -78,8 +78,7 @@ namespace rr {
     void RoadRunnerMap::insert(const std::string &sbmlOrFile) {
         try {
             auto rr = std::make_unique<RoadRunner>(sbmlOrFile);
-            std::lock_guard lock(rrMapMtx);
-            keys_.push_back(rr->getModelName());
+            std::lock_guard<std::mutex> lock(rrMapMtx);
             rrMap_.insert({rr->getModelName(), std::move(rr)});
         } catch (std::exception &e) {
             rrLogErr << "Model with key sbmlOrFile \"" << sbmlOrFile
@@ -88,9 +87,8 @@ namespace rr {
     }
 
     void RoadRunnerMap::insert(const std::string &key, const std::string &sbmlOrFile) {
-        std::lock_guard lock(rrMapMtx);
         try {
-            keys_.push_back(key);
+            std::lock_guard<std::mutex> lock(rrMapMtx);
             rrMap_.insert({key, std::make_unique<RoadRunner>(sbmlOrFile)});
         } catch (std::exception &e) {
             rrLogErr << "Model with key \"" << key << "\" and sbmlOrFile : \n" << sbmlOrFile
@@ -106,115 +104,28 @@ namespace rr {
         }
     }
 
-    void RoadRunnerMap::remove(const std::string &key) {
-        std::lock_guard lock(rrMapMtx);
-        auto it = findKey(key);
-        if (it == keys_.end())
-            return;
-        keys_.erase(it);
-        auto mapIt = find(key);
-        if (mapIt == rrMap_.end())
-            return;
-        rrMap_.erase(mapIt);
-    }
-
-    UnorderedMap::iterator RoadRunnerMap::begin() noexcept {
-        std::lock_guard lock(rrMapMtx);
-        return rrMap_.begin();
-    }
-
-    UnorderedMap::iterator RoadRunnerMap::end() noexcept {
-        std::lock_guard lock(rrMapMtx);
-        return rrMap_.end();
-    }
-
-    std::vector<std::string>::iterator RoadRunnerMap::keysBegin() {
-        std::lock_guard lock(rrMapMtx);
-        return keys_.begin();
-    }
-
-    std::vector<std::string>::iterator  RoadRunnerMap::keysEnd() {
-        std::lock_guard lock(rrMapMtx);
-        return keys_.end();
+    void RoadRunnerMap::erase(const std::string &key) {
+        std::lock_guard<std::mutex> lock(rrMapMtx);
+        rrMap_.erase(key);
     }
 
     bool RoadRunnerMap::empty() const {
-        std::lock_guard lock(rrMapMtx);
         return rrMap_.empty();
     }
 
     unsigned int RoadRunnerMap::size() const {
-        std::lock_guard lock(rrMapMtx);
         return rrMap_.size();
     }
 
     void RoadRunnerMap::clear() {
-        std::lock_guard lock(rrMapMtx);
         rrMap_.clear();
     }
 
-//    std::unique_ptr<RoadRunner> RoadRunnerMap::popKey(const std::string& key){
-//        if (count(key) == 0){
-//            std::ostringstream err;
-//            err << "key \"" << key << "\" not in RoadRunnerMap. These are your keys: ";
-//            for (auto& k : getKeys()){
-//                err << k << ", ";
-//            }
-//            err << std::endl;
-//            rrLogErr << err.str();
-//            throw std::invalid_argument(err.str());
-//        }
-//        std::unique_ptr<RoadRunner> r = std::move(steal(key));
-//        remove(key);
-//        return std::move(r);
-//    }
-
-    RoadRunner *RoadRunnerMap::operator[](const std::string &key) {
-        std::lock_guard lock(rrMapMtx);
-        return borrow(key);
-    }
-
-    RoadRunner *RoadRunnerMap::borrow(const std::string &key) {
-        std::lock_guard lock(rrMapMtx);
-        return rrMap_.at(key).get();
-    }
-
-    RoadRunner* RoadRunnerMap::steal(const std::string &key) {
-        std::lock_guard lock(rrMapMtx);
-        if (count(key) == 0){
-            return {};
-        }
-        std::unique_ptr p = std::move(rrMap_.at(key));
-        auto mapIt = find(key);
-        auto vecIt = findKey(key);
-        rrMap_.erase(mapIt);
-        keys_.erase(vecIt);
-        return p.release();
-    }
-
     size_t RoadRunnerMap::count(const std::string &key) {
-        std::lock_guard lock(rrMapMtx);
         return rrMap_.count(key);
     }
 
-    UnorderedMap::iterator RoadRunnerMap::find(const std::string &key) {
-        std::lock_guard lock(rrMapMtx);
-        return rrMap_.find(key);
-    }
-
-    std::vector<std::string>::iterator RoadRunnerMap::findKey(const std::string& key){
-        std::lock_guard lock(rrMapMtx);
-        return std::find(keys_.begin(), keys_.end(), key);
-    }
-
-#if __cplusplus >= 202002L
-    bool RoadRunnerMap::contains(const std::string& key);
-        std::lock_guard lock(rrMapMtx);
-        return rrMap_.contains(key);
-#endif
-
     void RoadRunnerMap::setNumThreads(unsigned int n){
-        std::lock_guard lock(rrMapMtx);
         // do not do anything if the user asks for the same number of threads
         // that already exist
         if (n == numThreads_)
@@ -247,8 +158,11 @@ namespace rr {
     }
 
     unsigned int RoadRunnerMap::getNumThreads() const{
-        std::lock_guard lock(rrMapMtx);
         return numThreads_;
+    }
+
+    void RoadRunnerMap::wait_for_tasks() {
+        pool->wait_for_tasks();
     }
 
     /*******************************************************
@@ -273,5 +187,53 @@ namespace rr {
             insert(sbml);
         }
     }
+
+    ThreadSafeUnorderedMap::iterator RoadRunnerMap::begin() {
+        return rrMap_.begin();
+    }
+    ThreadSafeUnorderedMap::const_iterator RoadRunnerMap::begin() const {
+        return rrMap_.begin();
+    }
+
+    ThreadSafeUnorderedMap::iterator RoadRunnerMap::end() {
+        return rrMap_.end();
+    }
+
+    ThreadSafeUnorderedMap::const_iterator RoadRunnerMap::end() const{
+        return rrMap_.end();
+    }
+
+    ThreadSafeUnorderedMap::iterator RoadRunnerMap::find(const std::string& key){
+        return rrMap_.find(key);
+    }
+
+    ThreadSafeUnorderedMap::const_iterator RoadRunnerMap::find(const std::string& key) const{
+        return rrMap_.find(key);
+    }
+
+    RoadRunner *RoadRunnerMap::operator[](const string &key) {
+        return at(key);
+    }
+
+    RoadRunner* RoadRunnerMap::at(const std::string& key){
+        return rrMap_.at(key).get();
+    }
+
+    RoadRunner* RoadRunnerMap::at(const std::string& key) const {
+        return rrMap_.at(key).get();
+    }
+
+
+//    RoadRunner *RoadRunnerMap::steal( const std::string &key){
+//        auto rr = rrMap_.at(key).get();
+//        for (auto it=rrMap_.begin(); it != rrMap_.end(); ++it){
+//            if (it->first == key){
+//                rrMap_.erase(it);
+//                break;
+//            }
+//        }
+//        return rr;
+//    }
+
 
 }

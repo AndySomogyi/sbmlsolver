@@ -9,6 +9,8 @@
 #include <vector>
 #include "rrLogger.h"
 #include <filesystem>
+#include "fstream"
+#include <mutex>
 
 using namespace rr;
 
@@ -25,11 +27,17 @@ public:
      * @brief return the root to the STS
      */
     std::string getRootDirectory();
+
     std::string getModelDescriptionFile();
+
     std::string getResultsFile();
+
     std::string getSettingsFile();
+
     std::string getLevelAndVersion(int level, int version);
+
     std::string getNewestLevelAndVersion();
+
     unsigned int caseId = 1;
 
 protected:
@@ -87,6 +95,9 @@ public:
 
 };
 
+static std::mutex STSMtx;
+
+
 /**
  * @brief Little interface into sbml-test-suite.
  *
@@ -100,8 +111,8 @@ public:
 
     STS() {
         // increase by 1 so that we can use caseId as vector index
-        data_.resize(SemanticOrStochastic::maxNum()+1);
-        for (int i=1; i<SemanticOrStochastic::maxNum(); i++){
+        data_.resize(SemanticOrStochastic::maxNum() + 1);
+        for (int i = 1; i < SemanticOrStochastic::maxNum(); i++) {
             data_[i] = SemanticOrStochastic(i);
         }
     };
@@ -142,10 +153,10 @@ public:
      * @details prefer the newest level and version available, but if it does not exist look for
      * an earlier version.
      */
-    std::vector<std::string> getModelsFromSTS(const std::vector<int> &caseIDs){
+    std::vector<std::string> getModelsFromSTS(const std::vector<int> &caseIDs) {
         std::vector<std::string> v(caseIDs.size());
-        int i=0;
-        for (auto id: caseIDs){
+        int i = 0;
+        for (auto id: caseIDs) {
             v[i++] = data_[id].getNewestLevelAndVersion();
         }
         return v;
@@ -157,19 +168,38 @@ public:
      * @returns vector of absolute directories to STS models. Newest
      * is preferred.
      */
-    std::vector<std::string> getModelsFromSTS(int first, int last){
+    std::vector<std::string> getModelsFromSTS(int first, int last) {
         std::vector<std::string> v(last - first);
-        int i=0;
-        for (int modelId=first; modelId<last; modelId++){
+        int i = 0;
+        for (int modelId = first; modelId < last; modelId++) {
             v[i++] = data_[modelId].getNewestLevelAndVersion();
         }
         return v;
     }
 
-    std::vector<SemanticSTSModel>::iterator begin(){
+
+    std::vector<std::string> getModelsFromSTSAsStrings(int first, int last) {
+        std::vector<std::string> v = getModelsFromSTS(first, last);
+        for (int i = 0; i < v.size(); i++) {
+            std::lock_guard<std::mutex> lock(STSMtx);
+            std::ifstream f(v[i]);
+            std::string fileContents;
+            std::copy(
+                    std::istreambuf_iterator<char>(f),
+                    std::istreambuf_iterator<char>(),
+                    std::back_inserter(fileContents)
+            );
+            v[i] = fileContents;
+        }
+        return v;
+    }
+
+
+    std::vector<SemanticSTSModel>::iterator begin() {
         return data_.begin();
     }
-    std::vector<SemanticSTSModel>::iterator end(){
+
+    std::vector<SemanticSTSModel>::iterator end() {
         return data_.end();
     }
 

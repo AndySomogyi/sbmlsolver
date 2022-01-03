@@ -373,21 +373,21 @@ namespace rr {
 
         void deleteAllSolvers() {
             // remove integrators
-            for (auto &integrator : integrators) {
+            for (auto &integrator: integrators) {
                 delete integrator;
                 integrator = nullptr;
             }
             integrators.clear();
 
             // remove steady state solvers
-            for (auto &steady_state_solver : steady_state_solvers) {
+            for (auto &steady_state_solver: steady_state_solvers) {
                 delete steady_state_solver;
                 steady_state_solver = nullptr;
             }
             steady_state_solvers.clear();
 
             // remove sensitivity solvers
-            for (auto &sensitivity_solver : sensitivity_solvers) {
+            for (auto &sensitivity_solver: sensitivity_solvers) {
                 delete sensitivity_solver;
                 sensitivity_solver = nullptr;
             }
@@ -395,13 +395,13 @@ namespace rr {
         }
 
         void syncAllSolversWithModel(ExecutableModel *m) {
-            for (auto &integrator : integrators) {
+            for (auto &integrator: integrators) {
                 integrator->syncWithModel(m);
             }
-            for (auto &steady_state_solver : steady_state_solvers) {
+            for (auto &steady_state_solver: steady_state_solvers) {
                 steady_state_solver->syncWithModel(m);
             }
-            for (auto &sensitivity_solver : sensitivity_solvers) {
+            for (auto &sensitivity_solver: sensitivity_solvers) {
                 sensitivity_solver->syncWithModel(m);
             }
         }
@@ -499,19 +499,15 @@ namespace rr {
     RoadRunner::RoadRunner(unsigned int level, unsigned int version)
             : impl(new RoadRunnerImpl("", NULL)) {
 
-        llvm::InitializeNativeTarget();
-        llvm::InitializeNativeTargetAsmPrinter();
-        llvm::InitializeNativeTargetAsmParser();
+        initLLVM();
 
         // Register integrators, steady state and sensitivity solvers on instantiation
-        IntegratorFactory::Register();
-        SteadyStateSolverFactory::Register();
-        SensitivitySolverFactory::Register();
+        registerSolvers();
 
         //Increase instance count..
         rrMtx.lock();
         mInstanceCount++; // static, so one thread at a time
-        impl->mInstanceID = mInstanceCount; 
+        impl->mInstanceID = mInstanceCount;
         rrMtx.unlock();
 
 
@@ -530,35 +526,14 @@ namespace rr {
     }
 
 
-    RoadRunner::RoadRunner(const std::string& uriOrSBML, const Dictionary* options) 
-        : impl(new RoadRunnerImpl(uriOrSBML, options)) 
-    {
-        /**
-         * The main program should call this function to
-         * initialize the native target corresponding to the host.  This is useful
-         * for JIT applications to ensure that the target gets linked in correctly.
-         * It is legal for a client to make multiple calls to this function.
-         */
-        llvm::InitializeNativeTarget(); // looks like this has been renamed to LLVMInitializeNativeTarget: https://stackoverflow.com/a/21149010/3059024
-
-        /**
-         * The main program should call
-         * this function to initialize the native target assembly (asm) printer.
-         */
-        llvm::InitializeNativeTargetAsmPrinter();
-
-        /**
-         * The main program should call
-         *  this function to initialize the native target assembly (asm) parser.
-         */
-        llvm::InitializeNativeTargetAsmParser();
+    RoadRunner::RoadRunner(const std::string &uriOrSBML, const Dictionary *options)
+            : impl(new RoadRunnerImpl(uriOrSBML, options)) {
+        initLLVM();
 
         /**
          * Register solvers
          */
-        IntegratorFactory::Register();
-        SteadyStateSolverFactory::Register();
-        SensitivitySolverFactory::Register();
+        registerSolvers();
 
         // make CVODE the default integrator
         setIntegrator("cvode");
@@ -582,13 +557,9 @@ namespace rr {
     RoadRunner::RoadRunner(const std::string &_compiler, const std::string &_tempDir,
                            const std::string &supportCodeDir) :
             impl(new RoadRunnerImpl(_compiler, _tempDir, supportCodeDir)) {
-        llvm::InitializeNativeTarget();
-        llvm::InitializeNativeTargetAsmPrinter();
-        llvm::InitializeNativeTargetAsmParser();
+        initLLVM();
         // must be run to register solvers
-        IntegratorFactory::Register();
-        SteadyStateSolverFactory::Register();
-        SensitivitySolverFactory::Register();
+        registerSolvers();
 
         std::string tempDir = _tempDir.empty() ? getTempDir() : _tempDir;
 
@@ -597,7 +568,7 @@ namespace rr {
         //Increase instance count..
         rrMtx.lock();
         mInstanceCount++; // static, so one thread at a time
-        impl->mInstanceID = mInstanceCount; 
+        impl->mInstanceID = mInstanceCount;
         rrMtx.unlock();
 
 
@@ -620,7 +591,7 @@ namespace rr {
         //  the std::vector of the original rr.
         for (size_t in = 0; in < rr.impl->integrators.size(); in++) {
             setIntegrator(rr.impl->integrators[in]->getName());
-            for (const std::string &k : rr.impl->integrators[in]->getSettings()) {
+            for (const std::string &k: rr.impl->integrators[in]->getSettings()) {
                 auto x = rr.impl->integrators[in]->getValue(k);
                 impl->integrator->setValue(k, x);
             }
@@ -637,7 +608,7 @@ namespace rr {
         //Set up the steady state solvers, the same as the integrators.
         for (size_t ss = 0; ss < rr.impl->steady_state_solvers.size(); ss++) {
             setSteadyStateSolver(rr.impl->steady_state_solvers[ss]->getName());
-            for (std::string k : rr.impl->steady_state_solvers[ss]->getSettings()) {
+            for (std::string k: rr.impl->steady_state_solvers[ss]->getSettings()) {
                 impl->steady_state_solver->setValue(k, rr.impl->steady_state_solvers[ss]->getValue(k));
             }
         }
@@ -650,7 +621,7 @@ namespace rr {
         for (size_t ss = 0; ss < rr.impl->sensitivity_solvers.size(); ss++) {
             std::string name = rr.impl->sensitivity_solvers[ss]->getName();
             setSensitivitySolver(name);
-            for (std::string k : rr.impl->sensitivity_solvers[ss]->getSettings()) {
+            for (std::string k: rr.impl->sensitivity_solvers[ss]->getSettings()) {
                 auto val = rr.impl->sensitivity_solvers[ss]->getValue(k);
                 impl->sensitivity_solver->setValue(k, val);
             }
@@ -665,7 +636,7 @@ namespace rr {
         //Increase instance count..
         rrMtx.lock();
         mInstanceCount++; // static, so one thread at a time
-        impl->mInstanceID = mInstanceCount; 
+        impl->mInstanceID = mInstanceCount;
         rrMtx.unlock();
 
 
@@ -783,7 +754,7 @@ namespace rr {
         // ensure it exists
         makeIntegrator(name);
         // find it and return
-        for (auto integrator : impl->integrators) {
+        for (auto integrator: impl->integrators) {
             if (integrator->getName() == name) {
                 return integrator;
             }
@@ -795,7 +766,7 @@ namespace rr {
         // ensure it exists
         makeSteadyStateSolver(name);
         // find it and return
-        for (auto ssSolver : impl->steady_state_solvers) {
+        for (auto ssSolver: impl->steady_state_solvers) {
             if (ssSolver->getName() == name) {
                 return ssSolver;
             }
@@ -858,7 +829,7 @@ namespace rr {
 
     std::vector<std::string> RoadRunner::getExistingIntegratorNames() {
         std::vector<std::string> result;
-        for (auto integrator : impl->integrators) {
+        for (auto integrator: impl->integrators) {
             result.push_back(integrator->getName());
         }
         return result;
@@ -866,7 +837,7 @@ namespace rr {
 
     std::vector<std::string> RoadRunner::getExistingSteadyStateSolverNames() {
         std::vector<std::string> result;
-        for (auto solver : impl->steady_state_solvers) {
+        for (auto solver: impl->steady_state_solvers) {
             result.push_back(solver->getName());
         }
         return result;
@@ -874,7 +845,7 @@ namespace rr {
 
     std::vector<std::string> RoadRunner::getExistingSensitivitySolverNames() {
         std::vector<std::string> result;
-        for (auto sensSolver : impl->sensitivity_solvers) {
+        for (auto sensSolver: impl->sensitivity_solvers) {
             result.push_back(sensSolver->getName());
         }
         return result;
@@ -909,7 +880,7 @@ namespace rr {
         rrLog(Logger::LOG_DEBUG) << "Setting integrator to " << name;
         // Try to set integrator from an existing reference.
         if (integratorExists(name)) {
-            for (auto integrator : impl->integrators) {
+            for (auto integrator: impl->integrators) {
                 if (integrator->getName() == name) {
                     rrLog(Logger::LOG_DEBUG) << "Using pre-existing integrator for " << name;
                     impl->integrator = integrator;
@@ -965,7 +936,7 @@ namespace rr {
     };
 
     bool RoadRunner::integratorExists(const std::string &name) {
-        for (auto it : impl->integrators) {
+        for (auto it: impl->integrators) {
             if (it->getName() == name) {
                 return true;
             }
@@ -974,7 +945,7 @@ namespace rr {
     }
 
     bool RoadRunner::steadyStateSolverExists(const std::string &name) {
-        for (auto it : impl->steady_state_solvers) {
+        for (auto it: impl->steady_state_solvers) {
             if (it->getName() == name) {
                 return true;
             }
@@ -983,7 +954,7 @@ namespace rr {
     }
 
     bool RoadRunner::sensitivitySolverExists(const std::string &name) {
-        for (auto it : impl->sensitivity_solvers) {
+        for (auto it: impl->sensitivity_solvers) {
             if (it->getName() == name) {
                 return true;
             }
@@ -991,11 +962,17 @@ namespace rr {
         return false;
     }
 
+    bool RoadRunner::solversRegistered = false;
+
     void RoadRunner::registerSolvers() {
         // must be run to register solvers at startup
-        IntegratorFactory::Register();
-        SteadyStateSolverFactory::Register();
-        SensitivitySolverFactory::Register();
+        std::lock_guard<std::mutex> lock(rrMtx);
+        if (!solversRegistered) {
+            IntegratorFactory::Register();
+            SteadyStateSolverFactory::Register();
+            SensitivitySolverFactory::Register();
+            solversRegistered = true;
+        }
     }
 
     bool RoadRunner::isModelLoaded() {
@@ -1163,8 +1140,7 @@ namespace rr {
 
                 break;
 
-            case SelectionRecord::FLOATING_CONCENTRATION_RATE:
-            {
+            case SelectionRecord::FLOATING_CONCENTRATION_RATE: {
                 dResult = 0;
                 std::stringstream err;
                 try {
@@ -1190,8 +1166,7 @@ namespace rr {
                 }
                 break;
             }
-            case SelectionRecord::BOUNDARY_CONCENTRATION_RATE:
-            {
+            case SelectionRecord::BOUNDARY_CONCENTRATION_RATE: {
                 dResult = 0;
                 std::stringstream err;
                 try {
@@ -1219,16 +1194,13 @@ namespace rr {
             }
             case SelectionRecord::COMPARTMENT_RATE:
             case SelectionRecord::GLOBAL_PARAMETER_RATE:
-            case SelectionRecord::BOUNDARY_AMOUNT_RATE:
-            {
+            case SelectionRecord::BOUNDARY_AMOUNT_RATE: {
                 dResult = 0;
                 list<string> rrs, ars;
                 impl->model->getRateRuleIds(rrs);
                 impl->model->getAssignmentRuleIds(ars);
-                for (list<string>::iterator ar = ars.begin(); ar != ars.end(); ar++)
-                {
-                    if (*ar == record.p1)
-                    {
+                for (list<string>::iterator ar = ars.begin(); ar != ars.end(); ar++) {
+                    if (*ar == record.p1) {
                         std::stringstream err;
                         err << "No rate available for compartment " << record.p1
                             << " because the volume is defined by an assignment rule.";
@@ -1236,10 +1208,8 @@ namespace rr {
                     }
                 }
                 int index = 0;
-                for (list<string>::iterator rr = rrs.begin(); rr != rrs.end(); rr++)
-                {
-                    if (*rr == record.p1)
-                    {
+                for (list<string>::iterator rr = rrs.begin(); rr != rrs.end(); rr++) {
+                    if (*rr == record.p1) {
                         impl->model->getRateRuleRates(1, &index, &dResult);
                         break;
                     }
@@ -1323,12 +1293,13 @@ namespace rr {
             case SelectionRecord::EIGENVALUE_COMPLEX: {
                 double real = getValue("eigenReal(" + record.p1 + ")");
                 double imag = getValue("eigenImag(" + record.p1 + ")");
-                if (imag == 0)
-                {
+                if (imag == 0) {
                     return real;
                 }
                 std::stringstream err;
-                err << "Eigenvalue is complex (" << real << "+" << imag << "j):  unable to return value as a double.  Request the real and imaginary parts separately with 'eigenReal(" << record.p1 << ") and 'eigenImag(" << record.p1 << ").";
+                err << "Eigenvalue is complex (" << real << "+" << imag
+                    << "j):  unable to return value as a double.  Request the real and imaginary parts separately with 'eigenReal("
+                    << record.p1 << ") and 'eigenImag(" << record.p1 << ").";
                 throw std::invalid_argument(err.str());
             }
                 break;
@@ -1433,7 +1404,7 @@ namespace rr {
         // TODO: add documentation for validations
         if ((impl->loadOpt.loadFlags & LoadSBMLOptions::TURN_ON_VALIDATION) != 0) {
             std::string errors = validateSBML(currentSBML, VALIDATE_GENERAL | VALIDATE_IDENTIFIER | VALIDATE_MATHML |
-                                                            VALIDATE_OVERDETERMINED);
+                                                           VALIDATE_OVERDETERMINED);
             if (!errors.empty()) {
                 throw std::runtime_error(errors.c_str());
             }
@@ -1460,7 +1431,7 @@ namespace rr {
             // and an 'unknown error' is displayed to the user.
             throw e;
         }
-        catch (const std::runtime_error& e) {
+        catch (const std::runtime_error &e) {
             throw e;
         }
         catch (const std::exception &e) {
@@ -1785,6 +1756,36 @@ namespace rr {
         delete[] vals;
     }
 
+    bool RoadRunner::llvmInitialized = false;
+
+    void RoadRunner::initLLVM() {
+        // only do this once
+        std::lock_guard<std::mutex> lock(rrMtx);
+        if (!llvmInitialized) {
+            /**
+             * The main program should call this function to
+             * initialize the native target corresponding to the host.  This is useful
+             * for JIT applications to ensure that the target gets linked in correctly.
+             * It is legal for a client to make multiple calls to this function.
+             */
+            llvm::InitializeNativeTarget(); // looks like this has been renamed to LLVMInitializeNativeTarget: https://stackoverflow.com/a/21149010/3059024
+
+            /**
+             * The main program should call
+             * this function to initialize the native target assembly (asm) printer.
+             */
+            llvm::InitializeNativeTargetAsmPrinter();
+
+            /**
+             * The main program should call
+             *  this function to initialize the native target assembly (asm) parser.
+             */
+            llvm::InitializeNativeTargetAsmParser();
+
+            llvmInitialized = true;
+        }
+    }
+
     double
     RoadRunner::getuEE(const std::string &reactionName, const std::string &parameterName, bool computeSteadystate) {
         try {
@@ -1816,8 +1817,7 @@ namespace rr {
                 originalParameterValue = 0;
                 impl->model->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
             } else if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0) {
-                if (impl->model->getConservedMoietyIndex(parameterName) >= 0)
-                {
+                if (impl->model->getConservedMoietyIndex(parameterName) >= 0) {
                     throw std::invalid_argument("Cannot calculate elasticities for conserved moieties.");
                 }
                 parameterType = ptGlobalParameter;
@@ -3169,7 +3169,7 @@ namespace rr {
         return "";
     }
 
-    void RoadRunner::setModelName(const string& name) {
+    void RoadRunner::setModelName(const string &name) {
         if (impl->document && impl->document->isSetModel()) {
             impl->document->getModel()->setName(name);
         }
@@ -3177,7 +3177,7 @@ namespace rr {
 
     std::string RoadRunner::getModelId() {
         if (impl->document && impl->document->isSetModel()) {
-            libsbml::Model* model = impl->document->getModel();
+            libsbml::Model *model = impl->document->getModel();
             if (model->isSetId()) {
                 return model->getId();
             }
@@ -3185,7 +3185,7 @@ namespace rr {
         return "";
     }
 
-    void RoadRunner::setModelId(const string& id) {
+    void RoadRunner::setModelId(const string &id) {
         if (impl->document && impl->document->isSetModel()) {
             impl->document->getModel()->setId(id);
         }
@@ -3194,12 +3194,12 @@ namespace rr {
     /**
     * find an symbol id in the model and set its value.
     */
-    static void setSBMLValue(libsbml::Model* model, const std::string& id, double value) {
+    static void setSBMLValue(libsbml::Model *model, const std::string &id, double value) {
         if (model == NULL) {
             throw Exception("You need to load the model first");
         }
 
-        libsbml::Species* oSpecies = model->getSpecies(id);
+        libsbml::Species *oSpecies = model->getSpecies(id);
         if (oSpecies != NULL) {
             if (oSpecies->isSetInitialAmount())
                 oSpecies->setInitialAmount(value);
@@ -3208,23 +3208,23 @@ namespace rr {
             return;
         }
 
-        libsbml::Compartment* oCompartment = model->getCompartment(id);
+        libsbml::Compartment *oCompartment = model->getCompartment(id);
         if (oCompartment != NULL) {
             oCompartment->setVolume(value);
             return;
         }
 
         for (int i = 0; i < model->getNumReactions(); i++) {
-            libsbml::Reaction* reaction = model->getReaction(i);
+            libsbml::Reaction *reaction = model->getReaction(i);
             for (int j = 0; j < reaction->getNumReactants(); j++) {
-                libsbml::SpeciesReference* reference = reaction->getReactant(j);
+                libsbml::SpeciesReference *reference = reaction->getReactant(j);
                 if (reference->isSetId() && reference->getId() == id) {
                     reference->setStoichiometry(value);
                     return;
                 }
             }
             for (int j = 0; j < reaction->getNumProducts(); j++) {
-                libsbml::SpeciesReference* reference = reaction->getProduct(j);
+                libsbml::SpeciesReference *reference = reaction->getProduct(j);
                 if (reference->isSetId() && reference->getId() == id) {
                     reference->setStoichiometry(value);
                     return;
@@ -3236,12 +3236,12 @@ namespace rr {
     }
 
 
-    static void setSpeciesAmount(libsbml::Model* model, const std::string& id, double value) {
+    static void setSpeciesAmount(libsbml::Model *model, const std::string &id, double value) {
         if (model == NULL) {
             throw Exception("You need to load the model first");
         }
 
-        libsbml::Species* oSpecies = model->getSpecies(id);
+        libsbml::Species *oSpecies = model->getSpecies(id);
         if (oSpecies == NULL) {
             throw Exception("No such species found in model.");
         }
@@ -3262,7 +3262,7 @@ namespace rr {
     }
 
 // Help("Returns the rate of a reaction by its index")
-    double RoadRunner::getReactionRate(const int& index) {
+    double RoadRunner::getReactionRate(const int &index) {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
@@ -3271,14 +3271,13 @@ namespace rr {
             double result = 0;
             impl->model->getReactionRates(1, &index, &result);
             return result;
-        }
-        else {
+        } else {
             throw CoreException(format("Index in getReactionRate out of range: [{0}]", index));
         }
     }
 
 
-    double RoadRunner::getRateOfChange(const int& index) {
+    double RoadRunner::getRateOfChange(const int &index) {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
@@ -3302,20 +3301,19 @@ namespace rr {
     }
 
 
-    void RoadRunner::setCompartmentByIndex(const int& index, const double& value) {
+    void RoadRunner::setCompartmentByIndex(const int &index, const double &value) {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
 
         if ((index >= 0) && (index < impl->model->getNumCompartments())) {
             impl->model->setCompartmentVolumes(1, &index, &value);
-        }
-        else {
+        } else {
             throw CoreException(format("Index in getCompartmentByIndex out of range: [{0}]", index));
         }
     }
 
-    double RoadRunner::getCompartmentByIndex(const int& index) {
+    double RoadRunner::getCompartmentByIndex(const int &index) {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
@@ -3337,21 +3335,20 @@ namespace rr {
     }
 
 // Help("Sets the value of a boundary species by its index")
-    void RoadRunner::setBoundarySpeciesByIndex(const int& index, const double& value) {
+    void RoadRunner::setBoundarySpeciesByIndex(const int &index, const double &value) {
         if (!impl->model) {
             throw Exception(gEmptyModelMessage);
         }
 
         if ((index >= 0) && (index < impl->model->getNumBoundarySpecies())) {
             impl->model->setBoundarySpeciesConcentrations(1, &index, &value);
-        }
-        else {
+        } else {
             throw Exception(format("Index in getBoundarySpeciesByIndex out of range: [{0}]", index));
         }
     }
 
 // Help("Returns the value of a boundary species by its index")
-    double RoadRunner::getBoundarySpeciesByIndex(const int& index) {
+    double RoadRunner::getBoundarySpeciesByIndex(const int &index) {
         if (!impl->model) {
             throw Exception(gEmptyModelMessage);
         }
@@ -3369,10 +3366,10 @@ namespace rr {
 
         int l = impl->model->getNumBoundarySpecies();
 
-        double* vals = new double[l];
+        double *vals = new double[l];
         impl->model->getBoundarySpeciesConcentrations(l, NULL, vals);
 
-        LibStructural* ls = getLibStruct();
+        LibStructural *ls = getLibStruct();
         ls::DoubleMatrix v(1, l);
 
         for (int i = 0; i < l; ++i)
@@ -3391,10 +3388,10 @@ namespace rr {
 
         int l = impl->model->getNumBoundarySpecies();
 
-        double* vals = new double[l];
+        double *vals = new double[l];
         impl->model->getBoundarySpeciesAmounts(l, NULL, vals);
 
-        LibStructural* ls = getLibStruct();
+        LibStructural *ls = getLibStruct();
         ls::DoubleMatrix v(1, l);
 
         for (int i = 0; i < l; ++i)
@@ -3418,7 +3415,7 @@ namespace rr {
 
 
 // Help("Sets the value of a floating species by its index")
-    void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int& index, const double& value) {
+    void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int &index, const double &value) {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
@@ -3426,10 +3423,9 @@ namespace rr {
         if ((index >= 0) && (index < impl->model->getNumFloatingSpecies())) {
             impl->model->setFloatingSpeciesInitConcentrations(1, &index, &value);
             reset();
-        }
-        else {
+        } else {
             throw CoreException(
-                format("Index in setFloatingSpeciesInitialConcentrationByIndex out of range: [{0}]", index));
+                    format("Index in setFloatingSpeciesInitialConcentrationByIndex out of range: [{0}]", index));
         }
     }
 
@@ -3441,9 +3437,8 @@ namespace rr {
 
         if ((index >= 0) && (index < impl->model->getNumFloatingSpecies())) {
             impl->model->setFloatingSpeciesConcentrations(1, &index,
-                &value); // This updates the amount std::vector aswell
-        }
-        else {
+                                                          &value); // This updates the amount std::vector aswell
+        } else {
             throw CoreException(format("Index in setFloatingSpeciesByIndex out of range: [{0}]", index));
         }
     }
@@ -3669,7 +3664,7 @@ namespace rr {
 
 //---------------- MCA functions......
 //        [Help("Get unscaled control coefficient with respect to a global parameter")]
-    double RoadRunner::getuCC(const std::string& variableName, const std::string& parameterName) {
+    double RoadRunner::getuCC(const std::string &variableName, const std::string &parameterName) {
         try {
             if (!impl->model) {
                 throw CoreException(gEmptyModelMessage);
@@ -3684,33 +3679,31 @@ namespace rr {
             std::string variableNameMod = variableName;
 
             variableNameMod.erase(std::remove(variableNameMod.begin(), variableNameMod.end(), '['),
-                variableNameMod.end());
+                                  variableNameMod.end());
             variableNameMod.erase(std::remove(variableNameMod.begin(), variableNameMod.end(), ']'),
-                variableNameMod.end());
+                                  variableNameMod.end());
 
             // Check the variable name
             if ((variableIndex = impl->model->getReactionIndex(variableNameMod)) >= 0) {
                 variableType = vtFlux;
-            }
-            else if ((variableIndex = impl->model->getFloatingSpeciesIndex(variableNameMod)) >= 0) {
+            } else if ((variableIndex = impl->model->getFloatingSpeciesIndex(variableNameMod)) >= 0) {
                 variableType = vtSpecies;
-            }
-            else {
+            } else {
                 throw CoreException("Unable to locate variable: [" + variableNameMod + "]");
             }
 
             //Save the current state before calculating the steady state so we can restore it later.
             int nfloat = impl->model->getNumFloatingSpecies();
-            double* floats = new double[nfloat];
+            double *floats = new double[nfloat];
             impl->model->getFloatingSpeciesAmounts(nfloat, 0, floats);
             int nboundary = impl->model->getNumBoundarySpecies();
-            double* boundaries = new double[nboundary];
+            double *boundaries = new double[nboundary];
             impl->model->getBoundarySpeciesAmounts(nboundary, 0, boundaries);
             int ncomp = impl->model->getNumCompartments();
-            double* comps = new double[ncomp];
+            double *comps = new double[ncomp];
             impl->model->getCompartmentVolumes(ncomp, 0, comps);
             int nparam = impl->model->getNumGlobalParameters();
-            double* params = new double[nparam];
+            double *params = new double[nparam];
             impl->model->getGlobalParameterValues(nparam, 0, params);
             //std::stringstream* orig_state = saveStateS();
 
@@ -3721,18 +3714,15 @@ namespace rr {
                 parameterType = ptGlobalParameter;
                 originalParameterValue = 0;
                 impl->model->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
-            }
-            else if ((parameterIndex = impl->model->getBoundarySpeciesIndex(parameterName)) >= 0) {
+            } else if ((parameterIndex = impl->model->getBoundarySpeciesIndex(parameterName)) >= 0) {
                 parameterType = ptBoundaryParameter;
                 originalParameterValue = 0;
                 impl->model->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
-            }
-            else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0) {
+            } else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0) {
                 parameterType = ptConservationParameter;
                 originalParameterValue = 0;
                 impl->model->getConservedMoietyValues(1, &parameterIndex, &originalParameterValue);
-            }
-            else {
+            } else {
                 throw CoreException("Unable to locate parameter: [" + parameterName + "]");
             }
 
@@ -3786,13 +3776,15 @@ namespace rr {
                 throw;
             }
         }
-        catch (const Exception& e) {
-            throw CoreException("Unable to calculate control coefficients in getuCC(), perhaps due to an inability to reach the steady state.  Error from the calculation: ", e.Message());
+        catch (const Exception &e) {
+            throw CoreException(
+                    "Unable to calculate control coefficients in getuCC(), perhaps due to an inability to reach the steady state.  Error from the calculation: ",
+                    e.Message());
         }
     }
 
 //        [Help("Get scaled control coefficient with respect to a global parameter")]
-    double RoadRunner::getCC(const std::string& variableName, const std::string& parameterName) {
+    double RoadRunner::getCC(const std::string &variableName, const std::string &parameterName) {
         VariableType variableType;
         ParameterType parameterType;
         int variableIndex;
@@ -3810,25 +3802,20 @@ namespace rr {
         // Check the variable name
         if ((variableIndex = impl->model->getReactionIndex(variableNameMod)) >= 0) {
             variableType = vtFlux;
-        }
-        else if ((variableIndex = impl->model->getFloatingSpeciesIndex(variableNameMod)) >= 0) {
+        } else if ((variableIndex = impl->model->getFloatingSpeciesIndex(variableNameMod)) >= 0) {
             variableType = vtSpecies;
-        }
-        else {
+        } else {
             throw CoreException("Unable to locate variable: [" + variableNameMod + "]");
         }
 
         // Check for the parameter name
         if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0) {
             parameterType = ptGlobalParameter;
-        }
-        else if ((parameterIndex = impl->model->getBoundarySpeciesIndex(parameterName)) >= 0) {
+        } else if ((parameterIndex = impl->model->getBoundarySpeciesIndex(parameterName)) >= 0) {
             parameterType = ptBoundaryParameter;
-        }
-        else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0) {
+        } else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0) {
             parameterType = ptConservationParameter;
-        }
-        else {
+        } else {
             throw CoreException("Unable to locate parameter: [" + parameterName + "]");
         }
 
@@ -3845,10 +3832,10 @@ namespace rr {
 
         // function pointers to the model get values and get init values based on
         // if we are doing amounts or concentrations.
-        typedef int (ExecutableModel::* GetValueFuncPtr)(size_t len, int const* indx,
-            double* values);
-        typedef int (ExecutableModel::* SetValueFuncPtr)(size_t len, int const* indx,
-            double const* values);
+        typedef int (ExecutableModel::* GetValueFuncPtr)(size_t len, int const *indx,
+                                                         double *values);
+        typedef int (ExecutableModel::* SetValueFuncPtr)(size_t len, int const *indx,
+                                                         double const *values);
 
         GetValueFuncPtr getValuePtr = 0;
         GetValueFuncPtr getInitValuePtr = 0;
@@ -3864,8 +3851,7 @@ namespace rr {
             getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitAmounts;
             setValuePtr = &ExecutableModel::setFloatingSpeciesAmounts;
             setInitValuePtr = &ExecutableModel::setFloatingSpeciesInitAmounts;
-        }
-        else {
+        } else {
             getValuePtr = &ExecutableModel::getFloatingSpeciesConcentrations;
             getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitConcentrations;
             setValuePtr = &ExecutableModel::setFloatingSpeciesConcentrations;
@@ -3895,7 +3881,7 @@ namespace rr {
         for (int i = 0; i < currentVals.size() - 1; i++)
             if (fabs(currentVals[i]) > 1E100) {
                 throw std::runtime_error(
-                    "Floating species concentations are of the order of 1E100, unable to compute elasticities");
+                        "Floating species concentations are of the order of 1E100, unable to compute elasticities");
             }
 
         // save the original init values
@@ -3958,14 +3944,14 @@ namespace rr {
 
             result = 1 / (12 * hstep) * (f1 + f2);
         }
-        catch (const std::exception& e) {
+        catch (const std::exception &e) {
             // Whatever happens, make sure we restore the species and volumes levels
             (self.model.get()->*setInitVolumesPtr)(origInitVolumes.size(), 0, &origInitVolumes[0]);
             (self.model.get()->*setInitValuePtr)(origInitVal.size(), 0, &origInitVal[0]);
 
             // only set the indep species, setting dep species is not permitted.
             (self.model.get()->*setValuePtr)(
-                self.model->getNumIndFloatingSpecies(), 0, &currentVals[0]);
+                    self.model->getNumIndFloatingSpecies(), 0, &currentVals[0]);
 
             // re-throw the exception.
             throw e;
@@ -3973,11 +3959,11 @@ namespace rr {
 
         // Whatever happens, make sure we restore the species and volumes levels
         (self.model.get()->*setInitValuePtr)(
-            origInitVal.size(), 0, &origInitVal[0]);
+                origInitVal.size(), 0, &origInitVal[0]);
 
         // only set the indep species, setting dep species is not permitted.
         (self.model.get()->*setValuePtr)(
-            self.model->getNumIndFloatingSpecies(), 0, &currentVals[0]);
+                self.model->getNumIndFloatingSpecies(), 0, &currentVals[0]);
 
         return result;
     }
@@ -4019,7 +4005,7 @@ namespace rr {
         if (uelast.RSize() != rates.size()) {
             // this should NEVER happen
             throw std::runtime_error("row count of unscaled elasticity different "
-                "than # of reactions");
+                                     "than # of reactions");
         }
 
         for (int i = 0; i < uelast.RSize(); i++) {
@@ -4444,61 +4430,55 @@ namespace rr {
                     sel.selectionType = SelectionRecord::COMPARTMENT_RATE;
                     break;
                 } else {
-                    throw Exception("Invalid id '" + str + "' for rate of change: must be a floating species, global parameter, or compartment.");
+                    throw Exception("Invalid id '" + str +
+                                    "' for rate of change: must be a floating species, global parameter, or compartment.");
                     break;
                 }
             case SelectionRecord::FLOATING_CONCENTRATION_RATE:
                 if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0) {
                     break;
-                }
-                else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0) {
+                } else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::BOUNDARY_CONCENTRATION_RATE;
                     break;
-                }
-                else {
-                    throw Exception("Invalid id '" + str + "' for concentration rate of change: must be a floating species.");
+                } else {
+                    throw Exception(
+                            "Invalid id '" + str + "' for concentration rate of change: must be a floating species.");
                     break;
                 }
             case SelectionRecord::CONTROL:
             case SelectionRecord::UNSCALED_CONTROL:
                 // check that the control coef args are valid
                 if (impl->model->getReactionIndex(sel.p1) >= 0 ||
-                    impl->model->getFloatingSpeciesIndex(sel.p1) >= 0)
-                {
+                    impl->model->getFloatingSpeciesIndex(sel.p1) >= 0) {
                     if (impl->model->getGlobalParameterIndex(sel.p2) >= 0 ||
                         impl->model->getBoundarySpeciesIndex(sel.p2) >= 0 ||
                         impl->model->getConservedMoietyIndex(sel.p2) >= 0) {
                         rrLog(Logger::LOG_INFORMATION) << "Valid metabolic control selection: " << sel.to_repr();
+                    } else {
+                        throw Exception("The second argument to a metabolic control coefficient selection, " + sel.p2 +
+                                        ", must be either a global parameter, boundary species or conserved sum");
                     }
-                    else
-                    {
-                        throw Exception("The second argument to a metabolic control coefficient selection, " + sel.p2 + ", must be either a global parameter, boundary species or conserved sum");
-                    }
-                }
-                else
-                {
-                    throw Exception("The first argument to a metabolic control coefficient selection, " + sel.p1 + ", must be either a reaction or a floating species.");
+                } else {
+                    throw Exception("The first argument to a metabolic control coefficient selection, " + sel.p1 +
+                                    ", must be either a reaction or a floating species.");
                 }
 
                 break;
             case SelectionRecord::ELASTICITY:
             case SelectionRecord::UNSCALED_ELASTICITY:
                 // check that the elasticity coef args are valid
-                if (impl->model->getReactionIndex(sel.p1) >= 0)
-                {
+                if (impl->model->getReactionIndex(sel.p1) >= 0) {
                     if (impl->model->getGlobalParameterIndex(sel.p2) >= 0 ||
                         impl->model->getBoundarySpeciesIndex(sel.p2) >= 0 ||
                         impl->model->getFloatingSpeciesIndex(sel.p2) >= 0) {
                         rrLog(Logger::LOG_INFORMATION) << "Valid elasticity coefficient selection: " << sel.to_repr();
+                    } else {
+                        throw Exception("The second argument to an elasticity coefficient selection, " + sel.p2 +
+                                        ", must be either a global parameter or a species.");
                     }
-                    else
-                    {
-                        throw Exception("The second argument to an elasticity coefficient selection, " + sel.p2 + ", must be either a global parameter or a species.");
-                    }
-                }
-                else
-                {
-                    throw Exception("The first argument to a metabolic control coefficient selection, " + sel.p1 + ", must be a reaction.");
+                } else {
+                    throw Exception("The first argument to a metabolic control coefficient selection, " + sel.p1 +
+                                    ", must be a reaction.");
                 }
 
                 break;
@@ -5046,210 +5026,210 @@ namespace rr {
 
     void RoadRunner::saveState(std::string filename, char opt) {
         check_model();
-        std::stringstream* state = saveStateS(opt);
+        std::stringstream *state = saveStateS(opt);
         std::ofstream of(filename, std::iostream::binary);
         of << state->rdbuf();
         of.close();
         delete state;
     }
 
-    std::stringstream* RoadRunner::saveStateS(char opt) {
+    std::stringstream *RoadRunner::saveStateS(char opt) {
         check_model();
         switch (opt) {
-        case 'b': {
-            // binary mode
-            // can be loaded later
-            auto outPtr = new std::stringstream(
-                std::iostream::binary | std::stringstream::out | std::stringstream::in);
-            rr::saveBinary(*outPtr, fileMagicNumber);
-            rr::saveBinary(*outPtr, dataVersionNumber);
-            //Save all of roadrunner's data to the file
-            rr::saveBinary(*outPtr, impl->mInstanceID);
-            rr::saveBinary(*outPtr, impl->mDiffStepSize);
-            rr::saveBinary(*outPtr, impl->mSteadyStateThreshold);
+            case 'b': {
+                // binary mode
+                // can be loaded later
+                auto outPtr = new std::stringstream(
+                        std::iostream::binary | std::stringstream::out | std::stringstream::in);
+                rr::saveBinary(*outPtr, fileMagicNumber);
+                rr::saveBinary(*outPtr, dataVersionNumber);
+                //Save all of roadrunner's data to the file
+                rr::saveBinary(*outPtr, impl->mInstanceID);
+                rr::saveBinary(*outPtr, impl->mDiffStepSize);
+                rr::saveBinary(*outPtr, impl->mSteadyStateThreshold);
 
-            saveSelectionVector(*outPtr, impl->mSelectionList);
+                saveSelectionVector(*outPtr, impl->mSelectionList);
 
-            rr::saveBinary(*outPtr, impl->loadOpt.version);
-            rr::saveBinary(*outPtr, impl->loadOpt.size);
-            rr::saveBinary(*outPtr, impl->loadOpt.modelGeneratorOpt);
-            rr::saveBinary(*outPtr, impl->loadOpt.loadFlags);
+                rr::saveBinary(*outPtr, impl->loadOpt.version);
+                rr::saveBinary(*outPtr, impl->loadOpt.size);
+                rr::saveBinary(*outPtr, impl->loadOpt.modelGeneratorOpt);
+                rr::saveBinary(*outPtr, impl->loadOpt.loadFlags);
 
-            rr::saveBinary(*outPtr, impl->loadOpt.getKeys().size());
+                rr::saveBinary(*outPtr, impl->loadOpt.getKeys().size());
 
-            for (std::string k : impl->loadOpt.getKeys()) {
-                rr::saveBinary(*outPtr, k);
-                rr::saveBinary(*outPtr, impl->loadOpt.getItem(k));
+                for (std::string k: impl->loadOpt.getKeys()) {
+                    rr::saveBinary(*outPtr, k);
+                    rr::saveBinary(*outPtr, impl->loadOpt.getItem(k));
+                }
+
+                saveSelectionVector(*outPtr, impl->mSteadyStateSelection);
+
+                rr::saveBinary(*outPtr, impl->simulationResult.getColNames());
+                rr::saveBinary(*outPtr, impl->simulationResult.getRowNames());
+
+                rr::saveBinary(*outPtr, impl->simulateOpt.reset_model);
+                rr::saveBinary(*outPtr, impl->simulateOpt.structured_result);
+                rr::saveBinary(*outPtr, impl->simulateOpt.copy_result);
+                rr::saveBinary(*outPtr, impl->simulateOpt.steps);
+                rr::saveBinary(*outPtr, impl->simulateOpt.start);
+                rr::saveBinary(*outPtr, impl->simulateOpt.duration);
+                rr::saveBinary(*outPtr, impl->simulateOpt.variables);
+                rr::saveBinary(*outPtr, impl->simulateOpt.amounts);
+                rr::saveBinary(*outPtr, impl->simulateOpt.concentrations);
+                rr::saveBinary(*outPtr, impl->simulateOpt.times);
+
+                //rr::saveBinary(out, impl->simulateOpt.getKeys().size());
+
+                //for (std::string k : impl->simulateOpt.getKeys()) {
+                //    rr::saveBinary(out, k);
+                //    rr::saveBinary(out, impl->simulateOpt.getItem(k));
+                //}
+
+                rr::saveBinary(*outPtr, impl->roadRunnerOptions.flags);
+                rr::saveBinary(*outPtr, impl->roadRunnerOptions.jacobianStepSize);
+
+                rr::saveBinary(*outPtr, impl->configurationXML);
+                //Save the model (which saves the model data symbols and model resources)
+                impl->model->saveState(*outPtr);
+
+                rr::saveBinary(*outPtr, impl->integrator->getName());
+                rr::saveBinary(*outPtr, static_cast<unsigned long>(impl->integrator->getNumParams()));
+                for (std::string k: impl->integrator->getSettings()) {
+                    rr::saveBinary(*outPtr, k);
+                    rr::saveBinary(*outPtr, impl->integrator->getValue(k));
+                }
+
+                rr::saveBinary(*outPtr, impl->steady_state_solver->getName());
+                rr::saveBinary(*outPtr, static_cast<unsigned long>(impl->steady_state_solver->getNumParams()));
+                for (std::string k: impl->steady_state_solver->getSettings()) {
+                    rr::saveBinary(*outPtr, k);
+                    rr::saveBinary(*outPtr, impl->steady_state_solver->getValue(k));
+                }
+
+
+                rr::saveBinary(*outPtr, impl->sensitivity_solver->getName());
+                rr::saveBinary(*outPtr, static_cast<unsigned long>(impl->sensitivity_solver->getNumParams()));
+                for (std::string k: impl->sensitivity_solver->getSettings()) {
+                    rr::saveBinary(*outPtr, k);
+                    rr::saveBinary(*outPtr, impl->sensitivity_solver->getValue(k));
+                }
+
+                //Currently I save and reload the SBML that was used to create the model
+                //It is not parsed however, unless a instance of LibStructural needs to be
+                //created
+                //It might also be possible to construct LibStructural without SBML, but I'm not familiar with it
+                //If this implementation is too slow we can change that
+                char *sbmlToSave = impl->document->toSBML();
+                rr::saveBinary(*outPtr, std::string(sbmlToSave));
+                free(sbmlToSave);
+
+                return outPtr;
             }
 
-            saveSelectionVector(*outPtr, impl->mSteadyStateSelection);
+            case 'r': {
+                // human-readble mode
+                // for user debugging
+                auto outPtr = new std::stringstream(
+                        std::iostream::binary | std::stringstream::out | std::stringstream::in);
+                //                if (!*outPtr) {
+                //                    throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
+                //                }
 
-            rr::saveBinary(*outPtr, impl->simulationResult.getColNames());
-            rr::saveBinary(*outPtr, impl->simulationResult.getRowNames());
+                *outPtr << "mInstanceID: " << impl->mInstanceID << std::endl;
+                *outPtr << "mDiffStepSize: " << impl->mDiffStepSize << std::endl;
+                *outPtr << "mSteadyStateThreshold: " << impl->mSteadyStateThreshold << std::endl << std::endl;
 
-            rr::saveBinary(*outPtr, impl->simulateOpt.reset_model);
-            rr::saveBinary(*outPtr, impl->simulateOpt.structured_result);
-            rr::saveBinary(*outPtr, impl->simulateOpt.copy_result);
-            rr::saveBinary(*outPtr, impl->simulateOpt.steps);
-            rr::saveBinary(*outPtr, impl->simulateOpt.start);
-            rr::saveBinary(*outPtr, impl->simulateOpt.duration);
-            rr::saveBinary(*outPtr, impl->simulateOpt.variables);
-            rr::saveBinary(*outPtr, impl->simulateOpt.amounts);
-            rr::saveBinary(*outPtr, impl->simulateOpt.concentrations);
-            rr::saveBinary(*outPtr, impl->simulateOpt.times);
+                *outPtr << "roadRunnerOptions: " << std::endl;
+                *outPtr << "	flags: " << impl->roadRunnerOptions.flags << std::endl;
+                *outPtr << "	jacobianStepSize: " << impl->roadRunnerOptions.jacobianStepSize << std::endl
+                        << std::endl;
 
-            //rr::saveBinary(out, impl->simulateOpt.getKeys().size());
+                *outPtr << "loadOpt: " << std::endl;
+                *outPtr << "	version: " << impl->loadOpt.version << std::endl;
+                *outPtr << "	modelGeneratorOpt: " << impl->loadOpt.modelGeneratorOpt << std::endl;
+                *outPtr << "	loadFlags: " << impl->loadOpt.loadFlags << std::endl;
+                for (std::string k: impl->loadOpt.getKeys()) {
+                    *outPtr << "	" << k << ": ";
 
-            //for (std::string k : impl->simulateOpt.getKeys()) {
-            //    rr::saveBinary(out, k);
-            //    rr::saveBinary(out, impl->simulateOpt.getItem(k));
-            //}
-
-            rr::saveBinary(*outPtr, impl->roadRunnerOptions.flags);
-            rr::saveBinary(*outPtr, impl->roadRunnerOptions.jacobianStepSize);
-
-            rr::saveBinary(*outPtr, impl->configurationXML);
-            //Save the model (which saves the model data symbols and model resources)
-            impl->model->saveState(*outPtr);
-
-            rr::saveBinary(*outPtr, impl->integrator->getName());
-            rr::saveBinary(*outPtr, static_cast<unsigned long>(impl->integrator->getNumParams()));
-            for (std::string k : impl->integrator->getSettings()) {
-                rr::saveBinary(*outPtr, k);
-                rr::saveBinary(*outPtr, impl->integrator->getValue(k));
-            }
-
-            rr::saveBinary(*outPtr, impl->steady_state_solver->getName());
-            rr::saveBinary(*outPtr, static_cast<unsigned long>(impl->steady_state_solver->getNumParams()));
-            for (std::string k : impl->steady_state_solver->getSettings()) {
-                rr::saveBinary(*outPtr, k);
-                rr::saveBinary(*outPtr, impl->steady_state_solver->getValue(k));
-            }
-
-
-            rr::saveBinary(*outPtr, impl->sensitivity_solver->getName());
-            rr::saveBinary(*outPtr, static_cast<unsigned long>(impl->sensitivity_solver->getNumParams()));
-            for (std::string k : impl->sensitivity_solver->getSettings()) {
-                rr::saveBinary(*outPtr, k);
-                rr::saveBinary(*outPtr, impl->sensitivity_solver->getValue(k));
-            }
-
-            //Currently I save and reload the SBML that was used to create the model
-            //It is not parsed however, unless a instance of LibStructural needs to be
-            //created
-            //It might also be possible to construct LibStructural without SBML, but I'm not familiar with it
-            //If this implementation is too slow we can change that
-            char* sbmlToSave = impl->document->toSBML();
-            rr::saveBinary(*outPtr, std::string(sbmlToSave));
-            free(sbmlToSave);
-
-            return outPtr;
-        }
-
-        case 'r': {
-            // human-readble mode
-            // for user debugging
-            auto outPtr = new std::stringstream(
-                std::iostream::binary | std::stringstream::out | std::stringstream::in);
-            //                if (!*outPtr) {
-            //                    throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
-            //                }
-
-            *outPtr << "mInstanceID: " << impl->mInstanceID << std::endl;
-            *outPtr << "mDiffStepSize: " << impl->mDiffStepSize << std::endl;
-            *outPtr << "mSteadyStateThreshold: " << impl->mSteadyStateThreshold << std::endl << std::endl;
-
-            *outPtr << "roadRunnerOptions: " << std::endl;
-            *outPtr << "	flags: " << impl->roadRunnerOptions.flags << std::endl;
-            *outPtr << "	jacobianStepSize: " << impl->roadRunnerOptions.jacobianStepSize << std::endl
-                << std::endl;
-
-            *outPtr << "loadOpt: " << std::endl;
-            *outPtr << "	version: " << impl->loadOpt.version << std::endl;
-            *outPtr << "	modelGeneratorOpt: " << impl->loadOpt.modelGeneratorOpt << std::endl;
-            *outPtr << "	loadFlags: " << impl->loadOpt.loadFlags << std::endl;
-            for (std::string k : impl->loadOpt.getKeys()) {
-                *outPtr << "	" << k << ": ";
-
-                switch (impl->loadOpt.getItem(k).type()) {
-                case Setting::BOOL:
-                    *outPtr << impl->loadOpt.getItem(k).get<bool>();
-                    break;
-                case Setting::CHAR:
-                    *outPtr << impl->loadOpt.getItem(k).get<char>();
-                    break;
-                case Setting::DOUBLE:
-                    *outPtr << impl->loadOpt.getItem(k).get<double>();
-                    break;
-                case Setting::FLOAT:
-                    *outPtr << impl->loadOpt.getItem(k).get<float>();
-                    break;
-                case Setting::INT32:
-                    *outPtr << impl->loadOpt.getItem(k).get<std::int32_t>();
-                    break;
-                case Setting::INT64:
-                    *outPtr << impl->loadOpt.getItem(k).get<std::int64_t>();
-                    break;
-                case Setting::STRING:
-                    *outPtr << impl->loadOpt.getItem(k).get<std::string>();
-                    break;
-                case Setting::UCHAR:
-                    *outPtr << impl->loadOpt.getItem(k).get<unsigned char>();
-                    break;
-                case Setting::UINT32:
-                    *outPtr << impl->loadOpt.getItem(k).get<unsigned int>();
-                    break;
-                case Setting::UINT64:
-                    *outPtr << impl->loadOpt.getItem(k).get<std::uint64_t>();
-                    break;
-                default:
-                    break;
+                    switch (impl->loadOpt.getItem(k).type()) {
+                        case Setting::BOOL:
+                            *outPtr << impl->loadOpt.getItem(k).get<bool>();
+                            break;
+                        case Setting::CHAR:
+                            *outPtr << impl->loadOpt.getItem(k).get<char>();
+                            break;
+                        case Setting::DOUBLE:
+                            *outPtr << impl->loadOpt.getItem(k).get<double>();
+                            break;
+                        case Setting::FLOAT:
+                            *outPtr << impl->loadOpt.getItem(k).get<float>();
+                            break;
+                        case Setting::INT32:
+                            *outPtr << impl->loadOpt.getItem(k).get<std::int32_t>();
+                            break;
+                        case Setting::INT64:
+                            *outPtr << impl->loadOpt.getItem(k).get<std::int64_t>();
+                            break;
+                        case Setting::STRING:
+                            *outPtr << impl->loadOpt.getItem(k).get<std::string>();
+                            break;
+                        case Setting::UCHAR:
+                            *outPtr << impl->loadOpt.getItem(k).get<unsigned char>();
+                            break;
+                        case Setting::UINT32:
+                            *outPtr << impl->loadOpt.getItem(k).get<unsigned int>();
+                            break;
+                        case Setting::UINT64:
+                            *outPtr << impl->loadOpt.getItem(k).get<std::uint64_t>();
+                            break;
+                        default:
+                            break;
+                    }
+                    *outPtr << std::endl;
                 }
                 *outPtr << std::endl;
+
+                *outPtr << "simulateOpt: " << std::endl;
+                *outPtr << impl->simulateOpt.toString() << std::endl << std::endl;
+
+                *outPtr << "mSelectionList: " << std::endl;
+                for (SelectionRecord sr: impl->mSelectionList) {
+                    *outPtr << sr.to_string() << std::endl;
+                }
+                *outPtr << std::endl;
+
+                *outPtr << "mSteadyStateSelection: " << std::endl;
+                for (SelectionRecord sr: impl->mSteadyStateSelection) {
+                    *outPtr << sr.to_string() << std::endl;
+                }
+                *outPtr << std::endl;
+
+                *outPtr << impl->integrator->toString();
+                *outPtr << std::endl;
+                *outPtr << impl->steady_state_solver->toString();
+                *outPtr << std::endl;
+
+                *outPtr << "simulationResult: " << std::endl;
+                *outPtr << impl->simulationResult;
+                *outPtr << std::endl;
+
+                *outPtr << std::dec << impl->model.get();
+
+                //*outPtr << "configurationXML" << impl->configurationXML << std::endl;
+                //*outPtr << impl->currentSBML;
+                return outPtr;
+
             }
-            *outPtr << std::endl;
-
-            *outPtr << "simulateOpt: " << std::endl;
-            *outPtr << impl->simulateOpt.toString() << std::endl << std::endl;
-
-            *outPtr << "mSelectionList: " << std::endl;
-            for (SelectionRecord sr : impl->mSelectionList) {
-                *outPtr << sr.to_string() << std::endl;
-            }
-            *outPtr << std::endl;
-
-            *outPtr << "mSteadyStateSelection: " << std::endl;
-            for (SelectionRecord sr : impl->mSteadyStateSelection) {
-                *outPtr << sr.to_string() << std::endl;
-            }
-            *outPtr << std::endl;
-
-            *outPtr << impl->integrator->toString();
-            *outPtr << std::endl;
-            *outPtr << impl->steady_state_solver->toString();
-            *outPtr << std::endl;
-
-            *outPtr << "simulationResult: " << std::endl;
-            *outPtr << impl->simulationResult;
-            *outPtr << std::endl;
-
-            *outPtr << std::dec << impl->model.get();
-
-            //*outPtr << "configurationXML" << impl->configurationXML << std::endl;
-            //*outPtr << impl->currentSBML;
-            return outPtr;
-
-        }
-        default:
-            throw std::invalid_argument("Invalid option for saveState(), 'b' or 'r' expected");
-            break;
+            default:
+                throw std::invalid_argument("Invalid option for saveState(), 'b' or 'r' expected");
+                break;
         }
         return {};
     }
 
     void RoadRunner::saveSelectionVector(std::ostream &out, std::vector<SelectionRecord> &v) {
         rr::saveBinary(out, v.size());
-        for (SelectionRecord sr : v) {
+        for (SelectionRecord sr: v) {
             rr::saveBinary(out, sr.index);
             rr::saveBinary(out, sr.p1);
             rr::saveBinary(out, sr.p2);
@@ -5257,28 +5237,28 @@ namespace rr {
         }
     }
 
-    void RoadRunner::loadState(const std::string& filename) {
+    void RoadRunner::loadState(const std::string &filename) {
         if (!std::filesystem::exists(filename)) {
             std::string err = "Input argument filename doesn't exist: " + filename;
             rrLogDebug << err;
             throw std::invalid_argument(err);
         }
         std::ifstream ifs(filename, std::ios::binary);
-        std::stringstream* ss = new std::stringstream(
-            std::iostream::binary |
-            std::stringstream::out |
-            std::stringstream::in);
+        std::stringstream *ss = new std::stringstream(
+                std::iostream::binary |
+                std::stringstream::out |
+                std::stringstream::in);
         *ss << ifs.rdbuf();
         loadStateS(ss);
     }
 
-    void RoadRunner::loadStateS(std::stringstream* in) {
+    void RoadRunner::loadStateS(std::stringstream *in) {
         int inMagicNumber;
         rr::loadBinary(*in, inMagicNumber);
         std::string x = in->str();
         if (inMagicNumber != fileMagicNumber) {
             throw std::invalid_argument(
-                "The state has the wrong magic number. Are you sure it is a roadrunner save state?");
+                    "The state has the wrong magic number. Are you sure it is a roadrunner save state?");
         }
 
         int inVersionNumber;
@@ -5286,11 +5266,11 @@ namespace rr {
         rrLogDebug << "inVersionNumber:" << inVersionNumber;
         if (inVersionNumber < dataVersionNumber) {
             throw std::invalid_argument(
-                "The file state was saved with a previous version of roadrunner");
+                    "The file state was saved with a previous version of roadrunner");
         }
         if (inVersionNumber > dataVersionNumber) {
             throw std::invalid_argument(
-                "The file state was saved with a version of roadrunner more recent than this executable.");
+                    "The file state was saved with a version of roadrunner more recent than this executable.");
         }
         //load roadrunner's data in the same order saveState saves it in
         int oldInstanceID;
@@ -5802,7 +5782,7 @@ namespace rr {
 
         std::vector<std::string> kLawSpeciesIds;
         getSpeciesIdsFromAST(kLaw->getMath(), kLawSpeciesIds);
-        for (std::string s : kLawSpeciesIds) {
+        for (std::string s: kLawSpeciesIds) {
             if (std::find(products.begin(), products.end(), s) == products.end()
                 && std::find(reactants.begin(), reactants.end(), s) == reactants.end()) {
                 newReaction->addModifier(sbmlModel->getSpecies(s));
@@ -5849,7 +5829,7 @@ namespace rr {
                     getAllVariables(product->getStoichiometryMath()->getMath(), toCheck);
                 }
             }
-            for (std::string sid : toCheck) {
+            for (std::string sid: toCheck) {
                 if (!isParameterUsed(sid)) {
                     removeParameter(sid, false);
                 }
@@ -5959,7 +5939,7 @@ namespace rr {
 
         std::vector<std::string> kLawSpeciesIds;
         getSpeciesIdsFromAST(law->getMath(), kLawSpeciesIds);
-        for (std::string s : kLawSpeciesIds) {
+        for (std::string s: kLawSpeciesIds) {
             if (reaction->getProduct(s) != NULL) {
                 continue;
             }
@@ -6682,7 +6662,7 @@ namespace rr {
             impl->syncAllSolversWithModel(impl->model.get());
 
             if (auto v1 = absTol.get_if<std::vector<double>>()) {
-                for (const auto &p : indTolerances) {
+                for (const auto &p: indTolerances) {
                     auto ids = getFloatingSpeciesIds();
                     if (std::find(ids.begin(), ids.end(), p.first) != ids.end())
                         impl->integrator->setIndividualTolerance(p.first, p.second);
@@ -6974,7 +6954,7 @@ namespace rr {
     }
 
     void writeDoubleVectorListToStream(std::ostream &out, const DoubleVectorList &results) {
-        for (const std::vector<double> &row : results) {
+        for (const std::vector<double> &row: results) {
             out << row[0];
             for (int i = 1; i < row.size(); i++) {
                 out << "," << row[i];
