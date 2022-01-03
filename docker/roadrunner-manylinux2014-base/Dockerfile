@@ -13,11 +13,11 @@ RUN yum install -y wget
 # instructions: https://linuxhostsupport.com/blog/how-to-install-gcc-on-centos-7/
 RUN wget http://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-11.1.0/gcc-11.1.0.tar.gz
 RUN tar zxf gcc-11.1.0.tar.gz && yum -y install bzip2
-RUN rm gcc-11.1.0.tar.gz
 RUN cd gcc-11.1.0 && ./contrib/download_prerequisites
 RUN cd gcc-11.1.0 && mkdir build && cd build && ../configure --prefix=/usr/local/gcc-11.1.0 --disable-multilib
 RUN cd gcc-11.1.0/build && make -j 12
 RUN cd gcc-11.1.0/build && make install
+RUN cd .. && rm -rf gcc-11.1.0
 
 RUN yum install -y nano
 
@@ -42,7 +42,6 @@ RUN yum install -y pcre-devel.x86_64
 
 ENV swig_source_dir /swig-4.0.2
 ENV swig_install_dir /swig-4.0.2/install-swig-4.0.2
-RUN pwd
 RUN  mkdir -p $swig_source_dir && wget -q --no-check-certificate https://netcologne.dl.sourceforge.net/project/swig/swig/swig-4.0.2/swig-4.0.2.tar.gz
 RUN  tar -xf swig-4.0.2.tar.gz
 RUN  cd $swig_source_dir && ./configure --prefix=$swig_install_dir
