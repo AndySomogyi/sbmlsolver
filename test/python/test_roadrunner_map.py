@@ -183,7 +183,5 @@ class RoadRunnerMapTests(unittest.TestCase):
         self.assertEqual(sorted(k), sorted(expected))
 
 
-
-
 if __name__ == "__main__":
     unittest.main()
