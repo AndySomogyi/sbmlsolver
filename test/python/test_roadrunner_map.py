@@ -39,7 +39,15 @@ class RoadRunnerMapTests(unittest.TestCase):
     def test_keys(self):
         rrm = RoadRunnerMap(self.sbmlStrings, 2)
         expected = ('SimpleFlux', 'x', 'FactorialModel1', '__main', 'Brown2004_NGF_EGF_signaling')
-        self.assertEqual(expected, rrm.keys())
+        self.assertEqual(sorted(expected), sorted(rrm.keys()))
+
+    def test_size_1thread(self):
+        rrm = RoadRunnerMap(self.sbmlStrings, 1)
+        self.assertEqual(self.N, len(rrm))
+
+    def test_size_2thread(self):
+        rrm = RoadRunnerMap(self.sbmlStrings, 2)
+        self.assertEqual(self.N, len(rrm))
 
     def test_values(self):
         rrm = RoadRunnerMap(self.sbmlStrings, 2)
@@ -145,24 +153,36 @@ class RoadRunnerMapTests(unittest.TestCase):
         rrm.setNumThreads(4)
         self.assertEqual(4, rrm.getNumThreads())
 
-    def test_pop(self):
-        rrm = RoadRunnerMap(self.sbmlStrings, 2)
-        self.assertTrue("SimpleFlux" in rrm)
-        model = rrm.pop("SimpleFlux")
-        self.assertEqual("SimpleFlux", model.getModelName())
-
     def test_iterators(self):
         rrm = RoadRunnerMap(self.sbmlStrings, 2)
         expected = [
+            "Brown2004_NGF_EGF_signaling",
             "SimpleFlux",
-            "x",
             "FactorialModel1",
             "__main",
+            "x"
         ]
         k = []
         for i in rrm:
             k.append(i)
         self.assertEqual(sorted(k), sorted(expected))
+
+
+    def test_iterators_items(self):
+        rrm = RoadRunnerMap(self.sbmlStrings, 2)
+        expected = [
+            "Brown2004_NGF_EGF_signaling",
+            "SimpleFlux",
+            "FactorialModel1",
+            "__main",
+            "x"
+        ]
+        k = []
+        for name, rr in rrm.items():
+            k.append(name)
+        self.assertEqual(sorted(k), sorted(expected))
+
+
 
 
 if __name__ == "__main__":
