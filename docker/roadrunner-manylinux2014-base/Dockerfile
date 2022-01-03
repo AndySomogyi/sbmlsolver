@@ -15,7 +15,7 @@ RUN wget http://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-
 RUN tar zxf gcc-11.1.0.tar.gz && yum -y install bzip2
 RUN cd gcc-11.1.0 && ./contrib/download_prerequisites
 RUN cd gcc-11.1.0 && mkdir build && cd build && ../configure --prefix=/usr/local/gcc-11.1.0 --disable-multilib
-RUN cd gcc-11.1.0/build && make -j 12
+RUN cd gcc-11.1.0/build && make -j 12 CPPFLAGS=-O3 CXXFLAGS=-O3
 RUN cd gcc-11.1.0/build && make install
 RUN cd .. && rm -rf gcc-11.1.0
 
