@@ -67,66 +67,66 @@ public:
  * is default constructed.
  */
 
-//TEST_F(RoadRunnerMapTests, getKeys) {
-//    Config::setValue(Config::LLVM_BACKEND, Config::MCJIT);
-//    RoadRunnerMap rrm(sbmlFiles, 1);
-//    auto keys = rrm.getKeys();
-//    auto expectedKeys = getExpectedKeys();
-//    /**
-//    * The order of getKeys() is not guarenteed to be the same each time
-//    * because of multithreading, so we sort before making the comparison.
-//    */
-//    std::vector<std::string> actual = rrm.getKeys();
-//    std::sort(expectedKeys.begin(), expectedKeys.end());
-//    std::sort(actual.begin(), actual.end());
-//    ASSERT_EQ(expectedKeys, keys);
-//}
-//
-//TEST_F(RoadRunnerMapTests, size) {
-//    RoadRunnerMap rrm(sbmlFiles, 1);
-//    auto keys = rrm.getKeys();
-//    ASSERT_EQ(N, rrm.size());
-//}
-//
-//TEST_F(RoadRunnerMapTests, InsertUniquePtrToRRModel_Size) {
-//    RoadRunnerMap rrm(sbmlFiles, 1);
-//    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.getModelNFromSTS(50, 2, 4));
-//    rrm.insert(std::move(rr));
-//    ASSERT_EQ(N + 1, rrm.size());
-//}
-//
-//TEST_F(RoadRunnerMapTests, InsertUniquePtrToRRModel_KeysUpdated) {
-//    RoadRunnerMap rrm(sbmlFiles, 1);
-//    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.getModelNFromSTS(50, 2, 4));
-//    rrm.insert(std::move(rr));
-//    ASSERT_STREQ("case00050", rrm.getKeys()[rrm.size() - 1].c_str());
-//}
-//
-//TEST_F(RoadRunnerMapTests, InsertUniquePtrToRRModel_CustomKey) {
-//    RoadRunnerMap rrm(sbmlFiles, 1);
-//    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.getModelNFromSTS(50, 2, 4));
-//    rrm.insert("MyKey", std::move(rr));
-//    ASSERT_STREQ("MyKey", rrm.getKeys()[rrm.size() - 1].c_str());
-//}
-//
-//TEST_F(RoadRunnerMapTests, InsertRRModelFromSBMLFile) {
-//    RoadRunnerMap rrm(sbmlFiles, 1);
-//    rrm.insert(sts.getModelNFromSTS(50, 2, 4));
-//    ASSERT_STREQ("case00050", rrm.getKeys()[rrm.size() - 1].c_str());
-//}
+TEST_F(RoadRunnerMapTests, getKeys) {
+    Config::setValue(Config::LLVM_BACKEND, Config::MCJIT);
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    auto keys = rrm.getKeys();
+    auto expectedKeys = getExpectedKeys();
+    /**
+    * The order of getKeys() is not guarenteed to be the same each time
+    * because of multithreading, so we sort before making the comparison.
+    */
+    std::vector<std::string> actual = rrm.getKeys();
+    std::sort(expectedKeys.begin(), expectedKeys.end());
+    std::sort(actual.begin(), actual.end());
+    ASSERT_EQ(expectedKeys, keys);
+}
 
-//TEST_F(RoadRunnerMapTests, InsertRRModelFromSBMLFile_WithCustomKey) {
-//    RoadRunnerMap rrm(sbmlFiles, 1);
-//    rrm.insert("MyKey", sts.getModelNFromSTS(50, 2, 4));
-//    ASSERT_STREQ("MyKey", rrm.getKeys()[rrm.size() - 1].c_str());
-//}
-//
-//TEST_F(RoadRunnerMapTests, InsertFromVectorOfSBMLFiles_Size) {
-//    RoadRunnerMap rrm(sbmlFiles, 2);
-//    const std::vector<std::string> &more = sts.getModelsFromSTS(N+1, N+1+N);
-//    rrm.insert(more);
-//    ASSERT_EQ(N * 2, rrm.size());
-//}
+TEST_F(RoadRunnerMapTests, size) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    auto keys = rrm.getKeys();
+    ASSERT_EQ(N, rrm.size());
+}
+
+TEST_F(RoadRunnerMapTests, InsertUniquePtrToRRModel_Size) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.getModelNFromSTS(50, 2, 4));
+    rrm.insert(std::move(rr));
+    ASSERT_EQ(N + 1, rrm.size());
+}
+
+TEST_F(RoadRunnerMapTests, InsertUniquePtrToRRModel_KeysUpdated) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.getModelNFromSTS(50, 2, 4));
+    rrm.insert(std::move(rr));
+    ASSERT_STREQ("case00050", rrm.getKeys()[rrm.size() - 1].c_str());
+}
+
+TEST_F(RoadRunnerMapTests, InsertUniquePtrToRRModel_CustomKey) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.getModelNFromSTS(50, 2, 4));
+    rrm.insert("MyKey", std::move(rr));
+    ASSERT_STREQ("MyKey", rrm.getKeys()[rrm.size() - 1].c_str());
+}
+
+TEST_F(RoadRunnerMapTests, InsertRRModelFromSBMLFile) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    rrm.insert(sts.getModelNFromSTS(50, 2, 4));
+    ASSERT_STREQ("case00050", rrm.getKeys()[rrm.size() - 1].c_str());
+}
+
+TEST_F(RoadRunnerMapTests, InsertRRModelFromSBMLFile_WithCustomKey) {
+    RoadRunnerMap rrm(sbmlFiles, 1);
+    rrm.insert("MyKey", sts.getModelNFromSTS(50, 2, 4));
+    ASSERT_STREQ("MyKey", rrm.getKeys()[rrm.size() - 1].c_str());
+}
+
+TEST_F(RoadRunnerMapTests, InsertFromVectorOfSBMLFiles_Size) {
+    RoadRunnerMap rrm(sbmlFiles, 2);
+    const std::vector<std::string> &more = sts.getModelsFromSTS(N+1, N+1+N);
+    rrm.insert(more);
+    ASSERT_EQ(N * 2, rrm.size());
+}
 //
 //
 //TEST_F(RoadRunnerMapTests, InsertFromVectorOfSBMLFiles_Keys) {
