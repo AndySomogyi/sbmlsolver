@@ -94,7 +94,7 @@ TEST_F(RoadRunnerMapTests, InsertUniquePtrToRRModel_CustomKey) {
     RoadRunnerMap rrm(sbmlStrings, 1);
     std::unique_ptr<RoadRunner> rr = std::make_unique<RoadRunner>(sts.getModelNFromSTS(50, 2, 4));
     rrm.insert("MyKey", std::move(rr));
-    ASSERT_STREQ("MyKey", rrm.getKeys()[rrm.size() - 1].c_str());
+    ASSERT_TRUE(rrm.count("MyKey"));
 }
 
 TEST_F(RoadRunnerMapTests, InsertRRModelFromSBMLFile) {
