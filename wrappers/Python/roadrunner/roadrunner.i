@@ -717,13 +717,12 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 %rename (__contains__) rr::RoadRunnerMap::contains ;
 %rename (contains) rr::RoadRunnerMap::count ;
-%rename (__getitem__) rr::RoadRunnerMap::borrow ;
-%rename (__delitem__) rr::RoadRunnerMap::remove ;
+%rename (__getitem__) rr::RoadRunnerMap::at ;
+%rename (__delitem__) rr::RoadRunnerMap::erase ;
 %rename (__len__) rr::RoadRunnerMap::size ;
 %rename (values) rr::RoadRunnerMap::getValues ;
 %rename (items) rr::RoadRunnerMap::getItems ;
 %rename (keys) rr::RoadRunnerMap::getKeys ;
-%rename (pop) rr::RoadRunnerMap::steal ;
 
 %ignore rr::RoadRunner::addCapabilities;
 %ignore rr::RoadRunner::getFloatingSpeciesIds;
@@ -3083,7 +3082,7 @@ solvers = integrators + steadyStateSolvers
             return self
 
         def __next__(self):
-            if self._n == len(self)-1:
+            if self._n == len(self):
                 raise StopIteration
             res = self.keys()[self._n]
             self._n += 1

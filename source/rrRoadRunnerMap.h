@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <thread>
 #include "thread_pool.hpp"
+#include "phmap.h"
 
 namespace rr {
 
@@ -26,7 +27,7 @@ namespace rr {
      * heavy lifting. Pointers to roadrunner models are stack allocated. 
      * If this is insufficient, then we'll convert this to unique_ptr. 
      */
-    using UnorderedMap = std::unordered_map<std::string, std::unique_ptr<RoadRunner>>;
+    using ThreadSafeUnorderedMap = phmap::parallel_node_hash_map<std::string, std::unique_ptr<RoadRunner>>;
 
     /**
      * @brief Hash table designed for storing RoadRunner models. Expensive operations like building models
@@ -38,22 +39,20 @@ namespace rr {
     class RoadRunnerMap {
     public:
         /**
-         * @brief Default construct a RoadRunnerMap
-         * @details
+         * @brief Default construct a RoadRunnerMap.
+         * @details The default number of threads is 1, which can be changed with RoadRunnerMap::setNumThreads.
          */
         RoadRunnerMap() = default;
 
         /**
          * @brief Instantiate a RoadRunnerMap from a @param sbmlStringsOrFiles vector of sbml files, sbml strings or a mix thereof.
-         * @param numThreads How many threads to use.
+         * @param numThreads How many threads to use, if 1, the overhead of setting up multithreading pool is avoided.
          */
         explicit RoadRunnerMap(const std::vector<std::string> &sbmlStringsOrFiles, unsigned int numThreads);
 
         /**
          * @brief Returns the keys of the map in order of insertion.
-         * @details The order of insertion can be different on different runs since they are multithreaded.
-         * The keys are maintained as a string vector as a member variable to RoadRunnerMap. Therefore
-         * accessing the vector of keys is O(1) not O(N).
+         * @details Does a linear search over hashmap to build a vector of keys O(N).
          */
         std::vector<std::string> getKeys() const;
 
@@ -127,7 +126,7 @@ namespace rr {
          * @brief remove an element with @param key from the map
          * @details
          */
-        void remove(const std::string &key);
+        void erase(const std::string &key);
 
         /**
          * @brief map iterator
@@ -139,13 +138,14 @@ namespace rr {
          *
          * or
          * @code
-         *   for (auto it = rrm.begin(); it != rrm.end(); ++it) {
-         *      auto&[modelName, rr] = *it;
-         *      i++;
-         *  }
+         *    for (auto& [modelName, rr] : rrm) {
+         *        actual[i] = rr->getInstanceID();
+         *        i++;
+         *    }
          * @endcode
          */
-        UnorderedMap::iterator begin() noexcept;
+        ThreadSafeUnorderedMap::iterator begin();
+        ThreadSafeUnorderedMap::const_iterator begin() const;
 
         /**
          * @brief
@@ -156,24 +156,20 @@ namespace rr {
          *  }
          * @endcode
          */
-        UnorderedMap::iterator end() noexcept;
+        ThreadSafeUnorderedMap::iterator end();
+        ThreadSafeUnorderedMap::const_iterator end() const;
 
         /**
-         * @brief keys iterator
-         * @code
-         *   RoadRunnerMap rrm(sbmlFiles, 1);
-         *   auto it = rrm.findKey("case00001");
-         *   // first make sure key is in the map
-         *   ASSERT_NE(it, rrm.keysEnd());
-         * @endcode
+         * @brief find item with key equal to @param key.
+         * @returns iterator to item if found or end if not found
          */
-        std::vector<std::string>::iterator keysBegin();
+        ThreadSafeUnorderedMap::iterator find(const std::string &key);
 
         /**
-         * @brief Iterate using the keys of the map
-         * @details
+         * @brief find item with key equal to @param key. Const version.
+         * @returns iterator to item if found or end if not found
          */
-        std::vector<std::string>::iterator keysEnd();
+        ThreadSafeUnorderedMap::const_iterator find(const std::string &key) const;
 
         /**
          * @brief return true if the map is empty
@@ -191,35 +187,23 @@ namespace rr {
         void clear();
 
         /**
-         * @brief Remove item @param key from the RoadRunnerMap and return the
-         * corresponding RoadRunner model.
-         * @details the returned RoadRunner pointer is a borrowed reference, owned by
-         * the RoadRunnerMap.
-         */
-        std::unique_ptr<RoadRunner> popKey(const std::string &key);
-
-        /**
          * @brief Getter operator. Returns a *borrowed* reference to a
          * roadruner model that is owned by the RoadRunnerMap.
-         * @details Implemented using the RoadRunnerMap::borrow method
          */
         RoadRunner *operator[](const std::string &key);
 
         /**
-         * @brief Getter operator. Returns a *borrowed* reference to a
-         * roadruner model that is owned by the RoadRunnerMap.
-         * @see RoadRunnerMap::steal
+         * @brief get borrowed reference from map for roadrunner model with key equal to @param key.
+         * @details returned pointer is owned by the RoadRunnerMap object.
          */
-        RoadRunner *borrow(const std::string &key);
+        RoadRunner *at(const std::string &key);
+
+        RoadRunner *at(const std::string &key) const;
 
         /**
-         * @brief Take a roadrunner object out of the map.
-         * @details the returned pointer is owned by the caller
-         * and must be deleted.
-         * @note not returning a unique_ptr<RoadRunner> because
-         * it plays havok with swig.
+         * @brief wait for all tasks to finish before allowing program execution to continue
          */
-        RoadRunner* steal(const std::string &key);
+        void wait_for_tasks();
 
         /**
          * @brief count the number of keys with value @param key.
@@ -227,27 +211,6 @@ namespace rr {
          * the return value of count is guarenteed to be either 0 for not found, or 1 for found.
          */
         size_t count(const std::string &key);
-
-        /**
-         * @brief Find an iterator to a std::pair<std::string, std::unique_ptr<RoadRunner>> given the @param key
-         * @details
-         */
-        UnorderedMap::iterator find(const std::string &key);
-
-        /**
-         * @brief Find an iterator to a std::string at position @param key
-         * @details
-         */
-        std::vector<std::string>::iterator findKey(const std::string &key);
-
-
-#if __cplusplus >= 202002L
-        /**
-         * @brief returns true if key is in the model. Same as count but only exists in >C++20
-         * @details
-         */
-        bool contains(const std::string& key);
-#endif
 
         /**
          * @brief Reset the number of threads in the pool
@@ -286,22 +249,9 @@ namespace rr {
         void loadSerial(const std::vector<std::string> &sbmlFilesOrStrings);
 
         /**
-         * @brief Mutex for thread sync.
-         * @details Mainly we cannot access the rrMap_ variable from multiple threads at the same time.
-         */
-
-        std::mutex mutex;
-
-        /**
          * @brief a map type that does all the heavy lifting in this class.
          */
-        UnorderedMap rrMap_{};
-
-        /**
-         * @brief a vector to store the keys of the map. Note, this is an augmentation that enables
-         * O(1) access to the keys. The keys_ variable is always maintained and accurate.
-         */
-        std::vector<std::string> keys_;
+        ThreadSafeUnorderedMap rrMap_{};
 
         /**
          * @brief manages workloads using numThreads_ threads.

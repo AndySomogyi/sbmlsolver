@@ -1713,6 +1713,17 @@ namespace rr {
 
         void fixDependentSpeciesValues(int except, double *ref);
 
+        /**
+         * True once the llvm initialization routines have been run.
+         * This is necessary because they are not threadsafe.
+         */
+        static bool llvmInitialized;
+        static bool solversRegistered;
+
+        /**
+         * @brief calls llvm initialization routines in a thread safe way
+         */
+        void initLLVM();
 
         size_t createDefaultSteadyStateSelectionList();
 

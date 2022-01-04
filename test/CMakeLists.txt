@@ -29,9 +29,7 @@ set(SBMLTestSuiteRoot "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite")
 set(SBMLTestSuiteSemantic "${SBMLTestSuiteRoot}/semantic")
 set(SBMLTestSuiteStochastic "${SBMLTestSuiteRoot}/stochastic")
 
-#todo move these to the rr_root/cmake folder
-# Adds a new executable cmake target to cmake.
-# Links roadrunner-static and gtest.
+# Adds a new executable cmake target to cmake. Links to roadrunner via the c api. Links gtest.
 # Parameters:
 #   - TEST_TARGET: name of the binary
 #   - OUT_VARIABLE: list variable to append BINARY. Creates the list if not exist.
@@ -42,10 +40,10 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
             ${ThisSourceDirectory}/TestModelFactory)
 
     if (TEST_TARGET MATCHES ".*plugin.*")
-       set(TEST_PLUGIN_INCLUDE "$<TARGET_PROPERTY:telplugins_c_api,INCLUDE_DIRECTORIES>")
-       set(TEST_PLUGIN_LIB "telplugins_c_api")
+        set(TEST_PLUGIN_INCLUDE "$<TARGET_PROPERTY:telplugins_c_api,INCLUDE_DIRECTORIES>")
+        set(TEST_PLUGIN_LIB "telplugins_c_api")
     else()
-       set(TEST_PLUGIN_LIB "roadrunner_c_api")
+        set(TEST_PLUGIN_LIB "roadrunner_c_api")
     endif()
 
     target_include_directories(
@@ -55,14 +53,14 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
             "${MOCKUPS_DIRECTORY}"
             "${TEST_PLUGIN_INCLUDE}"
             ${SBMLTestSuiteRoot}
-#            "${RR_Python_wrapper_dir}" # for PyUtils in tests that need it
+            #            "${RR_Python_wrapper_dir}" # for PyUtils in tests that need it
     )
 
     target_link_libraries(${TEST_TARGET} PRIVATE
-#            rr-mockups
+            #            rr-mockups
             ${TEST_PLUGIN_LIB}
             gtest gtest_main gmock gmock_main
-    )
+            )
 
     # Add root of sbml test suite to all test targets.
     target_compile_definitions(${TEST_TARGET} PRIVATE
@@ -335,7 +333,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     add_pytest_to_ctest(python_tests_StructuralAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_structuralAnalysis.py")
 
     add_pytest_to_ctest(python_tests_RunStochasticTestSuite "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_runStochasticTestSuite.py")
-    # add_pytest_to_ctest(python_tests_RoadRunnerMap "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_roadrunner_map.py")
+    add_pytest_to_ctest(python_tests_RoadRunnerMap "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_roadrunner_map.py")
 
     message(STATUS "PyTestTests ${PyTestTests}")
 

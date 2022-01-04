@@ -124,3 +124,10 @@ TEST_F(STSTests, getModelsFromSTS){
     ASSERT_EQ(9, models.size());
 }
 
+TEST_F(STSTests, getModelsFromSTSAsStrings){
+    STS<SemanticSTSModel> sts;
+    std::vector<std::string> models = sts.getModelsFromSTSAsStrings(1, 10);
+    std::cout << models[0] << std::endl;
+    ASSERT_EQ(9, models.size());
+}
+
