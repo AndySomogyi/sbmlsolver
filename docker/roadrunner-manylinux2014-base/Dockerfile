@@ -90,3 +90,12 @@ cd build\n\
 cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_RR_PLUGINS=ON -DCMAKE_INSTALL_PREFIX=../../Roadrunner-release -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DLLVM_INSTALL_PREFIX=/install-llvm-13.x -DBUILD_TESTS=ON -DBUILD_PYTHON=ON -DSWIG_EXECUTABLE=/swig-4.0.2/swig -DPython_ROOT_DIR=/Miniconda3/envs/py39 ..\n\
 cmake --build . --target install --config Release -j 16\n" > /build-roadrunner.sh
 
+# install valgrind
+RUN wget https://sourceware.org/pub/valgrind/valgrind-3.18.1.tar.bz2 --no-check-certificate \
+    && tar -xvf valgrind-3.18.1.tar.bz2\
+    && cd valgrind-3.18.1/\
+    && mkdir build\
+    && cd build\
+    && ../configure                                                \
+    && make -j 12\
+    && make install
