@@ -1,7 +1,10 @@
-"""
+"""Run VTune profiler systematically using command line
 
-Example:
-python .\RunRoadRunnerMapPerformanceTestsWithVTune.py --VTune "C:\Program Files (x86)\Intel\oneAPI\vtune\latest\bin64\vtune.exe" --RoadRunnerMapPerformanceTestsExecutable "D:\roadrunner\roadrunner\cmake-build-debug\bin\RoadRunnerMapPerformanceTests.exe" --OutputDirectory "D:\roadrunner\Profiler\RoadRunnerMap2"
+Make sure to use the debug build.
+
+Example
+--------
+python .\RunRoadRunnerMapPerformanceTestsWithVTune.py --VTune "C:\Program Files (x86)\Intel\oneAPI\vtune\latest\bin64\vtune.exe" --RoadRunnerMapPerformanceTestsExecutable D:\roadrunner\roadrunner\cmake-build-debug\bin\RoadRunnerMapPerformanceTests.exe --OutputDirectory D:\roadrunner\Profiler\RoadRunnerProfiling
 """
 
 import glob, os, argparse
