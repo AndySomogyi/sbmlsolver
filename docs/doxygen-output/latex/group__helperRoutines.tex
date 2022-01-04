@@ -36,7 +36,7 @@ C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv \mbox{\hyperlink{group__helperRout
 \begin{DoxyCompactList}\small\item\em Retrieve the number of columns in the given rr\+Data data (returned form \mbox{\hyperlink{group__simulation_ga9ac99f6909eb0a6244035fc9cdeff94d}{simulate(\+RRHandle handle)}}) \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv \mbox{\hyperlink{group__helperRoutines_gad475100038d18ad8033220f10a05156a}{get\+RRCData\+Element}} (\mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}} rr\+Data, int r, int c, double $\ast$value)
 \begin{DoxyCompactList}\small\item\em Retrieves an element at a given row and column from a Road\+Runner data type variable. \end{DoxyCompactList}\item 
-C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__helperRoutines_gaaa98160597f72e56bf32eff95e7b1f0c}{get\+RRData\+Column\+Label}} (\mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}} rr\+Data, int column)
+C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__helperRoutines_gae43ea3948a00602a09f61fb78b75da7f}{get\+RRData\+Column\+Label}} (\mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}} rr\+Data, int column)
 \begin{DoxyCompactList}\small\item\em Retrieves a label for a given column in a rr\+Data type variable. \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv \mbox{\hyperlink{group__helperRoutines_ga39acec7b552d0d705387d45e160a6448}{write\+RRData}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, const char $\ast$file\+Name\+And\+Path)
 \begin{DoxyCompactList}\small\item\em Writes Road\+Runner data to file. \end{DoxyCompactList}\item 
@@ -82,7 +82,7 @@ Create an empty matrix of size r by c.
 
 Matrices are indexed from zero
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{m = \mbox{\hyperlink{group__helperRoutines_gabf1979f15bd6b02315b3f9d880fded85}{createRRMatrix}} (2, 3); }
 
@@ -109,7 +109,7 @@ Create a new vector with a given size.
 
 Vectors are indexed from zero
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{myVector = \mbox{\hyperlink{group__helperRoutines_ga9f52eab51dfe4dcd3d87538bf8ecd453}{createVector}} (10); }
 
@@ -202,7 +202,7 @@ Retrieve the number of columns in the given matrix.
 
 Matrices are indexed from zero
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{nRows = \mbox{\hyperlink{group__helperRoutines_ga643d224921897abead4fdcdf1e1e362e}{getMatrixNumCols}} (m); }
 
@@ -229,7 +229,7 @@ Retrieve the number of rows in the given matrix.
 
 Matrices are indexed from zero
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{nRows = \mbox{\hyperlink{group__helperRoutines_ga13d0d619adf01ca451033e742aaed38e}{getMatrixNumRows}} (m); }
 
@@ -256,7 +256,7 @@ Retrieves an element at a given row and column from a Road\+Runner data type var
 
 Road\+Runner numerical data are indexed from zero
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{status = \mbox{\hyperlink{group__helperRoutines_gad475100038d18ad8033220f10a05156a}{getRRCDataElement}} (rrData, 2, 4, *value); }
 
@@ -277,11 +277,11 @@ Example\+:
 \begin{DoxyReturn}{Returns}
 Returns true if successful 
 \end{DoxyReturn}
-\mbox{\Hypertarget{group__helperRoutines_gaaa98160597f72e56bf32eff95e7b1f0c}\label{group__helperRoutines_gaaa98160597f72e56bf32eff95e7b1f0c}} 
+\mbox{\Hypertarget{group__helperRoutines_gae43ea3948a00602a09f61fb78b75da7f}\label{group__helperRoutines_gae43ea3948a00602a09f61fb78b75da7f}} 
 \index{Helper routines@{Helper routines}!getRRDataColumnLabel@{getRRDataColumnLabel}}
 \index{getRRDataColumnLabel@{getRRDataColumnLabel}!Helper routines@{Helper routines}}
 \doxysubsubsection{\texorpdfstring{getRRDataColumnLabel()}{getRRDataColumnLabel()}}
-{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC char$\ast$ rrc\+Call\+Conv get\+RRData\+Column\+Label (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}}}]{rr\+Data,  }\item[{int}]{column }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv get\+RRData\+Column\+Label (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}}}]{rr\+Data,  }\item[{int}]{column }\end{DoxyParamCaption})}
 
 
 
@@ -289,7 +289,7 @@ Retrieves a label for a given column in a rr\+Data type variable.
 
 Result data are indexed from zero
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{str = getResultColumnLabel (rrData, 2, 4); }
 
@@ -316,7 +316,7 @@ Returns null if fails, otherwise returns a pointer to the string column label
 
 Retrieve the number of columns in the given rr\+Data data (returned form \mbox{\hyperlink{group__simulation_ga9ac99f6909eb0a6244035fc9cdeff94d}{simulate(\+RRHandle handle)}}) 
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{nRows = getResultNumCols (rrData); }
 
@@ -341,7 +341,7 @@ Returns -\/1 if fails, otherwise returns the number of columns
 
 Retrieve the number of rows in the given Road\+Runner numerical data (returned from \mbox{\hyperlink{group__simulation_ga9ac99f6909eb0a6244035fc9cdeff94d}{simulate(\+RRHandle handle)}}) 
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{nRows = \mbox{\hyperlink{group__helperRoutines_gae18768d9447fda2618cacb5099eb768e}{getRRDataNumRows}} (result); }
 
@@ -368,7 +368,7 @@ Get a particular element from a vector.
 
 Vectors are indexed from zero
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{status = \mbox{\hyperlink{group__helperRoutines_gab84c62954e2a81c5dbc2c897e88b05f2}{getVectorElement}} (myVector, 10, *value); }
 
@@ -399,7 +399,7 @@ Get the number of elements in a vector type.
 
 Vectors are indexed from zero
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{count = \mbox{\hyperlink{group__helperRoutines_gaa54dd2d3c615bb2838c0670d0344e001}{getVectorLength}} (myVector); }
 
@@ -492,7 +492,7 @@ Set a particular element in a vector.
 
 Vectors are indexed from zero
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{status = \mbox{\hyperlink{group__helperRoutines_gab7ecf31370cd1f63c424d703f1a676cc}{setVectorElement}} (myVector, 10, 3.1415); }
 

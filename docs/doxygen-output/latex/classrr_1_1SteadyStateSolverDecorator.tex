@@ -23,8 +23,7 @@ Inheritance diagram for rr\+::Steady\+State\+Solver\+Decorator\+:\begin{figure}[
 \item 
 void \mbox{\hyperlink{classrr_1_1SteadyStateSolverDecorator_a3d28cd898cf997dbc2243b0fc2ae3856}{sync\+With\+Model}} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$m) override
 \begin{DoxyCompactList}\small\item\em Base decorator delegates all work to the wrapped steady state solver. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1SteadyStateSolverDecorator_af8245130dad6e050fd0bacdddc6cbec6}\label{classrr_1_1SteadyStateSolverDecorator_af8245130dad6e050fd0bacdddc6cbec6}} 
-double {\bfseries solve} () override
+double \mbox{\hyperlink{classrr_1_1SteadyStateSolverDecorator_af8245130dad6e050fd0bacdddc6cbec6}{solve}} () override
 \item 
 std\+::string \mbox{\hyperlink{classrr_1_1SteadyStateSolverDecorator_ab40943abac1972772212fb7fad42afa3}{get\+Name}} () const override
 \begin{DoxyCompactList}\small\item\em Gets the name associated with this \mbox{\hyperlink{classrr_1_1Solver}{Solver}} type. \end{DoxyCompactList}\item 
@@ -32,7 +31,6 @@ std\+::string \mbox{\hyperlink{classrr_1_1SteadyStateSolverDecorator_aeee54937d2
 \begin{DoxyCompactList}\small\item\em Gets the description associated with this \mbox{\hyperlink{classrr_1_1Solver}{Solver}} type. \end{DoxyCompactList}\item 
 std\+::string \mbox{\hyperlink{classrr_1_1SteadyStateSolverDecorator_a010d1f84529bbcc1177f35ee646e8b6c}{get\+Hint}} () const override
 \begin{DoxyCompactList}\small\item\em Gets the hint associated with this \mbox{\hyperlink{classrr_1_1Solver}{Solver}} type. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1SteadyStateSolverDecorator_a6978cebc1cf1ac984be2051491170443}\label{classrr_1_1SteadyStateSolverDecorator_a6978cebc1cf1ac984be2051491170443}} 
 void \mbox{\hyperlink{classrr_1_1SteadyStateSolverDecorator_a6978cebc1cf1ac984be2051491170443}{reset\+Settings}} () override
 \begin{DoxyCompactList}\small\item\em Implements settings shared by all steady state solvers. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes}
@@ -101,6 +99,30 @@ JKM, WBC
 
 Implements \mbox{\hyperlink{classrr_1_1Registrable_a7d66e096a8c5cfd5e3fdb6cf5aa339d6}{rr\+::\+Registrable}}.
 
+\mbox{\Hypertarget{classrr_1_1SteadyStateSolverDecorator_a6978cebc1cf1ac984be2051491170443}\label{classrr_1_1SteadyStateSolverDecorator_a6978cebc1cf1ac984be2051491170443}} 
+\index{rr::SteadyStateSolverDecorator@{rr::SteadyStateSolverDecorator}!resetSettings@{resetSettings}}
+\index{resetSettings@{resetSettings}!rr::SteadyStateSolverDecorator@{rr::SteadyStateSolverDecorator}}
+\doxysubsubsection{\texorpdfstring{resetSettings()}{resetSettings()}}
+{\footnotesize\ttfamily void rr\+::\+Steady\+State\+Solver\+Decorator\+::reset\+Settings (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements settings shared by all steady state solvers. 
+
+
+
+Reimplemented from \mbox{\hyperlink{classrr_1_1SteadyStateSolver_ac9652965eb0defa7c12af91110dd68fc}{rr\+::\+Steady\+State\+Solver}}.
+
+\mbox{\Hypertarget{classrr_1_1SteadyStateSolverDecorator_af8245130dad6e050fd0bacdddc6cbec6}\label{classrr_1_1SteadyStateSolverDecorator_af8245130dad6e050fd0bacdddc6cbec6}} 
+\index{rr::SteadyStateSolverDecorator@{rr::SteadyStateSolverDecorator}!solve@{solve}}
+\index{solve@{solve}!rr::SteadyStateSolverDecorator@{rr::SteadyStateSolverDecorator}}
+\doxysubsubsection{\texorpdfstring{solve()}{solve()}}
+{\footnotesize\ttfamily double rr\+::\+Steady\+State\+Solver\+Decorator\+::solve (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classrr_1_1SteadyStateSolver}{rr\+::\+Steady\+State\+Solver}}.
+
 \mbox{\Hypertarget{classrr_1_1SteadyStateSolverDecorator_a3d28cd898cf997dbc2243b0fc2ae3856}\label{classrr_1_1SteadyStateSolverDecorator_a3d28cd898cf997dbc2243b0fc2ae3856}} 
 \index{rr::SteadyStateSolverDecorator@{rr::SteadyStateSolverDecorator}!syncWithModel@{syncWithModel}}
 \index{syncWithModel@{syncWithModel}!rr::SteadyStateSolverDecorator@{rr::SteadyStateSolverDecorator}}
@@ -113,7 +135,7 @@ Base decorator delegates all work to the wrapped steady state solver.
 
 Subclass decorators may modify any or all of these operations. 
 
-Implements \mbox{\hyperlink{classrr_1_1SteadyStateSolver_ac69478bcf73ab02178b001250293c4c9}{rr\+::\+Steady\+State\+Solver}}.
+Implements \mbox{\hyperlink{classrr_1_1Solver_aecb0e7c619e544aeabc6db9903165158}{rr\+::\+Solver}}.
 
 
 

@@ -1,14 +1,19 @@
 var searchData=
 [
-  ['find_1801',['find',['../classrrllvm_1_1SymbolForest.html#a4b99a270969d9dfc5051ab0291e5724b',1,'rrllvm::SymbolForest']]],
-  ['flushcache_1802',['flushCache',['../classrrllvm_1_1LoadSymbolResolverBase.html#ae380d0e0ba65b430e3ce7c23be4b7829',1,'rrllvm::LoadSymbolResolverBase']]],
-  ['freekinsol_1803',['freeKinsol',['../classrr_1_1FixedPointIteration.html#aaabbfb6ff1bc59dd9cc4371368dc9348',1,'rr::FixedPointIteration::freeKinsol()'],['../classrr_1_1KinsolSteadyStateSolver.html#a9ddc7acd14dad905333c11667363de66',1,'rr::KinsolSteadyStateSolver::freeKinsol()'],['../classrr_1_1NewtonIteration.html#ae27ea4ad5e78a6fb781bb1d8272f0756',1,'rr::NewtonIteration::freeKinsol()']]],
-  ['freematrix_1804',['freeMatrix',['../group__freeRoutines.html#ga9adcba296046c5770d44e64626b600ba',1,'rrc_utilities.h']]],
-  ['freerrcdata_1805',['freeRRCData',['../group__freeRoutines.html#ga2f52213c492e3c4c5d2ac6c72e04a035',1,'rrc_utilities.h']]],
-  ['freerrinstance_1806',['freeRRInstance',['../group__initialization.html#gae0b2f65464742bba3beb0ad38dcdd863',1,'rrc_api.h']]],
-  ['freerrlist_1807',['freeRRList',['../group__list.html#gafd22078b804cc5b7e39849fb51c7519a',1,'rrc_utilities.h']]],
-  ['freestringarray_1808',['freeStringArray',['../group__freeRoutines.html#ga905dbf578855f9e21e956f6066a6a2b5',1,'rrc_utilities.h']]],
-  ['freesundialsmemory_1809',['freeSundialsMemory',['../classrr_1_1ForwardSensitivitySolver.html#a9f78958e67898b39a0f70ff4207583a1',1,'rr::ForwardSensitivitySolver']]],
-  ['freetext_1810',['freeText',['../group__freeRoutines.html#gaaaea1b8264a6d7511153ef611fa88e53',1,'rrc_utilities.h']]],
-  ['freevector_1811',['freeVector',['../group__freeRoutines.html#ga97046231a95430c020e94004ca257b83',1,'rrc_utilities.h']]]
+  ['emittostring_0',['emitToString',['../classrrllvm_1_1Jit.html#ab316cce1cd3f402e678fb3534da19b3d',1,'rrllvm::Jit']]],
+  ['empty_1',['empty',['../classrr_1_1Matrix.html#a481abe78869b481e1b825734bb8a51a2',1,'rr::Matrix::empty()'],['../classrr_1_1RoadRunnerMap.html#ab6b731d13f9c513083d4ed3ad3daef37',1,'rr::RoadRunnerMap::empty()']]],
+  ['enableconsolelogging_2',['enableConsoleLogging',['../classrr_1_1Logger.html#a859a9358480196476351e5e2a3466b71',1,'rr::Logger']]],
+  ['enablefilelogging_3',['enableFileLogging',['../classrr_1_1Logger.html#a2353c535f4e74dead4f0f1267556a906',1,'rr::Logger']]],
+  ['enableloggingtoconsole_4',['enableLoggingToConsole',['../group__logging.html#ga26aae545bbc31c1505ade0579741a4b9',1,'rrc_logging_api.h']]],
+  ['enableloggingtofile_5',['enableLoggingToFile',['../group__logging.html#ga94829307689bb7f93c59d3098b83a9f7',1,'rrc_logging_api.h']]],
+  ['enableloggingtofilewithpath_6',['enableLoggingToFileWithPath',['../group__logging.html#ga9ccf608e3864a75bdca868af6b511b17',1,'rrc_logging_api.h']]],
+  ['end_7',['end',['../classrr_1_1RoadRunnerMap.html#a32cd8895262727088f335c25ae813e98',1,'rr::RoadRunnerMap']]],
+  ['erase_8',['erase',['../classrr_1_1RoadRunnerMap.html#a6d384b01fbf98397a0d475838ac5fd75',1,'rr::RoadRunnerMap']]],
+  ['eraseexpiredevents_9',['eraseExpiredEvents',['../classrrllvm_1_1EventQueue.html#ae8910363f048acba859cdff811a5cbdb',1,'rrllvm::EventQueue']]],
+  ['eulerintegrator_10',['EulerIntegrator',['../classrr_1_1EulerIntegrator.html#afc90e9a20043ba1a05db9adba8d53cfe',1,'rr::EulerIntegrator']]],
+  ['evalinitialconditions_11',['evalInitialConditions',['../classrrllvm_1_1LLVMExecutableModel.html#aa0e78adf76883e1eadcf4cdd1f0179ff',1,'rrllvm::LLVMExecutableModel']]],
+  ['evalmodel_12',['evalModel',['../group__state.html#ga045d3842446954ba06e4010e19a2f1b1',1,'rrc_api.h']]],
+  ['eventcodegen_13',['eventCodeGen',['../classrrllvm_1_1EventCodeGenBase.html#a825eadbbdc0c0240646a375f82295113',1,'rrllvm::EventCodeGenBase']]],
+  ['executablemodel_14',['ExecutableModel',['../classrr_1_1ExecutableModel.html#a304eb91e2abe96301321cf6507087a9f',1,'rr::ExecutableModel']]],
+  ['externalfunctionsignatures_15',['externalFunctionSignatures',['../classrrllvm_1_1Jit.html#aa25373cc3dc5ac1bd2f7c162a4e044df',1,'rrllvm::Jit']]]
 ];

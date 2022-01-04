@@ -20,9 +20,9 @@ C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__logging_g
 \begin{DoxyCompactList}\small\item\em Disable logging to log\+File. \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__logging_ga6e6cb15a163ea13e5ef9f0ebfded2c78}{set\+Log\+Level}} (const char $\ast$lvl)
 \begin{DoxyCompactList}\small\item\em Set the logging status level The logging level is determined by the following strings. \end{DoxyCompactList}\item 
-C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__logging_ga0d9810fbff78ccdf4912d5789d55f49e}{get\+Log\+Level}} (void)
+C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__logging_ga436f078a663f16d7d8fd67c972324ff2}{get\+Log\+Level}} (void)
 \begin{DoxyCompactList}\small\item\em Get the logging status level as a pointer to a string. \end{DoxyCompactList}\item 
-C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__logging_ga05133e19d88371f05908ba5f87ca57ad}{get\+Log\+File\+Name}} (void)
+C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__logging_gad266be0f5763e03ff9754dbdc07631ae}{get\+Log\+File\+Name}} (void)
 \begin{DoxyCompactList}\small\item\em Get a pointer to the string that holds the logging file name path. \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC void rrc\+Call\+Conv \mbox{\hyperlink{group__logging_gaa6fb15f5bbab056c9351695bcb0775a6}{log\+Msg}} (enum \mbox{\hyperlink{rrc__logging__api_8h_a588bd44cc2c96622ce20b8aba702686a}{CLog\+Level}} lvl, const char $\ast$msg)
 \begin{DoxyCompactList}\small\item\em Create a log message. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -99,11 +99,11 @@ Enable logging to a log file with the specified path.
 \begin{DoxyReturn}{Returns}
 Returns true if successful, false otherwise 
 \end{DoxyReturn}
-\mbox{\Hypertarget{group__logging_ga05133e19d88371f05908ba5f87ca57ad}\label{group__logging_ga05133e19d88371f05908ba5f87ca57ad}} 
+\mbox{\Hypertarget{group__logging_gad266be0f5763e03ff9754dbdc07631ae}\label{group__logging_gad266be0f5763e03ff9754dbdc07631ae}} 
 \index{Logging functionality@{Logging functionality}!getLogFileName@{getLogFileName}}
 \index{getLogFileName@{getLogFileName}!Logging functionality@{Logging functionality}}
 \doxysubsubsection{\texorpdfstring{getLogFileName()}{getLogFileName()}}
-{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC char$\ast$ rrc\+Call\+Conv get\+Log\+File\+Name (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv get\+Log\+File\+Name (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
 
@@ -114,11 +114,11 @@ Example\+: str = get\+Log\+File\+Name (void)
 \begin{DoxyReturn}{Returns}
 Returns null if it fails otherwise returns the full path to the logging file name 
 \end{DoxyReturn}
-\mbox{\Hypertarget{group__logging_ga0d9810fbff78ccdf4912d5789d55f49e}\label{group__logging_ga0d9810fbff78ccdf4912d5789d55f49e}} 
+\mbox{\Hypertarget{group__logging_ga436f078a663f16d7d8fd67c972324ff2}\label{group__logging_ga436f078a663f16d7d8fd67c972324ff2}} 
 \index{Logging functionality@{Logging functionality}!getLogLevel@{getLogLevel}}
 \index{getLogLevel@{getLogLevel}!Logging functionality@{Logging functionality}}
 \doxysubsubsection{\texorpdfstring{getLogLevel()}{getLogLevel()}}
-{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC char$\ast$ rrc\+Call\+Conv get\+Log\+Level (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv get\+Log\+Level (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
 
@@ -128,9 +128,9 @@ The logging level can be one of the following strings
 
 \char`\"{}\+ANY\char`\"{}, \char`\"{}\+DEBUG5\char`\"{}, \char`\"{}\+DEBUG4\char`\"{}, \char`\"{}\+DEBUG3\char`\"{}, \char`\"{}\+DEBUG2\char`\"{}, \char`\"{}\+DEBUG1\char`\"{}, \char`\"{}\+DEBUG\char`\"{}, \char`\"{}\+INFO\char`\"{}, \char`\"{}\+WARNING\char`\"{}, \char`\"{}\+ERROR\char`\"{}
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{str = \mbox{\hyperlink{group__logging_ga0d9810fbff78ccdf4912d5789d55f49e}{getLogLevel}} (\textcolor{keywordtype}{void}) }
+\DoxyCodeLine{str = \mbox{\hyperlink{group__logging_ga436f078a663f16d7d8fd67c972324ff2}{getLogLevel}} (\textcolor{keywordtype}{void}) }
 
 \end{DoxyCode}
 
@@ -167,14 +167,14 @@ Set the logging status level The logging level is determined by the following st
 
 \char`\"{}\+ANY\char`\"{}, \char`\"{}\+DEBUG5\char`\"{}, \char`\"{}\+DEBUG4\char`\"{}, \char`\"{}\+DEBUG3\char`\"{}, \char`\"{}\+DEBUG2\char`\"{}, \char`\"{}\+DEBUG1\char`\"{}, \char`\"{}\+DEBUG\char`\"{}, \char`\"{}\+INFO\char`\"{}, \char`\"{}\+WARNING\char`\"{}, \char`\"{}\+ERROR\char`\"{}
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\mbox{\hyperlink{group__logging_ga6e6cb15a163ea13e5ef9f0ebfded2c78}{setLogLevel}} (\textcolor{stringliteral}{"{}DEBUG4"{}}) }
 
 \end{DoxyCode}
 
 
-Will show log messages with levels DEBUG4, DEBUG3 -\/$>$ Error
+Will show log messages with levels DEBUG4, DEBUG3 -\/\texorpdfstring{$>$}{>} Error
 
 
 \begin{DoxyParams}{Parameters}

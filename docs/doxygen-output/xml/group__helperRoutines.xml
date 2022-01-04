@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="group__helperRoutines" kind="group">
     <compoundname>helperRoutines</compoundname>
     <title>Helper routines</title>
@@ -18,7 +18,7 @@
         </briefdescription>
         <detaileddescription>
 <para>Vectors are indexed from zero</para>
-<para>Example:<programlisting><codeline><highlight class="normal">count<sp/>=<sp/>getVectorLength<sp/>(myVector);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">count<sp/>=<sp/>getVectorLength<sp/>(myVector);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -51,7 +51,7 @@
         </briefdescription>
         <detaileddescription>
 <para>Vectors are indexed from zero</para>
-<para>Example:<programlisting><codeline><highlight class="normal">myVector<sp/>=<sp/>createVector<sp/>(10);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">myVector<sp/>=<sp/>createVector<sp/>(10);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -92,7 +92,7 @@
         </briefdescription>
         <detaileddescription>
 <para>Vectors are indexed from zero</para>
-<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getVectorElement<sp/>(myVector,<sp/>10,<sp/>*value);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getVectorElement<sp/>(myVector,<sp/>10,<sp/>*value);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -149,7 +149,7 @@
         </briefdescription>
         <detaileddescription>
 <para>Vectors are indexed from zero</para>
-<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>setVectorElement<sp/>(myVector,<sp/>10,<sp/>3.1415);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>setVectorElement<sp/>(myVector,<sp/>10,<sp/>3.1415);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -202,7 +202,7 @@
         </briefdescription>
         <detaileddescription>
 <para>Matrices are indexed from zero</para>
-<para>Example:<programlisting><codeline><highlight class="normal">m<sp/>=<sp/>createRRMatrix<sp/>(2,<sp/>3);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">m<sp/>=<sp/>createRRMatrix<sp/>(2,<sp/>3);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -236,7 +236,7 @@
         </briefdescription>
         <detaileddescription>
 <para>Matrices are indexed from zero</para>
-<para>Example:<programlisting><codeline><highlight class="normal">nRows<sp/>=<sp/>getMatrixNumRows<sp/>(m);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">nRows<sp/>=<sp/>getMatrixNumRows<sp/>(m);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -269,7 +269,7 @@
         </briefdescription>
         <detaileddescription>
 <para>Matrices are indexed from zero</para>
-<para>Example:<programlisting><codeline><highlight class="normal">nRows<sp/>=<sp/>getMatrixNumCols<sp/>(m);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">nRows<sp/>=<sp/>getMatrixNumCols<sp/>(m);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -577,7 +577,7 @@
 <para>Retrieve the number of rows in the given RoadRunner numerical data (returned from <ref refid="group__simulation_1ga9ac99f6909eb0a6244035fc9cdeff94d" kindref="member">simulate(RRHandle handle)</ref>) </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">nRows<sp/>=<sp/>getRRDataNumRows<sp/>(result);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">nRows<sp/>=<sp/>getRRDataNumRows<sp/>(result);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -609,7 +609,7 @@
 <para>Retrieve the number of columns in the given rrData data (returned form <ref refid="group__simulation_1ga9ac99f6909eb0a6244035fc9cdeff94d" kindref="member">simulate(RRHandle handle)</ref>) </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">nRows<sp/>=<sp/>getResultNumCols<sp/>(rrData);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">nRows<sp/>=<sp/>getResultNumCols<sp/>(rrData);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -654,7 +654,7 @@
         </briefdescription>
         <detaileddescription>
 <para>RoadRunner numerical data are indexed from zero</para>
-<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getRRCDataElement<sp/>(rrData,<sp/>2,<sp/>4,<sp/>*value);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getRRCDataElement<sp/>(rrData,<sp/>2,<sp/>4,<sp/>*value);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -697,9 +697,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="556" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="556" declcolumn="29"/>
       </memberdef>
-      <memberdef kind="function" id="group__helperRoutines_1gaaa98160597f72e56bf32eff95e7b1f0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__helperRoutines_1gae43ea3948a00602a09f61fb78b75da7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getRRDataColumnLabel</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getRRDataColumnLabel</definition>
         <argsstring>(RRCDataPtr rrData, int column)</argsstring>
         <name>getRRDataColumnLabel</name>
         <param>
@@ -715,7 +715,7 @@
         </briefdescription>
         <detaileddescription>
 <para>Result data are indexed from zero</para>
-<para>Example:<programlisting><codeline><highlight class="normal">str<sp/>=<sp/>getResultColumnLabel<sp/>(rrData,<sp/>2,<sp/>4);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">str<sp/>=<sp/>getResultColumnLabel<sp/>(rrData,<sp/>2,<sp/>4);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

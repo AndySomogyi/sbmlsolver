@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rrConfig &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -37,13 +36,11 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div>
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -53,6 +50,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
@@ -108,17 +107,14 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" aria-label="Top" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">libRoadRunner</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          
-
-<div role="navigation" aria-label="Breadcrumbs">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="index.html">The LibRoadRunner C++ Library</a> &raquo;</li>
@@ -132,7 +128,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="rrconfig">
+  <div class="section" id="rrconfig">
 <h1>rrConfig<a class="headerlink" href="#rrconfig" title="Permalink to this headline"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr6ConfigE">
@@ -544,10 +540,72 @@
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Config4Keys12LLVM_BACKENDE">
+<span id="_CPPv3N2rr6Config4Keys12LLVM_BACKENDE"></span><span id="_CPPv2N2rr6Config4Keys12LLVM_BACKENDE"></span><span class="target" id="classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053a5ca039ad984b9e22d0be36c68e631e7b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LLVM_BACKEND</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config4Keys12LLVM_BACKENDE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>An enum value that indicates which llvm JIT compiler is being used. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Config4Keys24LLJIT_OPTIMIZATION_LEVELE">
+<span id="_CPPv3N2rr6Config4Keys24LLJIT_OPTIMIZATION_LEVELE"></span><span id="_CPPv2N2rr6Config4Keys24LLJIT_OPTIMIZATION_LEVELE"></span><span class="target" id="classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053a3f0244ba441e891f8c0e48f4979d1d1d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LLJIT_OPTIMIZATION_LEVEL</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config4Keys24LLJIT_OPTIMIZATION_LEVELE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Optimization level when using LLJit. </p>
+<p>Either NONE, LESS, DEFAULT or AGGRESSIVE </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Config4Keys17LLJIT_NUM_THREADSE">
+<span id="_CPPv3N2rr6Config4Keys17LLJIT_NUM_THREADSE"></span><span id="_CPPv2N2rr6Config4Keys17LLJIT_NUM_THREADSE"></span><span class="target" id="classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053a1401d17f41f488b559117af515863cba"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LLJIT_NUM_THREADS</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config4Keys17LLJIT_NUM_THREADSE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>How many threads to use when building models with LLJit. </p>
+<p>Defaults to the number of cores </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr6Config4Keys10CONFIG_ENDE">
 <span id="_CPPv3N2rr6Config4Keys10CONFIG_ENDE"></span><span id="_CPPv2N2rr6Config4Keys10CONFIG_ENDE"></span><span class="target" id="classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053ae173224855af72a1643cb740c724f377"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CONFIG_END</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config4Keys10CONFIG_ENDE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Needs to be the last item in the enum, no mater how many other items are added, this is used internally to create a static array. </p>
 </dd></dl>
+
+</dd></dl>
+
+<dl class="cpp enum">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Config19LLVM_BACKEND_VALUESE">
+<span id="_CPPv3N2rr6Config19LLVM_BACKEND_VALUESE"></span><span id="_CPPv2N2rr6Config19LLVM_BACKEND_VALUESE"></span><span class="target" id="classrr_1_1Config_1ad98ce1bcc53eb2ee1692d6d0e925fce7"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LLVM_BACKEND_VALUES</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config19LLVM_BACKEND_VALUESE" title="Permalink to this definition"></a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Config19LLVM_BACKEND_VALUES5MCJITE">
+<span id="_CPPv3N2rr6Config19LLVM_BACKEND_VALUES5MCJITE"></span><span id="_CPPv2N2rr6Config19LLVM_BACKEND_VALUES5MCJITE"></span><span class="target" id="classrr_1_1Config_1ad98ce1bcc53eb2ee1692d6d0e925fce7a26dc249ed4183648a6673d4b08cb4ebd"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MCJIT</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config19LLVM_BACKEND_VALUES5MCJITE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Config19LLVM_BACKEND_VALUES5LLJITE">
+<span id="_CPPv3N2rr6Config19LLVM_BACKEND_VALUES5LLJITE"></span><span id="_CPPv2N2rr6Config19LLVM_BACKEND_VALUES5LLJITE"></span><span class="target" id="classrr_1_1Config_1ad98ce1bcc53eb2ee1692d6d0e925fce7a083115425acc0aeab67e3ccfc2600665"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LLJIT</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config19LLVM_BACKEND_VALUES5LLJITE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="cpp enum">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Config25LLJIT_OPTIMIZATION_LEVELSE">
+<span id="_CPPv3N2rr6Config25LLJIT_OPTIMIZATION_LEVELSE"></span><span id="_CPPv2N2rr6Config25LLJIT_OPTIMIZATION_LEVELSE"></span><span class="target" id="classrr_1_1Config_1aa03db1d4ada92224647fa41a3b82a8dc"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LLJIT_OPTIMIZATION_LEVELS</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config25LLJIT_OPTIMIZATION_LEVELSE" title="Permalink to this definition"></a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Config25LLJIT_OPTIMIZATION_LEVELS4NONEE">
+<span id="_CPPv3N2rr6Config25LLJIT_OPTIMIZATION_LEVELS4NONEE"></span><span id="_CPPv2N2rr6Config25LLJIT_OPTIMIZATION_LEVELS4NONEE"></span><span class="target" id="classrr_1_1Config_1aa03db1d4ada92224647fa41a3b82a8dca523f94309fb7f1b8ca732e705ce1f251"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NONE</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config25LLJIT_OPTIMIZATION_LEVELS4NONEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Config25LLJIT_OPTIMIZATION_LEVELS4LESSE">
+<span id="_CPPv3N2rr6Config25LLJIT_OPTIMIZATION_LEVELS4LESSE"></span><span id="_CPPv2N2rr6Config25LLJIT_OPTIMIZATION_LEVELS4LESSE"></span><span class="target" id="classrr_1_1Config_1aa03db1d4ada92224647fa41a3b82a8dca875cf80fca0a6904c9fb32cd30ef7744"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LESS</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config25LLJIT_OPTIMIZATION_LEVELS4LESSE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Config25LLJIT_OPTIMIZATION_LEVELS7DEFAULTE">
+<span id="_CPPv3N2rr6Config25LLJIT_OPTIMIZATION_LEVELS7DEFAULTE"></span><span id="_CPPv2N2rr6Config25LLJIT_OPTIMIZATION_LEVELS7DEFAULTE"></span><span class="target" id="classrr_1_1Config_1aa03db1d4ada92224647fa41a3b82a8dca9cdba1f52faa66b867116e53dea38f3b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DEFAULT</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config25LLJIT_OPTIMIZATION_LEVELS7DEFAULTE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Config25LLJIT_OPTIMIZATION_LEVELS10AGGRESSIVEE">
+<span id="_CPPv3N2rr6Config25LLJIT_OPTIMIZATION_LEVELS10AGGRESSIVEE"></span><span id="_CPPv2N2rr6Config25LLJIT_OPTIMIZATION_LEVELS10AGGRESSIVEE"></span><span class="target" id="classrr_1_1Config_1aa03db1d4ada92224647fa41a3b82a8dcae245bf5adc0e37586b30bf3e9472ef49"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AGGRESSIVE</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config25LLJIT_OPTIMIZATION_LEVELS10AGGRESSIVEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -654,13 +712,12 @@
 </div>
 </dd></dl>
 
-</section>
+</div>
 
 
            </div>
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="rrCompiler.html" class="btn btn-neutral float-left" title="rrCompiler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="rrException.html" class="btn btn-neutral float-right" title="rrException" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
@@ -672,7 +729,8 @@
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

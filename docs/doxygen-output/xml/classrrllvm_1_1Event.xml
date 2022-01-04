@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1Event" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::Event</compoundname>
       <sectiondef kind="public-attrib">
@@ -8,6 +8,7 @@
         <definition>LLVMExecutableModel&amp; rrllvm::Event::model</definition>
         <argsstring></argsstring>
         <name>model</name>
+        <qualifiedname>rrllvm::Event::model</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -21,6 +22,7 @@
         <definition>uint rrllvm::Event::id</definition>
         <argsstring></argsstring>
         <name>id</name>
+        <qualifiedname>rrllvm::Event::id</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -34,6 +36,7 @@
         <definition>double rrllvm::Event::delay</definition>
         <argsstring></argsstring>
         <name>delay</name>
+        <qualifiedname>rrllvm::Event::delay</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -47,6 +50,7 @@
         <definition>double rrllvm::Event::assignTime</definition>
         <argsstring></argsstring>
         <name>assignTime</name>
+        <qualifiedname>rrllvm::Event::assignTime</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -60,6 +64,7 @@
         <definition>uint rrllvm::Event::dataSize</definition>
         <argsstring></argsstring>
         <name>dataSize</name>
+        <qualifiedname>rrllvm::Event::dataSize</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -73,6 +78,7 @@
         <definition>double* rrllvm::Event::data</definition>
         <argsstring></argsstring>
         <name>data</name>
+        <qualifiedname>rrllvm::Event::data</qualifiedname>
         <briefdescription>
 <para>data block where assignment rules evaluations are stored if useValuesFromTriggerTime is set. </para>
         </briefdescription>
@@ -90,6 +96,7 @@
         <definition>rrllvm::Event::Event</definition>
         <argsstring>(LLVMExecutableModel &amp;, uint id)</argsstring>
         <name>Event</name>
+        <qualifiedname>rrllvm::Event::Event</qualifiedname>
         <param>
           <type><ref refid="classrrllvm_1_1LLVMExecutableModel" kindref="compound">LLVMExecutableModel</ref> &amp;</type>
         </param>
@@ -110,6 +117,7 @@
         <definition>rrllvm::Event::Event</definition>
         <argsstring>(const Event &amp;other)</argsstring>
         <name>Event</name>
+        <qualifiedname>rrllvm::Event::Event</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
           <declname>other</declname>
@@ -122,11 +130,12 @@
         </inbodydescription>
         <location file="llvm/EventQueue.h" line="26" column="5"/>
       </memberdef>
-      <memberdef kind="function" id="classrrllvm_1_1Event_1a069991382182b808e5bcff4d3ff22e05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classrrllvm_1_1Event_1a732efdbcd548d693d38e4fa93ba31bbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
-        <definition>Event&amp; rrllvm::Event::operator=</definition>
+        <definition>Event &amp; rrllvm::Event::operator=</definition>
         <argsstring>(const Event &amp;rhs)</argsstring>
         <name>operator=</name>
+        <qualifiedname>rrllvm::Event::operator=</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
           <declname>rhs</declname>
@@ -144,6 +153,7 @@
         <definition>rrllvm::Event::~Event</definition>
         <argsstring>()</argsstring>
         <name>~Event</name>
+        <qualifiedname>rrllvm::Event::~Event</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -157,6 +167,7 @@
         <definition>void rrllvm::Event::assign</definition>
         <argsstring>() const</argsstring>
         <name>assign</name>
+        <qualifiedname>rrllvm::Event::assign</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -170,6 +181,7 @@
         <definition>bool rrllvm::Event::isExpired</definition>
         <argsstring>() const</argsstring>
         <name>isExpired</name>
+        <qualifiedname>rrllvm::Event::isExpired</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -183,6 +195,7 @@
         <definition>bool rrllvm::Event::isCurrent</definition>
         <argsstring>() const</argsstring>
         <name>isCurrent</name>
+        <qualifiedname>rrllvm::Event::isCurrent</qualifiedname>
         <briefdescription>
 <para>delay is zero and either persistent or triggered. </para>
         </briefdescription>
@@ -197,6 +210,7 @@
         <definition>double rrllvm::Event::getPriority</definition>
         <argsstring>() const</argsstring>
         <name>getPriority</name>
+        <qualifiedname>rrllvm::Event::getPriority</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -210,6 +224,7 @@
         <definition>bool rrllvm::Event::isPersistent</definition>
         <argsstring>() const</argsstring>
         <name>isPersistent</name>
+        <qualifiedname>rrllvm::Event::isPersistent</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -223,6 +238,7 @@
         <definition>bool rrllvm::Event::useValuesFromTriggerTime</definition>
         <argsstring>() const</argsstring>
         <name>useValuesFromTriggerTime</name>
+        <qualifiedname>rrllvm::Event::useValuesFromTriggerTime</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -236,6 +252,7 @@
         <definition>bool rrllvm::Event::isTriggered</definition>
         <argsstring>() const</argsstring>
         <name>isTriggered</name>
+        <qualifiedname>rrllvm::Event::isTriggered</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -249,6 +266,7 @@
         <definition>bool rrllvm::Event::isRipe</definition>
         <argsstring>() const</argsstring>
         <name>isRipe</name>
+        <qualifiedname>rrllvm::Event::isRipe</qualifiedname>
         <briefdescription>
 <para>is this event ready to be applied </para>
         </briefdescription>
@@ -265,6 +283,7 @@
         <definition>bool operator&lt;</definition>
         <argsstring>(const Event &amp;a, const Event &amp;b)</argsstring>
         <name>operator&lt;</name>
+        <qualifiedname>rrllvm::Event::operator&lt;</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
           <declname>a</declname>
@@ -287,11 +306,9 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="2">
-        <label>rrllvm::LLVMExecutableModel</label>
-        <link refid="classrrllvm_1_1LLVMExecutableModel"/>
-        <childnode refid="3" relation="public-inheritance">
-        </childnode>
+      <node id="3">
+        <label>rr::ExecutableModel</label>
+        <link refid="classrr_1_1ExecutableModel"/>
       </node>
       <node id="1">
         <label>rrllvm::Event</label>
@@ -300,9 +317,11 @@
           <edgelabel>model</edgelabel>
         </childnode>
       </node>
-      <node id="3">
-        <label>rr::ExecutableModel</label>
-        <link refid="classrr_1_1ExecutableModel"/>
+      <node id="2">
+        <label>rrllvm::LLVMExecutableModel</label>
+        <link refid="classrrllvm_1_1LLVMExecutableModel"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
       </node>
     </collaborationgraph>
     <location file="llvm/EventQueue.h" line="22" column="1" bodyfile="llvm/EventQueue.h" bodystart="23" bodyend="74"/>
@@ -323,7 +342,7 @@
       <member refid="classrrllvm_1_1Event_1acb47766244aaef9103dd24aaa6f3dc53" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>isTriggered</name></member>
       <member refid="classrrllvm_1_1Event_1a6998c57a7bc0bbd7e59b435137e09b55" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>model</name></member>
       <member refid="classrrllvm_1_1Event_1a7e9a71edff5dada6a376bd88a8eb087b" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>operator&lt;</name></member>
-      <member refid="classrrllvm_1_1Event_1a069991382182b808e5bcff4d3ff22e05" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>operator=</name></member>
+      <member refid="classrrllvm_1_1Event_1a732efdbcd548d693d38e4fa93ba31bbb" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>operator=</name></member>
       <member refid="classrrllvm_1_1Event_1ad2c770e700d16f84cfc421afc1763ab3" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>useValuesFromTriggerTime</name></member>
       <member refid="classrrllvm_1_1Event_1a43c33410cf8325b6e671bc9e50eaa841" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>~Event</name></member>
     </listofallmembers>

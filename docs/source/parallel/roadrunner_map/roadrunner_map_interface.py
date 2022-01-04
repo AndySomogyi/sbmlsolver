@@ -1,9 +1,4 @@
 import os, sys, glob
-
-sys.path += [
-    r"D:\roadrunner\roadrunner\cmake-build-release\lib\site-packages"
-]
-
 from roadrunner import RoadRunner, RoadRunnerMap, Config
 from get_biomodels import get_biomodels_folder
 import time

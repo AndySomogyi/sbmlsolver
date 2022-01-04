@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rrRoadRunnerOptions &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -37,13 +36,11 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div>
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -53,6 +50,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
@@ -108,17 +107,14 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" aria-label="Top" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">libRoadRunner</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          
-
-<div role="navigation" aria-label="Breadcrumbs">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="index.html">The LibRoadRunner C++ Library</a> &raquo;</li>
@@ -132,7 +128,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="rrroadrunneroptions">
+  <div class="section" id="rrroadrunneroptions">
 <h1>rrRoadRunnerOptions<a class="headerlink" href="#rrroadrunneroptions" title="Permalink to this headline"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptionsE">
@@ -141,6 +137,48 @@
 <p>Future version may add additional fields to the end of this struct, this way we can maintain binary compatibility with older <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> versions. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp enum">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUESE">
+<span id="_CPPv3N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUESE"></span><span id="_CPPv2N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUESE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1aeb6710490a37803b0ea9ed19209650c5"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LLVM_BACKEND_VALUES</span></span></span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUESE" title="Permalink to this definition"></a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUES5MCJITE">
+<span id="_CPPv3N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUES5MCJITE"></span><span id="_CPPv2N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUES5MCJITE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1aeb6710490a37803b0ea9ed19209650c5a38d68df8d722739f70fe7953d199aa5a"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MCJIT</span></span></span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUES5MCJITE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUES5LLJITE">
+<span id="_CPPv3N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUES5LLJITE"></span><span id="_CPPv2N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUES5LLJITE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1aeb6710490a37803b0ea9ed19209650c5a01170696b2411d71693a7523801c321b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LLJIT</span></span></span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUES5LLJITE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="cpp enum">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELSE">
+<span id="_CPPv3N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELSE"></span><span id="_CPPv2N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELSE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a88a71dd1cb345f34bc4b743099ecf4da"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LLJIT_OPTIMIZATION_LEVELS</span></span></span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELSE" title="Permalink to this definition"></a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS4NONEE">
+<span id="_CPPv3N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS4NONEE"></span><span id="_CPPv2N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS4NONEE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a88a71dd1cb345f34bc4b743099ecf4daab292fe8fdf662093d964dffa08c56b4b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NONE</span></span></span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS4NONEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS4LESSE">
+<span id="_CPPv3N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS4LESSE"></span><span id="_CPPv2N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS4LESSE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a88a71dd1cb345f34bc4b743099ecf4daa3f1c4c4c3e7725e7c1821eeb2c97b88c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LESS</span></span></span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS4LESSE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS7DEFAULTE">
+<span id="_CPPv3N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS7DEFAULTE"></span><span id="_CPPv2N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS7DEFAULTE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a88a71dd1cb345f34bc4b743099ecf4daa61aba6ba4bd027b874685ff8d06744ad"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DEFAULT</span></span></span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS7DEFAULTE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS10AGGRESSIVEE">
+<span id="_CPPv3N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS10AGGRESSIVEE"></span><span id="_CPPv2N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS10AGGRESSIVEE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a88a71dd1cb345f34bc4b743099ecf4daa34addb6b1c7420599173ded01eacd577"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AGGRESSIVE</span></span></span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELS10AGGRESSIVEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="cpp enum">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOptE">
 <span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOptE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOptE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelGeneratorOpt</span></span></span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOptE" title="Permalink to this definition"></a><br /></dt>
@@ -314,8 +352,18 @@
 <dd></dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions14setLLVMBackendEN15LoadSBMLOptions19LLVM_BACKEND_VALUESE">
+<span id="_CPPv3N2rr15LoadSBMLOptions14setLLVMBackendEN15LoadSBMLOptions19LLVM_BACKEND_VALUESE"></span><span id="_CPPv2N2rr15LoadSBMLOptions14setLLVMBackendEN15LoadSBMLOptions19LLVM_BACKEND_VALUESE"></span><span id="rr::LoadSBMLOptions::setLLVMBackend__LoadSBMLOptions::LLVM_BACKEND_VALUES"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a19f19e9ebf702ce1ea94fc6398ad188e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setLLVMBackend</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N2rr15LoadSBMLOptionsE" title="rr::LoadSBMLOptions"><span class="n"><span class="pre">LoadSBMLOptions</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUESE" title="rr::LoadSBMLOptions::LLVM_BACKEND_VALUES"><span class="n"><span class="pre">LLVM_BACKEND_VALUES</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions14setLLVMBackendEN15LoadSBMLOptions19LLVM_BACKEND_VALUESE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptionsD0Ev">
-<span id="_CPPv3N2rr15LoadSBMLOptionsD0Ev"></span><span id="_CPPv2N2rr15LoadSBMLOptionsD0Ev"></span><span id="rr::LoadSBMLOptions::~LoadSBMLOptions"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7dbd7dfdedbcdddb0dbfc3f2d123748c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~LoadSBMLOptions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptionsD0Ev" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3N2rr15LoadSBMLOptionsD0Ev"></span><span id="_CPPv2N2rr15LoadSBMLOptionsD0Ev"></span><span id="rr::LoadSBMLOptions::~LoadSBMLOptions"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a9be29eefe03529ab9cf1df98cfeaf15a"></span><span class="sig-name descname"><span class="n"><span class="pre">~LoadSBMLOptions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptionsD0Ev" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions25setLLJitOptimizationLevelE25LLJIT_OPTIMIZATION_LEVELS">
+<span id="_CPPv3N2rr15LoadSBMLOptions25setLLJitOptimizationLevelE25LLJIT_OPTIMIZATION_LEVELS"></span><span id="_CPPv2N2rr15LoadSBMLOptions25setLLJitOptimizationLevelE25LLJIT_OPTIMIZATION_LEVELS"></span><span id="rr::LoadSBMLOptions::setLLJitOptimizationLevel__LLJIT_OPTIMIZATION_LEVELS"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1ab90d2f7e6a7f3a0674c44ee03754f012"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setLLJitOptimizationLevel</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELSE" title="rr::LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS"><span class="n"><span class="pre">LLJIT_OPTIMIZATION_LEVELS</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">levels</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions25setLLJitOptimizationLevelE25LLJIT_OPTIMIZATION_LEVELS" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 </div>
@@ -345,22 +393,36 @@
 
 </div>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions23getAllLLVMBackendValuesEv">
+<span id="_CPPv3N2rr15LoadSBMLOptions23getAllLLVMBackendValuesEv"></span><span id="_CPPv2N2rr15LoadSBMLOptions23getAllLLVMBackendValuesEv"></span><span id="rr::LoadSBMLOptions::getAllLLVMBackendValues"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a768b551de624c06952ce35cebb8b09b0"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N2rr15LoadSBMLOptions19LLVM_BACKEND_VALUESE" title="rr::LoadSBMLOptions::LLVM_BACKEND_VALUES"><span class="n"><span class="pre">LLVM_BACKEND_VALUES</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getAllLLVMBackendValues</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions23getAllLLVMBackendValuesEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions29getAllLLJitOptimizationValuesEv">
+<span id="_CPPv3N2rr15LoadSBMLOptions29getAllLLJitOptimizationValuesEv"></span><span id="_CPPv2N2rr15LoadSBMLOptions29getAllLLJitOptimizationValuesEv"></span><span id="rr::LoadSBMLOptions::getAllLLJitOptimizationValues"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a79bd95a8e8b4b54567b84c9427e9c408"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N2rr15LoadSBMLOptions25LLJIT_OPTIMIZATION_LEVELSE" title="rr::LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS"><span class="n"><span class="pre">LLJIT_OPTIMIZATION_LEVELS</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getAllLLJitOptimizationValues</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions29getAllLLJitOptimizationValuesEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15LoadSBMLOptions11defaultInitEv">
 <span id="_CPPv3N2rr15LoadSBMLOptions11defaultInitEv"></span><span id="_CPPv2N2rr15LoadSBMLOptions11defaultInitEv"></span><span id="rr::LoadSBMLOptions::defaultInit"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a6cc8569d880ed2a6a031ed58701c3e61"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">defaultInit</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions11defaultInitEv" title="Permalink to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Since we need an integer and modelGeneratorOptions is a bitfield system for toggling individual bits on or off, we cannot store this value in modelGeneratorOptions. </p>
+<p>Therefore we fall back on the global <a class="reference internal" href="rrConfig.html#classrr_1_1Config"><span class="std std-ref">Config</span></a> system for this value. In short, to set the number of threads used by LLJit do: Config::setValue(Config::LLJIT_NUM_THREADS, 7); </p>
+</dd></dl>
 
 </div>
 </dd></dl>
 
-</section>
+</div>
 
 
            </div>
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="rrRoadRunnerData.html" class="btn btn-neutral float-left" title="rrRoadRunnerData" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="rrSBMLModelSimulation.html" class="btn btn-neutral float-right" title="rrSBMLModelSimulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
@@ -372,7 +434,8 @@
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

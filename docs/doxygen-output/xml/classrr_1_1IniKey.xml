@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1IniKey" kind="class" language="C++" prot="public">
     <compoundname>rr::IniKey</compoundname>
       <sectiondef kind="public-attrib">
@@ -8,6 +8,7 @@
         <definition>std::string rr::IniKey::mKey</definition>
         <argsstring></argsstring>
         <name>mKey</name>
+        <qualifiedname>rr::IniKey::mKey</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -21,6 +22,7 @@
         <definition>std::string rr::IniKey::mValue</definition>
         <argsstring></argsstring>
         <name>mValue</name>
+        <qualifiedname>rr::IniKey::mValue</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -34,6 +36,7 @@
         <definition>std::string rr::IniKey::mComment</definition>
         <argsstring></argsstring>
         <name>mComment</name>
+        <qualifiedname>rr::IniKey::mComment</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -49,6 +52,7 @@
         <definition>void rr::IniKey::SetupKey</definition>
         <argsstring>(const std::string &amp;key)</argsstring>
         <name>SetupKey</name>
+        <qualifiedname>rr::IniKey::SetupKey</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>key</declname>
@@ -68,6 +72,7 @@
         <definition>rr::IniKey::IniKey</definition>
         <argsstring>(const std::string &amp;key=&quot;&quot;)</argsstring>
         <name>IniKey</name>
+        <qualifiedname>rr::IniKey::IniKey</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>key</declname>
@@ -86,6 +91,7 @@
         <definition>rr::IniKey::~IniKey</definition>
         <argsstring>()</argsstring>
         <name>~IniKey</name>
+        <qualifiedname>rr::IniKey::~IniKey</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -99,6 +105,7 @@
         <definition>void rr::IniKey::ReKey</definition>
         <argsstring>(const std::string &amp;key)</argsstring>
         <name>ReKey</name>
+        <qualifiedname>rr::IniKey::ReKey</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>key</declname>
@@ -116,6 +123,7 @@
         <definition>std::string rr::IniKey::AsString</definition>
         <argsstring>() const</argsstring>
         <name>AsString</name>
+        <qualifiedname>rr::IniKey::AsString</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -129,6 +137,7 @@
         <definition>int rr::IniKey::AsBool</definition>
         <argsstring>() const</argsstring>
         <name>AsBool</name>
+        <qualifiedname>rr::IniKey::AsBool</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -142,6 +151,7 @@
         <definition>int rr::IniKey::AsInt</definition>
         <argsstring>() const</argsstring>
         <name>AsInt</name>
+        <qualifiedname>rr::IniKey::AsInt</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -155,6 +165,7 @@
         <definition>double rr::IniKey::AsFloat</definition>
         <argsstring>() const</argsstring>
         <name>AsFloat</name>
+        <qualifiedname>rr::IniKey::AsFloat</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -168,6 +179,7 @@
         <definition>complex&lt; double &gt; rr::IniKey::AsComplex</definition>
         <argsstring>() const</argsstring>
         <name>AsComplex</name>
+        <qualifiedname>rr::IniKey::AsComplex</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -178,11 +190,12 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
-      <memberdef kind="friend" id="classrr_1_1IniKey_1a06c09c9a71baa77d29b3cfaf5598553a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="friend" id="classrr_1_1IniKey_1a443d2338bd15a9f2c55700f791b7a6c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>RR_DECLSPEC friend std::ostream &amp;</type>
-        <definition>RR_DECLSPEC friend std::ostream&amp; operator&lt;&lt;</definition>
+        <definition>RR_DECLSPEC friend std::ostream &amp; operator&lt;&lt;</definition>
         <argsstring>(std::ostream &amp;stream, const IniKey &amp;aKey)</argsstring>
         <name>operator&lt;&lt;</name>
+        <qualifiedname>rr::IniKey::operator&lt;&lt;</qualifiedname>
         <param>
           <type>std::ostream &amp;</type>
           <declname>stream</declname>
@@ -205,9 +218,6 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="2">
-        <label>string</label>
-      </node>
       <node id="1">
         <label>rr::IniKey</label>
         <link refid="classrr_1_1IniKey"/>
@@ -216,6 +226,9 @@
           <edgelabel>mKey</edgelabel>
           <edgelabel>mValue</edgelabel>
         </childnode>
+      </node>
+      <node id="2">
+        <label>string</label>
       </node>
     </collaborationgraph>
     <location file="rrIniKey.h" line="20" column="1" bodyfile="rrIniKey.h" bodystart="21" bodyend="40"/>
@@ -229,7 +242,7 @@
       <member refid="classrr_1_1IniKey_1a05f32ad89b647fbcd741d6efde1fbf57" prot="public" virt="non-virtual"><scope>rr::IniKey</scope><name>mComment</name></member>
       <member refid="classrr_1_1IniKey_1a2b6ad34ba2064b6e0b199db842eeef1e" prot="public" virt="non-virtual"><scope>rr::IniKey</scope><name>mKey</name></member>
       <member refid="classrr_1_1IniKey_1ad57997d78fa52ffa6f80b4b38cbbdca2" prot="public" virt="non-virtual"><scope>rr::IniKey</scope><name>mValue</name></member>
-      <member refid="classrr_1_1IniKey_1a06c09c9a71baa77d29b3cfaf5598553a" prot="public" virt="non-virtual"><scope>rr::IniKey</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classrr_1_1IniKey_1a443d2338bd15a9f2c55700f791b7a6c1" prot="public" virt="non-virtual"><scope>rr::IniKey</scope><name>operator&lt;&lt;</name></member>
       <member refid="classrr_1_1IniKey_1a2e5510fe9601d1317d1375572ff63480" prot="public" virt="non-virtual"><scope>rr::IniKey</scope><name>ReKey</name></member>
       <member refid="classrr_1_1IniKey_1a919b2236fd0b848a6937e87790a42a21" prot="protected" virt="non-virtual"><scope>rr::IniKey</scope><name>SetupKey</name></member>
       <member refid="classrr_1_1IniKey_1ac0af42d6d7771aa6965c178ce0b29416" prot="public" virt="non-virtual"><scope>rr::IniKey</scope><name>~IniKey</name></member>

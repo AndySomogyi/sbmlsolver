@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Integrator Class &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -37,13 +36,11 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div>
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -53,6 +50,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
@@ -86,17 +85,14 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" aria-label="Top" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">libRoadRunner</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          
-
-<div role="navigation" aria-label="Breadcrumbs">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="api_reference.html">Python RoadRunner API Reference</a> &raquo;</li>
@@ -110,11 +106,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="integrator-class">
+  <div class="section" id="integrator-class">
 <h1>Integrator Class<a class="headerlink" href="#integrator-class" title="Permalink to this headline"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="roadrunner.Integrator">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">roadrunner.</span></span><span class="sig-name descname"><span class="pre">Integrator</span></span><a class="headerlink" href="#roadrunner.Integrator" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">roadrunner.</span></span><span class="sig-name descname"><span class="pre">Integrator</span></span><a class="headerlink" href="#roadrunner.Integrator" title="Permalink to this definition"></a></dt>
 <dd><p>An integrator is used to describe the method of carrying out a mathematical integration. Currently, libRoadRunner supports cvode, gillespie, rk4 and rk45 solvers. For solver related methods, refer to <a class="reference external" href="http://sys-bio.github.io/roadrunner/python_docs/api_reference.html#solver-class">http://sys-bio.github.io/roadrunner/python_docs/api_reference.html#solver-class</a>. The following methods are supported by all the Integrators.</p>
 </dd></dl>
 
@@ -207,7 +203,7 @@ First converts the concentration tolerances to amount tolerances by multiplying 
 Note that if a double list is given, the size of list must be equal to numIndFloatingSpecies+numRateRule, including tolerances for each independent floating species that doesn’t have a rate rule followed by tolerances for each variable(including dependent floating species) that has a rate rule. The order of independent floating species and variables is the same as the order how they were defined in species list and rate rule list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>list value</strong> (<em>double/double</em>) – tolerance value to set</p>
+<dd class="field-odd"><p><strong>value</strong> (<em>double/double list</em>) – tolerance value to set</p>
 </dd>
 </dl>
 </dd></dl>
@@ -219,7 +215,7 @@ Note that if a double list is given, the size of list must be equal to numIndFlo
 The vector includes tolerances for each independent floating species that doesn’t have a rate rule followed by tolerances for each variable(including dependent floating species) that has a rate rule. The order of independent floating species and variables is the same as the order how they were defined in species list and rate rule list.</p>
 </dd></dl>
 
-<section id="cvode">
+<div class="section" id="cvode">
 <h2>CVODE<a class="headerlink" href="#cvode" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><p>CVODE is a deterministic ODE solver from the SUNDIALS suite of timecourse integrators. It implements an Adams-Moulton solver for non-stiff problems and a backward differentiation formula (BDF) solver for stiff problems.</p>
@@ -303,8 +299,8 @@ The vector includes tolerances for each independent floating species that doesn�
 <dd><p>Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is false.</p>
 </dd></dl>
 
-</section>
-<section id="gillespie">
+</div>
+<div class="section" id="gillespie">
 <h2>Gillespie<a class="headerlink" href="#gillespie" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><p>RoadRunner’s implementation of the standard Gillespie Direct Method SSA. The granularity of this simulator is individual molecules and kinetic processes are stochastic. Results will, in general, be different in each run, but a sufficiently large ensemble of runs should be statistically correct.</p>
@@ -356,8 +352,8 @@ The vector includes tolerances for each independent floating species that doesn�
 <dd><p>Sets the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents massive output for simulations where the variable step size ends up decreasing too much.  This setting is ignored when the variable_step_size is false, and is also ignored when the output is being written directly to a file.  Default value is 100,000.</p>
 </dd></dl>
 
-</section>
-<section id="euler">
+</div>
+<div class="section" id="euler">
 <h2>Euler<a class="headerlink" href="#euler" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><p>The Euler method is one of the simplest approaches to solving a first order ODE. Given the rate of change of function f at time t, it computes the new value of f as <code class="docutils literal notranslate"><span class="pre">f(t+h)</span> <span class="pre">=</span> <span class="pre">f(t)</span> <span class="pre">+</span> <span class="pre">h*f'(t)</span></code>, where h is the time step. Euler’s method is rarely used in practice due to poor numerical robustness. Can be used with:</p>
@@ -365,8 +361,8 @@ The vector includes tolerances for each independent floating species that doesn�
 </pre></div>
 </div>
 </div></blockquote>
-</section>
-<section id="rk4">
+</div>
+<div class="section" id="rk4">
 <h2>RK4<a class="headerlink" href="#rk4" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><p>Runge-Kutta methods are a family of algorithms for solving ODEs. They have considerably better accuracy than the Euler method. This integrator is a standard 4th order Runge-Kutta solver. Can be used with:</p>
@@ -374,8 +370,8 @@ The vector includes tolerances for each independent floating species that doesn�
 </pre></div>
 </div>
 </div></blockquote>
-</section>
-<section id="rk45">
+</div>
+<div class="section" id="rk45">
 <h2>RK45<a class="headerlink" href="#rk45" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><p>RoadRunner’s implementation of the standard Gillespie Direct Method SSA. The granularity of this simulator is individual molecules and kinetic processes are stochastic. Results will, in general, be different in each run, but a sufficiently large ensemble of runs should be statistically correct.</p>
@@ -408,14 +404,13 @@ The vector includes tolerances for each independent floating species that doesn�
 <dd><p>Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is false.</p>
 </dd></dl>
 
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="cls_Solver.html" class="btn btn-neutral float-left" title="Solver Class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="cls_SteadyStateSolver.html" class="btn btn-neutral float-right" title="Steady State Solver Class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
@@ -427,7 +422,8 @@ The vector includes tolerances for each independent floating species that doesn�
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

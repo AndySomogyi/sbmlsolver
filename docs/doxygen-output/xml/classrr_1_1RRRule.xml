@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1RRRule" kind="class" language="C++" prot="public">
     <compoundname>rr::RRRule</compoundname>
       <sectiondef kind="protected-attrib">
@@ -8,6 +8,7 @@
         <definition>std::string rr::RRRule::mTheRule</definition>
         <argsstring></argsstring>
         <name>mTheRule</name>
+        <qualifiedname>rr::RRRule::mTheRule</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -21,6 +22,7 @@
         <definition>std::string rr::RRRule::mRuleTypeStr</definition>
         <argsstring></argsstring>
         <name>mRuleTypeStr</name>
+        <qualifiedname>rr::RRRule::mRuleTypeStr</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -34,6 +36,7 @@
         <definition>RuleType rr::RRRule::mRuleType</definition>
         <argsstring></argsstring>
         <name>mRuleType</name>
+        <qualifiedname>rr::RRRule::mRuleType</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -49,6 +52,7 @@
         <definition>void rr::RRRule::AssignType</definition>
         <argsstring>()</argsstring>
         <name>AssignType</name>
+        <qualifiedname>rr::RRRule::AssignType</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -64,6 +68,7 @@
         <definition>rr::RRRule::RRRule</definition>
         <argsstring>(const std::string &amp;rule, const std::string &amp;ruleType)</argsstring>
         <name>RRRule</name>
+        <qualifiedname>rr::RRRule::RRRule</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>rule</declname>
@@ -85,6 +90,7 @@
         <definition>std::string rr::RRRule::GetLHS</definition>
         <argsstring>()</argsstring>
         <name>GetLHS</name>
+        <qualifiedname>rr::RRRule::GetLHS</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -98,6 +104,7 @@
         <definition>std::string rr::RRRule::GetRHS</definition>
         <argsstring>()</argsstring>
         <name>GetRHS</name>
+        <qualifiedname>rr::RRRule::GetRHS</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -111,6 +118,7 @@
         <definition>RuleType rr::RRRule::GetType</definition>
         <argsstring>()</argsstring>
         <name>GetType</name>
+        <qualifiedname>rr::RRRule::GetType</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>

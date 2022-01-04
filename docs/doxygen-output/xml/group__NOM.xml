@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="group__NOM" kind="group">
     <compoundname>NOM</compoundname>
     <title>Network object model (NOM) functions</title>
@@ -34,9 +34,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h" line="65" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h" declline="65" declcolumn="29"/>
       </memberdef>
-      <memberdef kind="function" id="group__NOM_1gadd064802065aece47c2e966f9fff5958" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__NOM_1ga5f120b6642ff611966099d066df16d70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getModelName</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getModelName</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getModelName</name>
         <param>
@@ -104,9 +104,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h" line="82" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h" declline="82" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__NOM_1ga300c79897dd0002ea7810b0bd7ce640c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__NOM_1gaf002b8a042dbba1eea17a469e5f9d21c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getModelId</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getModelId</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getModelId</name>
         <param>

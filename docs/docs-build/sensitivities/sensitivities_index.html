@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Time Series Sensitivities &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -37,8 +36,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div>
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
@@ -74,17 +72,14 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" aria-label="Top" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">libRoadRunner</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          
-
-<div role="navigation" aria-label="Breadcrumbs">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Time Series Sensitivities</li>
@@ -97,14 +92,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="time-series-sensitivities">
+  <div class="section" id="time-series-sensitivities">
 <h1>Time Series Sensitivities<a class="headerlink" href="#time-series-sensitivities" title="Permalink to this headline"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>For these demonstrations we use a toy
 sbml model prepackaged with roadrunner</p>
 </div>
-<section id="using-time-series-sensitivities">
+<div class="section" id="using-time-series-sensitivities">
 <h2>Using time series sensitivities<a class="headerlink" href="#using-time-series-sensitivities" title="Permalink to this headline"></a></h2>
 <p>In this example we show you how to use roadrunners time series sensitivities
 feature. Roadrunner will integrate the model and compute sensitivities at
@@ -141,8 +136,8 @@ accross the columns. The third and forth elements are row and column names respe
 <span class="linenos">25</span>
 </pre></div>
 </div>
-</section>
-<section id="selecting-parameters">
+</div>
+<div class="section" id="selecting-parameters">
 <h2>Selecting parameters<a class="headerlink" href="#selecting-parameters" title="Permalink to this headline"></a></h2>
 <p>By default, all model parameters are automatically selected.
 You can be more selective about which parameters to compute sensitivities for.
@@ -170,8 +165,8 @@ for the parameters specified here.</p>
 <span class="linenos">20</span>
 </pre></div>
 </div>
-</section>
-<section id="selecting-species">
+</div>
+<div class="section" id="selecting-species">
 <h2>Selecting Species<a class="headerlink" href="#selecting-species" title="Permalink to this headline"></a></h2>
 <p>By default, all model species are returned in the results matrix. We can
 be more selective by using the species argument. This does not have
@@ -198,8 +193,8 @@ because the full results matrix is sliced to select the selected columns.</p>
 <span class="linenos">19</span><span class="nb">print</span><span class="p">(</span><span class="n">sens</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="sensitivity-method">
+</div>
+<div class="section" id="sensitivity-method">
 <h2>Sensitivity Method<a class="headerlink" href="#sensitivity-method" title="Permalink to this headline"></a></h2>
 <p>RoadRunner time series sensitivities uses cvodes under the hood. By default,
 we use the “simultaneous” method, whereby sensitivity equations are solved at the same
@@ -229,8 +224,8 @@ are solved first followed by the sensitivity equations; aka in a staggered appro
 <span class="linenos">22</span><span class="n">sensSolver</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;sensitivity_method&quot;</span><span class="p">,</span> <span class="s2">&quot;simultaneous&quot;</span><span class="p">)</span> <span class="c1"># return to simultaneous mode</span>
 </pre></div>
 </div>
-</section>
-<section id="sensitivity-difference-quotient-method">
+</div>
+<div class="section" id="sensitivity-difference-quotient-method">
 <h2>Sensitivity Difference Quotient Method<a class="headerlink" href="#sensitivity-difference-quotient-method" title="Permalink to this headline"></a></h2>
 <p>RoadRunner via cvodes uses finite differences for approximating gradients.
 By default we use the “centered” method, while the alternative is the “forward” method
@@ -264,8 +259,8 @@ that makes it unlikely that users should need to modify this setting.</p>
 <span class="linenos">25</span><span class="n">sensSolver</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;DQ_method&quot;</span><span class="p">,</span> <span class="s2">&quot;centered&quot;</span><span class="p">)</span> <span class="c1"># put back the default value</span>
 </pre></div>
 </div>
-</section>
-<section id="sensitivity-solver-type">
+</div>
+<div class="section" id="sensitivity-solver-type">
 <h2>Sensitivity Solver Type<a class="headerlink" href="#sensitivity-solver-type" title="Permalink to this headline"></a></h2>
 <p>By default, RoadRunner uses the sundials “newton” nonlinear solver.
 This can be changed to the “fixed_point” nonlinear solver</p>
@@ -296,14 +291,13 @@ This can be changed to the “fixed_point” nonlinear solver</p>
 <span class="linenos">25</span><span class="nb">print</span><span class="p">(</span><span class="n">sens</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../simulation_and_integration.html" class="btn btn-neutral float-left" title="Simulation and Integration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../parallel/parallel_index.html" class="btn btn-neutral float-right" title="Parallel RoadRunner" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
@@ -315,7 +309,8 @@ This can be changed to the “fixed_point” nonlinear solver</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

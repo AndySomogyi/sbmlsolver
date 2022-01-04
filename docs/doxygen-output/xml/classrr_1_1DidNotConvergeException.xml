@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1DidNotConvergeException" kind="class" language="C++" prot="public">
     <compoundname>rr::DidNotConvergeException</compoundname>
     <basecompoundref refid="classrr_1_1Exception" prot="public" virt="non-virtual">rr::Exception</basecompoundref>
@@ -9,6 +9,7 @@
         <definition>rr::DidNotConvergeException::DidNotConvergeException</definition>
         <argsstring>(const std::string &amp;msg)</argsstring>
         <name>DidNotConvergeException</name>
+        <qualifiedname>rr::DidNotConvergeException::DidNotConvergeException</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>msg</declname>
@@ -27,9 +28,6 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="3">
-        <label>std::exception</label>
-      </node>
       <node id="1">
         <label>rr::DidNotConvergeException</label>
         <link refid="classrr_1_1DidNotConvergeException"/>
@@ -42,14 +40,11 @@
         <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
-    </inheritancegraph>
-    <collaborationgraph>
-      <node id="4">
-        <label>string</label>
-      </node>
       <node id="3">
         <label>std::exception</label>
       </node>
+    </inheritancegraph>
+    <collaborationgraph>
       <node id="1">
         <label>rr::DidNotConvergeException</label>
         <link refid="classrr_1_1DidNotConvergeException"/>
@@ -64,6 +59,12 @@
         <childnode refid="4" relation="usage">
           <edgelabel>mMessage</edgelabel>
         </childnode>
+      </node>
+      <node id="3">
+        <label>std::exception</label>
+      </node>
+      <node id="4">
+        <label>string</label>
       </node>
     </collaborationgraph>
     <location file="rrException.h" line="83" column="1" bodyfile="rrException.h" bodystart="84" bodyend="87"/>

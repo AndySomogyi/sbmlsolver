@@ -1,0 +1,64 @@
+\hypertarget{classrrllvm_1_1SBMLModelObjectCache}{}\doxysection{rrllvm\+::SBMLModel\+Object\+Cache Class Reference}
+\label{classrrllvm_1_1SBMLModelObjectCache}\index{rrllvm::SBMLModelObjectCache@{rrllvm::SBMLModelObjectCache}}
+
+
+Stores SBML model as object files for later use.  
+
+
+
+
+{\ttfamily \#include $<$SBMLModel\+Object\+Cache.\+h$>$}
+
+Inheritance diagram for rrllvm\+::SBMLModel\+Object\+Cache\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classrrllvm_1_1SBMLModelObjectCache}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1SBMLModelObjectCache_a17d12a04495e35c0e90aa1ae8fa3895a}\label{classrrllvm_1_1SBMLModelObjectCache_a17d12a04495e35c0e90aa1ae8fa3895a}} 
+{\bfseries SBMLModel\+Object\+Cache} (const \mbox{\hyperlink{classrrllvm_1_1SBMLModelObjectCache}{SBMLModel\+Object\+Cache}} \&object\+Cache)=delete
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1SBMLModelObjectCache_a98a3c58c48aaa6561fd8e730e9b60960}\label{classrrllvm_1_1SBMLModelObjectCache_a98a3c58c48aaa6561fd8e730e9b60960}} 
+\mbox{\hyperlink{classrrllvm_1_1SBMLModelObjectCache}{SBMLModel\+Object\+Cache}} \& {\bfseries operator=} (const \mbox{\hyperlink{classrrllvm_1_1SBMLModelObjectCache}{SBMLModel\+Object\+Cache}} \&)=delete
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1SBMLModelObjectCache_a7f4921a16cd6af34b90a45987bffc11e}\label{classrrllvm_1_1SBMLModelObjectCache_a7f4921a16cd6af34b90a45987bffc11e}} 
+{\bfseries SBMLModel\+Object\+Cache} (\mbox{\hyperlink{classrrllvm_1_1SBMLModelObjectCache}{SBMLModel\+Object\+Cache}} \&\&object\+Cache) noexcept=delete
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1SBMLModelObjectCache_a1c57c20fdd1ad2e8c4079ab476dfa3c9}\label{classrrllvm_1_1SBMLModelObjectCache_a1c57c20fdd1ad2e8c4079ab476dfa3c9}} 
+\mbox{\hyperlink{classrrllvm_1_1SBMLModelObjectCache}{SBMLModel\+Object\+Cache}} \& {\bfseries operator=} (\mbox{\hyperlink{classrrllvm_1_1SBMLModelObjectCache}{SBMLModel\+Object\+Cache}} \&\&) noexcept=delete
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1SBMLModelObjectCache_a6593d9f184c8b9780c26483a1394d791}\label{classrrllvm_1_1SBMLModelObjectCache_a6593d9f184c8b9780c26483a1394d791}} 
+void {\bfseries notify\+Object\+Compiled} (const llvm\+::\+Module $\ast$M, llvm\+::\+Memory\+Buffer\+Ref Obj\+Buffer) override
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1SBMLModelObjectCache_ae2ba4faf89ab6f076883f69fc01d7196}\label{classrrllvm_1_1SBMLModelObjectCache_ae2ba4faf89ab6f076883f69fc01d7196}} 
+std\+::unique\+\_\+ptr$<$ llvm\+::\+Memory\+Buffer $>$ {\bfseries get\+Object} (const llvm\+::\+Module $\ast$M) override
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1SBMLModelObjectCache_afcf2fa2f2cf3241efddad44a8253713c}\label{classrrllvm_1_1SBMLModelObjectCache_afcf2fa2f2cf3241efddad44a8253713c}} 
+std\+::vector$<$ std\+::string $>$ {\bfseries inspect} ()
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1SBMLModelObjectCache_ae63a018adb2d7f7a59da6fae00ac5905}\label{classrrllvm_1_1SBMLModelObjectCache_ae63a018adb2d7f7a59da6fae00ac5905}} 
+void {\bfseries add\+To\+Cache} (const std\+::string \&key, std\+::unique\+\_\+ptr$<$ llvm\+::\+Memory\+Buffer $>$ mb)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1SBMLModelObjectCache_a2fdacdfc685ed320a0dec38989526718}\label{classrrllvm_1_1SBMLModelObjectCache_a2fdacdfc685ed320a0dec38989526718}} 
+static \mbox{\hyperlink{classrrllvm_1_1SBMLModelObjectCache}{SBMLModel\+Object\+Cache}} \& {\bfseries get\+Object\+Cache} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Stores SBML model as object files for later use. 
+
+\begin{DoxySeeAlso}{See also}
+llvm example called LLJit\+With\+Object\+Cache.\+cpp
+\end{DoxySeeAlso}
+This object is a singleton. It cannot be copied, moved or assigned and all interactions with this object must occur through the static call SBMLModel\+Object\+Cache\+::get\+Object\+Cache(); 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+llvm/SBMLModel\+Object\+Cache.\+h\item 
+llvm/SBMLModel\+Object\+Cache.\+cpp\end{DoxyCompactItemize}

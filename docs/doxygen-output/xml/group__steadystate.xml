@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="group__steadystate" kind="group">
     <compoundname>steadystate</compoundname>
     <title>Steady state routines</title>
@@ -21,7 +21,7 @@
 <para>Compute the steady state of the current model. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>steadyState<sp/>(rrHandle,<sp/>&amp;closenessToSteadyState);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>steadyState<sp/>(rrHandle,<sp/>&amp;closenessToSteadyState);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -61,7 +61,7 @@
 <para>A convenient method for returning a vector of the steady state species concentrations. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">RRVectorHandle<sp/>values<sp/>=<sp/>computeSteadyStateValues<sp/>(void);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">RRVectorHandle<sp/>values<sp/>=<sp/>computeSteadyStateValues<sp/>(void);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

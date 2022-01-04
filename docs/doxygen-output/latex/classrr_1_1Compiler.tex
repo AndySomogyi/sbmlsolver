@@ -42,14 +42,13 @@ virtual std\+::string \mbox{\hyperlink{classrr_1_1Compiler_afe24151183f7db59208b
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classrr_1_1Compiler_afe24151183f7db59208bfe86da2b3c79}{get\+Process\+Triple()}} -\/ Return an appropriate target triple for generating code to be loaded into the current process, e.\+g. \end{DoxyCompactList}\item 
 virtual std\+::string \mbox{\hyperlink{classrr_1_1Compiler_a1718efebfe7936512a299c2f32e8c800}{get\+Host\+CPUName}} ()=0
 \begin{DoxyCompactList}\small\item\em get\+Host\+CPUName -\/ Get the LLVM name for the host CPU. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1Compiler_ace56af18a4bc2cd882bdf4685e18fb33}\label{classrr_1_1Compiler_ace56af18a4bc2cd882bdf4685e18fb33}} 
 virtual std\+::string \mbox{\hyperlink{classrr_1_1Compiler_ace56af18a4bc2cd882bdf4685e18fb33}{get\+Version}} ()=0
 \begin{DoxyCompactList}\small\item\em get the version of the compiler. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{classrr_1_1Compiler_a5144b370c3c98e8d4d3ae93a2e4bb57b}\label{classrr_1_1Compiler_a5144b370c3c98e8d4d3ae93a2e4bb57b}} 
-static std\+::string \mbox{\hyperlink{classrr_1_1Compiler_a5144b370c3c98e8d4d3ae93a2e4bb57b}{get\+Default\+Compiler}} ()
+static std\+::string {\bfseries get\+Default\+Compiler} ()
 \begin{DoxyCompactList}\small\item\em implement the couple \mbox{\hyperlink{classrr_1_1Compiler}{Compiler}} methods, this will go, here for source compatiblity. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Compiler_a09cf96dd0f59ca06473aba26f1e4702c}\label{classrr_1_1Compiler_a09cf96dd0f59ca06473aba26f1e4702c}} 
 static \mbox{\hyperlink{classrr_1_1Compiler}{Compiler}} $\ast$ {\bfseries New} ()
@@ -74,7 +73,7 @@ In the C generating model sytem, an external C compiler is used to compile gener
 
 The target triple is a std\+::string in the format of\+: CPU\+\_\+\+TYPE-\/\+VENDOR-\/\+OPERATING\+\_\+\+SYSTEM or CPU\+\_\+\+TYPE-\/\+VENDOR-\/\+KERNEL-\/\+OPERATING\+\_\+\+SYSTEM 
 
-Implemented in \mbox{\hyperlink{classrrllvm_1_1LLVMCompiler_af43a6b3d973fee5348bd9d2cea192752}{rrllvm\+::\+LLVMCompiler}}, and \mbox{\hyperlink{classrr_1_1CCompiler_a10a08dd7e7b60da34813b2abd75e2791}{rr\+::\+CCompiler}}.
+Implemented in \mbox{\hyperlink{classrr_1_1CCompiler_a10a08dd7e7b60da34813b2abd75e2791}{rr\+::\+CCompiler}}, and \mbox{\hyperlink{classrrllvm_1_1LLVMCompiler_af43a6b3d973fee5348bd9d2cea192752}{rrllvm\+::\+LLVMCompiler}}.
 
 \mbox{\Hypertarget{classrr_1_1Compiler_a1718efebfe7936512a299c2f32e8c800}\label{classrr_1_1Compiler_a1718efebfe7936512a299c2f32e8c800}} 
 \index{rr::Compiler@{rr::Compiler}!getHostCPUName@{getHostCPUName}}
@@ -93,7 +92,7 @@ The particular format of the name is target dependent, and suitable for passing 
 \end{DoxyReturn}
 
 
-Implemented in \mbox{\hyperlink{classrrllvm_1_1LLVMCompiler_ae8f2ba44fbc064d81f77b8aafdaf9109}{rrllvm\+::\+LLVMCompiler}}, and \mbox{\hyperlink{classrr_1_1CCompiler_a436bb213157ccc15d60cd0d64c584102}{rr\+::\+CCompiler}}.
+Implemented in \mbox{\hyperlink{classrr_1_1CCompiler_a436bb213157ccc15d60cd0d64c584102}{rr\+::\+CCompiler}}, and \mbox{\hyperlink{classrrllvm_1_1LLVMCompiler_ae8f2ba44fbc064d81f77b8aafdaf9109}{rrllvm\+::\+LLVMCompiler}}.
 
 \mbox{\Hypertarget{classrr_1_1Compiler_afe24151183f7db59208bfe86da2b3c79}\label{classrr_1_1Compiler_afe24151183f7db59208bfe86da2b3c79}} 
 \index{rr::Compiler@{rr::Compiler}!getProcessTriple@{getProcessTriple}}
@@ -107,7 +106,21 @@ Implemented in \mbox{\hyperlink{classrrllvm_1_1LLVMCompiler_ae8f2ba44fbc064d81f7
 
 when using the JIT. 
 
-Implemented in \mbox{\hyperlink{classrrllvm_1_1LLVMCompiler_a8a9f792ca40a9b3826d5b540263f7c05}{rrllvm\+::\+LLVMCompiler}}, and \mbox{\hyperlink{classrr_1_1CCompiler_aba426f3074705b9b76bed36be8646627}{rr\+::\+CCompiler}}.
+Implemented in \mbox{\hyperlink{classrr_1_1CCompiler_aba426f3074705b9b76bed36be8646627}{rr\+::\+CCompiler}}, and \mbox{\hyperlink{classrrllvm_1_1LLVMCompiler_a8a9f792ca40a9b3826d5b540263f7c05}{rrllvm\+::\+LLVMCompiler}}.
+
+\mbox{\Hypertarget{classrr_1_1Compiler_ace56af18a4bc2cd882bdf4685e18fb33}\label{classrr_1_1Compiler_ace56af18a4bc2cd882bdf4685e18fb33}} 
+\index{rr::Compiler@{rr::Compiler}!getVersion@{getVersion}}
+\index{getVersion@{getVersion}!rr::Compiler@{rr::Compiler}}
+\doxysubsubsection{\texorpdfstring{getVersion()}{getVersion()}}
+{\footnotesize\ttfamily virtual std\+::string rr\+::\+Compiler\+::get\+Version (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+get the version of the compiler. 
+
+
+
+Implemented in \mbox{\hyperlink{classrr_1_1CCompiler_a1a5ee3dac691018a04f9fb166fd19246}{rr\+::\+CCompiler}}, and \mbox{\hyperlink{classrrllvm_1_1LLVMCompiler_a6b936a4ca2bde133b99505ef2e5f7cdd}{rrllvm\+::\+LLVMCompiler}}.
 
 
 

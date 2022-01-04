@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1Scanner" kind="class" language="C++" prot="public">
     <compoundname>rr::Scanner</compoundname>
       <sectiondef kind="protected-attrib">
@@ -8,6 +8,7 @@
         <definition>const char rr::Scanner::EOFCHAR</definition>
         <argsstring></argsstring>
         <name>EOFCHAR</name>
+        <qualifiedname>rr::Scanner::EOFCHAR</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -21,6 +22,7 @@
         <definition>const char rr::Scanner::CR</definition>
         <argsstring></argsstring>
         <name>CR</name>
+        <qualifiedname>rr::Scanner::CR</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -34,6 +36,7 @@
         <definition>const char rr::Scanner::LF</definition>
         <argsstring></argsstring>
         <name>LF</name>
+        <qualifiedname>rr::Scanner::LF</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -47,6 +50,7 @@
         <definition>std::vector&lt;TCharCode::TCharCode&gt; rr::Scanner::FCharTable</definition>
         <argsstring></argsstring>
         <name>FCharTable</name>
+        <qualifiedname>rr::Scanner::FCharTable</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -60,6 +64,7 @@
         <definition>std::vector&lt;char&gt; rr::Scanner::buffer</definition>
         <argsstring></argsstring>
         <name>buffer</name>
+        <qualifiedname>rr::Scanner::buffer</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -73,6 +78,7 @@
         <definition>queue&lt;Token&gt; rr::Scanner::tokenQueue</definition>
         <argsstring></argsstring>
         <name>tokenQueue</name>
+        <qualifiedname>rr::Scanner::tokenQueue</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -86,6 +92,7 @@
         <definition>std::map&lt;std::string, CodeTypes::CodeTypes&gt; rr::Scanner::wordTable</definition>
         <argsstring></argsstring>
         <name>wordTable</name>
+        <qualifiedname>rr::Scanner::wordTable</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -99,6 +106,7 @@
         <definition>std::stringstream* rr::Scanner::pStream</definition>
         <argsstring></argsstring>
         <name>pStream</name>
+        <qualifiedname>rr::Scanner::pStream</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -112,6 +120,7 @@
         <definition>std::streamsize rr::Scanner::bufferLength</definition>
         <argsstring></argsstring>
         <name>bufferLength</name>
+        <qualifiedname>rr::Scanner::bufferLength</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -125,6 +134,7 @@
         <definition>int rr::Scanner::bufferPtr</definition>
         <argsstring></argsstring>
         <name>bufferPtr</name>
+        <qualifiedname>rr::Scanner::bufferPtr</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -138,6 +148,7 @@
         <definition>CodeTypes::CodeTypes rr::Scanner::ftoken</definition>
         <argsstring></argsstring>
         <name>ftoken</name>
+        <qualifiedname>rr::Scanner::ftoken</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -151,6 +162,7 @@
         <definition>int rr::Scanner::yylineno</definition>
         <argsstring></argsstring>
         <name>yylineno</name>
+        <qualifiedname>rr::Scanner::yylineno</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -166,6 +178,7 @@
         <definition>std::string rr::Scanner::timeWord1</definition>
         <argsstring></argsstring>
         <name>timeWord1</name>
+        <qualifiedname>rr::Scanner::timeWord1</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -179,6 +192,7 @@
         <definition>std::string rr::Scanner::timeWord2</definition>
         <argsstring></argsstring>
         <name>timeWord2</name>
+        <qualifiedname>rr::Scanner::timeWord2</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -192,6 +206,7 @@
         <definition>std::string rr::Scanner::timeWord3</definition>
         <argsstring></argsstring>
         <name>timeWord3</name>
+        <qualifiedname>rr::Scanner::timeWord3</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -205,6 +220,7 @@
         <definition>bool rr::Scanner::FromQueue</definition>
         <argsstring></argsstring>
         <name>FromQueue</name>
+        <qualifiedname>rr::Scanner::FromQueue</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -218,6 +234,7 @@
         <definition>bool rr::Scanner::IgnoreNewLines</definition>
         <argsstring></argsstring>
         <name>IgnoreNewLines</name>
+        <qualifiedname>rr::Scanner::IgnoreNewLines</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -231,6 +248,7 @@
         <definition>Token rr::Scanner::currentToken</definition>
         <argsstring></argsstring>
         <name>currentToken</name>
+        <qualifiedname>rr::Scanner::currentToken</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -244,6 +262,7 @@
         <definition>char rr::Scanner::fch</definition>
         <argsstring></argsstring>
         <name>fch</name>
+        <qualifiedname>rr::Scanner::fch</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -257,6 +276,7 @@
         <definition>Token rr::Scanner::previousToken</definition>
         <argsstring></argsstring>
         <name>previousToken</name>
+        <qualifiedname>rr::Scanner::previousToken</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -270,6 +290,7 @@
         <definition>double rr::Scanner::tokenDouble</definition>
         <argsstring></argsstring>
         <name>tokenDouble</name>
+        <qualifiedname>rr::Scanner::tokenDouble</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -283,6 +304,7 @@
         <definition>int rr::Scanner::tokenInteger</definition>
         <argsstring></argsstring>
         <name>tokenInteger</name>
+        <qualifiedname>rr::Scanner::tokenInteger</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -296,6 +318,7 @@
         <definition>double rr::Scanner::tokenScalar</definition>
         <argsstring></argsstring>
         <name>tokenScalar</name>
+        <qualifiedname>rr::Scanner::tokenScalar</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -309,6 +332,7 @@
         <definition>std::string rr::Scanner::tokenString</definition>
         <argsstring></argsstring>
         <name>tokenString</name>
+        <qualifiedname>rr::Scanner::tokenString</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -324,6 +348,7 @@
         <definition>void rr::Scanner::initScanner</definition>
         <argsstring>()</argsstring>
         <name>initScanner</name>
+        <qualifiedname>rr::Scanner::initScanner</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -337,6 +362,7 @@
         <definition>char rr::Scanner::getCharFromBuffer</definition>
         <argsstring>()</argsstring>
         <name>getCharFromBuffer</name>
+        <qualifiedname>rr::Scanner::getCharFromBuffer</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -350,6 +376,7 @@
         <definition>bool rr::Scanner::IsDoubleQuote</definition>
         <argsstring>(char ch)</argsstring>
         <name>IsDoubleQuote</name>
+        <qualifiedname>rr::Scanner::IsDoubleQuote</qualifiedname>
         <param>
           <type>char</type>
           <declname>ch</declname>
@@ -367,6 +394,7 @@
         <definition>void rr::Scanner::getNumber</definition>
         <argsstring>()</argsstring>
         <name>getNumber</name>
+        <qualifiedname>rr::Scanner::getNumber</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -380,6 +408,7 @@
         <definition>void rr::Scanner::getSpecial</definition>
         <argsstring>()</argsstring>
         <name>getSpecial</name>
+        <qualifiedname>rr::Scanner::getSpecial</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -393,6 +422,7 @@
         <definition>void rr::Scanner::getString</definition>
         <argsstring>()</argsstring>
         <name>getString</name>
+        <qualifiedname>rr::Scanner::getString</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -406,6 +436,7 @@
         <definition>void rr::Scanner::getTokenFromQueue</definition>
         <argsstring>()</argsstring>
         <name>getTokenFromQueue</name>
+        <qualifiedname>rr::Scanner::getTokenFromQueue</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -419,6 +450,7 @@
         <definition>void rr::Scanner::getWord</definition>
         <argsstring>()</argsstring>
         <name>getWord</name>
+        <qualifiedname>rr::Scanner::getWord</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -432,6 +464,7 @@
         <definition>void rr::Scanner::nextTokenInternal</definition>
         <argsstring>()</argsstring>
         <name>nextTokenInternal</name>
+        <qualifiedname>rr::Scanner::nextTokenInternal</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -447,6 +480,7 @@
         <definition>int rr::Scanner::lineNumber</definition>
         <argsstring>()</argsstring>
         <name>lineNumber</name>
+        <qualifiedname>rr::Scanner::lineNumber</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -460,6 +494,7 @@
         <definition>CodeTypes::CodeTypes rr::Scanner::token</definition>
         <argsstring>()</argsstring>
         <name>token</name>
+        <qualifiedname>rr::Scanner::token</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -473,6 +508,7 @@
         <definition>rr::Scanner::Scanner</definition>
         <argsstring>()</argsstring>
         <name>Scanner</name>
+        <qualifiedname>rr::Scanner::Scanner</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -486,6 +522,7 @@
         <definition>void rr::Scanner::startScanner</definition>
         <argsstring>()</argsstring>
         <name>startScanner</name>
+        <qualifiedname>rr::Scanner::startScanner</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -499,6 +536,7 @@
         <definition>bool rr::Scanner::IsQueueEmpty</definition>
         <argsstring>()</argsstring>
         <name>IsQueueEmpty</name>
+        <qualifiedname>rr::Scanner::IsQueueEmpty</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -512,6 +550,7 @@
         <definition>char rr::Scanner::nextChar</definition>
         <argsstring>()</argsstring>
         <name>nextChar</name>
+        <qualifiedname>rr::Scanner::nextChar</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -525,6 +564,7 @@
         <definition>std::string rr::Scanner::tokenToString</definition>
         <argsstring>(const CodeTypes::CodeTypes &amp;code)</argsstring>
         <name>tokenToString</name>
+        <qualifiedname>rr::Scanner::tokenToString</qualifiedname>
         <param>
           <type>const CodeTypes::CodeTypes &amp;</type>
           <declname>code</declname>
@@ -542,6 +582,7 @@
         <definition>void rr::Scanner::AddTokenToQueue</definition>
         <argsstring>()</argsstring>
         <name>AddTokenToQueue</name>
+        <qualifiedname>rr::Scanner::AddTokenToQueue</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -555,6 +596,7 @@
         <definition>void rr::Scanner::nextToken</definition>
         <argsstring>()</argsstring>
         <name>nextToken</name>
+        <qualifiedname>rr::Scanner::nextToken</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -568,6 +610,7 @@
         <definition>void rr::Scanner::skipBlanks</definition>
         <argsstring>()</argsstring>
         <name>skipBlanks</name>
+        <qualifiedname>rr::Scanner::skipBlanks</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -581,6 +624,7 @@
         <definition>void rr::Scanner::UnGetToken</definition>
         <argsstring>()</argsstring>
         <name>UnGetToken</name>
+        <qualifiedname>rr::Scanner::UnGetToken</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -594,6 +638,7 @@
         <definition>void rr::Scanner::AssignStream</definition>
         <argsstring>(std::stringstream &amp;str)</argsstring>
         <name>AssignStream</name>
+        <qualifiedname>rr::Scanner::AssignStream</qualifiedname>
         <param>
           <type>std::stringstream &amp;</type>
           <declname>str</declname>
@@ -612,18 +657,8 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="3">
-        <label>string</label>
-      </node>
       <node id="2">
         <label>queue&lt; rr::Token &gt;</label>
-      </node>
-      <node id="4">
-        <label>rr::Token</label>
-        <link refid="classrr_1_1Token"/>
-        <childnode refid="3" relation="usage">
-          <edgelabel>tokenString</edgelabel>
-        </childnode>
       </node>
       <node id="1">
         <label>rr::Scanner</label>
@@ -641,6 +676,16 @@
           <edgelabel>currentToken</edgelabel>
           <edgelabel>previousToken</edgelabel>
         </childnode>
+      </node>
+      <node id="4">
+        <label>rr::Token</label>
+        <link refid="classrr_1_1Token"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>tokenString</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>string</label>
       </node>
     </collaborationgraph>
     <location file="c/rrScanner.h" line="35" column="1" bodyfile="c/rrScanner.h" bodystart="36" bodyend="88"/>

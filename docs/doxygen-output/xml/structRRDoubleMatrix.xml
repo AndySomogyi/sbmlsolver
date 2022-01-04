@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="structRRDoubleMatrix" kind="struct" language="C++" prot="public">
     <compoundname>RRDoubleMatrix</compoundname>
     <includes refid="rrc__types_8h" local="no">rrc_types.h</includes>
@@ -9,6 +9,7 @@
         <definition>int RRDoubleMatrix::RSize</definition>
         <argsstring></argsstring>
         <name>RSize</name>
+        <qualifiedname>RRDoubleMatrix::RSize</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -23,6 +24,7 @@
         <definition>int RRDoubleMatrix::CSize</definition>
         <argsstring></argsstring>
         <name>CSize</name>
+        <qualifiedname>RRDoubleMatrix::CSize</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -37,6 +39,7 @@
         <definition>double* RRDoubleMatrix::Data</definition>
         <argsstring></argsstring>
         <name>Data</name>
+        <qualifiedname>RRDoubleMatrix::Data</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="group__simulation" kind="group">
     <compoundname>simulation</compoundname>
     <title>Time-course simulation</title>
@@ -46,9 +46,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="1147" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="1147" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__simulation_1ga8529fc3333deee1eb8f966b70bcf4cac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__simulation_1ga40f63e6f1505d91ecf40bed49d8d717e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getConfigurationXML</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getConfigurationXML</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getConfigurationXML</name>
         <param>
@@ -296,7 +296,7 @@
         </briefdescription>
         <detaileddescription>
 <para>Use getAvailableTimeCourseSymbols(void) to retrieve the list of all possible symbols.</para>
-<para>Example:<programlisting><codeline><highlight class="normal">setTimeCourseSelectionList<sp/>(&quot;Time,<sp/>S1,<sp/>J1,<sp/>J2&quot;);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">setTimeCourseSelectionList<sp/>(&quot;Time,<sp/>S1,<sp/>J1,<sp/>J2&quot;);<sp/></highlight></codeline>
 </programlisting></para>
 <para>or</para>
 <para>setTimeCourseSelectionList (&quot;Time S1 J1 J2&quot;)</para>
@@ -708,7 +708,7 @@
 <para>Carry out a one step integration of the model. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>OneStep<sp/>(rrHandle,<sp/>currentTime,<sp/>stepSize,<sp/>newTime);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>OneStep<sp/>(rrHandle,<sp/>currentTime,<sp/>stepSize,<sp/>newTime);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -768,7 +768,7 @@
 <para>Get the value of the current time start. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getTimeStart<sp/>(rrHandle,<sp/>&amp;timeStart);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getTimeStart<sp/>(rrHandle,<sp/>&amp;timeStart);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -812,7 +812,7 @@
 <para>Get the value of the current time end. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getTimeEnd<sp/>(rrHandle,<sp/>&amp;timeEnd);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getTimeEnd<sp/>(rrHandle,<sp/>&amp;timeEnd);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -856,7 +856,7 @@
 <para>Get the value of the current number of points. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getNumPoints<sp/>(rrHandle,<sp/>&amp;numberOfPoints);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getNumPoints<sp/>(rrHandle,<sp/>&amp;numberOfPoints);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

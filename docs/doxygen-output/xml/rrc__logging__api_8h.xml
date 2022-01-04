@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrc__logging__api_8h" kind="file" language="C++">
     <compoundname>rrc_logging_api.h</compoundname>
     <includes refid="rrc__exporter_8h" local="yes">rrc_exporter.h</includes>
@@ -7,12 +7,11 @@
     <includedby refid="rrc__api_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</includedby>
     <includedby refid="rrc__logging__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.cpp</includedby>
     <incdepgraph>
-      <node id="3">
-        <label>stdbool.h</label>
-      </node>
-      <node id="4">
-        <label>rrc_types.h</label>
-        <link refid="rrc__types_8h"/>
+      <node id="2">
+        <label>rrc_exporter.h</label>
+        <link refid="rrc__exporter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h</label>
@@ -22,11 +21,12 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="2">
-        <label>rrc_exporter.h</label>
-        <link refid="rrc__exporter_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
+      <node id="4">
+        <label>rrc_types.h</label>
+        <link refid="rrc__types_8h"/>
+      </node>
+      <node id="3">
+        <label>stdbool.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
@@ -34,16 +34,16 @@
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
         <link refid="rrc__api_8cpp"/>
       </node>
-      <node id="1">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h</label>
-        <link refid="rrc__logging__api_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-      </node>
       <node id="2">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</label>
         <link refid="rrc__api_8h"/>
         <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h</label>
+        <link refid="rrc__logging__api_8h"/>
+        <childnode refid="2" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -288,7 +288,7 @@
         </briefdescription>
         <detaileddescription>
 <para>&quot;ANY&quot;, &quot;DEBUG5&quot;, &quot;DEBUG4&quot;, &quot;DEBUG3&quot;, &quot;DEBUG2&quot;, &quot;DEBUG1&quot;, &quot;DEBUG&quot;, &quot;INFO&quot;, &quot;WARNING&quot;, &quot;ERROR&quot;</para>
-<para>Example:<programlisting><codeline><highlight class="normal">setLogLevel<sp/>(&quot;DEBUG4&quot;)<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">setLogLevel<sp/>(&quot;DEBUG4&quot;)<sp/></highlight></codeline>
 </programlisting></para>
 <para>Will show log messages with levels DEBUG4, DEBUG3 -&gt; Error</para>
 <para><parameterlist kind="param"><parameteritem>
@@ -308,9 +308,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="128" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="128" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__logging_1ga0d9810fbff78ccdf4912d5789d55f49e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__logging_1ga436f078a663f16d7d8fd67c972324ff2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getLogLevel</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getLogLevel</definition>
         <argsstring>(void)</argsstring>
         <name>getLogLevel</name>
         <param>
@@ -322,7 +322,7 @@
         <detaileddescription>
 <para>The logging level can be one of the following strings</para>
 <para>&quot;ANY&quot;, &quot;DEBUG5&quot;, &quot;DEBUG4&quot;, &quot;DEBUG3&quot;, &quot;DEBUG2&quot;, &quot;DEBUG1&quot;, &quot;DEBUG&quot;, &quot;INFO&quot;, &quot;WARNING&quot;, &quot;ERROR&quot;</para>
-<para>Example:<programlisting><codeline><highlight class="normal">str<sp/>=<sp/>getLogLevel<sp/>(void)<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">str<sp/>=<sp/>getLogLevel<sp/>(void)<sp/></highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Returns null if it fails else returns a pointer to the logging string </para>
 </simplesect>
@@ -332,9 +332,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="143" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="143" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__logging_1ga05133e19d88371f05908ba5f87ca57ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__logging_1gad266be0f5763e03ff9754dbdc07631ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getLogFileName</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getLogFileName</definition>
         <argsstring>(void)</argsstring>
         <name>getLogFileName</name>
         <param>
@@ -459,9 +459,9 @@
 <codeline lineno="112"><highlight class="normal"></highlight></codeline>
 <codeline lineno="128" refid="group__logging_1ga6e6cb15a163ea13e5ef9f0ebfded2c78" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__logging_1ga6e6cb15a163ea13e5ef9f0ebfded2c78" kindref="member">setLogLevel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>lvl);</highlight></codeline>
 <codeline lineno="129"><highlight class="normal"></highlight></codeline>
-<codeline lineno="143" refid="group__logging_1ga0d9810fbff78ccdf4912d5789d55f49e" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__logging_1ga0d9810fbff78ccdf4912d5789d55f49e" kindref="member">getLogLevel</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143" refid="group__logging_1ga436f078a663f16d7d8fd67c972324ff2" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__logging_1ga436f078a663f16d7d8fd67c972324ff2" kindref="member">getLogLevel</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="144"><highlight class="normal"></highlight></codeline>
-<codeline lineno="153" refid="group__logging_1ga05133e19d88371f05908ba5f87ca57ad" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__logging_1ga05133e19d88371f05908ba5f87ca57ad" kindref="member">getLogFileName</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153" refid="group__logging_1gad266be0f5763e03ff9754dbdc07631ae" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__logging_1gad266be0f5763e03ff9754dbdc07631ae" kindref="member">getLogFileName</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="154"><highlight class="normal"></highlight></codeline>
 <codeline lineno="155"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__logging_1gaa6fb15f5bbab056c9351695bcb0775a6" kindref="member">logMsg</ref>(</highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="rrc__logging__api_8h_1a588bd44cc2c96622ce20b8aba702686a" kindref="member">CLogLevel</ref><sp/>lvl,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>msg);</highlight></codeline>
 <codeline lineno="162"><highlight class="normal"></highlight></codeline>

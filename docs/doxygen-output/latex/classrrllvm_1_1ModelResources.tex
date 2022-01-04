@@ -6,8 +6,7 @@
 \mbox{\Hypertarget{classrrllvm_1_1ModelResources_a553c3ea16596a73b08c428cc04566d50}\label{classrrllvm_1_1ModelResources_a553c3ea16596a73b08c428cc04566d50}} 
 void {\bfseries save\+State} (std\+::ostream \&out) const
 \item 
-\mbox{\Hypertarget{classrrllvm_1_1ModelResources_a403d0c4e078a9ccd13c1c9bf3734220a}\label{classrrllvm_1_1ModelResources_a403d0c4e078a9ccd13c1c9bf3734220a}} 
-void {\bfseries load\+State} (std\+::istream \&in, uint load\+Opt)
+void \mbox{\hyperlink{classrrllvm_1_1ModelResources_a403d0c4e078a9ccd13c1c9bf3734220a}{load\+State}} (std\+::istream \&in, uint load\+Opt)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -115,13 +114,13 @@ Get\+Global\+Parameter\+Init\+Value\+Code\+Gen\+::\+Function\+Ptr {\bfseries get
 Set\+Global\+Parameter\+Init\+Value\+Code\+Gen\+::\+Function\+Ptr {\bfseries set\+Global\+Parameter\+Init\+Value\+Ptr}
 \item 
 \mbox{\Hypertarget{classrrllvm_1_1ModelResources_a9c6561f8bb57a983542c8dd36947c4e2}\label{classrrllvm_1_1ModelResources_a9c6561f8bb57a983542c8dd36947c4e2}} 
-const \mbox{\hyperlink{classrrllvm_1_1LLVMModelDataSymbols}{LLVMModel\+Data\+Symbols}} $\ast$ \mbox{\hyperlink{classrrllvm_1_1ModelResources_a9c6561f8bb57a983542c8dd36947c4e2}{symbols}}
+const \mbox{\hyperlink{classrrllvm_1_1LLVMModelDataSymbols}{LLVMModel\+Data\+Symbols}} $\ast$ {\bfseries symbols}
 \begin{DoxyCompactList}\small\item\em Public Member variables. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrrllvm_1_1ModelResources_a34ba55a1519ddf7e7c957140c2b63e86}\label{classrrllvm_1_1ModelResources_a34ba55a1519ddf7e7c957140c2b63e86}} 
-llvm\+::\+LLVMContext $\ast$ {\bfseries context}
+\mbox{\Hypertarget{classrrllvm_1_1ModelResources_ad24703be7347ce9b79c89ae97503cddf}\label{classrrllvm_1_1ModelResources_ad24703be7347ce9b79c89ae97503cddf}} 
+std\+::unique\+\_\+ptr$<$ llvm\+::\+LLVMContext $>$ {\bfseries context}
 \item 
-\mbox{\Hypertarget{classrrllvm_1_1ModelResources_a7b94f0ac5d59063096a9bd33db01a951}\label{classrrllvm_1_1ModelResources_a7b94f0ac5d59063096a9bd33db01a951}} 
-llvm\+::\+Execution\+Engine $\ast$ {\bfseries execution\+Engine}
+\mbox{\Hypertarget{classrrllvm_1_1ModelResources_a7b35c9a353db9b09c54b12f007812a32}\label{classrrllvm_1_1ModelResources_a7b35c9a353db9b09c54b12f007812a32}} 
+std\+::unique\+\_\+ptr$<$ llvm\+::\+Execution\+Engine $>$ {\bfseries execution\+Engine}
 \item 
 \mbox{\Hypertarget{classrrllvm_1_1ModelResources_a7a953baa21c70b52aa1c0f70590cfff0}\label{classrrllvm_1_1ModelResources_a7a953baa21c70b52aa1c0f70590cfff0}} 
 llvm\+::\+Module $\ast$ {\bfseries module} = nullptr
@@ -129,13 +128,28 @@ llvm\+::\+Module $\ast$ {\bfseries module} = nullptr
 \mbox{\Hypertarget{classrrllvm_1_1ModelResources_aa60b4e78eca48fd1218eb35379c74bc6}\label{classrrllvm_1_1ModelResources_aa60b4e78eca48fd1218eb35379c74bc6}} 
 std\+::string {\bfseries module\+Str}
 \item 
+\mbox{\Hypertarget{classrrllvm_1_1ModelResources_a5c5ba7357e1d061442ed8425d9257877}\label{classrrllvm_1_1ModelResources_a5c5ba7357e1d061442ed8425d9257877}} 
+std\+::string {\bfseries sbml\+MD5}
+\item 
 \mbox{\Hypertarget{classrrllvm_1_1ModelResources_ac2ff71061e3be2afee73da4b16da41a7}\label{classrrllvm_1_1ModelResources_ac2ff71061e3be2afee73da4b16da41a7}} 
 const class \mbox{\hyperlink{classrr_1_1Random}{Random}} $\ast$ {\bfseries random}
 \item 
-\mbox{\Hypertarget{classrrllvm_1_1ModelResources_a552755a601d193ae30e832e97c843961}\label{classrrllvm_1_1ModelResources_a552755a601d193ae30e832e97c843961}} 
-const std\+::string $\ast$ {\bfseries err\+Str}
+\mbox{\Hypertarget{classrrllvm_1_1ModelResources_abc0699e869cd660d0716a2bfe3aa63a7}\label{classrrllvm_1_1ModelResources_abc0699e869cd660d0716a2bfe3aa63a7}} 
+std\+::unique\+\_\+ptr$<$ std\+::string $>$ {\bfseries err\+Str}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1ModelResources_a70bd739573ace49a97d849e7afd1d644}\label{classrrllvm_1_1ModelResources_a70bd739573ace49a97d849e7afd1d644}} 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classrrllvm_1_1Jit}{Jit}} $>$ {\bfseries jit}
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrrllvm_1_1ModelResources_a403d0c4e078a9ccd13c1c9bf3734220a}\label{classrrllvm_1_1ModelResources_a403d0c4e078a9ccd13c1c9bf3734220a}} 
+\index{rrllvm::ModelResources@{rrllvm::ModelResources}!loadState@{loadState}}
+\index{loadState@{loadState}!rrllvm::ModelResources@{rrllvm::ModelResources}}
+\doxysubsubsection{\texorpdfstring{loadState()}{loadState()}}
+{\footnotesize\ttfamily void rrllvm\+::\+Model\+Resources\+::load\+State (\begin{DoxyParamCaption}\item[{std\+::istream \&}]{in,  }\item[{uint}]{load\+Opt }\end{DoxyParamCaption})}
+
+Although we have a LLVM IR module as binary string (module\+Str) and this is all that is needed to create another model from the input stream, we still need to have a populated jit-\/\texorpdfstring{$>$}{>}compiled\+Module\+Binary\+Stream variable, otherwise a copy of a roadrunner instance cannot save\+State.
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

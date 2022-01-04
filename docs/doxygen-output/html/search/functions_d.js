@@ -1,15 +1,17 @@
 var searchData=
 [
-  ['onestep_2275',['oneStep',['../classrr_1_1RoadRunner.html#a27aedd28b2a2d5453200ca4a4a2bf4c0',1,'rr::RoadRunner::oneStep()'],['../group__simulation.html#ga8f7109b90040ff57b8366c2f1867f066',1,'oneStep():&#160;rrc_api.h']]],
-  ['onevent_2276',['onEvent',['../classrr_1_1IntegratorListener.html#a4ff64f8bf4a208d25b37b7e99560d82e',1,'rr::IntegratorListener']]],
-  ['ontimestep_2277',['onTimeStep',['../classrr_1_1IntegratorListener.html#a78bcb1c840e549d0d18f60ef010fd5e2',1,'rr::IntegratorListener']]],
-  ['operator_20const_20vector_3c_20string_20_3e_20_26_2278',['operator const vector&lt; string &gt; &amp;',['../classrrc_1_1StringList.html#af2a20e2f5b4cad9d01c24f051192bcfd',1,'rrc::StringList']]],
-  ['operator_20t_2279',['operator T',['../classrr_1_1Setting.html#aa76e883343a714ee58ee6025ebd0fefa',1,'rr::Setting']]],
-  ['operator_21_3d_2280',['operator!=',['../classrr_1_1Matrix.html#a4a1a8c0eada3c2c680cb5383fbd8e0e5',1,'rr::Matrix::operator!=()'],['../classrr_1_1Matrix3D.html#a8438b3dd5262ce21e26a3e6c2e21d9e5',1,'rr::Matrix3D::operator!=()']]],
-  ['operator_28_29_2281',['operator()',['../classrrllvm_1_1Random.html#a71acc6461e87790ee45f7f5da635eb8a',1,'rrllvm::Random']]],
-  ['operator_3d_2282',['operator=',['../classrr_1_1Variant.html#a22c85776d05ff8009e6f6686db25f949',1,'rr::Variant::operator=(const T &amp;value)'],['../classrr_1_1Variant.html#ac04cac2d0b4d939f789658bebbb05f21',1,'rr::Variant::operator=(const Variant &amp;other)'],['../classrr_1_1Setting.html#adcf3783161d25aa1082673116eb44df0',1,'rr::Setting::operator=(const Setting &amp;setting)'],['../classrr_1_1Setting.html#a732b55592cf2f1ce8a12135b2c147420',1,'rr::Setting::operator=(Setting &amp;&amp;setting) noexcept'],['../classrr_1_1ModelSymbols.html#a579773a20fc82347148d24eb8fd74f22',1,'rr::ModelSymbols::operator=()'],['../classrr_1_1PendingAssignment.html#aa2944c510f2b54704c339e02b0a86219',1,'rr::PendingAssignment::operator=()'],['../classrrllvm_1_1Random.html#a897db0dcdeacdef5caac7087e4875616',1,'rrllvm::Random::operator=()']]],
-  ['operator_3d_3d_2283',['operator==',['../classrr_1_1Matrix.html#a15848a37cb50e749fb8f7f00ae0a6b22',1,'rr::Matrix::operator==()'],['../classrr_1_1Matrix3D.html#ac6964e5fab09e336189a817c8480307e',1,'rr::Matrix3D::operator==(Matrix3D&lt; IndexType, DataType &gt; &amp;other)']]],
-  ['operator_5b_5d_2284',['operator[]',['../classrr_1_1Matrix3D.html#adf344bfa17d5a94157c9944bfabce492',1,'rr::Matrix3D']]],
-  ['vector_3c_20double_20_3e_2285',['vector&lt; double &gt;',['../classrr_1_1Setting.html#aa72b6486d1e76a711eeebaef6c806f70',1,'rr::Setting']]],
-  ['vector_3c_20std_3a_3astring_20_3e_20_26_2286',['vector&lt; std::string &gt; &amp;',['../classrr_1_1StringList.html#ab9df1f41a8963154433c26e71b892056',1,'rr::StringList']]]
+  ['makeintegrator_0',['makeIntegrator',['../classrr_1_1RoadRunner.html#aaa2b76b778006437b495a524b7ec94ec',1,'rr::RoadRunner']]],
+  ['makesensitivitysolver_1',['makeSensitivitySolver',['../classrr_1_1RoadRunner.html#accc767f44bdc41e29155e8a3ff6a4eb4',1,'rr::RoadRunner']]],
+  ['makesteadystatesolver_2',['makeSteadyStateSolver',['../classrr_1_1RoadRunner.html#ad1c1bf612dfbc109788eb79450fadc75',1,'rr::RoadRunner']]],
+  ['mapfunctionstojitsymbols_3',['mapFunctionsToJitSymbols',['../classrrllvm_1_1Jit.html#a639f90099cf9faf011209586a9023a66',1,'rrllvm::Jit::mapFunctionsToJitSymbols()'],['../classrrllvm_1_1LLJit.html#a996945de22420bc5951594d75d80a591',1,'rrllvm::LLJit::mapFunctionsToJitSymbols()'],['../classrrllvm_1_1MCJit.html#a91eae38be659b79c86b536fd06da7a85',1,'rrllvm::MCJit::mapFunctionsToJitSymbols()']]],
+  ['mapllvmgeneratedfunctionstosymbols_4',['mapLLVMGeneratedFunctionsToSymbols',['../classrrllvm_1_1Jit.html#a126ca0f75646887926342ef4ee8ea034',1,'rrllvm::Jit']]],
+  ['matrix_5',['Matrix',['../classrr_1_1Matrix.html#ab29900c20cb7cd0627f1dd01d0b767e4',1,'rr::Matrix']]],
+  ['matrix3d_6',['Matrix3D',['../classrr_1_1Matrix3D.html#a8336951dc875f560c5841f5c70fe36a1',1,'rr::Matrix3D::Matrix3D()=default'],['../classrr_1_1Matrix3D.html#ac8734a9a680930e98361be461808ddde',1,'rr::Matrix3D::Matrix3D(int numRows, int numCols, int numZ)']]],
+  ['matrixtostring_7',['matrixToString',['../group__toString.html#ga68ab637b0b84cb49eb513e432d73bd1e',1,'rrc_utilities.h']]],
+  ['max_8',['max',['../classrrllvm_1_1Random.html#a4cb7608f39fe6bf46935025168007e71',1,'rrllvm::Random']]],
+  ['mcjit_9',['MCJit',['../classrrllvm_1_1MCJit.html#a82766ec1e6989cc512e8755019dbc05a',1,'rrllvm::MCJit']]],
+  ['min_10',['min',['../classrrllvm_1_1Random.html#a5bfaae233b2805b56c2b9ac9c084c12d',1,'rrllvm::Random']]],
+  ['modeldatairbuilder_11',['ModelDataIRBuilder',['../classrrllvm_1_1ModelDataIRBuilder.html#a8bc39b1fd4a0dad7cb4b8018600218b1',1,'rrllvm::ModelDataIRBuilder']]],
+  ['modelgeneratorcontext_12',['ModelGeneratorContext',['../classrrllvm_1_1ModelGeneratorContext.html#ac2301d4bd4fbecfd65912e4f90cb74df',1,'rrllvm::ModelGeneratorContext::ModelGeneratorContext(const libsbml::SBMLDocument *_doc, unsigned options, std::unique_ptr&lt; Jit &gt; jitEngine)'],['../classrrllvm_1_1ModelGeneratorContext.html#a619188b61652e3b93638b53fc5d015d7',1,'rrllvm::ModelGeneratorContext::ModelGeneratorContext()']]],
+  ['mult_13',['mult',['../classrr_1_1Matrix.html#adbdc267bb90e3e9c752758126e161791',1,'rr::Matrix']]]
 ];

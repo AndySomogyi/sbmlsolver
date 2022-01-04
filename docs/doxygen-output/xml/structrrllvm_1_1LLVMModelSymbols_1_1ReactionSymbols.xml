@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols" kind="struct" language="C++" prot="protected">
     <compoundname>rrllvm::LLVMModelSymbols::ReactionSymbols</compoundname>
     <includes refid="LLVMModelSymbols_8h" local="no">LLVMModelSymbols.h</includes>
@@ -9,6 +9,7 @@
         <definition>IntASTNodeListMap rrllvm::LLVMModelSymbols::ReactionSymbols::reactants</definition>
         <argsstring></argsstring>
         <name>reactants</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::ReactionSymbols::reactants</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -22,6 +23,7 @@
         <definition>IntASTNodeListMap rrllvm::LLVMModelSymbols::ReactionSymbols::products</definition>
         <argsstring></argsstring>
         <name>products</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::ReactionSymbols::products</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>

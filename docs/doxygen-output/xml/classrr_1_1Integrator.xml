@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1Integrator" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>rr::Integrator</compoundname>
     <basecompoundref refid="classrr_1_1Solver" prot="public" virt="non-virtual">rr::Solver</basecompoundref>
@@ -12,6 +12,7 @@
       <memberdef kind="enum" id="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0" prot="public" static="no" strong="no">
         <type></type>
         <name>IntegrationMethod</name>
+        <qualifiedname>rr::Integrator::IntegrationMethod</qualifiedname>
         <enumvalue id="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0af737370ac52f7db68da0965ff5667255" prot="public">
           <name>Deterministic</name>
           <briefdescription>
@@ -55,6 +56,7 @@
         <definition>double rr::Integrator::mIntegrationStartTime</definition>
         <argsstring></argsstring>
         <name>mIntegrationStartTime</name>
+        <qualifiedname>rr::Integrator::mIntegrationStartTime</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -70,6 +72,7 @@
         <definition>rr::Integrator::Integrator</definition>
         <argsstring>(ExecutableModel *model)</argsstring>
         <name>Integrator</name>
+        <qualifiedname>rr::Integrator::Integrator</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
           <declname>model</declname>
@@ -87,6 +90,7 @@
         <definition>rr::Integrator::Integrator</definition>
         <argsstring>()</argsstring>
         <name>Integrator</name>
+        <qualifiedname>rr::Integrator::Integrator</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -100,6 +104,7 @@
         <definition>virtual rr::Integrator::~Integrator</definition>
         <argsstring>()</argsstring>
         <name>~Integrator</name>
+        <qualifiedname>rr::Integrator::~Integrator</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -113,9 +118,10 @@
         <definition>virtual IntegrationMethod rr::Integrator::getIntegrationMethod</definition>
         <argsstring>() const =0</argsstring>
         <name>getIntegrationMethod</name>
-        <reimplementedby refid="classrr_1_1EulerIntegrator_1a9bf013a3a23007eac2d5b71533dc4c9b">getIntegrationMethod</reimplementedby>
+        <qualifiedname>rr::Integrator::getIntegrationMethod</qualifiedname>
         <reimplementedby refid="classrr_1_1RK45Integrator_1ade69fdfc91f614a6f20bc8027d5e2f0a">getIntegrationMethod</reimplementedby>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1a7cc1f774e58f179fb2e69c515c9f2a1f">getIntegrationMethod</reimplementedby>
+        <reimplementedby refid="classrr_1_1EulerIntegrator_1a8c70add8b8867dadd74af16da2209cf6">getIntegrationMethod</reimplementedby>
         <reimplementedby refid="classrr_1_1GillespieIntegrator_1a9fe029c162b37172c49f2175c69eb8fc">getIntegrationMethod</reimplementedby>
         <reimplementedby refid="classrr_1_1RK4Integrator_1aa0b4e374ae795fe7457e95b7878a3de3">getIntegrationMethod</reimplementedby>
         <briefdescription>
@@ -131,6 +137,7 @@
         <definition>void rr::Integrator::syncWithModel</definition>
         <argsstring>(ExecutableModel *m)</argsstring>
         <name>syncWithModel</name>
+        <qualifiedname>rr::Integrator::syncWithModel</qualifiedname>
         <reimplements refid="classrr_1_1Solver_1aecb0e7c619e544aeabc6db9903165158">syncWithModel</reimplements>
         <reimplementedby refid="classrr_1_1RK45Integrator_1ac72e73c1d53f4884d9976cacee27f738">syncWithModel</reimplementedby>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1a6ffad2eceae5fda58900a1bbaa738eff">syncWithModel</reimplementedby>
@@ -157,6 +164,7 @@
         <definition>void rr::Integrator::loadConfigSettings</definition>
         <argsstring>()</argsstring>
         <name>loadConfigSettings</name>
+        <qualifiedname>rr::Integrator::loadConfigSettings</qualifiedname>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1ac43da51656919e15d30f450e81b3887b">loadConfigSettings</reimplementedby>
         <briefdescription>
         </briefdescription>
@@ -171,6 +179,7 @@
         <definition>void rr::Integrator::loadSBMLSettings</definition>
         <argsstring>(const std::string &amp;filename)</argsstring>
         <name>loadSBMLSettings</name>
+        <qualifiedname>rr::Integrator::loadSBMLSettings</qualifiedname>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1acaa6878fb0d972aa96dba554a7bc65a4">loadSBMLSettings</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
@@ -189,8 +198,9 @@
         <definition>virtual double rr::Integrator::integrate</definition>
         <argsstring>(double t0, double hstep)=0</argsstring>
         <name>integrate</name>
+        <qualifiedname>rr::Integrator::integrate</qualifiedname>
         <reimplementedby refid="classrr_1_1RK45Integrator_1ab181e94750addee7066f7b35cce2fb4d">integrate</reimplementedby>
-        <reimplementedby refid="classrr_1_1EulerIntegrator_1ab65a96963262cce17a56c2605da5416f">integrate</reimplementedby>
+        <reimplementedby refid="classrr_1_1EulerIntegrator_1a5b94124e1efbca3f0fd151f736912276">integrate</reimplementedby>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1a1e29429af0ec90aa2f47be15bbe8856c">integrate</reimplementedby>
         <reimplementedby refid="classrr_1_1GillespieIntegrator_1a37f3be6adad08270982ba790c721aa64">integrate</reimplementedby>
         <reimplementedby refid="classrr_1_1RK4Integrator_1a3656bd81548da001b68c969740a3bc94">integrate</reimplementedby>
@@ -215,8 +225,9 @@
         <definition>virtual void rr::Integrator::restart</definition>
         <argsstring>(double t0)=0</argsstring>
         <name>restart</name>
-        <reimplementedby refid="classrr_1_1EulerIntegrator_1a08903e998cf527552442f8fa930772c8">restart</reimplementedby>
+        <qualifiedname>rr::Integrator::restart</qualifiedname>
         <reimplementedby refid="classrr_1_1RK45Integrator_1abde959ca72506e25e6c1187a4fa15b2b">restart</reimplementedby>
+        <reimplementedby refid="classrr_1_1EulerIntegrator_1a82a562273e6d73bebcb8e25de45a20a4">restart</reimplementedby>
         <reimplementedby refid="classrr_1_1RK4Integrator_1abdfa3fcd449ee9d7b3cb3ee421291fe4">restart</reimplementedby>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1acde5e92ec049c105b7d22b0f125d94a9">restart</reimplementedby>
         <reimplementedby refid="classrr_1_1GillespieIntegrator_1a262d1d16bd30c35269cd3daabfd1b574">restart</reimplementedby>
@@ -237,6 +248,7 @@
         <definition>void rr::Integrator::tweakTolerances</definition>
         <argsstring>()</argsstring>
         <name>tweakTolerances</name>
+        <qualifiedname>rr::Integrator::tweakTolerances</qualifiedname>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1a137ada502a737819ca3ad78d0573c35d">tweakTolerances</reimplementedby>
         <briefdescription>
 <para>Fix tolerances for SBML tests. </para>
@@ -255,6 +267,7 @@ In order to ensure that the results of the SBML test suite remain valid, this me
         <definition>void rr::Integrator::setIndividualTolerance</definition>
         <argsstring>(std::string sid, double value)</argsstring>
         <name>setIndividualTolerance</name>
+        <qualifiedname>rr::Integrator::setIndividualTolerance</qualifiedname>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1a57e9e604b2c2ba388a3fe219e87c326c">setIndividualTolerance</reimplementedby>
         <param>
           <type>std::string</type>
@@ -281,6 +294,7 @@ In order to ensure that the results of the SBML test suite remain valid, this me
         <definition>void rr::Integrator::setConcentrationTolerance</definition>
         <argsstring>(Setting value)</argsstring>
         <name>setConcentrationTolerance</name>
+        <qualifiedname>rr::Integrator::setConcentrationTolerance</qualifiedname>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1a386a755bab0c72a5d93a7e09ba95fafe">setConcentrationTolerance</reimplementedby>
         <param>
           <type><ref refid="classrr_1_1Setting" kindref="compound">Setting</ref></type>
@@ -303,6 +317,7 @@ In order to ensure that the results of the SBML test suite remain valid, this me
         <definition>std::vector&lt; double &gt; rr::Integrator::getConcentrationTolerance</definition>
         <argsstring>()</argsstring>
         <name>getConcentrationTolerance</name>
+        <qualifiedname>rr::Integrator::getConcentrationTolerance</qualifiedname>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1a7f68228148cf04688881f636a34deb48">getConcentrationTolerance</reimplementedby>
         <briefdescription>
 <para>Get tolerance based on concentration of species, will only be used in <ref refid="classrr_1_1CVODEIntegrator" kindref="compound">CVODEIntegrator</ref>. </para>
@@ -321,7 +336,8 @@ In order to ensure that the results of the SBML test suite remain valid, this me
         <definition>virtual void rr::Integrator::setListener</definition>
         <argsstring>(IntegratorListenerPtr)=0</argsstring>
         <name>setListener</name>
-        <reimplementedby refid="classrr_1_1EulerIntegrator_1acb23167cc7463d67301f00608131eb4c">setListener</reimplementedby>
+        <qualifiedname>rr::Integrator::setListener</qualifiedname>
+        <reimplementedby refid="classrr_1_1EulerIntegrator_1a5e291108e3a53b921a90450ee2efbe48">setListener</reimplementedby>
         <reimplementedby refid="classrr_1_1RK45Integrator_1a7fdc3829b5635e1b0cd18cced396261d">setListener</reimplementedby>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1aca2901ed7b5a503e054fd18e8f0392ad">setListener</reimplementedby>
         <reimplementedby refid="classrr_1_1GillespieIntegrator_1ad90d4e1cc786cb9e9231cdcfc42a01ed">setListener</reimplementedby>
@@ -342,9 +358,10 @@ In order to ensure that the results of the SBML test suite remain valid, this me
         <definition>virtual IntegratorListenerPtr rr::Integrator::getListener</definition>
         <argsstring>()=0</argsstring>
         <name>getListener</name>
-        <reimplementedby refid="classrr_1_1EulerIntegrator_1a9ec7df905cdffbeb14e4f764ae0c2ac0">getListener</reimplementedby>
+        <qualifiedname>rr::Integrator::getListener</qualifiedname>
         <reimplementedby refid="classrr_1_1RK45Integrator_1af31a4d9eaff51261d8589f6020f2d612">getListener</reimplementedby>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1a480b8dad2e4dabcdb8fec1439ab7c5f7">getListener</reimplementedby>
+        <reimplementedby refid="classrr_1_1EulerIntegrator_1a446b4802e6e5a7db2f2f60cbac430d4a">getListener</reimplementedby>
         <reimplementedby refid="classrr_1_1GillespieIntegrator_1aa412e44a4edb787ea54c397de0a94429">getListener</reimplementedby>
         <reimplementedby refid="classrr_1_1RK4Integrator_1a673dba96f3e55e5f1bda0872f01d12ac">getListener</reimplementedby>
         <briefdescription>
@@ -360,6 +377,7 @@ In order to ensure that the results of the SBML test suite remain valid, this me
         <definition>std::string rr::Integrator::toString</definition>
         <argsstring>() const</argsstring>
         <name>toString</name>
+        <qualifiedname>rr::Integrator::toString</qualifiedname>
         <reimplements refid="classrr_1_1Solver_1af08f448f7eea26415a47caaae161de02">toString</reimplements>
         <briefdescription>
 <para>Return a std::string representation of the solver. </para>
@@ -378,8 +396,9 @@ In order to ensure that the results of the SBML test suite remain valid, this me
         <definition>std::string rr::Integrator::toRepr</definition>
         <argsstring>() const</argsstring>
         <name>toRepr</name>
+        <qualifiedname>rr::Integrator::toRepr</qualifiedname>
         <reimplements refid="classrr_1_1Solver_1a2f2b574b220becfebd1be2d8cc34d550">toRepr</reimplements>
-        <reimplementedby refid="classrr_1_1EulerIntegrator_1a4f484ed1c727f3f45f90586de64e329f">toRepr</reimplementedby>
+        <reimplementedby refid="classrr_1_1EulerIntegrator_1abc775885d87bf9afa1b5616fe28d1de3">toRepr</reimplementedby>
         <briefdescription>
 <para>Return std::string representation a la Python <bold>repr</bold> method. </para>
         </briefdescription>
@@ -397,6 +416,7 @@ In order to ensure that the results of the SBML test suite remain valid, this me
         <definition>void rr::Integrator::setIntegrationStartTime</definition>
         <argsstring>(double time)</argsstring>
         <name>setIntegrationStartTime</name>
+        <qualifiedname>rr::Integrator::setIntegrationStartTime</qualifiedname>
         <param>
           <type>double</type>
           <declname>time</declname>
@@ -414,6 +434,7 @@ In order to ensure that the results of the SBML test suite remain valid, this me
         <definition>rr::Solver::Solver</definition>
         <argsstring>()=default</argsstring>
         <name>Solver</name>
+        <qualifiedname>rr::Integrator::Solver</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -427,6 +448,7 @@ In order to ensure that the results of the SBML test suite remain valid, this me
         <definition>rr::Solver::Solver</definition>
         <argsstring>(ExecutableModel *model)</argsstring>
         <name>Solver</name>
+        <qualifiedname>rr::Integrator::Solver</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
           <declname>model</declname>
@@ -439,11 +461,13 @@ In order to ensure that the results of the SBML test suite remain valid, this me
         </inbodydescription>
         <location file="Integrator.h" line="63" column="9" bodyfile="Solver.cpp" bodystart="26" bodyend="27"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1Integrator_1a18fa004a818506c15d47fa28015039c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1Integrator_1a18fa004a818506c15d47fa28015039c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
         <definition>void rr::Solver::setValue</definition>
         <argsstring>(const std::string &amp;key, Setting value)</argsstring>
         <name>setValue</name>
+        <qualifiedname>rr::Integrator::setValue</qualifiedname>
+        <reimplements refid="classrr_1_1Solver_1a18fa004a818506c15d47fa28015039c6">setValue</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>key</declname>
@@ -468,9 +492,9 @@ In order to ensure that the results of the SBML test suite remain valid, this me
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="7">
-        <label>rr::RK45Integrator</label>
-        <link refid="classrr_1_1RK45Integrator"/>
+      <node id="4">
+        <label>rr::CVODEIntegrator</label>
+        <link refid="classrr_1_1CVODEIntegrator"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
@@ -480,25 +504,21 @@ In order to ensure that the results of the SBML test suite remain valid, this me
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="1">
-        <label>rr::Integrator</label>
-        <link refid="classrr_1_1Integrator"/>
-        <childnode refid="2" relation="public-inheritance">
-        </childnode>
-      </node>
       <node id="6">
         <label>rr::GillespieIntegrator</label>
         <link refid="classrr_1_1GillespieIntegrator"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
-        <label>rr::Registrable</label>
-        <link refid="classrr_1_1Registrable"/>
+      <node id="1">
+        <label>rr::Integrator</label>
+        <link refid="classrr_1_1Integrator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
       </node>
-      <node id="4">
-        <label>rr::CVODEIntegrator</label>
-        <link refid="classrr_1_1CVODEIntegrator"/>
+      <node id="7">
+        <label>rr::RK45Integrator</label>
+        <link refid="classrr_1_1RK45Integrator"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
@@ -508,6 +528,10 @@ In order to ensure that the results of the SBML test suite remain valid, this me
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="3">
+        <label>rr::Registrable</label>
+        <link refid="classrr_1_1Registrable"/>
+      </node>
       <node id="2">
         <label>rr::Solver</label>
         <link refid="classrr_1_1Solver"/>
@@ -516,6 +540,10 @@ In order to ensure that the results of the SBML test suite remain valid, this me
       </node>
     </inheritancegraph>
     <collaborationgraph>
+      <node id="4">
+        <label>rr::ExecutableModel</label>
+        <link refid="classrr_1_1ExecutableModel"/>
+      </node>
       <node id="1">
         <label>rr::Integrator</label>
         <link refid="classrr_1_1Integrator"/>
@@ -535,15 +563,11 @@ In order to ensure that the results of the SBML test suite remain valid, this me
           <edgelabel>mModel</edgelabel>
         </childnode>
       </node>
-      <node id="4">
-        <label>rr::ExecutableModel</label>
-        <link refid="classrr_1_1ExecutableModel"/>
-      </node>
     </collaborationgraph>
     <location file="Integrator.h" line="60" column="5" bodyfile="Integrator.h" bodystart="60" bodyend="151"/>
     <listofallmembers>
       <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::Integrator</scope><name>addSetting</name></member>
-      <member refid="classrr_1_1Registrable_1a3f529e138fa0288622525bc13cd73c5f" prot="public" virt="pure-virtual"><scope>rr::Integrator</scope><name>construct</name></member>
+      <member refid="classrr_1_1Registrable_1a4380db83a3a2b122fe58fc3bbbb32a69" prot="public" virt="pure-virtual"><scope>rr::Integrator</scope><name>construct</name></member>
       <member refid="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>DescriptionMap</name></member>
       <member refid="classrr_1_1Solver_1a7e07121f652db358045d6f7b95889ea3" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>descriptions</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0af737370ac52f7db68da0965ff5667255" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>Deterministic</name></member>
@@ -551,17 +575,14 @@ In order to ensure that the results of the SBML test suite remain valid, this me
       <member refid="classrr_1_1Solver_1a76b76c8ba3a31a2c6a600322c90a0452" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>DisplayNameMap</name></member>
       <member refid="classrr_1_1Integrator_1a9bb4546b27c3b0b4552ebc1b36148629" prot="public" virt="virtual"><scope>rr::Integrator</scope><name>getConcentrationTolerance</name></member>
       <member refid="classrr_1_1Solver_1a522a881e88165986944db55a8f2da845" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>getDescription</name></member>
-      <member refid="classrr_1_1Solver_1a1062b181455da6310d5678a4c978d072" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>getDescription</name></member>
-      <member refid="classrr_1_1Registrable_1af8b4a2f0dc7cc99fa22c1056f917e5d4" prot="public" virt="pure-virtual" ambiguityscope="rr::Registrable::"><scope>rr::Integrator</scope><name>getDescription</name></member>
+      <member refid="classrr_1_1Solver_1a1062b181455da6310d5678a4c978d072" prot="public" virt="virtual"><scope>rr::Integrator</scope><name>getDescription</name></member>
       <member refid="classrr_1_1Solver_1a1fce02df70c95855d9d3cd7e3d352c08" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>getDisplayName</name></member>
       <member refid="classrr_1_1Solver_1a4915611d49d03f0fe499bed99a05aae1" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>getHint</name></member>
-      <member refid="classrr_1_1Solver_1a30605288d92db09d42a886c132e5429f" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>getHint</name></member>
-      <member refid="classrr_1_1Registrable_1a1a6c686212133cda58ab44b310f401d9" prot="public" virt="pure-virtual" ambiguityscope="rr::Registrable::"><scope>rr::Integrator</scope><name>getHint</name></member>
+      <member refid="classrr_1_1Solver_1a30605288d92db09d42a886c132e5429f" prot="public" virt="virtual"><scope>rr::Integrator</scope><name>getHint</name></member>
       <member refid="classrr_1_1Integrator_1a6166cbf32c54a1d95a8a830b8db1424c" prot="public" virt="pure-virtual"><scope>rr::Integrator</scope><name>getIntegrationMethod</name></member>
       <member refid="classrr_1_1Integrator_1ae4105739ea0544fe66db1482e0aeae9d" prot="public" virt="pure-virtual"><scope>rr::Integrator</scope><name>getListener</name></member>
       <member refid="classrr_1_1Solver_1ac89194d54aaad3ecc71e1cfbbef83d15" prot="public" virt="virtual"><scope>rr::Integrator</scope><name>getModel</name></member>
-      <member refid="classrr_1_1Solver_1ae4ae3d123747f44ba18cb94a37cdcc6d" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>getName</name></member>
-      <member refid="classrr_1_1Registrable_1a7d66e096a8c5cfd5e3fdb6cf5aa339d6" prot="public" virt="pure-virtual" ambiguityscope="rr::Registrable::"><scope>rr::Integrator</scope><name>getName</name></member>
+      <member refid="classrr_1_1Solver_1ae4ae3d123747f44ba18cb94a37cdcc6d" prot="public" virt="virtual"><scope>rr::Integrator</scope><name>getName</name></member>
       <member refid="classrr_1_1Solver_1abbefd0f38dfa2651c74f8abbd6d7b143" prot="public" virt="virtual"><scope>rr::Integrator</scope><name>getNumParams</name></member>
       <member refid="classrr_1_1Solver_1aa13e13a92531fde27fe5711790eee0f7" prot="public" virt="virtual"><scope>rr::Integrator</scope><name>getParamDesc</name></member>
       <member refid="classrr_1_1Solver_1afc0a667f204105aa133376144ce14c75" prot="public" virt="virtual"><scope>rr::Integrator</scope><name>getParamDisplayName</name></member>
@@ -596,11 +617,9 @@ In order to ensure that the results of the SBML test suite remain valid, this me
       <member refid="classrr_1_1Solver_1adcbacd57e2871a83bb9c4d7a4038a069" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>SettingsList</name></member>
       <member refid="classrr_1_1Solver_1a61c0fd04ad69fc173c51dac3bdde2431" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>SettingsMap</name></member>
       <member refid="classrr_1_1Solver_1a37b032d8755eaccd3480531bdc2a4596" prot="public" virt="virtual"><scope>rr::Integrator</scope><name>settingsPyDictRepr</name></member>
-      <member refid="classrr_1_1Integrator_1a18fa004a818506c15d47fa28015039c6" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>setValue</name></member>
-      <member refid="classrr_1_1Solver_1a18fa004a818506c15d47fa28015039c6" prot="public" virt="virtual" ambiguityscope="rr::Solver::"><scope>rr::Integrator</scope><name>setValue</name></member>
+      <member refid="classrr_1_1Integrator_1a18fa004a818506c15d47fa28015039c6" prot="public" virt="virtual"><scope>rr::Integrator</scope><name>setValue</name></member>
       <member refid="classrr_1_1Integrator_1a04bba4a342cc7197750f080d41d439e5" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>Solver</name></member>
       <member refid="classrr_1_1Integrator_1aa0a07553e368f0be33b9bfc429782a97" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>Solver</name></member>
-      <member refid="classrr_1_1Solver_1aa0a07553e368f0be33b9bfc429782a97" prot="public" virt="non-virtual" ambiguityscope="rr::Solver::"><scope>rr::Integrator</scope><name>Solver</name></member>
       <member refid="classrr_1_1Solver_1a99f48947491d7cd36c68cebba53915fe" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>sorted_settings</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0a35eaf1b6ad6c75eb82506ef35dd47c27" prot="public" virt="non-virtual"><scope>rr::Integrator</scope><name>Stochastic</name></member>
       <member refid="classrr_1_1Integrator_1a6b12118cd1b0f047f5a64cfb0546b565" prot="public" virt="virtual"><scope>rr::Integrator</scope><name>syncWithModel</name></member>

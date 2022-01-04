@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1SimulateOptions" kind="class" language="C++" prot="public">
     <compoundname>rr::SimulateOptions</compoundname>
     <includes refid="rrRoadRunnerOptions_8h" local="no">rrRoadRunnerOptions.h</includes>
@@ -9,6 +9,7 @@
         <definition>bool rr::SimulateOptions::reset_model</definition>
         <argsstring></argsstring>
         <name>reset_model</name>
+        <qualifiedname>rr::SimulateOptions::reset_model</qualifiedname>
         <briefdescription>
 <para>reset the model to the initial state. </para>
         </briefdescription>
@@ -16,13 +17,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="247" column="6" bodyfile="rrRoadRunnerOptions.h" bodystart="247" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="300" column="14" bodyfile="rrRoadRunnerOptions.h" bodystart="300" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1SimulateOptions_1a9087842fab7661b93dbc103e02f8908d" prot="public" static="no" mutable="no">
         <type>bool</type>
         <definition>bool rr::SimulateOptions::structured_result</definition>
         <argsstring></argsstring>
         <name>structured_result</name>
+        <qualifiedname>rr::SimulateOptions::structured_result</qualifiedname>
         <briefdescription>
 <para>Simulate should return a raw result matrix without adding any column names. </para>
         </briefdescription>
@@ -30,13 +32,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="252" column="6" bodyfile="rrRoadRunnerOptions.h" bodystart="252" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="305" column="14" bodyfile="rrRoadRunnerOptions.h" bodystart="305" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1SimulateOptions_1a93e8b08b6e526f96226333f83a1ac049" prot="public" static="no" mutable="no">
         <type>bool</type>
         <definition>bool rr::SimulateOptions::copy_result</definition>
         <argsstring></argsstring>
         <name>copy_result</name>
+        <qualifiedname>rr::SimulateOptions::copy_result</qualifiedname>
         <briefdescription>
 <para>Make a copy of the simulation result in Python. </para>
         </briefdescription>
@@ -45,13 +48,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="257" column="6" bodyfile="rrRoadRunnerOptions.h" bodystart="257" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="310" column="14" bodyfile="rrRoadRunnerOptions.h" bodystart="310" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1SimulateOptions_1a20008b16d84ef52a564648671d0c544b" prot="public" static="no" mutable="no">
         <type>int</type>
         <definition>int rr::SimulateOptions::steps</definition>
         <argsstring></argsstring>
         <name>steps</name>
+        <qualifiedname>rr::SimulateOptions::steps</qualifiedname>
         <briefdescription>
 <para>The number of steps at which the output is sampled. </para>
         </briefdescription>
@@ -60,13 +64,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="265" column="5" bodyfile="rrRoadRunnerOptions.h" bodystart="265" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="318" column="13" bodyfile="rrRoadRunnerOptions.h" bodystart="318" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1SimulateOptions_1ae25c38171cedd08bf0cc43932c07822e" prot="public" static="no" mutable="no">
         <type>double</type>
         <definition>double rr::SimulateOptions::start</definition>
         <argsstring></argsstring>
         <name>start</name>
+        <qualifiedname>rr::SimulateOptions::start</qualifiedname>
         <briefdescription>
 <para>The start time of the simulation time-series data. </para>
         </briefdescription>
@@ -75,13 +80,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="271" column="8" bodyfile="rrRoadRunnerOptions.h" bodystart="271" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="324" column="16" bodyfile="rrRoadRunnerOptions.h" bodystart="324" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1SimulateOptions_1a6917a73a48307d38643923182b28b0c4" prot="public" static="no" mutable="no">
         <type>double</type>
         <definition>double rr::SimulateOptions::duration</definition>
         <argsstring></argsstring>
         <name>duration</name>
+        <qualifiedname>rr::SimulateOptions::duration</qualifiedname>
         <briefdescription>
 <para>The duration of the simulation run, in the model&apos;s units of time. </para>
         </briefdescription>
@@ -89,13 +95,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="276" column="8" bodyfile="rrRoadRunnerOptions.h" bodystart="276" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="329" column="16" bodyfile="rrRoadRunnerOptions.h" bodystart="329" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1SimulateOptions_1a09d7ee18803cb8ca6f96f71d60eeb78e" prot="public" static="no" mutable="no">
         <type>std::string</type>
         <definition>std::string rr::SimulateOptions::output_file</definition>
         <argsstring></argsstring>
         <name>output_file</name>
+        <qualifiedname>rr::SimulateOptions::output_file</qualifiedname>
         <briefdescription>
 <para>The ouptut file for simulation results. </para>
         </briefdescription>
@@ -104,13 +111,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="285" column="21" bodyfile="rrRoadRunnerOptions.h" bodystart="285" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="338" column="21" bodyfile="rrRoadRunnerOptions.h" bodystart="338" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1SimulateOptions_1a0953c07a719d03a4d558a9bf2ce16f83" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
         <definition>std::vector&lt;std::string&gt; rr::SimulateOptions::variables</definition>
         <argsstring></argsstring>
         <name>variables</name>
+        <qualifiedname>rr::SimulateOptions::variables</qualifiedname>
         <briefdescription>
 <para>The variables (in addition to time) whose values will be saved in the result. </para>
         </briefdescription>
@@ -121,13 +129,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="301" column="13" bodyfile="rrRoadRunnerOptions.h" bodystart="301" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="354" column="21" bodyfile="rrRoadRunnerOptions.h" bodystart="354" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1SimulateOptions_1a13c457ced6a6396d9cb8dcecf42f0dee" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
         <definition>std::vector&lt;std::string&gt; rr::SimulateOptions::amounts</definition>
         <argsstring></argsstring>
         <name>amounts</name>
+        <qualifiedname>rr::SimulateOptions::amounts</qualifiedname>
         <briefdescription>
 <para>A list of the variable whose output in the results file is in amount (not concentration) units. </para>
         </briefdescription>
@@ -136,13 +145,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="308" column="13" bodyfile="rrRoadRunnerOptions.h" bodystart="308" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="361" column="21" bodyfile="rrRoadRunnerOptions.h" bodystart="361" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1SimulateOptions_1a3fb8836610f52922ee371fdf06331e97" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
         <definition>std::vector&lt;std::string&gt; rr::SimulateOptions::concentrations</definition>
         <argsstring></argsstring>
         <name>concentrations</name>
+        <qualifiedname>rr::SimulateOptions::concentrations</qualifiedname>
         <briefdescription>
 <para>A list of the variable whose output in the results file is in concentration (not amount) units. </para>
         </briefdescription>
@@ -151,20 +161,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="315" column="13" bodyfile="rrRoadRunnerOptions.h" bodystart="315" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="368" column="21" bodyfile="rrRoadRunnerOptions.h" bodystart="368" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1SimulateOptions_1a47da5360a97032cb8c4cc54ef47401d9" prot="public" static="no" mutable="no">
         <type>std::vector&lt; double &gt;</type>
         <definition>std::vector&lt;double&gt; rr::SimulateOptions::times</definition>
         <argsstring></argsstring>
         <name>times</name>
+        <qualifiedname>rr::SimulateOptions::times</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="321" column="13" bodyfile="rrRoadRunnerOptions.h" bodystart="321" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="374" column="21" bodyfile="rrRoadRunnerOptions.h" bodystart="374" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -173,13 +184,14 @@
         <definition>double rr::SimulateOptions::hstep</definition>
         <argsstring></argsstring>
         <name>hstep</name>
+        <qualifiedname>rr::SimulateOptions::hstep</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="349" column="8" bodyfile="rrRoadRunnerOptions.h" bodystart="349" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="407" column="16" bodyfile="rrRoadRunnerOptions.h" bodystart="407" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -188,6 +200,7 @@
         <definition>rr::SimulateOptions::SimulateOptions</definition>
         <argsstring>()</argsstring>
         <name>SimulateOptions</name>
+        <qualifiedname>rr::SimulateOptions::SimulateOptions</qualifiedname>
         <briefdescription>
 <para>init with default options. </para>
         </briefdescription>
@@ -195,13 +208,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="242" column="1" bodyfile="rrRoadRunnerOptions.cpp" bodystart="51" bodyend="61"/>
+        <location file="rrRoadRunnerOptions.h" line="295" column="9" bodyfile="rrRoadRunnerOptions.cpp" bodystart="51" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SimulateOptions_1af028e3752c6c9c3e25d5ced5c3752b9d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
         <definition>std::string rr::SimulateOptions::toString</definition>
         <argsstring>() const</argsstring>
         <name>toString</name>
+        <qualifiedname>rr::SimulateOptions::toString</qualifiedname>
         <briefdescription>
 <para>get a description of this object, compatable with python <bold>str</bold> </para>
         </briefdescription>
@@ -209,13 +223,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="326" column="13" bodyfile="rrRoadRunnerOptions.cpp" bodystart="144" bodyend="182"/>
+        <location file="rrRoadRunnerOptions.h" line="379" column="21" bodyfile="rrRoadRunnerOptions.cpp" bodystart="156" bodyend="194"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SimulateOptions_1ae95f2f7ba2b8af37a27e8c8f47f0ae72" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
         <definition>std::string rr::SimulateOptions::toRepr</definition>
         <argsstring>() const</argsstring>
         <name>toRepr</name>
+        <qualifiedname>rr::SimulateOptions::toRepr</qualifiedname>
         <briefdescription>
 <para>get a short descriptions of this object, compatable with python <bold>repr</bold>. </para>
         </briefdescription>
@@ -223,13 +238,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="331" column="13" bodyfile="rrRoadRunnerOptions.cpp" bodystart="184" bodyend="189"/>
+        <location file="rrRoadRunnerOptions.h" line="384" column="21" bodyfile="rrRoadRunnerOptions.cpp" bodystart="196" bodyend="201"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SimulateOptions_1a670a8cca2fd579cc776e70e95221bc81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void rr::SimulateOptions::loadSBMLSettings</definition>
         <argsstring>(const std::string &amp;filename)</argsstring>
         <name>loadSBMLSettings</name>
+        <qualifiedname>rr::SimulateOptions::loadSBMLSettings</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>filename</declname>
@@ -240,13 +256,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="339" column="6" bodyfile="rrRoadRunnerOptions.cpp" bodystart="63" bodyend="132"/>
+        <location file="rrRoadRunnerOptions.h" line="392" column="14" bodyfile="rrRoadRunnerOptions.cpp" bodystart="75" bodyend="144"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SimulateOptions_1abbdfae309d8622bb68ff68d7173a7b78" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
         <definition>void rr::SimulateOptions::initialize</definition>
         <argsstring>()</argsstring>
         <name>initialize</name>
+        <qualifiedname>rr::SimulateOptions::initialize</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -254,13 +271,14 @@
         <inbodydescription>
 <para>hasKey(&quot;times&quot;))</para>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="343" column="14" bodyfile="rrRoadRunnerOptions.cpp" bodystart="208" bodyend="255"/>
+        <location file="rrRoadRunnerOptions.h" line="396" column="22" bodyfile="rrRoadRunnerOptions.cpp" bodystart="220" bodyend="264"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SimulateOptions_1a5b05160fb010f3024c618b5225b75e4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>double</type>
         <definition>double rr::SimulateOptions::getNext</definition>
         <argsstring>(size_t step)</argsstring>
         <name>getNext</name>
+        <qualifiedname>rr::SimulateOptions::getNext</qualifiedname>
         <param>
           <type>size_t</type>
           <declname>step</declname>
@@ -271,7 +289,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="345" column="16" bodyfile="rrRoadRunnerOptions.cpp" bodystart="257" bodyend="269"/>
+        <location file="rrRoadRunnerOptions.h" line="398" column="24" bodyfile="rrRoadRunnerOptions.cpp" bodystart="266" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SimulateOptions_1aaae9dde3c37971fb3806c4e6dcbb0f7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void rr::SimulateOptions::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>rr::SimulateOptions::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all values to defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrRoadRunnerOptions.h" line="403" column="22" bodyfile="rrRoadRunnerOptions.cpp" bodystart="63" bodyend="73"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -293,7 +326,7 @@
         <label>string</label>
       </node>
     </collaborationgraph>
-    <location file="rrRoadRunnerOptions.h" line="235" column="1" bodyfile="rrRoadRunnerOptions.h" bodystart="236" bodyend="352"/>
+    <location file="rrRoadRunnerOptions.h" line="288" column="5" bodyfile="rrRoadRunnerOptions.h" bodystart="289" bodyend="410"/>
     <listofallmembers>
       <member refid="classrr_1_1SimulateOptions_1a13c457ced6a6396d9cb8dcecf42f0dee" prot="public" virt="non-virtual"><scope>rr::SimulateOptions</scope><name>amounts</name></member>
       <member refid="classrr_1_1SimulateOptions_1a3fb8836610f52922ee371fdf06331e97" prot="public" virt="non-virtual"><scope>rr::SimulateOptions</scope><name>concentrations</name></member>
@@ -304,6 +337,7 @@
       <member refid="classrr_1_1SimulateOptions_1abbdfae309d8622bb68ff68d7173a7b78" prot="public" virt="virtual"><scope>rr::SimulateOptions</scope><name>initialize</name></member>
       <member refid="classrr_1_1SimulateOptions_1a670a8cca2fd579cc776e70e95221bc81" prot="public" virt="non-virtual"><scope>rr::SimulateOptions</scope><name>loadSBMLSettings</name></member>
       <member refid="classrr_1_1SimulateOptions_1a09d7ee18803cb8ca6f96f71d60eeb78e" prot="public" virt="non-virtual"><scope>rr::SimulateOptions</scope><name>output_file</name></member>
+      <member refid="classrr_1_1SimulateOptions_1aaae9dde3c37971fb3806c4e6dcbb0f7b" prot="public" virt="virtual"><scope>rr::SimulateOptions</scope><name>reset</name></member>
       <member refid="classrr_1_1SimulateOptions_1a4fd459e58c6ad47dc8cd271591f28a3a" prot="public" virt="non-virtual"><scope>rr::SimulateOptions</scope><name>reset_model</name></member>
       <member refid="classrr_1_1SimulateOptions_1af9d66c8fdefdb149ed56ff9b61725e35" prot="public" virt="non-virtual"><scope>rr::SimulateOptions</scope><name>SimulateOptions</name></member>
       <member refid="classrr_1_1SimulateOptions_1ae25c38171cedd08bf0cc43932c07822e" prot="public" virt="non-virtual"><scope>rr::SimulateOptions</scope><name>start</name></member>

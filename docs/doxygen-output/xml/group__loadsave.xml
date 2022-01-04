@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="group__loadsave" kind="group">
     <compoundname>loadsave</compoundname>
     <title>Read and write models</title>
@@ -382,9 +382,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="421" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="421" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__loadsave_1gacc85b81616a8a3cee83ce6b2913e6382" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__loadsave_1ga9e8bda764dbeedb6b377d2050f6254f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getCurrentSBML</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getCurrentSBML</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getCurrentSBML</name>
         <param>
@@ -412,9 +412,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="429" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="429" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__loadsave_1ga583d80e8a54f0d41b8600bb4ece0e552" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__loadsave_1gae45f7a34ebfdc69fb71d8b559213cb4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getSBML</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getSBML</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getSBML</name>
         <param>

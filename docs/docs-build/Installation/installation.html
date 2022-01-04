@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Installing RoadRunner &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -37,8 +36,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div>
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installing RoadRunner</a><ul>
@@ -63,7 +61,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -73,6 +70,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
@@ -85,17 +84,14 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" aria-label="Top" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">libRoadRunner</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          
-
-<div role="navigation" aria-label="Breadcrumbs">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Installing RoadRunner</li>
@@ -108,16 +104,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="installing-roadrunner">
+  <div class="section" id="installing-roadrunner">
 <h1>Installing RoadRunner<a class="headerlink" href="#installing-roadrunner" title="Permalink to this headline"></a></h1>
-<section id="python-front-end">
+<div class="section" id="python-front-end">
 <h2>Python Front End<a class="headerlink" href="#python-front-end" title="Permalink to this headline"></a></h2>
 <p>The recommended way to use roadrunner is by installing the Python front end and writing Python scripts.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install libroadrunner
 </pre></div>
 </div>
-</section>
-<section id="building-roadrunner-from-source">
+</div>
+<div class="section" id="building-roadrunner-from-source">
 <h2>Building Roadrunner from Source<a class="headerlink" href="#building-roadrunner-from-source" title="Permalink to this headline"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
@@ -145,7 +141,7 @@ page and then if the problem is not resolved, submit a github issue and we’ll 
 <p class="admonition-title">Warning</p>
 <p>Failure to use the “X64 Native Tools Command Prompt for VS 2019” shell may result in 32-bit binaries.</p>
 </div>
-<section id="where-to-put-everything">
+<div class="section" id="where-to-put-everything">
 <h3>1) Where to put Everything<a class="headerlink" href="#where-to-put-everything" title="Permalink to this headline"></a></h3>
 <p>On Windows it is recommended that you place all the files as close to a root on a drive as possible. This is because Windows has a 260 char limit on the length of a path which can be easily exceeded if you have a deep folder structure. One possibility is this. If for example you have a D drive (works equally well with the C drive), create a folder:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> d:/
@@ -154,8 +150,8 @@ mkdir buildroadrunner  <span class="c1"># You can call this whatever you like</s
 </pre></div>
 </div>
 <p>Everything we need will go into buildroadrunner.</p>
-</section>
-<section id="install-llvm">
+</div>
+<div class="section" id="install-llvm">
 <h3>2) Install LLVM<a class="headerlink" href="#install-llvm" title="Permalink to this headline"></a></h3>
 <p>Install the <a class="reference internal" href="llvm_dependency.html#llvm-6-x-dependency"><span class="std std-ref">llvm-6.x dependency</span></a>.</p>
 <div class="admonition note">
@@ -165,8 +161,8 @@ mkdir buildroadrunner  <span class="c1"># You can call this whatever you like</s
 <p>If you download the precompiled binaries for LLVM you get a top level folder called something
 like llvm-6.x-msvc2019-x64-release or llvm-6.x-msvc2019-x64-debug.</p>
 <p>Place this folder (which contains all the LLVM code) into your top level directory we crated in step 1) called buildroadrunner.</p>
-</section>
-<section id="install-the-roadrunner-dependency-package">
+</div>
+<div class="section" id="install-the-roadrunner-dependency-package">
 <h3>3) Install the Roadrunner Dependency Package<a class="headerlink" href="#install-the-roadrunner-dependency-package" title="Permalink to this headline"></a></h3>
 <p>Install the <a class="reference external" href="https://github.com/sys-bio/libroadrunner-deps">roadrunner dependency package</a></p>
 <p>See below for the script to use.</p>
@@ -200,8 +196,8 @@ at least two folders, one for the LLVM binaries (two of these if you downloaded 
 |  — llvm-6.x-msvc2019-x64-debug
 |  — llvm-6.x-msvc2019-x64-debug
 |  — libroadrunner-deps</p>
-</section>
-<section id="install-roadrunner">
+</div>
+<div class="section" id="install-roadrunner">
 <h3>4) Install Roadrunner<a class="headerlink" href="#install-roadrunner" title="Permalink to this headline"></a></h3>
 <p>Install roadrunner using the following commands from a windows/linux/mac shell.</p>
 <p>If you have not done so already, <a class="reference internal" href="llvm_dependency.html#llvm-6-x-dependency"><span class="std std-ref">download or build llvm-6.x</span></a>. The folder containing llvm’s <cite>bin</cite>, <cite>include</cite> and <cite>lib</cite> directories is the argument to <cite>LLVM_INSTALL_PREFIX</cite> below.</p>
@@ -224,9 +220,9 @@ cmake --build . --target install --config Release
 </div>
 <p>The first cmake line above is quite long and you won’t be able to copy and paste it directly into the windows terminal. To avoid this, copy the long cmake line into an editor (such as notepad) and make it one line long. Then copy and paste into the Windows terminal.</p>
 <p>Note: if you want to create a debug version, just swap instances of the phrase Release (or release) for Debug (or debug).</p>
-</section>
-</section>
-<section id="roadrunner-optional-features">
+</div>
+</div>
+<div class="section" id="roadrunner-optional-features">
 <h2>Roadrunner Optional Features<a class="headerlink" href="#roadrunner-optional-features" title="Permalink to this headline"></a></h2>
 <p>These are controlled by turning on or off desired options in cmake.</p>
 <div class="admonition note">
@@ -234,7 +230,7 @@ cmake --build . --target install --config Release
 <p>Generally speaking, the <a class="reference external" href="https://cmake.org/cmake/help/latest/manual/cmake-gui.1.html">cmake-gui</a>  tool
 is the best way to get a good oversight of the available options.</p>
 </div>
-<section id="build-the-python-bindings">
+<div class="section" id="build-the-python-bindings">
 <h3>Build the Python Bindings<a class="headerlink" href="#build-the-python-bindings" title="Permalink to this headline"></a></h3>
 <blockquote>
 <div><ol class="arabic simple">
@@ -258,8 +254,8 @@ environments and this variable makes it easy to build Python wheels for differen
 cmake --build . --target install --config Release
 </pre></div>
 </div>
-</section>
-<section id="building-the-roadrunner-plugins">
+</div>
+<div class="section" id="building-the-roadrunner-plugins">
 <h3>Building the Roadrunner Plugins<a class="headerlink" href="#building-the-roadrunner-plugins" title="Permalink to this headline"></a></h3>
 <p>To build the plugins use the <cite>-DBUILD_RR_PLUGINS=ON</cite>. When set to on, the <cite>BUILD_RR_PLUGINS</cite>
 option automatically turns on a set of variables. These include:</p>
@@ -284,8 +280,8 @@ option automatically turns on a set of variables. These include:</p>
 $ cmake --build . --target install --config Release
 </pre></div>
 </div>
-</section>
-<section id="building-roadrunner-tests">
+</div>
+<div class="section" id="building-roadrunner-tests">
 <h3>Building roadrunner tests<a class="headerlink" href="#building-roadrunner-tests" title="Permalink to this headline"></a></h3>
 <p>I you want the tests compiled you need to add an extra option to the cmake command that was used in step 4 but is repeated here for convenience.</p>
 <p>Use the <cite>-DBUILD_TESTS=ON</cite> option. Remember that in the following script to change Release to Debug is you are creating the debug version.</p>
@@ -313,8 +309,8 @@ command, which you may also run manually.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cmake --build . --target ctest-run
 </pre></div>
 </div>
-</section>
-<section id="packaging-roadrunner">
+</div>
+<div class="section" id="packaging-roadrunner">
 <h3>Packaging Roadrunner<a class="headerlink" href="#packaging-roadrunner" title="Permalink to this headline"></a></h3>
 <ul class="simple">
 <li><p>Windows: produces a zip file.</p></li>
@@ -333,15 +329,14 @@ $ cmake --build . --target install --config Release
 $ cmake --build . --target packaging --config Release
 </pre></div>
 </div>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
            </div>
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../index.html" class="btn btn-neutral float-left" title="RoadRunner Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="windows_warning.html" class="btn btn-neutral float-right" title="A warning for windows users" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
@@ -353,7 +348,8 @@ $ cmake --build . --target packaging --config Release
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

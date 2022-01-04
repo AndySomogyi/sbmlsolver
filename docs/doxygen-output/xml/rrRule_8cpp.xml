@@ -1,9 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrRule_8cpp" kind="file" language="C++">
     <compoundname>rrRule.cpp</compoundname>
     <includes refid="rrRule_8h" local="yes">rrRule.h</includes>
     <incdepgraph>
+      <node id="1">
+        <label>c/rrRule.cpp</label>
+        <link refid="rrRule_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
       <node id="2">
         <label>rrRule.h</label>
         <link refid="rrRule_8h_source"/>
@@ -18,12 +24,6 @@
       </node>
       <node id="3">
         <label>string</label>
-      </node>
-      <node id="1">
-        <label>c/rrRule.cpp</label>
-        <link refid="rrRule_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>

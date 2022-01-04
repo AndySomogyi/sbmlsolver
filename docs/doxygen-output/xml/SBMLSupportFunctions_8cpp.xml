@@ -1,13 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="SBMLSupportFunctions_8cpp" kind="file" language="C++">
     <compoundname>SBMLSupportFunctions.cpp</compoundname>
     <includes refid="SBMLSupportFunctions_8h" local="yes">SBMLSupportFunctions.h</includes>
     <includes local="no">cmath</includes>
     <incdepgraph>
-      <node id="3">
-        <label>cmath</label>
-      </node>
       <node id="1">
         <label>llvm/SBMLSupportFunctions.cpp</label>
         <link refid="SBMLSupportFunctions_8cpp"/>
@@ -19,6 +16,9 @@
       <node id="2">
         <label>SBMLSupportFunctions.h</label>
         <link refid="SBMLSupportFunctions_8h_source"/>
+      </node>
+      <node id="3">
+        <label>cmath</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacesbmlsupport">sbmlsupport</innernamespace>
@@ -292,18 +292,23 @@
 <codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">)(int)(a<sp/>/<sp/>b);</highlight></codeline>
 <codeline lineno="270"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="271"><highlight class="normal"></highlight></codeline>
-<codeline lineno="273"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b)</highlight></codeline>
+<codeline lineno="273"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_max(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b)</highlight></codeline>
 <codeline lineno="274"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>a<sp/>&gt;<sp/>b<sp/>?<sp/>a<sp/>:<sp/>b;</highlight></codeline>
 <codeline lineno="276"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="277"><highlight class="normal"></highlight></codeline>
-<codeline lineno="279"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b)</highlight></codeline>
+<codeline lineno="279"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_min(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b)</highlight></codeline>
 <codeline lineno="280"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>a<sp/>&lt;<sp/>b<sp/>?<sp/>a<sp/>:<sp/>b;</highlight></codeline>
 <codeline lineno="282"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="283"><highlight class="normal"></highlight></codeline>
-<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="285"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>sbmlsupport<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_pow(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b){</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pow(a,<sp/>b);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>sbmlsupport<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="llvm/SBMLSupportFunctions.cpp"/>
   </compounddef>

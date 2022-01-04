@@ -1,19 +1,16 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrSBMLReader_8h" kind="file" language="C++">
     <compoundname>rrSBMLReader.h</compoundname>
     <includes refid="rrExporter_8h" local="yes">rrExporter.h</includes>
     <includes local="no">string</includes>
+    <includedby refid="SBMLValidator_8cpp" local="yes">SBMLValidator.cpp</includedby>
     <includedby refid="rrRoadRunner_8cpp" local="yes">rrRoadRunner.cpp</includedby>
     <includedby refid="rrSBMLReader_8cpp" local="yes">rrSBMLReader.cpp</includedby>
-    <includedby refid="SBMLValidator_8cpp" local="yes">SBMLValidator.cpp</includedby>
     <incdepgraph>
       <node id="2">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="3">
-        <label>string</label>
       </node>
       <node id="1">
         <label>rrSBMLReader.h</label>
@@ -22,6 +19,9 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+      </node>
+      <node id="3">
+        <label>string</label>
       </node>
     </incdepgraph>
     <innerclass refid="classrr_1_1SBMLReader" prot="public">rr::SBMLReader</innerclass>

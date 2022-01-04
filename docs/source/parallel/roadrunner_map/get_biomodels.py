@@ -1,10 +1,6 @@
 import zipfile
 import os, sys, glob
 
-sys.path += [
-    r"D:\roadrunner\roadrunner\cmake-build-release\lib\site-packages"
-]
-
 from roadrunner import RoadRunner, RoadRunnerMap
 from roadrunner.tests.download_biomodels import download_biomodels
 
@@ -33,8 +29,3 @@ def get_biomodels_folder() -> str:
 if __name__ == "__main__":
     # get some local sbml files for use with the example
     get_biomodels_folder()
-
-
-
-
-

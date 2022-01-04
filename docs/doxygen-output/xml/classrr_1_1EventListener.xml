@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1EventListener" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>rr::EventListener</compoundname>
     <includes refid="rrExecutableModel_8h" local="no">rrExecutableModel.h</includes>
@@ -7,6 +7,7 @@
       <memberdef kind="enum" id="classrr_1_1EventListener_1adec5ad68634f11e5109e73e43b08c00d" prot="public" static="no" strong="no">
         <type></type>
         <name>Result</name>
+        <qualifiedname>rr::EventListener::Result</qualifiedname>
         <enumvalue id="classrr_1_1EventListener_1adec5ad68634f11e5109e73e43b08c00da33ab6fc26b17900067a59a913faa3a98" prot="public">
           <name>HALT_SIMULATION</name>
           <initializer>= (0x1 &lt;&lt; 0)</initializer>
@@ -30,6 +31,7 @@
         <definition>virtual uint rr::EventListener::onTrigger</definition>
         <argsstring>(ExecutableModel *model, size_t eventIndex, const std::string &amp;eventId)=0</argsstring>
         <name>onTrigger</name>
+        <qualifiedname>rr::EventListener::onTrigger</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
           <declname>model</declname>
@@ -55,6 +57,7 @@
         <definition>virtual uint rr::EventListener::onAssignment</definition>
         <argsstring>(ExecutableModel *model, size_t eventIndex, const std::string &amp;eventId)=0</argsstring>
         <name>onAssignment</name>
+        <qualifiedname>rr::EventListener::onAssignment</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
           <declname>model</declname>
@@ -82,6 +85,7 @@
         <definition>rr::EventListener::~EventListener</definition>
         <argsstring>()</argsstring>
         <name>~EventListener</name>
+        <qualifiedname>rr::EventListener::~EventListener</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>

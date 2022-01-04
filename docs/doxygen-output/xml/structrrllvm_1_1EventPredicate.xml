@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="structrrllvm_1_1EventPredicate" kind="struct" language="C++" prot="public">
     <compoundname>rrllvm::EventPredicate</compoundname>
       <sectiondef kind="public-attrib">
@@ -8,6 +8,7 @@
         <definition>uint rrllvm::EventPredicate::eventId</definition>
         <argsstring></argsstring>
         <name>eventId</name>
+        <qualifiedname>rrllvm::EventPredicate::eventId</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -23,6 +24,7 @@
         <definition>rrllvm::EventPredicate::EventPredicate</definition>
         <argsstring>(uint eventId)</argsstring>
         <name>EventPredicate</name>
+        <qualifiedname>rrllvm::EventPredicate::EventPredicate</qualifiedname>
         <param>
           <type>uint</type>
           <declname>eventId</declname>
@@ -40,6 +42,7 @@
         <definition>bool rrllvm::EventPredicate::operator()</definition>
         <argsstring>(const rrllvm::Event &amp;event) const</argsstring>
         <name>operator()</name>
+        <qualifiedname>rrllvm::EventPredicate::operator()</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1Event" kindref="compound">rrllvm::Event</ref> &amp;</type>
           <declname>event</declname>
