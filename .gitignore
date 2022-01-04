@@ -69,3 +69,6 @@ test/PerformanceTests/biomodels.zip
 test/PerformanceTests/simulations
 test/PerformanceTests/OldData
 build-msvc
+
+biomodels
+biomodels.zip

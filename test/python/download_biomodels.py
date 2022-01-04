@@ -40,10 +40,6 @@ def get_number_of_curated_models() -> int:
                 return int(val["count"])
     raise ValueError("Somethings not quite right")
 
-def search_download(models, fname):
-    """Wrapper around bioservices.BioModels.search_download for use with subprocess"""
-    s.search_download(models, output_filename=fname)
-
 
 def download_biomodels(directory: str, num_per_download=100):
     """downloads sbml models from the curated section of biomodels
@@ -56,8 +52,13 @@ def download_biomodels(directory: str, num_per_download=100):
     :param num_per_download: How many sbml models to download at a time.
     :return:
     """
+    biomodels_zip = os.path.join(directory, "biomodels.zip")
+    if os.path.isfile(biomodels_zip):
+        return biomodels_zip
+
     if num_per_download > 100:
         raise ValueError("Maximum number of models that can be downloaded at a time is 100")
+
 
     # do index math.
     total_models = get_number_of_curated_models()
@@ -104,7 +105,6 @@ def download_biomodels(directory: str, num_per_download=100):
 
 
     # rename first zip
-    biomodels_zip = os.path.join(directory, "biomodels.zip")
     if not os.path.isfile(biomodels_zip):
         os.rename(filenames[0], biomodels_zip)
 
@@ -116,7 +116,7 @@ def download_biomodels(directory: str, num_per_download=100):
             print(f"Could not delete {filenames[i]} because windows")
             continue
 
-    return filenames
+    return biomodels_zip
 
 
 if __name__ == "__main__":

@@ -815,30 +815,30 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::RoadRunner::getTimeEnd;
 //%ignore rr::RoadRunner::setSteadyStateSelectionList;
 //%ignore rr::RoadRunner::getCopyright;
-%ignore rr::RoadRunner::getNumberOfBoundarySpecies;
+//%ignore rr::RoadRunner::getNumberOfBoundarySpecies;
 %ignore rr::RoadRunner::getTimeStart;
 %ignore rr::RoadRunner::setTempFileFolder;
 //%ignore rr::RoadRunner::getDescription;
-%ignore rr::RoadRunner::getNumberOfCompartments;
+//%ignore rr::RoadRunner::getNumberOfCompartments;
 //%ignore rr::RoadRunner::getURL;
 //%ignore rr::RoadRunner::setTimeCourseSelectionList;
 //%ignore rr::RoadRunner::getEE;
-%ignore rr::RoadRunner::getNumberOfDependentSpecies;
+//%ignore rr::RoadRunner::getNumberOfDependentSpecies;
 //%ignore rr::RoadRunner::getUnscaledConcentrationControlCoefficientMatrix;
 %ignore rr::RoadRunner::setTimeEnd;
 
-%ignore rr::RoadRunner::getNumberOfFloatingSpecies;
+//%ignore rr::RoadRunner::getNumberOfFloatingSpecies;
 //%ignore rr::RoadRunner::getUnscaledElasticityMatrix;
 %ignore rr::RoadRunner::setTimeStart;
 
-%ignore rr::RoadRunner::getNumberOfGlobalParameters;
+//%ignore rr::RoadRunner::getNumberOfGlobalParameters;
 //%ignore rr::RoadRunner::getUnscaledFluxControlCoefficientMatrix;
 //%ignore rr::RoadRunner::setValue;
-%ignore rr::RoadRunner::getNumberOfIndependentSpecies;
+//%ignore rr::RoadRunner::getNumberOfIndependentSpecies;
 //%ignore rr::RoadRunner::getUnscaledSpeciesElasticity;
 //%ignore rr::RoadRunner::simulate;
 //%ignore rr::RoadRunner::getExtendedVersionInfo;
-%ignore rr::RoadRunner::getNumberOfReactions;
+//%ignore rr::RoadRunner::getNumberOfReactions;
 //%ignore rr::RoadRunner::getValue;
 //%ignore rr::RoadRunner::steadyState;
 %ignore rr::RoadRunner::getValue(const SelectionRecord&);
