@@ -38,8 +38,10 @@ if (BUILD_PYTHON)
     file(GLOB pytest_files "${CMAKE_CURRENT_SOURCE_DIR}/*.py" "${CMAKE_CURRENT_SOURCE_DIR}/*.xml" "${CMAKE_CURRENT_SOURCE_DIR}/README.txt")
     install(
         FILES ${pytest_files}
-        DESTINATION ${RR_PYTHON_TESTING_INSTALL_PREFIX}
+        DESTINATION "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
     )
+
+    file(COPY download_biomodels.py DESTINATION "${RR_PYTHON_TESTING_BUILD_PREFIX}")
 
 endif ()
 

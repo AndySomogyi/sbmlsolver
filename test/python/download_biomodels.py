@@ -1,3 +1,16 @@
+"""Download the curated section from biomodels
+
+Details
+-------
+Provides easy assess to quickly downloading the curated section
+from biomodels.
+
+Dependencies
+------------
+pip install bioservices (will try to download automatically if not found)
+
+
+"""
 import os
 import subprocess
 import sys
@@ -26,6 +39,10 @@ def get_number_of_curated_models() -> int:
             if val["value"] == "Manually curated":
                 return int(val["count"])
     raise ValueError("Somethings not quite right")
+
+def search_download(models, fname):
+    """Wrapper around bioservices.BioModels.search_download for use with subprocess"""
+    s.search_download(models, output_filename=fname)
 
 
 def download_biomodels(directory: str, num_per_download=100):
@@ -68,8 +85,13 @@ def download_biomodels(directory: str, num_per_download=100):
 
         biomodels_ids = [f"BIOMD{i:010}" for i in range(start, end)]
 
+        # windows hangs on to open files until the process is killed.
+        # therefore, we run the download in its own process, just so we can
+        # clean up after ourselves
+
         s.search_download(biomodels_ids, output_filename=fname)
         print(f"Biomodels models from id {start} to {end - 1} saved to {fname}")
+        del fname
 
         start = end
 
@@ -79,6 +101,7 @@ def download_biomodels(directory: str, num_per_download=100):
             zf = z.ZipFile(fname, 'r')
             for n in zf.namelist():
                 z1.writestr(n, zf.open(n).read())
+
 
     # rename first zip
     biomodels_zip = os.path.join(directory, "biomodels.zip")
@@ -90,6 +113,7 @@ def download_biomodels(directory: str, num_per_download=100):
         try:
             os.remove(filenames[i])
         except Exception:
+            print(f"Could not delete {filenames[i]} because windows")
             continue
 
     return filenames
