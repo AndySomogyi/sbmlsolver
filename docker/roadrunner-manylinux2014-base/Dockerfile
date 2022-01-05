@@ -99,3 +99,5 @@ RUN wget https://sourceware.org/pub/valgrind/valgrind-3.18.1.tar.bz2 --no-check-
     && ../configure                                                \
     && make -j 12\
     && make install
+
+RUN yum install -y qt5-qtbase-devel check
