@@ -27,7 +27,10 @@
 #pragma warning(disable: 4267)
 #pragma warning(disable: 4624)
 #endif
+
 #include "llvm/IR/LegacyPassManager.h"
+#include "Jit.h"
+
 #ifdef _MSC_VER
 #pragma warning(default: 4146)
 #pragma warning(default: 4141)
@@ -36,21 +39,22 @@
 #endif
 
 namespace libsbml {
-class SBMLDocument;
-class Model;
+    class SBMLDocument;
+
+    class Model;
 }
 
-namespace rr { namespace conservation {
-class ConservedMoietyConverter;
-}}
-
-namespace rrllvm
-{
-	class ModelResources;
+namespace rr {
+    namespace conservation {
+        class ConservedMoietyConverter;
+    }
 }
 
-namespace rrllvm
-{
+namespace rrllvm {
+
+    class ModelResources;
+
+    class Jit;
 
 
 /**
@@ -86,170 +90,154 @@ namespace rrllvm
  *
  * TODO document memory managment, engine owns model, ...
  */
-class ModelGeneratorContext
-{
-public:
-    /**
-     * attach to an existing sbml document, we borrow a reference to this
-     * doc and DO NOT take ownership of it.
-     */
-    ModelGeneratorContext(libsbml::SBMLDocument const *doc, unsigned loadSBMLOptions);
-	
-    /**
-     * does not attach to any sbml doc,
-     *
-     * useful for testing out LLVM functionality.
-     */
-    ModelGeneratorContext();
+    class ModelGeneratorContext {
+    public:
+        /**
+         * attach to an existing sbml document, we borrow a reference to this
+         * doc and DO NOT take ownership of it.
+         */
+        ModelGeneratorContext(
+                const libsbml::SBMLDocument *_doc,
+                unsigned options,
+                std::unique_ptr<Jit> jitEngine);
 
-    ~ModelGeneratorContext();
+        /**
+         * does not attach to any sbml doc,
+         *
+         * useful for testing out LLVM functionality.
+         */
+        ModelGeneratorContext();
 
-    const LLVMModelDataSymbols &getModelDataSymbols() const;
+        ~ModelGeneratorContext();
 
-    const LLVMModelSymbols &getModelSymbols() const;
+        const LLVMModelDataSymbols &getModelDataSymbols() const;
 
-    const libsbml::SBMLDocument *getDocument() const;
+        const LLVMModelSymbols &getModelSymbols() const;
 
-    const libsbml::Model *getModel() const;
+        const libsbml::SBMLDocument *getDocument() const;
 
+        const libsbml::Model *getModel() const;
 
-    llvm::LLVMContext &getContext() const;
+        Jit *getJitNonOwning() const;
 
-    llvm::ExecutionEngine &getExecutionEngine() const;
+        /**
+         * nearly all llvm functions expect a pointer to module, so we define this
+         * as a pointer type instead of reference, even though we gaurantee this to
+         * be non-null
+         */
+//        llvm::Module *getModule() const;
 
-    /**
-     * nearly all llvm functions expect a pointer to module, so we define this
-     * as a pointer type instead of reference, even though we gaurantee this to
-     * be non-null
-     */
-    llvm::Module *getModule() const;
+        /**
+         * if optimization is enabled, this gets the function pass
+         * manager loaded with all the requested optimizers.
+         * NULL if no optimization is specified.
+         *
+         * @return a borrowed reference that is owned by ModelGeneratorContext
+         */
+//        llvm::legacy::FunctionPassManager* getFunctionPassManager() const;
 
-    /**
-     * if optimization is enabled, this gets the function pass
-     * manager loaded with all the requested optimizers.
-     * NULL if no optimization is specified.
-     */
-    llvm::legacy::FunctionPassManager *getFunctionPassManager() const;
+//        llvm::IRBuilder<> &getBuilder() const;
 
-    llvm::IRBuilder<> &getBuilder() const;
+        /**
+         * A lot can go wrong in the process of generating a model from  an sbml doc.
+         * This class is intended to be stack allocated, so when any exception is
+         * thrown in the course of model generation, this class will clean
+         * up all the contexts and execution engines and so forth.
+         *
+         * However, when a model is successfully generated, we need a way to give
+         * it the exec engine, and whatever other bits it requires.
+         *
+         * So, this method exists so that the generated model can steal all the
+         * objects it needs from us, these object are transfered to the model,
+         * and our pointers to them are cleared.
+         */
+        void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> modelResources);
 
-    /**
-     * A lot can go wrong in the process of generating a model from  an sbml doc.
-     * This class is intended to be stack allocated, so when any exception is
-     * thrown in the course of model generation, this class will clean
-     * up all the contexts and execution engines and so forth.
-     *
-     * However, when a model is successfully generated, we need a way to give
-     * it the exec engine, and whatever other bits it requires.
-     *
-     * So, this method exists so that the generated model can steal all the
-     * objects it needs from us, these object are transfered to the model,
-     * and our pointers to them are cleared.
-     */
-	void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc);
-	
+        bool getConservedMoietyAnalysis() const;
 
-    bool getConservedMoietyAnalysis() const;
+        bool useSymbolCache() const;
 
-    bool useSymbolCache() const;
+        unsigned getOptions() const {
+            return options;
+        }
 
-    unsigned getOptions() const
-    {
-        return options;
-    }
+        /**
+         * get a pointer to the random object.
+         *
+         * The random object exists if the document has the distrib package,
+         * is null otherwise.
+         */
+        Random *getRandom() const;
 
-    /**
-     * get a pointer to the random object.
-     *
-     * The random object exists if the document has the distrib package,
-     * is null otherwise.
-     */
-    Random* getRandom() const;
+    private:
 
-private:
+        /**
+         * these point to the same location, ownedDoc is set if we create the doc,
+         * otherwise its nullptr, meaning we're borrowing the the doc.
+         */
+        libsbml::SBMLDocument *ownedDoc;
 
-    /**
-     * set the execution engine's global mappings to the rr functions
-     * that are accessible from the LLVM generated code.
-     */
-	void addGlobalMapping(const llvm::GlobalValue * gv, void * addr);
-	void addGlobalMappings();
+        /**
+         * always references the sbml doc.
+         */
+        const libsbml::SBMLDocument *doc;
 
-    /**
-     * these point to the same location, ownedDoc is set if we create the doc,
-     * otherwise its 0, meaning we're borrowign the the doc.
-     */
-    libsbml::SBMLDocument *ownedDoc;
- 
-    /**
-     * always references the sbml doc.
-     */
-    const libsbml::SBMLDocument *doc;
+        const LLVMModelDataSymbols *symbols;
 
-    const LLVMModelDataSymbols *symbols;
+        /**
+         * make sure this is listed AFTER the doc and model, so it get
+         * initialized after the previous two are initialized.
+         */
+        std::unique_ptr<LLVMModelSymbols> modelSymbols;
 
-    /**
-     * make sure this is listed AFTER the doc and model, so it get
-     * initialized after the previous two are initialized.
-     */
-    LLVMModelSymbols *modelSymbols;
+        const libsbml::Model *model;
 
-    std::string *errString;
+        /**
+         * As the model is being generated, various distributions may be created
+         * which are added to the random object.
+         *
+         * Ownership of the random object is then transfered to the ExecutableModel
+         * which owns up untill the ExecutableModel is destroyed.
+         *
+         * The logic here is that many distributions used the normal_distribution
+         * object which maintains a state and has an expensive startup cost. So,
+         * the distributions are created whilst the model is being generated,
+         * and then the distribution calls just end up calling an existing
+         * distribution object inside this class.
+         *
+         * A pointer to this object is stored in the ModelData struct, and when
+         * the generated sbml code calls a stochastic dist function, it passes
+         * in a pionter to this object so the func can look up the distribution.
+         *
+         * The alternative to this approach would have been to simply have global
+         * distributions and a global RNG. This however would use more memory and
+         * would not be thread safe, and the RNG would have to be shared amoungst
+         * multiple models, and would not be be able to create a repeatable stream
+         * of random numbers.
+         */
+        Random *random;
 
-    llvm::LLVMContext *context;
-    llvm::ExecutionEngine *executionEngine;
-    std::unique_ptr<llvm::Module> module_uniq;
-    const libsbml::Model *model;
-    llvm::Module* module;
+        unsigned options;
 
-private:
-    llvm::IRBuilder<> *builder;
+        /**
+         * Jit dependency injection to support multiple different compilation strategies.
+         */
+        std::unique_ptr<Jit> jit;
 
-    llvm::legacy::FunctionPassManager *functionPassManager;
+        /**
+         * the moiety converter, for the time being owns the
+         * converted document.
+         */
+        std::unique_ptr<rr::conservation::ConservedMoietyConverter> moietyConverter;
 
-    /**
-     * As the model is being generated, various distributions may be created
-     * which are added to the random object.
-     *
-     * Ownership of the random object is then transfered to the ExecutableModel
-     * which owns up untill the ExecutableModel is destroyed.
-     *
-     * The logic here is that many distributions used the normal_distribution
-     * object which maintains a state and has an expensive startup cost. So,
-     * the distributions are created whilst the model is being generated,
-     * and then the distribution calls just end up calling an existing
-     * distribution object inside this class.
-     *
-     * A pointer to this object is stored in the ModelData struct, and when
-     * the generated sbml code calls a stochastic dist function, it passes
-     * in a pionter to this object so the func can look up the distribution.
-     *
-     * The alternative to this approach would have been to simply have global
-     * distributions and a global RNG. This however would use more memory and
-     * would not be thread safe, and the RNG would have to be shared amoungst
-     * multiple models, and would not be be able to create a repeatable stream
-     * of random numbers.
-     */
-    Random *random;
-
-    unsigned options;
-
-    /**
-     * the moiety converter, for the time being owns the
-     * converted document.
-     */
-    rr::conservation::ConservedMoietyConverter *moietyConverter;
-
-    void initFunctionPassManager();
-
-    /**
-     * free any memory this class allocated.
-     */
-    void cleanup();
-};
+        /**
+         * free any memory this class allocated.
+         */
+        void cleanup();
+    };
 
 
-LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols, const Random* random);
+    LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols, const Random *random);
 
 
 } /* namespace rr */

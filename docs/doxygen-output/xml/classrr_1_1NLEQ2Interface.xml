@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1NLEQ2Interface" kind="class" language="C++" prot="public">
     <compoundname>rr::NLEQ2Interface</compoundname>
     <basecompoundref refid="classrr_1_1Dictionary" prot="public" virt="non-virtual">rr::Dictionary</basecompoundref>
@@ -9,6 +9,7 @@
         <definition>int rr::NLEQ2Interface::nOpts</definition>
         <argsstring></argsstring>
         <name>nOpts</name>
+        <qualifiedname>rr::NLEQ2Interface::nOpts</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -22,6 +23,7 @@
         <definition>long* rr::NLEQ2Interface::IWK</definition>
         <argsstring></argsstring>
         <name>IWK</name>
+        <qualifiedname>rr::NLEQ2Interface::IWK</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -35,6 +37,7 @@
         <definition>long rr::NLEQ2Interface::LIWK</definition>
         <argsstring></argsstring>
         <name>LIWK</name>
+        <qualifiedname>rr::NLEQ2Interface::LIWK</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -48,6 +51,7 @@
         <definition>long rr::NLEQ2Interface::LRWK</definition>
         <argsstring></argsstring>
         <name>LRWK</name>
+        <qualifiedname>rr::NLEQ2Interface::LRWK</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -61,6 +65,7 @@
         <definition>double* rr::NLEQ2Interface::RWK</definition>
         <argsstring></argsstring>
         <name>RWK</name>
+        <qualifiedname>rr::NLEQ2Interface::RWK</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -74,6 +79,7 @@
         <definition>double* rr::NLEQ2Interface::XScal</definition>
         <argsstring></argsstring>
         <name>XScal</name>
+        <qualifiedname>rr::NLEQ2Interface::XScal</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -87,6 +93,7 @@
         <definition>long rr::NLEQ2Interface::ierr</definition>
         <argsstring></argsstring>
         <name>ierr</name>
+        <qualifiedname>rr::NLEQ2Interface::ierr</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -100,6 +107,7 @@
         <definition>long* rr::NLEQ2Interface::iopt</definition>
         <argsstring></argsstring>
         <name>iopt</name>
+        <qualifiedname>rr::NLEQ2Interface::iopt</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -113,6 +121,7 @@
         <definition>ExecutableModel* rr::NLEQ2Interface::model</definition>
         <argsstring></argsstring>
         <name>model</name>
+        <qualifiedname>rr::NLEQ2Interface::model</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -126,6 +135,7 @@
         <definition>long rr::NLEQ2Interface::n</definition>
         <argsstring></argsstring>
         <name>n</name>
+        <qualifiedname>rr::NLEQ2Interface::n</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -139,6 +149,7 @@
         <definition>bool rr::NLEQ2Interface::allowPreSim</definition>
         <argsstring></argsstring>
         <name>allowPreSim</name>
+        <qualifiedname>rr::NLEQ2Interface::allowPreSim</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -152,6 +163,7 @@
         <definition>double rr::NLEQ2Interface::preSimTolerance</definition>
         <argsstring></argsstring>
         <name>preSimTolerance</name>
+        <qualifiedname>rr::NLEQ2Interface::preSimTolerance</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -165,6 +177,7 @@
         <definition>int rr::NLEQ2Interface::preSimMaximumSteps</definition>
         <argsstring></argsstring>
         <name>preSimMaximumSteps</name>
+        <qualifiedname>rr::NLEQ2Interface::preSimMaximumSteps</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -178,6 +191,7 @@
         <definition>double rr::NLEQ2Interface::preSimTime</definition>
         <argsstring></argsstring>
         <name>preSimTime</name>
+        <qualifiedname>rr::NLEQ2Interface::preSimTime</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -191,6 +205,7 @@
         <definition>bool rr::NLEQ2Interface::allowApprox</definition>
         <argsstring></argsstring>
         <name>allowApprox</name>
+        <qualifiedname>rr::NLEQ2Interface::allowApprox</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -204,6 +219,7 @@
         <definition>double rr::NLEQ2Interface::approxTolerance</definition>
         <argsstring></argsstring>
         <name>approxTolerance</name>
+        <qualifiedname>rr::NLEQ2Interface::approxTolerance</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -217,6 +233,7 @@
         <definition>int rr::NLEQ2Interface::approxMaximumSteps</definition>
         <argsstring></argsstring>
         <name>approxMaximumSteps</name>
+        <qualifiedname>rr::NLEQ2Interface::approxMaximumSteps</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -230,6 +247,7 @@
         <definition>double rr::NLEQ2Interface::approxTime</definition>
         <argsstring></argsstring>
         <name>approxTime</name>
+        <qualifiedname>rr::NLEQ2Interface::approxTime</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -243,6 +261,7 @@
         <definition>double rr::NLEQ2Interface::relativeTolerance</definition>
         <argsstring></argsstring>
         <name>relativeTolerance</name>
+        <qualifiedname>rr::NLEQ2Interface::relativeTolerance</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -256,6 +275,7 @@
         <definition>int rr::NLEQ2Interface::maxIterations</definition>
         <argsstring></argsstring>
         <name>maxIterations</name>
+        <qualifiedname>rr::NLEQ2Interface::maxIterations</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -269,6 +289,7 @@
         <definition>double rr::NLEQ2Interface::minDamping</definition>
         <argsstring></argsstring>
         <name>minDamping</name>
+        <qualifiedname>rr::NLEQ2Interface::minDamping</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -282,6 +303,7 @@
         <definition>int rr::NLEQ2Interface::broyden</definition>
         <argsstring></argsstring>
         <name>broyden</name>
+        <qualifiedname>rr::NLEQ2Interface::broyden</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -295,6 +317,7 @@
         <definition>int rr::NLEQ2Interface::linearity</definition>
         <argsstring></argsstring>
         <name>linearity</name>
+        <qualifiedname>rr::NLEQ2Interface::linearity</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -310,6 +333,7 @@
         <definition>friend class NLEQ2Solver</definition>
         <argsstring></argsstring>
         <name>NLEQ2Solver</name>
+        <qualifiedname>rr::NLEQ2Interface::NLEQ2Solver</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1NLEQ2Solver" kindref="compound">NLEQ2Solver</ref></type>
         </param>
@@ -319,7 +343,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrNLEQ2Interface.h" line="140" column="5" bodyfile="rrNLEQ2Interface.h" bodystart="140" bodyend="-1"/>
+        <location file="rrNLEQ2Interface.h" line="140" column="18" bodyfile="rrNLEQ2Interface.h" bodystart="140" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -328,6 +352,7 @@
         <definition>rr::NLEQ2Interface::NLEQ2Interface</definition>
         <argsstring>(ExecutableModel *_model=NULL)</argsstring>
         <name>NLEQ2Interface</name>
+        <qualifiedname>rr::NLEQ2Interface::NLEQ2Interface</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
           <declname>_model</declname>
@@ -347,6 +372,7 @@
         <definition>rr::NLEQ2Interface::~NLEQ2Interface</definition>
         <argsstring>()</argsstring>
         <name>~NLEQ2Interface</name>
+        <qualifiedname>rr::NLEQ2Interface::~NLEQ2Interface</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -360,6 +386,7 @@
         <definition>double rr::NLEQ2Interface::solve</definition>
         <argsstring>()</argsstring>
         <name>solve</name>
+        <qualifiedname>rr::NLEQ2Interface::solve</qualifiedname>
         <briefdescription>
 <para>Thea actual solver routine making the call to NLEQ2. </para>
         </briefdescription>
@@ -377,6 +404,7 @@
         <definition>void rr::NLEQ2Interface::setItem</definition>
         <argsstring>(const std::string &amp;key, const rr::Setting &amp;value)</argsstring>
         <name>setItem</name>
+        <qualifiedname>rr::NLEQ2Interface::setItem</qualifiedname>
         <reimplements refid="classrr_1_1Dictionary_1a4708fee12ec4cd5e879df9bf5570c02a">setItem</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -401,6 +429,7 @@
         <definition>Setting rr::NLEQ2Interface::getItem</definition>
         <argsstring>(const std::string &amp;key) const</argsstring>
         <name>getItem</name>
+        <qualifiedname>rr::NLEQ2Interface::getItem</qualifiedname>
         <reimplements refid="classrr_1_1Dictionary_1a0fcdd3d9089af14e49e8713c254c9b67">getItem</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -421,6 +450,7 @@
         <definition>bool rr::NLEQ2Interface::hasKey</definition>
         <argsstring>(const std::string &amp;key) const</argsstring>
         <name>hasKey</name>
+        <qualifiedname>rr::NLEQ2Interface::hasKey</qualifiedname>
         <reimplements refid="classrr_1_1Dictionary_1a7ec0accc7149a403ee5eeeb9457059ed">hasKey</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -440,6 +470,7 @@
         <definition>size_t rr::NLEQ2Interface::deleteItem</definition>
         <argsstring>(const std::string &amp;key)</argsstring>
         <name>deleteItem</name>
+        <qualifiedname>rr::NLEQ2Interface::deleteItem</qualifiedname>
         <reimplements refid="classrr_1_1Dictionary_1aafd395297acc9cb73ea1e244b3f02d5c">deleteItem</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -459,7 +490,8 @@
         <definition>std::vector&lt; std::string &gt; rr::NLEQ2Interface::getKeys</definition>
         <argsstring>() const</argsstring>
         <name>getKeys</name>
-        <reimplements refid="classrr_1_1Dictionary_1ae8e4240deda5ee2dc7d472476bd92b47">getKeys</reimplements>
+        <qualifiedname>rr::NLEQ2Interface::getKeys</qualifiedname>
+        <reimplements refid="classrr_1_1Dictionary_1a378b4142bc6b038465b375d36350b51e">getKeys</reimplements>
         <briefdescription>
 <para>list of keys in this object. </para>
         </briefdescription>
@@ -474,6 +506,7 @@
         <definition>void rr::NLEQ2Interface::setup</definition>
         <argsstring>()</argsstring>
         <name>setup</name>
+        <qualifiedname>rr::NLEQ2Interface::setup</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -487,6 +520,7 @@
         <definition>bool rr::NLEQ2Interface::isAvailable</definition>
         <argsstring>()</argsstring>
         <name>isAvailable</name>
+        <qualifiedname>rr::NLEQ2Interface::isAvailable</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -500,6 +534,7 @@
         <definition>void rr::NLEQ2Interface::setScalingFactors</definition>
         <argsstring>(const std::vector&lt; double &gt; &amp;sx)</argsstring>
         <name>setScalingFactors</name>
+        <qualifiedname>rr::NLEQ2Interface::setScalingFactors</qualifiedname>
         <param>
           <type>const std::vector&lt; double &gt; &amp;</type>
           <declname>sx</declname>
@@ -528,6 +563,7 @@
         <definition>int rr::NLEQ2Interface::getNumberOfNewtonIterations</definition>
         <argsstring>()</argsstring>
         <name>getNumberOfNewtonIterations</name>
+        <qualifiedname>rr::NLEQ2Interface::getNumberOfNewtonIterations</qualifiedname>
         <briefdescription>
 <para>Returns the Number of Newton Iterations </para>
         </briefdescription>
@@ -545,6 +581,7 @@
         <definition>int rr::NLEQ2Interface::getNumberOfCorrectorSteps</definition>
         <argsstring>()</argsstring>
         <name>getNumberOfCorrectorSteps</name>
+        <qualifiedname>rr::NLEQ2Interface::getNumberOfCorrectorSteps</qualifiedname>
         <briefdescription>
 <para>Returns the Number of Corrector steps </para>
         </briefdescription>
@@ -562,6 +599,7 @@
         <definition>int rr::NLEQ2Interface::getNumberOfModelEvaluations</definition>
         <argsstring>()</argsstring>
         <name>getNumberOfModelEvaluations</name>
+        <qualifiedname>rr::NLEQ2Interface::getNumberOfModelEvaluations</qualifiedname>
         <briefdescription>
 <para>Returns the Number of Model Evaluations </para>
         </briefdescription>
@@ -579,6 +617,7 @@
         <definition>int rr::NLEQ2Interface::getNumberOfJacobianEvaluations</definition>
         <argsstring>()</argsstring>
         <name>getNumberOfJacobianEvaluations</name>
+        <qualifiedname>rr::NLEQ2Interface::getNumberOfJacobianEvaluations</qualifiedname>
         <briefdescription>
 <para>Returns the Number Of Jacobian Evaluations </para>
         </briefdescription>
@@ -596,6 +635,7 @@
         <definition>int rr::NLEQ2Interface::getNumberOfModelEvaluationsForJacobian</definition>
         <argsstring>()</argsstring>
         <name>getNumberOfModelEvaluationsForJacobian</name>
+        <qualifiedname>rr::NLEQ2Interface::getNumberOfModelEvaluationsForJacobian</qualifiedname>
         <briefdescription>
 <para>Returns the Number of Model Evaluations For Jacobian </para>
         </briefdescription>
@@ -613,6 +653,7 @@
         <definition>double rr::NLEQ2Interface::computeSumsOfSquares</definition>
         <argsstring>()</argsstring>
         <name>computeSumsOfSquares</name>
+        <qualifiedname>rr::NLEQ2Interface::computeSumsOfSquares</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -628,6 +669,7 @@
         <definition>const Dictionary * rr::NLEQ2Interface::getSteadyStateOptions</definition>
         <argsstring>()</argsstring>
         <name>getSteadyStateOptions</name>
+        <qualifiedname>rr::NLEQ2Interface::getSteadyStateOptions</qualifiedname>
         <briefdescription>
 <para>list of keys that this integrator supports. </para>
         </briefdescription>
@@ -643,18 +685,26 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
+      <node id="2">
+        <label>rr::Dictionary</label>
+        <link refid="classrr_1_1Dictionary"/>
+      </node>
       <node id="1">
         <label>rr::NLEQ2Interface</label>
         <link refid="classrr_1_1NLEQ2Interface"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
+    </inheritancegraph>
+    <collaborationgraph>
       <node id="2">
         <label>rr::Dictionary</label>
         <link refid="classrr_1_1Dictionary"/>
       </node>
-    </inheritancegraph>
-    <collaborationgraph>
+      <node id="3">
+        <label>rr::ExecutableModel</label>
+        <link refid="classrr_1_1ExecutableModel"/>
+      </node>
       <node id="1">
         <label>rr::NLEQ2Interface</label>
         <link refid="classrr_1_1NLEQ2Interface"/>
@@ -663,14 +713,6 @@
         <childnode refid="3" relation="usage">
           <edgelabel>model</edgelabel>
         </childnode>
-      </node>
-      <node id="2">
-        <label>rr::Dictionary</label>
-        <link refid="classrr_1_1Dictionary"/>
-      </node>
-      <node id="3">
-        <label>rr::ExecutableModel</label>
-        <link refid="classrr_1_1ExecutableModel"/>
       </node>
     </collaborationgraph>
     <location file="rrNLEQ2Interface.h" line="16" column="1" bodyfile="rrNLEQ2Interface.h" bodystart="17" bodyend="142"/>

@@ -13,6 +13,9 @@
 #include "LLVMIncludes.h"
 #include "CodeGen.h"
 #include "ModelGeneratorContext.h"
+#include <thread>
+
+static std::mutex ASTNodeMtx;
 
 namespace libsbml
 {
@@ -115,7 +118,7 @@ private:
     llvm::Value *modelData;
 
     /**
-     * get the module, only valid whilst a BasicBlock is begin filled.
+     * get the module, only valid whilst a BasicBlock is being filled.
      *
      * @param fname: name of the calling function, used for generating exception
      * on failure.

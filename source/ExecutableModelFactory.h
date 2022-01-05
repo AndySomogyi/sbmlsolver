@@ -30,7 +30,7 @@ public:
      * @param dict: a dictionary of options, this is typcally a LoadSBMLOptions object,
      * but it may be any dictionary.
      */
-    static ExecutableModel *createModel(const libsbml::SBMLDocument* sbml, std::string md5, const Dictionary* dict = 0);
+    static ExecutableModel *createModel(const libsbml::SBMLDocument* sbml, const std::string& md5, const Dictionary* dict = 0);
 	/*
 	* Creates an executable model from a saved binary representation
 	*

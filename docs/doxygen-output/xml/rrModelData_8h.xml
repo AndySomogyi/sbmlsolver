@@ -1,11 +1,19 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrModelData_8h" kind="file" language="C++">
     <compoundname>rrModelData.h</compoundname>
     <includedby refid="rrCModelDataUtil_8h" local="yes">c/rrCModelDataUtil.h</includedby>
     <includedby refid="rrCompiledExecutableModel_8h" local="yes">c/rrCompiledExecutableModel.h</includedby>
     <includedby refid="rrPendingAssignment_8h" local="yes">c/rrPendingAssignment.h</includedby>
     <invincdepgraph>
+      <node id="2">
+        <label>c/rrCModelDataUtil.h</label>
+        <link refid="rrCModelDataUtil_8h_source"/>
+      </node>
+      <node id="3">
+        <label>c/rrCompiledExecutableModel.h</label>
+        <link refid="rrCompiledExecutableModel_8h_source"/>
+      </node>
       <node id="1">
         <label>c/rrModelData.h</label>
         <link refid="rrModelData_8h"/>
@@ -16,19 +24,11 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="2">
-        <label>c/rrCModelDataUtil.h</label>
-        <link refid="rrCModelDataUtil_8h_source"/>
-      </node>
       <node id="4">
         <label>c/rrPendingAssignment.h</label>
         <link refid="rrPendingAssignment_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>
-      </node>
-      <node id="3">
-        <label>c/rrCompiledExecutableModel.h</label>
-        <link refid="rrCompiledExecutableModel_8h_source"/>
       </node>
     </invincdepgraph>
     <innerclass refid="structSModelData" prot="public">SModelData</innerclass>
@@ -72,9 +72,9 @@
         </inbodydescription>
         <location file="c/rrModelData.h" line="20" column="9" bodyfile="c/rrModelData.h" bodystart="20" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="rrModelData_8h_1a7d4a32dba90737bb9a907e127342c262" prot="public" static="no">
+      <memberdef kind="typedef" id="rrModelData_8h_1a931a0f79ddd93b55ec529f4c4bad5ec9" prot="public" static="no">
         <type>double *(RR_CDECL *</type>
-        <definition>typedef double*(RR_CDECL * ComputeEventAssignmentHandler) (ModelDataP)</definition>
+        <definition>typedef double *(RR_CDECL * ComputeEventAssignmentHandler) (ModelDataP)</definition>
         <argsstring>)(ModelDataP)</argsstring>
         <name>ComputeEventAssignmentHandler</name>
         <briefdescription>

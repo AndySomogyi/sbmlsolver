@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrNOMSupport_8cpp" kind="file" language="C++">
     <compoundname>rrNOMSupport.cpp</compoundname>
     <includes local="no">math.h</includes>
@@ -15,23 +15,8 @@
     <includes refid="rrSBMLSymbol_8h" local="yes">rrSBMLSymbol.h</includes>
     <includes refid="rrOSSpecifics_8h" local="yes">rrOSSpecifics.h</includes>
     <incdepgraph>
-      <node id="11">
-        <label>list</label>
-      </node>
-      <node id="38">
-        <label>functional</label>
-      </node>
-      <node id="20">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
+      <node id="23">
+        <label>../wrappers/C/rrc_types.h</label>
       </node>
       <node id="35">
         <label>Setting.h</label>
@@ -57,253 +42,17 @@
         <childnode refid="41" relation="include">
         </childnode>
       </node>
-      <node id="21">
-        <label>limits</label>
-      </node>
-      <node id="4">
-        <label>sbml/SBMLDocument.h</label>
-      </node>
-      <node id="44">
-        <label>filesystem</label>
-      </node>
-      <node id="29">
-        <label>float.h</label>
-      </node>
-      <node id="23">
-        <label>../wrappers/C/rrc_types.h</label>
-      </node>
-      <node id="19">
-        <label>rrStringList.h</label>
-        <link refid="rrStringList_8h_source"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="43">
-        <label>stdint.h</label>
-      </node>
-      <node id="36">
-        <label>variant</label>
-      </node>
-      <node id="17">
-        <label>sbml/math/ASTNode.h</label>
-      </node>
-      <node id="7">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="14">
-        <label>string</label>
-      </node>
-      <node id="25">
-        <label>map</label>
-      </node>
-      <node id="3">
-        <label>sbml/Model.h</label>
-      </node>
-      <node id="42">
-        <label>exception</label>
-      </node>
-      <node id="27">
-        <label>ostream</label>
-      </node>
-      <node id="45">
-        <label>rrSBMLSymbolDependencies.h</label>
-        <link refid="rrSBMLSymbolDependencies_8h_source"/>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-      </node>
-      <node id="41">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="42" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="39">
-        <label>typeinfo</label>
-      </node>
-      <node id="28">
-        <label>rrUtils.h</label>
-        <link refid="rrUtils_8h_source"/>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="43" relation="include">
-        </childnode>
-        <childnode refid="44" relation="include">
-        </childnode>
-      </node>
-      <node id="40">
-        <label>setting_t.h</label>
-        <link refid="setting__t_8h_source"/>
-      </node>
-      <node id="15">
-        <label>stack</label>
-      </node>
-      <node id="12">
-        <label>vector</label>
-      </node>
-      <node id="26">
-        <label>rrSBMLSymbol.h</label>
-        <link refid="rrSBMLSymbol_8h_source"/>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
-        </childnode>
-      </node>
-      <node id="8">
-        <label>sstream</label>
-      </node>
-      <node id="5">
-        <label>sbml/math/FormulaFormatter.h</label>
-      </node>
-      <node id="2">
-        <label>math.h</label>
-      </node>
-      <node id="22">
-        <label>cstdlib</label>
-      </node>
-      <node id="6">
-        <label>sbml/common/libsbml-version.h</label>
-      </node>
-      <node id="30">
-        <label>iostream</label>
-      </node>
-      <node id="32">
-        <label>rrStringUtils.h</label>
-        <link refid="rrStringUtils_8h_source"/>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
+      <node id="24">
+        <label>rrHashTable.h</label>
+        <link refid="rrHashTable_8h_source"/>
         <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="35" relation="include">
-        </childnode>
-      </node>
-      <node id="18">
-        <label>rrStringListContainer.h</label>
-        <link refid="rrStringListContainer_8h_source"/>
-        <childnode refid="12" relation="include">
-        </childnode>
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
-      </node>
-      <node id="13">
-        <label>deque</label>
-      </node>
-      <node id="34">
-        <label>unordered_map</label>
-      </node>
-      <node id="16">
-        <label>tr1proxy/rr_memory.h</label>
-      </node>
-      <node id="10">
-        <label>rrNOMSupport.h</label>
-        <link refid="rrNOMSupport_8h_source"/>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-      </node>
-      <node id="46">
-        <label>rrStringBuilder.h</label>
-        <link refid="rrStringBuilder_8h_source"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="37">
-        <label>type_traits</label>
-      </node>
-      <node id="31">
-        <label>set</label>
-      </node>
-      <node id="33">
-        <label>complex</label>
       </node>
       <node id="1">
         <label>c/rrNOMSupport.cpp</label>
@@ -333,16 +82,128 @@
         <childnode refid="47" relation="include">
         </childnode>
       </node>
-      <node id="24">
-        <label>rrHashTable.h</label>
-        <link refid="rrHashTable_8h_source"/>
-        <childnode refid="25" relation="include">
+      <node id="10">
+        <label>rrNOMSupport.h</label>
+        <link refid="rrNOMSupport_8h_source"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>rrSBMLSymbol.h</label>
+        <link refid="rrSBMLSymbol_8h_source"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>rrSBMLSymbolDependencies.h</label>
+        <link refid="rrSBMLSymbolDependencies_8h_source"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>rrStringBuilder.h</label>
+        <link refid="rrStringBuilder_8h_source"/>
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+      </node>
+      <node id="19">
+        <label>rrStringList.h</label>
+        <link refid="rrStringList_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>rrStringListContainer.h</label>
+        <link refid="rrStringListContainer_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="7">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="47">
@@ -350,6 +211,145 @@
         <link refid="rrOSSpecifics_8h_source"/>
         <childnode refid="9" relation="include">
         </childnode>
+      </node>
+      <node id="32">
+        <label>rrStringUtils.h</label>
+        <link refid="rrStringUtils_8h_source"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>rrUtils.h</label>
+        <link refid="rrUtils_8h_source"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>setting_t.h</label>
+        <link refid="setting__t_8h_source"/>
+      </node>
+      <node id="33">
+        <label>complex</label>
+      </node>
+      <node id="22">
+        <label>cstdlib</label>
+      </node>
+      <node id="13">
+        <label>deque</label>
+      </node>
+      <node id="42">
+        <label>exception</label>
+      </node>
+      <node id="44">
+        <label>filesystem</label>
+      </node>
+      <node id="29">
+        <label>float.h</label>
+      </node>
+      <node id="38">
+        <label>functional</label>
+      </node>
+      <node id="30">
+        <label>iostream</label>
+      </node>
+      <node id="21">
+        <label>limits</label>
+      </node>
+      <node id="11">
+        <label>list</label>
+      </node>
+      <node id="25">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>math.h</label>
+      </node>
+      <node id="27">
+        <label>ostream</label>
+      </node>
+      <node id="3">
+        <label>sbml/Model.h</label>
+      </node>
+      <node id="4">
+        <label>sbml/SBMLDocument.h</label>
+      </node>
+      <node id="6">
+        <label>sbml/common/libsbml-version.h</label>
+      </node>
+      <node id="17">
+        <label>sbml/math/ASTNode.h</label>
+      </node>
+      <node id="5">
+        <label>sbml/math/FormulaFormatter.h</label>
+      </node>
+      <node id="31">
+        <label>set</label>
+      </node>
+      <node id="8">
+        <label>sstream</label>
+      </node>
+      <node id="15">
+        <label>stack</label>
+      </node>
+      <node id="43">
+        <label>stdint.h</label>
+      </node>
+      <node id="14">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>tr1proxy/rr_memory.h</label>
+      </node>
+      <node id="37">
+        <label>type_traits</label>
+      </node>
+      <node id="39">
+        <label>typeinfo</label>
+      </node>
+      <node id="34">
+        <label>unordered_map</label>
+      </node>
+      <node id="36">
+        <label>variant</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>
@@ -408,7 +408,7 @@
 <codeline lineno="65"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="66"><highlight class="normal"></highlight></codeline>
 <codeline lineno="67"><highlight class="normal"></highlight></codeline>
-<codeline lineno="68"><highlight class="normal">std::string<sp/><ref refid="group__utility_1ga2235582889c86de1bcef3c2a83631183" kindref="member">NOMSupport::getlibSBMLVersion</ref>()</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">std::string<sp/><ref refid="group__utility_1ga3289ab11b43ae71cb77e7d72905e4b21" kindref="member">NOMSupport::getlibSBMLVersion</ref>()</highlight></codeline>
 <codeline lineno="69"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getLibSBMLDottedVersion();</highlight></codeline>
 <codeline lineno="71"><highlight class="normal">}</highlight></codeline>
@@ -698,7 +698,7 @@
 <codeline lineno="355"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="356"><highlight class="normal"></highlight></codeline>
 <codeline lineno="357"><highlight class="normal"></highlight></codeline>
-<codeline lineno="358"><highlight class="normal">std::string<sp/><ref refid="group__edit_1gadbf20490f39ce700b719dc17810f186e" kindref="member">NOMSupport::getKineticLaw</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>index)</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">std::string<sp/><ref refid="group__edit_1gaf7730a71f6ddd01a4714d2eebe1f8fd4" kindref="member">NOMSupport::getKineticLaw</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>index)</highlight></codeline>
 <codeline lineno="359"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mModel<sp/>==<sp/>NULL)</highlight></codeline>
 <codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
@@ -827,7 +827,7 @@
 <codeline lineno="484"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="485"><highlight class="normal"></highlight></codeline>
 <codeline lineno="486"><highlight class="normal"></highlight></codeline>
-<codeline lineno="487"><highlight class="normal">std::string<sp/><ref refid="group__NOM_1gadd064802065aece47c2e966f9fff5958" kindref="member">NOMSupport::getModelName</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="487"><highlight class="normal">std::string<sp/><ref refid="group__NOM_1ga5f120b6642ff611966099d066df16d70" kindref="member">NOMSupport::getModelName</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="488"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mModel<sp/>==<sp/>NULL)</highlight></codeline>
 <codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
@@ -1399,7 +1399,7 @@
 <codeline lineno="1056"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="1057"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1058"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1059"><highlight class="normal">std::string<sp/><ref refid="rrc__api_8h_1a1e12a65f50c3138f73628d090bda918a" kindref="member">NOMSupport::getParamPromotedSBML</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sArg)</highlight></codeline>
+<codeline lineno="1059"><highlight class="normal">std::string<sp/><ref refid="rrc__api_8h_1a4265fcc20351c7783613b298c99e4106" kindref="member">NOMSupport::getParamPromotedSBML</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sArg)</highlight></codeline>
 <codeline lineno="1060"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="1061"><highlight class="normal"><sp/><sp/><sp/><sp/>SBMLDocument<sp/>*oSBMLDoc<sp/>=<sp/>NULL;</highlight></codeline>
 <codeline lineno="1062"><highlight class="normal"><sp/><sp/><sp/><sp/>Model<sp/>*oModel<sp/>=<sp/>NULL;</highlight></codeline>
@@ -1577,7 +1577,7 @@
 <codeline lineno="1234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="1235"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="1236"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1237"><highlight class="normal">std::string<sp/><ref refid="group__loadsave_1ga583d80e8a54f0d41b8600bb4ece0e552" kindref="member">NOMSupport::getSBML</ref>()</highlight></codeline>
+<codeline lineno="1237"><highlight class="normal">std::string<sp/><ref refid="group__loadsave_1gae45f7a34ebfdc69fb71d8b559213cb4c" kindref="member">NOMSupport::getSBML</ref>()</highlight></codeline>
 <codeline lineno="1238"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="1239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mModel<sp/>==<sp/>NULL)</highlight></codeline>
 <codeline lineno="1240"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>

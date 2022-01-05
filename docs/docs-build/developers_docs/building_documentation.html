@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Building the Documentation &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -37,13 +36,11 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div>
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -53,6 +50,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
@@ -78,17 +77,14 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" aria-label="Top" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">libRoadRunner</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          
-
-<div role="navigation" aria-label="Breadcrumbs">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="index.html">Developers Documentation</a> &raquo;</li>
@@ -102,9 +98,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="building-the-documentation">
+  <div class="section" id="building-the-documentation">
 <h1>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline"></a></h1>
-<section id="quick-instructions">
+<div class="section" id="quick-instructions">
 <h2>Quick instructions<a class="headerlink" href="#quick-instructions" title="Permalink to this headline"></a></h2>
 <ol class="arabic simple">
 <li><p>Make sure you are on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.</p></li>
@@ -125,8 +121,8 @@
 cmake --build . --target roadrunner-docs-sphinx --config Release
 </pre></div>
 </div>
-</section>
-<section id="details">
+</div>
+<div class="section" id="details">
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline"></a></h2>
 <p>Roadrunner is a C++ library with a C and Python front end. The C and C++ code is documented using the standard
 <code class="docutils literal notranslate"><span class="pre">doxygen</span></code> tool, whilst the Python front end is documented using <code class="docutils literal notranslate"><span class="pre">Sphinx</span></code>. Furthermore, we make use of a
@@ -144,8 +140,8 @@ into html is handled by sphinx, we still maintain and provide access to the <a c
 </dl>
 <p>Since the <code class="docutils literal notranslate"><span class="pre">roadrunner-docs-sphinx</span></code> target depends on the <code class="docutils literal notranslate"><span class="pre">roadrunner-docs-doxygen</span></code> target, cmake will always
 make sure to build the <code class="docutils literal notranslate"><span class="pre">roadrunner-docs-doxygen</span></code> target before it builds the <code class="docutils literal notranslate"><span class="pre">roadrunner-docs-doxygen</span></code> target.</p>
-</section>
-<section id="dependencies">
+</div>
+<div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline"></a></h2>
 <dl class="simple">
 <dt>You will need Sphinx, <a class="reference external" href="https://www.doxygen.nl/download.html">Doxygen</a> and some python packages</dt><dd><ul class="simple">
@@ -158,8 +154,8 @@ make sure to build the <code class="docutils literal notranslate"><span class="p
 <p>Make sure you either install doxygen in a default location (i.e. already on the PATH)  or that you add the path to the
 doxygen executable to the PATH environment variable so cmake can find it.</p>
 </div>
-</section>
-<section id="troubleshooting">
+</div>
+<div class="section" id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline"></a></h2>
 <p>Sometimes cmake finds a different version of Python installed on your system
 compared to what you were expecting. Therefore, if cmake complains that it cannot
@@ -179,14 +175,13 @@ then the Python executable is located at:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``/Users/ciaranwelsh/miniconda/envs/py38``
 </pre></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="git_workflow.html" class="btn btn-neutral float-left" title="Git Workflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="making_releases.html" class="btn btn-neutral float-right" title="Making roadrunner releases" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
@@ -198,7 +193,8 @@ then the Python executable is located at:</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

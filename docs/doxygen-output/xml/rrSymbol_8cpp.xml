@@ -1,27 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrSymbol_8cpp" kind="file" language="C++">
     <compoundname>rrSymbol.cpp</compoundname>
     <includes refid="rrSymbol_8h" local="yes">rrSymbol.h</includes>
     <incdepgraph>
-      <node id="5">
-        <label>limits</label>
-      </node>
-      <node id="6">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
       <node id="1">
         <label>c/rrSymbol.cpp</label>
         <link refid="rrSymbol_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-      </node>
-      <node id="3">
-        <label>string</label>
-      </node>
-      <node id="4">
-        <label>ostream</label>
       </node>
       <node id="2">
         <label>rrSymbol.h</label>
@@ -34,6 +21,19 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+      </node>
+      <node id="6">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="5">
+        <label>limits</label>
+      </node>
+      <node id="4">
+        <label>ostream</label>
+      </node>
+      <node id="3">
+        <label>string</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>

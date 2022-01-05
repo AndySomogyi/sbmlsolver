@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="KinsolErrHandler_8h" kind="file" language="C++">
     <compoundname>KinsolErrHandler.h</compoundname>
     <includes local="yes">kinsol/kinsol.h</includes>
@@ -21,21 +21,39 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="4">
-        <label>sstream</label>
+      <node id="3">
+        <label>iostream</label>
       </node>
       <node id="2">
         <label>kinsol/kinsol.h</label>
       </node>
-      <node id="3">
-        <label>iostream</label>
+      <node id="4">
+        <label>sstream</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="5">
+        <label>BasicNewtonIteration.h</label>
+        <link refid="BasicNewtonIteration_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>FixedPointIteration.h</label>
+        <link refid="FixedPointIteration_8h_source"/>
+      </node>
       <node id="1">
         <label>KinsolErrHandler.h</label>
         <link refid="KinsolErrHandler_8h"/>
         <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>KinsolSteadyStateSolver.h</label>
+        <link refid="KinsolSteadyStateSolver_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="7">
@@ -43,10 +61,6 @@
         <link refid="LinesearchNewtonIteration_8h_source"/>
         <childnode refid="6" relation="include">
         </childnode>
-      </node>
-      <node id="3">
-        <label>FixedPointIteration.h</label>
-        <link refid="FixedPointIteration_8h_source"/>
       </node>
       <node id="4">
         <label>NewtonIteration.h</label>
@@ -56,23 +70,9 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="5">
-        <label>BasicNewtonIteration.h</label>
-        <link refid="BasicNewtonIteration_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
       <node id="6">
         <label>SteadyStateSolver.cpp</label>
         <link refid="SteadyStateSolver_8cpp"/>
-      </node>
-      <node id="2">
-        <label>KinsolSteadyStateSolver.h</label>
-        <link refid="KinsolSteadyStateSolver_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
       </node>
     </invincdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>
@@ -97,7 +97,7 @@
 <codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>decodeKinsolError(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cvodeError);</highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>kinsolErrHandler(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>error_code,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*module,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">function</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*msg);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>kinsolErrHandler(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>error_code,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*module,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*function,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*msg);</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight></codeline>
 <codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//#define<sp/>handleKinsolError(errCode)<sp/>\</highlight></codeline>
 <codeline lineno="48"><highlight class="comment">//<sp/><sp/><sp/><sp/>std::string<sp/>what<sp/>=<sp/>decodeKinsolError(errCode);<sp/>\</highlight></codeline>

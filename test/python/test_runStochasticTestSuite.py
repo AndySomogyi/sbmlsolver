@@ -6,34 +6,49 @@ Created on Tue Apr 28 12:39:24 2020
 """
 
 from __future__ import division
-from os import walk, scandir 
+
+import os.path
+from os import walk, scandir
 from os.path import isdir
+import time
+import platform
+
+import sys
+
+sys.path += [
+    r"D:\roadrunner\roadrunner\cmake-build-release\lib\site-packages",
+    r"/Users/ciaranwelsh/Documents/roadrunner/cmake-build-release-llvm-13/lib/site-packages"
+]
 
 import csv
 import unittest
 import numpy as np
 import roadrunner
 
+
 class RoadRunnerTests(unittest.TestCase):
+    stochdir = None
     maxDiff = None
 
     @classmethod
     def setUpClass(cls) -> None:
         cls.stochdir = ""
-        for dir in ["../sbml-test-suite/stochastic/", "../test/sbml-test-suite/stochastic/", "../../test/sbml-test-suite/stochastic/", "../../../test/sbml-test-suite/stochastic/", "../../../../test/sbml-test-suite/stochastic/", "../../../../../test/sbml-test-suite/stochastic/", "../../../../../../test/sbml-test-suite/stochastic/"]:
+        for dir in ["../sbml-test-suite/stochastic/", "../test/sbml-test-suite/stochastic/",
+                    "../../test/sbml-test-suite/stochastic/", "../../../test/sbml-test-suite/stochastic/",
+                    "../../../../test/sbml-test-suite/stochastic/", "../../../../../test/sbml-test-suite/stochastic/",
+                    "../../../../../../test/sbml-test-suite/stochastic/"]:
             if isdir(dir):
                 cls.stochdir = dir
         if cls.stochdir == "":
-            cls.fail("Unable to find stochastic test suite directory.")
+            raise ValueError("Unable to find stochastic test suite directory.")
         cls.outfile = "results.tsv"
         cls.nrepeats = 10000
-        
+
         cls.onlysometests = False
         cls.sometests = ["00001", "00040"]
-        
+
         cls.stochdirs = [f.path for f in scandir(cls.stochdir) if f.is_dir()]
-        
-        
+
         cls.results = open(cls.stochdir + cls.outfile, "w")
         cls.results.write("Test #")
         cls.results.write("\tLevel/Version")
@@ -43,26 +58,27 @@ class RoadRunnerTests(unittest.TestCase):
         cls.results.write("\tnWrongLogMeans")
         cls.results.write("\tnWrongLogSDs")
         cls.results.write("\n")
+        
+        print(platform.uname())
 
     @classmethod
     def tearDownClass(cls) -> None:
         cls.results.close()
 
-    
     def countWrongMeans(self, means, expectedmeans, expectedsds, xrange):
         nmean_wrong = 0
         Zvec = np.sqrt(self.nrepeats) * (means - expectedmeans) / expectedsds
         for Z in Zvec:
-            if Z<xrange[0] or Z>xrange[1]:
+            if Z < xrange[0] or Z > xrange[1]:
                 nmean_wrong += 1
         self.assertLessEqual(nmean_wrong, 5)
         return nmean_wrong, Zvec
-    
+
     def countWrongSDs(self, sds, expectedsds, xrange):
         nsd_wrong = 0
-        Yvec = np.sqrt(self.nrepeats/2) * (np.power(sds,2)/np.power(expectedsds,2) - 1)
+        Yvec = np.sqrt(self.nrepeats / 2) * (np.power(sds, 2) / np.power(expectedsds, 2) - 1)
         for n, Y in enumerate(Yvec):
-            if (Y < xrange[0] or Y>xrange[1]):
+            if (Y < xrange[0] or Y > xrange[1]):
                 nsd_wrong += 1
             elif (np.isnan(Y)):
                 if not sds[n] == expectedsds[n]:
@@ -71,30 +87,32 @@ class RoadRunnerTests(unittest.TestCase):
                 nsd_wrong += 1
         self.assertLessEqual(nsd_wrong, 5)
         return nsd_wrong, Yvec
-    
+
     def readSettingsFile(self, stochdir, tnum):
-        #Read the Settings file
+        # Read the Settings file
         setfile = stochdir + "/" + tnum + "-settings.txt"
         settings = {}
-        for line in open(setfile, "r"):
-            if ":" in line:
-                line = line.replace(" ","")
-                lvec = line.strip().split(":")
-                settings[lvec[0]] = lvec[1]
+        with open(setfile) as f:
+            for line in f.readlines():
+                if ":" in line:
+                    line = line.replace(" ", "")
+                    lvec = line.strip().split(":")
+                    settings[lvec[0]] = lvec[1]
+        f.close()
         if "start" not in settings:
-            self.fail("Missing 'start' setting for test", tnum)
+            self.fail("Missing 'start' setting for test \"{}\"".format(tnum))
         if "duration" not in settings:
-            self.fail("Missing 'duration' setting for test", tnum)
+            self.fail("Missing 'duration' setting for test \"{}\"".format(tnum))
         if "steps" not in settings:
-            self.fail("Missing 'steps' setting for test", tnum)
+            self.fail("Missing 'steps' setting for test \"{}\"".format(tnum))
         if "meanRange" not in settings:
-            self.fail("Missing 'meanRange' setting for test", tnum)
+            self.fail("Missing 'meanRange' setting for test \"{}\"".format(tnum))
         if "sdRange" not in settings:
-            self.fail("Missing 'sdRange' setting for test", tnum)
+            self.fail("Missing 'sdRange' setting for test \"{}\"".format(tnum))
         if "variables" not in settings:
-            self.fail("Missing 'variables' setting for test", tnum)
+            self.fail("Missing 'variables' setting for test \"{}\"".format(tnum))
         if "output" not in settings:
-            self.fail("Missing 'output' setting for test", tnum)
+            self.fail("Missing 'output' setting for test \"{}\"".format(tnum))
         self.variables = settings["variables"].split(",")
         self.output = settings["output"].split(",")
         self.start = int(settings["start"])
@@ -103,22 +121,25 @@ class RoadRunnerTests(unittest.TestCase):
         self.meanRange = eval(settings["meanRange"])
         self.sdRange = eval(settings["sdRange"])
 
-    def readMFile(self, stochdir, tnum):        
-        #Parse the .m file for more information:
+    def readMFile(self, stochdir, tnum):
+        # Parse the .m file for more information:
         self.synopsis = "";
         self.testType = "StochasticTimeCourse"
         self.package = "none"
-        for line in open(stochdir + "/" + tnum + "-model.m", "r"):
-            if "synopsis:" in line:
-                self.synopsis = line.strip().split(":")[1].strip()
-            if "testType" in line:
-                self.testType = line.strip().split(":")[1].strip()
-            if "packagesPresent" in line:
-                self.package = line.strip().split(":")[1].strip()
-        
+        fname = os.path.join(stochdir, tnum + "-model.m")
+        with open(fname) as f:
+            for line in f.readlines():
+                if "synopsis:" in line:
+                    self.synopsis = line.strip().split(":")[1].strip()
+                if "testType" in line:
+                    self.testType = line.strip().split(":")[1].strip()
+                if "packagesPresent" in line:
+                    self.package = line.strip().split(":")[1].strip()
+        f.close()
+
     def readExpectedResults(self, stochdir, tnum):
-                
-        #Read the expected results
+
+        # Read the expected results
         expectfile = stochdir + "/" + tnum + "-results.csv"
         expected_results = {}
         header = []
@@ -131,8 +152,9 @@ class RoadRunnerTests(unittest.TestCase):
                     continue
                 for n, entry in enumerate(lvec):
                     expected_results[header[n]].append(float(entry))
+        csvfile.close()
         return expected_results
-    
+
     def getFirstAndLastFilesFrom(self, stochfiles):
         first = ""
         last = ""
@@ -151,9 +173,11 @@ class RoadRunnerTests(unittest.TestCase):
                     first = fname
         self.assertFalse(first == "")
         self.assertFalse(last == "")
-        return (first, last)
-    
-    def writeResults(self, tnum, lv, nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong):
+        if (platform.release()=="5.4.0-1063-azure"):
+            return [last]
+        return [first, last]
+
+    def writeResults(self, tnum, lv, nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong, time_tot, redo):
         self.results.write(tnum)
         self.results.write("\t" + lv)
         self.results.write("\t" + self.synopsis)
@@ -161,13 +185,15 @@ class RoadRunnerTests(unittest.TestCase):
         self.results.write("\t" + str(nsd_wrong))
         self.results.write("\t" + str(nlnmean_wrong))
         self.results.write("\t" + str(nlnsd_wrong))
+        self.results.write("\t" + str(time_tot))
+        self.results.write("\t" + str(redo))
         self.results.write("\n")
-                
+
     def simulateFile(self, fname, tnum, expected_results):
         try:
             rr = roadrunner.RoadRunner(self.stochdir + "/" + tnum + "/" + fname)
-        except:
-            self.fail("Unable to load test file ", fname, "; perhaps an unknown distrib csymbol.")
+        except :
+            raise ValueError("Unable to load test file " +  fname + "; perhaps an unknown distrib csymbol.")
         rr.timeCourseSelections = ['time'] + self.variables
         all_results = {}
         means = {}
@@ -180,10 +206,10 @@ class RoadRunnerTests(unittest.TestCase):
             rr.resetToOrigin()
             if self.testType == "StochasticTimeCourse":
                 rr.setIntegrator('gillespie')
-                sim = rr.simulate(self.start, self.duration, self.steps+1)
+                sim = rr.simulate(self.start, self.duration, self.steps + 1)
             elif self.testType == "StatisticalDistribution":
                 rr.setIntegrator('cvode')
-                sim = rr.simulate(self.start, self.duration, self.steps+1)
+                sim = rr.simulate(self.start, self.duration, self.steps + 1)
             else:
                 self.fail("Unknown stochastic test type " + self.testType + " in test " + tnum + ".")
             for n, col in enumerate(sim.colnames):
@@ -200,46 +226,56 @@ class RoadRunnerTests(unittest.TestCase):
                     sdvec = expected_results[var + "-sd"]
                 else:
                     sdvec = np.std(all_results[var], axis=0)
-                nmean_wrong, Zvec = self.countWrongMeans(means[var], expected_results[var + "-mean"], sdvec, self.meanRange)
-                print("Number means outside expected range:", nmean_wrong)
+                nmean_wrong, Zvec = self.countWrongMeans(means[var], expected_results[var + "-mean"], sdvec,
+                                                         self.meanRange)
+                print("Number means for", var, "outside expected range:", nmean_wrong)
             if (var + "-sd") in self.output:
                 sds[var] = np.std(all_results[var], axis=0)
                 nsd_wrong, Yvec = self.countWrongSDs(sds[var], expected_results[var + "-sd"], self.sdRange)
-                print("Number standard deviations outside expected range:", nsd_wrong)
+                print("Number standard deviations for", var, "outside expected range:", nsd_wrong)
             lnvar = "ln(" + var + ")"
             if (lnvar + "-mean") in self.output:
                 means[lnvar] = np.mean(np.log(all_results[var]), axis=0)
-                nlnmean_wrong, Zvec = self.countWrongMeans(means[lnvar], expected_results[lnvar + "-mean"], expected_results[lnvar + "-sd"], self.meanRange)
-                print("Number ln-means outside expected range:", nlnmean_wrong)
+                nlnmean_wrong, Zvec = self.countWrongMeans(means[lnvar], expected_results[lnvar + "-mean"],
+                                                           expected_results[lnvar + "-sd"], self.meanRange)
+                print("Number ln-means for", var, "outside expected range:", nlnmean_wrong)
             if (lnvar + "-sd") in self.output:
                 sds[lnvar] = np.std(np.log(all_results[var]), axis=0)
                 nlnsd_wrong, Yvec = self.countWrongSDs(sds[lnvar], expected_results[lnvar + "-sd"], self.sdRange)
-                print("Number ln-standard deviations outside expected range:", nlnsd_wrong)
+                print("Number ln-standard deviations for", var, "outside expected range:", nlnsd_wrong)
         return (nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong)
-    
+
     def runOneTest(self, tnum):
+        if platform.release()=="5.4.0-1063-azure" and (int(tnum)>50 or int(tnum) < 30):
+            #This runs a handful of the original stochastic test suite, and the first 10 distrib tests.
+            print("Skipping test", tnum, "because it takes too long on azure.")
+            return
         print("Running test " + tnum)
         testdir = self.stochdir + "/" + tnum + "/"
-        testfiles= []
+        testfiles = []
         for __, _, files in walk(testdir):
             testfiles += files
 
         self.readSettingsFile(testdir, tnum)
         self.readMFile(testdir, tnum)
-        
-        expected_results = self.readExpectedResults(testdir, tnum)
-        (file1, file2) = self.getFirstAndLastFilesFrom(testfiles)
-        
-        for file in (file1, file2):
-            (nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong) = self.simulateFile(file, tnum, expected_results)
-            if (nmean_wrong and nmean_wrong>3) or \
-               (nsd_wrong and nsd_wrong>5) or \
-               (nlnmean_wrong and nlnmean_wrong>3) or \
-               (nlnsd_wrong and nlnsd_wrong>5):
-                #Re-run it to see if we just got unlucky:
-                (nmean_wrong, nsd_wrong, nlmean_wrong, nlnds_wrong) = self.simulateFile(file, tnum, expected_results)
 
-            self.writeResults(tnum, file, nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong)
+        expected_results = self.readExpectedResults(testdir, tnum)
+        files = self.getFirstAndLastFilesFrom(testfiles)
+
+        for file in files:
+            t1 = time.time()
+            redo = False
+            nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong = self.simulateFile(file, tnum, expected_results)
+            if (nmean_wrong and nmean_wrong > 3) or \
+                    (nsd_wrong and nsd_wrong > 5) or \
+                    (nlnmean_wrong and nlnmean_wrong > 3) or \
+                    (nlnsd_wrong and nlnsd_wrong > 5):
+                # Re-run it to see if we just got unlucky:
+                (nmean_wrong, nsd_wrong, nlmean_wrong, nlnds_wrong) = self.simulateFile(file, tnum, expected_results)
+                redo = True
+            time_tot = time.time() - t1
+            self.writeResults(tnum, file, nmean_wrong, nsd_wrong, nlnmean_wrong, nlnsd_wrong, time_tot, redo)
+            print("Test file", file, "total time:", time_tot)
             if nmean_wrong is not None:
                 self.assertLessEqual(nmean_wrong, 3)
             if nsd_wrong is not None:
@@ -249,13 +285,12 @@ class RoadRunnerTests(unittest.TestCase):
             if nlnsd_wrong is not None:
                 self.assertLessEqual(nlnsd_wrong, 5)
 
-            
     def run_all_stoch_tests(self):
         for stochdir in self.stochdirs:
-            stochfiles= []
+            stochfiles = []
             for __, _, files in walk(stochdir):
                 stochfiles += files
-            
+
             tnum = stochdir.split('/')[-1]
             if "0" not in tnum:
                 continue
@@ -264,10 +299,10 @@ class RoadRunnerTests(unittest.TestCase):
             print("Running test ", tnum)
             self.runOneTest(tnum)
 
-    #Run this and then paste into source code below.
-    def createRunTestSource():
+    # Run this and then paste into source code below.
+    def createRunTestSource(self):
         for n in range(100):
-            tnum = str(n+1).zfill(5)
+            tnum = str(n + 1).zfill(5)
             print("    def test_stoch_" + tnum + "(self):")
             print("        self.runOneTest('" + tnum + "')")
             print("")
@@ -339,8 +374,9 @@ class RoadRunnerTests(unittest.TestCase):
     def test_stoch_00022(self):
         self.runOneTest('00022')
 
-    def test_stoch_00023(self):
-        self.runOneTest('00023')
+    # This test passes, but takes a ridiculously long time to do so.
+    # def test_stoch_00023(self):
+    #     self.runOneTest('00023')
 
     def test_stoch_00024(self):
         self.runOneTest('00024')
@@ -573,6 +609,6 @@ class RoadRunnerTests(unittest.TestCase):
     def test_stoch_00100(self):
         self.runOneTest('00100')
 
+
 if __name__ == "__main__":
     unittest.main()
-

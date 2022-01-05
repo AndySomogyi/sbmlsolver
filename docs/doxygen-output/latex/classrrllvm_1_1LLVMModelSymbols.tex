@@ -29,12 +29,12 @@ struct \mbox{\hyperlink{structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols}{Rea
 libsbml\+::\+ASTNode $\ast$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a67637dde17c580f01ed1a54476e17e2b}{create\+Stoichiometry\+Node}} (int row, int col) const
 \begin{DoxyCompactList}\small\item\em create an ASTNode for the species id / reaction id std\+::pair. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_afaf501a34dd03317a49d5f3ba70839dd}\label{classrrllvm_1_1LLVMModelSymbols_afaf501a34dd03317a49d5f3ba70839dd}} 
-const \mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \& \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_afaf501a34dd03317a49d5f3ba70839dd}{get\+Assigment\+Rules}} () const
+const \mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \& {\bfseries get\+Assigment\+Rules} () const
 \begin{DoxyCompactList}\small\item\em assignment rules are always active \end{DoxyCompactList}\item 
 const \mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \& \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_ad7d0e9e5abc92d6295a5f520436f54e6}{get\+Initial\+Assignment\+Rules}} () const
 \begin{DoxyCompactList}\small\item\em only valid before the model is started. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a49316f650dfad2cd908e12d61d78be50}\label{classrrllvm_1_1LLVMModelSymbols_a49316f650dfad2cd908e12d61d78be50}} 
-const \mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \& \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a49316f650dfad2cd908e12d61d78be50}{get\+Initial\+Values}} () const
+const \mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \& {\bfseries get\+Initial\+Values} () const
 \begin{DoxyCompactList}\small\item\em contains the intial symbols along with the intial assignments which override the initial values. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a386262795c9ce38df4cec2dec51f1104}\label{classrrllvm_1_1LLVMModelSymbols_a386262795c9ce38df4cec2dec51f1104}} 
 const \mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \& {\bfseries get\+Rate\+Rules} () const
@@ -50,7 +50,7 @@ enum {\bfseries Species\+Reference\+Type} \{ {\bfseries Reactant}
 typedef std\+::list$<$ const libsbml\+::\+ASTNode $\ast$ $>$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_ab3fdc885f2f338870ddd18853a7ab825}{ASTNode\+List}}
 \begin{DoxyCompactList}\small\item\em a species can appear more than once in a reaction, there can be several stoichiometries for a species both as a product and as a reactant, for example, we could have \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a346c6aa644b3297b1319a3f619bdfe9e}\label{classrrllvm_1_1LLVMModelSymbols_a346c6aa644b3297b1319a3f619bdfe9e}} 
-typedef std\+::map$<$ int, \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_ab3fdc885f2f338870ddd18853a7ab825}{ASTNode\+List}} $>$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a346c6aa644b3297b1319a3f619bdfe9e}{Int\+ASTNode\+List\+Map}}
+typedef std\+::map$<$ int, \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_ab3fdc885f2f338870ddd18853a7ab825}{ASTNode\+List}} $>$ {\bfseries Int\+ASTNode\+List\+Map}
 \begin{DoxyCompactList}\small\item\em we reference the reactants and products by the species index \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
@@ -69,20 +69,20 @@ virtual bool \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a11942961af6c34d90
 virtual bool \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_ab49c19ac0832e343222276be67190bb4}{visit}} (const libsbml\+::\+Rate\+Rule \&rule)
 \item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a62c37bbb6a3226e32748383962e58a4c}\label{classrrllvm_1_1LLVMModelSymbols_a62c37bbb6a3226e32748383962e58a4c}} 
-virtual bool \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a62c37bbb6a3226e32748383962e58a4c}{visit}} (const libsbml\+::\+Reaction \&x)
+virtual bool {\bfseries visit} (const libsbml\+::\+Reaction \&x)
 \begin{DoxyCompactList}\small\item\em visit the reactions so we can get all the Species\+References and stuff them in the initial\+Conditions std\+::map. \end{DoxyCompactList}\item 
 virtual bool \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a7a829d1b0ddfb1618c4d1536fd841bf9}{visit}} (const libsbml\+::\+Rule \&x)
 \begin{DoxyCompactList}\small\item\em tell the acceptor to process all rules, even the ones we don\textquotesingle{}t handle so the iteration continues over all rules. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a9c6fb0b90d1ccd464919ac47031ebee8}\label{classrrllvm_1_1LLVMModelSymbols_a9c6fb0b90d1ccd464919ac47031ebee8}} 
-virtual bool \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a9c6fb0b90d1ccd464919ac47031ebee8}{visit}} (const libsbml\+::\+Event \&event)
+virtual bool {\bfseries visit} (const libsbml\+::\+Event \&event)
 \begin{DoxyCompactList}\small\item\em fatal error if we find these, event not supported yet \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a1a77a8995e4fc70336da702e63c2d0f0}{process\+Element}} (\mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \&current\+Symbols, const libsbml\+::\+SBase $\ast$element, const libsbml\+::\+ASTNode $\ast$math)
 \begin{DoxyCompactList}\small\item\em The only differences in how initial\+Assigments and assignment\+Rules are handled is whether they are stuffed in the initial\+Assigment or assignment\+Rules maps. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a0d6de412f4d409e3f5e70adaeecd4727}\label{classrrllvm_1_1LLVMModelSymbols_a0d6de412f4d409e3f5e70adaeecd4727}} 
-void \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a0d6de412f4d409e3f5e70adaeecd4727}{process\+Species}} (\mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \&current\+Symbols, const libsbml\+::\+Species $\ast$element, const libsbml\+::\+ASTNode $\ast$math)
+void {\bfseries process\+Species} (\mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \&current\+Symbols, const libsbml\+::\+Species $\ast$element, const libsbml\+::\+ASTNode $\ast$math)
 \begin{DoxyCompactList}\small\item\em specialized logic to write both amounts and concentrations here. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_add3232506b1afb34e63e18ee4bf56466}\label{classrrllvm_1_1LLVMModelSymbols_add3232506b1afb34e63e18ee4bf56466}} 
-const libsbml\+::\+ASTNode $\ast$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_add3232506b1afb34e63e18ee4bf56466}{get\+Species\+Reference\+Stoich\+Math}} (const libsbml\+::\+Species\+Reference $\ast$reference)
+const libsbml\+::\+ASTNode $\ast$ {\bfseries get\+Species\+Reference\+Stoich\+Math} (const libsbml\+::\+Species\+Reference $\ast$reference)
 \begin{DoxyCompactList}\small\item\em get the Math\+ML element for a Species\+Reference if it is set, otherwise, create a ASTNode from its stoichiometry field. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
@@ -100,7 +100,7 @@ const libsbml\+::\+ASTNode $\ast$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbo
 \mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} {\bfseries rate\+Rules}
 \item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_af6ee8336c24f1b548a08cb62465faf21}\label{classrrllvm_1_1LLVMModelSymbols_af6ee8336c24f1b548a08cb62465faf21}} 
-\mbox{\hyperlink{classrrllvm_1_1ASTNodeFactory}{ASTNode\+Factory}} \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_af6ee8336c24f1b548a08cb62465faf21}{nodes}}
+\mbox{\hyperlink{classrrllvm_1_1ASTNodeFactory}{ASTNode\+Factory}} {\bfseries nodes}
 \begin{DoxyCompactList}\small\item\em all ASTNodes we create are stored here. \end{DoxyCompactList}\item 
 std\+::vector$<$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols}{Reaction\+Symbols}} $>$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_ac3d63fce05b0352af53d391871b6f5a8}{reactions}}
 \begin{DoxyCompactList}\small\item\em these are indexed by reaction index. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -122,7 +122,7 @@ TODO\+: some real docs...
 
 a species can appear more than once in a reaction, there can be several stoichiometries for a species both as a product and as a reactant, for example, we could have 
 
-A + 2A + B -\/$>$ A + C
+A + 2A + B -\/\texorpdfstring{$>$}{>} A + C
 
 In this case, we calculate the stochiometry for each species as S(\+A) = -\/1 -\/2 + 1 = -\/1 S(\+B) = -\/1 + 0 = -\/1 S(\+C) = 0 + 1 = 1
 

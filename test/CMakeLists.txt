@@ -25,9 +25,11 @@ set(ThisSourceDirectory "${CMAKE_CURRENT_SOURCE_DIR}")
 set(ThisBinaryDirectory "${CMAKE_CURRENT_BINARY_DIR}")
 set(MOCKUPS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/mockups")
 
-#todo move these to the rr_root/cmake folder
-# Adds a new executable cmake target to cmake.
-# Links roadrunner-static and gtest.
+set(SBMLTestSuiteRoot "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite")
+set(SBMLTestSuiteSemantic "${SBMLTestSuiteRoot}/semantic")
+set(SBMLTestSuiteStochastic "${SBMLTestSuiteRoot}/stochastic")
+
+# Adds a new executable cmake target to cmake. Links to roadrunner via the c api. Links gtest.
 # Parameters:
 #   - TEST_TARGET: name of the binary
 #   - OUT_VARIABLE: list variable to append BINARY. Creates the list if not exist.
@@ -38,10 +40,10 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
             ${ThisSourceDirectory}/TestModelFactory)
 
     if (TEST_TARGET MATCHES ".*plugin.*")
-       set(TEST_PLUGIN_INCLUDE "$<TARGET_PROPERTY:telplugins_c_api,INCLUDE_DIRECTORIES>")
-       set(TEST_PLUGIN_LIB "telplugins_c_api")
+        set(TEST_PLUGIN_INCLUDE "$<TARGET_PROPERTY:telplugins_c_api,INCLUDE_DIRECTORIES>")
+        set(TEST_PLUGIN_LIB "telplugins_c_api")
     else()
-       set(TEST_PLUGIN_LIB "roadrunner_c_api")
+        set(TEST_PLUGIN_LIB "roadrunner_c_api")
     endif()
 
     target_include_directories(
@@ -50,14 +52,22 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
             "${ThisBinaryDirectory}"
             "${MOCKUPS_DIRECTORY}"
             "${TEST_PLUGIN_INCLUDE}"
-#            "${RR_Python_wrapper_dir}" # for PyUtils in tests that need it
+            ${SBMLTestSuiteRoot}
+            #            "${RR_Python_wrapper_dir}" # for PyUtils in tests that need it
     )
 
     target_link_libraries(${TEST_TARGET} PRIVATE
-#            rr-mockups
+            #            rr-mockups
             ${TEST_PLUGIN_LIB}
             gtest gtest_main gmock gmock_main
-    )
+            )
+
+    # Add root of sbml test suite to all test targets.
+    target_compile_definitions(${TEST_TARGET} PRIVATE
+            "SBMLTestSuiteRoot=\"${SBMLTestSuiteRoot}\""
+            "SBMLTestSuiteSemantic=\"${SBMLTestSuiteSemantic}\""
+            "SBMLTestSuiteStochastic=\"${SBMLTestSuiteStochastic}\""
+            )
 
     # This causes a weird build error whereby it is no longer possible
     # to name a class the name as the binary filename. However, since w
@@ -129,7 +139,6 @@ macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             SOURCES ${SWIG_INTERFACE_FILE} ${ARGN}
             )
 
-    #    set(CMAKE_SWIG_FLAGS "-py3 -castmode -keyword")
     set_target_properties(
             ${SWIG_TARGET_NAME} PROPERTIES
 
@@ -162,11 +171,11 @@ macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             "${CMAKE_CURRENT_SOURCE_DIR}"
             "${RR_ROOT}/wrappers/Python/include"
             "${RR_ROOT}/wrappers/Python/roadrunner"
-            $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>
+            $<TARGET_PROPERTY:roadrunner,INCLUDE_DIRECTORIES>
             "${RR_DEPENDENCIES_INSTALL_PREFIX}/include/rr-libstruct"
             "${Python_INCLUDE_DIRS}"
             "${Python_NumPy_INCLUDE_DIRS}"
-            #            $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
+            $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
             )
     if (NOT APPLE)
         target_link_libraries(${SWIG_TARGET_NAME} PUBLIC
@@ -180,7 +189,7 @@ macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
         set_target_properties(${SWIG_TARGET_NAME}
                 PROPERTIES
                 LINK_FLAGS "-undefined dynamic_lookup"
-                INSTALL_RPATH "@loader_path/../../lib;@loader_path/"
+                INSTALL_RPATH "@loader_path/../../lib;@loader_path/../../bin;@loader_path/;@loader_path/..@loader_path/../.."
                 INSTALL_NAME_DIR "@rpath"
                 )
         swig_link_libraries(${SWIG_TARGET_NAME} PUBLIC
@@ -252,18 +261,24 @@ set(
         "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp" # need explicit extensions here (for some reason)
+        # todo make this its own binary and link it.
+        "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/STS.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/sbml-test-suite/STS.h"
 )
-
+# doesn't actually contain tests, just an interface into the STS
+add_subdirectory(sbml-test-suite)
 add_subdirectory(mockups)
 add_subdirectory(c_api_core)
+add_subdirectory(llvm_tests)
 add_subdirectory(c_api_rrtests)
 add_subdirectory(model_analysis)
 add_subdirectory(model_editing)
 add_subdirectory(sbml_features)
 add_subdirectory(sundials-tests)
-add_subdirectory(python)
 add_subdirectory(cxx_api_tests)
 add_subdirectory(serialization)
+add_subdirectory(PerformanceTests)
+add_subdirectory(python)
 
 if (WIN32 AND BUILD_RR_PLUGINS)
    set(
@@ -282,7 +297,6 @@ if (WIN32 AND BUILD_RR_PLUGINS)
 endif() #BUILD_RR_PLUGINS
 
 #List the semantic_STS last, since it takes much longer to run than the others.
-# (fyi, build the run-ctest-exclude-sbml-test-suite target - see below)
 add_subdirectory(semantic_STS)
 
 
@@ -308,16 +322,18 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     add_pytest_to_ctest(python_tests_AutomaticMoietyConservationAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_automaticMoietyConservationAnalysis.py")
     add_pytest_to_ctest(python_tests_ForwardSensitivitySolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_forwardSensitivitySolver.py")
     add_pytest_to_ctest(python_tests_IntegratorTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_integrator.py")
-    #add_pytest_to_ctest(python_tests_JacobianTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_jacobian.py")
-    add_pytest_to_ctest(python_tests_TestModelFactoryTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_modelFactory.py")
+    add_pytest_to_ctest(python_tests_JacobianTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_jacobian.py")
+    add_pytest_to_ctest(python_tests_TestModelFactoryTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_testModelFactory.py")
     add_pytest_to_ctest(python_tests_NamedArrayTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_namedArray.py")
     #add_pytest_to_ctest(python_tests_PickleTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_pickle.py")
     add_pytest_to_ctest(python_tests_Python_api_tests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_python_api.py")
     add_pytest_to_ctest(python_tests_RRTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_rrtests.py")
-    add_pytest_to_ctest(python_tests_RunStochasticTestSuite "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_runStochasticTestSuite.py")
     add_pytest_to_ctest(python_tests_SettingTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_settings.py")
     add_pytest_to_ctest(python_tests_SteadyStateSolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_steadyStateSolver.py")
-    #add_pytest_to_ctest(python_tests_StructuralAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_structuralAnalysis.py")
+    add_pytest_to_ctest(python_tests_StructuralAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_structuralAnalysis.py")
+
+    add_pytest_to_ctest(python_tests_RunStochasticTestSuite "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_runStochasticTestSuite.py")
+    add_pytest_to_ctest(python_tests_RoadRunnerMap "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_roadrunner_map.py")
 
     message(STATUS "PyTestTests ${PyTestTests}")
 
@@ -325,7 +341,6 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             run-pytest-tests
             ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
     )
-    #    add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI)
 endif ()
 
 #########################################################

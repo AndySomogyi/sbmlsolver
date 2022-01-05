@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1NLEQ2Solver" kind="class" language="C++" prot="public">
     <compoundname>rr::NLEQ2Solver</compoundname>
     <basecompoundref refid="classrr_1_1NLEQSolver" prot="public" virt="non-virtual">rr::NLEQSolver</basecompoundref>
@@ -9,6 +9,7 @@
         <definition>std::string rr::NLEQ2Solver::getName</definition>
         <argsstring>() const override</argsstring>
         <name>getName</name>
+        <qualifiedname>rr::NLEQ2Solver::getName</qualifiedname>
         <reimplements refid="classrr_1_1Registrable_1a7d66e096a8c5cfd5e3fdb6cf5aa339d6">getName</reimplements>
         <briefdescription>
 <para>Get the name for this <ref refid="classrr_1_1Solver" kindref="compound">Solver</ref>. </para>
@@ -29,6 +30,7 @@
         <definition>std::string rr::NLEQ2Solver::getDescription</definition>
         <argsstring>() const override</argsstring>
         <name>getDescription</name>
+        <qualifiedname>rr::NLEQ2Solver::getDescription</qualifiedname>
         <reimplements refid="classrr_1_1Registrable_1af8b4a2f0dc7cc99fa22c1056f917e5d4">getDescription</reimplements>
         <briefdescription>
 <para>Get the description for this <ref refid="classrr_1_1Solver" kindref="compound">Solver</ref>. </para>
@@ -49,6 +51,7 @@
         <definition>std::string rr::NLEQ2Solver::getHint</definition>
         <argsstring>() const override</argsstring>
         <name>getHint</name>
+        <qualifiedname>rr::NLEQ2Solver::getHint</qualifiedname>
         <reimplements refid="classrr_1_1Registrable_1a1a6c686212133cda58ab44b310f401d9">getHint</reimplements>
         <briefdescription>
 <para>Get the hint for this <ref refid="classrr_1_1Solver" kindref="compound">Solver</ref>. </para>
@@ -69,6 +72,7 @@
         <definition>double rr::NLEQ2Solver::solve</definition>
         <argsstring>() override</argsstring>
         <name>solve</name>
+        <qualifiedname>rr::NLEQ2Solver::solve</qualifiedname>
         <reimplements refid="classrr_1_1SteadyStateSolver_1ae7ef6c028ac70664cb37c2cb69e546a2">solve</reimplements>
         <briefdescription>
         </briefdescription>
@@ -83,7 +87,8 @@
         <definition>Solver * rr::NLEQ2Solver::construct</definition>
         <argsstring>(ExecutableModel *executableModel) const override</argsstring>
         <name>construct</name>
-        <reimplements refid="classrr_1_1Registrable_1a3f529e138fa0288622525bc13cd73c5f">construct</reimplements>
+        <qualifiedname>rr::NLEQ2Solver::construct</qualifiedname>
+        <reimplements refid="classrr_1_1Registrable_1a4380db83a3a2b122fe58fc3bbbb32a69">construct</reimplements>
         <param>
           <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
           <declname>executableModel</declname>
@@ -103,6 +108,7 @@
         <definition>rr::NLEQSolver::NLEQSolver</definition>
         <argsstring>(ExecutableModel *model)</argsstring>
         <name>NLEQSolver</name>
+        <qualifiedname>rr::NLEQ2Solver::NLEQSolver</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
           <declname>model</declname>
@@ -128,21 +134,15 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
-        <label>rr::Registrable</label>
-        <link refid="classrr_1_1Registrable"/>
-      </node>
       <node id="2">
         <label>rr::NLEQSolver</label>
         <link refid="classrr_1_1NLEQSolver"/>
         <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
-        <label>rr::SteadyStateSolver</label>
-        <link refid="classrr_1_1SteadyStateSolver"/>
-        <childnode refid="4" relation="public-inheritance">
-        </childnode>
+      <node id="5">
+        <label>rr::Registrable</label>
+        <link refid="classrr_1_1Registrable"/>
       </node>
       <node id="4">
         <label>rr::Solver</label>
@@ -150,17 +150,23 @@
         <childnode refid="5" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="3">
+        <label>rr::SteadyStateSolver</label>
+        <link refid="classrr_1_1SteadyStateSolver"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
     </inheritancegraph>
     <collaborationgraph>
+      <node id="6">
+        <label>rr::ExecutableModel</label>
+        <link refid="classrr_1_1ExecutableModel"/>
+      </node>
       <node id="1">
         <label>rr::NLEQ2Solver</label>
         <link refid="classrr_1_1NLEQ2Solver"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
-      </node>
-      <node id="5">
-        <label>rr::Registrable</label>
-        <link refid="classrr_1_1Registrable"/>
       </node>
       <node id="2">
         <label>rr::NLEQSolver</label>
@@ -168,11 +174,9 @@
         <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
-        <label>rr::SteadyStateSolver</label>
-        <link refid="classrr_1_1SteadyStateSolver"/>
-        <childnode refid="4" relation="public-inheritance">
-        </childnode>
+      <node id="5">
+        <label>rr::Registrable</label>
+        <link refid="classrr_1_1Registrable"/>
       </node>
       <node id="4">
         <label>rr::Solver</label>
@@ -183,9 +187,11 @@
           <edgelabel>mModel</edgelabel>
         </childnode>
       </node>
-      <node id="6">
-        <label>rr::ExecutableModel</label>
-        <link refid="classrr_1_1ExecutableModel"/>
+      <node id="3">
+        <label>rr::SteadyStateSolver</label>
+        <link refid="classrr_1_1SteadyStateSolver"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
       </node>
     </collaborationgraph>
     <location file="NLEQ2Solver.h" line="28" column="5" bodyfile="NLEQ2Solver.h" bodystart="28" bodyend="63"/>
@@ -198,14 +204,11 @@
       <member refid="classrr_1_1Solver_1a76b76c8ba3a31a2c6a600322c90a0452" prot="public" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>DisplayNameMap</name></member>
       <member refid="classrr_1_1NLEQ2Solver_1aa262aaf5e1361ac34802a3e4c28772af" prot="public" virt="virtual"><scope>rr::NLEQ2Solver</scope><name>getDescription</name></member>
       <member refid="classrr_1_1Solver_1a522a881e88165986944db55a8f2da845" prot="public" virt="non-virtual" ambiguityscope="rr::NLEQSolver::"><scope>rr::NLEQ2Solver</scope><name>getDescription</name></member>
-      <member refid="classrr_1_1Solver_1a1062b181455da6310d5678a4c978d072" prot="public" virt="non-virtual" ambiguityscope="rr::NLEQSolver::"><scope>rr::NLEQ2Solver</scope><name>getDescription</name></member>
       <member refid="classrr_1_1Solver_1a1fce02df70c95855d9d3cd7e3d352c08" prot="public" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>getDisplayName</name></member>
       <member refid="classrr_1_1NLEQ2Solver_1acb4cad3d5920adff567ee9a70d3646bc" prot="public" virt="virtual"><scope>rr::NLEQ2Solver</scope><name>getHint</name></member>
       <member refid="classrr_1_1Solver_1a4915611d49d03f0fe499bed99a05aae1" prot="public" virt="non-virtual" ambiguityscope="rr::NLEQSolver::"><scope>rr::NLEQ2Solver</scope><name>getHint</name></member>
-      <member refid="classrr_1_1Solver_1a30605288d92db09d42a886c132e5429f" prot="public" virt="non-virtual" ambiguityscope="rr::NLEQSolver::"><scope>rr::NLEQ2Solver</scope><name>getHint</name></member>
       <member refid="classrr_1_1Solver_1ac89194d54aaad3ecc71e1cfbbef83d15" prot="public" virt="virtual"><scope>rr::NLEQ2Solver</scope><name>getModel</name></member>
       <member refid="classrr_1_1NLEQ2Solver_1acab401cc8acf3cf2049557b10342efe1" prot="public" virt="virtual"><scope>rr::NLEQ2Solver</scope><name>getName</name></member>
-      <member refid="classrr_1_1Solver_1ae4ae3d123747f44ba18cb94a37cdcc6d" prot="public" virt="non-virtual" ambiguityscope="rr::NLEQSolver::"><scope>rr::NLEQ2Solver</scope><name>getName</name></member>
       <member refid="classrr_1_1Solver_1abbefd0f38dfa2651c74f8abbd6d7b143" prot="public" virt="virtual"><scope>rr::NLEQ2Solver</scope><name>getNumParams</name></member>
       <member refid="classrr_1_1Solver_1aa13e13a92531fde27fe5711790eee0f7" prot="public" virt="virtual"><scope>rr::NLEQ2Solver</scope><name>getParamDesc</name></member>
       <member refid="classrr_1_1Solver_1afc0a667f204105aa133376144ce14c75" prot="public" virt="virtual"><scope>rr::NLEQ2Solver</scope><name>getParamDisplayName</name></member>
@@ -223,7 +226,6 @@
       <member refid="classrr_1_1NLEQSolver_1af791dc24c5517ddd9c0684dbc17c43d2" prot="public" virt="virtual"><scope>rr::NLEQ2Solver</scope><name>loadConfigSettings</name></member>
       <member refid="classrr_1_1Solver_1ab60e7640a8c959558a144d9d7ee45515" prot="protected" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>mModel</name></member>
       <member refid="classrr_1_1NLEQ2Solver_1a285280e71f68f3bebf39eca43e4b16c5" prot="public" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>NLEQSolver</name></member>
-      <member refid="classrr_1_1NLEQSolver_1a285280e71f68f3bebf39eca43e4b16c5" prot="public" virt="non-virtual" ambiguityscope="rr::NLEQSolver::"><scope>rr::NLEQ2Solver</scope><name>NLEQSolver</name></member>
       <member refid="classrr_1_1NLEQSolver_1a73142505757b0b6363da15e2b937dd78" prot="public" virt="virtual"><scope>rr::NLEQ2Solver</scope><name>resetSettings</name></member>
       <member refid="classrr_1_1Solver_1a44a22cf0edead17a9cc923d87dcc063e" prot="public" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>settings</name></member>
       <member refid="classrr_1_1Solver_1adcbacd57e2871a83bb9c4d7a4038a069" prot="public" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>SettingsList</name></member>
@@ -234,7 +236,6 @@
       <member refid="classrr_1_1NLEQSolver_1ae8deaaf0ce433690e1facc32d00b6e91" prot="public" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>solveNLEQ</name></member>
       <member refid="classrr_1_1SteadyStateSolver_1a04bba4a342cc7197750f080d41d439e5" prot="public" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>Solver</name></member>
       <member refid="classrr_1_1SteadyStateSolver_1aa0a07553e368f0be33b9bfc429782a97" prot="public" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>Solver</name></member>
-      <member refid="classrr_1_1Solver_1aa0a07553e368f0be33b9bfc429782a97" prot="public" virt="non-virtual" ambiguityscope="rr::Solver::"><scope>rr::NLEQ2Solver</scope><name>Solver</name></member>
       <member refid="classrr_1_1Solver_1a99f48947491d7cd36c68cebba53915fe" prot="public" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>sorted_settings</name></member>
       <member refid="classrr_1_1NLEQSolver_1a02142cf0c637815a33c754e8637fdb3f" prot="public" virt="virtual"><scope>rr::NLEQ2Solver</scope><name>syncWithModel</name></member>
       <member refid="classrr_1_1SteadyStateSolver_1a4307ed20fd04adf61cc8b4ef9a88f747" prot="public" virt="virtual"><scope>rr::NLEQ2Solver</scope><name>toRepr</name></member>

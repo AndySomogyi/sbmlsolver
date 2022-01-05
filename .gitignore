@@ -53,6 +53,9 @@ cmake-*
 build
 out
 
+#test output file(s?)
+test/sbml-test-suite/stochastic/results.tsv
+
 install-release
 build-debug
 build-release
@@ -61,3 +64,11 @@ roadrunner-install-*
 
 # temp.
 sundials
+test/PerformanceTests/biomodels
+test/PerformanceTests/biomodels.zip
+test/PerformanceTests/simulations
+test/PerformanceTests/OldData
+build-msvc
+
+biomodels
+biomodels.zip

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1ApproxSteadyStateDecorator" kind="class" language="C++" prot="public">
     <compoundname>rr::ApproxSteadyStateDecorator</compoundname>
     <basecompoundref refid="classrr_1_1SteadyStateSolverDecorator" prot="public" virt="non-virtual">rr::SteadyStateSolverDecorator</basecompoundref>
@@ -9,6 +9,7 @@
         <definition>rr::ApproxSteadyStateDecorator::~ApproxSteadyStateDecorator</definition>
         <argsstring>() override=default</argsstring>
         <name>~ApproxSteadyStateDecorator</name>
+        <qualifiedname>rr::ApproxSteadyStateDecorator::~ApproxSteadyStateDecorator</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -22,6 +23,7 @@
         <definition>rr::ApproxSteadyStateDecorator::ApproxSteadyStateDecorator</definition>
         <argsstring>(SteadyStateSolver *solver)</argsstring>
         <name>ApproxSteadyStateDecorator</name>
+        <qualifiedname>rr::ApproxSteadyStateDecorator::ApproxSteadyStateDecorator</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1SteadyStateSolver" kindref="compound">SteadyStateSolver</ref> *</type>
           <declname>solver</declname>
@@ -39,6 +41,7 @@
         <definition>double rr::ApproxSteadyStateDecorator::solve</definition>
         <argsstring>() override</argsstring>
         <name>solve</name>
+        <qualifiedname>rr::ApproxSteadyStateDecorator::solve</qualifiedname>
         <reimplements refid="classrr_1_1SteadyStateSolver_1ae7ef6c028ac70664cb37c2cb69e546a2">solve</reimplements>
         <briefdescription>
         </briefdescription>
@@ -53,7 +56,8 @@
         <definition>Solver * rr::ApproxSteadyStateDecorator::construct</definition>
         <argsstring>(ExecutableModel *executableModel) const override</argsstring>
         <name>construct</name>
-        <reimplements refid="classrr_1_1Registrable_1a3f529e138fa0288622525bc13cd73c5f">construct</reimplements>
+        <qualifiedname>rr::ApproxSteadyStateDecorator::construct</qualifiedname>
+        <reimplements refid="classrr_1_1Registrable_1a4380db83a3a2b122fe58fc3bbbb32a69">construct</reimplements>
         <param>
           <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
           <declname>model</declname>
@@ -75,6 +79,7 @@ the caller is responsible for deleting memory associated with the returned Solve
         <definition>rr::SteadyStateSolverDecorator::SteadyStateSolverDecorator</definition>
         <argsstring>()=default</argsstring>
         <name>SteadyStateSolverDecorator</name>
+        <qualifiedname>rr::ApproxSteadyStateDecorator::SteadyStateSolverDecorator</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -88,6 +93,7 @@ the caller is responsible for deleting memory associated with the returned Solve
         <definition>rr::SteadyStateSolverDecorator::SteadyStateSolverDecorator</definition>
         <argsstring>(SteadyStateSolver *solver)</argsstring>
         <name>SteadyStateSolverDecorator</name>
+        <qualifiedname>rr::ApproxSteadyStateDecorator::SteadyStateSolverDecorator</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1SteadyStateSolver" kindref="compound">SteadyStateSolver</ref> *</type>
           <declname>solver</declname>
@@ -107,6 +113,7 @@ the caller is responsible for deleting memory associated with the returned Solve
         <definition>std::string rr::ApproxSteadyStateDecorator::decoratorName</definition>
         <argsstring>() const override</argsstring>
         <name>decoratorName</name>
+        <qualifiedname>rr::ApproxSteadyStateDecorator::decoratorName</qualifiedname>
         <reimplements refid="classrr_1_1SteadyStateSolverDecorator_1a665732d0647ee9d077fad0fef5f10b55">decoratorName</reimplements>
         <briefdescription>
 <para>get the name of this decorator. </para>
@@ -124,27 +131,15 @@ the caller is responsible for deleting memory associated with the returned Solve
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="5">
-        <label>rr::Registrable</label>
-        <link refid="classrr_1_1Registrable"/>
-      </node>
-      <node id="2">
-        <label>rr::SteadyStateSolverDecorator</label>
-        <link refid="classrr_1_1SteadyStateSolverDecorator"/>
-        <childnode refid="3" relation="public-inheritance">
-        </childnode>
-      </node>
       <node id="1">
         <label>rr::ApproxSteadyStateDecorator</label>
         <link refid="classrr_1_1ApproxSteadyStateDecorator"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
-        <label>rr::SteadyStateSolver</label>
-        <link refid="classrr_1_1SteadyStateSolver"/>
-        <childnode refid="4" relation="public-inheritance">
-        </childnode>
+      <node id="5">
+        <label>rr::Registrable</label>
+        <link refid="classrr_1_1Registrable"/>
       </node>
       <node id="4">
         <label>rr::Solver</label>
@@ -152,32 +147,33 @@ the caller is responsible for deleting memory associated with the returned Solve
         <childnode refid="5" relation="public-inheritance">
         </childnode>
       </node>
-    </inheritancegraph>
-    <collaborationgraph>
-      <node id="5">
-        <label>rr::Registrable</label>
-        <link refid="classrr_1_1Registrable"/>
+      <node id="3">
+        <label>rr::SteadyStateSolver</label>
+        <link refid="classrr_1_1SteadyStateSolver"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
       </node>
       <node id="2">
         <label>rr::SteadyStateSolverDecorator</label>
         <link refid="classrr_1_1SteadyStateSolverDecorator"/>
         <childnode refid="3" relation="public-inheritance">
         </childnode>
-        <childnode refid="3" relation="usage">
-          <edgelabel>solver_</edgelabel>
-        </childnode>
       </node>
+    </inheritancegraph>
+    <collaborationgraph>
       <node id="1">
         <label>rr::ApproxSteadyStateDecorator</label>
         <link refid="classrr_1_1ApproxSteadyStateDecorator"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
-        <label>rr::SteadyStateSolver</label>
-        <link refid="classrr_1_1SteadyStateSolver"/>
-        <childnode refid="4" relation="public-inheritance">
-        </childnode>
+      <node id="6">
+        <label>rr::ExecutableModel</label>
+        <link refid="classrr_1_1ExecutableModel"/>
+      </node>
+      <node id="5">
+        <label>rr::Registrable</label>
+        <link refid="classrr_1_1Registrable"/>
       </node>
       <node id="4">
         <label>rr::Solver</label>
@@ -188,9 +184,20 @@ the caller is responsible for deleting memory associated with the returned Solve
           <edgelabel>mModel</edgelabel>
         </childnode>
       </node>
-      <node id="6">
-        <label>rr::ExecutableModel</label>
-        <link refid="classrr_1_1ExecutableModel"/>
+      <node id="3">
+        <label>rr::SteadyStateSolver</label>
+        <link refid="classrr_1_1SteadyStateSolver"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rr::SteadyStateSolverDecorator</label>
+        <link refid="classrr_1_1SteadyStateSolverDecorator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>solver_</edgelabel>
+        </childnode>
       </node>
     </collaborationgraph>
     <location file="ApproxSteadyStateDecorator.h" line="12" column="5" bodyfile="ApproxSteadyStateDecorator.h" bodystart="12" bodyend="27"/>
@@ -205,14 +212,11 @@ the caller is responsible for deleting memory associated with the returned Solve
       <member refid="classrr_1_1Solver_1a76b76c8ba3a31a2c6a600322c90a0452" prot="public" virt="non-virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>DisplayNameMap</name></member>
       <member refid="classrr_1_1SteadyStateSolverDecorator_1aeee54937d2c9bc9959e7be1ed217831c" prot="public" virt="virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>getDescription</name></member>
       <member refid="classrr_1_1Solver_1a522a881e88165986944db55a8f2da845" prot="public" virt="non-virtual" ambiguityscope="rr::SteadyStateSolver::"><scope>rr::ApproxSteadyStateDecorator</scope><name>getDescription</name></member>
-      <member refid="classrr_1_1Solver_1a1062b181455da6310d5678a4c978d072" prot="public" virt="non-virtual" ambiguityscope="rr::SteadyStateSolver::"><scope>rr::ApproxSteadyStateDecorator</scope><name>getDescription</name></member>
       <member refid="classrr_1_1Solver_1a1fce02df70c95855d9d3cd7e3d352c08" prot="public" virt="non-virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>getDisplayName</name></member>
       <member refid="classrr_1_1SteadyStateSolverDecorator_1a010d1f84529bbcc1177f35ee646e8b6c" prot="public" virt="virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>getHint</name></member>
       <member refid="classrr_1_1Solver_1a4915611d49d03f0fe499bed99a05aae1" prot="public" virt="non-virtual" ambiguityscope="rr::SteadyStateSolver::"><scope>rr::ApproxSteadyStateDecorator</scope><name>getHint</name></member>
-      <member refid="classrr_1_1Solver_1a30605288d92db09d42a886c132e5429f" prot="public" virt="non-virtual" ambiguityscope="rr::SteadyStateSolver::"><scope>rr::ApproxSteadyStateDecorator</scope><name>getHint</name></member>
       <member refid="classrr_1_1Solver_1ac89194d54aaad3ecc71e1cfbbef83d15" prot="public" virt="virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>getModel</name></member>
       <member refid="classrr_1_1SteadyStateSolverDecorator_1ab40943abac1972772212fb7fad42afa3" prot="public" virt="virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>getName</name></member>
-      <member refid="classrr_1_1Solver_1ae4ae3d123747f44ba18cb94a37cdcc6d" prot="public" virt="non-virtual" ambiguityscope="rr::SteadyStateSolver::"><scope>rr::ApproxSteadyStateDecorator</scope><name>getName</name></member>
       <member refid="classrr_1_1Solver_1abbefd0f38dfa2651c74f8abbd6d7b143" prot="public" virt="virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>getNumParams</name></member>
       <member refid="classrr_1_1Solver_1aa13e13a92531fde27fe5711790eee0f7" prot="public" virt="virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>getParamDesc</name></member>
       <member refid="classrr_1_1Solver_1afc0a667f204105aa133376144ce14c75" prot="public" virt="virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>getParamDisplayName</name></member>
@@ -238,12 +242,10 @@ the caller is responsible for deleting memory associated with the returned Solve
       <member refid="classrr_1_1ApproxSteadyStateDecorator_1a9c057974a3015b2aeb955cafb8a30654" prot="public" virt="virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>solve</name></member>
       <member refid="classrr_1_1SteadyStateSolver_1a04bba4a342cc7197750f080d41d439e5" prot="public" virt="non-virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>Solver</name></member>
       <member refid="classrr_1_1SteadyStateSolver_1aa0a07553e368f0be33b9bfc429782a97" prot="public" virt="non-virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>Solver</name></member>
-      <member refid="classrr_1_1Solver_1aa0a07553e368f0be33b9bfc429782a97" prot="public" virt="non-virtual" ambiguityscope="rr::Solver::"><scope>rr::ApproxSteadyStateDecorator</scope><name>Solver</name></member>
       <member refid="classrr_1_1SteadyStateSolverDecorator_1a03e7c058ba9134cb97366f34bade46f8" prot="protected" virt="non-virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>solver_</name></member>
       <member refid="classrr_1_1Solver_1a99f48947491d7cd36c68cebba53915fe" prot="public" virt="non-virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>sorted_settings</name></member>
       <member refid="classrr_1_1ApproxSteadyStateDecorator_1a3458067f3ee8c6d02989298d63e1d4b0" prot="public" virt="non-virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>SteadyStateSolverDecorator</name></member>
       <member refid="classrr_1_1ApproxSteadyStateDecorator_1ae9a490c475a289808fe2caebea3fe55e" prot="public" virt="non-virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>SteadyStateSolverDecorator</name></member>
-      <member refid="classrr_1_1SteadyStateSolverDecorator_1ae9a490c475a289808fe2caebea3fe55e" prot="public" virt="non-virtual" ambiguityscope="rr::SteadyStateSolverDecorator::"><scope>rr::ApproxSteadyStateDecorator</scope><name>SteadyStateSolverDecorator</name></member>
       <member refid="classrr_1_1SteadyStateSolverDecorator_1a3d28cd898cf997dbc2243b0fc2ae3856" prot="public" virt="virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>syncWithModel</name></member>
       <member refid="classrr_1_1SteadyStateSolver_1a4307ed20fd04adf61cc8b4ef9a88f747" prot="public" virt="virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>toRepr</name></member>
       <member refid="classrr_1_1SteadyStateSolver_1aaf40e2ae58d2f4fef80a00f5bb7fd413" prot="public" virt="virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>toString</name></member>

@@ -21,13 +21,12 @@ Inheritance diagram for rr\+::RK4\+Integrator\+:\begin{figure}[H]
 \mbox{\hyperlink{classrr_1_1RK4Integrator_ac7059cef88e3a80e415855ec5fb2d2ef}{RK4\+Integrator}} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$m)
 \begin{DoxyCompactList}\small\item\em Creates a new \mbox{\hyperlink{classrr_1_1RK4Integrator}{RK4\+Integrator}}. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1RK4Integrator_abb1a43506358e94d2fbca78c4a2cc479}\label{classrr_1_1RK4Integrator_abb1a43506358e94d2fbca78c4a2cc479}} 
-\mbox{\hyperlink{classrr_1_1RK4Integrator_abb1a43506358e94d2fbca78c4a2cc479}{$\sim$\+RK4\+Integrator}} () override
+{\bfseries $\sim$\+RK4\+Integrator} () override
 \begin{DoxyCompactList}\small\item\em clean up any mess. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classrr_1_1RK4Integrator_a11c9feeea50fcf52a453f374c1152535}{sync\+With\+Model}} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$m) override
 \begin{DoxyCompactList}\small\item\em Called whenever a new model is loaded to allow integrator to reset internal state. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classrr_1_1RK4Integrator_a3656bd81548da001b68c969740a3bc94}{integrate}} (double t0, double tf) override
 \begin{DoxyCompactList}\small\item\em implement \mbox{\hyperlink{classrr_1_1Integrator}{Integrator}} interface \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1RK4Integrator_abdfa3fcd449ee9d7b3cb3ee421291fe4}\label{classrr_1_1RK4Integrator_abdfa3fcd449ee9d7b3cb3ee421291fe4}} 
 void \mbox{\hyperlink{classrr_1_1RK4Integrator_abdfa3fcd449ee9d7b3cb3ee421291fe4}{restart}} (double t0) override
 \begin{DoxyCompactList}\small\item\em copies the state std\+::vector out of the model and into cvode std\+::vector, re-\/initializes cvode. \end{DoxyCompactList}\item 
 std\+::string \mbox{\hyperlink{classrr_1_1RK4Integrator_afaa4307423748acd1572966df97bae98}{get\+Name}} () const override
@@ -47,7 +46,6 @@ void \mbox{\hyperlink{classrr_1_1RK4Integrator_a1eb6cfa0ea863c828fc8b25ec2cfd389
 \begin{DoxyCompactList}\small\item\em Reset all integrator settings to their respective default values. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classrr_1_1RK4Integrator_a2d58f1e62b818ab6da2e72639eee0103}{set\+Listener}} (Integrator\+Listener\+Ptr) override
 \begin{DoxyCompactList}\small\item\em the integrator can hold a single listener. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1RK4Integrator_a673dba96f3e55e5f1bda0872f01d12ac}\label{classrr_1_1RK4Integrator_a673dba96f3e55e5f1bda0872f01d12ac}} 
 Integrator\+Listener\+Ptr \mbox{\hyperlink{classrr_1_1RK4Integrator_a673dba96f3e55e5f1bda0872f01d12ac}{get\+Listener}} () override
 \begin{DoxyCompactList}\small\item\em get the integrator listener \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1RK4Integrator_a8a79e9633a25767a1683a0334fd1d917}\label{classrr_1_1RK4Integrator_a8a79e9633a25767a1683a0334fd1d917}} 
@@ -105,7 +103,7 @@ construct an instance of type \mbox{\hyperlink{classrr_1_1RK4Integrator}{RK4\+In
 
 implements the Registrar interface. Used in factory creation of Integrators. 
 
-Implements \mbox{\hyperlink{classrr_1_1Registrable_a3f529e138fa0288622525bc13cd73c5f}{rr\+::\+Registrable}}.
+Implements \mbox{\hyperlink{classrr_1_1Registrable_a4380db83a3a2b122fe58fc3bbbb32a69}{rr\+::\+Registrable}}.
 
 \mbox{\Hypertarget{classrr_1_1RK4Integrator_ae6c9594979872d04923ea6f641dc711a}\label{classrr_1_1RK4Integrator_ae6c9594979872d04923ea6f641dc711a}} 
 \index{rr::RK4Integrator@{rr::RK4Integrator}!getDescription@{getDescription}}
@@ -164,6 +162,20 @@ JKM
 
 Implements \mbox{\hyperlink{classrr_1_1Integrator}{rr\+::\+Integrator}}.
 
+\mbox{\Hypertarget{classrr_1_1RK4Integrator_a673dba96f3e55e5f1bda0872f01d12ac}\label{classrr_1_1RK4Integrator_a673dba96f3e55e5f1bda0872f01d12ac}} 
+\index{rr::RK4Integrator@{rr::RK4Integrator}!getListener@{getListener}}
+\index{getListener@{getListener}!rr::RK4Integrator@{rr::RK4Integrator}}
+\doxysubsubsection{\texorpdfstring{getListener()}{getListener()}}
+{\footnotesize\ttfamily Integrator\+Listener\+Ptr rr\+::\+RK4\+Integrator\+::get\+Listener (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+get the integrator listener 
+
+
+
+Implements \mbox{\hyperlink{classrr_1_1Integrator}{rr\+::\+Integrator}}.
+
 \mbox{\Hypertarget{classrr_1_1RK4Integrator_afaa4307423748acd1572966df97bae98}\label{classrr_1_1RK4Integrator_afaa4307423748acd1572966df97bae98}} 
 \index{rr::RK4Integrator@{rr::RK4Integrator}!getName@{getName}}
 \index{getName@{getName}!rr::RK4Integrator@{rr::RK4Integrator}}
@@ -214,6 +226,20 @@ JKM
 
 
 Reimplemented from \mbox{\hyperlink{classrr_1_1Solver_a71c8b404a40447f879b2253e7dcc3b85}{rr\+::\+Solver}}.
+
+\mbox{\Hypertarget{classrr_1_1RK4Integrator_abdfa3fcd449ee9d7b3cb3ee421291fe4}\label{classrr_1_1RK4Integrator_abdfa3fcd449ee9d7b3cb3ee421291fe4}} 
+\index{rr::RK4Integrator@{rr::RK4Integrator}!restart@{restart}}
+\index{restart@{restart}!rr::RK4Integrator@{rr::RK4Integrator}}
+\doxysubsubsection{\texorpdfstring{restart()}{restart()}}
+{\footnotesize\ttfamily void rr\+::\+RK4\+Integrator\+::restart (\begin{DoxyParamCaption}\item[{double}]{t0 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+copies the state std\+::vector out of the model and into cvode std\+::vector, re-\/initializes cvode. 
+
+
+
+Implements \mbox{\hyperlink{classrr_1_1Integrator}{rr\+::\+Integrator}}.
 
 \mbox{\Hypertarget{classrr_1_1RK4Integrator_a2d58f1e62b818ab6da2e72639eee0103}\label{classrr_1_1RK4Integrator_a2d58f1e62b818ab6da2e72639eee0103}} 
 \index{rr::RK4Integrator@{rr::RK4Integrator}!setListener@{setListener}}

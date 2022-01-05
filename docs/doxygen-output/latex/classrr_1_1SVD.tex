@@ -15,13 +15,13 @@ The routine computes the singular value decomposition (\mbox{\hyperlink{classrr_
 \mbox{\hyperlink{classrr_1_1SVD_a0569c342c50ef3ee3d28b7b6160f9760}{SVD}} (ls\+::\+Double\+Matrix \&matrix)
 \begin{DoxyCompactList}\small\item\em constructor for \mbox{\hyperlink{classrr_1_1SVD}{SVD}} \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1SVD_a0b4a95bc088a26d8b39270c2bb78ecff}\label{classrr_1_1SVD_a0b4a95bc088a26d8b39270c2bb78ecff}} 
-const ls\+::\+Double\+Matrix \& \mbox{\hyperlink{classrr_1_1SVD_a0b4a95bc088a26d8b39270c2bb78ecff}{get\+Singular\+Values}} () const
+const ls\+::\+Double\+Matrix \& {\bfseries get\+Singular\+Values} () const
 \begin{DoxyCompactList}\small\item\em returns the singular values computed for input matrix \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1SVD_aaa62288e25ab68c503461e69d321e317}\label{classrr_1_1SVD_aaa62288e25ab68c503461e69d321e317}} 
-const ls\+::\+Double\+Matrix \& \mbox{\hyperlink{classrr_1_1SVD_aaa62288e25ab68c503461e69d321e317}{get\+Left\+Singular\+Vectors}} () const
+const ls\+::\+Double\+Matrix \& {\bfseries get\+Left\+Singular\+Vectors} () const
 \begin{DoxyCompactList}\small\item\em returns left singular vectors where columns are the left vectors \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1SVD_abd19a9873fc9b890f8c5ff01ead7166d}\label{classrr_1_1SVD_abd19a9873fc9b890f8c5ff01ead7166d}} 
-const ls\+::\+Double\+Matrix \& \mbox{\hyperlink{classrr_1_1SVD_abd19a9873fc9b890f8c5ff01ead7166d}{get\+Right\+Singular\+Vectors}} () const
+const ls\+::\+Double\+Matrix \& {\bfseries get\+Right\+Singular\+Vectors} () const
 \begin{DoxyCompactList}\small\item\em returns right singular vectors where rows are the right vectors \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{classrr_1_1SVD_af8f8852be210b950e1d0c4d5f5c1254f}{rank}} (double tol=1e-\/15) const
 \begin{DoxyCompactList}\small\item\em estimates the rank of the matrix by counting non 0 singular values. \end{DoxyCompactList}\item 
@@ -34,7 +34,7 @@ The routine computes the singular value decomposition (\mbox{\hyperlink{classrr_
 
 Often when computing the steady state of a system the jacobian matrix is singular. \mbox{\hyperlink{classrr_1_1SVD}{SVD}} is a way of computing the rank of a matrix, which in turn can be used to determine whether a rank is singular\+:
 \begin{DoxyItemize}
-\item if rank $<$ min(\+N, M) of an NxM matrix then it is singular. 
+\item if rank \texorpdfstring{$<$}{<} min(\+N, M) of an NxM matrix then it is singular. 
 \end{DoxyItemize}
 
 \doxysubsection{Constructor \& Destructor Documentation}

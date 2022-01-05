@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="Integrator_8h" kind="file" language="C++">
     <compoundname>Integrator.h</compoundname>
     <includes refid="rrLogger_8h" local="yes">rrLogger.h</includes>
@@ -13,6 +13,7 @@
     <includes refid="RegistrationFactory_8h" local="yes">RegistrationFactory.h</includes>
     <includes local="no">stdexcept</includes>
     <includedby refid="CVODEIntegrator_8h" local="yes">CVODEIntegrator.h</includedby>
+    <includedby refid="rrc__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</includedby>
     <includedby refid="EulerIntegrator_8h" local="yes">EulerIntegrator.h</includedby>
     <includedby refid="GillespieIntegrator_8h" local="yes">GillespieIntegrator.h</includedby>
     <includedby refid="Integrator_8cpp" local="yes">Integrator.cpp</includedby>
@@ -20,44 +21,20 @@
     <includedby refid="RK4Integrator_8h" local="no">RK4Integrator.h</includedby>
     <includedby refid="rrRoadRunner_8cpp" local="yes">rrRoadRunner.cpp</includedby>
     <includedby refid="rrRoadRunnerOptions_8h" local="yes">rrRoadRunnerOptions.h</includedby>
-    <includedby refid="rrc__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</includedby>
     <incdepgraph>
-      <node id="13">
-        <label>functional</label>
-      </node>
-      <node id="7">
-        <label>Setting.h</label>
-        <link refid="Setting_8h_source"/>
-        <childnode refid="8" relation="include">
+      <node id="6">
+        <label>Dictionary.h</label>
+        <link refid="Dictionary_8h_source"/>
+        <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-      </node>
-      <node id="11">
-        <label>limits</label>
-      </node>
-      <node id="4">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="8">
-        <label>variant</label>
       </node>
       <node id="1">
         <label>Integrator.h</label>
@@ -83,8 +60,53 @@
         <childnode refid="24" relation="include">
         </childnode>
       </node>
-      <node id="24">
-        <label>stdexcept</label>
+      <node id="21">
+        <label>Registrable.h</label>
+        <link refid="Registrable_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>RegistrationFactory.h</label>
+        <link refid="RegistrationFactory_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Setting.h</label>
+        <link refid="Setting_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
       </node>
       <node id="20">
         <label>Solver.h</label>
@@ -106,23 +128,6 @@
         <childnode refid="24" relation="include">
         </childnode>
       </node>
-      <node id="2">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="18">
-        <label>string</label>
-      </node>
-      <node id="23">
-        <label>tr1proxy/rr_unordered_map.h</label>
-      </node>
-      <node id="17">
-        <label>exception</label>
-      </node>
       <node id="16">
         <label>rrException.h</label>
         <link refid="rrException_8h_source"/>
@@ -135,68 +140,14 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="14">
-        <label>typeinfo</label>
+      <node id="4">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
       </node>
-      <node id="15">
-        <label>setting_t.h</label>
-        <link refid="setting__t_8h_source"/>
-      </node>
-      <node id="10">
-        <label>vector</label>
-      </node>
-      <node id="3">
-        <label>sstream</label>
-      </node>
-      <node id="21">
-        <label>Registrable.h</label>
-        <link refid="Registrable_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
-        <label>iostream</label>
-      </node>
-      <node id="19">
-        <label>unordered_map</label>
-      </node>
-      <node id="22">
-        <label>tr1proxy/rr_memory.h</label>
-      </node>
-      <node id="26">
-        <label>mutex</label>
-      </node>
-      <node id="25">
-        <label>RegistrationFactory.h</label>
-        <link refid="RegistrationFactory_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-      </node>
-      <node id="12">
-        <label>type_traits</label>
-      </node>
-      <node id="6">
-        <label>Dictionary.h</label>
-        <link refid="Dictionary_8h_source"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
+      <node id="2">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
@@ -207,22 +158,95 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-    </incdepgraph>
-    <invincdepgraph>
-      <node id="5">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
-        <link refid="rrc__api_8cpp"/>
+      <node id="15">
+        <label>setting_t.h</label>
+        <link refid="setting__t_8h_source"/>
+      </node>
+      <node id="17">
+        <label>exception</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
       </node>
       <node id="9">
-        <label>RK45Integrator.h</label>
-        <link refid="RK45Integrator_8h"/>
+        <label>iostream</label>
+      </node>
+      <node id="11">
+        <label>limits</label>
+      </node>
+      <node id="26">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>sstream</label>
+      </node>
+      <node id="24">
+        <label>stdexcept</label>
+      </node>
+      <node id="18">
+        <label>string</label>
+      </node>
+      <node id="22">
+        <label>tr1proxy/rr_memory.h</label>
+      </node>
+      <node id="23">
+        <label>tr1proxy/rr_unordered_map.h</label>
+      </node>
+      <node id="12">
+        <label>type_traits</label>
+      </node>
+      <node id="14">
+        <label>typeinfo</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>variant</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>CVODEIntegrator.h</label>
+        <link refid="CVODEIntegrator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+      </node>
+      <node id="7">
+        <label>EulerIntegrator.h</label>
+        <link refid="EulerIntegrator_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ForwardSensitivitySolver.h</label>
+        <link refid="ForwardSensitivitySolver_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>GillespieIntegrator.h</label>
+        <link refid="GillespieIntegrator_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Integrator.cpp</label>
+        <link refid="Integrator_8cpp"/>
       </node>
       <node id="1">
         <label>Integrator.h</label>
         <link refid="Integrator_8h"/>
         <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
@@ -236,7 +260,11 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+      </node>
+      <node id="9">
+        <label>RK45Integrator.h</label>
+        <link refid="RK45Integrator_8h"/>
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="10">
@@ -251,16 +279,38 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="7">
-        <label>EulerIntegrator.h</label>
-        <link refid="EulerIntegrator_8h_source"/>
-        <childnode refid="6" relation="include">
+      <node id="14">
+        <label>llvm/JitFactory.h</label>
+        <link refid="JitFactory_8h_source"/>
+      </node>
+      <node id="12">
+        <label>llvm/LLVMModelGenerator.h</label>
+        <link refid="LLVMModelGenerator_8h_source"/>
+      </node>
+      <node id="13">
+        <label>llvm/MCJit.h</label>
+        <link refid="MCJit_8h_source"/>
+        <childnode refid="14" relation="include">
         </childnode>
+      </node>
+      <node id="15">
+        <label>rrRoadRunner.h</label>
+        <link refid="rrRoadRunner_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>rrRoadRunnerMap.h</label>
+        <link refid="rrRoadRunnerMap_8h_source"/>
       </node>
       <node id="11">
         <label>rrRoadRunnerOptions.h</label>
         <link refid="rrRoadRunnerOptions_8h_source"/>
         <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
@@ -274,58 +324,26 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="13">
+      <node id="17">
         <label>rrSBMLModelSimulation.h</label>
         <link refid="rrSBMLModelSimulation_8h_source"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="15">
-        <label>llvm/LLVMModelGenerator.h</label>
-        <link refid="LLVMModelGenerator_8h_source"/>
-      </node>
-      <node id="3">
-        <label>ForwardSensitivitySolver.h</label>
-        <link refid="ForwardSensitivitySolver_8h_source"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="12">
-        <label>rrRoadRunner.h</label>
-        <link refid="rrRoadRunner_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>Integrator.cpp</label>
-        <link refid="Integrator_8cpp"/>
-      </node>
-      <node id="2">
-        <label>CVODEIntegrator.h</label>
-        <link refid="CVODEIntegrator_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
-      <node id="14">
+      <node id="18">
         <label>rrTestSuiteModelSimulation.h</label>
         <link refid="rrTestSuiteModelSimulation_8h_source"/>
       </node>
-      <node id="8">
-        <label>GillespieIntegrator.h</label>
-        <link refid="GillespieIntegrator_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
+      <node id="5">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
+        <link refid="rrc__api_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classrr_1_1IntegratorListener" prot="public">rr::IntegratorListener</innerclass>
@@ -396,7 +414,7 @@
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
 <codeline lineno="49" refid="classrr_1_1IntegratorListener_1a4ff64f8bf4a208d25b37b7e99560d82e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint<sp/><ref refid="classrr_1_1IntegratorListener_1a4ff64f8bf4a208d25b37b7e99560d82e" kindref="member">onEvent</ref>(<ref refid="classrr_1_1Integrator" kindref="compound">Integrator</ref><sp/>*integrator,<sp/><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref><sp/>*model,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>time)<sp/>=<sp/>0;</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>~<ref refid="classrr_1_1IntegratorListener" kindref="compound">IntegratorListener</ref>()<sp/>{};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1IntegratorListener" kindref="compound">~IntegratorListener</ref>()<sp/>{};</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"></highlight></codeline>
 <codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>cxx11_ns::shared_ptr&lt;IntegratorListener&gt;<sp/>IntegratorListenerPtr;</highlight></codeline>
@@ -423,7 +441,7 @@
 <codeline lineno="80"><highlight class="normal"></highlight></codeline>
 <codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1Integrator" kindref="compound">Integrator</ref>();</highlight></codeline>
 <codeline lineno="82"><highlight class="normal"></highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>~<ref refid="classrr_1_1Integrator" kindref="compound">Integrator</ref>()<sp/>{};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Integrator" kindref="compound">~Integrator</ref>()<sp/>{};</highlight></codeline>
 <codeline lineno="84"><highlight class="normal"></highlight></codeline>
 <codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>IntegrationMethod<sp/>getIntegrationMethod()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"></highlight></codeline>

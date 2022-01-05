@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrcStringList_8h" kind="file" language="C++">
     <compoundname>rrcStringList.h</compoundname>
     <includes local="no">vector</includes>
@@ -10,12 +10,9 @@
     <includedby refid="rrArrayList_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrArrayList.cpp</includedby>
     <includedby refid="rrArrayList_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrArrayList.h</includedby>
     <includedby refid="rrArrayListItem_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrArrayListItem.h</includedby>
-    <includedby refid="rrc__cpp__support_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_cpp_support.h</includedby>
     <includedby refid="rrcStringList_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrcStringList.cpp</includedby>
+    <includedby refid="rrc__cpp__support_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_cpp_support.h</includedby>
     <incdepgraph>
-      <node id="5">
-        <label>stdbool.h</label>
-      </node>
       <node id="6">
         <label>rrConstants.h</label>
         <link refid="rrConstants_8h_source"/>
@@ -28,31 +25,9 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="7">
-        <label>limits</label>
-      </node>
-      <node id="10">
-        <label>rrc_types.h</label>
-        <link refid="rrc__types_8h"/>
-      </node>
       <node id="9">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="3">
-        <label>string</label>
-      </node>
-      <node id="2">
-        <label>vector</label>
-      </node>
-      <node id="8">
-        <label>cstdlib</label>
-      </node>
-      <node id="4">
-        <label>rrc_exporter.h</label>
-        <link refid="rrc__exporter_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
       </node>
       <node id="1">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrcStringList.h</label>
@@ -68,28 +43,43 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-    </incdepgraph>
-    <invincdepgraph>
-      <node id="5">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrArrayListItem.h</label>
-        <link refid="rrArrayListItem_8h_source"/>
-        <childnode refid="2" relation="include">
+      <node id="4">
+        <label>rrc_exporter.h</label>
+        <link refid="rrc__exporter_8h"/>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="4">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
-        <link refid="rrc__api_8cpp"/>
+      <node id="10">
+        <label>rrc_types.h</label>
+        <link refid="rrc__types_8h"/>
+      </node>
+      <node id="8">
+        <label>cstdlib</label>
+      </node>
+      <node id="7">
+        <label>limits</label>
+      </node>
+      <node id="5">
+        <label>stdbool.h</label>
       </node>
       <node id="3">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_cpp_support.h</label>
-        <link refid="rrc__cpp__support_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
+        <label>string</label>
       </node>
+      <node id="2">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
       <node id="2">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrArrayList.h</label>
         <link refid="rrArrayList_8h_source"/>
         <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrArrayListItem.h</label>
+        <link refid="rrArrayListItem_8h_source"/>
+        <childnode refid="2" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -100,6 +90,16 @@
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
+        <link refid="rrc__api_8cpp"/>
+      </node>
+      <node id="3">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_cpp_support.h</label>
+        <link refid="rrc__cpp__support_8h"/>
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -138,7 +138,7 @@
 <codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;string&gt;&amp;<sp/>strings);</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref>&amp;<sp/>cp);</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref>(<ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">rrc::RRStringArrayPtr</ref><sp/>cp);</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>~<ref refid="classrr_1_1StringList" kindref="compound">StringList</ref>();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1StringList" kindref="compound">~StringList</ref>();</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>InsertAt(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>index,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>item);</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Append(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref>&amp;<sp/>list);</highlight></codeline>

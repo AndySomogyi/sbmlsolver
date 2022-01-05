@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Main RoadRunner Class &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -37,13 +36,11 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div>
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -53,6 +50,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
@@ -89,17 +88,14 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" aria-label="Top" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">libRoadRunner</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          
-
-<div role="navigation" aria-label="Breadcrumbs">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="api_reference.html">Python RoadRunner API Reference</a> &raquo;</li>
@@ -113,11 +109,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="the-main-roadrunner-class">
+  <div class="section" id="the-main-roadrunner-class">
 <h1>The Main RoadRunner Class<a class="headerlink" href="#the-main-roadrunner-class" title="Permalink to this headline"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="RoadRunner">
-<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">RoadRunner</span></span><a class="headerlink" href="#RoadRunner" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RoadRunner</span></span><a class="headerlink" href="#RoadRunner" title="Permalink to this definition"></a></dt>
 <dd><p>The main RoadRunner class. Its objects, i.e. <code class="docutils literal notranslate"><span class="pre">rr</span> <span class="pre">=</span> <span class="pre">RoadRunner()</span></code> perform
 the libRoaRunner functions, i.e. <code class="docutils literal notranslate"><span class="pre">rr.simulate()</span></code>.</p>
 </dd></dl>
@@ -382,7 +378,7 @@ For more information on the possible settings, see <a class="reference internal"
 </dl>
 </dd></dl>
 
-<section id="selections">
+<div class="section" id="selections">
 <h2>Selections<a class="headerlink" href="#selections" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.getIds">
@@ -448,8 +444,8 @@ For more information on accepted selection types, see <a class="reference intern
 <dd><p>Resets time course and steady state selection lists to defaults</p>
 </dd></dl>
 
-</section>
-<section id="model-access">
+</div>
+<div class="section" id="model-access">
 <h2>Model Access<a class="headerlink" href="#model-access" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.isModelLoaded">
@@ -459,7 +455,7 @@ For more information on accepted selection types, see <a class="reference intern
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.model">
-<span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">model</span></span><em class="property"> <span class="pre">None</span></em><a class="headerlink" href="#RoadRunner.RoadRunner.model" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">model</span></span><em class="property"><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#RoadRunner.RoadRunner.model" title="Permalink to this definition"></a></dt>
 <dd><p>Get the currently loaded model. The model object contains the entire state of the SBML model.</p>
 </dd></dl>
 
@@ -557,8 +553,8 @@ parameters are introduced.</p>
 </div>
 </dd></dl>
 
-</section>
-<section id="model-editing">
+</div>
+<div class="section" id="model-editing">
 <h2>Model Editing<a class="headerlink" href="#model-editing" title="Permalink to this headline"></a></h2>
 <p>Easy edit to the model without modifying and reloading sbml files.</p>
 <dl class="py method">
@@ -1125,8 +1121,8 @@ the model once after all editings are completed.</p>
 
 </dd></dl>
 
-</section>
-<section id="simulation">
+</div>
+<div class="section" id="simulation">
 <h2>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline"></a></h2>
 <p>Fast and easy time series simulations is one of the main objectives of the RoadRunner project.</p>
 <p>All simulation related tasks can be accomplished with the single <code class="docutils literal notranslate"><span class="pre">simulate</span></code> method.</p>
@@ -1241,12 +1237,12 @@ column vector, and the 0’th column is the simulation time.</p>
 the function will return an empty array.</p>
 </dd></dl>
 
-</section>
-<section id="steady-state">
+</div>
+<div class="section" id="steady-state">
 <h2>Steady State<a class="headerlink" href="#steady-state" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.SteadyStateSolver">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">SteadyStateSolver</span></span><a class="headerlink" href="#RoadRunner.RoadRunner.SteadyStateSolver" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">SteadyStateSolver</span></span><a class="headerlink" href="#RoadRunner.RoadRunner.SteadyStateSolver" title="Permalink to this definition"></a></dt>
 <dd><p>RoadRunner.SteadyStateSolver class.</p>
 </dd></dl>
 
@@ -1330,8 +1326,8 @@ the steady state selections with all necessary labels.</p>
 </dl>
 </dd></dl>
 
-</section>
-<section id="metabolic-control-analysis">
+</div>
+<div class="section" id="metabolic-control-analysis">
 <h2>Metabolic control analysis<a class="headerlink" href="#metabolic-control-analysis" title="Permalink to this headline"></a></h2>
 <p>In the special case when an SBML model is a purely reaction kinetics model – no rate rules, no
 assignment rules for chemical species, and time invariant stoichiometry, specialized analysis methods
@@ -1604,8 +1600,8 @@ named parameter</p>
 </dl>
 </dd></dl>
 
-</section>
-<section id="stoichiometric-analysis">
+</div>
+<div class="section" id="stoichiometric-analysis">
 <h2>Stoichiometric Analysis<a class="headerlink" href="#stoichiometric-analysis" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.getFullStoichiometryMatrix">
@@ -1678,8 +1674,8 @@ The K matrix has the structure, <img class="math" src="../_images/math/adc2c9790
 </dl>
 </dd></dl>
 
-</section>
-<section id="analysis">
+</div>
+<div class="section" id="analysis">
 <h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.getFrequencyResponse">
@@ -1793,14 +1789,13 @@ given by the order of Ids returned by getDependentFloatingSpeciesIds()</p>
 </div>
 </dd></dl>
 
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="cls_Config.html" class="btn btn-neutral float-left" title="Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="cls_Solver.html" class="btn btn-neutral float-right" title="Solver Class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
@@ -1812,7 +1807,8 @@ given by the order of Ids returned by getDependentFloatingSpeciesIds()</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

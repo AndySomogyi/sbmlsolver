@@ -10,9 +10,15 @@
 #define CACHEDMODEL_H_
 
 #include "LLVMExecutableModel.h"
+#include "llvm/Jit.h"
 
+namespace rr {
+    class ExecutableModel;
+}
 namespace rrllvm
 {
+
+    class Jit;
 
 class ModelResources
 {
@@ -72,19 +78,21 @@ public:
      */
 
     const LLVMModelDataSymbols *symbols;
-    llvm::LLVMContext *context;
-    llvm::ExecutionEngine *executionEngine;
+    std::unique_ptr<llvm::LLVMContext> context;
+    std::unique_ptr<llvm::ExecutionEngine> executionEngine;
 
     llvm::Module *module = nullptr;
 
     std::string moduleStr;
+    std::string sbmlMD5;
     const class Random *random;
-    const std::string *errStr;
+    std::unique_ptr<std::string> errStr;
 
-private:
-	void addGlobalMapping(std::string name, void*);
-	void addGlobalMappings();
-	static llvm::Function* createGlobalMappingFunction(const char* funcName, llvm::FunctionType *funcType, llvm::Module*);
+    std::unique_ptr<Jit> jit;
+
+//private:
+//	void addGlobalMapping(std::string name, void*);
+//	void addGlobalMappings();
 };
 
 } /* namespace rrllvm */

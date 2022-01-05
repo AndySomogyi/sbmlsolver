@@ -53,14 +53,12 @@ Copy constructor; creates a deep copy of the given ASTNode.
 
 Creates and returns a new ASTNode. 
 
-Unless the argument {\ttfamily type} is given, the returned node will by default have a type of \mbox{\hyperlink{}{AST\+\_\+\+UNKNOWN}}. If the type isn\textquotesingle{}t supplied when caling this constructor, the caller should set the node type to something else as soon as possible using ASTNode\+::set\+Type(int).
-
-
+Unless the argument {\ttfamily type} is given, the returned node will by default have a type of \mbox{\hyperlink{}{AST\+\_\+\+UNKNOWN}}. If the type isn\textquotesingle{}t supplied when caling this constructor, the caller should set the node type to something else as soon as possible using  ASTNode\+::set\+Type(int) 
 \begin{DoxyParams}{Parameters}
-{\em type} & an optional type code indicating the type of node to create. \\
+{\em type} & an optional  type\\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classrrllvm_1_1ASTNodeFactory_a3ee8bfff471bd962ecb440b62f78c983}\label{classrrllvm_1_1ASTNodeFactory_a3ee8bfff471bd962ecb440b62f78c983}} 
+code indicating the type of node to create.\mbox{\Hypertarget{classrrllvm_1_1ASTNodeFactory_a3ee8bfff471bd962ecb440b62f78c983}\label{classrrllvm_1_1ASTNodeFactory_a3ee8bfff471bd962ecb440b62f78c983}} 
 \index{rrllvm::ASTNodeFactory@{rrllvm::ASTNodeFactory}!create@{create}}
 \index{create@{create}!rrllvm::ASTNodeFactory@{rrllvm::ASTNodeFactory}}
 \doxysubsubsection{\texorpdfstring{create()}{create()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}

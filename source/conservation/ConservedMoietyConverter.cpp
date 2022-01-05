@@ -210,8 +210,8 @@ int ConservedMoietyConverter::convert()
     }
 
 
-    Model* mModel = mDocument->getModel();
-    if (mModel == NULL)
+    Model* m = mDocument->getModel();
+    if (m == NULL)
     {
         rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter document does not have a model";
         return LIBSBML_INVALID_OBJECT;
@@ -243,9 +243,9 @@ int ConservedMoietyConverter::convert()
     }
 
     // makes a clone of the model
-    if((err = resultDoc->setModel(mModel)) != LIBSBML_OPERATION_SUCCESS)
+    if((err = resultDoc->setModel(m)) != LIBSBML_OPERATION_SUCCESS)
     {
-        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter resultDoc->syncWithModel(mModel) failed: "
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter resultDoc->syncWithModel(m) failed: "
                 << std::endl
                 << OperationReturnValue_toString(err);
         return err;
@@ -264,7 +264,7 @@ int ConservedMoietyConverter::convert()
 
     if (rr::Logger::getLevel() >= loggingLevel)
     {
-        rrLog(loggingLevel) << "performing conversion on " << mModel->getName();
+        rrLog(loggingLevel) << "performing conversion on " << m->getName();
         rrLog(loggingLevel) << "independent species: " << toString(indSpecies);
         rrLog(loggingLevel) << "dependent species: " << toString(depSpecies);
         rrLog(loggingLevel) << "L0 matrix: " << std::endl << *L0;
@@ -274,7 +274,7 @@ int ConservedMoietyConverter::convert()
                 << std::endl << *(structural->getReorderedStoichiometryMatrix());
     }
 
-    createReorderedSpecies(resultModel, mModel, indSpecies, depSpecies);
+    createReorderedSpecies(resultModel, m, indSpecies, depSpecies);
 
     std::vector<std::string> conservedMoieties = createConservedMoietyParameters(
             resultModel, *L0, indSpecies, depSpecies);

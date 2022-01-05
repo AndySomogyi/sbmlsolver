@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrSBMLReader_8cpp" kind="file" language="C++">
     <compoundname>rrSBMLReader.cpp</compoundname>
     <includes local="no">Poco/URI.h</includes>
@@ -22,59 +22,6 @@
     <includes local="no">sbml/conversion/SBMLConverterRegistry.h</includes>
     <includes local="no">sbml/SBMLWriter.h</includes>
     <incdepgraph>
-      <node id="3">
-        <label>Poco/URIStreamOpener.h</label>
-      </node>
-      <node id="4">
-        <label>Poco/Net/HTTPStreamFactory.h</label>
-      </node>
-      <node id="10">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="17">
-        <label>variant</label>
-      </node>
-      <node id="11">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-      </node>
-      <node id="14">
-        <label>string</label>
-      </node>
-      <node id="23">
-        <label>sbml/SBMLWriter.h</label>
-      </node>
-      <node id="8">
-        <label>Poco/File.h</label>
-      </node>
-      <node id="13">
-        <label>rrSBMLReader.h</label>
-        <link refid="rrSBMLReader_8h_source"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-      </node>
-      <node id="16">
-        <label>exception</label>
-      </node>
-      <node id="2">
-        <label>Poco/URI.h</label>
-      </node>
-      <node id="5">
-        <label>Poco/RegularExpression.h</label>
-      </node>
-      <node id="7">
-        <label>Poco/Path.h</label>
-      </node>
-      <node id="21">
-        <label>sbml/SBMLReader.h</label>
-      </node>
       <node id="15">
         <label>rrException.h</label>
         <link refid="rrException_8h_source"/>
@@ -87,23 +34,17 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="22">
-        <label>sbml/conversion/SBMLConverterRegistry.h</label>
+      <node id="10">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
       </node>
-      <node id="12">
-        <label>sstream</label>
-      </node>
-      <node id="20">
-        <label>cctype</label>
-      </node>
-      <node id="18">
-        <label>iostream</label>
-      </node>
-      <node id="19">
-        <label>algorithm</label>
-      </node>
-      <node id="6">
-        <label>Poco/Mutex.h</label>
+      <node id="11">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
       </node>
       <node id="9">
         <label>rrOSSpecifics.h</label>
@@ -152,6 +93,65 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
+      </node>
+      <node id="13">
+        <label>rrSBMLReader.h</label>
+        <link refid="rrSBMLReader_8h_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>Poco/File.h</label>
+      </node>
+      <node id="6">
+        <label>Poco/Mutex.h</label>
+      </node>
+      <node id="4">
+        <label>Poco/Net/HTTPStreamFactory.h</label>
+      </node>
+      <node id="7">
+        <label>Poco/Path.h</label>
+      </node>
+      <node id="5">
+        <label>Poco/RegularExpression.h</label>
+      </node>
+      <node id="2">
+        <label>Poco/URI.h</label>
+      </node>
+      <node id="3">
+        <label>Poco/URIStreamOpener.h</label>
+      </node>
+      <node id="19">
+        <label>algorithm</label>
+      </node>
+      <node id="20">
+        <label>cctype</label>
+      </node>
+      <node id="16">
+        <label>exception</label>
+      </node>
+      <node id="18">
+        <label>iostream</label>
+      </node>
+      <node id="21">
+        <label>sbml/SBMLReader.h</label>
+      </node>
+      <node id="23">
+        <label>sbml/SBMLWriter.h</label>
+      </node>
+      <node id="22">
+        <label>sbml/conversion/SBMLConverterRegistry.h</label>
+      </node>
+      <node id="12">
+        <label>sstream</label>
+      </node>
+      <node id="14">
+        <label>string</label>
+      </node>
+      <node id="17">
+        <label>variant</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>
@@ -326,7 +326,7 @@
 <codeline lineno="188"><highlight class="normal"></highlight></codeline>
 <codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>C++<sp/>standard<sp/>library<sp/>isn&apos;t<sp/>self-consistent</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="190"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>mytolower(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>x)<sp/>{</highlight></codeline>
-<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::tolower(x);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">)std::tolower(x);</highlight></codeline>
 <codeline lineno="192"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="193"><highlight class="normal"></highlight></codeline>
 <codeline lineno="194"><highlight class="normal">std::string<sp/><ref refid="classrr_1_1SBMLReader_1a44068da2706c5ee19f091b5c81def54c" kindref="member">SBMLReader::read</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>str)</highlight></codeline>
@@ -401,11 +401,13 @@
 <codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>str;</highlight></codeline>
 <codeline lineno="264"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="265"><highlight class="normal"></highlight></codeline>
-<codeline lineno="266"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>rr<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
 <codeline lineno="267"><highlight class="normal"></highlight></codeline>
-<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>rr<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="269"><highlight class="normal"></highlight></codeline>
 <codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="rrSBMLReader.cpp"/>
   </compounddef>

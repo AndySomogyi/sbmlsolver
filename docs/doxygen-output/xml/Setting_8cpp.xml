@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="Setting_8cpp" kind="file" language="C++">
     <compoundname>Setting.cpp</compoundname>
     <includes refid="Setting_8h" local="yes">Setting.h</includes>
@@ -8,22 +8,18 @@
     <includes local="no">functional</includes>
     <includes refid="rrStringUtils_8h" local="yes">rrStringUtils.h</includes>
     <incdepgraph>
-      <node id="19">
-        <label>list</label>
-      </node>
-      <node id="9">
-        <label>functional</label>
-      </node>
-      <node id="24">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="7" relation="include">
+      <node id="1">
+        <label>Setting.cpp</label>
+        <link refid="Setting_8cpp"/>
+        <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -50,38 +46,17 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="7">
-        <label>limits</label>
-      </node>
-      <node id="15">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="3">
-        <label>variant</label>
-      </node>
-      <node id="1">
-        <label>Setting.cpp</label>
-        <link refid="Setting_8cpp"/>
-        <childnode refid="2" relation="include">
+      <node id="24">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-      </node>
-      <node id="14">
-        <label>string</label>
-      </node>
-      <node id="21">
-        <label>map</label>
-      </node>
-      <node id="13">
-        <label>exception</label>
       </node>
       <node id="12">
         <label>rrException.h</label>
@@ -95,27 +70,9 @@
         <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="10">
-        <label>typeinfo</label>
-      </node>
-      <node id="11">
-        <label>setting_t.h</label>
-        <link refid="setting__t_8h_source"/>
-      </node>
-      <node id="5">
-        <label>vector</label>
-      </node>
-      <node id="17">
-        <label>utility</label>
-      </node>
-      <node id="6">
-        <label>sstream</label>
-      </node>
-      <node id="25">
-        <label>cstdlib</label>
-      </node>
-      <node id="4">
-        <label>iostream</label>
+      <node id="15">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
       </node>
       <node id="18">
         <label>rrStringUtils.h</label>
@@ -141,20 +98,63 @@
         <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="22">
-        <label>unordered_map</label>
+      <node id="11">
+        <label>setting_t.h</label>
+        <link refid="setting__t_8h_source"/>
       </node>
-      <node id="8">
-        <label>type_traits</label>
-      </node>
-      <node id="23">
-        <label>set</label>
+      <node id="16">
+        <label>algorithm</label>
       </node>
       <node id="20">
         <label>complex</label>
       </node>
-      <node id="16">
-        <label>algorithm</label>
+      <node id="25">
+        <label>cstdlib</label>
+      </node>
+      <node id="13">
+        <label>exception</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>iostream</label>
+      </node>
+      <node id="7">
+        <label>limits</label>
+      </node>
+      <node id="19">
+        <label>list</label>
+      </node>
+      <node id="21">
+        <label>map</label>
+      </node>
+      <node id="23">
+        <label>set</label>
+      </node>
+      <node id="6">
+        <label>sstream</label>
+      </node>
+      <node id="14">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>type_traits</label>
+      </node>
+      <node id="10">
+        <label>typeinfo</label>
+      </node>
+      <node id="22">
+        <label>unordered_map</label>
+      </node>
+      <node id="17">
+        <label>utility</label>
+      </node>
+      <node id="3">
+        <label>variant</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>
@@ -288,7 +288,7 @@
 <codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="125"><highlight class="normal"></highlight></codeline>
-<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>Setting<sp/>&amp;Setting::operator=(Setting<sp/>&amp;&amp;setting)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>Setting<sp/>&amp;Setting::operator=(Setting<sp/>&amp;&amp;setting)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
 <codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>!=<sp/>&amp;setting)<sp/>{</highlight></codeline>
 <codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value_<sp/>=<sp/>setting.getValue();</highlight></codeline>
 <codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
@@ -302,7 +302,7 @@
 <codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>value_(std::move(setting.getValue()))<sp/>{}</highlight></codeline>
 <codeline lineno="138"><highlight class="normal"></highlight></codeline>
 <codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::type_info<sp/>&amp;Setting::typeInfo()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::visit([](</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;&amp;x)<sp/>-&gt;<sp/>decltype(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::visit([](</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;&amp;x)<sp/>-&gt;<sp/></highlight><highlight class="keyword">decltype</highlight><highlight class="normal">(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::move(</highlight><highlight class="keyword">typeid</highlight><highlight class="normal">(x));</highlight></codeline>
 <codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},<sp/>value_);</highlight></codeline>
 <codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>

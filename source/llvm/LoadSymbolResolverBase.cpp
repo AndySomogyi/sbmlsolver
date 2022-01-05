@@ -29,7 +29,7 @@ LoadSymbolResolverBase::LoadSymbolResolverBase(
         modelSymbols(ctx.getModelSymbols()),
         modelData(modelData),
         modelDataSymbols(ctx.getModelDataSymbols()),
-        builder(ctx.getBuilder())
+        builder(*ctx.getJitNonOwning()->getBuilderNonOwning())
 {
     // start with a single empty cache block
     symbolCache.push_back(ValueMap());
@@ -107,11 +107,11 @@ llvm::Value* LoadSymbolResolverBase::cacheValue(const std::string& symbol,
         const llvm::ArrayRef<llvm::Value*>& args,
         llvm::Value* value)
 {
-    if(args.size() || !modelGenContext.useSymbolCache()) {
+    if(!args.empty() || !modelGenContext.useSymbolCache()) {
         return value;
     }
 
-    assert(symbolCache.size() && "symbol cache stack empty");
+    assert(!symbolCache.empty() && "symbol cache stack empty");
 
     if(value) {
         ValueMap &values = symbolCache.back();

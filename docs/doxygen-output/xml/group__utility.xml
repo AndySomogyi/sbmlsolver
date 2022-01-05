@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="group__utility" kind="group">
     <compoundname>utility</compoundname>
     <title>Utility functions</title>
       <sectiondef kind="func">
-      <memberdef kind="function" id="group__utility_1gaff2a26066f24b54f39c68beeb5338c3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1ga205f62add6103bac0fb26cad7e2e5914" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getAPIVersion</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getAPIVersion</definition>
         <argsstring>(void)</argsstring>
         <name>getAPIVersion</name>
         <param>
@@ -24,9 +24,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="100" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="100" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1ga090ca781c38ddbb220cfad882b172f53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1ga176e563b3d7f32037c56ba1273d4c919" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getCPPAPIVersion</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getCPPAPIVersion</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getCPPAPIVersion</name>
         <param>
@@ -54,9 +54,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="108" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="108" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1ga61250a85fdc6cc67f331bc4030bfeeed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1gafce4606b138efa3b17e28f3966c1b93c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getExtendedAPIInfo</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getExtendedAPIInfo</definition>
         <argsstring>()</argsstring>
         <name>getExtendedAPIInfo</name>
         <briefdescription>
@@ -71,9 +71,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="138" column="31" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="138" declcolumn="31"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1gacf6956b3e7546fce03a36d3e52301358" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1ga6ffcdff4d0099d5c94fee9d1abf93f3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getBuildDate</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getBuildDate</definition>
         <argsstring>(void)</argsstring>
         <name>getBuildDate</name>
         <param>
@@ -91,9 +91,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="145" column="31" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="145" declcolumn="31"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1ga27b6009b7b7f8de5445787ad839a0246" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1ga13bdcd39aaa18268a31afc060417437d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getBuildTime</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getBuildTime</definition>
         <argsstring>(void)</argsstring>
         <name>getBuildTime</name>
         <param>
@@ -111,9 +111,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="152" column="31" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="152" declcolumn="31"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1ga372decc8acef5346f330148594844f68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1ga53e63bf5237b8e8839c5dd1fd5607e43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getBuildDateTime</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getBuildDateTime</definition>
         <argsstring>(void)</argsstring>
         <name>getBuildDateTime</name>
         <param>
@@ -131,9 +131,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="159" column="31" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="159" declcolumn="31"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1ga67a7b431f66978753a8837718fd0112f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1ga909790f456d1a032049c75013814edd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getCopyright</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getCopyright</definition>
         <argsstring>(void)</argsstring>
         <name>getCopyright</name>
         <param>
@@ -151,9 +151,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="166" column="31" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="166" declcolumn="31"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1ga84805d87e0b75fcaff3b7ad3d1179002" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1gae657705965d7a22b555f62a44d90a15f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getInfo</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getInfo</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getInfo</name>
         <param>
@@ -181,9 +181,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="174" column="31" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="174" declcolumn="31"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1ga2235582889c86de1bcef3c2a83631183" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1ga3289ab11b43ae71cb77e7d72905e4b21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getlibSBMLVersion</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getlibSBMLVersion</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getlibSBMLVersion</name>
         <param>
@@ -253,9 +253,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="195" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="195" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1ga2aa2fbec7d08c77d38e62df4c48e428e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1ga6ee2696295901d265494a18228cfcc4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getTempFolder</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getTempFolder</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getTempFolder</name>
         <param>
@@ -283,9 +283,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="207" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="207" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1gad7dc449357c2b600b81c9e2990ad38dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1gaa589240169c653747f7c702a614489c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getWorkingDirectory</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getWorkingDirectory</definition>
         <argsstring>(void)</argsstring>
         <name>getWorkingDirectory</name>
         <param>
@@ -303,9 +303,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="215" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="215" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1ga128bafde3b10f0ce64ca3c6b06b14cde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1ga98a4ed176eeff87e87fa4a4acf5240a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getRRCAPILocation</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getRRCAPILocation</definition>
         <argsstring>(void)</argsstring>
         <name>getRRCAPILocation</name>
         <param>
@@ -365,9 +365,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="233" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="233" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1gae7a9642fcd8b299d57007bb45238fc82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1gab3490137aa84bb6424ae8ccba0eb135c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getCompiler</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getCompiler</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getCompiler</name>
         <param>
@@ -425,9 +425,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="249" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="249" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1ga254939fcaf8c8ae7caaea2471fedc8b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1ga601a1298cfd5bea6847975ddd1ab5a2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getCompilerLocation</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getCompilerLocation</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getCompilerLocation</name>
         <param>
@@ -497,9 +497,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="268" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="268" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__utility_1gad6fb8cb063c5cd3cae8cbdffc8a5f477" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__utility_1ga1462be979b060f04caa87394d5a53173" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getSupportCodeFolder</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getSupportCodeFolder</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getSupportCodeFolder</name>
         <param>

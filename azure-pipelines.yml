@@ -11,6 +11,7 @@ trigger:
     - develop
     - release
     - experimental-release
+    - orc-jit-rr-container
 
 variables:
   SOURCE_DIR: '$(System.DefaultWorkingDirectory)' # eg /home/vsts/work/1/s
@@ -39,11 +40,22 @@ stages:
           matrix:
             64-bit Mac Release:
               BuildType: Release
+              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
             64-bit Mac Debug:
               BuildType: Debug
+              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
         variables:
           LLVM_CACHE: 'false'
+          PythonName: 'py39'
+          MinicondaRoot : '/usr/local/miniconda'
+          PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
+          PythonLibDir: '$(PythonRoot)/lib'
+          PythonExecutable: '$(PythonRoot)/bin/python'
+          CondaExecutable: '$(MinicondaRoot)/condabin/conda'
+          PipExecutable: '$(PythonRoot)/bin/pip'
         steps:
+          - checkout: self
+            submodules: recursive
           - script: |
               echo "SOURCE_DIR $(SOURCE_DIR)"
               echo "BUILD_DIR $(BUILD_DIR)"
@@ -85,6 +97,28 @@ stages:
               mkdir $(LLVM_INSTALL_PREFIX)
               mkdir $(DEPS_INSTALL_PREFIX)
             displayName: Make Directories
+
+          - bash: echo "##vso[task.prependpath]$CONDA/bin"
+            displayName: Add conda to PATH
+
+          # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
+          # We need to take ownership if we want to update conda or install packages globally
+          - bash: sudo chown -R $USER $CONDA
+            displayName: Take ownership of conda installation
+          - script: |
+              echo "cd to source dir: $(SOURCE_DIR)"
+              cd $(SOURCE_DIR)
+              echo "ls"
+              ls
+              echo "which conda"
+              which conda
+              echo "cd miniconda root: $(MinicondaRoot)"
+              cd $(MinicondaRoot)
+              echo "ls"
+              ls
+              $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
+            displayName: InstallCondaEnv
+
           - script: brew install ncurses
             displayName: install ncurses
           - task: Cache@2
@@ -94,16 +128,11 @@ stages:
               cacheHitVar: LLVM_CACHE
             displayName: Load cached llvm
           - script: |
-              # todo put into actual script
-              echo "current driectory is: $(pwd)"
-              echo "ls $(ls)"
-              wget -q https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-clang11.0.3-x64-release.zip
-              unzip llvm-6.x-clang11.0.3-x64-release.zip
-              mv llvm-6.x-clang11.0.3-x64-release/** '$(LLVM_INSTALL_PREFIX)'
-              echo "cd to LLVM_INSTALL_PREFIX: $(LLVM_INSTALL_PREFIX)"
-              cd $(LLVM_INSTALL_PREFIX)
-              echo "ls:"
-              ls
+              $(PipExecutable) install requests
+              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
+              echo "give execute permissions to llvm-config using chmod 777 *"
+              cd $(LLVM_INSTALL_PREFIX)/bin
+              chmod 777 llvm-config
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
           - task: DownloadPipelineArtifact@2
@@ -116,7 +145,8 @@ stages:
               # for example, it looks like this:
               # - https://dev.azure.com/TheRoadrunnerProject/libroadrunner-deps/_build?definitionId=9
               pipeline: 9
-              runVersion: 'latest'
+              runVersion: 'latestFromBranch'
+              runBranch: 'refs/heads/release'
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -150,7 +180,9 @@ stages:
           - script: |
               echo "cd to build dir $(BUILD_DIR)"
               cd $(BUILD_DIR)
-              ctest --verbose --extra-verbose --progress
+              if [ "$(BuildType)" == "Release" ]; then
+                ctest --verbose --extra-verbose --progress
+              fi
             displayName: RunCTest
           - task: CopyFiles@2
             inputs:
@@ -172,9 +204,6 @@ stages:
           vmImage: 'macOS-10.15'
         strategy:
           matrix:
-            py36:
-              PythonVersion: 3.6
-              PythonName: py36
             py37:
               PythonVersion: 3.7
               PythonName: py37
@@ -193,9 +222,12 @@ stages:
           PipExecutable: '$(PythonRoot)/bin/pip'
 
           LLVM_CACHE: 'false'
+          LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
           SWIG_CACHE: 'false'
           MINICONDA_CACHE: 'false'
         steps:
+          - checkout: self
+            submodules: recursive
           - bash: echo "##vso[task.prependpath]$CONDA/bin"
             displayName: Add conda to PATH
 
@@ -227,7 +259,6 @@ stages:
               echo "PythonRoot $(PythonRoot)"
               echo "PythonLibDir $(PythonLibDir)"
               echo "CondaExecutable $(CondaExecutable)"
-#              $(CondaExecutable) -h
             displayName: PrintPythonVariables
           - script: |
               mkdir $(LLVM_INSTALL_PREFIX)
@@ -242,24 +273,21 @@ stages:
               cacheHitVar: LLVM_CACHE
             displayName: Load cached llvm
           - script: |
-              # todo put into actual script
-              echo "current driectory is: $(pwd)"
-              echo "ls $(ls)"
-              wget -q https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-clang11.0.3-x64-release.zip
-              unzip llvm-6.x-clang11.0.3-x64-release.zip
-              mv llvm-6.x-clang11.0.3-x64-release/** '$(LLVM_INSTALL_PREFIX)'
-              echo "cd to LLVM_INSTALL_PREFIX: $(LLVM_INSTALL_PREFIX)"
-              cd $(LLVM_INSTALL_PREFIX)
-              echo "ls:"
-              ls
+              $(PipExecutable) install requests
+              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
+              echo "give execute permissions to llvm-config using chmod 777 *"
+              cd $(LLVM_INSTALL_PREFIX)/bin
+              chmod 777 llvm-config
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
+
           - task: DownloadPipelineArtifact@2
             inputs:
               source: 'specific'
               project: 'libroadrunner-deps'
               pipeline: 9
-              runVersion: 'latest'
+              runVersion: 'latestFromBranch'
+              runBranch: 'refs/heads/release'
               artifact: libroadrunner-deps-$(Agent.OS)-Release
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -392,9 +420,26 @@ stages:
           matrix:
             64-bit Windows Release:
               BuildType: Release
+              BuildTests: ON
+              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-msvc2022-x64-rel.zip'
+            64-bit Windows Debug:
+              BuildType: Debug
+              BuildTests: OFF
+              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-msvc2022-x64-dbg.zip'
         variables:
           LLVM_CACHE: 'false'
+          MinicondaRoot : 'C:\Miniconda'
+          PythonName: 'py39'
+          PythonVersion: '3.9'
+          PythonRoot: '$(MinicondaRoot)\envs\$(PythonName)'
+          PythonLibDir: '$(PythonRoot)\Lib'
+          PythonScriptsDir: '$(PythonRoot)\Scripts'
+          PythonExecutable: '$(PythonRoot)\python.exe'
+          PipExecutable: '$(PythonScriptsDir)\pip.exe'
+
         steps:
+          - checkout: self
+            submodules: recursive
           - powershell: |
               echo "SOURCE_DIR $(SOURCE_DIR)"
               echo "BUILD_DIR $(BUILD_DIR)"
@@ -429,33 +474,44 @@ stages:
               mkdir $(LLVM_INSTALL_PREFIX)
               mkdir $(DEPS_INSTALL_PREFIX)
             displayName: Make Directories
-          - task: Cache@2
-            inputs:
-              key: "llvm | $(Agent.OS)"
-              path: $(LLVM_INSTALL_PREFIX)
-              cacheHitVar: LLVM_CACHE
+
+          - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
+            displayName: Add conda to PATH
           - powershell: |
-              $ProgressPreference = 'SilentlyContinue'
-              Invoke-WebRequest https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-release.zip -OutFile llvm-6.x-msvc2019-x64-release.zip
-              Expand-Archive  llvm-6.x-msvc2019-x64-release.zip -Destination $(LLVM_INSTALL_PREFIX)
-              rm llvm-6.x-msvc2019-x64-release.zip # since we are limited to 10gb space per job we clean up zips
-              cd $(LLVM_INSTALL_PREFIX)\llvm-6.x-msvc2019-x64-release
-              echo "pwd: $(pwd)"
-              ls
-              mv * ..
-              cd ..
-              rm -R llvm-6.x-msvc2019-x64-release
-              echo "ls in l_dir: $(LLVM_INSTALL_PREFIX)"
-              ls
+              where.exe conda
+              where.exe python
+              echo "PythonVersion $(PythonVersion)"
+              echo "PythonName $(PythonName)"
+              echo "MinicondaRoot $(MinicondaRoot)"
+              echo "PythonRoot $(PythonRoot)"
+              echo "PythonLibDir $(PythonLibDir)"
+            displayName: PrintPythonVariables
+
+#          - task: Cache@2
+#            inputs:
+#              key: "llvm | $(Agent.OS)"
+#              path: $(LLVM_INSTALL_PREFIX)
+#              cacheHitVar: LLVM_CACHE
+
+          - script: |
+              echo "Creating new conda environment"
+              conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
+              echo "pip help:"
+              $(PipExecutable) install --help
+              echo "$(PipExecutable) install requests"
+              $(PipExecutable) install requests
+              echo "$(PythonExecutable) .\.azurepipelines\getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)"
+              $(PythonExecutable) .\.azurepipelines\getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
-            errorActionPreference: 'stop'
+
           - task: DownloadPipelineArtifact@2
             inputs:
               source: 'specific'
               project: 'libroadrunner-deps'
               pipeline: 9
-              runVersion: 'latest'
+              runVersion: 'latestFromBranch'
+              runBranch: 'refs/heads/release'
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -476,7 +532,7 @@ stages:
               mkdir $(BUILD_DIR)
               echo "CD to build dir: $(BUILD_DIR)"
               cd $(BUILD_DIR)
-              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
+              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=$(BuildTests) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
             displayName: Run CMake Configure Command
           - powershell: |
               echo "Building roadrunner"
@@ -487,7 +543,9 @@ stages:
           - powershell: |
               echo "cd to build dir $(BUILD_DIR)"
               cd $(BUILD_DIR)
-              ctest --verbose --extra-verbose --progress
+              if ('$(BuildType)' -eq "Release"){
+                ctest --verbose --extra-verbose --progress
+              }
             displayName: RunCTest
           - task: CopyFiles@2
             inputs:
@@ -509,9 +567,6 @@ stages:
           vmImage: 'windows-2019'
         strategy:
           matrix:
-            py36:
-              PythonVersion: 3.6
-              PythonName: py36
             py37:
               PythonVersion: 3.7
               PythonName: py37
@@ -534,8 +589,10 @@ stages:
           SWIG_EXECUTABLE: '$(SWIG_INSTALL_PREFIX)/swig.exe'
           SWIG_CACHE: 'false'
           LLVM_CACHE: 'false'
-
+          LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-win32-rel.zip'
         steps:
+          - checkout: self
+            submodules: recursive
           - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
             displayName: Add conda to PATH
           - powershell: |
@@ -559,28 +616,24 @@ stages:
               key: "llvm | $(Agent.OS)"
               path: $(LLVM_INSTALL_PREFIX)
               cacheHitVar: LLVM_CACHE
-          - powershell: |
-              $ProgressPreference = 'SilentlyContinue'
-              Invoke-WebRequest https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-release.zip -OutFile llvm-6.x-msvc2019-x64-release.zip
-              Expand-Archive  llvm-6.x-msvc2019-x64-release.zip -Destination $(LLVM_INSTALL_PREFIX)
-              rm llvm-6.x-msvc2019-x64-release.zip # since we are limited to 10gb space per job we clean up zips
-              cd $(LLVM_INSTALL_PREFIX)\llvm-6.x-msvc2019-x64-release
-              echo "pwd: $(pwd)"
-              ls
-              mv * ..
-              cd ..
-              rm -R llvm-6.x-msvc2019-x64-release
-              echo "ls in l_dir: $(LLVM_INSTALL_PREFIX)"
-              ls
+          - script: |
+              echo "Creating new conda environment"
+              conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
+              echo "pip help:"
+              $(PipExecutable) install --help
+
+              $(PipExecutable) install requests
+              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
-            errorActionPreference: 'stop'
+
           - task: DownloadPipelineArtifact@2
             inputs:
               source: 'specific'
               project: 'libroadrunner-deps'
               pipeline: 9
-              runVersion: 'latest'
+              runVersion: 'latestFromBranch'
+              runBranch: 'refs/heads/release'
               artifact: libroadrunner-deps-$(Agent.OS)-Release
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -602,6 +655,8 @@ stages:
               cacheHitVar: SWIG_CACHE
             displayName: Cache Swig-4.0.2
           - powershell: |
+              echo "make swig source dir if not exists"
+              [System.IO.Directory]::CreateDirectory('$(SWIG_SOURCE_DIR)')
               echo "cd to swig source dir: $(SWIG_SOURCE_DIR)"
               cd $(SWIG_SOURCE_DIR)
               echo "ls"
@@ -646,8 +701,9 @@ stages:
               conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
               echo "pip help:"
               $(PipExecutable) install --help
-              echo "Installing nose and numpy: $(PipExecutable) install --yes nose numpy pytest"
-              $(PipExecutable) install -q -r test-requirements.txt
+              echo "$(PipExecutable) install -q -r $(SOURCE_DIR)/test-requirements.txt and requirements.txt"
+              $(PipExecutable) install -q -r $(SOURCE_DIR)/test-requirements.txt
+              $(PipExecutable) install -q -r $(SOURCE_DIR)/requirements.txt
               $ENV:PATH="$ENV:PATH;$(PythonScriptsDir)"
               echo "cd to build dir $(BUILD_DIR)"
               cd $(BUILD_DIR)
@@ -691,16 +747,15 @@ stages:
             artifact: roadrunner-Windows2019-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
-
-#########################################################################
-## Linux Build
-##
-  - stage: LinuxBuildRoadrunnerCpp
-    dependsOn: []
+########################################################################
+# Ubuntu Build
+#
+  - stage: UbuntuBuildRoadrunnerCpp
+    dependsOn: [ ]
     jobs:
-      - job: LinuxBuildRoadrunnerCpp
+      - job: UbuntuBuildRoadrunnerCpp
         timeoutInMinutes: "0"
-        displayName: LinuxBuildRoadrunnerCpp
+        displayName: UbuntuBuildRoadrunnerCpp
         continueOnError: "false"
         pool:
           vmImage: 'Ubuntu-18.04'
@@ -710,9 +765,20 @@ stages:
               BuildType: Release
             64-bit Linux Debug:
               BuildType: Debug
+        variables:
+          MinicondaRoot : '/usr/share/miniconda'
+          PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
+          PythonLibDir: '$(PythonRoot)/lib'
+          PythonExecutable: '$(PythonRoot)/bin/python'
+          PipExecutable: '$(PythonRoot)/bin/pip'
+          PythonName: 'py39'
+          PythonVersion: '3.9'
+          LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm13-ubuntu-gcc10-rel.tar.gz'
         steps:
+          - checkout: self
+            submodules: recursive
           # we cannot upload prebuilt binaries onto github for linux debug version because of github file size limits.
-          # therefore we do this build with Release llvm for both debug and release. Oddly enough it seems to work.
+          # therefore we do this build with Release llvm for both debug and release.
           - script: |
               echo "SOURCE_DIR $(SOURCE_DIR)"
               echo "BUILD_DIR $(BUILD_DIR)"
@@ -754,6 +820,7 @@ stages:
               mkdir $(LLVM_INSTALL_PREFIX)
               mkdir $(DEPS_INSTALL_PREFIX)
             displayName: Make Directories
+
           - task: Cache@2
             inputs:
               key: "llvm | $(Agent.OS)"
@@ -769,16 +836,12 @@ stages:
               sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
             displayName: Install g++10
           - script: |
-              # todo put into actual script
-              echo "current driectory is: $(pwd)"
-              echo "ls $(ls)"
-              wget -q https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5-x64-release.tar.gz
-              tar -zxf llvm-6.x-gcc7.5-x64-release.tar.gz
-              mv llvm-6.x-gcc7.5-x64-release/** '$(LLVM_INSTALL_PREFIX)'
-              echo "cd to LLVM_INSTALL_PREFIX: $(LLVM_INSTALL_PREFIX)"
-              cd $(LLVM_INSTALL_PREFIX)
-              echo "ls:"
-              ls
+              eval "$(conda shell.bash hook)"
+              conda create -y --name $(PythonName) python=$(PythonVersion)
+              $(PipExecutable) install requests
+              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
+              echo "give execute permissions to llvm-config using chmod 777"
+              chmod 777 $(LLVM_INSTALL_PREFIX)/bin/llvm-config
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
           - task: DownloadPipelineArtifact@2
@@ -786,7 +849,8 @@ stages:
               source: 'specific'
               project: 'libroadrunner-deps'
               pipeline: 9
-              runVersion: 'latest'
+              runVersion: 'latestFromBranch'
+              runBranch: 'refs/heads/release'
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -827,7 +891,9 @@ stages:
               export C=/usr/bin/gcc-10
               echo "cd to build dir $(BUILD_DIR)"
               cd $(BUILD_DIR)
-              ctest --verbose --extra-verbose --progress
+              if [ "$(BuildType)" == "Release" ]; then
+                ctest --verbose --extra-verbose --progress
+              fi
             displayName: RunCTest
           - task: CopyFiles@2
             inputs:
@@ -839,8 +905,8 @@ stages:
             displayName: Publish
 
 #########################################################################
-## Many Linux Build
-##
+# Many Linux Build
+#
   - stage: ManyLinux
     displayName: ManyLinux2014
     dependsOn: []
@@ -859,7 +925,7 @@ stages:
               PythonName: py39
         pool:
           vmImage: 'ubuntu-18.04'
-        container: ciaranwelsh/roadrunner-manylinux2014-base:latest
+        container: ciaranwelsh/roadrunner-manylinux2014-base:llvm-13.x
         variables:
           CCACHE_DIR: '$(Pipeline.Workspace)/ccache'
           BUILD_DIRECTORY: '$(System.DefaultWorkingDirectory)/build'
@@ -951,17 +1017,15 @@ stages:
               echo "cd $(BUILD_DIRECTORY)"
               cd $(BUILD_DIRECTORY)
 
-              echo "$(PipExecutable) install numpy pytest"
+              $(PipExecutable) install -r $(SOURCE_DIR)/requirements.txt
               $(PipExecutable) install -r $(SOURCE_DIR)/test-requirements.txt
 
               echo "sudo yum install -y ncurses-devel"
               sudo yum install -y ncurses-devel
 
-              # && cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$roadrunnerInstall37 -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=/Miniconda3/envs/py37 -DSWIG_EXECUTABLE=$swigExec -DCMAKE_BUILD_TYPE=Release ..
-              echo "cmake command: cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) -DCMAKE_BUILD_TYPE=Release .."
-              cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) -DCMAKE_BUILD_TYPE=Release ..
+              echo "cmake command: cmake -DLLVM_INSTALL_PREFIX=/install-llvm-13.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) .."
+              cmake -DLLVM_INSTALL_PREFIX=/install-llvm-13.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) ..
               cmake --build . --target install --config Release -j 12
-#              ctest --verbose --extra-verbose --output-on-failure
 
             displayName: Build With Python
           - script: |
@@ -971,9 +1035,17 @@ stages:
 
               echo "cd'ing to build dir $(BUILD_DIR)"
               cd $(BUILD_DIR)
-              cmake --build . --target run-pytest-tests -j4
-
+              ctest --extra-verbose --output-on-failure --exclude-regex python_tests_RunStochasticTestSuite .
             displayName: Run Tests
+          - script: |
+              echo ". ~/.bashrc"
+              . ~/.bashrc
+              $(CondaExecutable) activate $(PythonName)
+
+              echo "cd'ing to build dir $(BUILD_DIR)"
+              cd $(BUILD_DIR)
+              # ctest --tests-regex python_tests_RunStochasticTestSuite .
+            displayName: (DISABLED) Run Stochastic test suite
 
           - script: |
               echo "cd to $(INSTALL_DIRECTORY)"
@@ -986,7 +1058,6 @@ stages:
               echo "$(PythonExecutable) ./setup.py bdist_wheel"
               $(PythonExecutable) ./setup.py bdist_wheel
               $(PythonExecutable) ./setup_rrplugins.py bdist_wheel
-
 
               # cd dist
               # wheel=$(realpath $(ls))
@@ -1005,15 +1076,4 @@ stages:
               artifactName: roadrunner-ManyLinux2014-$(PythonName)
               Parallel: true
               ParallelCount: 8
-
-
-
-
-
-
-
-
-
-
-
 

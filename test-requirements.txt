@@ -4,3 +4,7 @@ pandas
 numpy
 pytest
 nose
+sphinx
+breathe
+sphinx-tabs
+sphinx_rtd_theme

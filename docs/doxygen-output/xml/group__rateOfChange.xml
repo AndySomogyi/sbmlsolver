@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="group__rateOfChange" kind="group">
     <compoundname>rateOfChange</compoundname>
     <title>Rates of change group</title>
@@ -17,7 +17,7 @@
 <para>Retrieve the vector of rates of change as determined by the current state of the model. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">values<sp/>=<sp/>getRatesOfChange<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">values<sp/>=<sp/>getRatesOfChange<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -49,7 +49,7 @@
 <para>Retrieve the string list of rates of change Ids. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">Ids<sp/>=<sp/>getRatesOfChangeIds<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">Ids<sp/>=<sp/>getRatesOfChangeIds<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -88,7 +88,7 @@
 <para>Retrieve the rate of change for a given floating species. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getRateOfChange<sp/>(&amp;index,<sp/>*value);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getRateOfChange<sp/>(&amp;index,<sp/>*value);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -132,7 +132,7 @@
 <para>Retrieve the vector of rates of change given a vector of floating species concentrations. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">values<sp/>=<sp/>getRatesOfChangeEx<sp/>(vector);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">values<sp/>=<sp/>getRatesOfChangeEx<sp/>(vector);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

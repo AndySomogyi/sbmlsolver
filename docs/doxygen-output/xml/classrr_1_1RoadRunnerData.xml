@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1RoadRunnerData" kind="class" language="C++" prot="public">
     <compoundname>rr::RoadRunnerData</compoundname>
       <sectiondef kind="public-attrib">
@@ -8,6 +8,7 @@
         <definition>bool rr::RoadRunnerData::structuredResult</definition>
         <argsstring></argsstring>
         <name>structuredResult</name>
+        <qualifiedname>rr::RoadRunnerData::structuredResult</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -23,6 +24,7 @@
         <definition>std::vector&lt;std::string&gt; rr::RoadRunnerData::mColumnNames</definition>
         <argsstring></argsstring>
         <name>mColumnNames</name>
+        <qualifiedname>rr::RoadRunnerData::mColumnNames</qualifiedname>
         <briefdescription>
 <para>Container holding column names. </para>
         </briefdescription>
@@ -37,6 +39,7 @@
         <definition>DoubleMatrix rr::RoadRunnerData::mTheData</definition>
         <argsstring></argsstring>
         <name>mTheData</name>
+        <qualifiedname>rr::RoadRunnerData::mTheData</qualifiedname>
         <briefdescription>
 <para>Container holding the actual data. </para>
         </briefdescription>
@@ -51,6 +54,7 @@
         <definition>DoubleMatrix rr::RoadRunnerData::mWeights</definition>
         <argsstring></argsstring>
         <name>mWeights</name>
+        <qualifiedname>rr::RoadRunnerData::mWeights</qualifiedname>
         <briefdescription>
 <para>Container holding the data weights. </para>
         </briefdescription>
@@ -65,6 +69,7 @@
         <definition>int rr::RoadRunnerData::mTimePrecision</definition>
         <argsstring></argsstring>
         <name>mTimePrecision</name>
+        <qualifiedname>rr::RoadRunnerData::mTimePrecision</qualifiedname>
         <briefdescription>
 <para>Integer setting the precision of &apos;time&apos; double numbers when writing to file. </para>
         </briefdescription>
@@ -79,6 +84,7 @@
         <definition>int rr::RoadRunnerData::mDataPrecision</definition>
         <argsstring></argsstring>
         <name>mDataPrecision</name>
+        <qualifiedname>rr::RoadRunnerData::mDataPrecision</qualifiedname>
         <briefdescription>
 <para>Integer setting the precision of &apos;data&apos; double numbers when writing to file. </para>
         </briefdescription>
@@ -93,6 +99,7 @@
         <definition>std::string rr::RoadRunnerData::mName</definition>
         <argsstring></argsstring>
         <name>mName</name>
+        <qualifiedname>rr::RoadRunnerData::mName</qualifiedname>
         <briefdescription>
 <para>String holding the &apos;name&apos; of the object. </para>
         </briefdescription>
@@ -111,6 +118,7 @@
         <definition>rr::RoadRunnerData::RoadRunnerData</definition>
         <argsstring>(const int &amp;rSize=0, const int &amp;cSize=0)</argsstring>
         <name>RoadRunnerData</name>
+        <qualifiedname>rr::RoadRunnerData::RoadRunnerData</qualifiedname>
         <param>
           <type>const int &amp;</type>
           <declname>rSize</declname>
@@ -134,6 +142,7 @@
         <definition>rr::RoadRunnerData::RoadRunnerData</definition>
         <argsstring>(const std::vector&lt; std::string &gt; &amp;colNames, const DoubleMatrix &amp;data)</argsstring>
         <name>RoadRunnerData</name>
+        <qualifiedname>rr::RoadRunnerData::RoadRunnerData</qualifiedname>
         <param>
           <type>const std::vector&lt; std::string &gt; &amp;</type>
           <declname>colNames</declname>
@@ -155,6 +164,7 @@
         <definition>rr::RoadRunnerData::RoadRunnerData</definition>
         <argsstring>(const RoadRunner *rr)</argsstring>
         <name>RoadRunnerData</name>
+        <qualifiedname>rr::RoadRunnerData::RoadRunnerData</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref> *</type>
           <declname>rr</declname>
@@ -172,6 +182,7 @@
         <definition>rr::RoadRunnerData::~RoadRunnerData</definition>
         <argsstring>()</argsstring>
         <name>~RoadRunnerData</name>
+        <qualifiedname>rr::RoadRunnerData::~RoadRunnerData</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -185,6 +196,7 @@
         <definition>void rr::RoadRunnerData::allocate</definition>
         <argsstring>(const size_t &amp;cSize, const size_t &amp;rSize)</argsstring>
         <name>allocate</name>
+        <qualifiedname>rr::RoadRunnerData::allocate</qualifiedname>
         <param>
           <type>const size_t &amp;</type>
           <declname>cSize</declname>
@@ -206,6 +218,7 @@
         <definition>void rr::RoadRunnerData::allocateWeights</definition>
         <argsstring>()</argsstring>
         <name>allocateWeights</name>
+        <qualifiedname>rr::RoadRunnerData::allocateWeights</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -219,6 +232,7 @@
         <definition>bool rr::RoadRunnerData::hasWeights</definition>
         <argsstring>() const</argsstring>
         <name>hasWeights</name>
+        <qualifiedname>rr::RoadRunnerData::hasWeights</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -232,6 +246,7 @@
         <definition>const std::vector&lt; std::string &gt; &amp; rr::RoadRunnerData::getColumnNames</definition>
         <argsstring>() const</argsstring>
         <name>getColumnNames</name>
+        <qualifiedname>rr::RoadRunnerData::getColumnNames</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -245,6 +260,7 @@
         <definition>std::string rr::RoadRunnerData::getColumnName</definition>
         <argsstring>(const int col) const</argsstring>
         <name>getColumnName</name>
+        <qualifiedname>rr::RoadRunnerData::getColumnName</qualifiedname>
         <param>
           <type>const int</type>
           <declname>col</declname>
@@ -262,6 +278,7 @@
         <definition>std::string rr::RoadRunnerData::getColumnNamesAsString</definition>
         <argsstring>() const</argsstring>
         <name>getColumnNamesAsString</name>
+        <qualifiedname>rr::RoadRunnerData::getColumnNamesAsString</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -275,6 +292,7 @@
         <definition>void rr::RoadRunnerData::setColumnNames</definition>
         <argsstring>(const std::vector&lt; std::string &gt; &amp;colNames)</argsstring>
         <name>setColumnNames</name>
+        <qualifiedname>rr::RoadRunnerData::setColumnNames</qualifiedname>
         <param>
           <type>const std::vector&lt; std::string &gt; &amp;</type>
           <declname>colNames</declname>
@@ -292,6 +310,7 @@
         <definition>ptrdiff_t rr::RoadRunnerData::getColumnIndex</definition>
         <argsstring>(const std::string &amp;colName) const</argsstring>
         <name>getColumnIndex</name>
+        <qualifiedname>rr::RoadRunnerData::getColumnIndex</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>colName</declname>
@@ -309,6 +328,7 @@
         <definition>void rr::RoadRunnerData::setTimeDataPrecision</definition>
         <argsstring>(const int &amp;prec)</argsstring>
         <name>setTimeDataPrecision</name>
+        <qualifiedname>rr::RoadRunnerData::setTimeDataPrecision</qualifiedname>
         <param>
           <type>const int &amp;</type>
           <declname>prec</declname>
@@ -326,6 +346,7 @@
         <definition>void rr::RoadRunnerData::setDataPrecision</definition>
         <argsstring>(const int &amp;prec)</argsstring>
         <name>setDataPrecision</name>
+        <qualifiedname>rr::RoadRunnerData::setDataPrecision</qualifiedname>
         <param>
           <type>const int &amp;</type>
           <declname>prec</declname>
@@ -343,6 +364,7 @@
         <definition>void rr::RoadRunnerData::reSize</definition>
         <argsstring>(int rows, int cols)</argsstring>
         <name>reSize</name>
+        <qualifiedname>rr::RoadRunnerData::reSize</qualifiedname>
         <param>
           <type>int</type>
           <declname>rows</declname>
@@ -364,6 +386,7 @@
         <definition>void rr::RoadRunnerData::clear</definition>
         <argsstring>()</argsstring>
         <name>clear</name>
+        <qualifiedname>rr::RoadRunnerData::clear</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -377,6 +400,7 @@
         <definition>int rr::RoadRunnerData::rSize</definition>
         <argsstring>() const</argsstring>
         <name>rSize</name>
+        <qualifiedname>rr::RoadRunnerData::rSize</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -390,6 +414,7 @@
         <definition>int rr::RoadRunnerData::cSize</definition>
         <argsstring>() const</argsstring>
         <name>cSize</name>
+        <qualifiedname>rr::RoadRunnerData::cSize</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -403,6 +428,7 @@
         <definition>void rr::RoadRunnerData::setData</definition>
         <argsstring>(const DoubleMatrix &amp;theData)</argsstring>
         <name>setData</name>
+        <qualifiedname>rr::RoadRunnerData::setData</qualifiedname>
         <param>
           <type>const DoubleMatrix &amp;</type>
           <declname>theData</declname>
@@ -420,6 +446,7 @@
         <definition>bool rr::RoadRunnerData::loadSimpleFormat</definition>
         <argsstring>(const std::string &amp;fileName)</argsstring>
         <name>loadSimpleFormat</name>
+        <qualifiedname>rr::RoadRunnerData::loadSimpleFormat</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>fileName</declname>
@@ -437,6 +464,7 @@
         <definition>bool rr::RoadRunnerData::writeTo</definition>
         <argsstring>(const std::string &amp;fileName) const</argsstring>
         <name>writeTo</name>
+        <qualifiedname>rr::RoadRunnerData::writeTo</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>fileName</declname>
@@ -454,6 +482,7 @@
         <definition>bool rr::RoadRunnerData::readFrom</definition>
         <argsstring>(const std::string &amp;fileName)</argsstring>
         <name>readFrom</name>
+        <qualifiedname>rr::RoadRunnerData::readFrom</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>fileName</declname>
@@ -471,6 +500,7 @@
         <definition>bool rr::RoadRunnerData::check</definition>
         <argsstring>() const</argsstring>
         <name>check</name>
+        <qualifiedname>rr::RoadRunnerData::check</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -484,6 +514,7 @@
         <definition>double &amp; rr::RoadRunnerData::operator()</definition>
         <argsstring>(const unsigned &amp;row, const unsigned &amp;col)</argsstring>
         <name>operator()</name>
+        <qualifiedname>rr::RoadRunnerData::operator()</qualifiedname>
         <param>
           <type>const unsigned &amp;</type>
           <declname>row</declname>
@@ -505,6 +536,7 @@
         <definition>double rr::RoadRunnerData::operator()</definition>
         <argsstring>(const unsigned &amp;row, const unsigned &amp;col) const</argsstring>
         <name>operator()</name>
+        <qualifiedname>rr::RoadRunnerData::operator()</qualifiedname>
         <param>
           <type>const unsigned &amp;</type>
           <declname>row</declname>
@@ -526,6 +558,7 @@
         <definition>double rr::RoadRunnerData::getDataElement</definition>
         <argsstring>(int row, int col)</argsstring>
         <name>getDataElement</name>
+        <qualifiedname>rr::RoadRunnerData::getDataElement</qualifiedname>
         <param>
           <type>int</type>
           <declname>row</declname>
@@ -547,6 +580,7 @@
         <definition>void rr::RoadRunnerData::setDataElement</definition>
         <argsstring>(int row, int col, double value)</argsstring>
         <name>setDataElement</name>
+        <qualifiedname>rr::RoadRunnerData::setDataElement</qualifiedname>
         <param>
           <type>int</type>
           <declname>row</declname>
@@ -572,6 +606,7 @@
         <definition>RoadRunnerData &amp; rr::RoadRunnerData::operator=</definition>
         <argsstring>(const RoadRunnerData &amp;rhs)</argsstring>
         <name>operator=</name>
+        <qualifiedname>rr::RoadRunnerData::operator=</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1RoadRunnerData" kindref="compound">RoadRunnerData</ref> &amp;</type>
           <declname>rhs</declname>
@@ -589,6 +624,7 @@
         <definition>double rr::RoadRunnerData::getWeight</definition>
         <argsstring>(int row, int col) const</argsstring>
         <name>getWeight</name>
+        <qualifiedname>rr::RoadRunnerData::getWeight</qualifiedname>
         <param>
           <type>int</type>
           <declname>row</declname>
@@ -610,6 +646,7 @@
         <definition>void rr::RoadRunnerData::setWeight</definition>
         <argsstring>(int row, int col, double val)</argsstring>
         <name>setWeight</name>
+        <qualifiedname>rr::RoadRunnerData::setWeight</qualifiedname>
         <param>
           <type>int</type>
           <declname>row</declname>
@@ -635,6 +672,7 @@
         <definition>void rr::RoadRunnerData::setName</definition>
         <argsstring>(const std::string &amp;name)</argsstring>
         <name>setName</name>
+        <qualifiedname>rr::RoadRunnerData::setName</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>name</declname>
@@ -652,6 +690,7 @@
         <definition>std::string rr::RoadRunnerData::getName</definition>
         <argsstring>() const</argsstring>
         <name>getName</name>
+        <qualifiedname>rr::RoadRunnerData::getName</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -665,6 +704,7 @@
         <definition>std::pair&lt; int, int &gt; rr::RoadRunnerData::dimension</definition>
         <argsstring>() const</argsstring>
         <name>dimension</name>
+        <qualifiedname>rr::RoadRunnerData::dimension</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -678,6 +718,7 @@
         <definition>bool rr::RoadRunnerData::append</definition>
         <argsstring>(const RoadRunnerData &amp;data)</argsstring>
         <name>append</name>
+        <qualifiedname>rr::RoadRunnerData::append</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1RoadRunnerData" kindref="compound">RoadRunnerData</ref> &amp;</type>
           <declname>data</declname>
@@ -695,6 +736,7 @@
         <definition>double rr::RoadRunnerData::getTimeStart</definition>
         <argsstring>() const</argsstring>
         <name>getTimeStart</name>
+        <qualifiedname>rr::RoadRunnerData::getTimeStart</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -708,6 +750,7 @@
         <definition>double rr::RoadRunnerData::getTimeEnd</definition>
         <argsstring>() const</argsstring>
         <name>getTimeEnd</name>
+        <qualifiedname>rr::RoadRunnerData::getTimeEnd</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -721,6 +764,7 @@
         <definition>const DoubleMatrix &amp; rr::RoadRunnerData::getData</definition>
         <argsstring>() const</argsstring>
         <name>getData</name>
+        <qualifiedname>rr::RoadRunnerData::getData</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -734,6 +778,7 @@
         <definition>const DoubleMatrix &amp; rr::RoadRunnerData::getWeights</definition>
         <argsstring>() const</argsstring>
         <name>getWeights</name>
+        <qualifiedname>rr::RoadRunnerData::getWeights</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -744,11 +789,12 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
-      <memberdef kind="friend" id="classrr_1_1RoadRunnerData_1a86bcd0a6b613c0776ba6ddc658345116" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="friend" id="classrr_1_1RoadRunnerData_1aa4f13c676e080924aa3680cb9a41aa1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>RR_DECLSPEC friend std::ostream &amp;</type>
-        <definition>RR_DECLSPEC friend std::ostream&amp; operator&lt;&lt;</definition>
+        <definition>RR_DECLSPEC friend std::ostream &amp; operator&lt;&lt;</definition>
         <argsstring>(std::ostream &amp;ss, const RoadRunnerData &amp;data)</argsstring>
         <name>operator&lt;&lt;</name>
+        <qualifiedname>rr::RoadRunnerData::operator&lt;&lt;</qualifiedname>
         <param>
           <type>std::ostream &amp;</type>
           <declname>ss</declname>
@@ -765,11 +811,12 @@
         </inbodydescription>
         <location file="rrRoadRunnerData.h" line="77" column="12" bodyfile="rrRoadRunnerData.cpp" bodystart="375" bodyend="450"/>
       </memberdef>
-      <memberdef kind="friend" id="classrr_1_1RoadRunnerData_1af18f4e6f8e1559b84f469054eff433a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="friend" id="classrr_1_1RoadRunnerData_1a6e64031908178f830df254cf4d1915f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>RR_DECLSPEC friend std::istream &amp;</type>
-        <definition>RR_DECLSPEC friend std::istream&amp; operator&gt;&gt;</definition>
+        <definition>RR_DECLSPEC friend std::istream &amp; operator&gt;&gt;</definition>
         <argsstring>(std::istream &amp;ss, RoadRunnerData &amp;data)</argsstring>
         <name>operator&gt;&gt;</name>
+        <qualifiedname>rr::RoadRunnerData::operator&gt;&gt;</qualifiedname>
         <param>
           <type>std::istream &amp;</type>
           <declname>ss</declname>
@@ -792,8 +839,8 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="3">
-        <label>string</label>
+      <node id="2">
+        <label>DoubleMatrix</label>
       </node>
       <node id="1">
         <label>rr::RoadRunnerData</label>
@@ -806,8 +853,8 @@
           <edgelabel>mName</edgelabel>
         </childnode>
       </node>
-      <node id="2">
-        <label>DoubleMatrix</label>
+      <node id="3">
+        <label>string</label>
       </node>
     </collaborationgraph>
     <location file="rrRoadRunnerData.h" line="30" column="1" bodyfile="rrRoadRunnerData.h" bodystart="31" bodyend="145"/>
@@ -840,9 +887,9 @@
       <member refid="classrr_1_1RoadRunnerData_1a35237d1ad85d1610d907c9dd3168517d" prot="protected" virt="non-virtual"><scope>rr::RoadRunnerData</scope><name>mWeights</name></member>
       <member refid="classrr_1_1RoadRunnerData_1a1570070ebc8b338bf8abcbfd3438027b" prot="public" virt="non-virtual"><scope>rr::RoadRunnerData</scope><name>operator()</name></member>
       <member refid="classrr_1_1RoadRunnerData_1addae6731bf529494dc8f542779633446" prot="public" virt="non-virtual"><scope>rr::RoadRunnerData</scope><name>operator()</name></member>
-      <member refid="classrr_1_1RoadRunnerData_1a86bcd0a6b613c0776ba6ddc658345116" prot="public" virt="non-virtual"><scope>rr::RoadRunnerData</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classrr_1_1RoadRunnerData_1aa4f13c676e080924aa3680cb9a41aa1a" prot="public" virt="non-virtual"><scope>rr::RoadRunnerData</scope><name>operator&lt;&lt;</name></member>
       <member refid="classrr_1_1RoadRunnerData_1a55e9129f9943104f74d7e273e001d3c4" prot="public" virt="non-virtual"><scope>rr::RoadRunnerData</scope><name>operator=</name></member>
-      <member refid="classrr_1_1RoadRunnerData_1af18f4e6f8e1559b84f469054eff433a6" prot="public" virt="non-virtual"><scope>rr::RoadRunnerData</scope><name>operator&gt;&gt;</name></member>
+      <member refid="classrr_1_1RoadRunnerData_1a6e64031908178f830df254cf4d1915f3" prot="public" virt="non-virtual"><scope>rr::RoadRunnerData</scope><name>operator&gt;&gt;</name></member>
       <member refid="classrr_1_1RoadRunnerData_1adc2dd42c0ba6072d31a03166a837032b" prot="public" virt="non-virtual"><scope>rr::RoadRunnerData</scope><name>readFrom</name></member>
       <member refid="classrr_1_1RoadRunnerData_1a1dbe710a51790160c8e8e726237c3668" prot="public" virt="non-virtual"><scope>rr::RoadRunnerData</scope><name>reSize</name></member>
       <member refid="classrr_1_1RoadRunnerData_1ad4deaa7901ca4fa8d8e4081f8f54ac06" prot="public" virt="non-virtual"><scope>rr::RoadRunnerData</scope><name>RoadRunnerData</name></member>

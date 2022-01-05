@@ -34,10 +34,10 @@ enum \mbox{\hyperlink{classrr_1_1Variant_a64c7b2189f8d391527919e46a72402a8}{Type
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{classrr_1_1Variant_a551b6ad03e790d2fca61f95c62b283b7}\label{classrr_1_1Variant_a551b6ad03e790d2fca61f95c62b283b7}} 
-\mbox{\hyperlink{classrr_1_1Variant_a64c7b2189f8d391527919e46a72402a8}{Type\+Id}} \mbox{\hyperlink{classrr_1_1Variant_a551b6ad03e790d2fca61f95c62b283b7}{type}} () const
+\mbox{\hyperlink{classrr_1_1Variant_a64c7b2189f8d391527919e46a72402a8}{Type\+Id}} {\bfseries type} () const
 \begin{DoxyCompactList}\small\item\em the current type that this \mbox{\hyperlink{classrr_1_1Variant}{Variant}} is. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Variant_a48f0736e18b6463303047b46cccca550}\label{classrr_1_1Variant_a48f0736e18b6463303047b46cccca550}} 
-\mbox{\hyperlink{classrr_1_1Variant_a48f0736e18b6463303047b46cccca550}{Variant}} ()
+{\bfseries Variant} ()
 \begin{DoxyCompactList}\small\item\em creates an emtpy variant \end{DoxyCompactList}\item 
 {\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{classrr_1_1Variant_a81b0ca7e57d1985f2e05ef7f0805b1cf}{Variant}} (const T \&val)
 \begin{DoxyCompactList}\small\item\em create a new variant from an existing supported data type. \end{DoxyCompactList}\item 
@@ -45,15 +45,15 @@ enum \mbox{\hyperlink{classrr_1_1Variant_a64c7b2189f8d391527919e46a72402a8}{Type
 {\bfseries Variant} (const char $\ast$str)
 \item 
 \mbox{\Hypertarget{classrr_1_1Variant_a950ad51abe6f9e7ed4bbe865bac93e99}\label{classrr_1_1Variant_a950ad51abe6f9e7ed4bbe865bac93e99}} 
-\mbox{\hyperlink{classrr_1_1Variant_a950ad51abe6f9e7ed4bbe865bac93e99}{Variant}} (const \mbox{\hyperlink{classrr_1_1Variant}{Variant}} \&other)
+{\bfseries Variant} (const \mbox{\hyperlink{classrr_1_1Variant}{Variant}} \&other)
 \begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1Variant_a22c85776d05ff8009e6f6686db25f949}\label{classrr_1_1Variant_a22c85776d05ff8009e6f6686db25f949}} 
-{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{classrr_1_1Variant}{Variant}} \& \mbox{\hyperlink{classrr_1_1Variant_a22c85776d05ff8009e6f6686db25f949}{operator=}} (const T \&value)
+\mbox{\Hypertarget{classrr_1_1Variant_a4f276868e91394b494daab09d60f48fb}\label{classrr_1_1Variant_a4f276868e91394b494daab09d60f48fb}} 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{classrr_1_1Variant}{Variant}} \& {\bfseries operator=} (const T \&value)
 \begin{DoxyCompactList}\small\item\em Assignment operator for assigning POD to Var same as the constructor, this assigns a value to an existing \mbox{\hyperlink{classrr_1_1Variant}{Variant}}. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classrr_1_1Variant}{Variant}} \& \mbox{\hyperlink{classrr_1_1Variant_ac04cac2d0b4d939f789658bebbb05f21}{operator=}} (const \mbox{\hyperlink{classrr_1_1Variant}{Variant}} \&other)
 \begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Variant_a5bfdfef2698dc62678ed6e5b9f807c2a}\label{classrr_1_1Variant_a5bfdfef2698dc62678ed6e5b9f807c2a}} 
-virtual \mbox{\hyperlink{classrr_1_1Variant_a5bfdfef2698dc62678ed6e5b9f807c2a}{$\sim$\+Variant}} ()
+virtual {\bfseries $\sim$\+Variant} ()
 \begin{DoxyCompactList}\small\item\em clean up any data owned by this object. \end{DoxyCompactList}\item 
 const std\+::type\+\_\+info \& \mbox{\hyperlink{classrr_1_1Variant_ab221d80ddd0d06174c61d90e25ebb0d2}{type\+Info}} () const
 \begin{DoxyCompactList}\small\item\em get the type id of the stored data type. \end{DoxyCompactList}\item 
@@ -93,27 +93,27 @@ const std\+::type\+\_\+info \& \mbox{\hyperlink{classrr_1_1Variant_ab221d80ddd0d
 {\bfseries VARIANT\+\_\+\+IMPLICIT\+\_\+\+CONVERT} (std\+::vector$<$ double $>$)
 \item 
 \mbox{\Hypertarget{classrr_1_1Variant_ab1e6879f232971ab8fa285cf50139f8a}\label{classrr_1_1Variant_ab1e6879f232971ab8fa285cf50139f8a}} 
-std\+::string \mbox{\hyperlink{classrr_1_1Variant_ab1e6879f232971ab8fa285cf50139f8a}{to\+String}} () const
+std\+::string {\bfseries to\+String} () const
 \begin{DoxyCompactList}\small\item\em Converts the \mbox{\hyperlink{classrr_1_1Variant}{Variant}} to a std\+::string in JSON format. \end{DoxyCompactList}\item 
 std\+::string \mbox{\hyperlink{classrr_1_1Variant_aae71df98365e03148ca33a3d3f354115}{python\+Repr}} () const
 \begin{DoxyCompactList}\small\item\em Convert to Python-\/compatible representation. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Variant_a287a173e395dafe75f1631c69f00551a}\label{classrr_1_1Variant_a287a173e395dafe75f1631c69f00551a}} 
-bool \mbox{\hyperlink{classrr_1_1Variant_a287a173e395dafe75f1631c69f00551a}{is\+String}} () const
+bool {\bfseries is\+String} () const
 \begin{DoxyCompactList}\small\item\em is this variant a std\+::string. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Variant_ac6e06d899cd97644275c585e22673163}\label{classrr_1_1Variant_ac6e06d899cd97644275c585e22673163}} 
-bool \mbox{\hyperlink{classrr_1_1Variant_ac6e06d899cd97644275c585e22673163}{is\+Integer}} () const
+bool {\bfseries is\+Integer} () const
 \begin{DoxyCompactList}\small\item\em was an integer stored here. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Variant_ae92df0ebd531b0d0103202676beabfe3}\label{classrr_1_1Variant_ae92df0ebd531b0d0103202676beabfe3}} 
-bool \mbox{\hyperlink{classrr_1_1Variant_ae92df0ebd531b0d0103202676beabfe3}{is\+Numeric}} () const
+bool {\bfseries is\+Numeric} () const
 \begin{DoxyCompactList}\small\item\em is this a numeric type. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Variant_abbaafbb2c10aa25b6879f4a2cd5f85ca}\label{classrr_1_1Variant_abbaafbb2c10aa25b6879f4a2cd5f85ca}} 
-bool \mbox{\hyperlink{classrr_1_1Variant_abbaafbb2c10aa25b6879f4a2cd5f85ca}{is\+Bool}} () const
+bool {\bfseries is\+Bool} () const
 \begin{DoxyCompactList}\small\item\em is this a boolean type. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Variant_ad98e0f4d0491e78d4ab7c13d74e2b976}\label{classrr_1_1Variant_ad98e0f4d0491e78d4ab7c13d74e2b976}} 
-bool \mbox{\hyperlink{classrr_1_1Variant_ad98e0f4d0491e78d4ab7c13d74e2b976}{is\+Empty}} () const
+bool {\bfseries is\+Empty} () const
 \begin{DoxyCompactList}\small\item\em true if empty. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Variant_a6b61a4ca6b375886c7cb145ffd910b20}\label{classrr_1_1Variant_a6b61a4ca6b375886c7cb145ffd910b20}} 
-bool \mbox{\hyperlink{classrr_1_1Variant_a6b61a4ca6b375886c7cb145ffd910b20}{is\+Signed}} () const
+bool {\bfseries is\+Signed} () const
 \begin{DoxyCompactList}\small\item\em true if this is a signed number. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Variant_ab45d42c136c47493a285d6fc38ba9057}\label{classrr_1_1Variant_ab45d42c136c47493a285d6fc38ba9057}} 
 bool {\bfseries is\+Double\+Vector} () const

@@ -11,7 +11,7 @@ Some methods return lists (heterogeneous arrays of data), these routines make it
 C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{RRList\+Ptr}} rrc\+Call\+Conv \mbox{\hyperlink{group__list_ga0d154a4c5f0aef656c333775638b2b7d}{create\+RRList}} (void)
 \begin{DoxyCompactList}\small\item\em Create a new list. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{group__list_gafd22078b804cc5b7e39849fb51c7519a}\label{group__list_gafd22078b804cc5b7e39849fb51c7519a}} 
-C\+\_\+\+DECL\+\_\+\+SPEC void rrc\+Call\+Conv \mbox{\hyperlink{group__list_gafd22078b804cc5b7e39849fb51c7519a}{free\+RRList}} (\mbox{\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{RRList\+Ptr}} list)
+C\+\_\+\+DECL\+\_\+\+SPEC void rrc\+Call\+Conv {\bfseries free\+RRList} (\mbox{\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{RRList\+Ptr}} list)
 \begin{DoxyCompactList}\small\item\em Free RRList\+Ptr structure, i.\+e destroy a list. \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv \mbox{\hyperlink{group__list_gadc06b896a3117610bbdcf25abb984f98}{get\+List\+Length}} (\mbox{\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{RRList\+Ptr}} my\+List)
 \begin{DoxyCompactList}\small\item\em Returns the length of a given list. \end{DoxyCompactList}\item 
@@ -41,7 +41,7 @@ C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv \mbox{\hyperlink{group__list_ga1e1
 \begin{DoxyCompactList}\small\item\em Returns the integer from a list item. \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv \mbox{\hyperlink{group__list_gab383162093a2782001a6d623dc077dc5}{get\+Double\+List\+Item}} (\mbox{\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{RRList\+Item\+Ptr}} item, double $\ast$value)
 \begin{DoxyCompactList}\small\item\em Returns the double from a list item. \end{DoxyCompactList}\item 
-C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__list_ga177fc925d1726b0844c17837d3ed4425}{get\+String\+List\+Item}} (\mbox{\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{RRList\+Item\+Ptr}} item)
+C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__list_gaedec782ba3535ed61749d561ddb7de2c}{get\+String\+List\+Item}} (\mbox{\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{RRList\+Item\+Ptr}} item)
 \begin{DoxyCompactList}\small\item\em Returns the string from a list item. \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{RRList\+Ptr}} rrc\+Call\+Conv \mbox{\hyperlink{group__list_gaf9b1219b9a239f0fb73cd83095bbecce}{get\+List}} (\mbox{\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{RRList\+Item\+Ptr}} item)
 \begin{DoxyCompactList}\small\item\em Returns a list from a list item if it contains a list. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -163,7 +163,7 @@ Example, build the list \mbox{[}123, \mbox{[}3.\+1415926\mbox{]}\mbox{]}
 \DoxyCodeLine{item = \mbox{\hyperlink{group__list_ga11a02911ab01db4dc839ae97782e5bf1}{getListItem}} (l, 0);}
 \DoxyCodeLine{printf (\textcolor{stringliteral}{"{}item = \%d\(\backslash\)n"{}}, item-\/>data.iValue);}
 \DoxyCodeLine{}
-\DoxyCodeLine{printf (\mbox{\hyperlink{group__toString_ga7cfc863a3d8fec26c951a2f40fa7dfa4}{listToString}} (l));}
+\DoxyCodeLine{printf (\mbox{\hyperlink{group__toString_ga92fe202c47b7a00c7b3000920cfa25b9}{listToString}} (l));}
 \DoxyCodeLine{\mbox{\hyperlink{group__list_gafd22078b804cc5b7e39849fb51c7519a}{freeRRList}} (l);}
 
 \end{DoxyCode}
@@ -286,11 +286,11 @@ Returns the length of a given list.
 \begin{DoxyReturn}{Returns}
 Length of list 
 \end{DoxyReturn}
-\mbox{\Hypertarget{group__list_ga177fc925d1726b0844c17837d3ed4425}\label{group__list_ga177fc925d1726b0844c17837d3ed4425}} 
+\mbox{\Hypertarget{group__list_gaedec782ba3535ed61749d561ddb7de2c}\label{group__list_gaedec782ba3535ed61749d561ddb7de2c}} 
 \index{List handling routines@{List handling routines}!getStringListItem@{getStringListItem}}
 \index{getStringListItem@{getStringListItem}!List handling routines@{List handling routines}}
 \doxysubsubsection{\texorpdfstring{getStringListItem()}{getStringListItem()}}
-{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC char$\ast$ rrc\+Call\+Conv get\+String\+List\+Item (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{RRList\+Item\+Ptr}}}]{item }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv get\+String\+List\+Item (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a79938364b69256c42480bb3a29ebf73e}{RRList\+Item\+Ptr}}}]{item }\end{DoxyParamCaption})}
 
 
 

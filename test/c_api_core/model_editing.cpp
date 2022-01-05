@@ -661,7 +661,7 @@ TEST_F(CAPIModelEditingTests, FROM_SCRATCH_6) {
 }
 
 TEST_F(CAPIModelEditingTests, FROM_SCRATCH_7) {
-    path modelFilePath(rrTestModelsDir_ / "CAPIModelEditingTests");
+    path modelFilePath(rrTestModelsDir_ / "ModelEditingTests");
     RoadRunner rr(3, 1);
     loadSBML(&rr, (modelFilePath / "tiny_example_1.xml").string().c_str());
     addCompartmentNoRegen(&rr, "c1", 3.0);

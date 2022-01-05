@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="group__toString" kind="group">
     <compoundname>toString</compoundname>
     <title>ToString routines</title>
       <sectiondef kind="func">
-      <memberdef kind="function" id="group__toString_1gaff70db9c262110e72d1cf090b04d05a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__toString_1gae737d3ff4bb374340b686e3f302de04f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv vectorToString</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv vectorToString</definition>
         <argsstring>(const RRVectorPtr vec)</argsstring>
         <name>vectorToString</name>
         <param>
@@ -25,9 +25,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="581" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="581" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__toString_1gaef1d1f1789f4c5bca4e6b7af4bf53885" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__toString_1ga9d9278486c22f21b5b9f58ec9e2b4a9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv complexVectorToString</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv complexVectorToString</definition>
         <argsstring>(const RRComplexVectorPtr vec)</argsstring>
         <name>complexVectorToString</name>
         <param>
@@ -46,9 +46,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="588" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="588" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__toString_1ga9ecd62cd0fd10a179bd2fe5e55f69929" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__toString_1gad0508a036f1191b26621b51c906afc2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv rrCDataToString</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv rrCDataToString</definition>
         <argsstring>(const RRCDataPtr rrData)</argsstring>
         <name>rrCDataToString</name>
         <param>
@@ -67,9 +67,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="595" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="595" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__toString_1ga02a9a7fee7703402fcf6e36f30d384be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__toString_1ga68ab637b0b84cb49eb513e432d73bd1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv matrixToString</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv matrixToString</definition>
         <argsstring>(const RRDoubleMatrixPtr mat)</argsstring>
         <name>matrixToString</name>
         <param>
@@ -88,9 +88,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="602" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="602" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__toString_1gacb4e2892fead121b86bcaf22fea17178" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__toString_1gafe4b0524f757949ae184cf74734b9868" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv complexMatrixToString</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv complexMatrixToString</definition>
         <argsstring>(const RRComplexMatrixPtr mat)</argsstring>
         <name>complexMatrixToString</name>
         <param>
@@ -109,9 +109,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="609" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="609" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__toString_1ga57ac412ea941375e41f6cbc193c666e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__toString_1gae2f54fe85db812223f3d3408b105eb96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv stringArrayToString</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv stringArrayToString</definition>
         <argsstring>(const RRStringArrayPtr list)</argsstring>
         <name>stringArrayToString</name>
         <param>
@@ -130,9 +130,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="630" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="630" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__toString_1ga7cfc863a3d8fec26c951a2f40fa7dfa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__toString_1ga92fe202c47b7a00c7b3000920cfa25b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv listToString</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv listToString</definition>
         <argsstring>(const RRListPtr list)</argsstring>
         <name>listToString</name>
         <param>

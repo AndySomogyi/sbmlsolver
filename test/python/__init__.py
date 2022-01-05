@@ -16,7 +16,13 @@ try:
     from test_rrtests import *
     from testfiles import *
     from SBMLTest import *
-except (ImportError):
-    from .test_rrtests import *
-    from .testfiles import *
-    from .SBMLTest import *
+except ImportError:
+    try:
+        from .test_rrtests import *
+        from .testfiles import *
+        from .SBMLTest import *
+    except Exception as e:
+        # this allows us to run the Python tests from the source tree,
+        # after having first provided the path to the build tree site-packages
+        print("Failed to import tests.")
+        print(str(e))

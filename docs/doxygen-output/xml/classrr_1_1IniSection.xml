@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1IniSection" kind="class" language="C++" prot="public">
     <compoundname>rr::IniSection</compoundname>
       <sectiondef kind="private-attrib">
@@ -8,6 +8,7 @@
         <definition>bool rr::IniSection::mIsDirty</definition>
         <argsstring></argsstring>
         <name>mIsDirty</name>
+        <qualifiedname>rr::IniSection::mIsDirty</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -23,6 +24,7 @@
         <definition>bool rr::IniSection::mIsUsed</definition>
         <argsstring></argsstring>
         <name>mIsUsed</name>
+        <qualifiedname>rr::IniSection::mIsUsed</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -36,6 +38,7 @@
         <definition>std::string rr::IniSection::mName</definition>
         <argsstring></argsstring>
         <name>mName</name>
+        <qualifiedname>rr::IniSection::mName</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -49,6 +52,7 @@
         <definition>std::string rr::IniSection::mComment</definition>
         <argsstring></argsstring>
         <name>mComment</name>
+        <qualifiedname>rr::IniSection::mComment</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -62,6 +66,7 @@
         <definition>KeyList rr::IniSection::mKeys</definition>
         <argsstring></argsstring>
         <name>mKeys</name>
+        <qualifiedname>rr::IniSection::mKeys</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -75,6 +80,7 @@
         <definition>NonKeyList rr::IniSection::mNonKeys</definition>
         <argsstring></argsstring>
         <name>mNonKeys</name>
+        <qualifiedname>rr::IniSection::mNonKeys</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -90,6 +96,7 @@
         <definition>rr::IniSection::IniSection</definition>
         <argsstring>()</argsstring>
         <name>IniSection</name>
+        <qualifiedname>rr::IniSection::IniSection</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -103,6 +110,7 @@
         <definition>rr::IniSection::IniSection</definition>
         <argsstring>(const std::string &amp;nameValueString, const char &amp;sep)</argsstring>
         <name>IniSection</name>
+        <qualifiedname>rr::IniSection::IniSection</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>nameValueString</declname>
@@ -124,6 +132,7 @@
         <definition>rr::IniSection::~IniSection</definition>
         <argsstring>()</argsstring>
         <name>~IniSection</name>
+        <qualifiedname>rr::IniSection::~IniSection</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -137,6 +146,7 @@
         <definition>IniKey * rr::IniSection::CreateKey</definition>
         <argsstring>(const std::string &amp;_keyName, const std::string &amp;Value=&quot;&quot;, const std::string &amp;Comment=&quot;&quot;)</argsstring>
         <name>CreateKey</name>
+        <qualifiedname>rr::IniSection::CreateKey</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>_keyName</declname>
@@ -164,6 +174,7 @@
         <definition>IniKey * rr::IniSection::GetKey</definition>
         <argsstring>(const int &amp;i)</argsstring>
         <name>GetKey</name>
+        <qualifiedname>rr::IniSection::GetKey</qualifiedname>
         <param>
           <type>const int &amp;</type>
           <declname>i</declname>
@@ -181,6 +192,7 @@
         <definition>IniKey * rr::IniSection::GetKey</definition>
         <argsstring>(const std::string &amp;keyName, bool create=false)</argsstring>
         <name>GetKey</name>
+        <qualifiedname>rr::IniSection::GetKey</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>keyName</declname>
@@ -203,6 +215,7 @@
         <definition>size_t rr::IniSection::KeyCount</definition>
         <argsstring>()</argsstring>
         <name>KeyCount</name>
+        <qualifiedname>rr::IniSection::KeyCount</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -216,6 +229,7 @@
         <definition>size_t rr::IniSection::NonKeyCount</definition>
         <argsstring>()</argsstring>
         <name>NonKeyCount</name>
+        <qualifiedname>rr::IniSection::NonKeyCount</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -229,6 +243,7 @@
         <definition>void rr::IniSection::Clear</definition>
         <argsstring>()</argsstring>
         <name>Clear</name>
+        <qualifiedname>rr::IniSection::Clear</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -242,6 +257,7 @@
         <definition>std::string rr::IniSection::GetNonKeysAsString</definition>
         <argsstring>()</argsstring>
         <name>GetNonKeysAsString</name>
+        <qualifiedname>rr::IniSection::GetNonKeysAsString</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -255,6 +271,7 @@
         <definition>std::string rr::IniSection::AsString</definition>
         <argsstring>()</argsstring>
         <name>AsString</name>
+        <qualifiedname>rr::IniSection::AsString</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -269,9 +286,6 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="2">
-        <label>string</label>
-      </node>
       <node id="1">
         <label>rr::IniSection</label>
         <link refid="classrr_1_1IniSection"/>
@@ -279,6 +293,9 @@
           <edgelabel>mComment</edgelabel>
           <edgelabel>mName</edgelabel>
         </childnode>
+      </node>
+      <node id="2">
+        <label>string</label>
       </node>
     </collaborationgraph>
     <location file="rrIniSection.h" line="23" column="1" bodyfile="rrIniSection.h" bodystart="24" bodyend="46"/>

@@ -325,7 +325,6 @@ public:
      */
     bool isIndependentElement(const std::string& id) const;
 
-
     bool hasRateRule(const std::string& id) const;
 
     bool hasAssignmentRule(const std::string& id) const;

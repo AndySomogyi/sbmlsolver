@@ -13,13 +13,13 @@ A data structure that is that allows data to be exchanged with running SBML mode
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a14eb8ba27b1fcee72817ab9a05638afe}\label{structrrllvm_1_1LLVMModelData_a14eb8ba27b1fcee72817ab9a05638afe}} 
-unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a14eb8ba27b1fcee72817ab9a05638afe}{size}}
+unsigned {\bfseries size}
 \begin{DoxyCompactList}\small\item\em sizeof this struct, make sure we use the correct size in LLVM land. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_ab37211359aa6f8055e0f2dbdd944496a}\label{structrrllvm_1_1LLVMModelData_ab37211359aa6f8055e0f2dbdd944496a}} 
 unsigned {\bfseries flags}
 \item 
 \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a7659d7d4f6ba53d3456f2b29b8631c28}\label{structrrllvm_1_1LLVMModelData_a7659d7d4f6ba53d3456f2b29b8631c28}} 
-double \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a7659d7d4f6ba53d3456f2b29b8631c28}{time}}
+double {\bfseries time}
 \begin{DoxyCompactList}\small\item\em current time. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a419e418e6e2758990ca5e7a1416a4a78}\label{structrrllvm_1_1LLVMModelData_a419e418e6e2758990ca5e7a1416a4a78}} 
 unsigned {\bfseries num\+Ind\+Compartments}
@@ -29,10 +29,10 @@ unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a00d623dc7588f7eacc2fa3c
 unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_acb67b3d0e45edcb2e936b39cb0ebe109}{num\+Ind\+Boundary\+Species}}
 \begin{DoxyCompactList}\small\item\em number of boundary species and boundary species concentrations. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a2f418efb9d6e16d6f4f226ea4363fc66}\label{structrrllvm_1_1LLVMModelData_a2f418efb9d6e16d6f4f226ea4363fc66}} 
-unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a2f418efb9d6e16d6f4f226ea4363fc66}{num\+Ind\+Global\+Parameters}}
+unsigned {\bfseries num\+Ind\+Global\+Parameters}
 \begin{DoxyCompactList}\small\item\em number of global parameters \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_abd8ea24653988b3040b45f77a8a149c6}\label{structrrllvm_1_1LLVMModelData_abd8ea24653988b3040b45f77a8a149c6}} 
-unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_abd8ea24653988b3040b45f77a8a149c6}{num\+Rate\+Rules}}
+unsigned {\bfseries num\+Rate\+Rules}
 \begin{DoxyCompactList}\small\item\em all rate rules are by definition dependent \end{DoxyCompactList}\item 
 unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a6d14b37c5ab67fe41314c82b7124c6ab}{num\+Reactions}}
 \begin{DoxyCompactList}\small\item\em number of reactions, same as rates\+Size. \end{DoxyCompactList}\item 
@@ -49,10 +49,10 @@ unsigned {\bfseries num\+Init\+Boundary\+Species}
 unsigned {\bfseries num\+Init\+Global\+Parameters}
 \item 
 \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a49e6b41b71f22d6a7a68c1c667d86dbf}\label{structrrllvm_1_1LLVMModelData_a49e6b41b71f22d6a7a68c1c667d86dbf}} 
-\mbox{\hyperlink{structrr_1_1csr__matrix__t}{rr\+::csr\+\_\+matrix}} $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a49e6b41b71f22d6a7a68c1c667d86dbf}{stoichiometry}}
+\mbox{\hyperlink{structrr_1_1csr__matrix__t}{rr\+::csr\+\_\+matrix}} $\ast$ {\bfseries stoichiometry}
 \begin{DoxyCompactList}\small\item\em stoichiometry matrix \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a9df55f11ff25e0a045ce4d7fcee6a29b}\label{structrrllvm_1_1LLVMModelData_a9df55f11ff25e0a045ce4d7fcee6a29b}} 
-class \mbox{\hyperlink{classrr_1_1Random}{Random}} $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a9df55f11ff25e0a045ce4d7fcee6a29b}{random}}
+class \mbox{\hyperlink{classrr_1_1Random}{Random}} $\ast$ {\bfseries random}
 \begin{DoxyCompactList}\small\item\em The \mbox{\hyperlink{classrrllvm_1_1Random}{rrllvm\+::\+Random}} class holds a RNG and caches random distributions used by the distrib package. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a4f16cba09056ef9ddbce8c46a46f70fc}\label{structrrllvm_1_1LLVMModelData_a4f16cba09056ef9ddbce8c46a46f70fc}} 
 unsigned {\bfseries num\+Events}
@@ -60,10 +60,10 @@ unsigned {\bfseries num\+Events}
 unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a13d7b1094bd407bc0422943c196f4f09}{state\+Vector\+Size}}
 \begin{DoxyCompactList}\small\item\em number of items in the state std\+::vector. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a1d6d7fb287227490a08abd550f10074c}\label{structrrllvm_1_1LLVMModelData_a1d6d7fb287227490a08abd550f10074c}} 
-double $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a1d6d7fb287227490a08abd550f10074c}{state\+Vector}}
+double $\ast$ {\bfseries state\+Vector}
 \begin{DoxyCompactList}\small\item\em the state std\+::vector, this is usually a pointer to a block of data owned by the integrator. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_aab22d8a200ecb761c1255711401298dc}\label{structrrllvm_1_1LLVMModelData_aab22d8a200ecb761c1255711401298dc}} 
-double $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_aab22d8a200ecb761c1255711401298dc}{state\+Vector\+Rate}}
+double $\ast$ {\bfseries state\+Vector\+Rate}
 \begin{DoxyCompactList}\small\item\em the rate of change of the state std\+::vector, this is usually a pointer to a block of data owned by the integrator. \end{DoxyCompactList}\item 
 double $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a56b5c0718c3ada5dcbba2162778badcc}{rate\+Rule\+Rates}}
 \begin{DoxyCompactList}\small\item\em the rate of change of all elements who\textquotesingle{}s dynamics are determined by rate rules. \end{DoxyCompactList}\item 

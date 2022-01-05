@@ -104,6 +104,7 @@ class RR_DECLSPEC InvalidKeyException : public Exception
         explicit InvalidKeyException(const std::string& msg);
 };
 
+
 /**
  * @author JKM
  * @brief Thrown whenever an uninitialized value is encountered,

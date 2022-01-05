@@ -11,6 +11,7 @@
 #include "LLVMIncludes.h"
 #include <stack>
 #include <string>
+
 namespace rrllvm
 {
 
@@ -19,7 +20,7 @@ class CodeGen
 public:
     virtual llvm::Value *codeGen() = 0;
 protected:
-    ~CodeGen() {};
+    ~CodeGen() = default;;
 };
 
 /**

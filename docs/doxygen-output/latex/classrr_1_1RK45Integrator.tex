@@ -26,7 +26,6 @@ virtual void \mbox{\hyperlink{classrr_1_1RK45Integrator_ac72e73c1d53f4884d9976ca
 \begin{DoxyCompactList}\small\item\em Called whenever a new model is loaded to allow integrator to reset internal state. \end{DoxyCompactList}\item 
 virtual double \mbox{\hyperlink{classrr_1_1RK45Integrator_ab181e94750addee7066f7b35cce2fb4d}{integrate}} (double t, double h)
 \begin{DoxyCompactList}\small\item\em implement \mbox{\hyperlink{classrr_1_1Integrator}{Integrator}} interface \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1RK45Integrator_abde959ca72506e25e6c1187a4fa15b2b}\label{classrr_1_1RK45Integrator_abde959ca72506e25e6c1187a4fa15b2b}} 
 virtual void \mbox{\hyperlink{classrr_1_1RK45Integrator_abde959ca72506e25e6c1187a4fa15b2b}{restart}} (double t0)
 \begin{DoxyCompactList}\small\item\em Restarts the integrator. \end{DoxyCompactList}\item 
 std\+::string \mbox{\hyperlink{classrr_1_1RK45Integrator_aebee4c612006c929ba1d194b4258fa55}{get\+Name}} () const
@@ -46,7 +45,6 @@ void \mbox{\hyperlink{classrr_1_1RK45Integrator_a68cd9b39288762b25f1410aa743f703
 \begin{DoxyCompactList}\small\item\em Reset all integrator settings to their respective default values. \end{DoxyCompactList}\item 
 virtual void \mbox{\hyperlink{classrr_1_1RK45Integrator_a7fdc3829b5635e1b0cd18cced396261d}{set\+Listener}} (Integrator\+Listener\+Ptr)
 \begin{DoxyCompactList}\small\item\em the integrator can hold a single listener. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1RK45Integrator_af31a4d9eaff51261d8589f6020f2d612}\label{classrr_1_1RK45Integrator_af31a4d9eaff51261d8589f6020f2d612}} 
 virtual Integrator\+Listener\+Ptr \mbox{\hyperlink{classrr_1_1RK45Integrator_af31a4d9eaff51261d8589f6020f2d612}{get\+Listener}} ()
 \begin{DoxyCompactList}\small\item\em get the integrator listener \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1RK45Integrator_a8a79e9633a25767a1683a0334fd1d917}\label{classrr_1_1RK45Integrator_a8a79e9633a25767a1683a0334fd1d917}} 
@@ -120,7 +118,7 @@ JKM, WBC
 \end{DoxyAuthor}
 the caller is responsible for deleting memory associated with the returned Solver$\ast$. 
 
-Implements \mbox{\hyperlink{classrr_1_1Registrable_a3f529e138fa0288622525bc13cd73c5f}{rr\+::\+Registrable}}.
+Implements \mbox{\hyperlink{classrr_1_1Registrable_a4380db83a3a2b122fe58fc3bbbb32a69}{rr\+::\+Registrable}}.
 
 \mbox{\Hypertarget{classrr_1_1RK45Integrator_a45d69589da662628a6f0f66c200614e3}\label{classrr_1_1RK45Integrator_a45d69589da662628a6f0f66c200614e3}} 
 \index{rr::RK45Integrator@{rr::RK45Integrator}!getDescription@{getDescription}}
@@ -175,6 +173,20 @@ Always deterministic for RK45.
 \begin{DoxyAuthor}{Author}
 JKM 
 \end{DoxyAuthor}
+
+
+Implements \mbox{\hyperlink{classrr_1_1Integrator}{rr\+::\+Integrator}}.
+
+\mbox{\Hypertarget{classrr_1_1RK45Integrator_af31a4d9eaff51261d8589f6020f2d612}\label{classrr_1_1RK45Integrator_af31a4d9eaff51261d8589f6020f2d612}} 
+\index{rr::RK45Integrator@{rr::RK45Integrator}!getListener@{getListener}}
+\index{getListener@{getListener}!rr::RK45Integrator@{rr::RK45Integrator}}
+\doxysubsubsection{\texorpdfstring{getListener()}{getListener()}}
+{\footnotesize\ttfamily Integrator\+Listener\+Ptr rr\+::\+RK45\+Integrator\+::get\+Listener (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+get the integrator listener 
+
 
 
 Implements \mbox{\hyperlink{classrr_1_1Integrator}{rr\+::\+Integrator}}.
@@ -273,6 +285,20 @@ JKM
 
 
 Reimplemented from \mbox{\hyperlink{classrr_1_1Solver_a71c8b404a40447f879b2253e7dcc3b85}{rr\+::\+Solver}}.
+
+\mbox{\Hypertarget{classrr_1_1RK45Integrator_abde959ca72506e25e6c1187a4fa15b2b}\label{classrr_1_1RK45Integrator_abde959ca72506e25e6c1187a4fa15b2b}} 
+\index{rr::RK45Integrator@{rr::RK45Integrator}!restart@{restart}}
+\index{restart@{restart}!rr::RK45Integrator@{rr::RK45Integrator}}
+\doxysubsubsection{\texorpdfstring{restart()}{restart()}}
+{\footnotesize\ttfamily void rr\+::\+RK45\+Integrator\+::restart (\begin{DoxyParamCaption}\item[{double}]{t0 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Restarts the integrator. 
+
+
+
+Implements \mbox{\hyperlink{classrr_1_1Integrator}{rr\+::\+Integrator}}.
 
 \mbox{\Hypertarget{classrr_1_1RK45Integrator_a7fdc3829b5635e1b0cd18cced396261d}\label{classrr_1_1RK45Integrator_a7fdc3829b5635e1b0cd18cced396261d}} 
 \index{rr::RK45Integrator@{rr::RK45Integrator}!setListener@{setListener}}

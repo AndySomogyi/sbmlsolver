@@ -1,0 +1,412 @@
+\hypertarget{classrr_1_1RoadRunnerMap}{}\doxysection{rr\+::Road\+Runner\+Map Class Reference}
+\label{classrr_1_1RoadRunnerMap}\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+
+
+Hash table designed for storing \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} models.  
+
+
+
+
+{\ttfamily \#include $<$rr\+Road\+Runner\+Map.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrr_1_1RoadRunnerMap_abddb9c2088301dbd735518c8f44e9cf3}{Road\+Runner\+Map}} ()=default
+\begin{DoxyCompactList}\small\item\em Default construct a \mbox{\hyperlink{classrr_1_1RoadRunnerMap}{Road\+Runner\+Map}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrr_1_1RoadRunnerMap_a573a1b64126cd3250e8719c9cb5e766c}{Road\+Runner\+Map}} (const std\+::vector$<$ std\+::string $>$ \&sbml\+Strings\+Or\+Files, unsigned int num\+Threads)
+\begin{DoxyCompactList}\small\item\em Instantiate a \mbox{\hyperlink{classrr_1_1RoadRunnerMap}{Road\+Runner\+Map}} from a. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a04c55065dea70d20cd142bb44aa955e7}{get\+Keys}} () const
+\begin{DoxyCompactList}\small\item\em Returns the keys of the map in order of insertion. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} $\ast$ $>$ \mbox{\hyperlink{classrr_1_1RoadRunnerMap_aaf51a8e379e9ce9573a3675616b42e1f}{get\+Values}} () const
+\begin{DoxyCompactList}\small\item\em return values of the map as a Road\+Runnervector. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::pair$<$ std\+::string, \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} $\ast$ $>$ $>$ \mbox{\hyperlink{classrr_1_1RoadRunnerMap_ae59ca74069ba95baadeeedfbc48995e8}{get\+Items}} () const
+\begin{DoxyCompactList}\small\item\em get items of this map as vector of std\+::pair$<$std\+::string, Road\+Runer$\ast$$>$ types. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_ae1caaf098019febfe65d00a7344e4131}{insert}} (std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} $>$ road\+Runner)
+\begin{DoxyCompactList}\small\item\em Insert a. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a88bf886a4722d8e694251b3fb45dd15b}{insert}} (const std\+::string \&key, std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} $>$ road\+Runner)
+\begin{DoxyCompactList}\small\item\em The same as the std\+::unique\+\_\+ptr$<$\+Road\+Runner$>$ overload but with a user provided key. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a3ded8d8cf8b78f84eed1003a46482d9f}{insert}} (const std\+::string \&sbml\+Or\+File)
+\begin{DoxyCompactList}\small\item\em insert a roadrunner model into the map using the model name as key. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a34872331ef915fd2131474e784c8a5fa}{insert}} (const std\+::string \&key, const std\+::string \&sbml\+Or\+File)
+\begin{DoxyCompactList}\small\item\em insert a roadrunner model into the map using a user define key. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a36692f167efb2d98104b754f7709e0a0}{insert}} (const std\+::vector$<$ std\+::string $>$ \&sbml\+Strings\+Or\+Files)
+\begin{DoxyCompactList}\small\item\em Like the \char`\"{}insert(const std\+::string \&sbml\+Or\+File);\char`\"{} overload, but pass in a vector of sbml file or sbml strings. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a6d384b01fbf98397a0d475838ac5fd75}{erase}} (const std\+::string \&key)
+\begin{DoxyCompactList}\small\item\em remove an element with \end{DoxyCompactList}\item 
+Thread\+Safe\+Unordered\+Map\+::iterator \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a34903c378ab7ac40ccc656bf4d0dac9d}{begin}} ()
+\begin{DoxyCompactList}\small\item\em map iterator \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a0fda87a87041ffddf67c427dd16f3254}\label{classrr_1_1RoadRunnerMap_a0fda87a87041ffddf67c427dd16f3254}} 
+Thread\+Safe\+Unordered\+Map\+::const\+\_\+iterator {\bfseries begin} () const
+\item 
+Thread\+Safe\+Unordered\+Map\+::iterator \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a32cd8895262727088f335c25ae813e98}{end}} ()
+\item 
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a07ad39be64cd0c4a2c6b54f6f3183bf2}\label{classrr_1_1RoadRunnerMap_a07ad39be64cd0c4a2c6b54f6f3183bf2}} 
+Thread\+Safe\+Unordered\+Map\+::const\+\_\+iterator {\bfseries end} () const
+\item 
+Thread\+Safe\+Unordered\+Map\+::iterator \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a1de37edd3f1822e61c98c200b1b4832a}{find}} (const std\+::string \&key)
+\begin{DoxyCompactList}\small\item\em find item with key equal to \end{DoxyCompactList}\item 
+Thread\+Safe\+Unordered\+Map\+::const\+\_\+iterator \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a02f78458e7f08a5b5607f41271bbf488}{find}} (const std\+::string \&key) const
+\begin{DoxyCompactList}\small\item\em find item with key equal to \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_ab6b731d13f9c513083d4ed3ad3daef37}\label{classrr_1_1RoadRunnerMap_ab6b731d13f9c513083d4ed3ad3daef37}} 
+bool {\bfseries empty} () const
+\begin{DoxyCompactList}\small\item\em return true if the map is empty \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_af9fe81b21e2e159f10bae6ed7be72c50}\label{classrr_1_1RoadRunnerMap_af9fe81b21e2e159f10bae6ed7be72c50}} 
+unsigned int {\bfseries size} () const
+\begin{DoxyCompactList}\small\item\em returns the number of elements in the map \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a03349e67a3093ab5fbd86c10df56953f}\label{classrr_1_1RoadRunnerMap_a03349e67a3093ab5fbd86c10df56953f}} 
+void {\bfseries clear} ()
+\begin{DoxyCompactList}\small\item\em empty the map so that there are 0 elements left \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} $\ast$ \mbox{\hyperlink{classrr_1_1RoadRunnerMap_af4e532a36e0066b981b7a477f4fc9f67}{operator\mbox{[}$\,$\mbox{]}}} (const std\+::string \&key)
+\begin{DoxyCompactList}\small\item\em Getter operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} $\ast$ \mbox{\hyperlink{classrr_1_1RoadRunnerMap_ad3859547479a3df5e699b6ea054f85d7}{at}} (const std\+::string \&key)
+\begin{DoxyCompactList}\small\item\em get borrowed reference from map for roadrunner model with key equal to \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a2664990c32cf86d3bfb4c659cf805b55}\label{classrr_1_1RoadRunnerMap_a2664990c32cf86d3bfb4c659cf805b55}} 
+\mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} $\ast$ {\bfseries at} (const std\+::string \&key) const
+\item 
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a16ff276f7e61351ce79643831f3ee202}\label{classrr_1_1RoadRunnerMap_a16ff276f7e61351ce79643831f3ee202}} 
+void {\bfseries wait\+\_\+for\+\_\+tasks} ()
+\begin{DoxyCompactList}\small\item\em wait for all tasks to finish before allowing program execution to continue \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a1af8de359ac7fbca433c3e249a2d9496}{count}} (const std\+::string \&key)
+\begin{DoxyCompactList}\small\item\em count the number of keys with value \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_ad81f2df7069d3e6cf9fe7d9f2246711c}{set\+Num\+Threads}} (unsigned int n)
+\begin{DoxyCompactList}\small\item\em Reset the number of threads in the pool. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_aa35ab70a630780f570b4ac5574c18728}\label{classrr_1_1RoadRunnerMap_aa35ab70a630780f570b4ac5574c18728}} 
+unsigned int {\bfseries get\+Num\+Threads} () const
+\begin{DoxyCompactList}\small\item\em get the number of threds in the thread\+\_\+pool \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Hash table designed for storing \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} models. 
+
+Expensive operations like building models are done in parallel.
+
+Loading \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} models requires expensive builds, which can be prohibitive when loading many models. \mbox{\hyperlink{classrr_1_1RoadRunnerMap}{Road\+Runner\+Map}} is a container for \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} objects which abstracts the process of loading or simulating in parallel. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_abddb9c2088301dbd735518c8f44e9cf3}\label{classrr_1_1RoadRunnerMap_abddb9c2088301dbd735518c8f44e9cf3}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!RoadRunnerMap@{RoadRunnerMap}}
+\index{RoadRunnerMap@{RoadRunnerMap}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{RoadRunnerMap()}{RoadRunnerMap()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily rr\+::\+Road\+Runner\+Map\+::\+Road\+Runner\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+Default construct a \mbox{\hyperlink{classrr_1_1RoadRunnerMap}{Road\+Runner\+Map}}. 
+
+The default number of threads is 1, which can be changed with \mbox{\hyperlink{classrr_1_1RoadRunnerMap_ad81f2df7069d3e6cf9fe7d9f2246711c}{Road\+Runner\+Map\+::set\+Num\+Threads}}. \mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a573a1b64126cd3250e8719c9cb5e766c}\label{classrr_1_1RoadRunnerMap_a573a1b64126cd3250e8719c9cb5e766c}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!RoadRunnerMap@{RoadRunnerMap}}
+\index{RoadRunnerMap@{RoadRunnerMap}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{RoadRunnerMap()}{RoadRunnerMap()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily rr\+::\+Road\+Runner\+Map\+::\+Road\+Runner\+Map (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::string $>$ \&}]{sbml\+Strings\+Or\+Files,  }\item[{unsigned int}]{num\+Threads }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Instantiate a \mbox{\hyperlink{classrr_1_1RoadRunnerMap}{Road\+Runner\+Map}} from a. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sbml\+Strings\+Or\+Files} & vector of sbml files, sbml strings or a mix thereof. \\
+\hline
+{\em num\+Threads} & How many threads to use, if 1, the overhead of setting up multithreading pool is avoided. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_ad3859547479a3df5e699b6ea054f85d7}\label{classrr_1_1RoadRunnerMap_ad3859547479a3df5e699b6ea054f85d7}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!at@{at}}
+\index{at@{at}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} $\ast$ rr\+::\+Road\+Runner\+Map\+::at (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key }\end{DoxyParamCaption})}
+
+
+
+get borrowed reference from map for roadrunner model with key equal to 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key.} & \\
+\hline
+\end{DoxyParams}
+returned pointer is owned by the \mbox{\hyperlink{classrr_1_1RoadRunnerMap}{Road\+Runner\+Map}} object. \mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a34903c378ab7ac40ccc656bf4d0dac9d}\label{classrr_1_1RoadRunnerMap_a34903c378ab7ac40ccc656bf4d0dac9d}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!begin@{begin}}
+\index{begin@{begin}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily Thread\+Safe\+Unordered\+Map\+::iterator rr\+::\+Road\+Runner\+Map\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+map iterator 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\&[modelName, rr]: rrm) \{}
+\DoxyCodeLine{   ...}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+or 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& [modelName, rr] : rrm) \{}
+\DoxyCodeLine{    actual[i] = rr-\/>getInstanceID();}
+\DoxyCodeLine{    i++;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a1af8de359ac7fbca433c3e249a2d9496}\label{classrr_1_1RoadRunnerMap_a1af8de359ac7fbca433c3e249a2d9496}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!count@{count}}
+\index{count@{count}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{count()}{count()}}
+{\footnotesize\ttfamily size\+\_\+t rr\+::\+Road\+Runner\+Map\+::count (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key }\end{DoxyParamCaption})}
+
+
+
+count the number of keys with value 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key.} & \\
+\hline
+\end{DoxyParams}
+Because there can be only 1 element with a particular key in the map, the return value of count is guarenteed to be either 0 for not found, or 1 for found. \mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a32cd8895262727088f335c25ae813e98}\label{classrr_1_1RoadRunnerMap_a32cd8895262727088f335c25ae813e98}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!end@{end}}
+\index{end@{end}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily Thread\+Safe\+Unordered\+Map\+::iterator rr\+::\+Road\+Runner\+Map\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = rrm.begin(); it != rrm.end(); ++it) \{}
+\DoxyCodeLine{    \textcolor{keyword}{auto}\&[modelName, rr] = *it;}
+\DoxyCodeLine{    i++;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a6d384b01fbf98397a0d475838ac5fd75}\label{classrr_1_1RoadRunnerMap_a6d384b01fbf98397a0d475838ac5fd75}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!erase@{erase}}
+\index{erase@{erase}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}}
+{\footnotesize\ttfamily void rr\+::\+Road\+Runner\+Map\+::erase (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key }\end{DoxyParamCaption})}
+
+
+
+remove an element with 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & from the map \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a1de37edd3f1822e61c98c200b1b4832a}\label{classrr_1_1RoadRunnerMap_a1de37edd3f1822e61c98c200b1b4832a}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!find@{find}}
+\index{find@{find}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Thread\+Safe\+Unordered\+Map\+::iterator rr\+::\+Road\+Runner\+Map\+::find (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key }\end{DoxyParamCaption})}
+
+
+
+find item with key equal to 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key.} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+iterator to item if found or end if not found 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a02f78458e7f08a5b5607f41271bbf488}\label{classrr_1_1RoadRunnerMap_a02f78458e7f08a5b5607f41271bbf488}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!find@{find}}
+\index{find@{find}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Thread\+Safe\+Unordered\+Map\+::const\+\_\+iterator rr\+::\+Road\+Runner\+Map\+::find (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key }\end{DoxyParamCaption}) const}
+
+
+
+find item with key equal to 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key.} & Const version. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+iterator to item if found or end if not found 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_ae59ca74069ba95baadeeedfbc48995e8}\label{classrr_1_1RoadRunnerMap_ae59ca74069ba95baadeeedfbc48995e8}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!getItems@{getItems}}
+\index{getItems@{getItems}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{getItems()}{getItems()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::pair$<$ std\+::string, \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} $\ast$ $>$ $>$ rr\+::\+Road\+Runner\+Map\+::get\+Items (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+get items of this map as vector of std\+::pair$<$std\+::string, Road\+Runer$\ast$$>$ types. 
+
+pointers are owned by the \mbox{\hyperlink{classrr_1_1RoadRunnerMap}{Road\+Runner\+Map}} -- so do not delete. O(\+N). \mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a04c55065dea70d20cd142bb44aa955e7}\label{classrr_1_1RoadRunnerMap_a04c55065dea70d20cd142bb44aa955e7}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!getKeys@{getKeys}}
+\index{getKeys@{getKeys}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{getKeys()}{getKeys()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ rr\+::\+Road\+Runner\+Map\+::get\+Keys (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns the keys of the map in order of insertion. 
+
+Does a linear search over hashmap to build a vector of keys O(\+N). \mbox{\Hypertarget{classrr_1_1RoadRunnerMap_aaf51a8e379e9ce9573a3675616b42e1f}\label{classrr_1_1RoadRunnerMap_aaf51a8e379e9ce9573a3675616b42e1f}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!getValues@{getValues}}
+\index{getValues@{getValues}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{getValues()}{getValues()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} $\ast$ $>$ rr\+::\+Road\+Runner\+Map\+::get\+Values (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+return values of the map as a Road\+Runnervector. 
+
+the Road\+Runner$\ast$ instances are still owned by the \mbox{\hyperlink{classrr_1_1RoadRunnerMap}{Road\+Runner\+Map}} Linear complexity in the size of the map. \mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a34872331ef915fd2131474e784c8a5fa}\label{classrr_1_1RoadRunnerMap_a34872331ef915fd2131474e784c8a5fa}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!insert@{insert}}
+\index{insert@{insert}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily void rr\+::\+Road\+Runner\+Map\+::insert (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key,  }\item[{const std\+::string \&}]{sbml\+Or\+File }\end{DoxyParamCaption})}
+
+
+
+insert a roadrunner model into the map using a user define key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The string to use for the key to the roadrunner model you are inserting. \\
+\hline
+{\em sbml\+Or\+File} & either a sbml string or a valid file path to a sbml file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_ae1caaf098019febfe65d00a7344e4131}{insert(std\+::unique\+\_\+ptr$<$\+Road\+Runner$>$ road\+Runner)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a88bf886a4722d8e694251b3fb45dd15b}{insert(const std\+::string \&key, std\+::unique\+\_\+ptr$<$\+Road\+Runner$>$ road\+Runner)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a3ded8d8cf8b78f84eed1003a46482d9f}{insert(const std\+::string \&sbml\+Or\+File)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a36692f167efb2d98104b754f7709e0a0}{insert(const std\+::vector$<$std\+::string$>$ \&sbml\+Strings\+Or\+Files)}}; 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a88bf886a4722d8e694251b3fb45dd15b}\label{classrr_1_1RoadRunnerMap_a88bf886a4722d8e694251b3fb45dd15b}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!insert@{insert}}
+\index{insert@{insert}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily void rr\+::\+Road\+Runner\+Map\+::insert (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key,  }\item[{std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} $>$}]{road\+Runner }\end{DoxyParamCaption})}
+
+
+
+The same as the std\+::unique\+\_\+ptr$<$\+Road\+Runner$>$ overload but with a user provided key. 
+
+\begin{DoxySeeAlso}{See also}
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_ae1caaf098019febfe65d00a7344e4131}{insert(std\+::unique\+\_\+ptr$<$\+Road\+Runner$>$ road\+Runner)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a3ded8d8cf8b78f84eed1003a46482d9f}{insert(const std\+::string \&sbml\+Or\+File)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a34872331ef915fd2131474e784c8a5fa}{insert(const std\+::string \&key, const std\+::string \&sbml\+Or\+File)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a36692f167efb2d98104b754f7709e0a0}{insert(const std\+::vector$<$std\+::string$>$ \&sbml\+Strings\+Or\+Files)}}; 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a3ded8d8cf8b78f84eed1003a46482d9f}\label{classrr_1_1RoadRunnerMap_a3ded8d8cf8b78f84eed1003a46482d9f}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!insert@{insert}}
+\index{insert@{insert}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily void rr\+::\+Road\+Runner\+Map\+::insert (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{sbml\+Or\+File }\end{DoxyParamCaption})}
+
+
+
+insert a roadrunner model into the map using the model name as key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sbml\+Or\+File} & either a sbml string or a valid file path to a sbml file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_ae1caaf098019febfe65d00a7344e4131}{insert(std\+::unique\+\_\+ptr$<$\+Road\+Runner$>$ road\+Runner)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a88bf886a4722d8e694251b3fb45dd15b}{insert(const std\+::string \&key, std\+::unique\+\_\+ptr$<$\+Road\+Runner$>$ road\+Runner)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a34872331ef915fd2131474e784c8a5fa}{insert(const std\+::string \&key, const std\+::string \&sbml\+Or\+File)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a36692f167efb2d98104b754f7709e0a0}{insert(const std\+::vector$<$std\+::string$>$ \&sbml\+Strings\+Or\+Files)}}; 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_a36692f167efb2d98104b754f7709e0a0}\label{classrr_1_1RoadRunnerMap_a36692f167efb2d98104b754f7709e0a0}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!insert@{insert}}
+\index{insert@{insert}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily void rr\+::\+Road\+Runner\+Map\+::insert (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::string $>$ \&}]{sbml\+Strings\+Or\+Files }\end{DoxyParamCaption})}
+
+
+
+Like the \char`\"{}insert(const std\+::string \&sbml\+Or\+File);\char`\"{} overload, but pass in a vector of sbml file or sbml strings. 
+
+\begin{DoxySeeAlso}{See also}
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_ae1caaf098019febfe65d00a7344e4131}{insert(std\+::unique\+\_\+ptr$<$\+Road\+Runner$>$ road\+Runner)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a88bf886a4722d8e694251b3fb45dd15b}{insert(const std\+::string \&key, std\+::unique\+\_\+ptr$<$\+Road\+Runner$>$ road\+Runner)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a3ded8d8cf8b78f84eed1003a46482d9f}{insert(const std\+::string \&sbml\+Or\+File)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a34872331ef915fd2131474e784c8a5fa}{insert(const std\+::string \&key, const std\+::string \&sbml\+Or\+File)}}; 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_ae1caaf098019febfe65d00a7344e4131}\label{classrr_1_1RoadRunnerMap_ae1caaf098019febfe65d00a7344e4131}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!insert@{insert}}
+\index{insert@{insert}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily void rr\+::\+Road\+Runner\+Map\+::insert (\begin{DoxyParamCaption}\item[{std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} $>$}]{road\+Runner }\end{DoxyParamCaption})}
+
+
+
+Insert a. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em road\+Runner} & roadrunner model into the map.\\
+\hline
+\end{DoxyParams}
+The model must already be a unique pointer. The key for accessing the map will be the model name. Loading another model with the same name will overwrite the original. \begin{DoxySeeAlso}{See also}
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a88bf886a4722d8e694251b3fb45dd15b}{insert(const std\+::string \&key, std\+::unique\+\_\+ptr$<$\+Road\+Runner$>$ road\+Runner)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a3ded8d8cf8b78f84eed1003a46482d9f}{insert(const std\+::string \&sbml\+Or\+File)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a34872331ef915fd2131474e784c8a5fa}{insert(const std\+::string \&key, const std\+::string \&sbml\+Or\+File)}}; 
+
+void \mbox{\hyperlink{classrr_1_1RoadRunnerMap_a36692f167efb2d98104b754f7709e0a0}{insert(const std\+::vector$<$std\+::string$>$ \&sbml\+Strings\+Or\+Files)}}; 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classrr_1_1RoadRunnerMap_af4e532a36e0066b981b7a477f4fc9f67}\label{classrr_1_1RoadRunnerMap_af4e532a36e0066b981b7a477f4fc9f67}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} $\ast$ rr\+::\+Road\+Runner\+Map\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key }\end{DoxyParamCaption})}
+
+
+
+Getter operator. 
+
+Returns a {\itshape borrowed} reference to a roadruner model that is owned by the \mbox{\hyperlink{classrr_1_1RoadRunnerMap}{Road\+Runner\+Map}}. \mbox{\Hypertarget{classrr_1_1RoadRunnerMap_ad81f2df7069d3e6cf9fe7d9f2246711c}\label{classrr_1_1RoadRunnerMap_ad81f2df7069d3e6cf9fe7d9f2246711c}} 
+\index{rr::RoadRunnerMap@{rr::RoadRunnerMap}!setNumThreads@{setNumThreads}}
+\index{setNumThreads@{setNumThreads}!rr::RoadRunnerMap@{rr::RoadRunnerMap}}
+\doxysubsubsection{\texorpdfstring{setNumThreads()}{setNumThreads()}}
+{\footnotesize\ttfamily void rr\+::\+Road\+Runner\+Map\+::set\+Num\+Threads (\begin{DoxyParamCaption}\item[{unsigned int}]{n }\end{DoxyParamCaption})}
+
+
+
+Reset the number of threads in the pool. 
+
+
+\begin{DoxyItemize}
+\item If we are asked for more than 0 threads and we have an existing thread pool, the pool will wait for current tasks to finish before resetting the pool with the new number of threads
+\item If we are asked for more than 0 threads and we do not have an existing thread pool, creates one with the requested number of threads
+\item If we are asked for 0 threads and we have an existing thread pool, the thread pool is destroyed.
+\item If we are asked for 0 threads and we do not have an existing thread pool, does nothing 
+\end{DoxyItemize}
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+rr\+Road\+Runner\+Map.\+h\item 
+rr\+Road\+Runner\+Map.\+cpp\end{DoxyCompactItemize}

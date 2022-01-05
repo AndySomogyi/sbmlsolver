@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrc__libstruct__api_8h" kind="file" language="C++">
     <compoundname>rrc_libstruct_api.h</compoundname>
     <includes refid="rrc__exporter_8h" local="yes">rrc_exporter.h</includes>
@@ -7,12 +7,11 @@
     <includedby refid="rrc__api_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</includedby>
     <includedby refid="rrc__libstruct__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.cpp</includedby>
     <incdepgraph>
-      <node id="3">
-        <label>stdbool.h</label>
-      </node>
-      <node id="4">
-        <label>rrc_types.h</label>
-        <link refid="rrc__types_8h"/>
+      <node id="2">
+        <label>rrc_exporter.h</label>
+        <link refid="rrc__exporter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h</label>
@@ -22,11 +21,12 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="2">
-        <label>rrc_exporter.h</label>
-        <link refid="rrc__exporter_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
+      <node id="4">
+        <label>rrc_types.h</label>
+        <link refid="rrc__types_8h"/>
+      </node>
+      <node id="3">
+        <label>stdbool.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
@@ -34,16 +34,16 @@
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
         <link refid="rrc__api_8cpp"/>
       </node>
-      <node id="1">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h</label>
-        <link refid="rrc__libstruct__api_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-      </node>
       <node id="2">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</label>
         <link refid="rrc__api_8h"/>
         <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h</label>
+        <link refid="rrc__libstruct__api_8h"/>
+        <childnode refid="2" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

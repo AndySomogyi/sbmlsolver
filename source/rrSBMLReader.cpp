@@ -188,7 +188,7 @@ static std::string flatten_comp(const std::string& sbml, const std::string fname
 
 // C++ standard library isn't self-consistent
 char mytolower(char x) {
-    return std::tolower(x);
+    return (char)std::tolower(x);
 }
 
 std::string SBMLReader::read(const std::string& str)
@@ -262,6 +262,8 @@ std::string SBMLReader::read(const std::string& str)
 
     return str;
 }
+
+
 
 } /* namespace rr */
 

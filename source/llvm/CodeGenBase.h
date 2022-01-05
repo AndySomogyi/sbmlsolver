@@ -13,12 +13,15 @@
 #include "LLVMException.h"
 #include "rrLogger.h"
 #include <Poco/Logger.h>
+#include "llvm/IR/Mangler.h"
 
 using rr::Logger;
 using rr::getLogger;
 
 namespace rrllvm
 {
+
+    class Jit;
 
 typedef std::vector<std::string> StringVector;
 typedef std::pair<std::string, int> StringIntPair;
@@ -40,7 +43,7 @@ public:
 
         if(functionPassManager)
         {
-            functionPassManager->run(*func);
+            //functionPassManager->run(*func);
         }
 
 		return func;
@@ -54,14 +57,14 @@ protected:
             model(mgc.getModel()),
             dataSymbols(mgc.getModelDataSymbols()),
             modelSymbols(mgc.getModelSymbols()),
-            context(mgc.getContext()),
-            module(mgc.getModule()),
-            builder(mgc.getBuilder()),
-            engine(mgc.getExecutionEngine()),
+            context(mgc.getJitNonOwning()->getModuleNonOwning()->getContext()),
+            module(mgc.getJitNonOwning()->getModuleNonOwning()),
+            builder(*mgc.getJitNonOwning()->getBuilderNonOwning()),
             options(mgc.getOptions()),
-            function(0),
-            functionPassManager(mgc.getFunctionPassManager())
+            function(0)
+//            functionPassManager(mgc.getJitNonOwning().getFunctionPassManager())
     {
+
     };
 
     const ModelGeneratorContext &modelGenContext;
@@ -77,13 +80,12 @@ protected:
     llvm::LLVMContext &context;
     llvm::Module *module;
     llvm::IRBuilder<> &builder;
-    llvm::ExecutionEngine &engine;
     llvm::Function *function;
 
     /**
      * function pass manager. Null if no optimization.
      */
-    llvm::legacy::FunctionPassManager *functionPassManager;
+    llvm::legacy::FunctionPassManager* functionPassManager;
 
     /**
      * the options bit field that was passed into the top level load method.
@@ -103,7 +105,7 @@ protected:
 
         llvm::FunctionType *funcType = llvm::FunctionType::get(retType, argTypes, false);
         function = llvm::Function::Create(funcType,
-                llvm::Function::InternalLinkage,
+                llvm::Function::ExternalLinkage,
                 functionName, module);
 
         // Create a new basic block to start insertion into.
@@ -149,23 +151,16 @@ protected:
 
     llvm::Function *verifyFunction()
     {
-        poco_information(getLogger(),
-            std::string("function: ") + to_string(function));
+        rrLogInfo << std::string("function: ") + to_string(function);
 
         /// verifyFunction - Check a function for errors, printing messages on stderr.
         /// Return true if the function is corrupt.
-//#if (LLVM_VERSION_MAJOR == 3) && (LLVM_VERSION_MINOR >= 5)
-#if (LLVM_VERSION_MAJOR >= 6)
         if (llvm::verifyFunction(*function))
-#else
-        if (llvm::verifyFunction(*function, llvm::AbortProcessAction))
-#endif
         {
-            poco_error(getLogger(),
-                    "Corrupt Generated Function, "  + to_string(function));
+            std::string err = "Corrupt Generated Function, "  + to_string(function);
+            rrLogErr << err;
 
-            throw LLVMException("Generated function is corrupt, see stderr",
-                    __FUNC__);
+            throw LLVMException(err);
         }
 
         return function;

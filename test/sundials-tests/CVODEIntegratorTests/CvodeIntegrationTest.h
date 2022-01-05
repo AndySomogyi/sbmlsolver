@@ -8,6 +8,7 @@
 #include "Matrix.h"
 #include "rrRoadRunner.h"
 #include "LLVMExecutableModel.h"
+#include "rrLogger.h"
 
 using namespace rr;
 
@@ -18,7 +19,10 @@ using namespace rr;
 class CVODEIntegratorTests : public ::testing::Test {
 public:
 
-    CVODEIntegratorTests() = default;
+    CVODEIntegratorTests() {
+        Logger::setFormattingPattern("%U:%u:%l: %t");
+        Logger::setLevel(Logger::LOG_WARNING);
+    };
 
     /**
      * Test to check that a sbml model can simulate using CVODEIntegrator
@@ -116,7 +120,6 @@ public:
         Matrix<double> simulationResults(trueValues.numRows(), trueValues.numCols());
         int numStates = model->getStateVector(nullptr);
         double *stateVector = new double[numStates];
-
         // collect initial state
         simulationResults(0, 0) = model->getTime();
         model->getStateVector(stateVector);

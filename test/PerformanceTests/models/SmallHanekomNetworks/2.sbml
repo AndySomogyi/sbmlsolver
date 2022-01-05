@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model metaid="__main" id="__main">
+    <listOfCompartments>
+      <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="S2" compartment="default_compartment" initialAmount="9.60326348293673" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S4" compartment="default_compartment" initialAmount="4.75557574135574" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S5" compartment="default_compartment" initialAmount="7.65754342668981" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S6" compartment="default_compartment" initialAmount="7.20701790374009" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S0" compartment="default_compartment" initialConcentration="6.13025091492674" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="S1" compartment="default_compartment" initialConcentration="5.82704784980713" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="S3" compartment="default_compartment" initialConcentration="1.55271515617815" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="S7" compartment="default_compartment" initialConcentration="2.98682074424595" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="S8" compartment="default_compartment" initialConcentration="1.20985736603878" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="S9" compartment="default_compartment" initialConcentration="8.54685428568658" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="V0" value="0.013148908147885" constant="true"/>
+      <parameter id="khs5" value="0.709898019363363" constant="true"/>
+      <parameter id="khs2" value="74.9247758632712" constant="true"/>
+      <parameter id="keq0" value="0.140935130532686" constant="true"/>
+      <parameter id="khs4" value="0.709898019363363" constant="true"/>
+      <parameter id="V1" value="14.0515606715177" constant="true"/>
+      <parameter id="khs1" value="0.0439479923381553" constant="true"/>
+      <parameter id="keq1" value="1.90329189885979" constant="true"/>
+      <parameter id="V2" value="1.92582527281451" constant="true"/>
+      <parameter id="keq2" value="0.0127299098237922" constant="true"/>
+      <parameter id="khs0" value="4.09940468954516" constant="true"/>
+      <parameter id="V3" value="8.66348093299803" constant="true"/>
+      <parameter id="khs3" value="3.3239418437314" constant="true"/>
+      <parameter id="keq3" value="0.0896274409347167" constant="true"/>
+      <parameter id="khs6" value="0.288667201349057" constant="true"/>
+      <parameter id="V4" value="4.63396963325892" constant="true"/>
+      <parameter id="keq4" value="5.1056475746306" constant="true"/>
+      <parameter id="V5" value="0.0212196952135094" constant="true"/>
+      <parameter id="khs9" value="0.0257432430799359" constant="true"/>
+      <parameter id="keq5" value="0.0341055087163952" constant="true"/>
+      <parameter id="V6" value="0.0194063922457558" constant="true"/>
+      <parameter id="keq6" value="0.0220475834741542" constant="true"/>
+      <parameter id="khs7" value="12.3865478904842" constant="true"/>
+      <parameter id="V7" value="0.69702185048769" constant="true"/>
+      <parameter id="khs8" value="1.62494537817294" constant="true"/>
+      <parameter id="keq7" value="0.128119737591478" constant="true"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction id="J0" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="S5" stoichiometry="1" constant="true"/>
+          <speciesReference species="S2" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S4" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> V0 </ci>
+                <apply>
+                  <divide/>
+                  <ci> S5 </ci>
+                  <ci> khs5 </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S2 </ci>
+                  <ci> khs2 </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <divide/>
+                      <ci> S4 </ci>
+                      <apply>
+                        <times/>
+                        <ci> S5 </ci>
+                        <ci> S2 </ci>
+                      </apply>
+                    </apply>
+                    <ci> keq0 </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <plus/>
+                <cn type="integer"> 1 </cn>
+                <apply>
+                  <divide/>
+                  <ci> S5 </ci>
+                  <ci> khs5 </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S2 </ci>
+                  <ci> khs2 </ci>
+                </apply>
+                <apply>
+                  <times/>
+                  <apply>
+                    <divide/>
+                    <ci> S5 </ci>
+                    <ci> khs5 </ci>
+                  </apply>
+                  <apply>
+                    <divide/>
+                    <ci> S2 </ci>
+                    <ci> khs2 </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S4 </ci>
+                  <ci> khs4 </ci>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J1" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="S1" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S5" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> V1 </ci>
+                <apply>
+                  <divide/>
+                  <ci> S1 </ci>
+                  <ci> khs1 </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <divide/>
+                      <ci> S5 </ci>
+                      <ci> S1 </ci>
+                    </apply>
+                    <ci> keq1 </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <plus/>
+                <cn type="integer"> 1 </cn>
+                <apply>
+                  <divide/>
+                  <ci> S1 </ci>
+                  <ci> khs1 </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S5 </ci>
+                  <ci> khs5 </ci>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J2" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="S4" stoichiometry="1" constant="true"/>
+          <speciesReference species="S4" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S0" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> V2 </ci>
+                <apply>
+                  <divide/>
+                  <ci> S4 </ci>
+                  <ci> khs4 </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S4 </ci>
+                  <ci> khs4 </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <divide/>
+                      <ci> S0 </ci>
+                      <apply>
+                        <times/>
+                        <ci> S4 </ci>
+                        <ci> S4 </ci>
+                      </apply>
+                    </apply>
+                    <ci> keq2 </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <plus/>
+                <cn type="integer"> 1 </cn>
+                <apply>
+                  <divide/>
+                  <ci> S4 </ci>
+                  <ci> khs4 </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S4 </ci>
+                  <ci> khs4 </ci>
+                </apply>
+                <apply>
+                  <times/>
+                  <apply>
+                    <divide/>
+                    <ci> S4 </ci>
+                    <ci> khs4 </ci>
+                  </apply>
+                  <apply>
+                    <divide/>
+                    <ci> S4 </ci>
+                    <ci> khs4 </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S0 </ci>
+                  <ci> khs0 </ci>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J3" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="S3" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S2" stoichiometry="1" constant="true"/>
+          <speciesReference species="S6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> V3 </ci>
+                <apply>
+                  <divide/>
+                  <ci> S3 </ci>
+                  <ci> khs3 </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <divide/>
+                      <apply>
+                        <times/>
+                        <ci> S2 </ci>
+                        <ci> S6 </ci>
+                      </apply>
+                      <ci> S3 </ci>
+                    </apply>
+                    <ci> keq3 </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <plus/>
+                <cn type="integer"> 1 </cn>
+                <apply>
+                  <divide/>
+                  <ci> S3 </ci>
+                  <ci> khs3 </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S2 </ci>
+                  <ci> khs2 </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S6 </ci>
+                  <ci> khs6 </ci>
+                </apply>
+                <apply>
+                  <times/>
+                  <apply>
+                    <divide/>
+                    <ci> S2 </ci>
+                    <ci> khs2 </ci>
+                  </apply>
+                  <apply>
+                    <divide/>
+                    <ci> S6 </ci>
+                    <ci> khs6 </ci>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J4" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="S2" stoichiometry="1" constant="true"/>
+          <speciesReference species="S5" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S5" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> V4 </ci>
+                <apply>
+                  <divide/>
+                  <ci> S2 </ci>
+                  <ci> khs2 </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S5 </ci>
+                  <ci> khs5 </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <divide/>
+                      <ci> S5 </ci>
+                      <apply>
+                        <times/>
+                        <ci> S2 </ci>
+                        <ci> S5 </ci>
+                      </apply>
+                    </apply>
+                    <ci> keq4 </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <plus/>
+                <cn type="integer"> 1 </cn>
+                <apply>
+                  <divide/>
+                  <ci> S2 </ci>
+                  <ci> khs2 </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S5 </ci>
+                  <ci> khs5 </ci>
+                </apply>
+                <apply>
+                  <times/>
+                  <apply>
+                    <divide/>
+                    <ci> S2 </ci>
+                    <ci> khs2 </ci>
+                  </apply>
+                  <apply>
+                    <divide/>
+                    <ci> S5 </ci>
+                    <ci> khs5 </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S5 </ci>
+                  <ci> khs5 </ci>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J5" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="S9" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S0" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> V5 </ci>
+                <apply>
+                  <divide/>
+                  <ci> S9 </ci>
+                  <ci> khs9 </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <divide/>
+                      <ci> S0 </ci>
+                      <ci> S9 </ci>
+                    </apply>
+                    <ci> keq5 </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <plus/>
+                <cn type="integer"> 1 </cn>
+                <apply>
+                  <divide/>
+                  <ci> S9 </ci>
+                  <ci> khs9 </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S0 </ci>
+                  <ci> khs0 </ci>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J6" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="S6" stoichiometry="1" constant="true"/>
+          <speciesReference species="S2" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S7" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> V6 </ci>
+                <apply>
+                  <divide/>
+                  <ci> S6 </ci>
+                  <ci> khs6 </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S2 </ci>
+                  <ci> khs2 </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <divide/>
+                      <ci> S7 </ci>
+                      <apply>
+                        <times/>
+                        <ci> S6 </ci>
+                        <ci> S2 </ci>
+                      </apply>
+                    </apply>
+                    <ci> keq6 </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <plus/>
+                <cn type="integer"> 1 </cn>
+                <apply>
+                  <divide/>
+                  <ci> S6 </ci>
+                  <ci> khs6 </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S2 </ci>
+                  <ci> khs2 </ci>
+                </apply>
+                <apply>
+                  <times/>
+                  <apply>
+                    <divide/>
+                    <ci> S6 </ci>
+                    <ci> khs6 </ci>
+                  </apply>
+                  <apply>
+                    <divide/>
+                    <ci> S2 </ci>
+                    <ci> khs2 </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S7 </ci>
+                  <ci> khs7 </ci>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J7" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="S8" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S5" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> V7 </ci>
+                <apply>
+                  <divide/>
+                  <ci> S8 </ci>
+                  <ci> khs8 </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <divide/>
+                      <ci> S5 </ci>
+                      <ci> S8 </ci>
+                    </apply>
+                    <ci> keq7 </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <plus/>
+                <cn type="integer"> 1 </cn>
+                <apply>
+                  <divide/>
+                  <ci> S8 </ci>
+                  <ci> khs8 </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> S5 </ci>
+                  <ci> khs5 </ci>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

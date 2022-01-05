@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1Matrix" kind="class" language="C++" prot="public">
     <compoundname>rr::Matrix</compoundname>
     <basecompoundref prot="public" virt="non-virtual">ls::Matrix&lt; T &gt;</basecompoundref>
@@ -14,6 +14,7 @@
         <definition>rr::Matrix&lt; T &gt;::Matrix</definition>
         <argsstring>(ls::Matrix&lt; T &gt; &amp;matrix)</argsstring>
         <name>Matrix</name>
+        <qualifiedname>rr::Matrix::Matrix</qualifiedname>
         <param>
           <type>ls::Matrix&lt; T &gt; &amp;</type>
           <declname>matrix</declname>
@@ -32,6 +33,7 @@
         <definition>rr::Matrix&lt; T &gt;::Matrix</definition>
         <argsstring>(ls::Matrix&lt; T &gt; *matrix)</argsstring>
         <name>Matrix</name>
+        <qualifiedname>rr::Matrix::Matrix</qualifiedname>
         <param>
           <type>ls::Matrix&lt; T &gt; *</type>
           <declname>matrix</declname>
@@ -49,6 +51,7 @@
         <definition>bool rr::Matrix&lt; T &gt;::operator==</definition>
         <argsstring>(Matrix&lt; T &gt; &amp;other)</argsstring>
         <name>operator==</name>
+        <qualifiedname>rr::Matrix::operator==</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1Matrix" kindref="compound">Matrix</ref>&lt; T &gt; &amp;</type>
           <declname>other</declname>
@@ -70,6 +73,7 @@
         <definition>bool rr::Matrix&lt; T &gt;::operator!=</definition>
         <argsstring>(Matrix&lt; T &gt; &amp;other)</argsstring>
         <name>operator!=</name>
+        <qualifiedname>rr::Matrix::operator!=</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1Matrix" kindref="compound">Matrix</ref>&lt; T &gt; &amp;</type>
           <declname>other</declname>
@@ -88,6 +92,7 @@
         <definition>bool rr::Matrix&lt; T &gt;::almostEquals</definition>
         <argsstring>(Matrix&lt; double &gt; &amp;other, const double &amp;tolerance)</argsstring>
         <name>almostEquals</name>
+        <qualifiedname>rr::Matrix::almostEquals</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1Matrix" kindref="compound">Matrix</ref>&lt; double &gt; &amp;</type>
           <declname>other</declname>
@@ -97,9 +102,10 @@
           <declname>tolerance</declname>
         </param>
         <briefdescription>
-<para>Element-wise compareison between this Matrix&lt;double&gt; with another. </para>
+<para>Element-wise comparison between this Matrix&lt;double&gt; with another. </para>
         </briefdescription>
         <detaileddescription>
+<para>Element-wise compareison between this Matrix&lt;double&gt; with another.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>other</parametername>
@@ -120,6 +126,7 @@
         <definition>Matrix&lt; T &gt; rr::Matrix&lt; T &gt;::mult</definition>
         <argsstring>(Matrix&lt; T &gt; matrix)</argsstring>
         <name>mult</name>
+        <qualifiedname>rr::Matrix::mult</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1Matrix" kindref="compound">Matrix</ref>&lt; T &gt;</type>
           <declname>matrix</declname>
@@ -138,6 +145,7 @@
         <definition>bool rr::Matrix&lt; T &gt;::empty</definition>
         <argsstring>()</argsstring>
         <name>empty</name>
+        <qualifiedname>rr::Matrix::empty</qualifiedname>
         <briefdescription>
 <para>indicator method for empty <ref refid="classrr_1_1Matrix" kindref="compound">Matrix</ref>. </para>
         </briefdescription>
@@ -155,6 +163,7 @@
         <definition>void rr::Matrix&lt; T &gt;::sortRowsByLabels</definition>
         <argsstring>()</argsstring>
         <name>sortRowsByLabels</name>
+        <qualifiedname>rr::Matrix::sortRowsByLabels</qualifiedname>
         <briefdescription>
 <para>Reorder <ref refid="classrr_1_1Matrix" kindref="compound">Matrix</ref> rows such that row names are in alphabetical order. </para>
         </briefdescription>
@@ -169,6 +178,7 @@
         <definition>void rr::Matrix&lt; T &gt;::sortColsByLabels</definition>
         <argsstring>()</argsstring>
         <name>sortColsByLabels</name>
+        <qualifiedname>rr::Matrix::sortColsByLabels</qualifiedname>
         <briefdescription>
 <para>Reorder <ref refid="classrr_1_1Matrix" kindref="compound">Matrix</ref> cols such that col names are in alphabetical order. </para>
         </briefdescription>
@@ -183,6 +193,7 @@
         <definition>void rr::Matrix&lt; T &gt;::deleteRow</definition>
         <argsstring>(int which)</argsstring>
         <name>deleteRow</name>
+        <qualifiedname>rr::Matrix::deleteRow</qualifiedname>
         <param>
           <type>int</type>
           <declname>which</declname>
@@ -212,6 +223,7 @@ memory isn&apos;t actually reclaimed nor the array resized. Instead the elements
         <definition>void rr::Matrix&lt; T &gt;::deleteRow</definition>
         <argsstring>(const std::string &amp;which)</argsstring>
         <name>deleteRow</name>
+        <qualifiedname>rr::Matrix::deleteRow</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>which</declname>
@@ -225,7 +237,6 @@ memory isn&apos;t actually reclaimed nor the array resized. Instead the elements
 <parametername>which.</parametername>
 </parameternamelist>
 <parameterdescription>
-<para></para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -251,6 +262,7 @@ interally uses <ref refid="classrr_1_1Matrix_1ad75ae4a4b1772808706dece01a3f241d"
         <definition>void rr::Matrix&lt; T &gt;::deleteCol</definition>
         <argsstring>(int which)</argsstring>
         <name>deleteCol</name>
+        <qualifiedname>rr::Matrix::deleteCol</qualifiedname>
         <param>
           <type>int</type>
           <declname>which</declname>
@@ -279,6 +291,7 @@ memory isn&apos;t actually reclaimed nor the array resized. Instead the elements
         <definition>void rr::Matrix&lt; T &gt;::deleteCol</definition>
         <argsstring>(const std::string &amp;which)</argsstring>
         <name>deleteCol</name>
+        <qualifiedname>rr::Matrix::deleteCol</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>which</declname>
@@ -292,7 +305,6 @@ memory isn&apos;t actually reclaimed nor the array resized. Instead the elements
 <parametername>which.</parametername>
 </parameternamelist>
 <parameterdescription>
-<para></para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -319,25 +331,25 @@ interally uses <ref refid="classrr_1_1Matrix_1a0d367c7df1fa56958b30182c5e2cd352"
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
+      <node id="2">
+        <label>ls::Matrix&lt; T &gt;</label>
+      </node>
       <node id="1">
         <label>rr::Matrix&lt; T &gt;</label>
         <link refid="classrr_1_1Matrix"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
-      </node>
-      <node id="2">
-        <label>ls::Matrix&lt; T &gt;</label>
       </node>
     </inheritancegraph>
     <collaborationgraph>
+      <node id="2">
+        <label>ls::Matrix&lt; T &gt;</label>
+      </node>
       <node id="1">
         <label>rr::Matrix&lt; T &gt;</label>
         <link refid="classrr_1_1Matrix"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
-      </node>
-      <node id="2">
-        <label>ls::Matrix&lt; T &gt;</label>
       </node>
     </collaborationgraph>
     <location file="Matrix.h" line="14" column="5" bodyfile="Matrix.h" bodystart="14" bodyend="123"/>

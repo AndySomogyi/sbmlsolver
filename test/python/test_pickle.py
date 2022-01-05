@@ -57,7 +57,6 @@ class SimulatorActorPath(object):
 
 
 class RoadRunnerPickleTests(unittest.TestCase):
-
     def setUp(self):
         rr = RoadRunner(tmf.SimpleFlux().str())
         rr.setIntegrator("gillespie")
@@ -68,6 +67,7 @@ class RoadRunnerPickleTests(unittest.TestCase):
     def tearDown(self):
         pass
 
+    # @unittest.skip("Takes too long to run when running all CTest. Not sure why...")
     def test_to_pickle_and_back(self):
         pfile = os.path.join(os.path.dirname(__file__), "pkl.serialization")
         with open(pfile, 'wb') as f:
@@ -87,15 +87,24 @@ class RoadRunnerPickleTests(unittest.TestCase):
         if os.path.isfile(pfile):
             os.remove(pfile)
 
+    # @unittest.skip("Takes too long to run when running all CTest. Not sure why...")
     def test_we_can_copy_rr(self):
         rr2 = copy.copy(self.rr)
         self.assertNotEqual(hex(id(self.rr)), hex(id(rr2)))
 
+    @unittest.skip("""Running a multiprocessing pool in
+CTest causes the whole test suite to hang. Therefore
+these are skipped. You should manually comment out the unittest.skip 
+decorator to test pickle stuff""")
     def test_pool_returns_None(self):
         p = Pool(processes=4)
         p.map(simulate_return_None, [self.rr for i in range(10)])
         p.close()
 
+    @unittest.skip("""Running a multiprocessing pool in
+CTest causes the whole test suite to hang. Therefore
+these are skipped. You should manually comment out the unittest.skip 
+decorator to test pickle stuff""")
     def test_pool_returns_DataFrame(self):
         N = 10
         p = Pool(processes=4)
@@ -107,6 +116,10 @@ class RoadRunnerPickleTests(unittest.TestCase):
         print(df)
         self.assertEqual(df.shape, (N * 11, 3))
 
+    @unittest.skip("""Running a multiprocessing pool in
+CTest causes the whole test suite to hang. Therefore
+these are skipped. You should manually comment out the unittest.skip 
+decorator to test pickle stuff""")
     def test_pool_returns_NamedArray(self):
         N = 10
         p = Pool(processes=4)

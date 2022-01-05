@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="group__list" kind="group">
     <compoundname>list</compoundname>
     <title>List handling routines</title>
@@ -542,9 +542,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="279" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="279" declcolumn="29"/>
       </memberdef>
-      <memberdef kind="function" id="group__list_1ga177fc925d1726b0844c17837d3ed4425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__list_1gaedec782ba3535ed61749d561ddb7de2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getStringListItem</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getStringListItem</definition>
         <argsstring>(RRListItemPtr item)</argsstring>
         <name>getStringListItem</name>
         <param>

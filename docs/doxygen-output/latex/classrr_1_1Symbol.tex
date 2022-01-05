@@ -35,15 +35,15 @@ double \mbox{\hyperlink{classrr_1_1Symbol_a26a8cefd0db2d6038bde4a10ece1377c}{val
 bool {\bfseries constant}
 \item 
 \mbox{\Hypertarget{classrr_1_1Symbol_aa7c4ca162218cc6c0babcc0423c8a42a}\label{classrr_1_1Symbol_aa7c4ca162218cc6c0babcc0423c8a42a}} 
-std\+::string \mbox{\hyperlink{classrr_1_1Symbol_aa7c4ca162218cc6c0babcc0423c8a42a}{compartment\+Name}}
+std\+::string {\bfseries compartment\+Name}
 \begin{DoxyCompactList}\small\item\em Used when symbol is a species. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Symbol_aa7cce3c13a89ffa8e3fcd49aca796138}\label{classrr_1_1Symbol_aa7cce3c13a89ffa8e3fcd49aca796138}} 
-bool \mbox{\hyperlink{classrr_1_1Symbol_aa7cce3c13a89ffa8e3fcd49aca796138}{has\+Only\+Substance}}
+bool {\bfseries has\+Only\+Substance}
 \begin{DoxyCompactList}\small\item\em used when symbol is a species \end{DoxyCompactList}\item 
 std\+::string \mbox{\hyperlink{classrr_1_1Symbol_a5dc5b3521e79140743854d80f85e44be}{formula}}
-\begin{DoxyCompactList}\small\item\em There are only two places where formula was created, in rr\+Model\+Symbols.\+cpp, read\+Boundary\+Species and read\+Floating\+Species\+Concentration\+List In both cases, formula was formated as the exact same C language std\+::string of formula $<$ $<$to\+String(d\+Value, Model\+Symbols\+::m\+Double\+Format)$<$$<$ \char`\"{}/ md-\/$>$c\mbox{[}\char`\"{} $<$$<$ n\+Compartment\+Index $<$$<$ \char`\"{}\mbox{]}\char`\"{};,. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em There are only two places where formula was created, in rr\+Model\+Symbols.\+cpp, read\+Boundary\+Species and read\+Floating\+Species\+Concentration\+List In both cases, formula was formated as the exact same C language std\+::string of formula \texorpdfstring{$<$}{<} \texorpdfstring{$<$}{<}to\+String(d\+Value, Model\+Symbols\+::m\+Double\+Format)\texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} \char`\"{}/ md-\/$>$c\mbox{[}\char`\"{} \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} n\+Compartment\+Index \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} \char`\"{}\mbox{]}\char`\"{};,. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Symbol_afdc5578a850e3cecf38341c296aa33e8}\label{classrr_1_1Symbol_afdc5578a850e3cecf38341c296aa33e8}} 
-std\+::string \mbox{\hyperlink{classrr_1_1Symbol_afdc5578a850e3cecf38341c296aa33e8}{key\+Name}}
+std\+::string {\bfseries key\+Name}
 \begin{DoxyCompactList}\small\item\em Used when storing local parameters, key\+Name is the reaction name. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Symbol_a3b988646291193166719831de44927f0}\label{classrr_1_1Symbol_a3b988646291193166719831de44927f0}} 
 std\+::string {\bfseries name}
@@ -64,7 +64,7 @@ TODO\+: should this be named something better than \textquotesingle{}\mbox{\hype
 
 
 
-There are only two places where formula was created, in rr\+Model\+Symbols.\+cpp, read\+Boundary\+Species and read\+Floating\+Species\+Concentration\+List In both cases, formula was formated as the exact same C language std\+::string of formula $<$ $<$to\+String(d\+Value, Model\+Symbols\+::m\+Double\+Format)$<$$<$ \char`\"{}/ md-\/$>$c\mbox{[}\char`\"{} $<$$<$ n\+Compartment\+Index $<$$<$ \char`\"{}\mbox{]}\char`\"{};,. 
+There are only two places where formula was created, in rr\+Model\+Symbols.\+cpp, read\+Boundary\+Species and read\+Floating\+Species\+Concentration\+List In both cases, formula was formated as the exact same C language std\+::string of formula \texorpdfstring{$<$}{<} \texorpdfstring{$<$}{<}to\+String(d\+Value, Model\+Symbols\+::m\+Double\+Format)\texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} \char`\"{}/ md-\/$>$c\mbox{[}\char`\"{} \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} n\+Compartment\+Index \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} \char`\"{}\mbox{]}\char`\"{};,. 
 
 where d\+Value was always the initial\+Ammount. So, ammount / volume = concentration.
 

@@ -18,11 +18,16 @@
 
 #include "LLVMExecutableModel.h"
 #include "ModelGeneratorContext.h"
-
 #include "sbml/SBMLDocument.h"
+
+namespace rr {
+    class ExecutableModel;
+}
+
 
 namespace rrllvm
 {
+
 
 /**
  * General concepts:
@@ -39,7 +44,7 @@ public:
 	/**
 	 * Create an executable model from an sbml std::string
 	 */
-    static rr::ExecutableModel *createModel(const libsbml::SBMLDocument* sbml, std::uint32_t options, const std::string& md5);
+    static rr::ExecutableModel *createModel(const libsbml::SBMLDocument* sbml, const std::string& md5, std::uint32_t options);
 
 	/**
 	 * Regenerate an executable model from an existing sbml document i.e. generate the model normally from the SBML document,
