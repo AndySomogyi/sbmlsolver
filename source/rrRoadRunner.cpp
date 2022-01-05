@@ -1386,7 +1386,6 @@ namespace rr {
     }
 
     void RoadRunner::load(const std::string &uriOrSbml, const Dictionary *dict) {
-//        std::lock_guard<std::mutex> lock(rrMtx);
         std::string currentSBML = SBMLReader::read(uriOrSbml);
 
         // chomp any leading or trailing whitespace
@@ -1415,8 +1414,11 @@ namespace rr {
             // we validate the model to provide explicit details about where it
             // failed. Its *VERY* expensive to pre-validate the model.
             libsbml::SBMLReader reader;
-            impl->document.reset(reader.readSBMLFromString(currentSBML));
-            std::string md5 = rr::getSBMLMD5(currentSBML, impl->loadOpt.modelGeneratorOpt);
+            rrMtx.lock();
+            libsbml::SBMLDocument* doc = reader.readSBMLFromString(currentSBML);
+            rrMtx.unlock();
+            impl->document.reset(doc);
+            std::string md5 = rr::getSBMLMD5(currentSBML, (int)impl->loadOpt.modelGeneratorOpt);
 
             // Fix various problems that might occur in incomplete SBML models.  This makes it out of sync with the md5 hash, but the hash still maps to a unique document.
             fixMissingStoichAndMath(impl->document.get());
@@ -1427,7 +1429,7 @@ namespace rr {
             // reason the message is erased, and an 'unknown error' is displayed to the user.
             throw e;
         } catch (const rrllvm::LLVMException &e) {
-            // catch specifically for LLVMException, otherwise the exception type is removed, 
+            // catch specifically for LLVMException, otherwise the exception type is removed,
             // and an 'unknown error' is displayed to the user.
             throw e;
         }
