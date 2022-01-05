@@ -24,8 +24,9 @@ perfExe = args.VTune if isinstance(args.RoadRunnerMapPerformanceTestsExecutable,
 outDir = args.VTune if isinstance(args.OutputDirectory, str) else "".join(args.OutputDirectory)
 
 
-def build_results_dirname(n_models:int, jit:str, n_threads:int, test_name:str):
+def build_results_dirname(n_models: int, jit: str, n_threads: int, test_name: str):
     return os.path.join(outDir, f"{jit}_{n_models}_{n_threads}_{test_name}")
+
 
 def buildThreadingAnalysisCommand(n_models: int, jit: str, n_threads: int, test_name: str):
     dirname = build_results_dirname(n_models, jit, n_threads, test_name)
@@ -34,6 +35,7 @@ def buildThreadingAnalysisCommand(n_models: int, jit: str, n_threads: int, test_
     command += f" -- {perfExe} "
     command += f"--NModels={n_models} --jit={jit} --nThreads={n_threads} --testName={test_name}"
     return command
+
 
 def buildHotSpotsAnalysisCommand(n_models: int, jit: str, n_threads: int, test_name: str):
     dirname = build_results_dirname(n_models, jit, n_threads, test_name)
@@ -64,7 +66,7 @@ if __name__ == "__main__":
     for n in n_models:
         for j in jit_engines:
             for t in threads:
-                print("Running BuildParallel", "n models: ", n, " jit type: ", j, "num threads: " , t)
+                print("Running BuildParallel", "n models: ", n, " jit type: ", j, "num threads: ", t)
                 dire = build_results_dirname(n, j, t, "BuildParallel")
                 if not os.path.isdir(dire):
                     print("Running BuildParallel ", n, j, t)
