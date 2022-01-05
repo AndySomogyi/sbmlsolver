@@ -12,7 +12,6 @@ import os, glob
 
 sns.set_context("paper", font_scale=1.5)
 
-
 def extract_times(from_directory: str):
     if not os.path.isdir(from_directory):
         raise NotADirectoryError(from_directory)
@@ -48,7 +47,7 @@ def plot_bar(data: pd.DataFrame, title: str, fname=None):
     fig = plt.figure()
     sns.barplot(
         data=data.reset_index(), y="Time (s)", x="Num Threads", hue="Jit Engine",
-        linewidth=1.0, edgecolor="black"
+        linewidth=1.0, edgecolor="black", palette="binary"
     )
     sns.despine(fig=fig)
     plt.title(title)
