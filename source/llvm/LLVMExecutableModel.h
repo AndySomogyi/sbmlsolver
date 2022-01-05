@@ -47,6 +47,7 @@ namespace rrllvm
 {
 
 class ModelResources;
+class Jit;
 
 /**
  * @author ETS
@@ -76,8 +77,7 @@ public:
     /**
      * takes ownership of the LLVMModelData pointer.
      */
-    LLVMExecutableModel(const std::shared_ptr<ModelResources> &resources,
-            LLVMModelData* modelData);
+    LLVMExecutableModel(const std::shared_ptr<ModelResources> &resources, LLVMModelData* modelData);
 
 	/*
 	* Loads a saved executable model
@@ -565,7 +565,7 @@ public:
      * calculate rate rule values.
      * TODO redo this function, not very effecient.
      */
-    int getRateRueRates(size_t len, int const *indx, double *values);
+    virtual int getRateRuleRates(size_t len, int const *indx, double *values);
 
 
     /**

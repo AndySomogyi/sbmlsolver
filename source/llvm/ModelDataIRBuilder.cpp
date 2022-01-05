@@ -44,8 +44,8 @@ namespace rrllvm
 
 const char* ModelDataIRBuilder::LLVMModelDataName = "rr_LLVMModelData";
 const char* ModelDataIRBuilder::csr_matrixName = "rr_csr_matrix";
-const char* ModelDataIRBuilder::csr_matrix_set_nzName = "rr_csr_matrix_set_nz";
-const char* ModelDataIRBuilder::csr_matrix_get_nzName = "rr_csr_matrix_get_nz";
+const char* ModelDataIRBuilder::csr_matrix_set_nzName = "csr_matrix_set_nz";
+const char* ModelDataIRBuilder::csr_matrix_get_nzName = "csr_matrix_get_nz";
 
 
 static bool isAliasOrPointer(ModelDataFields f)
@@ -158,14 +158,13 @@ llvm::Value* ModelDataIRBuilder::createGEP(ModelDataFields field,
 llvm::StructType *getTypeByName(llvm::Module *module, std::string name)
 {
     llvm::StructType *t;
-#if LLVM_VERSION_MAJOR >= 12
+#if LLVM_VERSION_MAJOR >= 13
     t = llvm::StructType::getTypeByName(module->getContext(), name);
 #else
     t = module->getTypeByName(name);
 #endif
   return t;
 }
-
 
 
 llvm::StructType* ModelDataIRBuilder::getCSRSparseStructType(
@@ -214,10 +213,10 @@ llvm::StructType* ModelDataIRBuilder::getCSRSparseStructType(
     return structType;
 }
 
+
 llvm::Function* ModelDataIRBuilder::getCSRMatrixSetNZDecl(Module *module)
 {
-    Function *f = module->getFunction(
-            ModelDataIRBuilder::csr_matrix_set_nzName);
+    Function *f = module->getFunction(ModelDataIRBuilder::csr_matrix_set_nzName);
 
     if (f == 0)
     {
@@ -724,7 +723,7 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
         structType = StructType::create(context, elements, LLVMModelDataName);
 
         // make sure we can get the struct in the future
-        assert(module->getTypeByName(LLVMModelDataName) &&
+        assert(getTypeByName(module, LLVMModelDataName) &&
                 "Could not get LLVMModelData struct from llvm module after creating it");
     }
     return structType;
@@ -743,21 +742,10 @@ llvm::StructType *ModelDataIRBuilder::getStructType(llvm::Module *module)
     return structType;
 }
 
-unsigned ModelDataIRBuilder::getModelDataSize(llvm::Module *module, llvm::ExecutionEngine *engine)
+unsigned ModelDataIRBuilder::getModelDataSize(llvm::Module *module, const DataLayout& dl)
 {
-    assert(engine && "engine must not be NULL");
-
     StructType *structType = getStructType(module);
-#if (LLVM_VERSION_MAJOR > 3)
-	const DataLayout& dl = engine->getDataLayout();
 	uint64_t llvm_size = dl.getTypeStoreSize(structType);
-#elif (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 2)
-    const DataLayout *dl = engine->getDataLayout();
-    uint64_t llvm_size = dl->getTypeStoreSize(structType);
-#else
-    const TargetData* td = engine->getTargetData();
-    uint64_t llvm_size = td->getTypeStoreSize(structType);
-#endif
 
     // the model data struct will NEVER be bigger than a 32 bit pointer!
     return (unsigned)llvm_size;

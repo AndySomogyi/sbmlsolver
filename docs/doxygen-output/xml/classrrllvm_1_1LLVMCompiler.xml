@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1LLVMCompiler" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::LLVMCompiler</compoundname>
     <basecompoundref refid="classrr_1_1Compiler" prot="public" virt="non-virtual">rr::Compiler</basecompoundref>
@@ -9,6 +9,7 @@
         <definition>rrllvm::LLVMCompiler::LLVMCompiler</definition>
         <argsstring>()</argsstring>
         <name>LLVMCompiler</name>
+        <qualifiedname>rrllvm::LLVMCompiler::LLVMCompiler</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -22,6 +23,7 @@
         <definition>rrllvm::LLVMCompiler::~LLVMCompiler</definition>
         <argsstring>()</argsstring>
         <name>~LLVMCompiler</name>
+        <qualifiedname>rrllvm::LLVMCompiler::~LLVMCompiler</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -35,6 +37,7 @@
         <definition>std::string rrllvm::LLVMCompiler::getCompiler</definition>
         <argsstring>() const</argsstring>
         <name>getCompiler</name>
+        <qualifiedname>rrllvm::LLVMCompiler::getCompiler</qualifiedname>
         <reimplements refid="classrr_1_1Compiler_1a30d924b503ddddc0056108f6f08e86ee">getCompiler</reimplements>
         <briefdescription>
         </briefdescription>
@@ -49,6 +52,7 @@
         <definition>bool rrllvm::LLVMCompiler::setCompiler</definition>
         <argsstring>(const std::string &amp;compiler)</argsstring>
         <name>setCompiler</name>
+        <qualifiedname>rrllvm::LLVMCompiler::setCompiler</qualifiedname>
         <reimplements refid="classrr_1_1Compiler_1a0556fb1db12b7f693d37a6108068103d">setCompiler</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -67,6 +71,7 @@
         <definition>std::string rrllvm::LLVMCompiler::getCompilerLocation</definition>
         <argsstring>() const</argsstring>
         <name>getCompilerLocation</name>
+        <qualifiedname>rrllvm::LLVMCompiler::getCompilerLocation</qualifiedname>
         <reimplements refid="classrr_1_1Compiler_1a2d39ffe37cd77cbbc802085197e7b3de">getCompilerLocation</reimplements>
         <briefdescription>
         </briefdescription>
@@ -81,6 +86,7 @@
         <definition>bool rrllvm::LLVMCompiler::setCompilerLocation</definition>
         <argsstring>(const std::string &amp;path)</argsstring>
         <name>setCompilerLocation</name>
+        <qualifiedname>rrllvm::LLVMCompiler::setCompilerLocation</qualifiedname>
         <reimplements refid="classrr_1_1Compiler_1a08a268ed8d239e64f7dca5ffe883e606">setCompilerLocation</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -99,6 +105,7 @@
         <definition>std::string rrllvm::LLVMCompiler::getSupportCodeFolder</definition>
         <argsstring>() const</argsstring>
         <name>getSupportCodeFolder</name>
+        <qualifiedname>rrllvm::LLVMCompiler::getSupportCodeFolder</qualifiedname>
         <reimplements refid="classrr_1_1Compiler_1ac9bcede80a7f19a2294e812f0f9f2208">getSupportCodeFolder</reimplements>
         <briefdescription>
         </briefdescription>
@@ -113,6 +120,7 @@
         <definition>bool rrllvm::LLVMCompiler::setSupportCodeFolder</definition>
         <argsstring>(const std::string &amp;path)</argsstring>
         <name>setSupportCodeFolder</name>
+        <qualifiedname>rrllvm::LLVMCompiler::setSupportCodeFolder</qualifiedname>
         <reimplements refid="classrr_1_1Compiler_1a79c97dd74e6eea11b64c7469c55a6d89">setSupportCodeFolder</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -131,6 +139,7 @@
         <definition>std::string rrllvm::LLVMCompiler::getDefaultTargetTriple</definition>
         <argsstring>()</argsstring>
         <name>getDefaultTargetTriple</name>
+        <qualifiedname>rrllvm::LLVMCompiler::getDefaultTargetTriple</qualifiedname>
         <reimplements refid="classrr_1_1Compiler_1a244cefa6a995aeb5d2793ff893f1893b">getDefaultTargetTriple</reimplements>
         <briefdescription>
 <para><ref refid="classrrllvm_1_1LLVMCompiler_1af43a6b3d973fee5348bd9d2cea192752" kindref="member">getDefaultTargetTriple()</ref> - Return the default target triple the compiler has been configured to produce code for. </para>
@@ -147,6 +156,7 @@
         <definition>std::string rrllvm::LLVMCompiler::getProcessTriple</definition>
         <argsstring>()</argsstring>
         <name>getProcessTriple</name>
+        <qualifiedname>rrllvm::LLVMCompiler::getProcessTriple</qualifiedname>
         <reimplements refid="classrr_1_1Compiler_1afe24151183f7db59208bfe86da2b3c79">getProcessTriple</reimplements>
         <briefdescription>
 <para><ref refid="classrrllvm_1_1LLVMCompiler_1a8a9f792ca40a9b3826d5b540263f7c05" kindref="member">getProcessTriple()</ref> - Return an appropriate target triple for generating code to be loaded into the current process, e.g. </para>
@@ -163,6 +173,7 @@
         <definition>std::string rrllvm::LLVMCompiler::getHostCPUName</definition>
         <argsstring>()</argsstring>
         <name>getHostCPUName</name>
+        <qualifiedname>rrllvm::LLVMCompiler::getHostCPUName</qualifiedname>
         <reimplements refid="classrr_1_1Compiler_1a1718efebfe7936512a299c2f32e8c800">getHostCPUName</reimplements>
         <briefdescription>
 <para>getHostCPUName - Get the LLVM name for the host CPU. </para>
@@ -182,6 +193,7 @@
         <definition>std::string rrllvm::LLVMCompiler::getVersion</definition>
         <argsstring>()</argsstring>
         <name>getVersion</name>
+        <qualifiedname>rrllvm::LLVMCompiler::getVersion</qualifiedname>
         <reimplements refid="classrr_1_1Compiler_1ace56af18a4bc2cd882bdf4685e18fb33">getVersion</reimplements>
         <briefdescription>
 <para>get the version of the compiler. </para>
@@ -198,27 +210,27 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
+      <node id="2">
+        <label>rr::Compiler</label>
+        <link refid="classrr_1_1Compiler"/>
+      </node>
       <node id="1">
         <label>rrllvm::LLVMCompiler</label>
         <link refid="classrrllvm_1_1LLVMCompiler"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
-      </node>
-      <node id="2">
-        <label>rr::Compiler</label>
-        <link refid="classrr_1_1Compiler"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
+      <node id="2">
+        <label>rr::Compiler</label>
+        <link refid="classrr_1_1Compiler"/>
+      </node>
       <node id="1">
         <label>rrllvm::LLVMCompiler</label>
         <link refid="classrrllvm_1_1LLVMCompiler"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
-      </node>
-      <node id="2">
-        <label>rr::Compiler</label>
-        <link refid="classrr_1_1Compiler"/>
       </node>
     </collaborationgraph>
     <location file="llvm/LLVMCompiler.h" line="19" column="1" bodyfile="llvm/LLVMCompiler.h" bodystart="20" bodyend="65"/>

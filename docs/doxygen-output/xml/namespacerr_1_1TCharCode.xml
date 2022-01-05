@@ -1,11 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="namespacerr_1_1TCharCode" kind="namespace" language="C++">
     <compoundname>rr::TCharCode</compoundname>
       <sectiondef kind="enum">
       <memberdef kind="enum" id="rrScanner_8h_1a318977a7e14cbc4109d7c0fba76efea5" prot="public" static="no" strong="no">
         <type></type>
         <name>TCharCode</name>
+        <qualifiedname>rr::TCharCode::TCharCode</qualifiedname>
         <enumvalue id="rrScanner_8h_1a318977a7e14cbc4109d7c0fba76efea5a4b4f13bce12af415e649aba18653fe24" prot="public">
           <name>cLETTER</name>
           <initializer>= 0</initializer>

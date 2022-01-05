@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LLVMExecutableModel &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -37,13 +36,11 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div>
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../steady_state.html">Steady State Analysis</a></li>
@@ -53,6 +50,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bifurcation.html">Bifurcation Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
@@ -146,17 +145,14 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" aria-label="Top" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">libRoadRunner</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          
-
-<div role="navigation" aria-label="Breadcrumbs">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../index.html">The LibRoadRunner C++ Library</a> &raquo;</li>
@@ -171,7 +167,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="llvmexecutablemodel">
+  <div class="section" id="llvmexecutablemodel">
 <h1>LLVMExecutableModel<a class="headerlink" href="#llvmexecutablemodel" title="Permalink to this headline"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm19LLVMExecutableModelE">
@@ -333,9 +329,9 @@ Interface to LLVM executable model. <dl class="simple">
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>len</strong> – the length of the suplied buffer, must be &gt;= reaction rates size. </p></li>
-<li><p><strong>indx</strong> – pointer to index array. If NULL, then it is ignored and the reaction rates are copied directly into the suplied buffer. </p></li>
-<li><p><strong>values</strong> – pointer to user suplied buffer where rates will be stored. </p></li>
+<li><p><strong>len</strong> – the length of the supplied buffer, must be &gt;= reaction rates size. </p></li>
+<li><p><strong>indx</strong> – pointer to index array. If NULL, then it is ignored and the reaction rates are copied directly into the supplied buffer. </p></li>
+<li><p><strong>values</strong> – pointer to user supplied buffer where rates will be stored. </p></li>
 </ul>
 </dd>
 </dl>
@@ -813,7 +809,7 @@ Interface to LLVM executable model. <dl class="simple">
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm19LLVMExecutableModel16getEventTriggersE6size_tPKiPh">
-<span id="_CPPv3N6rrllvm19LLVMExecutableModel16getEventTriggersE6size_tPKiPh"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel16getEventTriggersE6size_tPKiPh"></span><span id="rrllvm::LLVMExecutableModel::getEventTriggers__s.iCP.unsigned-cP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1a6720985571bb7836a43f054dc8b60a60"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getEventTriggers</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">unsigned</span> <span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">eventState</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel16getEventTriggersE6size_tPKiPh" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3N6rrllvm19LLVMExecutableModel16getEventTriggersE6size_tPKiPh"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel16getEventTriggersE6size_tPKiPh"></span><span id="rrllvm::LLVMExecutableModel::getEventTriggers__s.iCP.unsigned-cP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1a6720985571bb7836a43f054dc8b60a60"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getEventTriggers</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">eventState</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel16getEventTriggersE6size_tPKiPh" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Get status of event triggers. </p>
 <p>
 When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState to the corresponding trigger. <dl class="simple">
@@ -834,7 +830,7 @@ When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState t
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm19LLVMExecutableModel11applyEventsEdPKhPKdPd">
-<span id="_CPPv3N6rrllvm19LLVMExecutableModel11applyEventsEdPKhPKdPd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel11applyEventsEdPKhPKdPd"></span><span id="rrllvm::LLVMExecutableModel::applyEvents__double.unsigned-cCP.doubleCP.doubleP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1abf91b16221e311777c120258a1e8ef39"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">applyEvents</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timeEnd</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span> <span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">previousEventState</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">initialState</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">finalState</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel11applyEventsEdPKhPKdPd" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3N6rrllvm19LLVMExecutableModel11applyEventsEdPKhPKdPd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel11applyEventsEdPKhPKdPd"></span><span id="rrllvm::LLVMExecutableModel::applyEvents__double.unsigned-cCP.doubleCP.doubleP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1abf91b16221e311777c120258a1e8ef39"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">applyEvents</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timeEnd</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">previousEventState</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">initialState</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">finalState</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel11applyEventsEdPKhPKdPd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>erases expired events, and applies ripe events as long as we have ripe events. </p>
 </dd></dl>
 
@@ -979,8 +975,8 @@ When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState t
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm19LLVMExecutableModel15getRateRueRatesE6size_tPKiPd">
-<span id="_CPPv3N6rrllvm19LLVMExecutableModel15getRateRueRatesE6size_tPKiPd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel15getRateRueRatesE6size_tPKiPd"></span><span id="rrllvm::LLVMExecutableModel::getRateRueRates__s.iCP.doubleP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1a8713add3c03f6f8c95bc533d2b4bbca9"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRateRueRates</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel15getRateRueRatesE6size_tPKiPd" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm19LLVMExecutableModel16getRateRuleRatesE6size_tPKiPd">
+<span id="_CPPv3N6rrllvm19LLVMExecutableModel16getRateRuleRatesE6size_tPKiPd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel16getRateRuleRatesE6size_tPKiPd"></span><span id="rrllvm::LLVMExecutableModel::getRateRuleRates__s.iCP.doubleP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1af9bb32c29e9a9212b4e8b99732df94d3"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRateRuleRates</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel16getRateRuleRatesE6size_tPKiPd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>calculate rate rule values. </p>
 <p>TODO redo this function, not very effecient. </p>
 </dd></dl>
@@ -1028,7 +1024,7 @@ When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState t
 
 <dl class="cpp type">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm19LLVMExecutableModel11TieBreakKeyE">
-<span id="_CPPv3N6rrllvm19LLVMExecutableModel11TieBreakKeyE"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel11TieBreakKeyE"></span><span id="rrllvm::LLVMExecutableModel::TieBreakKey"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1af855f412e47da86506f436ad1dcef27e"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span> <span class="pre">long</span> <span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TieBreakKey</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel11TieBreakKeyE" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3N6rrllvm19LLVMExecutableModel11TieBreakKeyE"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel11TieBreakKeyE"></span><span id="rrllvm::LLVMExecutableModel::TieBreakKey"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1af855f412e47da86506f436ad1dcef27e"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TieBreakKey</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel11TieBreakKeyE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp type">
@@ -1060,7 +1056,7 @@ When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState t
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm19LLVMExecutableModel11applyEventsEPhPh">
-<span id="_CPPv3N6rrllvm19LLVMExecutableModel11applyEventsEPhPh"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel11applyEventsEPhPh"></span><span id="rrllvm::LLVMExecutableModel::applyEvents__unsigned-cP.unsigned-cP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1af3b6fbe559cf900ee50641b667ec5b50"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">applyEvents</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span> <span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">prevEventState</span></span>, <span class="kt"><span class="pre">unsigned</span> <span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">currEventState</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel11applyEventsEPhPh" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3N6rrllvm19LLVMExecutableModel11applyEventsEPhPh"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel11applyEventsEPhPh"></span><span id="rrllvm::LLVMExecutableModel::applyEvents__unsigned-cP.unsigned-cP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1af3b6fbe559cf900ee50641b667ec5b50"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">applyEvents</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">prevEventState</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">currEventState</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel11applyEventsEPhPh" title="Permalink to this definition"></a><br /></dt>
 <dd><p>previous state get current state current state becomes previous state for next itteration evaluate first pending event </p>
 </dd></dl>
 
@@ -1342,13 +1338,12 @@ When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState t
 </div>
 </dd></dl>
 
-</section>
+</div>
 
 
            </div>
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="LLVMException.html" class="btn btn-neutral float-left" title="LLVMException" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="LLVMModelData.html" class="btn btn-neutral float-right" title="LLVMModelData" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
@@ -1360,7 +1355,8 @@ When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState t
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

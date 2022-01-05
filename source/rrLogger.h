@@ -341,14 +341,13 @@ RR_DECLSPEC Poco::Logger &getLogger();
     LoggingBuffer(level, __FILE__, __LINE__)
 #endif
 
-#define rrLogFatal     rrLog(Logger::LOG_FATAL)        << __LINE__ << ": "
-#define rrLogCritical  rrLog(Logger::LOG_CRITICAL)     << __LINE__ << ": "
-#define rrLogErr       rrLog(Logger::LOG_ERROR)        << __LINE__ << ": "
-#define rrLogWarn      rrLog(Logger::LOG_WARNING)      << __LINE__ << ": "
-#define rrLogNotice    rrLog(Logger::LOG_NOTICE)       << __LINE__ << ": "
-#define rrLogInfo      rrLog(Logger::LOG_INFORMATION)  << __LINE__ << ": "
-#define rrLogDebug     rrLog(Logger::LOG_DEBUG)        << __LINE__ << ": "
-
+#define rrLogFatal     rrLog(Logger::LOG_FATAL)
+#define rrLogCritical  rrLog(Logger::LOG_CRITICAL)
+#define rrLogErr       rrLog(Logger::LOG_ERROR)
+#define rrLogWarn      rrLog(Logger::LOG_WARNING)
+#define rrLogNotice    rrLog(Logger::LOG_NOTICE)
+#define rrLogInfo      rrLog(Logger::LOG_INFORMATION)
+#define rrLogDebug     rrLog(Logger::LOG_DEBUG)
 
 } /* namespace rr */
 

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1AssignmentRuleEvaluator" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::AssignmentRuleEvaluator</compoundname>
     <basecompoundref prot="public" virt="non-virtual">libsbml::SBMLVisitor</basecompoundref>
@@ -10,6 +10,7 @@
         <definition>SymbolForest&amp; rrllvm::AssignmentRuleEvaluator::symbols</definition>
         <argsstring></argsstring>
         <name>symbols</name>
+        <qualifiedname>rrllvm::AssignmentRuleEvaluator::symbols</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -25,6 +26,7 @@
         <definition>rrllvm::AssignmentRuleEvaluator::AssignmentRuleEvaluator</definition>
         <argsstring>(SymbolForest &amp;symbols)</argsstring>
         <name>AssignmentRuleEvaluator</name>
+        <qualifiedname>rrllvm::AssignmentRuleEvaluator::AssignmentRuleEvaluator</qualifiedname>
         <param>
           <type><ref refid="classrrllvm_1_1SymbolForest" kindref="compound">SymbolForest</ref> &amp;</type>
           <declname>symbols</declname>
@@ -42,6 +44,7 @@
         <definition>void rrllvm::AssignmentRuleEvaluator::evaluate</definition>
         <argsstring>(const libsbml::Model &amp;model)</argsstring>
         <name>evaluate</name>
+        <qualifiedname>rrllvm::AssignmentRuleEvaluator::evaluate</qualifiedname>
         <param>
           <type>const libsbml::Model &amp;</type>
           <declname>model</declname>
@@ -59,6 +62,7 @@
         <definition>bool rrllvm::AssignmentRuleEvaluator::visit</definition>
         <argsstring>(const libsbml::AssignmentRule &amp;x)</argsstring>
         <name>visit</name>
+        <qualifiedname>rrllvm::AssignmentRuleEvaluator::visit</qualifiedname>
         <param>
           <type>const libsbml::AssignmentRule &amp;</type>
           <declname>x</declname>
@@ -78,17 +82,20 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
+      <node id="2">
+        <label>libsbml::SBMLVisitor</label>
+      </node>
       <node id="1">
         <label>rrllvm::AssignmentRuleEvaluator</label>
         <link refid="classrrllvm_1_1AssignmentRuleEvaluator"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
+    </inheritancegraph>
+    <collaborationgraph>
       <node id="2">
         <label>libsbml::SBMLVisitor</label>
       </node>
-    </inheritancegraph>
-    <collaborationgraph>
       <node id="1">
         <label>rrllvm::AssignmentRuleEvaluator</label>
         <link refid="classrrllvm_1_1AssignmentRuleEvaluator"/>
@@ -101,9 +108,6 @@
       <node id="3">
         <label>rrllvm::SymbolForest</label>
         <link refid="classrrllvm_1_1SymbolForest"/>
-      </node>
-      <node id="2">
-        <label>libsbml::SBMLVisitor</label>
       </node>
     </collaborationgraph>
     <location file="llvm/AssignmentRuleEvaluator.h" line="25" column="1" bodyfile="llvm/AssignmentRuleEvaluator.h" bodystart="26" bodyend="38"/>

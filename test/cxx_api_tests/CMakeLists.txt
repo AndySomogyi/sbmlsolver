@@ -1,7 +1,6 @@
-#add_test_executable(variant_tests test_targets variant_tests.cpp)
-
 add_test_executable(test_cxx_api_SettingTests test_targets SettingTests.cpp)
-add_test_executable(test_cxx_api_RoadRunnerAPITests test_targets RoadRunnerAPITests.cpp ${SharedTestFiles})
+add_test_executable(test_cxx_api_RoadRunnerAPITestsMCJit test_targets RoadRunnerAPITests.h RoadRunnerAPITestsWithMCJit.cpp ${SharedTestFiles})
+add_test_executable(test_cxx_api_RoadRunnerAPITestsLLJit test_targets RoadRunnerAPITests.h RoadRunnerAPITestsWithLLJit.cpp ${SharedTestFiles})
 add_test_executable(test_cxx_api_GillespieTests test_targets GillespieTests.cpp ${SharedTestFiles})
 add_test_executable(test_cxx_api_LoggerTests test_targets LoggerTests.cpp ${SharedTestFiles})
 add_test_executable(test_cxx_api_BasicDictionaryTests test_targets BasicDictionaryTests.cpp ${SharedTestFiles})
@@ -13,6 +12,7 @@ add_test_executable(test_cxx_api_Matrix3DTests test_targets Matrix3DTests.cpp ${
 add_test_executable(test_cxx_api_JacobianTests test_targets JacobianTests.cpp ${SharedTestFiles})
 add_test_executable(test_cxx_api_StructuralAnalysisTests test_targets StructuralAnalysisTests.cpp ${SharedTestFiles})
 add_test_executable(test_cxx_api_MCATests test_targets MCATests.cpp ${SharedTestFiles})
+add_test_executable(test_cxx_api_RoadRunnerMapTests test_targets RoadRunnerMapTests.cpp ${SharedTestFiles})
 
 if (BUILD_PYTHON AND BUILD_TESTS)
 
@@ -37,45 +37,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "../../wrappers/Python/roadrunner/PyUtils.cpp"
             "../../wrappers/Python/roadrunner/PyUtils.h"
             )
-
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/SettingTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/SettingTests.py"
-            COPYONLY
-    )
-
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/StructuralAnalysisTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/StructuralAnalysisTests.py"
-            COPYONLY
-    )
-
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/JacobianTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/JacobianTests.py"
-            COPYONLY
-    )
-
-    install(FILES
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/SettingTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/JacobianTests.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/StructuralAnalysisTests.py"
-            DESTINATION
-            "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
-            )
-
 endif ()
-
-
-
-
-
-
-
-
-
-
-
 
 
 

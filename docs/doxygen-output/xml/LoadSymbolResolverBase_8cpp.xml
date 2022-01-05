@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="LoadSymbolResolverBase_8cpp" kind="file" language="C++">
     <compoundname>LoadSymbolResolverBase.cpp</compoundname>
     <includes refid="LoadSymbolResolverBase_8h" local="yes">LoadSymbolResolverBase.h</includes>
@@ -9,299 +9,17 @@
     <includes refid="rrLogger_8h" local="yes">rrLogger.h</includes>
     <includes local="no">sbml/Model.h</includes>
     <incdepgraph>
-      <node id="30">
-        <label>list</label>
-      </node>
-      <node id="28">
-        <label>sbml/SBMLDocument.h</label>
-      </node>
-      <node id="45">
-        <label>tr1proxy/rr_random.h</label>
-      </node>
-      <node id="12">
-        <label>llvm/Support/raw_ostream.h</label>
-      </node>
-      <node id="35">
-        <label>LLVMModelSymbols.h</label>
-        <link refid="LLVMModelSymbols_8h_source"/>
-        <childnode refid="36" relation="include">
-        </childnode>
-        <childnode refid="39" relation="include">
-        </childnode>
-        <childnode refid="40" relation="include">
-        </childnode>
-        <childnode refid="41" relation="include">
-        </childnode>
-        <childnode refid="42" relation="include">
-        </childnode>
-      </node>
-      <node id="21">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="44">
-        <label>Random.h</label>
-        <link refid="Random_8h_source"/>
-        <childnode refid="45" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-      </node>
-      <node id="29">
-        <label>stdint.h</label>
-      </node>
-      <node id="27">
-        <label>variant</label>
-      </node>
-      <node id="7">
-        <label>llvm/ExecutionEngine/ExecutionEngine.h</label>
-      </node>
-      <node id="8">
-        <label>llvm/ExecutionEngine/MCJIT.h</label>
-      </node>
-      <node id="10">
-        <label>llvm/Support/TargetSelect.h</label>
-      </node>
-      <node id="51">
+      <node id="63">
         <label>ASTNodeCodeGen.h</label>
         <link refid="ASTNodeCodeGen_8h_source"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="43" relation="include">
-        </childnode>
-      </node>
-      <node id="38">
-        <label>cassert</label>
-      </node>
-      <node id="53">
-        <label>stdexcept</label>
-      </node>
-      <node id="2">
-        <label>LoadSymbolResolverBase.h</label>
-        <link refid="LoadSymbolResolverBase_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="35" relation="include">
-        </childnode>
-        <childnode refid="43" relation="include">
-        </childnode>
-        <childnode refid="48" relation="include">
-        </childnode>
-      </node>
-      <node id="37">
-        <label>sbml/math/ASTNode.h</label>
-      </node>
-      <node id="54">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="55" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-      </node>
-      <node id="16">
-        <label>string</label>
-      </node>
-      <node id="32">
-        <label>tr1proxy/rr_unordered_map.h</label>
-      </node>
-      <node id="33">
-        <label>map</label>
-      </node>
-      <node id="17">
-        <label>LLVMModelDataSymbols.h</label>
-        <link refid="LLVMModelDataSymbols_8h_source"/>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-      </node>
-      <node id="41">
-        <label>sbml/Model.h</label>
-      </node>
-      <node id="26">
-        <label>exception</label>
-      </node>
-      <node id="23">
-        <label>ostream</label>
-      </node>
-      <node id="11">
-        <label>llvm/Transforms/Scalar.h</label>
-      </node>
-      <node id="42">
-        <label>sbml/SBMLVisitor.h</label>
-      </node>
-      <node id="13">
-        <label>llvm/Analysis/TargetLibraryInfo.h</label>
-      </node>
-      <node id="25">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-      </node>
-      <node id="48">
-        <label>rr_unordered_map</label>
-      </node>
-      <node id="36">
-        <label>SymbolForest.h</label>
-        <link refid="SymbolForest_8h_source"/>
-        <childnode refid="37" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
-        <childnode refid="38" relation="include">
-        </childnode>
-      </node>
-      <node id="50">
-        <label>sbml/KineticLaw.h</label>
-      </node>
-      <node id="18">
-        <label>LLVMModelData.h</label>
-        <link refid="LLVMModelData_8h_source"/>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-      </node>
-      <node id="22">
-        <label>vector</label>
-      </node>
-      <node id="15">
-        <label>stack</label>
-      </node>
-      <node id="1">
-        <label>llvm/LoadSymbolResolverBase.cpp</label>
-        <link refid="LoadSymbolResolverBase_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="49" relation="include">
-        </childnode>
-        <childnode refid="51" relation="include">
-        </childnode>
-        <childnode refid="52" relation="include">
-        </childnode>
-        <childnode refid="54" relation="include">
-        </childnode>
-        <childnode refid="41" relation="include">
-        </childnode>
-      </node>
-      <node id="55">
-        <label>sstream</label>
-      </node>
-      <node id="40">
-        <label>ModelDataIRBuilder.h</label>
-        <link refid="ModelDataIRBuilder_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
-      </node>
-      <node id="14">
-        <label>llvm/Support/Host.h</label>
-      </node>
-      <node id="5">
-        <label>llvm/Config/llvm-config.h</label>
-      </node>
-      <node id="6">
-        <label>llvm/Analysis/Passes.h</label>
-      </node>
-      <node id="24">
-        <label>rrExecutableModel.h</label>
-        <link refid="rrExecutableModel_8h"/>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-      </node>
-      <node id="31">
-        <label>tr1proxy/rr_memory.h</label>
-      </node>
-      <node id="49">
-        <label>KineticLawParameterResolver.h</label>
-        <link refid="KineticLawParameterResolver_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="50" relation="include">
-        </childnode>
-      </node>
-      <node id="52">
-        <label>LLVMException.h</label>
-        <link refid="LLVMException_8h_source"/>
-        <childnode refid="53" relation="include">
-        </childnode>
-        <childnode refid="54" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-      </node>
-      <node id="34">
-        <label>set</label>
-      </node>
-      <node id="43">
-        <label>ModelGeneratorContext.h</label>
-        <link refid="ModelGeneratorContext_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="35" relation="include">
-        </childnode>
         <childnode refid="44" relation="include">
         </childnode>
-        <childnode refid="41" relation="include">
+        <childnode refid="64" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="46" relation="include">
-        </childnode>
-        <childnode refid="47" relation="include">
-        </childnode>
-      </node>
-      <node id="47">
-        <label>llvm/IR/LegacyPassManager.h</label>
       </node>
       <node id="39">
         <label>ASTNodeFactory.h</label>
@@ -319,6 +37,46 @@
         <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>Jit.h</label>
+        <link refid="Jit_8h_source"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>KineticLawParameterResolver.h</label>
+        <link refid="KineticLawParameterResolver_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>LLVMException.h</label>
+        <link refid="LLVMException_8h_source"/>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
         </childnode>
       </node>
       <node id="4">
@@ -345,8 +103,185 @@
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="46">
-        <label>memory</label>
+      <node id="18">
+        <label>LLVMModelData.h</label>
+        <link refid="LLVMModelData_8h_source"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>LLVMModelDataSymbols.h</label>
+        <link refid="LLVMModelDataSymbols_8h_source"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>LLVMModelSymbols.h</label>
+        <link refid="LLVMModelSymbols_8h_source"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>llvm/LoadSymbolResolverBase.cpp</label>
+        <link refid="LoadSymbolResolverBase_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>LoadSymbolResolverBase.h</label>
+        <link refid="LoadSymbolResolverBase_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>ModelDataIRBuilder.h</label>
+        <link refid="ModelDataIRBuilder_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>ModelGeneratorContext.h</label>
+        <link refid="ModelGeneratorContext_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>Random.h</label>
+        <link refid="Random_8h_source"/>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>SymbolForest.h</label>
+        <link refid="SymbolForest_8h_source"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>rrExecutableModel.h</label>
+        <link refid="rrExecutableModel_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="53">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
+        <childnode refid="21" relation="include">
+        </childnode>
       </node>
       <node id="19">
         <label>rrSparse.h</label>
@@ -358,14 +293,131 @@
         <childnode refid="23" relation="include">
         </childnode>
       </node>
-      <node id="20">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="21" relation="include">
-        </childnode>
+      <node id="38">
+        <label>cassert</label>
+      </node>
+      <node id="26">
+        <label>exception</label>
+      </node>
+      <node id="30">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>llvm/Analysis/Passes.h</label>
+      </node>
+      <node id="13">
+        <label>llvm/Analysis/TargetLibraryInfo.h</label>
+      </node>
+      <node id="5">
+        <label>llvm/Config/llvm-config.h</label>
+      </node>
+      <node id="7">
+        <label>llvm/ExecutionEngine/ExecutionEngine.h</label>
+      </node>
+      <node id="8">
+        <label>llvm/ExecutionEngine/MCJIT.h</label>
+      </node>
+      <node id="57">
+        <label>llvm/ExecutionEngine/ObjectCache.h</label>
+      </node>
+      <node id="41">
+        <label>llvm/IR/DataLayout.h</label>
+      </node>
+      <node id="50">
+        <label>llvm/IR/IRBuilder.h</label>
+      </node>
+      <node id="48">
+        <label>llvm/IR/LegacyPassManager.h</label>
+      </node>
+      <node id="58">
+        <label>llvm/IR/Mangler.h</label>
       </node>
       <node id="9">
         <label>llvm/IR/PassManager.h</label>
+      </node>
+      <node id="56">
+        <label>llvm/Object/ObjectFile.h</label>
+      </node>
+      <node id="14">
+        <label>llvm/Support/Host.h</label>
+      </node>
+      <node id="10">
+        <label>llvm/Support/TargetSelect.h</label>
+      </node>
+      <node id="12">
+        <label>llvm/Support/raw_ostream.h</label>
+      </node>
+      <node id="55">
+        <label>llvm/Target/TargetMachine.h</label>
+      </node>
+      <node id="11">
+        <label>llvm/Transforms/Scalar.h</label>
+      </node>
+      <node id="33">
+        <label>map</label>
+      </node>
+      <node id="47">
+        <label>memory</label>
+      </node>
+      <node id="23">
+        <label>ostream</label>
+      </node>
+      <node id="60">
+        <label>rr_unordered_map</label>
+      </node>
+      <node id="62">
+        <label>sbml/KineticLaw.h</label>
+      </node>
+      <node id="42">
+        <label>sbml/Model.h</label>
+      </node>
+      <node id="28">
+        <label>sbml/SBMLDocument.h</label>
+      </node>
+      <node id="43">
+        <label>sbml/SBMLVisitor.h</label>
+      </node>
+      <node id="37">
+        <label>sbml/math/ASTNode.h</label>
+      </node>
+      <node id="34">
+        <label>set</label>
+      </node>
+      <node id="54">
+        <label>sstream</label>
+      </node>
+      <node id="15">
+        <label>stack</label>
+      </node>
+      <node id="52">
+        <label>stdexcept</label>
+      </node>
+      <node id="29">
+        <label>stdint.h</label>
+      </node>
+      <node id="16">
+        <label>string</label>
+      </node>
+      <node id="64">
+        <label>thread</label>
+      </node>
+      <node id="31">
+        <label>tr1proxy/rr_memory.h</label>
+      </node>
+      <node id="46">
+        <label>tr1proxy/rr_random.h</label>
+      </node>
+      <node id="32">
+        <label>tr1proxy/rr_unordered_map.h</label>
+      </node>
+      <node id="59">
+        <label>unordered_map</label>
+      </node>
+      <node id="27">
+        <label>variant</label>
+      </node>
+      <node id="22">
+        <label>vector</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerrllvm">rrllvm</innernamespace>
@@ -405,7 +457,7 @@
 <codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>modelSymbols(ctx.getModelSymbols()),</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>modelData(modelData),</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>modelDataSymbols(ctx.getModelDataSymbols()),</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>builder(ctx.getBuilder())</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>builder(*ctx.getJitNonOwning()-&gt;getBuilderNonOwning())</highlight></codeline>
 <codeline lineno="33"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>start<sp/>with<sp/>a<sp/>single<sp/>empty<sp/>cache<sp/>block</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>symbolCache.push_back(ValueMap());</highlight></codeline>
@@ -483,11 +535,11 @@
 <codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>llvm::ArrayRef&lt;llvm::Value*&gt;&amp;<sp/>args,</highlight></codeline>
 <codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>llvm::Value*<sp/>value)</highlight></codeline>
 <codeline lineno="109"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(args.size()<sp/>||<sp/>!modelGenContext.useSymbolCache())<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!args.empty()<sp/>||<sp/>!modelGenContext.useSymbolCache())<sp/>{</highlight></codeline>
 <codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value;</highlight></codeline>
 <codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="113"><highlight class="normal"></highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>assert(symbolCache.size()<sp/>&amp;&amp;<sp/></highlight><highlight class="stringliteral">&quot;symbol<sp/>cache<sp/>stack<sp/>empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>assert(!symbolCache.empty()<sp/>&amp;&amp;<sp/></highlight><highlight class="stringliteral">&quot;symbol<sp/>cache<sp/>stack<sp/>empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="115"><highlight class="normal"></highlight></codeline>
 <codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(value)<sp/>{</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ValueMap<sp/>&amp;values<sp/>=<sp/>symbolCache.back();</highlight></codeline>

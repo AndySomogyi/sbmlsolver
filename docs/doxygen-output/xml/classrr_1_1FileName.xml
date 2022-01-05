@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1FileName" kind="class" language="C++" prot="public">
     <compoundname>rr::FileName</compoundname>
       <sectiondef kind="private-attrib">
@@ -8,6 +8,7 @@
         <definition>std::string rr::FileName::mPathAndName</definition>
         <argsstring></argsstring>
         <name>mPathAndName</name>
+        <qualifiedname>rr::FileName::mPathAndName</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -21,6 +22,7 @@
         <definition>std::string rr::FileName::mPath</definition>
         <argsstring></argsstring>
         <name>mPath</name>
+        <qualifiedname>rr::FileName::mPath</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -34,6 +36,7 @@
         <definition>std::string rr::FileName::mName</definition>
         <argsstring></argsstring>
         <name>mName</name>
+        <qualifiedname>rr::FileName::mName</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -49,6 +52,7 @@
         <definition>void rr::FileName::MakeFileString</definition>
         <argsstring>()</argsstring>
         <name>MakeFileString</name>
+        <qualifiedname>rr::FileName::MakeFileString</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -64,6 +68,7 @@
         <definition>rr::FileName::FileName</definition>
         <argsstring>(const std::string &amp;name=&quot;&quot;, const std::string &amp;path=&quot;&quot;)</argsstring>
         <name>FileName</name>
+        <qualifiedname>rr::FileName::FileName</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>name</declname>
@@ -87,6 +92,7 @@
         <definition>rr::FileName::FileName</definition>
         <argsstring>(const FileName &amp;fN)</argsstring>
         <name>FileName</name>
+        <qualifiedname>rr::FileName::FileName</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1FileName" kindref="compound">FileName</ref> &amp;</type>
           <declname>fN</declname>
@@ -104,6 +110,7 @@
         <definition>rr::FileName::~FileName</definition>
         <argsstring>()</argsstring>
         <name>~FileName</name>
+        <qualifiedname>rr::FileName::~FileName</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -117,6 +124,7 @@
         <definition>FileName &amp; rr::FileName::operator=</definition>
         <argsstring>(const FileName &amp;fN)</argsstring>
         <name>operator=</name>
+        <qualifiedname>rr::FileName::operator=</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1FileName" kindref="compound">FileName</ref> &amp;</type>
           <declname>fN</declname>
@@ -134,6 +142,7 @@
         <definition>FileName &amp; rr::FileName::operator=</definition>
         <argsstring>(const std::string &amp;fN)</argsstring>
         <name>operator=</name>
+        <qualifiedname>rr::FileName::operator=</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>fN</declname>
@@ -146,11 +155,12 @@
         </inbodydescription>
         <location file="rrFileName.h" line="30" column="36" bodyfile="rrFileName.cpp" bodystart="35" bodyend="41"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1FileName_1af1ed71fe9ea04d5c6275debbdfc8ac13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1FileName_1a218f252ac13e5eb682909aa2db372901" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1FileName" kindref="compound">FileName</ref> &amp;</type>
-        <definition>FileName&amp; rr::FileName::operator=</definition>
+        <definition>FileName &amp; rr::FileName::operator=</definition>
         <argsstring>(const char *fN)</argsstring>
         <name>operator=</name>
+        <qualifiedname>rr::FileName::operator=</qualifiedname>
         <param>
           <type>const char *</type>
           <declname>fN</declname>
@@ -168,6 +178,7 @@
         <definition>bool rr::FileName::operator!=</definition>
         <argsstring>(const char *fN)</argsstring>
         <name>operator!=</name>
+        <qualifiedname>rr::FileName::operator!=</qualifiedname>
         <param>
           <type>const char *</type>
           <declname>fN</declname>
@@ -185,6 +196,7 @@
         <definition>rr::FileName::operator std::string</definition>
         <argsstring>()</argsstring>
         <name>operator std::string</name>
+        <qualifiedname>rr::FileName::string</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -198,6 +210,7 @@
         <definition>bool rr::FileName::SetPath</definition>
         <argsstring>(const std::string &amp;path)</argsstring>
         <name>SetPath</name>
+        <qualifiedname>rr::FileName::SetPath</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>path</declname>
@@ -215,6 +228,7 @@
         <definition>void rr::FileName::SetFileName</definition>
         <argsstring>(const std::string &amp;name)</argsstring>
         <name>SetFileName</name>
+        <qualifiedname>rr::FileName::SetFileName</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>name</declname>
@@ -232,6 +246,7 @@
         <definition>void rr::FileName::SetNameAndPath</definition>
         <argsstring>(const std::string &amp;path, const std::string &amp;name)</argsstring>
         <name>SetNameAndPath</name>
+        <qualifiedname>rr::FileName::SetNameAndPath</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>path</declname>
@@ -253,6 +268,7 @@
         <definition>void rr::FileName::SetFileNameAndPath</definition>
         <argsstring>(const std::string &amp;name)</argsstring>
         <name>SetFileNameAndPath</name>
+        <qualifiedname>rr::FileName::SetFileNameAndPath</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>name</declname>
@@ -270,6 +286,7 @@
         <definition>std::string rr::FileName::GetFileName</definition>
         <argsstring>() const</argsstring>
         <name>GetFileName</name>
+        <qualifiedname>rr::FileName::GetFileName</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -283,6 +300,7 @@
         <definition>std::string rr::FileName::GetPath</definition>
         <argsstring>() const</argsstring>
         <name>GetPath</name>
+        <qualifiedname>rr::FileName::GetPath</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -296,6 +314,7 @@
         <definition>std::string rr::FileName::GetPathAndFileName</definition>
         <argsstring>() const</argsstring>
         <name>GetPathAndFileName</name>
+        <qualifiedname>rr::FileName::GetPathAndFileName</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -309,6 +328,7 @@
         <definition>std::string rr::FileName::Get</definition>
         <argsstring>()</argsstring>
         <name>Get</name>
+        <qualifiedname>rr::FileName::Get</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -322,6 +342,7 @@
         <definition>std::string rr::FileName::GetFileNameNoExtension</definition>
         <argsstring>()</argsstring>
         <name>GetFileNameNoExtension</name>
+        <qualifiedname>rr::FileName::GetFileNameNoExtension</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -335,6 +356,7 @@
         <definition>size_t rr::FileName::size</definition>
         <argsstring>()</argsstring>
         <name>size</name>
+        <qualifiedname>rr::FileName::size</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -365,7 +387,7 @@
       <member refid="classrr_1_1FileName_1ac34b2cb59e614f1ef85116523293d516" prot="public" virt="non-virtual"><scope>rr::FileName</scope><name>operator!=</name></member>
       <member refid="classrr_1_1FileName_1a9b8f3e4cda41fe7c58fb5d8d9e88c908" prot="public" virt="non-virtual"><scope>rr::FileName</scope><name>operator=</name></member>
       <member refid="classrr_1_1FileName_1a7f078e25e7d7b234975682dad0db8085" prot="public" virt="non-virtual"><scope>rr::FileName</scope><name>operator=</name></member>
-      <member refid="classrr_1_1FileName_1af1ed71fe9ea04d5c6275debbdfc8ac13" prot="public" virt="non-virtual"><scope>rr::FileName</scope><name>operator=</name></member>
+      <member refid="classrr_1_1FileName_1a218f252ac13e5eb682909aa2db372901" prot="public" virt="non-virtual"><scope>rr::FileName</scope><name>operator=</name></member>
       <member refid="classrr_1_1FileName_1addace0000ec696dad693ca64f2416821" prot="public" virt="non-virtual"><scope>rr::FileName</scope><name>SetFileName</name></member>
       <member refid="classrr_1_1FileName_1a08219c0e2364e8f1a87dba30620cfd50" prot="public" virt="non-virtual"><scope>rr::FileName</scope><name>SetFileNameAndPath</name></member>
       <member refid="classrr_1_1FileName_1a73aaffa60d65251db31b02d2f658bf4d" prot="public" virt="non-virtual"><scope>rr::FileName</scope><name>SetNameAndPath</name></member>

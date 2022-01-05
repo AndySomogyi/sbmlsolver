@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.13.0 with libSBML version 5.19.1. -->
+<sbml xmlns="http://www.sbml.org/sbml/level3/version2/core" level="3" version="2">
+  <model metaid="__main" id="__main">
+    <listOfCompartments>
+      <compartment id="Vext" spatialDimensions="3" size="1.5" constant="false"/>
+      <compartment id="Vli" spatialDimensions="3" size="1.5" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="apap_ext" compartment="Vext" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="apap" compartment="Vli" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="k1" value="1" constant="true"/>
+      <parameter id="k2" value="1" constant="true"/>
+      <parameter id="vol_point" value="0.1" constant="true"/>
+      <parameter id="f_fluid" value="0.2" constant="true"/>
+      <parameter id="f_fat" value="0.3" constant="true"/>
+      <parameter id="f_tissue" constant="true"/>
+    </listOfParameters>
+    <listOfInitialAssignments>
+      <initialAssignment symbol="f_tissue">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <cn type="integer"> 1 </cn>
+              <ci> f_fluid </ci>
+            </apply>
+            <ci> f_fat </ci>
+          </apply>
+        </math>
+      </initialAssignment>
+    </listOfInitialAssignments>
+    <listOfRules>
+      <rateRule variable="Vext">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <cn> 0.1 </cn>
+        </math>
+      </rateRule>
+    </listOfRules>
+    <listOfReactions>
+      <reaction id="APAPIM" reversible="true">
+        <listOfReactants>
+          <speciesReference species="apap_ext" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="apap" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k1 </ci>
+              <ci> apap_ext </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="APAPD" reversible="false" compartment="Vli">
+        <listOfReactants>
+          <speciesReference species="apap" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k2 </ci>
+              <ci> apap </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

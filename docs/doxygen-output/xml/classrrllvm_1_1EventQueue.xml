@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1EventQueue" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::EventQueue</compoundname>
       <sectiondef kind="public-type">
@@ -8,6 +8,7 @@
         <definition>typedef std::list&lt;rrllvm::Event&gt; rrllvm::EventQueue::_Sequence</definition>
         <argsstring></argsstring>
         <name>_Sequence</name>
+        <qualifiedname>rrllvm::EventQueue::_Sequence</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -21,6 +22,7 @@
         <definition>typedef std::less&lt;_Sequence::value_type&gt; rrllvm::EventQueue::_Compare</definition>
         <argsstring></argsstring>
         <name>_Compare</name>
+        <qualifiedname>rrllvm::EventQueue::_Compare</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -34,6 +36,7 @@
         <definition>typedef _Sequence::const_iterator rrllvm::EventQueue::const_iterator</definition>
         <argsstring></argsstring>
         <name>const_iterator</name>
+        <qualifiedname>rrllvm::EventQueue::const_iterator</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -47,6 +50,7 @@
         <definition>typedef _Sequence::iterator rrllvm::EventQueue::iterator</definition>
         <argsstring></argsstring>
         <name>iterator</name>
+        <qualifiedname>rrllvm::EventQueue::iterator</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -60,6 +64,7 @@
         <definition>typedef _Sequence::const_reference rrllvm::EventQueue::const_reference</definition>
         <argsstring></argsstring>
         <name>const_reference</name>
+        <qualifiedname>rrllvm::EventQueue::const_reference</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -75,6 +80,7 @@
         <definition>_Sequence rrllvm::EventQueue::sequence</definition>
         <argsstring></argsstring>
         <name>sequence</name>
+        <qualifiedname>rrllvm::EventQueue::sequence</qualifiedname>
         <briefdescription>
 <para>the data structure that holds the collection of events. </para>
         </briefdescription>
@@ -90,6 +96,7 @@
         <definition>_Compare rrllvm::EventQueue::comp</definition>
         <argsstring></argsstring>
         <name>comp</name>
+        <qualifiedname>rrllvm::EventQueue::comp</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -105,6 +112,7 @@
         <definition>bool rrllvm::EventQueue::eraseExpiredEvents</definition>
         <argsstring>()</argsstring>
         <name>eraseExpiredEvents</name>
+        <qualifiedname>rrllvm::EventQueue::eraseExpiredEvents</qualifiedname>
         <briefdescription>
 <para>remove expired events from the queue. </para>
         </briefdescription>
@@ -119,6 +127,7 @@
         <definition>bool rrllvm::EventQueue::hasCurrentEvents</definition>
         <argsstring>()</argsstring>
         <name>hasCurrentEvents</name>
+        <qualifiedname>rrllvm::EventQueue::hasCurrentEvents</qualifiedname>
         <briefdescription>
 <para>are any events current (delay == 0 and triggered or persistant) </para>
         </briefdescription>
@@ -133,6 +142,7 @@
         <definition>bool rrllvm::EventQueue::applyEvents</definition>
         <argsstring>()</argsstring>
         <name>applyEvents</name>
+        <qualifiedname>rrllvm::EventQueue::applyEvents</qualifiedname>
         <briefdescription>
 <para>assign all of the top most events with the same priority and remove them from the queue. </para>
         </briefdescription>
@@ -150,6 +160,7 @@
         <definition>uint rrllvm::EventQueue::size</definition>
         <argsstring>() const</argsstring>
         <name>size</name>
+        <qualifiedname>rrllvm::EventQueue::size</qualifiedname>
         <briefdescription>
 <para>number of events in the queue </para>
         </briefdescription>
@@ -164,6 +175,7 @@
         <definition>EventQueue::const_reference rrllvm::EventQueue::top</definition>
         <argsstring>()</argsstring>
         <name>top</name>
+        <qualifiedname>rrllvm::EventQueue::top</qualifiedname>
         <briefdescription>
 <para>event with lowest time to assignment and highest priority. </para>
         </briefdescription>
@@ -178,6 +190,7 @@
         <definition>void rrllvm::EventQueue::push</definition>
         <argsstring>(const Event &amp;e)</argsstring>
         <name>push</name>
+        <qualifiedname>rrllvm::EventQueue::push</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
           <declname>e</declname>
@@ -197,6 +210,7 @@
         <definition>double rrllvm::EventQueue::getNextPendingEventTime</definition>
         <argsstring>()</argsstring>
         <name>getNextPendingEventTime</name>
+        <qualifiedname>rrllvm::EventQueue::getNextPendingEventTime</qualifiedname>
         <briefdescription>
 <para>the time the next event is sceduled to be assigned. </para>
         </briefdescription>
@@ -211,6 +225,7 @@
         <definition>void rrllvm::EventQueue::saveState</definition>
         <argsstring>(std::ostream &amp;out)</argsstring>
         <name>saveState</name>
+        <qualifiedname>rrllvm::EventQueue::saveState</qualifiedname>
         <param>
           <type>std::ostream &amp;</type>
           <declname>out</declname>
@@ -228,6 +243,7 @@
         <definition>void rrllvm::EventQueue::loadState</definition>
         <argsstring>(std::istream &amp;in, LLVMExecutableModel &amp;model)</argsstring>
         <name>loadState</name>
+        <qualifiedname>rrllvm::EventQueue::loadState</qualifiedname>
         <param>
           <type>std::istream &amp;</type>
           <declname>in</declname>
@@ -246,11 +262,12 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
-      <memberdef kind="friend" id="classrrllvm_1_1EventQueue_1a843845d2c309fb550991f2548ddc8703" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="friend" id="classrrllvm_1_1EventQueue_1a4b33aa69cd6bd97bb0e2b1e8042edaa0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
-        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <definition>std::ostream &amp; operator&lt;&lt;</definition>
         <argsstring>(std::ostream &amp;stream, const EventQueue &amp;queue)</argsstring>
         <name>operator&lt;&lt;</name>
+        <qualifiedname>rrllvm::EventQueue::operator&lt;&lt;</qualifiedname>
         <param>
           <type>std::ostream &amp;</type>
           <declname>stream</declname>
@@ -285,7 +302,7 @@
       <member refid="classrrllvm_1_1EventQueue_1a274f786186af2ad05569802de810a120" prot="public" virt="non-virtual"><scope>rrllvm::EventQueue</scope><name>hasCurrentEvents</name></member>
       <member refid="classrrllvm_1_1EventQueue_1a871f1bdb96ef94fc30b8ab84546f98f5" prot="public" virt="non-virtual"><scope>rrllvm::EventQueue</scope><name>iterator</name></member>
       <member refid="classrrllvm_1_1EventQueue_1a0ae274da53a26ae056663c3937761ce9" prot="public" virt="non-virtual"><scope>rrllvm::EventQueue</scope><name>loadState</name></member>
-      <member refid="classrrllvm_1_1EventQueue_1a843845d2c309fb550991f2548ddc8703" prot="public" virt="non-virtual"><scope>rrllvm::EventQueue</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classrrllvm_1_1EventQueue_1a4b33aa69cd6bd97bb0e2b1e8042edaa0" prot="public" virt="non-virtual"><scope>rrllvm::EventQueue</scope><name>operator&lt;&lt;</name></member>
       <member refid="classrrllvm_1_1EventQueue_1a3b2a8094722201ba8afdb49924790dea" prot="public" virt="non-virtual"><scope>rrllvm::EventQueue</scope><name>push</name></member>
       <member refid="classrrllvm_1_1EventQueue_1aaf915d38184861eaae2c7401f0bac298" prot="public" virt="non-virtual"><scope>rrllvm::EventQueue</scope><name>saveState</name></member>
       <member refid="classrrllvm_1_1EventQueue_1a5f40e76b5c67cc5ea329d91b02275e38" prot="private" virt="non-virtual"><scope>rrllvm::EventQueue</scope><name>sequence</name></member>

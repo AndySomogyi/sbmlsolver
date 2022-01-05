@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1SBMLModelSimulation" kind="class" language="C++" prot="public">
     <compoundname>rr::SBMLModelSimulation</compoundname>
     <derivedcompoundref refid="classrr_1_1TestSuiteModelSimulation" prot="public" virt="non-virtual">rr::TestSuiteModelSimulation</derivedcompoundref>
@@ -9,6 +9,7 @@
         <definition>std::string rr::SBMLModelSimulation::mModelFileName</definition>
         <argsstring></argsstring>
         <name>mModelFileName</name>
+        <qualifiedname>rr::SBMLModelSimulation::mModelFileName</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -22,6 +23,7 @@
         <definition>std::filesystem::path rr::SBMLModelSimulation::mModelFilePath</definition>
         <argsstring></argsstring>
         <name>mModelFilePath</name>
+        <qualifiedname>rr::SBMLModelSimulation::mModelFilePath</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -35,6 +37,7 @@
         <definition>std::filesystem::path rr::SBMLModelSimulation::mModelSettingsFileName</definition>
         <argsstring></argsstring>
         <name>mModelSettingsFileName</name>
+        <qualifiedname>rr::SBMLModelSimulation::mModelSettingsFileName</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -48,6 +51,7 @@
         <definition>std::filesystem::path rr::SBMLModelSimulation::mSimulationLogFile</definition>
         <argsstring></argsstring>
         <name>mSimulationLogFile</name>
+        <qualifiedname>rr::SBMLModelSimulation::mSimulationLogFile</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -61,6 +65,7 @@
         <definition>std::filesystem::path rr::SBMLModelSimulation::mDataOutputFolder</definition>
         <argsstring></argsstring>
         <name>mDataOutputFolder</name>
+        <qualifiedname>rr::SBMLModelSimulation::mDataOutputFolder</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -74,6 +79,7 @@
         <definition>std::filesystem::path rr::SBMLModelSimulation::mTempDataFolder</definition>
         <argsstring></argsstring>
         <name>mTempDataFolder</name>
+        <qualifiedname>rr::SBMLModelSimulation::mTempDataFolder</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -87,6 +93,7 @@
         <definition>RoadRunner* rr::SBMLModelSimulation::mEngine</definition>
         <argsstring></argsstring>
         <name>mEngine</name>
+        <qualifiedname>rr::SBMLModelSimulation::mEngine</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -100,6 +107,7 @@
         <definition>SimulateOptions rr::SBMLModelSimulation::mSettings</definition>
         <argsstring></argsstring>
         <name>mSettings</name>
+        <qualifiedname>rr::SBMLModelSimulation::mSettings</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -113,6 +121,7 @@
         <definition>bool rr::SBMLModelSimulation::mCompileIfDllExists</definition>
         <argsstring></argsstring>
         <name>mCompileIfDllExists</name>
+        <qualifiedname>rr::SBMLModelSimulation::mCompileIfDllExists</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -128,6 +137,7 @@
         <definition>double rr::SBMLModelSimulation::mAbsolute</definition>
         <argsstring></argsstring>
         <name>mAbsolute</name>
+        <qualifiedname>rr::SBMLModelSimulation::mAbsolute</qualifiedname>
         <briefdescription>
 <para>absolute tolerance for residual comparison, does not affect integrator </para>
         </briefdescription>
@@ -142,6 +152,7 @@
         <definition>double rr::SBMLModelSimulation::mRelative</definition>
         <argsstring></argsstring>
         <name>mRelative</name>
+        <qualifiedname>rr::SBMLModelSimulation::mRelative</qualifiedname>
         <briefdescription>
 <para>relative tolerance for residual comparison, does not affect integrator </para>
         </briefdescription>
@@ -158,6 +169,7 @@
         <definition>rr::SBMLModelSimulation::SBMLModelSimulation</definition>
         <argsstring>(std::filesystem::path dataOutputFolder=&quot;&quot;, std::filesystem::path tempDataFilePath=&quot;&quot;)</argsstring>
         <name>SBMLModelSimulation</name>
+        <qualifiedname>rr::SBMLModelSimulation::SBMLModelSimulation</qualifiedname>
         <param>
           <type>std::filesystem::path</type>
           <declname>dataOutputFolder</declname>
@@ -181,6 +193,7 @@
         <definition>rr::SBMLModelSimulation::~SBMLModelSimulation</definition>
         <argsstring>()</argsstring>
         <name>~SBMLModelSimulation</name>
+        <qualifiedname>rr::SBMLModelSimulation::~SBMLModelSimulation</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -194,6 +207,7 @@
         <definition>bool rr::SBMLModelSimulation::SetModelFilePath</definition>
         <argsstring>(const std::filesystem::path &amp;path)</argsstring>
         <name>SetModelFilePath</name>
+        <qualifiedname>rr::SBMLModelSimulation::SetModelFilePath</qualifiedname>
         <param>
           <type>const std::filesystem::path &amp;</type>
           <declname>path</declname>
@@ -211,6 +225,7 @@
         <definition>bool rr::SBMLModelSimulation::SetModelFileName</definition>
         <argsstring>(const std::string &amp;name)</argsstring>
         <name>SetModelFileName</name>
+        <qualifiedname>rr::SBMLModelSimulation::SetModelFileName</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>name</declname>
@@ -228,6 +243,7 @@
         <definition>bool rr::SBMLModelSimulation::SetDataOutputFolder</definition>
         <argsstring>(const std::filesystem::path &amp;name)</argsstring>
         <name>SetDataOutputFolder</name>
+        <qualifiedname>rr::SBMLModelSimulation::SetDataOutputFolder</qualifiedname>
         <param>
           <type>const std::filesystem::path &amp;</type>
           <declname>name</declname>
@@ -245,6 +261,7 @@
         <definition>std::filesystem::path rr::SBMLModelSimulation::GetModelsFullFilePath</definition>
         <argsstring>()</argsstring>
         <name>GetModelsFullFilePath</name>
+        <qualifiedname>rr::SBMLModelSimulation::GetModelsFullFilePath</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -258,6 +275,7 @@
         <definition>std::filesystem::path rr::SBMLModelSimulation::GetDataOutputFolder</definition>
         <argsstring>()</argsstring>
         <name>GetDataOutputFolder</name>
+        <qualifiedname>rr::SBMLModelSimulation::GetDataOutputFolder</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -271,6 +289,7 @@
         <definition>std::filesystem::path rr::SBMLModelSimulation::GetTempDataFolder</definition>
         <argsstring>()</argsstring>
         <name>GetTempDataFolder</name>
+        <qualifiedname>rr::SBMLModelSimulation::GetTempDataFolder</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -284,6 +303,7 @@
         <definition>bool rr::SBMLModelSimulation::UseEngine</definition>
         <argsstring>(RoadRunner *engine)</argsstring>
         <name>UseEngine</name>
+        <qualifiedname>rr::SBMLModelSimulation::UseEngine</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref> *</type>
           <declname>engine</declname>
@@ -301,6 +321,7 @@
         <definition>bool rr::SBMLModelSimulation::SaveModelAsXML</definition>
         <argsstring>(std::filesystem::path &amp;folder)</argsstring>
         <name>SaveModelAsXML</name>
+        <qualifiedname>rr::SBMLModelSimulation::SaveModelAsXML</qualifiedname>
         <param>
           <type>std::filesystem::path &amp;</type>
           <declname>folder</declname>
@@ -318,6 +339,7 @@
         <definition>bool rr::SBMLModelSimulation::SetTimeStart</definition>
         <argsstring>(const double &amp;tStart)</argsstring>
         <name>SetTimeStart</name>
+        <qualifiedname>rr::SBMLModelSimulation::SetTimeStart</qualifiedname>
         <param>
           <type>const double &amp;</type>
           <declname>tStart</declname>
@@ -335,6 +357,7 @@
         <definition>bool rr::SBMLModelSimulation::SetTimeEnd</definition>
         <argsstring>(const double &amp;tEnd)</argsstring>
         <name>SetTimeEnd</name>
+        <qualifiedname>rr::SBMLModelSimulation::SetTimeEnd</qualifiedname>
         <param>
           <type>const double &amp;</type>
           <declname>tEnd</declname>
@@ -352,6 +375,7 @@
         <definition>bool rr::SBMLModelSimulation::SetNumberOfPoints</definition>
         <argsstring>(const int &amp;pts)</argsstring>
         <name>SetNumberOfPoints</name>
+        <qualifiedname>rr::SBMLModelSimulation::SetNumberOfPoints</qualifiedname>
         <param>
           <type>const int &amp;</type>
           <declname>pts</declname>
@@ -369,6 +393,7 @@
         <definition>bool rr::SBMLModelSimulation::SetSelectionList</definition>
         <argsstring>(const std::string &amp;list)</argsstring>
         <name>SetSelectionList</name>
+        <qualifiedname>rr::SBMLModelSimulation::SetSelectionList</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>list</declname>
@@ -386,6 +411,7 @@
         <definition>bool rr::SBMLModelSimulation::LoadSBMLFromFile</definition>
         <argsstring>()</argsstring>
         <name>LoadSBMLFromFile</name>
+        <qualifiedname>rr::SBMLModelSimulation::LoadSBMLFromFile</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -399,6 +425,7 @@
         <definition>bool rr::SBMLModelSimulation::Simulate</definition>
         <argsstring>()</argsstring>
         <name>Simulate</name>
+        <qualifiedname>rr::SBMLModelSimulation::Simulate</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -412,6 +439,7 @@
         <definition>bool rr::SBMLModelSimulation::SaveResult</definition>
         <argsstring>()</argsstring>
         <name>SaveResult</name>
+        <qualifiedname>rr::SBMLModelSimulation::SaveResult</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -425,6 +453,7 @@
         <definition>void rr::SBMLModelSimulation::loadSBMLTolerances</definition>
         <argsstring>(std::filesystem::path const &amp;filename)</argsstring>
         <name>loadSBMLTolerances</name>
+        <qualifiedname>rr::SBMLModelSimulation::loadSBMLTolerances</qualifiedname>
         <param>
           <type>std::filesystem::path const &amp;</type>
           <declname>filename</declname>
@@ -442,7 +471,8 @@
         <definition>bool rr::SBMLModelSimulation::LoadSettings</definition>
         <argsstring>(const std::filesystem::path &amp;fName=&quot;&quot;)</argsstring>
         <name>LoadSettings</name>
-        <reimplementedby refid="classrr_1_1TestSuiteModelSimulation_1af9640861d28a25c87af10888ba3d85c8">LoadSettings</reimplementedby>
+        <qualifiedname>rr::SBMLModelSimulation::LoadSettings</qualifiedname>
+        <reimplementedby refid="classrr_1_1TestSuiteModelSimulation_1a654d7322fc26074e52453438caa58087">LoadSettings</reimplementedby>
         <param>
           <type>const std::filesystem::path &amp;</type>
           <declname>fName</declname>
@@ -461,6 +491,7 @@
         <definition>RoadRunnerData rr::SBMLModelSimulation::GetResult</definition>
         <argsstring>()</argsstring>
         <name>GetResult</name>
+        <qualifiedname>rr::SBMLModelSimulation::GetResult</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -474,6 +505,7 @@
         <definition>void rr::SBMLModelSimulation::ReCompileIfDllExists</definition>
         <argsstring>(const bool &amp;doIt)</argsstring>
         <name>ReCompileIfDllExists</name>
+        <qualifiedname>rr::SBMLModelSimulation::ReCompileIfDllExists</qualifiedname>
         <param>
           <type>const bool &amp;</type>
           <declname>doIt</declname>
@@ -491,6 +523,7 @@
         <definition>bool rr::SBMLModelSimulation::DoCompileIfDllExists</definition>
         <argsstring>()</argsstring>
         <name>DoCompileIfDllExists</name>
+        <qualifiedname>rr::SBMLModelSimulation::DoCompileIfDllExists</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -504,6 +537,7 @@
         <definition>bool rr::SBMLModelSimulation::CreateModel</definition>
         <argsstring>()</argsstring>
         <name>CreateModel</name>
+        <qualifiedname>rr::SBMLModelSimulation::CreateModel</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -517,6 +551,7 @@
         <definition>bool rr::SBMLModelSimulation::GenerateModelCode</definition>
         <argsstring>()</argsstring>
         <name>GenerateModelCode</name>
+        <qualifiedname>rr::SBMLModelSimulation::GenerateModelCode</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -530,6 +565,7 @@
         <definition>bool rr::SBMLModelSimulation::CompileModel</definition>
         <argsstring>()</argsstring>
         <name>CompileModel</name>
+        <qualifiedname>rr::SBMLModelSimulation::CompileModel</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -543,6 +579,7 @@
         <definition>bool rr::SBMLModelSimulation::GenerateAndCompileModel</definition>
         <argsstring>()</argsstring>
         <name>GenerateAndCompileModel</name>
+        <qualifiedname>rr::SBMLModelSimulation::GenerateAndCompileModel</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -569,42 +606,42 @@
       </node>
     </inheritancegraph>
     <collaborationgraph>
+      <node id="4">
+        <label>rr::RoadRunner</label>
+        <link refid="classrr_1_1RoadRunner"/>
+      </node>
       <node id="1">
         <label>rr::SBMLModelSimulation</label>
         <link refid="classrr_1_1SBMLModelSimulation"/>
         <childnode refid="2" relation="usage">
-          <edgelabel>mSettings</edgelabel>
-        </childnode>
-        <childnode refid="4" relation="usage">
-          <edgelabel>mEngine</edgelabel>
-        </childnode>
-        <childnode refid="3" relation="usage">
           <edgelabel>mModelFileName</edgelabel>
         </childnode>
-        <childnode refid="5" relation="usage">
+        <childnode refid="3" relation="usage">
           <edgelabel>mDataOutputFolder</edgelabel>
           <edgelabel>mModelFilePath</edgelabel>
           <edgelabel>mModelSettingsFileName</edgelabel>
           <edgelabel>mSimulationLogFile</edgelabel>
           <edgelabel>mTempDataFolder</edgelabel>
         </childnode>
-      </node>
-      <node id="2">
-        <label>rr::SimulateOptions</label>
-        <link refid="classrr_1_1SimulateOptions"/>
-        <childnode refid="3" relation="usage">
-          <edgelabel>output_file</edgelabel>
+        <childnode refid="4" relation="usage">
+          <edgelabel>mEngine</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>mSettings</edgelabel>
         </childnode>
       </node>
       <node id="5">
-        <label>path</label>
+        <label>rr::SimulateOptions</label>
+        <link refid="classrr_1_1SimulateOptions"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>output_file</edgelabel>
+        </childnode>
       </node>
       <node id="3">
-        <label>string</label>
+        <label>path</label>
       </node>
-      <node id="4">
-        <label>rr::RoadRunner</label>
-        <link refid="classrr_1_1RoadRunner"/>
+      <node id="2">
+        <label>string</label>
       </node>
     </collaborationgraph>
     <location file="rrSBMLModelSimulation.h" line="21" column="1" bodyfile="rrSBMLModelSimulation.h" bodystart="22" bodyend="73"/>

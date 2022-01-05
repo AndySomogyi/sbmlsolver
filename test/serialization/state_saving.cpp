@@ -21,6 +21,7 @@
 #include "test_util.h"
 #include <filesystem>
 #include "RoadRunnerTest.h"
+#include <mutex>
 
 using namespace testing;
 using namespace std;
@@ -28,28 +29,52 @@ using namespace ls;
 using namespace rr;
 using std::filesystem::path;
 
+static std::mutex SerializationMutex;
+
+/**
+ * Suggestions for improving this test suite:
+ *  - Descriptive names for tests.
+ *  - Test one thing at a time.
+ *  - Unit tests work better when you can look at any particular test
+ *    and figure out what its testing which I find hard with
+ *    the "lambda injection" approach.
+ *    - Also, when a test breaks you need to spend a lot of time with the
+ *      debugger to figure out what went wrong.
+ *
+ * See StateSavingTestsModelData for examples.
+ */
 class StateSavingTests : public RoadRunnerTest {
 public:
     path stateSavingModelsDir = rrTestModelsDir_ / "StateSaving";
     path stateSavingOutputDir = rrTestDir_ / "StateSavingOutput";
-
-    StateSavingTests() = default;
+    path fname_ = stateSavingOutputDir / "state-saving-test.rr";
+    std::string fname;
+    StateSavingTests() {
+        fname = fname_.string();
+//        Logger::setLevel(Logger::LOG_DEBUG);
+    }
 
     ~StateSavingTests() override {
         if (fs::exists(stateSavingOutputDir)) {
             fs::remove_all(stateSavingOutputDir);
         }
+
+        // clean up fname between runs!!!
+        if (fs::exists(fname)){
+            fs::remove(fname);
+        }
+
     }
 
-    bool RunStateSavingTest(void(*modification)(RoadRunner *), std::string version = "l2v4");
+    bool RunStateSavingTest(void(*modification)(RoadRunner *, std::string), std::string version = "l2v4");
 
-    bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner *), std::string version = "l2v4");
+    bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner *, std::string), std::string version = "l2v4");
 
-    bool StateRunTestModelFromScratch(void(*generate)(RoadRunner *), std::string version = "l2v4");
+    bool StateRunTestModelFromScratch(void(*generate)(RoadRunner *, std::string), std::string version = "l2v4");
+
 };
 
-
-bool StateSavingTests::RunStateSavingTest(void(*modification)(RoadRunner *), std::string version) {
+bool StateSavingTests::RunStateSavingTest(void(*modification)(RoadRunner *, std::string), std::string version) {
     bool result(false);
     RoadRunner *rr;
 
@@ -132,7 +157,7 @@ bool StateSavingTests::RunStateSavingTest(void(*modification)(RoadRunner *), std
         if (!simulation.LoadSettings((modelFilePath / settingsFileName).string())) {
             throw (Exception("Failed loading simulation settings"));
         }
-        modification(rr);
+        modification(rr, fname);
         //Then Simulate model
         if (!simulation.Simulate()) {
             throw (Exception("Failed running simulation"));
@@ -167,12 +192,13 @@ bool StateSavingTests::RunStateSavingTest(void(*modification)(RoadRunner *), std
 }
 
 
-bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner *), std::string version) {
+bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner *, std::string), std::string version) {
+//    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
     bool result(false);
-    RoadRunner *rr, *rr2, *rr3;
+    std::unique_ptr<RoadRunner> rr, rr2, rr3;
 
     //Create instance..
-    rr = new RoadRunner();
+    rr = std::make_unique< RoadRunner>();
     string testName(UnitTest::GetInstance()->current_test_info()->name());
     string suiteName(UnitTest::GetInstance()->current_test_info()->test_suite_name());
 
@@ -201,7 +227,7 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
 
         TestSuiteModelSimulation simulation(dataOutputFolder);
 
-        simulation.UseEngine(rr);
+        simulation.UseEngine(rr.get());
 
         //Read SBML models.....
         string modelFilePath((rrTestDir_ / path("sbml-test-suite") / path("semantic")).string());
@@ -238,15 +264,10 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
 
         // don't generate cache for models
         opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE;
-
         opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS;
-
         opt.modelGeneratorOpt = opt.modelGeneratorOpt & ~LoadSBMLOptions::READ_ONLY;
-
         opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_CFG_SIMPLIFICATION;
-
         opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_GVN;
-
 
         rr->load(fullPath, &opt);
 
@@ -256,15 +277,16 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
             throw (Exception("Failed loading simulation settings"));
         }
         //Perform the model editing action
-        rr2 = new RoadRunner(*rr);
+        rr2 = std::make_unique<RoadRunner>(*rr);
         int rr2id = rr2->getInstanceID();
-        modification(rr2);
+        modification(rr2.get(), fname);
         EXPECT_EQ(rr2->getInstanceID(), rr2id);
-        rr3 = new RoadRunner(*rr2);
+        rr3 = std::make_unique<RoadRunner>(*rr2);
+
         EXPECT_NE(rr->getInstanceID(), rr2->getInstanceID());
         EXPECT_NE(rr->getInstanceID(), rr3->getInstanceID());
         EXPECT_NE(rr2->getInstanceID(), rr3->getInstanceID());
-        simulation.UseEngine(rr3);
+        simulation.UseEngine(rr3.get());
         //Then Simulate model
         if (!simulation.Simulate()) {
             throw (Exception("Failed running simulation"));
@@ -281,6 +303,9 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
         }
 
         simulation.CreateErrorData();
+
+        std::cout << simulation.NrOfFailingPoints() << std::endl;
+
         result = simulation.Pass();
         result = simulation.SaveAllData() && result;
         result = simulation.SaveModelAsXML(dataOutputFolder) && result;
@@ -291,14 +316,11 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
         result = false;
     }
 
-    delete rr;
-    delete rr2;
-    delete rr3;
     delete doc;
     return result;
 }
 
-bool StateSavingTests::StateRunTestModelFromScratch(void(*generate)(RoadRunner *), std::string version) {
+bool StateSavingTests::StateRunTestModelFromScratch(void(*generate)(RoadRunner *, std::string), std::string version) {
     bool result(false);
     int level = version.at(1) - '0';
     int versionNum = version.at(3) - '0';
@@ -372,7 +394,10 @@ bool StateSavingTests::StateRunTestModelFromScratch(void(*generate)(RoadRunner *
         if (!simulation.LoadSettings((modelFilePath / settingsFileName).string())) {
             throw (Exception("Failed loading simulation settings"));
         }
-        generate(&rr);
+
+        SerializationMutex.lock();
+        generate(&rr, fname);
+        SerializationMutex.unlock();
         //Then Simulate model
         if (!simulation.Simulate()) {
             throw (Exception("Failed running simulation"));
@@ -431,194 +456,226 @@ TEST_F(StateSavingTests, COPY_RR) {
     RoadRunner rr(3, 2);
     RoadRunner rr2(rr);
     ASSERT_TRUE(rr.getInstanceID() != rr2.getInstanceID());
-
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_1) {
-    ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri) {
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+
+TEST_F(StateSavingTests, COPY_RR_TWICE) {
+    RoadRunner rr(3, 2);
+    RoadRunner rr2(rr);
+    RoadRunner rr3(rr);
+    ASSERT_TRUE(rr.getInstanceID() != rr2.getInstanceID());
+    ASSERT_TRUE(rr.getInstanceID() != rr3.getInstanceID());
+}
+
+TEST_F(StateSavingTests, COPY_RR_TWICE2) {
+    RoadRunner rr(3, 2);
+    RoadRunner rr2(rr);
+    RoadRunner rr3(rr2);
+    ASSERT_TRUE(rr.getInstanceID() != rr2.getInstanceID());
+    ASSERT_TRUE(rr.getInstanceID() != rr3.getInstanceID());
+}
+
+
+TEST_F(StateSavingTests, SaveThenLoad) {
+    ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri, std::string fname) {
+        rri->saveState(fname);
+        rri->loadState(fname);
     }));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_2) {
-    ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri) {
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+TEST_F(StateSavingTests, SaveThenLoadTwice) {
+    ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri, std::string fname) {
+        rri->saveState(fname);
+        rri->loadState(fname);
+        rri->saveState(fname);
+        rri->loadState(fname);
     }));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_3) {
-    ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri) {
-        rri->loadState("save-state-test.rr");
+/**
+ * Test disabled because how can you load a model that has not been saved yet?
+ * In previous roadrunner versions, the fname parameter was a string "save-state-test.rr".
+ * But I have no idea where this file is -- where is it being loaded from? I suspect it
+ * was written to some location like home on the first test the first time the suite is run.
+ * Subsequently it would load the same state. Clearly this is bad as tests should be
+ * independent.
+ *
+ * todo delete tests that start with a loadState, they do not make sense.
+ */
+TEST_F(StateSavingTests, DISABLED_SAVE_STATE_3) {
+    ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri, std::string fname) {
+        rri->loadState(fname);
     }));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_4) {
-    ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri) {
-        rri->loadState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+TEST_F(StateSavingTests, DISABLED_SAVE_STATE_4) {
+    ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri, std::string fname) {
+        rri->loadState(fname);
+        rri->loadState(fname);
     }));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_5) {
-    ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri) {
-        rri->loadState("save-state-test.rr");
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+TEST_F(StateSavingTests, DISABLED_SAVE_STATE_5) {
+    ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri, std::string fname) {
+        rri->loadState(fname);
+        rri->saveState(fname);
+        rri->loadState(fname);
     }));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_6) {
-    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri) {
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+TEST_F(StateSavingTests, SaveThenLoadWithADifferentModel) {
+    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri, std::string fname) {
+        rri->saveState(fname);
+        rri->loadState(fname);
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_7) {
-    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri) {
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+TEST_F(StateSavingTests, SaveThenLoadWithADiffentModelTwice) {
+    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri, std::string fname) {
+        rri->saveState(fname);
+        rri->loadState(fname);
+        rri->saveState(fname);
+        rri->loadState(fname);
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_8) {
-    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri) {
-        rri->loadState("save-state-test.rr");
+TEST_F(StateSavingTests, DISABLED_SAVE_STATE_8) {
+    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri, std::string fname) {
+        rri->loadState(fname);
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_9) {
-    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri) {
-        rri->loadState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+TEST_F(StateSavingTests, DISABLED_SAVE_STATE_9) {
+    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri, std::string fname) {
+        rri->loadState(fname);
+        rri->loadState(fname);
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_10) {
-    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri) {
-        rri->loadState("save-state-test.rr");
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+TEST_F(StateSavingTests, DISABLED_SAVE_STATE_10) {
+    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri, std::string fname) {
+        rri->loadState(fname);
+        rri->saveState(fname);
+        rri->loadState(fname);
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_11) {
-    ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri) {
+TEST_F(StateSavingTests, SimulateThenSaveLoadThenReset) {
+    ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri, std::string fname) {
         rri->simulate();
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+        rri->saveState(fname);
+        rri->loadState(fname);
         rri->reset();
     }));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_12) {
-    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri) {
+TEST_F(StateSavingTests, SimulateThenSaveLoadThenResetWithDifferentModel) {
+    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri, std::string fname) {
         rri->simulate();
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
-        rri->reset(int(SelectionRecord::ALL));
+        rri->saveState(fname);
+        rri->loadState(fname);
+        rri->reset((int)SelectionRecord::ALL);
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_13) {
-    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri) {
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+TEST_F(StateSavingTests, SaveThenLoadCase1120) {
+    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri, std::string fname) {
+        rri->saveState(fname);
+        rri->loadState(fname);
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_14) {
-    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri) {
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+TEST_F(StateSavingTests, SaveThenLoadTwiceCase1120) {
+    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri, std::string fname) {
+        rri->saveState(fname);
+        rri->loadState(fname);
+        rri->saveState(fname);
+        rri->loadState(fname);
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_15) {
-    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri) {
-        rri->loadState("save-state-test.rr");
+TEST_F(StateSavingTests, DISABLED_SAVE_STATE_15) {
+    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri, std::string fname) {
+        rri->loadState(fname);
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_16) {
-    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri) {
-        rri->loadState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+TEST_F(StateSavingTests, DISABLED_SAVE_STATE_16) {
+    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri, std::string fname) {
+        rri->loadState(fname);
+        rri->loadState(fname);
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_17) {
-    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri) {
-        rri->loadState("save-state-test.rr");
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+TEST_F(StateSavingTests, DISABLED_SAVE_STATE_17) {
+    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri, std::string fname) {
+        rri->loadState(fname);
+        rri->saveState(fname);
+        rri->loadState(fname);
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, SAVE_STATE_18) {
-    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri) {
+TEST_F(StateSavingTests, SaveThenLoadAndSimulateCase1120) {
+    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri, std::string fname) {
         rri->simulate();
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
-        rri->reset(int(SelectionRecord::ALL));
+        rri->saveState(fname);
+        rri->loadState(fname);
+        rri->reset((int)SelectionRecord::ALL);
     }, "l3v1"));
 }
 
 TEST_F(StateSavingTests, SAVE_STATE_19) {
-    ASSERT_TRUE(RunStateSavingTest([](RoadRunner *rri) {
+    ASSERT_TRUE(RunStateSavingTest([](RoadRunner *rri, std::string fname) {
         rri->getSimulateOptions().duration /= 2;
         rri->getSimulateOptions().steps /= 2;
         rri->simulate();
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+        rri->saveState(fname);
+        rri->loadState(fname);
         rri->getSimulateOptions().start = rri->getSimulateOptions().duration;
     }, "l3v1"));
 }
 
 TEST_F(StateSavingTests, SAVE_STATE_20) {
-    ASSERT_TRUE(RunStateSavingTest([](RoadRunner *rri) {
+    ASSERT_TRUE(RunStateSavingTest([](RoadRunner *rri, std::string fname) {
         rri->getSimulateOptions().duration /= 2;
         rri->getSimulateOptions().steps /= 2;
         rri->simulate();
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+        rri->saveState(fname);
+        rri->loadState(fname);
         rri->getSimulateOptions().start = rri->getSimulateOptions().duration;
     }));
 }
 
 TEST_F(StateSavingTests, SAVE_STATE_21) {
-    ASSERT_TRUE(RunStateSavingTest([](RoadRunner *rri) {
+    ASSERT_TRUE(RunStateSavingTest([](RoadRunner *rri, std::string fname) {
         rri->getSimulateOptions().duration = 1.50492;
         rri->getSimulateOptions().steps /= 2;
         rri->simulate();
-        rri->saveState("save-state-test.rr");
-        rri->loadState("save-state-test.rr");
+        rri->saveState(fname);
+        rri->loadState(fname);
         rri->getSimulateOptions().start = rri->getSimulateOptions().duration;
         rri->getSimulateOptions().duration = 3.0 - rri->getSimulateOptions().duration;
     }, "l3v1"));
 }
 
 TEST_F(StateSavingTests, RETAIN_ABSOLUTE_TOLERANCES_1) {
-    RoadRunner rri((rrTestSbmlTestSuiteDir_ / "semantic" / "00001" / "00001-sbml-l2v4.xml").string());
+    path f = rrTestSbmlTestSuiteDir_ / "semantic" / "00001" / "00001-sbml-l2v4.xml";
+    path stateFname = fs::current_path() / "save-state-tests.rr";
+    RoadRunner rri(f.string());
     rri.getIntegrator()->setIndividualTolerance("S1", 5.0);
     rri.getIntegrator()->setIndividualTolerance("S2", 3.0);
-    rri.saveState("save-state-test.rr");
+    rri.saveState(stateFname.string());
     RoadRunner rri2;
-    rri2.loadState("save-state-test.rr");
+    rri2.loadState(stateFname.string());
     EXPECT_EQ(rri2.getIntegrator()->getConcentrationTolerance()[0], 5.0);
     EXPECT_EQ(rri2.getIntegrator()->getConcentrationTolerance()[1], 3.0);
+    if (fs::exists(stateFname)){
+        fs::remove(stateFname);
+    }
 }
 
 TEST_F(StateSavingTests, FROM_SCRATCH_1) {
-    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri) {
+    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri, std::string fname) {
         rri->addCompartment("compartment", 1);
         rri->saveState("test-save-state.rr");
         rri->loadState("test-save-state.rr");
@@ -630,7 +687,7 @@ TEST_F(StateSavingTests, FROM_SCRATCH_1) {
 }
 
 TEST_F(StateSavingTests, FROM_SCRATCH_2) {
-    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri) {
+    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri, std::string fname) {
         rri->addCompartment("compartment", 1);
         rri->addSpeciesConcentration("S1", "compartment", 1, true);
         rri->addSpeciesConcentration("S2", "compartment", 0, true);
@@ -647,7 +704,7 @@ TEST_F(StateSavingTests, FROM_SCRATCH_2) {
 }
 
 TEST_F(StateSavingTests, FROM_SCRATCH_3) {
-    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri) {
+    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri, std::string fname) {
         rri->addCompartment("compartment", 1);
         rri->addSpeciesConcentration("S1", "compartment", 0, true, true);
         rri->addRateRule("S1", "7");
@@ -658,7 +715,7 @@ TEST_F(StateSavingTests, FROM_SCRATCH_3) {
 }
 
 TEST_F(StateSavingTests, FROM_SCRATCH_4) {
-    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri) {
+    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri, std::string fname) {
         rri->addCompartment("compartment", 1);
 
         rri->saveState("test-save-state.rr");
@@ -673,7 +730,7 @@ TEST_F(StateSavingTests, FROM_SCRATCH_4) {
 }
 
 TEST_F(StateSavingTests, FROM_SCRATCH_5) {
-    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri) {
+    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri, std::string fname) {
         rri->addCompartment("compartment", 1);
         rri->saveState("test-save-state.rr");
         rri->loadState("test-save-state.rr");
@@ -688,7 +745,7 @@ TEST_F(StateSavingTests, FROM_SCRATCH_5) {
 }
 
 TEST_F(StateSavingTests, FROM_SCRATCH_6) {
-    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri) {
+    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri, std::string fname) {
         rri->addParameter("Q", 0);
         rri->addParameter("R", 0);
         rri->addParameter("reset", 0);
@@ -721,7 +778,7 @@ TEST_F(StateSavingTests, FROM_SCRATCH_6) {
 }
 
 TEST_F(StateSavingTests, FROM_SCRATCH_7) {
-    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri) {
+    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri, std::string fname) {
         rri->addCompartment("compartment", 1);
         rri->saveState("test-save-state.rr");
         rri->clearModel();
@@ -734,7 +791,7 @@ TEST_F(StateSavingTests, FROM_SCRATCH_7) {
 }
 
 TEST_F(StateSavingTests, FROM_SCRATCH_8) {
-    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri) {
+    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri, std::string fname) {
         rri->addCompartment("compartment", 1);
         rri->addSpeciesConcentration("S1", "compartment", 1, true);
         rri->addSpeciesConcentration("S2", "compartment", 0, true);
@@ -752,7 +809,7 @@ TEST_F(StateSavingTests, FROM_SCRATCH_8) {
 }
 
 TEST_F(StateSavingTests, FROM_SCRATCH_9) {
-    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri) {
+    ASSERT_TRUE(StateRunTestModelFromScratch([](RoadRunner *rri, std::string fname) {
         rri->addCompartment("compartment", 1);
         rri->addSpeciesConcentration("S1", "compartment", 0, true, true);
         rri->addRateRule("S1", "7");
@@ -764,47 +821,17 @@ TEST_F(StateSavingTests, FROM_SCRATCH_9) {
 }
 
 TEST_F(StateSavingTests, LOAD_ON_NEW_INSTANCE) {
-    RoadRunner rri;
-    rri.loadState("test-save-state.rr");
-    ASSERT_TRUE(rri.getBoundarySpeciesByIndex(0) == 0);
+    RoadRunner rri1(OpenLinearFlux().str());
+    rri1.saveState("test-save-state.rr");
+    RoadRunner rri2;
+    rri2.loadState("test-save-state.rr");
+    ASSERT_TRUE(rri2.getFloatingSpeciesByIndex(0) == 0);
 }
 
-
-class ForSerializationAsBinary {
-public:
-    ForSerializationAsBinary() = default;
-
-    explicit ForSerializationAsBinary(int number)
-            : number_(number) {}
-
-    std::stringstream toBinaryStream() {
-        std::stringstream out(std::ios::binary);
-        out.write((const char *) &number_, sizeof(int));
-        return out;
-    }
-
-    static void fromBinaryStream(ForSerializationAsBinary &obj, std::stringstream &os) {
-        int n;
-        os.read((char *) &n, sizeof(int));
-        std::cout << "n: " << n << std::endl;
-        obj.number_ = n;
-    }
-
-    int number_;
-};
-
-TEST(Serialisation, SimpleSerialization) {
-    ForSerializationAsBinary serializationAsBinary(4);
-    auto o = serializationAsBinary.toBinaryStream();
-    ForSerializationAsBinary loaded;
-    ForSerializationAsBinary::fromBinaryStream(loaded, o);
-    std::cout << "loaded.number_: " << loaded.number_ << std::endl;
-
-}
 
 TEST_F(StateSavingTests, FromString) {
     RoadRunner rr(OpenLinearFlux().str());
-    std::stringstream* stateStream = rr.saveStateS('b');
+    std::stringstream *stateStream = rr.saveStateS('b');
     RoadRunner rr2;
     rr2.loadStateS(stateStream);
     auto actualDataLsMatrix = *rr2.simulate(0, 10, 11);
@@ -825,6 +852,307 @@ TEST_F(StateSavingTests, FromFile) {
     auto expectedData = OpenLinearFlux().timeSeriesResult();
     ASSERT_TRUE(expectedData.almostEquals(actualData, 1e-4));
 }
+
+
+class StateSavingTestsModelData : public RoadRunnerTest {
+public:
+    StateSavingTestsModelData() {
+//        Logger::setLevel(Logger::LOG_DEBUG);
+    };
+
+    bool compareTwoLsMatrices(ls::Matrix<double> *expected_, ls::Matrix<double> *actual_, double tol) {
+        rr::Matrix<double> expected(expected_);
+        rr::Matrix<double> actual(actual_);
+        return expected.almostEquals(actual, tol);
+    }
+
+    std::unique_ptr<RoadRunner> saveAndLoadState(RoadRunner *rr) {
+        auto state = rr->saveStateS();
+        auto rr2 = std::make_unique<RoadRunner>();
+        rr2->loadStateS(state);
+        return std::move(rr2);
+    }
+
+    void compareNumBoundarySpecies(RoadRunner *rr) {
+        int originalNum = rr->getNumberOfBoundarySpecies();
+        auto rr2 = saveAndLoadState(rr);
+        int afterNum = rr2->getNumberOfBoundarySpecies();
+        ASSERT_EQ(originalNum, afterNum);
+    }
+
+    void compareNumCompartments(RoadRunner *rr) {
+        int originalNum = rr->getNumberOfCompartments();
+        auto rr2 = saveAndLoadState(rr);
+        int afterNum = rr2->getNumberOfCompartments();
+        ASSERT_EQ(originalNum, afterNum);
+    }
+
+    void compareNumDependentSpecies(RoadRunner *rr) {
+        int originalNum = rr->getNumberOfDependentSpecies();
+        auto rr2 = saveAndLoadState(rr);
+        int afterNum = rr2->getNumberOfDependentSpecies();
+        ASSERT_EQ(originalNum, afterNum);
+    }
+
+    void compareNumFloatingSpecies(RoadRunner *rr) {
+        int originalNum = rr->getNumberOfFloatingSpecies();
+        auto rr2 = saveAndLoadState(rr);
+        int afterNum = rr2->getNumberOfFloatingSpecies();
+        ASSERT_EQ(originalNum, afterNum);
+    }
+
+    void compareNumGlobalParameters(RoadRunner *rr) {
+        int originalNum = rr->getNumberOfGlobalParameters();
+        auto rr2 = saveAndLoadState(rr);
+        int afterNum = rr2->getNumberOfGlobalParameters();
+        ASSERT_EQ(originalNum, afterNum);
+    }
+
+    void compareNumIndependentSpecies(RoadRunner *rr) {
+        int originalNum = rr->getNumberOfIndependentSpecies();
+        auto rr2 = saveAndLoadState(rr);
+        int afterNum = rr2->getNumberOfIndependentSpecies();
+        ASSERT_EQ(originalNum, afterNum);
+    }
+
+    void compareNumOfReactions(RoadRunner *rr) {
+        int originalNum = rr->getNumberOfReactions();
+        auto rr2 = saveAndLoadState(rr);
+        int afterNum = rr2->getNumberOfReactions();
+        ASSERT_EQ(originalNum, afterNum);
+    }
+
+    void compareSimulationOutput(RoadRunner *rr) {
+        ls::Matrix<double> originalSimulationResults = *rr->simulate(0, 10, 11);
+        auto rr2 = saveAndLoadState(rr);
+        ls::Matrix<double> afterResults = *rr2->simulate(0, 10, 11);
+        rrLogDebug << "Original simulation results: \n" << originalSimulationResults;
+        rrLogDebug << "Post save and load state simulation results: \n" << afterResults;
+        compareTwoLsMatrices(&originalSimulationResults, &afterResults, 1e-5);
+    }
+
+
+    void compareValuesBoundarySpecies(RoadRunner *rr) {
+        auto expected = rr->getBoundarySpeciesAmountsNamedArray();
+        auto rr2 = saveAndLoadState(rr);
+        auto actual = rr2->getBoundarySpeciesAmountsNamedArray();
+        ASSERT_TRUE(compareTwoLsMatrices(&expected, &actual, 1e-5));
+    }
+
+    void compareValuesCompartments(RoadRunner *rr) {
+        int N = rr->getNumberOfCompartments();
+        std::vector<double> expected;
+        for (int i = 0; i < N; i++) {
+            expected.push_back(rr->getCompartmentByIndex(i));
+        }
+        auto rr2 = saveAndLoadState(rr);
+        std::vector<double> actual;
+        for (int i = 0; i < N; i++) {
+            actual.push_back(rr2->getCompartmentByIndex(i));
+        }
+        for (int i = 0; i < N; i++) {
+            ASSERT_NEAR(expected[i], actual[i], 1e-5);
+        }
+    }
+
+    void compareValuesFloatingSpecies(RoadRunner *rr) {
+        auto expected = rr->getFloatingSpeciesAmountsNamedArray();
+        auto rr2 = saveAndLoadState(rr);
+        auto actual = rr2->getFloatingSpeciesAmountsNamedArray();
+        std::cout << expected << std::endl;
+        std::cout << actual << std::endl;
+        ASSERT_TRUE(compareTwoLsMatrices(&expected, &actual, 1e-5));
+    }
+
+    void compareValuesGlobalParameters(RoadRunner *rr) {
+        auto expected = rr->getGlobalParameterValues();
+        auto rr2 = saveAndLoadState(rr);
+        auto actual = rr2->getGlobalParameterValues();
+        ASSERT_EQ(expected.size(), actual.size());
+        for (int i = 0; i < expected.size(); i++) {
+            ASSERT_NEAR(expected[i], actual[i], 1e-5);
+        }
+    }
+
+    void compareValuesReactionRates(RoadRunner *rr) {
+        auto expected = rr->getReactionRates();
+        auto rr2 = saveAndLoadState(rr);
+        auto actual = rr2->getReactionRates();
+        ASSERT_EQ(expected.size(), actual.size());
+        for (int i = 0; i < expected.size(); i++) {
+            ASSERT_NEAR(expected[i], actual[i], 1e-5);
+        }
+    }
+};
+
+class StateSavingTestsBrown2004 : public StateSavingTestsModelData{
+public:
+    std::string sbml;
+
+    StateSavingTestsBrown2004():
+        StateSavingTestsModelData(),
+        sbml(Brown2004().str()){}
+};
+
+class StateSavingTestsBrown2004MCJit : public StateSavingTestsBrown2004{
+public:
+    StateSavingTestsBrown2004MCJit()
+        : StateSavingTestsBrown2004(){
+        Config::setValue(Config::LLVM_BACKEND, Config::MCJIT);
+    }
+};
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004NumBoundarySpecies) {
+    RoadRunner rr(sbml);
+    compareNumBoundarySpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumBoundarySpecies) {
+    RoadRunner rr(sbml);
+    compareNumBoundarySpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumCompartments) {
+    RoadRunner rr(sbml);
+    compareNumCompartments(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumDependentSpecies) {
+    RoadRunner rr(sbml);
+    compareNumDependentSpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumFloatingSpecies) {
+    RoadRunner rr(sbml);
+    compareNumFloatingSpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumGlobalParameters) {
+    RoadRunner rr(sbml);
+    compareNumGlobalParameters(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumIndependentSpecies) {
+    RoadRunner rr(sbml);
+    compareNumIndependentSpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareNumOfReactions) {
+    RoadRunner rr(sbml);
+    compareNumOfReactions(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareValuesBoundarySpecies) {
+    RoadRunner rr(sbml);
+    compareValuesBoundarySpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareValuesCompartments) {
+    RoadRunner rr(sbml);
+    compareValuesCompartments(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareValuesFloatingSpecies) {
+    RoadRunner rr(sbml);
+    compareValuesFloatingSpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareValuesGlobalParameters) {
+    RoadRunner rr(sbml);
+    compareValuesGlobalParameters(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareValuesReactionRates) {
+    RoadRunner rr(sbml);
+    compareValuesReactionRates(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004MCJit, Brown2004CompareSimulationOutput) {
+    RoadRunner rr(sbml);
+    compareSimulationOutput(&rr);
+}
+
+
+
+
+class StateSavingTestsBrown2004LLJit : public StateSavingTestsBrown2004{
+public:
+    StateSavingTestsBrown2004LLJit()
+        : StateSavingTestsBrown2004(){
+        Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
+    }
+};
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004NumBoundarySpecies) {
+    RoadRunner rr(sbml);
+    compareNumBoundarySpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumBoundarySpecies) {
+    RoadRunner rr(sbml);
+    compareNumBoundarySpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumCompartments) {
+    RoadRunner rr(sbml);
+    compareNumCompartments(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumDependentSpecies) {
+    RoadRunner rr(sbml);
+    compareNumDependentSpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumFloatingSpecies) {
+    RoadRunner rr(sbml);
+    compareNumFloatingSpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumGlobalParameters) {
+    RoadRunner rr(sbml);
+    compareNumGlobalParameters(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumIndependentSpecies) {
+    RoadRunner rr(sbml);
+    compareNumIndependentSpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareNumOfReactions) {
+    RoadRunner rr(sbml);
+    compareNumOfReactions(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareValuesBoundarySpecies) {
+    RoadRunner rr(sbml);
+    compareValuesBoundarySpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareValuesCompartments) {
+    RoadRunner rr(sbml);
+    compareValuesCompartments(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareValuesFloatingSpecies) {
+    RoadRunner rr(sbml);
+    compareValuesFloatingSpecies(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareValuesGlobalParameters) {
+    RoadRunner rr(sbml);
+    compareValuesGlobalParameters(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareValuesReactionRates) {
+    RoadRunner rr(sbml);
+    compareValuesReactionRates(&rr);
+}
+
+TEST_F(StateSavingTestsBrown2004LLJit, Brown2004CompareSimulationOutput) {
+    RoadRunner rr(sbml);
+    compareSimulationOutput(&rr);
+}
+
 
 
 

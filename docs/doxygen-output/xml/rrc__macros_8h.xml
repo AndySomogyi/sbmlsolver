@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrc__macros_8h" kind="file" language="C++">
     <compoundname>rrc_macros.h</compoundname>
     <includedby refid="rrc__libstruct__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.cpp</includedby>
@@ -11,16 +11,16 @@
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
         <link refid="rrc__api_8cpp"/>
       </node>
-      <node id="1">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_macros.h</label>
-        <link refid="rrc__macros_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-      </node>
       <node id="4">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</label>
         <link refid="rrc__api_8h"/>
         <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_macros.h</label>
+        <link refid="rrc__macros_8h"/>
+        <childnode refid="2" relation="include">
         </childnode>
       </node>
       <node id="2">

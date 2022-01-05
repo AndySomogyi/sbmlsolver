@@ -1,17 +1,22 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1ExecutableModelFactory" kind="class" language="C++" prot="public">
     <compoundname>rr::ExecutableModelFactory</compoundname>
     <includes refid="ExecutableModelFactory_8h" local="no">ExecutableModelFactory.h</includes>
       <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="classrr_1_1ExecutableModelFactory_1a522884de93dc83ce2958b32874a956a8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1ExecutableModelFactory_1a1d60770a8615289b8e1ba2b41602e0c8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
         <definition>ExecutableModel * rr::ExecutableModelFactory::createModel</definition>
-        <argsstring>(const std::string &amp;sbml, const Dictionary *dict=0)</argsstring>
+        <argsstring>(const libsbml::SBMLDocument *sbml, const std::string &amp;md5, const Dictionary *dict=0)</argsstring>
         <name>createModel</name>
+        <qualifiedname>rr::ExecutableModelFactory::createModel</qualifiedname>
+        <param>
+          <type>const libsbml::SBMLDocument *</type>
+          <declname>sbml</declname>
+        </param>
         <param>
           <type>const std::string &amp;</type>
-          <declname>sbml</declname>
+          <declname>md5</declname>
         </param>
         <param>
           <type>const <ref refid="classrr_1_1Dictionary" kindref="compound">Dictionary</ref> *</type>
@@ -43,13 +48,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ExecutableModelFactory.h" line="33" column="28" bodyfile="ExecutableModelFactory.cpp" bodystart="72" bodyend="81"/>
+        <location file="ExecutableModelFactory.h" line="33" column="28" bodyfile="ExecutableModelFactory.cpp" bodystart="67" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModelFactory_1a23c5051dcf9ea4615029bf6305338dcc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
         <definition>ExecutableModel * rr::ExecutableModelFactory::createModel</definition>
         <argsstring>(std::istream &amp;in, uint modelGeneratorOpt)</argsstring>
         <name>createModel</name>
+        <qualifiedname>rr::ExecutableModelFactory::createModel</qualifiedname>
         <param>
           <type>std::istream &amp;</type>
           <declname>in</declname>
@@ -64,13 +70,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ExecutableModelFactory.h" line="42" column="24" bodyfile="ExecutableModelFactory.cpp" bodystart="83" bodyend="86"/>
+        <location file="ExecutableModelFactory.h" line="42" column="24" bodyfile="ExecutableModelFactory.cpp" bodystart="74" bodyend="76"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModelFactory_1a71cd447b734c18c4514d238db701205f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
         <definition>ExecutableModel * rr::ExecutableModelFactory::regenerateModel</definition>
         <argsstring>(ExecutableModel *oldModel, libsbml::SBMLDocument *doc, uint options)</argsstring>
         <name>regenerateModel</name>
+        <qualifiedname>rr::ExecutableModelFactory::regenerateModel</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
           <declname>oldModel</declname>
@@ -89,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="ExecutableModelFactory.h" line="51" column="24" bodyfile="ExecutableModelFactory.cpp" bodystart="88" bodyend="91"/>
+        <location file="ExecutableModelFactory.h" line="51" column="24" bodyfile="ExecutableModelFactory.cpp" bodystart="79" bodyend="81"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -99,7 +106,7 @@
     </detaileddescription>
     <location file="ExecutableModelFactory.h" line="23" column="1" bodyfile="ExecutableModelFactory.h" bodystart="24" bodyend="52"/>
     <listofallmembers>
-      <member refid="classrr_1_1ExecutableModelFactory_1a522884de93dc83ce2958b32874a956a8" prot="public" virt="non-virtual"><scope>rr::ExecutableModelFactory</scope><name>createModel</name></member>
+      <member refid="classrr_1_1ExecutableModelFactory_1a1d60770a8615289b8e1ba2b41602e0c8" prot="public" virt="non-virtual"><scope>rr::ExecutableModelFactory</scope><name>createModel</name></member>
       <member refid="classrr_1_1ExecutableModelFactory_1a23c5051dcf9ea4615029bf6305338dcc" prot="public" virt="non-virtual"><scope>rr::ExecutableModelFactory</scope><name>createModel</name></member>
       <member refid="classrr_1_1ExecutableModelFactory_1a71cd447b734c18c4514d238db701205f" prot="public" virt="non-virtual"><scope>rr::ExecutableModelFactory</scope><name>regenerateModel</name></member>
     </listofallmembers>

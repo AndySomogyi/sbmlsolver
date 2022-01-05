@@ -49,59 +49,188 @@ public :
 
 };
 
-TEST_F(LoadSBMLOptionsTests, ConservedMoieties){
+TEST_F(LoadSBMLOptionsTests, ConservedMoieties) {
     turnOptionOn(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES, LoadSBMLOptions::CONSERVED_MOIETIES);
 }
 
-TEST_F(LoadSBMLOptionsTests, Recompile){
+TEST_F(LoadSBMLOptionsTests, Recompile) {
     turnOptionOn(Config::LOADSBMLOPTIONS_RECOMPILE, LoadSBMLOptions::RECOMPILE);
 }
 
-TEST_F(LoadSBMLOptionsTests, ReadOnly){
+TEST_F(LoadSBMLOptionsTests, ReadOnly) {
     turnOptionOn(Config::LOADSBMLOPTIONS_READ_ONLY, LoadSBMLOptions::READ_ONLY);
 }
 
-TEST_F(LoadSBMLOptionsTests, MutableInitialConditions){
+TEST_F(LoadSBMLOptionsTests, MutableInitialConditions) {
     turnOptionOn(Config::LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS, LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS);
 }
 
-TEST_F(LoadSBMLOptionsTests, OptimizeGVN){
+TEST_F(LoadSBMLOptionsTests, OptimizeGVN) {
     turnOptionOn(Config::LOADSBMLOPTIONS_OPTIMIZE_GVN, LoadSBMLOptions::OPTIMIZE_GVN);
 }
 
-TEST_F(LoadSBMLOptionsTests, OptimizeCFGSimpleflication){
+TEST_F(LoadSBMLOptionsTests, OptimizeCFGSimpleflication) {
     turnOptionOn(Config::LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION, LoadSBMLOptions::OPTIMIZE_CFG_SIMPLIFICATION);
 }
 
-TEST_F(LoadSBMLOptionsTests, OptimizeIntructionCombining){
-    turnOptionOn(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING, LoadSBMLOptions::OPTIMIZE_INSTRUCTION_COMBINING);
+TEST_F(LoadSBMLOptionsTests, OptimizeIntructionCombining) {
+    turnOptionOn(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING,
+                 LoadSBMLOptions::OPTIMIZE_INSTRUCTION_COMBINING);
 }
 
-TEST_F(LoadSBMLOptionsTests, OptimizeDeadInstElimination){
-    turnOptionOn(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION, LoadSBMLOptions::OPTIMIZE_DEAD_INST_ELIMINATION);
+TEST_F(LoadSBMLOptionsTests, OptimizeDeadInstElimination) {
+    turnOptionOn(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION,
+                 LoadSBMLOptions::OPTIMIZE_DEAD_INST_ELIMINATION);
 }
 
-TEST_F(LoadSBMLOptionsTests, OptimizeDeadCodeElimination){
-    turnOptionOn(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION, LoadSBMLOptions::OPTIMIZE_DEAD_CODE_ELIMINATION);
+TEST_F(LoadSBMLOptionsTests, OptimizeDeadCodeElimination) {
+    turnOptionOn(Config::LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION,
+                 LoadSBMLOptions::OPTIMIZE_DEAD_CODE_ELIMINATION);
 }
 
-TEST_F(LoadSBMLOptionsTests, OptimizeInstructionSimplifier){
-    turnOptionOn(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER, LoadSBMLOptions::OPTIMIZE_INSTRUCTION_SIMPLIFIER);
+TEST_F(LoadSBMLOptionsTests, OptimizeInstructionSimplifier) {
+    turnOptionOn(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER,
+                 LoadSBMLOptions::OPTIMIZE_INSTRUCTION_SIMPLIFIER);
 }
 
-TEST_F(LoadSBMLOptionsTests, UseMCJit){
+TEST_F(LoadSBMLOptionsTests, UseMCJit) {
     turnOptionOn(Config::LOADSBMLOPTIONS_USE_MCJIT, LoadSBMLOptions::USE_MCJIT);
 }
 
-TEST_F(LoadSBMLOptionsTests, LLVMSymbolCache){
+TEST_F(LoadSBMLOptionsTests, LLVMSymbolCache) {
     turnOptionOn(Config::LLVM_SYMBOL_CACHE, LoadSBMLOptions::LLVM_SYMBOL_CACHE);
 }
 
-TEST_F(LoadSBMLOptionsTests, ConservedMoietyConversionGetterAndSetter){
+TEST_F(LoadSBMLOptionsTests, ConservedMoietyConversionGetterAndSetter) {
     LoadSBMLOptions options;
     options.setConservedMoietyConversion(true);
     ASSERT_TRUE(options.getConservedMoietyConversion());
 }
+
+
+TEST_F(LoadSBMLOptionsTests, LLVMBackendDefaultToMCJit) {
+    Config::LLVM_BACKEND_VALUES val = (Config::LLVM_BACKEND_VALUES) Config::getValue(Config::LLVM_BACKEND).getAs<int>();
+    ASSERT_EQ(Config::LLVM_BACKEND_VALUES::MCJIT, val);
+}
+
+TEST_F(LoadSBMLOptionsTests, LLVMBackendDefaultToMCJitNotLLJit) {
+    Config::LLVM_BACKEND_VALUES val = (Config::LLVM_BACKEND_VALUES) Config::getValue(Config::LLVM_BACKEND).getAs<int>();
+    ASSERT_NE(Config::LLVM_BACKEND_VALUES::LLJIT, val);
+}
+
+TEST_F(LoadSBMLOptionsTests, LLVMBackendDefaultToMCJitViaSBMLLoadOptions) {
+    LoadSBMLOptions opt;
+    bool isMcJit = opt.modelGeneratorOpt & LoadSBMLOptions::MCJIT;
+    ASSERT_TRUE(isMcJit);
+}
+
+TEST_F(LoadSBMLOptionsTests, LLVMBackendDefaultToMCJitViaSBMLLoadOptionsNotLLJit) {
+    LoadSBMLOptions opt;
+    bool isLLJit = opt.modelGeneratorOpt & LoadSBMLOptions::LLJIT;
+    ASSERT_FALSE(isLLJit);
+}
+
+
+TEST_F(LoadSBMLOptionsTests, LLVMBackendSetToLLJit) {
+    Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::LLJIT);
+    Config::LLVM_BACKEND_VALUES val = (Config::LLVM_BACKEND_VALUES) Config::getValue(Config::LLVM_BACKEND).getAs<int>();
+    ASSERT_EQ(Config::LLVM_BACKEND_VALUES::LLJIT, val);
+}
+
+TEST_F(LoadSBMLOptionsTests, LLVMBackendSetToLLJitMCJitFalse) {
+    Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::LLJIT);
+    Config::LLVM_BACKEND_VALUES val = (Config::LLVM_BACKEND_VALUES) Config::getValue(Config::LLVM_BACKEND).getAs<int>();
+    ASSERT_NE(Config::LLVM_BACKEND_VALUES::MCJIT, val);
+}
+
+TEST_F(LoadSBMLOptionsTests, LLVMBackendSetToLLJitAccessViaLoadSBMLOptions) {
+    LoadSBMLOptions opt;
+    opt.setLLVMBackend(LoadSBMLOptions::LLJIT);
+    bool isLLJit = opt.modelGeneratorOpt & LoadSBMLOptions::LLJIT;
+    ASSERT_TRUE(isLLJit);
+}
+
+TEST_F(LoadSBMLOptionsTests, LLVMBackendSetToLLJitAccessViaLoadSBMLOptionsNotMCJit) {
+    LoadSBMLOptions opt;
+    opt.setLLVMBackend(LoadSBMLOptions::LLJIT);
+    bool isMCJit = opt.modelGeneratorOpt & LoadSBMLOptions::MCJIT;
+    ASSERT_FALSE(isMCJit);
+}
+
+
+TEST_F(LoadSBMLOptionsTests, LLJITOptimizationLevelNone) {
+    LoadSBMLOptions opt;
+    opt.setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS::NONE);
+    bool isNone = opt.modelGeneratorOpt & LoadSBMLOptions::NONE;
+    bool isLess = opt.modelGeneratorOpt & LoadSBMLOptions::LESS;
+    bool isDefault = opt.modelGeneratorOpt & LoadSBMLOptions::DEFAULT;
+    bool isAggressive = opt.modelGeneratorOpt & LoadSBMLOptions::AGGRESSIVE;
+    ASSERT_TRUE(isNone);
+    ASSERT_FALSE(isLess);
+    ASSERT_FALSE(isDefault);
+    ASSERT_FALSE(isAggressive);
+}
+
+TEST_F(LoadSBMLOptionsTests, LLJITOptimizationLevelLess) {
+    LoadSBMLOptions opt;
+    opt.setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS::LESS);
+    bool isNone = opt.modelGeneratorOpt & LoadSBMLOptions::NONE;
+    bool isLess = opt.modelGeneratorOpt & LoadSBMLOptions::LESS;
+    bool isDefault = opt.modelGeneratorOpt & LoadSBMLOptions::DEFAULT;
+    bool isAggressive = opt.modelGeneratorOpt & LoadSBMLOptions::AGGRESSIVE;
+    ASSERT_FALSE(isNone);
+    ASSERT_TRUE(isLess);
+    ASSERT_FALSE(isDefault);
+    ASSERT_FALSE(isAggressive);
+
+}
+
+TEST_F(LoadSBMLOptionsTests, LLJITOptimizationLevelDefault) {
+    LoadSBMLOptions opt;
+    opt.setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS::DEFAULT);
+    bool isNone = opt.modelGeneratorOpt & LoadSBMLOptions::NONE;
+    bool isLess = opt.modelGeneratorOpt & LoadSBMLOptions::LESS;
+    bool isDefault = opt.modelGeneratorOpt & LoadSBMLOptions::DEFAULT;
+    bool isAggressive = opt.modelGeneratorOpt & LoadSBMLOptions::AGGRESSIVE;
+    ASSERT_FALSE(isNone);
+    ASSERT_FALSE(isLess);
+    ASSERT_TRUE(isDefault);
+    ASSERT_FALSE(isAggressive);
+
+}
+
+TEST_F(LoadSBMLOptionsTests, LLJITOptimizationLevelAggressive) {
+    LoadSBMLOptions opt;
+    opt.setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS::AGGRESSIVE);
+    bool isNone = opt.modelGeneratorOpt & LoadSBMLOptions::NONE;
+    bool isLess = opt.modelGeneratorOpt & LoadSBMLOptions::LESS;
+    bool isDefault = opt.modelGeneratorOpt & LoadSBMLOptions::DEFAULT;
+    bool isAggressive = opt.modelGeneratorOpt & LoadSBMLOptions::AGGRESSIVE;
+    ASSERT_FALSE(isNone);
+    ASSERT_FALSE(isLess);
+    ASSERT_FALSE(isDefault);
+    ASSERT_TRUE(isAggressive);
+
+}
+
+/**
+ * LoadSBMLOptions are updated from the global Config.
+ */
+TEST_F(LoadSBMLOptionsTests, LLJITOptimizationLevelAggressiveFromConfig) {
+    Config::setValue(Config::LLJIT_OPTIMIZATION_LEVEL, Config::LLJIT_OPTIMIZATION_LEVELS::AGGRESSIVE);
+    LoadSBMLOptions opt;
+    bool isNone = opt.modelGeneratorOpt & LoadSBMLOptions::NONE;
+    bool isLess = opt.modelGeneratorOpt & LoadSBMLOptions::LESS;
+    bool isDefault = opt.modelGeneratorOpt & LoadSBMLOptions::DEFAULT;
+    bool isAggressive = opt.modelGeneratorOpt & LoadSBMLOptions::AGGRESSIVE;
+    ASSERT_FALSE(isNone);
+    ASSERT_FALSE(isLess);
+    ASSERT_FALSE(isDefault);
+    ASSERT_TRUE(isAggressive);
+}
+
+
+
 
 
 

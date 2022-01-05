@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="group__parameters" kind="group">
     <compoundname>parameters</compoundname>
     <title>Parameters group</title>
@@ -17,7 +17,7 @@
 <para>Retrieve the values for all the global parameter values in a vector. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">RRVectorPtr<sp/>values<sp/>=<sp/>getGlobalParameterValues<sp/>(void);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">RRVectorPtr<sp/>values<sp/>=<sp/>getGlobalParameterValues<sp/>(void);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

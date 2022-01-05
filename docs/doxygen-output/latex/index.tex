@@ -49,8 +49,8 @@ Or, in C++\+:
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{BasicDictionary d;}
-\DoxyCodeLine{d.setItem(\textcolor{stringliteral}{"{}integrator"{}}, \textcolor{stringliteral}{"{}MyIntegratorName"{}})}
+\DoxyCodeLine{\mbox{\hyperlink{classrr_1_1BasicDictionary}{BasicDictionary}} d;}
+\DoxyCodeLine{d.\mbox{\hyperlink{classrr_1_1BasicDictionary_ae3e2fc27e776cf5c791b4194534d3082}{setItem}}(\textcolor{stringliteral}{"{}integrator"{}}, \textcolor{stringliteral}{"{}MyIntegratorName"{}})}
 \DoxyCodeLine{r.simulate(\&d);}
 
 \end{DoxyCode}
@@ -70,10 +70,10 @@ There are three key members of the \mbox{\hyperlink{classrr_1_1Integrator}{Integ
 \begin{DoxyItemize}
 \item Integrator\+::integrate This is the actual method that should perform the time integration.\end{DoxyItemize}
 \begin{DoxyItemize}
-\item Integrator\+::restart This method is called whenever the \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} object is re-\/started. This gives the integrator an option to reload any internal solvers. Simple integrators like the \mbox{\hyperlink{classrr_1_1EulerIntegrator}{Euler\+Integrator}} does not really do anything in the \mbox{\hyperlink{classrr_1_1EulerIntegrator_a08903e998cf527552442f8fa930772c8}{Euler\+Integrator\+::restart}} method, but more sophisticated ones like the CVODE integrator perform a number of tasks such as re-\/calclating the tollerances and so forth.\end{DoxyItemize}
+\item Integrator\+::restart This method is called whenever the \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} object is re-\/started. This gives the integrator an option to reload any internal solvers. Simple integrators like the \mbox{\hyperlink{classrr_1_1EulerIntegrator}{Euler\+Integrator}} does not really do anything in the \mbox{\hyperlink{classrr_1_1EulerIntegrator_a82a562273e6d73bebcb8e25de45a20a4}{Euler\+Integrator\+::restart}} method, but more sophisticated ones like the CVODE integrator perform a number of tasks such as re-\/calclating the tollerances and so forth.\end{DoxyItemize}
 The other key thing that an \mbox{\hyperlink{classrr_1_1Integrator}{Integrator}} needs to do is provide a 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\textcolor{keyword}{static} \textcolor{keyword}{const} Dictionary* getIntegratorOptions();}
+\DoxyCodeLine{\textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classrr_1_1Dictionary}{Dictionary}}* getIntegratorOptions();}
 
 \end{DoxyCode}
  method, as in the Euler\+Integrator\+::get\+Integrator\+Options. This method is used by the \mbox{\hyperlink{classrr_1_1IntegratorFactory}{Integrator\+Factory}} to build a list of all the available tuning parameters that any integrator supports. The returned \mbox{\hyperlink{classrr_1_1Dictionary}{Dictionary}} pointer should be statically created inside the implemtation file, and should contain the following keys / values
@@ -109,7 +109,7 @@ First, a new enum value needs to be added to the Integrator\+::\+Integrator\+Id 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{keywordflow}{if} (opt-\/>integrator == Integrator::GILLESPIE)}
 \DoxyCodeLine{\{}
-\DoxyCodeLine{    result = \textcolor{keyword}{new} GillespieIntegrator(m, opt);}
+\DoxyCodeLine{    result = \textcolor{keyword}{new} \mbox{\hyperlink{classrr_1_1GillespieIntegrator}{GillespieIntegrator}}(m, opt);}
 \DoxyCodeLine{\}}
 \DoxyCodeLine{\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(opt-\/>integrator == Integrator::RK4)}
 \DoxyCodeLine{\{}
@@ -131,7 +131,7 @@ Finally, the Integrator\+Factory\+::get\+Integrator\+Options() method needs to b
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\textcolor{keyword}{const} Dictionary* options[] = \{}
+\DoxyCodeLine{\textcolor{keyword}{const} \mbox{\hyperlink{classrr_1_1Dictionary}{Dictionary}}* options[] = \{}
 \DoxyCodeLine{        CVODEIntegrator::getIntegratorOptions(),}
 \DoxyCodeLine{        GillespieIntegrator::getIntegratorOptions(),}
 \DoxyCodeLine{        RK4Integrator::getIntegratorOptions(),}
@@ -160,13 +160,13 @@ This section includes the complete Euler integrator implemented in \mbox{\hyperl
 
 In Python, all the keyword arguments to the simulate method are packaged up and added to the dictionary which is passed into the \mbox{\hyperlink{classrr_1_1RoadRunner_a377834f22edadb7706779ecca7c1eb4e}{Road\+Runner\+::simulate}} method. In C++, the equivalent code would be\+: 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{SimulateOptions\& opt = r.getSimulateOptions();}
+\DoxyCodeLine{\mbox{\hyperlink{classrr_1_1SimulateOptions}{SimulateOptions}}\& opt = r.getSimulateOptions();}
 \DoxyCodeLine{opt.setItem(\textcolor{stringliteral}{"{}integrator"{}}, \textcolor{stringliteral}{"{}euler"{}})}
 \DoxyCodeLine{opt.setItem(\textcolor{stringliteral}{"{}exampleParameter1"{}}, 123456);}
 \DoxyCodeLine{opt.setItem(\textcolor{stringliteral}{"{}exampleParameter2"{}}, \textcolor{stringliteral}{"{}some value"{}});}
 \DoxyCodeLine{r.simulate();}
 \DoxyCodeLine{}
-\DoxyCodeLine{std::cout << r.getIntegrator()-\/>toString() << std::endl;}
+\DoxyCodeLine{std::cout << r.getIntegrator()-\/>\mbox{\hyperlink{classrr_1_1SimulateOptions_af028e3752c6c9c3e25d5ced5c3752b9d}{toString}}() << std::endl;}
 
 \end{DoxyCode}
 

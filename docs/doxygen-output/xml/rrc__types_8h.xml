@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrc__types_8h" kind="file" language="C++">
     <compoundname>rrc_types.h</compoundname>
+    <includedby refid="rrcStringList_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrcStringList.h</includedby>
     <includedby refid="rrc__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</includedby>
     <includedby refid="rrc__api_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</includedby>
     <includedby refid="rrc__cpp__support_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_cpp_support.cpp</includedby>
@@ -11,90 +12,89 @@
     <includedby refid="rrc__nom__api_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h</includedby>
     <includedby refid="rrc__utilities_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.cpp</includedby>
     <includedby refid="rrc__utilities_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h</includedby>
-    <includedby refid="rrcStringList_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrcStringList.h</includedby>
     <invincdepgraph>
-      <node id="1">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_types.h</label>
-        <link refid="rrc__types_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="11">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrArrayListItem.h</label>
-        <link refid="rrArrayListItem_8h_source"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-      </node>
-      <node id="2">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
-        <link refid="rrc__api_8cpp"/>
-      </node>
-      <node id="6">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h</label>
-        <link refid="rrc__logging__api_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="4">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_cpp_support.h</label>
-        <link refid="rrc__cpp__support_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-      </node>
-      <node id="10">
+      <node id="3">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrArrayList.h</label>
         <link refid="rrArrayList_8h_source"/>
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="5">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h</label>
-        <link refid="rrc__libstruct__api_8h"/>
+      <node id="6">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrArrayListItem.h</label>
+        <link refid="rrArrayListItem_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="7">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h</label>
-        <link refid="rrc__nom__api_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="3">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</label>
-        <link refid="rrc__api_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
+      <node id="2">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrcStringList.h</label>
         <link refid="rrcStringList_8h_source"/>
-        <childnode refid="10" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
       </node>
+      <node id="5">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
+        <link refid="rrc__api_8cpp"/>
+      </node>
+      <node id="7">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</label>
+        <link refid="rrc__api_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_cpp_support.h</label>
+        <link refid="rrc__cpp__support_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
       <node id="8">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h</label>
-        <link refid="rrc__utilities_8h"/>
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h</label>
+        <link refid="rrc__libstruct__api_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h</label>
+        <link refid="rrc__logging__api_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h</label>
+        <link refid="rrc__nom__api_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_types.h</label>
+        <link refid="rrc__types_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h</label>
+        <link refid="rrc__utilities_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -433,7 +433,7 @@
 <codeline lineno="129"><highlight class="normal"></highlight></codeline>
 <codeline lineno="132" refid="structRRListItem" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structRRListItem" kindref="compound">RRListItem</ref></highlight></codeline>
 <codeline lineno="133"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="rrc__types_8h_1ab99437ab2e88aa90b7ebb8add042b25e" kindref="member">ListItemType</ref><sp/>ItemType;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134" refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="rrc__types_8h_1ab99437ab2e88aa90b7ebb8add042b25e" kindref="member">ListItemType</ref><sp/><ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="137" refid="structRRListItem_1ae15de7b1f1a6471da72b9772c53cc1da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structRRListItem_1ae15de7b1f1a6471da72b9772c53cc1da" kindref="member">iValue</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>

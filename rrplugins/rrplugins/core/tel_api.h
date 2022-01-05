@@ -10,7 +10,7 @@
 	extern "C" {
 #define TLPCTELHANDLE void* 
 #else
-#define TLPCTELHANDLE TELHandle 
+#define TLPCTELHANDLE void* 
 #endif
 
 typedef struct

@@ -1,13 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="SBMLSupportFunctions_8cpp" kind="file" language="C++">
     <compoundname>SBMLSupportFunctions.cpp</compoundname>
     <includes refid="SBMLSupportFunctions_8h" local="yes">SBMLSupportFunctions.h</includes>
     <includes local="no">cmath</includes>
     <incdepgraph>
-      <node id="3">
-        <label>cmath</label>
-      </node>
       <node id="1">
         <label>llvm/SBMLSupportFunctions.cpp</label>
         <link refid="SBMLSupportFunctions_8cpp"/>
@@ -19,6 +16,9 @@
       <node id="2">
         <label>SBMLSupportFunctions.h</label>
         <link refid="SBMLSupportFunctions_8h_source"/>
+      </node>
+      <node id="3">
+        <label>cmath</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacesbmlsupport">sbmlsupport</innernamespace>
@@ -141,32 +141,32 @@
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
 <codeline lineno="101"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>logd(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>base,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>number)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_logd(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>base,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>number)</highlight></codeline>
 <codeline lineno="104"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::log(number)<sp/>/<sp/>std::log(base);</highlight></codeline>
 <codeline lineno="106"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="107"><highlight class="normal"></highlight></codeline>
-<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>factoriald(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_factoriald(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a)</highlight></codeline>
 <codeline lineno="109"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="110"><highlight class="normal"></highlight></codeline>
 <codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(a<sp/>&lt;=<sp/>0<sp/>)</highlight></codeline>
 <codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
 <codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>a<sp/>*<sp/>factoriald(a<sp/>-<sp/>1);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>a<sp/>*<sp/>rr_factoriald(a<sp/>-<sp/>1);</highlight></codeline>
 <codeline lineno="116"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"></highlight></codeline>
-<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>factoriali(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>a)</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rr_factoriali(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>a)</highlight></codeline>
 <codeline lineno="119"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="120"><highlight class="normal"></highlight></codeline>
 <codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(a<sp/>&lt;=<sp/>0<sp/>)</highlight></codeline>
 <codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
 <codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>a<sp/>*<sp/>factoriali(a<sp/>-<sp/>1);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>a<sp/>*<sp/>rr_factoriali(a<sp/>-<sp/>1);</highlight></codeline>
 <codeline lineno="126"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="127"><highlight class="normal"></highlight></codeline>
-<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rootd(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b)</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_rootd(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b)</highlight></codeline>
 <codeline lineno="129"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(a<sp/>!=<sp/>0)</highlight></codeline>
 <codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
@@ -203,7 +203,7 @@
 <codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
 <codeline lineno="165"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="166"><highlight class="normal"></highlight></codeline>
-<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>arccot_negzero(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a)</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_arccot_negzero(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a)</highlight></codeline>
 <codeline lineno="168"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
 <codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(a<sp/>==<sp/>0.0)</highlight></codeline>
@@ -292,18 +292,23 @@
 <codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">)(int)(a<sp/>/<sp/>b);</highlight></codeline>
 <codeline lineno="270"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="271"><highlight class="normal"></highlight></codeline>
-<codeline lineno="273"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b)</highlight></codeline>
+<codeline lineno="273"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_max(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b)</highlight></codeline>
 <codeline lineno="274"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>a<sp/>&gt;<sp/>b<sp/>?<sp/>a<sp/>:<sp/>b;</highlight></codeline>
 <codeline lineno="276"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="277"><highlight class="normal"></highlight></codeline>
-<codeline lineno="279"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b)</highlight></codeline>
+<codeline lineno="279"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_min(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b)</highlight></codeline>
 <codeline lineno="280"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>a<sp/>&lt;<sp/>b<sp/>?<sp/>a<sp/>:<sp/>b;</highlight></codeline>
 <codeline lineno="282"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="283"><highlight class="normal"></highlight></codeline>
-<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="285"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>sbmlsupport<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_pow(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b){</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pow(a,<sp/>b);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>sbmlsupport<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="llvm/SBMLSupportFunctions.cpp"/>
   </compounddef>

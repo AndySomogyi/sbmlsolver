@@ -13,8 +13,8 @@ __version__ = roadrunner.getVersionStr(VERSIONSTR_BASIC)
 
 def runTests(testDir=None):
     try:
-        import testing
-        return testing.tester.runTester(testDir)
+        import roadrunner.tests
+        return roadrunner.tests.test_rrtests.testAllRRTestFiles(testDir)
     except (ImportError):
-        import roadrunner.testing
-        return roadrunner.testing.tester.runTester(testDir)
+        import tests
+        return tests.test_rrtests.testAllRRTestFiles(testDir)

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1LoadSymbolResolverBase" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::LoadSymbolResolverBase</compoundname>
     <basecompoundref refid="classrrllvm_1_1LoadSymbolResolver" prot="public" virt="non-virtual">rrllvm::LoadSymbolResolver</basecompoundref>
@@ -13,6 +13,7 @@
         <definition>typedef std::list&lt;std::string&gt; rrllvm::LoadSymbolResolverBase::StringStack</definition>
         <argsstring></argsstring>
         <name>StringStack</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::StringStack</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -26,6 +27,7 @@
         <definition>typedef std::unordered_map&lt;std::string, llvm::Value*&gt; rrllvm::LoadSymbolResolverBase::ValueMap</definition>
         <argsstring></argsstring>
         <name>ValueMap</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::ValueMap</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -39,6 +41,7 @@
         <definition>typedef std::deque&lt;ValueMap&gt; rrllvm::LoadSymbolResolverBase::ValueMapStack</definition>
         <argsstring></argsstring>
         <name>ValueMapStack</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::ValueMapStack</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -54,6 +57,7 @@
         <definition>const ModelGeneratorContext&amp; rrllvm::LoadSymbolResolverBase::modelGenContext</definition>
         <argsstring></argsstring>
         <name>modelGenContext</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::modelGenContext</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -67,6 +71,7 @@
         <definition>const libsbml::Model* rrllvm::LoadSymbolResolverBase::model</definition>
         <argsstring></argsstring>
         <name>model</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::model</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -80,6 +85,7 @@
         <definition>const LLVMModelDataSymbols&amp; rrllvm::LoadSymbolResolverBase::modelDataSymbols</definition>
         <argsstring></argsstring>
         <name>modelDataSymbols</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::modelDataSymbols</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -93,6 +99,7 @@
         <definition>const LLVMModelSymbols&amp; rrllvm::LoadSymbolResolverBase::modelSymbols</definition>
         <argsstring></argsstring>
         <name>modelSymbols</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::modelSymbols</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -106,6 +113,7 @@
         <definition>llvm::IRBuilder&amp; rrllvm::LoadSymbolResolverBase::builder</definition>
         <argsstring></argsstring>
         <name>builder</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::builder</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -119,6 +127,7 @@
         <definition>llvm::Value* rrllvm::LoadSymbolResolverBase::modelData</definition>
         <argsstring></argsstring>
         <name>modelData</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::modelData</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -132,6 +141,7 @@
         <definition>StringStack rrllvm::LoadSymbolResolverBase::symbolStack</definition>
         <argsstring></argsstring>
         <name>symbolStack</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::symbolStack</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -145,6 +155,7 @@
         <definition>ValueMapStack rrllvm::LoadSymbolResolverBase::symbolCache</definition>
         <argsstring></argsstring>
         <name>symbolCache</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::symbolCache</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -160,6 +171,7 @@
         <definition>llvm::Value * rrllvm::LoadSymbolResolverBase::loadReactionRate</definition>
         <argsstring>(const libsbml::Reaction *)</argsstring>
         <name>loadReactionRate</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::loadReactionRate</qualifiedname>
         <param>
           <type>const libsbml::Reaction *</type>
           <defname>reaction</defname>
@@ -178,6 +190,7 @@
         <definition>void rrllvm::LoadSymbolResolverBase::recursiveSymbolPush</definition>
         <argsstring>(const std::string &amp;symbol) override</argsstring>
         <name>recursiveSymbolPush</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::recursiveSymbolPush</qualifiedname>
         <reimplements refid="classrrllvm_1_1LoadSymbolResolver_1ae76af01bea67ddc67ca14112ef117867">recursiveSymbolPush</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -196,6 +209,7 @@
         <definition>void rrllvm::LoadSymbolResolverBase::recursiveSymbolPop</definition>
         <argsstring>() override</argsstring>
         <name>recursiveSymbolPop</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::recursiveSymbolPop</qualifiedname>
         <reimplements refid="classrrllvm_1_1LoadSymbolResolver_1a0c192e55ced93b4f06d5cf9bc2579d4d">recursiveSymbolPop</reimplements>
         <briefdescription>
         </briefdescription>
@@ -210,6 +224,7 @@
         <definition>void rrllvm::LoadSymbolResolverBase::flushCache</definition>
         <argsstring>()</argsstring>
         <name>flushCache</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::flushCache</qualifiedname>
         <briefdescription>
 <para>Flush the symbol cache. </para>
         </briefdescription>
@@ -225,6 +240,7 @@
         <definition>size_t rrllvm::LoadSymbolResolverBase::pushCacheBlock</definition>
         <argsstring>() override</argsstring>
         <name>pushCacheBlock</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::pushCacheBlock</qualifiedname>
         <reimplements refid="classrrllvm_1_1LoadSymbolResolver_1ab388d2fa6565e68437798bc1d566b29b">pushCacheBlock</reimplements>
         <briefdescription>
 <para>nested conditionals (or functions?) can push a local cache block, where symbols would be chached. </para>
@@ -241,6 +257,7 @@
         <definition>size_t rrllvm::LoadSymbolResolverBase::popCacheBlock</definition>
         <argsstring>() override</argsstring>
         <name>popCacheBlock</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::popCacheBlock</qualifiedname>
         <reimplements refid="classrrllvm_1_1LoadSymbolResolver_1a64c0e7ee5311a610d252dc603e20a94f">popCacheBlock</reimplements>
         <briefdescription>
 <para>Pop a scoped cache block, this clears these values, and any subsequent reads re-evaluate the requested symbol. </para>
@@ -259,6 +276,7 @@
         <definition>rrllvm::LoadSymbolResolverBase::LoadSymbolResolverBase</definition>
         <argsstring>(const ModelGeneratorContext &amp;ctx, llvm::Value *modelData)</argsstring>
         <name>LoadSymbolResolverBase</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::LoadSymbolResolverBase</qualifiedname>
         <param>
           <type>const <ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref> &amp;</type>
           <declname>ctx</declname>
@@ -280,6 +298,7 @@
         <definition>llvm::Value * rrllvm::LoadSymbolResolverBase::cacheValue</definition>
         <argsstring>(const std::string &amp;symbol, const llvm::ArrayRef&lt; llvm::Value * &gt; &amp;args, llvm::Value *value=nullptr)</argsstring>
         <name>cacheValue</name>
+        <qualifiedname>rrllvm::LoadSymbolResolverBase::cacheValue</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>symbol</declname>
@@ -312,6 +331,16 @@
 <para>This has common functionality such as dealing with sbml elements such as reactions, species and so forth. </para>
     </detaileddescription>
     <inheritancegraph>
+      <node id="2">
+        <label>rrllvm::LoadSymbolResolver</label>
+        <link refid="classrrllvm_1_1LoadSymbolResolver"/>
+      </node>
+      <node id="1">
+        <label>rrllvm::LoadSymbolResolverBase</label>
+        <link refid="classrrllvm_1_1LoadSymbolResolverBase"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="3">
         <label>rrllvm::ModelDataLoadSymbolResolver</label>
         <link refid="classrrllvm_1_1ModelDataLoadSymbolResolver"/>
@@ -330,44 +359,33 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="2">
-        <label>rrllvm::LoadSymbolResolver</label>
-        <link refid="classrrllvm_1_1LoadSymbolResolver"/>
-      </node>
-      <node id="1">
-        <label>rrllvm::LoadSymbolResolverBase</label>
-        <link refid="classrrllvm_1_1LoadSymbolResolverBase"/>
-        <childnode refid="2" relation="public-inheritance">
-        </childnode>
-      </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="5">
+      <node id="6">
+        <label>libsbml::SBMLVisitor</label>
+      </node>
+      <node id="8">
         <label>rrllvm::ASTNodeFactory</label>
         <link refid="classrrllvm_1_1ASTNodeFactory"/>
       </node>
-      <node id="3">
+      <node id="4">
+        <label>rrllvm::LLVMModelDataSymbols</label>
+        <link refid="classrrllvm_1_1LLVMModelDataSymbols"/>
+      </node>
+      <node id="5">
         <label>rrllvm::LLVMModelSymbols</label>
         <link refid="classrrllvm_1_1LLVMModelSymbols"/>
-        <childnode refid="4" relation="private-inheritance">
+        <childnode refid="6" relation="private-inheritance">
         </childnode>
-        <childnode refid="5" relation="usage">
-          <edgelabel>nodes</edgelabel>
-        </childnode>
-        <childnode refid="6" relation="usage">
+        <childnode refid="7" relation="usage">
           <edgelabel>assignmentRules</edgelabel>
           <edgelabel>initialAssignmentRules</edgelabel>
           <edgelabel>initialValues</edgelabel>
           <edgelabel>rateRules</edgelabel>
         </childnode>
-      </node>
-      <node id="8">
-        <label>rrllvm::ModelGeneratorContext</label>
-        <link refid="classrrllvm_1_1ModelGeneratorContext"/>
-      </node>
-      <node id="7">
-        <label>rrllvm::LLVMModelDataSymbols</label>
-        <link refid="classrrllvm_1_1LLVMModelDataSymbols"/>
+        <childnode refid="8" relation="usage">
+          <edgelabel>nodes</edgelabel>
+        </childnode>
       </node>
       <node id="2">
         <label>rrllvm::LoadSymbolResolver</label>
@@ -379,21 +397,22 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
         <childnode refid="3" relation="usage">
-          <edgelabel>modelSymbols</edgelabel>
-        </childnode>
-        <childnode refid="7" relation="usage">
-          <edgelabel>modelDataSymbols</edgelabel>
-        </childnode>
-        <childnode refid="8" relation="usage">
           <edgelabel>modelGenContext</edgelabel>
         </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>modelDataSymbols</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>modelSymbols</edgelabel>
+        </childnode>
       </node>
-      <node id="6">
+      <node id="3">
+        <label>rrllvm::ModelGeneratorContext</label>
+        <link refid="classrrllvm_1_1ModelGeneratorContext"/>
+      </node>
+      <node id="7">
         <label>rrllvm::SymbolForest</label>
         <link refid="classrrllvm_1_1SymbolForest"/>
-      </node>
-      <node id="4">
-        <label>libsbml::SBMLVisitor</label>
       </node>
     </collaborationgraph>
     <location file="llvm/LoadSymbolResolverBase.h" line="33" column="1" bodyfile="llvm/LoadSymbolResolverBase.h" bodystart="34" bodyend="98"/>
@@ -403,7 +422,7 @@
       <member refid="classrrllvm_1_1LoadSymbolResolverBase_1ae380d0e0ba65b430e3ce7c23be4b7829" prot="public" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>flushCache</name></member>
       <member refid="classrrllvm_1_1LoadSymbolResolverBase_1af30e82d88abca4047e01c3cb032b16a3" prot="public" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>loadReactionRate</name></member>
       <member refid="classrrllvm_1_1LoadSymbolResolverBase_1a74b4695465d18b3f22597055b8a55ad0" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>LoadSymbolResolverBase</name></member>
-      <member refid="classrrllvm_1_1LoadSymbolResolver_1af0c62fdd0c913e2410596d3f785f21db" prot="public" virt="pure-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>loadSymbolValue</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolver_1a832a8d0b229eb12271e58db3e20ebe98" prot="public" virt="pure-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>loadSymbolValue</name></member>
       <member refid="classrrllvm_1_1LoadSymbolResolverBase_1abe5f4775be108223c206dd9748534361" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>model</name></member>
       <member refid="classrrllvm_1_1LoadSymbolResolverBase_1a5a0d696ef7f5c0c9db5512a619fdc657" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>modelData</name></member>
       <member refid="classrrllvm_1_1LoadSymbolResolverBase_1a7c4487a9784c8dd8cce184dff8c4cda4" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>modelDataSymbols</name></member>

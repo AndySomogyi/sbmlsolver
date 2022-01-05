@@ -100,32 +100,32 @@ double powerf(double base, double exponent)
     return result;
 }
 
-double logd(double base, double number)
+double rr_logd(double base, double number)
 {
     return std::log(number) / std::log(base);
 }
 
-double factoriald(double a)
+double rr_factoriald(double a)
 {
 
     if (a <= 0 )
     {
         return 1;
     }
-    return a * factoriald(a - 1);
+    return a * rr_factoriald(a - 1);
 }
 
-int factoriali(int a)
+int rr_factoriali(int a)
 {
 
     if (a <= 0 )
     {
         return 1;
     }
-    return a * factoriali(a - 1);
+    return a * rr_factoriali(a - 1);
 }
 
-double rootd(double a, double b)
+double rr_rootd(double a, double b)
 {
     if(a != 0)
     {
@@ -164,7 +164,7 @@ double arccot(double a)
     return result;
 }
 
-double arccot_negzero(double a)
+double rr_arccot_negzero(double a)
 {
     double result;
     if(a == 0.0)
@@ -270,16 +270,21 @@ double quotient(double a, double b)
 }
 
 //// Maximum of two double numbers
-double max(double a, double b)
+double rr_max(double a, double b)
 {
     return a > b ? a : b;
 }
 
 //// Minimum of two double numbers
-double min(double a, double b)
+double rr_min(double a, double b)
 {
     return a < b ? a : b;
 }
+
+double rr_pow(double a, double b){
+    return pow(a, b);
+}
+
 
 }
 } /* namespace sbmlsupport */

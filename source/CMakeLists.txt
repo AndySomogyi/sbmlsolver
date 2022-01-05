@@ -99,10 +99,8 @@ set(
         conservation/ConservedMoietyPlugin.cpp
         conservation/ConservedMoietyConverter.cpp
         #todo pull test files out of main library sources.
-        testing/CXXExecutableModel.cpp
-        testing/CXXEnzymeExecutableModel.cpp
-        testing/CXXBrusselatorExecutableModel.cpp
-        testing/CXXPiecewiseExecutableModel.cpp
+        rrRoadRunnerMap.cpp
+        thread-pool/thread_pool.hpp
 )
 
 set(
@@ -148,10 +146,11 @@ set(
         Solver.h
         #        Variant.h
         Setting.h
+        setting_t.h
+        RegistrationFactory.h
         ForwardSensitivitySolver.h
         ForwardSensitivitySolver.h
         SensitivitySolver.h
-        RegistrationFactory.cpp
         Registrable.h
         SensitivitySolverFactory.h
         SteadyStateSolverFactory.h
@@ -176,11 +175,8 @@ set(
         conservation/ConservationDocumentPlugin.h
         conservation/ConservedMoietyPlugin.h
         conservation/ConservedMoietyConverter.h
-        #todo pull test files out of main library sources.
-        testing/CXXExecutableModel.h
-        testing/CXXEnzymeExecutableModel.h
-        testing/CXXBrusselatorExecutableModel.h
-        testing/CXXPiecewiseExecutableModel.h
+
+        rrRoadRunnerMap.h
 )
 install(FILES ${rrCoreHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
 
@@ -246,6 +242,11 @@ if (BUILD_LLVM)
             llvm/EvalVolatileStoichCodeGen.cpp
             llvm/SBMLInitialValueSymbolResolver.cpp
             llvm/Random.cpp
+            llvm/Jit.cpp
+            llvm/LLJit.cpp
+            llvm/MCJit.cpp
+            llvm/SBMLModelObjectCache.cpp
+            llvm/JitFactory.cpp
             )
 
     set(rrLLVMHeaders
@@ -283,6 +284,11 @@ if (BUILD_LLVM)
             llvm/EvalVolatileStoichCodeGen.h
             llvm/SBMLInitialValueSymbolResolver.h
             llvm/Random.h
+            llvm/Jit.h
+            llvm/LLJit.h
+            llvm/MCJit.h
+            llvm/SBMLModelObjectCache.h
+            llvm/JitFactory.h
             )
     install(FILES ${rrLLVMHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr/llvm)
 
@@ -390,8 +396,10 @@ target_compile_definitions(${target}-static PUBLIC STATIC_RR)
 set(INCLUDE_DIRS "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/llvm>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/thread-pool>"
         "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
         "$<BUILD_INTERFACE:${DEPENDENCY_INCLUDE_DIR}>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/parallel-hashmap-1.33/parallel_hashmap>"
         # though roadrunner does not link libxml2 directly, it does
         # so in the plugins. This next item enables targets that
         # link to roadrunner-static to use
@@ -416,12 +424,15 @@ if (UNIX)
     set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} pthread dl m ${CURSES_LIBRARIES})
 elseif (WIN32)
     set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} Ws2_32)
+
 elseif (APPLE AND NOT UNIX)
     set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} ${CURSES_LIBRARIES})
 
 endif ()
 
 message(STATUS " LLVM_LIBRARIES ${LLVM_LIBRARIES}}")
+    list(APPEND CMAKE_MODULE_PATH "${LLVM_CMAKE_DIR}")
+
 
 # link the libraries -- remember that order here
 #   is important on linux builds so don't change
@@ -525,12 +536,5 @@ install(
 #Libxml we can't build right now
 if (${BORLAND})
     target_link_libraries(${target}-static libxml2_xe)
-endif ()
-
-
-if (BUILD_TEST_TOOLS)
-    if (BUILD_LLVM)
-        add_subdirectory(llvm_testing)
-    endif (BUILD_LLVM)
 endif ()
 

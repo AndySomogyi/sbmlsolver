@@ -10,7 +10,7 @@ Deterministic, stochastic, and hybrid simulation algorithms.
 \item 
 C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga704215830b7d1b353cbd990c04a766c2}{set\+Configuration\+XML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, const char $\ast$caps)
 \begin{DoxyCompactList}\small\item\em Set the simulator\textquotesingle{}s capabilities. \end{DoxyCompactList}\item 
-C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga8529fc3333deee1eb8f966b70bcf4cac}{get\+Configuration\+XML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle)
+C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga40f63e6f1505d91ecf40bed49d8d717e}{get\+Configuration\+XML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle)
 \begin{DoxyCompactList}\small\item\em Get the simulator\textquotesingle{}s capabilities. \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga6f2c769375399d14087d6e5e99339aa7}{set\+Time\+Start}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, double time\+Start)
 \begin{DoxyCompactList}\small\item\em Set the time start for a time course simulation. \end{DoxyCompactList}\item 
@@ -54,11 +54,11 @@ Deterministic, stochastic, and hybrid simulation algorithms.
 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{group__simulation_ga8529fc3333deee1eb8f966b70bcf4cac}\label{group__simulation_ga8529fc3333deee1eb8f966b70bcf4cac}} 
+\mbox{\Hypertarget{group__simulation_ga40f63e6f1505d91ecf40bed49d8d717e}\label{group__simulation_ga40f63e6f1505d91ecf40bed49d8d717e}} 
 \index{Time-\/course simulation@{Time-\/course simulation}!getConfigurationXML@{getConfigurationXML}}
 \index{getConfigurationXML@{getConfigurationXML}!Time-\/course simulation@{Time-\/course simulation}}
 \doxysubsubsection{\texorpdfstring{getConfigurationXML()}{getConfigurationXML()}}
-{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC char$\ast$ rrc\+Call\+Conv get\+Configuration\+XML (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}}}]{handle }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv get\+Configuration\+XML (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}}}]{handle }\end{DoxyParamCaption})}
 
 
 
@@ -110,7 +110,7 @@ Returns null if it fails, otherwise it returns the simulator\textquotesingle{}s 
 
 Get the value of the current number of points. 
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{status = \mbox{\hyperlink{group__simulation_gaaa761b3be4a3348a60c7ae7083d57947}{getNumPoints}} (rrHandle, \&numberOfPoints); }
 
@@ -191,7 +191,7 @@ A list of symbol Ids indicating the current selection list
 
 Get the value of the current time end. 
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{status = \mbox{\hyperlink{group__simulation_ga83a02783c6a1c48eb05eafce742972cd}{getTimeEnd}} (rrHandle, \&timeEnd); }
 
@@ -218,7 +218,7 @@ Returns true if successful
 
 Get the value of the current time start. 
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{status = \mbox{\hyperlink{group__simulation_ga0d05bdfec6dd9387c64dd196ec3d880d}{getTimeStart}} (rrHandle, \&timeStart); }
 
@@ -245,7 +245,7 @@ Returns true if successful
 
 Carry out a one step integration of the model. 
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{status = OneStep (rrHandle, currentTime, stepSize, newTime); }
 
@@ -318,7 +318,7 @@ Set the selection list for output from simulate(void) or simulate\+Ex(void)
 
 Use get\+Available\+Time\+Course\+Symbols(void) to retrieve the list of all possible symbols.
 
-Example\+:
+Example\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\mbox{\hyperlink{group__simulation_ga61cca45bb48776d12f5bcc52d0c77e04}{setTimeCourseSelectionList}} (\textcolor{stringliteral}{"{}Time, S1, J1, J2"{}}); }
 

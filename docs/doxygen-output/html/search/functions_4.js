@@ -1,15 +1,13 @@
 var searchData=
 [
-  ['empty_1789',['empty',['../classrr_1_1Matrix.html#a481abe78869b481e1b825734bb8a51a2',1,'rr::Matrix']]],
-  ['enableconsolelogging_1790',['enableConsoleLogging',['../classrr_1_1Logger.html#a859a9358480196476351e5e2a3466b71',1,'rr::Logger']]],
-  ['enablefilelogging_1791',['enableFileLogging',['../classrr_1_1Logger.html#a2353c535f4e74dead4f0f1267556a906',1,'rr::Logger']]],
-  ['enableloggingtoconsole_1792',['enableLoggingToConsole',['../group__logging.html#ga26aae545bbc31c1505ade0579741a4b9',1,'rrc_logging_api.h']]],
-  ['enableloggingtofile_1793',['enableLoggingToFile',['../group__logging.html#ga94829307689bb7f93c59d3098b83a9f7',1,'rrc_logging_api.h']]],
-  ['enableloggingtofilewithpath_1794',['enableLoggingToFileWithPath',['../group__logging.html#ga9ccf608e3864a75bdca868af6b511b17',1,'rrc_logging_api.h']]],
-  ['eraseexpiredevents_1795',['eraseExpiredEvents',['../classrrllvm_1_1EventQueue.html#ae8910363f048acba859cdff811a5cbdb',1,'rrllvm::EventQueue']]],
-  ['eulerintegrator_1796',['EulerIntegrator',['../classrr_1_1EulerIntegrator.html#afc90e9a20043ba1a05db9adba8d53cfe',1,'rr::EulerIntegrator']]],
-  ['evalinitialconditions_1797',['evalInitialConditions',['../classrrllvm_1_1LLVMExecutableModel.html#aa0e78adf76883e1eadcf4cdd1f0179ff',1,'rrllvm::LLVMExecutableModel']]],
-  ['evalmodel_1798',['evalModel',['../group__state.html#ga045d3842446954ba06e4010e19a2f1b1',1,'rrc_api.h']]],
-  ['eventcodegen_1799',['eventCodeGen',['../classrrllvm_1_1EventCodeGenBase.html#a825eadbbdc0c0240646a375f82295113',1,'rrllvm::EventCodeGenBase']]],
-  ['executablemodel_1800',['ExecutableModel',['../classrr_1_1ExecutableModel.html#a304eb91e2abe96301321cf6507087a9f',1,'rr::ExecutableModel']]]
+  ['deduceplist_0',['deducePlist',['../classrr_1_1ForwardSensitivitySolver.html#aed656c6267d711b2e2d45574a42695a8',1,'rr::ForwardSensitivitySolver']]],
+  ['deletecol_1',['deleteCol',['../classrr_1_1Matrix.html#a0d367c7df1fa56958b30182c5e2cd352',1,'rr::Matrix::deleteCol(int which)'],['../classrr_1_1Matrix.html#abbdb193ce0a0bc3581f0d27695bce695',1,'rr::Matrix::deleteCol(const std::string &amp;which)'],['../classrr_1_1Matrix3D.html#ae6ae35f37769d51b3c5c3900e5724a2e',1,'rr::Matrix3D::deleteCol(const int &amp;which)'],['../classrr_1_1Matrix3D.html#a50b7689814b9c3d99fceaa3e7111aa4b',1,'rr::Matrix3D::deleteCol(const std::string &amp;which)']]],
+  ['deleteitem_2',['deleteItem',['../classrr_1_1Dictionary.html#aafd395297acc9cb73ea1e244b3f02d5c',1,'rr::Dictionary::deleteItem()'],['../classrr_1_1BasicDictionary.html#af80331f200f57eaa1d22c85104731dda',1,'rr::BasicDictionary::deleteItem()'],['../classrr_1_1EulerIntegrator.html#a370a0145394d1a9ed17a798565651369',1,'rr::EulerIntegrator::deleteItem()'],['../classrr_1_1NLEQ1Interface.html#ac6515e4785ab7094a19bf3e0747c5f6b',1,'rr::NLEQ1Interface::deleteItem()'],['../classrr_1_1NLEQ2Interface.html#a923f768a00e878aed2fd762fec66479a',1,'rr::NLEQ2Interface::deleteItem()'],['../classrr_1_1LoadSBMLOptions.html#a23be92b85c9e3eb38805fa63cf112085',1,'rr::LoadSBMLOptions::deleteItem()']]],
+  ['deleterow_3',['deleteRow',['../classrr_1_1Matrix.html#ad75ae4a4b1772808706dece01a3f241d',1,'rr::Matrix::deleteRow(int which)'],['../classrr_1_1Matrix.html#ac1424ae3b932865405a9fe4c90ae3054',1,'rr::Matrix::deleteRow(const std::string &amp;which)'],['../classrr_1_1Matrix3D.html#aff7a78da2a0c7854bf269d0b24ef7bbd',1,'rr::Matrix3D::deleteRow(const int &amp;which)'],['../classrr_1_1Matrix3D.html#ae2421bdde10d8ae3cc10b7705320b890',1,'rr::Matrix3D::deleteRow(const std::string &amp;which)']]],
+  ['disableconsolelogging_4',['disableConsoleLogging',['../classrr_1_1Logger.html#a65631bebd188023ff23a263e8d1b2ea2',1,'rr::Logger']]],
+  ['disablefilelogging_5',['disableFileLogging',['../classrr_1_1Logger.html#a64d56c09af0322f3ec3164f4376fd624',1,'rr::Logger']]],
+  ['disablelogging_6',['disableLogging',['../classrr_1_1Logger.html#adb9e082ec2b6d896fe4f8f3158cf8dbc',1,'rr::Logger']]],
+  ['disableloggingtoconsole_7',['disableLoggingToConsole',['../group__logging.html#gaa5be6edee1af88ca1f87bf17568ea1cb',1,'rrc_logging_api.h']]],
+  ['disableloggingtofile_8',['disableLoggingToFile',['../group__logging.html#gaed2bf69408c13ca8e3d65149261e6689',1,'rrc_logging_api.h']]],
+  ['dump_9',['dump',['../classrrllvm_1_1LLJit.html#a8e45940e3838ff80b89aa29f34ba1e29',1,'rrllvm::LLJit']]]
 ];

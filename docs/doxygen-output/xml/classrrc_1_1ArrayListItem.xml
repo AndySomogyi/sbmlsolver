@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrrc_1_1ArrayListItem" kind="class" language="C++" prot="public">
     <compoundname>rrc::ArrayListItem</compoundname>
     <basecompoundref refid="classrrc_1_1ArrayListItemBase" prot="public" virt="non-virtual">rrc::ArrayListItemBase</basecompoundref>
@@ -14,6 +14,7 @@
         <definition>T rrc::ArrayListItem&lt; T &gt;::mItemValue</definition>
         <argsstring></argsstring>
         <name>mItemValue</name>
+        <qualifiedname>rrc::ArrayListItem::mItemValue</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -29,6 +30,7 @@
         <definition>rrc::ArrayListItem&lt; T &gt;::ArrayListItem</definition>
         <argsstring>(const T &amp;val)</argsstring>
         <name>ArrayListItem</name>
+        <qualifiedname>rrc::ArrayListItem::ArrayListItem</qualifiedname>
         <param>
           <type>const T &amp;</type>
           <declname>val</declname>
@@ -46,6 +48,7 @@
         <definition>virtual rrc::ArrayListItem&lt; T &gt;::~ArrayListItem</definition>
         <argsstring>()</argsstring>
         <name>~ArrayListItem</name>
+        <qualifiedname>rrc::ArrayListItem::~ArrayListItem</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -59,6 +62,7 @@
         <definition>rrc::ArrayListItem&lt; T &gt;::operator T</definition>
         <argsstring>()</argsstring>
         <name>operator T</name>
+        <qualifiedname>rrc::ArrayListItem::operator T</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -72,6 +76,7 @@
         <definition>virtual const char rrc::ArrayListItem&lt; T &gt;::operator[]</definition>
         <argsstring>(const int &amp;pos) const</argsstring>
         <name>operator[]</name>
+        <qualifiedname>rrc::ArrayListItem::operator[]</qualifiedname>
         <param>
           <type>const int &amp;</type>
           <declname>pos</declname>
@@ -89,6 +94,7 @@
         <definition>ArrayListItem&lt; T &gt; &amp; rrc::ArrayListItem&lt; T &gt;::operator=</definition>
         <argsstring>(const ArrayListItem&lt; T &gt; &amp;rhs)</argsstring>
         <name>operator=</name>
+        <qualifiedname>rrc::ArrayListItem::operator=</qualifiedname>
         <param>
           <type>const <ref refid="classrrc_1_1ArrayListItem" kindref="compound">ArrayListItem</ref>&lt; T &gt; &amp;</type>
           <declname>rhs</declname>

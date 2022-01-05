@@ -3285,25 +3285,25 @@ ArrayList sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr)
         for(int j = 0; j < oFloating.size(); j++)
         {
             string variable = oFloating[j];
-            oInner.add(format("uee({0},{1})", reac_name, variable));
+            oInner.add(format("uec({0},{1})", reac_name, variable));
         }
 
         for(int j = 0; j < oBoundary.size(); j++)
         {
             string variable = oBoundary[j];
-            oInner.add(format("uee({0},{1})", reac_name, variable));
+            oInner.add(format("uec({0},{1})", reac_name, variable));
         }
 
         for(int j = 0; j < oGlobalParameters.size(); j++)
         {
             string variable = oGlobalParameters[j];
-            oInner.add(format("uee({0},{1})", reac_name, variable));
+            oInner.add(format("uec({0},{1})", reac_name, variable));
         }
 
         for(int j = 0; j < oConservation.size(); j++)
         {
             string variable = oConservation[j];
-            oInner.add(format("uee({0},{1})", reac_name, variable));
+            oInner.add(format("uec({0},{1})", reac_name, variable));
         }
 
         oCCReaction.Add(oInner);

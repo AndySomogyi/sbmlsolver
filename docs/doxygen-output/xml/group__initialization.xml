@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="group__initialization" kind="group">
     <compoundname>initialization</compoundname>
     <title>Library initialization and termination methods</title>
@@ -94,9 +94,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="78" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="78" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__initialization_1gad1a68a41c939d388df3d8cf1f14023a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__initialization_1ga0717cdb4fb8684f97a2b6793544ba6e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char *</type>
-        <definition>char* getInstallFolder</definition>
+        <definition>char * getInstallFolder</definition>
         <argsstring>(void)</argsstring>
         <name>getInstallFolder</name>
         <param>

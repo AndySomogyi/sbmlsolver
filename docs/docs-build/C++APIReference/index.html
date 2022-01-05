@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The LibRoadRunner C++ Library &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -37,13 +36,11 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div>
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -53,6 +50,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
@@ -108,17 +107,14 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" aria-label="Top" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">libRoadRunner</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          
-
-<div role="navigation" aria-label="Breadcrumbs">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
       <li>The LibRoadRunner C++ Library</li>
@@ -131,16 +127,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="the-libroadrunner-c-library">
+  <div class="section" id="the-libroadrunner-c-library">
 <h1>The LibRoadRunner C++ Library<a class="headerlink" href="#the-libroadrunner-c-library" title="Permalink to this headline"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<section id="introduction">
+<div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
 <p>This document describes the application programming interface (wrappers) of RoadRunner,
 an open source (BSD) library for computing structural characteristics of cellular networks.</p>
-</section>
-<section id="creating-a-new-integrator">
+</div>
+<div class="section" id="creating-a-new-integrator">
 <h2>Creating a new Integrator<a class="headerlink" href="#creating-a-new-integrator" title="Permalink to this headline"></a></h2>
 <p>One of the key design goals of the LibRoadRunner library is extensibility. This means that the
 library is designed with the idea that most internal components are loosely coupled and that
@@ -155,15 +151,15 @@ are automatically available to any code (including any Python code) that needs t
 the RoadRunner::simulate method is called, a different integrator may be specified. In Python, this is
 done with the &lt;TT&gt;integrator&lt;/TT&gt; keyword, i.e.</p>
 <p>Or, in C++:</p>
-<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="n">BasicDictionary</span> <span class="n">d</span><span class="p">;</span>
-<span class="n">d</span><span class="p">.</span><span class="n">setItem</span><span class="p">(</span><span class="s">&quot;integrator&quot;</span><span class="p">,</span> <span class="s">&quot;MyIntegratorName&quot;</span><span class="p">)</span>
-<span class="n">r</span><span class="p">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d</span><span class="p">);</span>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="n">BasicDictionary</span><span class="w"> </span><span class="n">d</span><span class="p">;</span><span class="w"></span>
+<span class="n">d</span><span class="p">.</span><span class="n">setItem</span><span class="p">(</span><span class="s">&quot;integrator&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MyIntegratorName&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">r</span><span class="p">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 <p>To create a new integrator, one first needs to create an object that implments the Integrator interface,
 tell RoadRunner about it.</p>
-</section>
-<section id="implementing-the-integrator-interface">
+</div>
+<div class="section" id="implementing-the-integrator-interface">
 <h2>Implementing the Integrator interface<a class="headerlink" href="#implementing-the-integrator-interface" title="Permalink to this headline"></a></h2>
 <p>The IntegratorFactory is the ONLY object that creates integrators.</p>
 <p>Integrators are created when the IntegratorFactory::New method is called,
@@ -245,8 +241,8 @@ should have three key/value pairs.</p>
 </table>
 <p>When the Integrator::setSimulateOptions method is called, the integrator should read any
 parameters it expects out of the given dictionary.</p>
-</section>
-<section id="telling-roadrunner-about-the-new-integrator">
+</div>
+<div class="section" id="telling-roadrunner-about-the-new-integrator">
 <h2>Telling RoadRunner about the new Integrator<a class="headerlink" href="#telling-roadrunner-about-the-new-integrator" title="Permalink to this headline"></a></h2>
 <p>In order for the RoadRunner::simulate method use the new integrator, it needs to know about it.
 The IntegratorFactory is the only object that knows about all the integrators, and a few lines of
@@ -281,8 +277,8 @@ the dictionary that was created in the getIntegratorOptions method, e.g.</p>
 can be used by just adding the &lt;tt&gt;integrator=”myNewIntegrator”&lt;/tt&gt; argument whenever the
 RoadRunner.simulate method is called. The EulerIntegrator was created as an example of how to create and add
 a new integrator, have a look at it.</p>
-</section>
-<section id="a-complete-example-of-creating-an-integrator">
+</div>
+<div class="section" id="a-complete-example-of-creating-an-integrator">
 <h2>A complete example of creating an integrator<a class="headerlink" href="#a-complete-example-of-creating-an-integrator" title="Permalink to this headline"></a></h2>
 <p>This section includes the complete Euler integrator implemented in EulerIntegrator.h as an example of
 creating a new integrator.
@@ -299,14 +295,13 @@ would be:</p>
 <p>The EulerIntegrator.h file serves as a complete example of creating an new integrator.
 This example was written entierly in the header file for clarity, but a real integrator
 should separate the code and header files.</p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../PythonAPIReference/cls_PyConservedMoietyConverter.html" class="btn btn-neutral float-left" title="Conserved Moiety Conversion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="llvm/index.html" class="btn btn-neutral float-right" title="LLVM Docs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
@@ -318,7 +313,8 @@ should separate the code and header files.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1IniFile" kind="class" language="C++" prot="public">
     <compoundname>rr::IniFile</compoundname>
       <sectiondef kind="private-attrib">
@@ -8,6 +8,7 @@
         <definition>const int rr::IniFile::mAutoCreateSections</definition>
         <argsstring></argsstring>
         <name>mAutoCreateSections</name>
+        <qualifiedname>rr::IniFile::mAutoCreateSections</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -21,6 +22,7 @@
         <definition>const int rr::IniFile::mAutoCreateKeys</definition>
         <argsstring></argsstring>
         <name>mAutoCreateKeys</name>
+        <qualifiedname>rr::IniFile::mAutoCreateKeys</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -34,6 +36,7 @@
         <definition>std::string rr::IniFile::mCommentIndicators</definition>
         <argsstring></argsstring>
         <name>mCommentIndicators</name>
+        <qualifiedname>rr::IniFile::mCommentIndicators</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -47,6 +50,7 @@
         <definition>const std::string rr::IniFile::mEqualIndicator</definition>
         <argsstring></argsstring>
         <name>mEqualIndicator</name>
+        <qualifiedname>rr::IniFile::mEqualIndicator</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -60,6 +64,7 @@
         <definition>const std::string rr::IniFile::mWhiteSpace</definition>
         <argsstring></argsstring>
         <name>mWhiteSpace</name>
+        <qualifiedname>rr::IniFile::mWhiteSpace</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -75,6 +80,7 @@
         <definition>SectionList rr::IniFile::mSections</definition>
         <argsstring></argsstring>
         <name>mSections</name>
+        <qualifiedname>rr::IniFile::mSections</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -88,6 +94,7 @@
         <definition>FileName rr::IniFile::mIniFileName</definition>
         <argsstring></argsstring>
         <name>mIniFileName</name>
+        <qualifiedname>rr::IniFile::mIniFileName</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -101,6 +108,7 @@
         <definition>bool rr::IniFile::mIsDirty</definition>
         <argsstring></argsstring>
         <name>mIsDirty</name>
+        <qualifiedname>rr::IniFile::mIsDirty</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -114,6 +122,7 @@
         <definition>bool rr::IniFile::mWasFound</definition>
         <argsstring></argsstring>
         <name>mWasFound</name>
+        <qualifiedname>rr::IniFile::mWasFound</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -127,6 +136,7 @@
         <definition>bool rr::IniFile::mAutoSave</definition>
         <argsstring></argsstring>
         <name>mAutoSave</name>
+        <qualifiedname>rr::IniFile::mAutoSave</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -142,6 +152,7 @@
         <definition>int rr::IniFile::mFlags</definition>
         <argsstring></argsstring>
         <name>mFlags</name>
+        <qualifiedname>rr::IniFile::mFlags</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -157,6 +168,7 @@
         <definition>std::string rr::IniFile::GetNextWord</definition>
         <argsstring>(std::string &amp;CommandLine)</argsstring>
         <name>GetNextWord</name>
+        <qualifiedname>rr::IniFile::GetNextWord</qualifiedname>
         <param>
           <type>std::string &amp;</type>
           <declname>CommandLine</declname>
@@ -174,6 +186,7 @@
         <definition>std::string rr::IniFile::Trim</definition>
         <argsstring>(std::string &amp;Str)</argsstring>
         <name>Trim</name>
+        <qualifiedname>rr::IniFile::Trim</qualifiedname>
         <param>
           <type>std::string &amp;</type>
           <declname>Str</declname>
@@ -191,6 +204,7 @@
         <definition>int rr::IniFile::WriteLine</definition>
         <argsstring>(std::fstream &amp;stream, const char *fmt,...)</argsstring>
         <name>WriteLine</name>
+        <qualifiedname>rr::IniFile::WriteLine</qualifiedname>
         <param>
           <type>std::fstream &amp;</type>
           <declname>stream</declname>
@@ -217,6 +231,7 @@
         <definition>rr::IniFile::IniFile</definition>
         <argsstring>(const std::string &amp;fName=&quot;&quot;, bool autoLoad=false, bool autoSave=false)</argsstring>
         <name>IniFile</name>
+        <qualifiedname>rr::IniFile::IniFile</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>fName</declname>
@@ -245,6 +260,7 @@
         <definition>rr::IniFile::~IniFile</definition>
         <argsstring>()</argsstring>
         <name>~IniFile</name>
+        <qualifiedname>rr::IniFile::~IniFile</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -258,6 +274,7 @@
         <definition>size_t rr::IniFile::GetNumberOfSections</definition>
         <argsstring>()</argsstring>
         <name>GetNumberOfSections</name>
+        <qualifiedname>rr::IniFile::GetNumberOfSections</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -266,11 +283,12 @@
         </inbodydescription>
         <location file="rrIniFile.h" line="66" column="28" bodyfile="rrIniFile.h" bodystart="66" bodyend="66"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1IniFile_1a8236e6ce6a56429276b25060d5e36f08" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1IniFile_1ae0c1b8b5ae798449e486f9ccb6f53062" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classrr_1_1IniSection" kindref="compound">IniSection</ref> *</type>
-        <definition>IniSection* rr::IniFile::GetSection</definition>
+        <definition>IniSection * rr::IniFile::GetSection</definition>
         <argsstring>(int i)</argsstring>
         <name>GetSection</name>
+        <qualifiedname>rr::IniFile::GetSection</qualifiedname>
         <param>
           <type>int</type>
           <declname>i</declname>
@@ -283,11 +301,12 @@
         </inbodydescription>
         <location file="rrIniFile.h" line="67" column="27" bodyfile="rrIniFile.h" bodystart="67" bodyend="67"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1IniFile_1aae0d84e192854f205cc463e1781c78be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1IniFile_1a34eb8aee4745aaa518d0c60a87c279e4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classrr_1_1IniSection" kindref="compound">IniSection</ref> *</type>
-        <definition>IniSection* rr::IniFile::GetSection</definition>
+        <definition>IniSection * rr::IniFile::GetSection</definition>
         <argsstring>(size_t i)</argsstring>
         <name>GetSection</name>
+        <qualifiedname>rr::IniFile::GetSection</qualifiedname>
         <param>
           <type>size_t</type>
           <declname>i</declname>
@@ -305,6 +324,7 @@
         <definition>std::string rr::IniFile::GetFilePath</definition>
         <argsstring>()</argsstring>
         <name>GetFilePath</name>
+        <qualifiedname>rr::IniFile::GetFilePath</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -318,6 +338,7 @@
         <definition>std::string rr::IniFile::GetFileName</definition>
         <argsstring>()</argsstring>
         <name>GetFileName</name>
+        <qualifiedname>rr::IniFile::GetFileName</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -331,6 +352,7 @@
         <definition>std::string rr::IniFile::GetFullFileName</definition>
         <argsstring>()</argsstring>
         <name>GetFullFileName</name>
+        <qualifiedname>rr::IniFile::GetFullFileName</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -344,6 +366,7 @@
         <definition>bool rr::IniFile::SetFilePath</definition>
         <argsstring>(const std::string &amp;path)</argsstring>
         <name>SetFilePath</name>
+        <qualifiedname>rr::IniFile::SetFilePath</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>path</declname>
@@ -361,6 +384,7 @@
         <definition>bool rr::IniFile::Load</definition>
         <argsstring>(const std::string &amp;fName=&quot;&quot;)</argsstring>
         <name>Load</name>
+        <qualifiedname>rr::IniFile::Load</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>fName</declname>
@@ -379,6 +403,7 @@
         <definition>IniSection * rr::IniFile::LoadSection</definition>
         <argsstring>(const std::string &amp;theSection)</argsstring>
         <name>LoadSection</name>
+        <qualifiedname>rr::IniFile::LoadSection</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>theSection</declname>
@@ -396,6 +421,7 @@
         <definition>bool rr::IniFile::Save</definition>
         <argsstring>(ios_base::openmode openMode=std::ios::out|std::ios::trunc)</argsstring>
         <name>Save</name>
+        <qualifiedname>rr::IniFile::Save</qualifiedname>
         <param>
           <type>ios_base::openmode</type>
           <declname>openMode</declname>
@@ -414,6 +440,7 @@
         <definition>bool rr::IniFile::UnLoad</definition>
         <argsstring>()</argsstring>
         <name>UnLoad</name>
+        <qualifiedname>rr::IniFile::UnLoad</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -427,6 +454,7 @@
         <definition>bool rr::IniFile::WasItFound</definition>
         <argsstring>()</argsstring>
         <name>WasItFound</name>
+        <qualifiedname>rr::IniFile::WasItFound</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -440,6 +468,7 @@
         <definition>bool rr::IniFile::SectionExists</definition>
         <argsstring>(const std::string &amp;section)</argsstring>
         <name>SectionExists</name>
+        <qualifiedname>rr::IniFile::SectionExists</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>section</declname>
@@ -458,6 +487,7 @@
         <definition>std::string rr::IniFile::ReadValue</definition>
         <argsstring>(const std::string &amp;Key, const std::string &amp;Section=&quot;&quot;)</argsstring>
         <name>ReadValue</name>
+        <qualifiedname>rr::IniFile::ReadValue</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -480,6 +510,7 @@
         <definition>std::string rr::IniFile::ReadString</definition>
         <argsstring>(const std::string &amp;Key, const std::string &amp;Section=&quot;&quot;, const std::string &amp;def_val=&quot;&quot;)</argsstring>
         <name>ReadString</name>
+        <qualifiedname>rr::IniFile::ReadString</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -507,6 +538,7 @@
         <definition>double rr::IniFile::ReadDouble</definition>
         <argsstring>(const std::string &amp;Key, const std::string &amp;Section=&quot;&quot;, double def_value=0)</argsstring>
         <name>ReadDouble</name>
+        <qualifiedname>rr::IniFile::ReadDouble</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -534,6 +566,7 @@
         <definition>float rr::IniFile::ReadFloat</definition>
         <argsstring>(const std::string &amp;Key, const std::string &amp;Section=&quot;&quot;, double def_value=0)</argsstring>
         <name>ReadFloat</name>
+        <qualifiedname>rr::IniFile::ReadFloat</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -561,6 +594,7 @@
         <definition>int rr::IniFile::ReadInteger</definition>
         <argsstring>(const std::string &amp;Key, const std::string &amp;Section=&quot;&quot;, int def_value=0)</argsstring>
         <name>ReadInteger</name>
+        <qualifiedname>rr::IniFile::ReadInteger</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -588,6 +622,7 @@
         <definition>bool rr::IniFile::ReadBool</definition>
         <argsstring>(const std::string &amp;Key, const std::string &amp;Section=&quot;&quot;, bool def_value=false)</argsstring>
         <name>ReadBool</name>
+        <qualifiedname>rr::IniFile::ReadBool</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -615,6 +650,7 @@
         <definition>bool rr::IniFile::WriteValue</definition>
         <argsstring>(const std::string &amp;Key, const std::string &amp;Value, const std::string &amp;Comment=&quot;&quot;, const std::string &amp;Section=&quot;&quot;)</argsstring>
         <name>WriteValue</name>
+        <qualifiedname>rr::IniFile::WriteValue</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -646,6 +682,7 @@
         <definition>bool rr::IniFile::WriteFloat</definition>
         <argsstring>(const std::string &amp;Key, double value, const std::string &amp;Comment=&quot;&quot;, const std::string &amp;Section=&quot;&quot;)</argsstring>
         <name>WriteFloat</name>
+        <qualifiedname>rr::IniFile::WriteFloat</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -677,6 +714,7 @@
         <definition>bool rr::IniFile::WriteInteger</definition>
         <argsstring>(const std::string &amp;Key, int nValue, const std::string &amp;Comment=&quot;&quot;, const std::string &amp;Section=&quot;&quot;)</argsstring>
         <name>WriteInteger</name>
+        <qualifiedname>rr::IniFile::WriteInteger</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -708,6 +746,7 @@
         <definition>bool rr::IniFile::WriteBool</definition>
         <argsstring>(const std::string &amp;Key, bool bValue, const std::string &amp;Comment=&quot;&quot;, const std::string &amp;Section=&quot;&quot;)</argsstring>
         <name>WriteBool</name>
+        <qualifiedname>rr::IniFile::WriteBool</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -739,6 +778,7 @@
         <definition>bool rr::IniFile::WriteString</definition>
         <argsstring>(const std::string &amp;Key, const std::string &amp;Value, const std::string &amp;Comment=&quot;&quot;, const std::string &amp;Section=&quot;&quot;)</argsstring>
         <name>WriteString</name>
+        <qualifiedname>rr::IniFile::WriteString</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -770,6 +810,7 @@
         <definition>bool rr::IniFile::WriteNonKey</definition>
         <argsstring>(const std::string &amp;nonKey, const std::string &amp;Section=&quot;&quot;)</argsstring>
         <name>WriteNonKey</name>
+        <qualifiedname>rr::IniFile::WriteNonKey</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>nonKey</declname>
@@ -792,6 +833,7 @@
         <definition>bool rr::IniFile::SetKeyComment</definition>
         <argsstring>(const std::string &amp;Key, const std::string &amp;Comment, const std::string &amp;Section=&quot;&quot;)</argsstring>
         <name>SetKeyComment</name>
+        <qualifiedname>rr::IniFile::SetKeyComment</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -818,6 +860,7 @@
         <definition>bool rr::IniFile::SetSectionComment</definition>
         <argsstring>(const std::string &amp;Section, const std::string &amp;Comment)</argsstring>
         <name>SetSectionComment</name>
+        <qualifiedname>rr::IniFile::SetSectionComment</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Section</declname>
@@ -839,6 +882,7 @@
         <definition>bool rr::IniFile::DeleteKey</definition>
         <argsstring>(const std::string &amp;Key, const std::string &amp;FromSection=&quot;&quot;)</argsstring>
         <name>DeleteKey</name>
+        <qualifiedname>rr::IniFile::DeleteKey</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -861,6 +905,7 @@
         <definition>bool rr::IniFile::DeleteSection</definition>
         <argsstring>(const std::string &amp;Section)</argsstring>
         <name>DeleteSection</name>
+        <qualifiedname>rr::IniFile::DeleteSection</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Section</declname>
@@ -878,6 +923,7 @@
         <definition>bool rr::IniFile::DeleteSectionsWithKeyValue</definition>
         <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
         <name>DeleteSectionsWithKeyValue</name>
+        <qualifiedname>rr::IniFile::DeleteSectionsWithKeyValue</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>key</declname>
@@ -899,6 +945,7 @@
         <definition>bool rr::IniFile::CreateKey</definition>
         <argsstring>(const std::string &amp;Key, const std::string &amp;Value, const std::string &amp;Comment=&quot;&quot;, const std::string &amp;Section=&quot;&quot;)</argsstring>
         <name>CreateKey</name>
+        <qualifiedname>rr::IniFile::CreateKey</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -930,6 +977,7 @@
         <definition>bool rr::IniFile::CreateSection</definition>
         <argsstring>(const std::string &amp;Section, const std::string &amp;Comment=&quot;&quot;)</argsstring>
         <name>CreateSection</name>
+        <qualifiedname>rr::IniFile::CreateSection</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Section</declname>
@@ -952,6 +1000,7 @@
         <definition>bool rr::IniFile::CreateSection</definition>
         <argsstring>(const std::string &amp;Section, const std::string &amp;Comment, KeyList Keys)</argsstring>
         <name>CreateSection</name>
+        <qualifiedname>rr::IniFile::CreateSection</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Section</declname>
@@ -977,6 +1026,7 @@
         <definition>size_t rr::IniFile::SectionCount</definition>
         <argsstring>()</argsstring>
         <name>SectionCount</name>
+        <qualifiedname>rr::IniFile::SectionCount</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -990,6 +1040,7 @@
         <definition>size_t rr::IniFile::KeyCount</definition>
         <argsstring>()</argsstring>
         <name>KeyCount</name>
+        <qualifiedname>rr::IniFile::KeyCount</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1003,6 +1054,7 @@
         <definition>size_t rr::IniFile::KeyCount</definition>
         <argsstring>(const std::string &amp;section)</argsstring>
         <name>KeyCount</name>
+        <qualifiedname>rr::IniFile::KeyCount</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>section</declname>
@@ -1020,6 +1072,7 @@
         <definition>void rr::IniFile::Clear</definition>
         <argsstring>()</argsstring>
         <name>Clear</name>
+        <qualifiedname>rr::IniFile::Clear</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1033,6 +1086,7 @@
         <definition>void rr::IniFile::SetFileName</definition>
         <argsstring>(const std::string &amp;fName)</argsstring>
         <name>SetFileName</name>
+        <qualifiedname>rr::IniFile::SetFileName</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>fName</declname>
@@ -1050,6 +1104,7 @@
         <definition>std::string rr::IniFile::CommentStr</definition>
         <argsstring>(std::string &amp;Comment)</argsstring>
         <name>CommentStr</name>
+        <qualifiedname>rr::IniFile::CommentStr</qualifiedname>
         <param>
           <type>std::string &amp;</type>
           <declname>Comment</declname>
@@ -1067,6 +1122,7 @@
         <definition>IniKey * rr::IniFile::GetKey</definition>
         <argsstring>(const std::string &amp;Key, const std::string &amp;Section)</argsstring>
         <name>GetKey</name>
+        <qualifiedname>rr::IniFile::GetKey</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Key</declname>
@@ -1088,6 +1144,7 @@
         <definition>IniSection * rr::IniFile::GetSection</definition>
         <argsstring>(const std::string &amp;Section, bool create=false)</argsstring>
         <name>GetSection</name>
+        <qualifiedname>rr::IniFile::GetSection</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>Section</declname>
@@ -1110,6 +1167,7 @@
         <definition>IniSection * rr::IniFile::GetSection</definition>
         <argsstring>(const unsigned int secNr)</argsstring>
         <name>GetSection</name>
+        <qualifiedname>rr::IniFile::GetSection</qualifiedname>
         <param>
           <type>const unsigned int</type>
           <declname>secNr</declname>
@@ -1127,6 +1185,7 @@
         <definition>bool rr::IniFile::ClearSection</definition>
         <argsstring>(const std::string &amp;section)</argsstring>
         <name>ClearSection</name>
+        <qualifiedname>rr::IniFile::ClearSection</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>section</declname>
@@ -1144,6 +1203,7 @@
         <definition>bool rr::IniFile::IsModified</definition>
         <argsstring>()</argsstring>
         <name>IsModified</name>
+        <qualifiedname>rr::IniFile::IsModified</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1187,8 +1247,8 @@
       <member refid="classrr_1_1IniFile_1a63437687539bf512af556a1bfe77c8b1" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>GetKey</name></member>
       <member refid="classrr_1_1IniFile_1a5690f3167714c4d62d7541e167bc06c3" prot="private" virt="non-virtual"><scope>rr::IniFile</scope><name>GetNextWord</name></member>
       <member refid="classrr_1_1IniFile_1a039069a816202c5d1103bafda4467126" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>GetNumberOfSections</name></member>
-      <member refid="classrr_1_1IniFile_1a8236e6ce6a56429276b25060d5e36f08" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>GetSection</name></member>
-      <member refid="classrr_1_1IniFile_1aae0d84e192854f205cc463e1781c78be" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>GetSection</name></member>
+      <member refid="classrr_1_1IniFile_1ae0c1b8b5ae798449e486f9ccb6f53062" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>GetSection</name></member>
+      <member refid="classrr_1_1IniFile_1a34eb8aee4745aaa518d0c60a87c279e4" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>GetSection</name></member>
       <member refid="classrr_1_1IniFile_1aed612fe5ecfd76d2e14be6581cbe03b6" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>GetSection</name></member>
       <member refid="classrr_1_1IniFile_1a4d569729086baaed36eb80bb2acd1dd6" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>GetSection</name></member>
       <member refid="classrr_1_1IniFile_1a1927103db2ea0942d20f0fdb57fec0f7" prot="public" virt="non-virtual"><scope>rr::IniFile</scope><name>IniFile</name></member>

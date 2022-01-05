@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>What is libRoadRunner &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -37,8 +36,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div>
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
@@ -62,7 +60,6 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#quickstart">Quickstart</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -72,6 +69,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
@@ -84,17 +83,14 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" aria-label="Top" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">libRoadRunner</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          
-
-<div role="navigation" aria-label="Breadcrumbs">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="tutorial.html">Tutorial</a> &raquo;</li>
@@ -108,14 +104,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="what-is-libroadrunner">
+  <div class="section" id="what-is-libroadrunner">
 <h1>What is libRoadRunner<a class="headerlink" href="#what-is-libroadrunner" title="Permalink to this headline"></a></h1>
 <p>RoadRunner is a package for loading, simulating and
 analyzing SBML based systems biology models utilzing JIT compilation.</p>
 <p>RoadRunner 1.4.3</p>
 <p>Up to date documentation can be found on <a class="reference external" href="http://libroadrunner.org/">http://libroadrunner.org/</a>.</p>
 <p>Also <a class="reference external" href="../index.html">documentation home page</a> provides an introduction.</p>
-<section id="licence-and-copyright">
+<div class="section" id="licence-and-copyright">
 <h2>Licence and Copyright<a class="headerlink" href="#licence-and-copyright" title="Permalink to this headline"></a></h2>
 <p>libRoadRunner is free and open source. Licensing and Distribution
 Terms can be found in the LICENCE.txt file in the root directory
@@ -123,8 +119,8 @@ of the distribution.</p>
 <p>Copyright (C) 2012-2016 University of Washington, Seattle, WA, USA</p>
 <p>Licensed under the Apache License, Version 2.0: <a class="reference external" href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a></p>
 <p><a class="reference external" href="http://libroadrunner.org/">http://libroadrunner.org/</a></p>
-</section>
-<section id="fundamental-objects">
+</div>
+<div class="section" id="fundamental-objects">
 <h2>Fundamental Objects<a class="headerlink" href="#fundamental-objects" title="Permalink to this headline"></a></h2>
 <p>The libRoadRunner package uses two fundametal objects e.g. <code class="docutils literal notranslate"><span class="pre">rr</span></code> of
 class <code class="docutils literal notranslate"><span class="pre">RoadRunner</span></code> and e.g. <code class="docutils literal notranslate"><span class="pre">rr.model</span></code> of class <code class="docutils literal notranslate"><span class="pre">ExecutableModel</span></code>.</p>
@@ -145,8 +141,8 @@ JIT compilation, integration and output.</p></li>
 </dl>
 <p>The Python API is a very clean simple interface that uses all native Python objects.
 All the returned types are structured <cite>Numpy</cite> arrays.</p>
-</section>
-<section id="example-of-libroadrunner-in-use">
+</div>
+<div class="section" id="example-of-libroadrunner-in-use">
 <h2>Example of libRoadRunner in Use<a class="headerlink" href="#example-of-libroadrunner-in-use" title="Permalink to this headline"></a></h2>
 <p>Transcript from an Python session to demonstrate libRoadRunner use on this interactive Python console.</p>
 <p><strong>Import</strong> roardrunner and numpy:</p>
@@ -232,8 +228,8 @@ If the optional prameter &#39;show&#39; [default is True] is given, the pylab
 show() method is called.
 </pre></div>
 </div>
-</section>
-<section id="technical-footnotes">
+</div>
+<div class="section" id="technical-footnotes">
 <h2>Technical Footnotes<a class="headerlink" href="#technical-footnotes" title="Permalink to this headline"></a></h2>
 <p><strong>Numpy arrays</strong></p>
 <p>Most of the time, Numpy array holds a pointer to a block of data owned
@@ -253,14 +249,13 @@ example, if one has a cell with an equation that depends on other cell, and thos
 other cell depend on other values, setting the value of any upstream cell automatically
 causes that value to cascade down to the terminal cells. The LLVM back end roadruner
 function identically.</p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="what_is_sbml.html" class="btn btn-neutral float-left" title="What Is SBML?" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="import_roadrunner.html" class="btn btn-neutral float-right" title="Import RoadRunner" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
@@ -272,7 +267,8 @@ function identically.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

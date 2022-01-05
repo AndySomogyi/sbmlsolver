@@ -7,6 +7,7 @@
 #include "telLogger.h"
 #include "telException.h"
 #include "telplugins_c_api.h"
+#include "telStringUtils.h"
 
 using namespace rr;
 using namespace rrc;

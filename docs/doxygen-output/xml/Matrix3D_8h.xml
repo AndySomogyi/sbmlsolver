@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="Matrix3D_8h" kind="file" language="C++">
     <compoundname>Matrix3D.h</compoundname>
     <includes refid="Matrix_8h" local="yes">Matrix.h</includes>
@@ -15,28 +15,26 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="3">
-        <label>rr-libstruct/lsMatrix.h</label>
-      </node>
-      <node id="4">
-        <label>algorithm</label>
-      </node>
       <node id="1">
         <label>Matrix3D.h</label>
         <link refid="Matrix3D_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
+      <node id="4">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>rr-libstruct/lsMatrix.h</label>
+      </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="6">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
-        <link refid="rrc__api_8cpp"/>
-      </node>
-      <node id="5">
-        <label>SensitivitySolverFactory.h</label>
-        <link refid="SensitivitySolverFactory_8h_source"/>
-        <childnode refid="6" relation="include">
+      <node id="3">
+        <label>CVODEIntegrator.h</label>
+        <link refid="CVODEIntegrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -47,23 +45,9 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="7">
-        <label>SensitivitySolver.h</label>
-        <link refid="SensitivitySolver_8h_source"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-      </node>
       <node id="4">
         <label>Integrator.cpp</label>
         <link refid="Integrator_8cpp"/>
-      </node>
-      <node id="3">
-        <label>CVODEIntegrator.h</label>
-        <link refid="CVODEIntegrator_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
       </node>
       <node id="1">
         <label>Matrix3D.h</label>
@@ -72,6 +56,22 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
+      </node>
+      <node id="7">
+        <label>SensitivitySolver.h</label>
+        <link refid="SensitivitySolver_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>SensitivitySolverFactory.h</label>
+        <link refid="SensitivitySolverFactory_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
+        <link refid="rrc__api_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classrr_1_1Matrix3D" prot="public">rr::Matrix3D</innerclass>
@@ -154,7 +154,7 @@
 <codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data_.push_back(mat);</highlight></codeline>
 <codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="79"><highlight class="normal"></highlight></codeline>
-<codeline lineno="84" refid="classrr_1_1Matrix3D_1adf344bfa17d5a94157c9944bfabce492" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1Matrix" kindref="compound">Matrix &lt;DataType&gt;</ref><sp/>&amp;<ref refid="classrr_1_1Matrix3D_1adf344bfa17d5a94157c9944bfabce492" kindref="member">operator[]</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx)<sp/>{</highlight></codeline>
+<codeline lineno="84" refid="classrr_1_1Matrix3D_1a420dfc0b4a5a0fffa7d6939aeb6099ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1Matrix" kindref="compound">Matrix &lt;DataType&gt;</ref><sp/>&amp;<ref refid="classrr_1_1Matrix3D_1a420dfc0b4a5a0fffa7d6939aeb6099ca" kindref="member">operator[]</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx)<sp/>{</highlight></codeline>
 <codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(idx<sp/>&gt;<sp/><ref refid="classrr_1_1Matrix3D_1a97e450bd370dc45a47b1aeafeed562ba" kindref="member">numZ</ref>())<sp/>{</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ostringstream<sp/>err;</highlight></codeline>
 <codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>err<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;requested<sp/>idx<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>idx<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>from<sp/>a<sp/>Matrix3D<sp/>with<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classrr_1_1Matrix3D_1a97e450bd370dc45a47b1aeafeed562ba" kindref="member">numZ</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>elements&quot;</highlight><highlight class="normal">;</highlight></codeline>
@@ -163,7 +163,7 @@
 <codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data_[idx];</highlight></codeline>
 <codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"></highlight></codeline>
-<codeline lineno="101" refid="classrr_1_1Matrix3D_1a0e6ccf3c0c6a740ca12af375fca03a99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1Matrix" kindref="compound">rr::Matrix&lt;DataType&gt;</ref><sp/>&amp;<ref refid="classrr_1_1Matrix3D_1a0e6ccf3c0c6a740ca12af375fca03a99" kindref="member">slice</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k)<sp/>{</highlight></codeline>
+<codeline lineno="101" refid="classrr_1_1Matrix3D_1a3d233fae57bab6e3022dca4893707e23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1Matrix" kindref="compound">rr::Matrix&lt;DataType&gt;</ref><sp/>&amp;<ref refid="classrr_1_1Matrix3D_1a3d233fae57bab6e3022dca4893707e23" kindref="member">slice</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k)<sp/>{</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(k<sp/>&gt;<sp/><ref refid="classrr_1_1Matrix3D_1a97e450bd370dc45a47b1aeafeed562ba" kindref="member">numZ</ref>())<sp/>{</highlight></codeline>
 <codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ostringstream<sp/>err;</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>err<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;requested<sp/>kth<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>k<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>from<sp/>a<sp/>Matrix3D<sp/>with<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classrr_1_1Matrix3D_1a97e450bd370dc45a47b1aeafeed562ba" kindref="member">numZ</ref>()</highlight></codeline>
@@ -173,11 +173,11 @@
 <codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data_[k];</highlight></codeline>
 <codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="110"><highlight class="normal"></highlight></codeline>
-<codeline lineno="116" refid="classrr_1_1Matrix3D_1a170fe788694b075b5509915831750bf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1Matrix3D" kindref="compound">rr::Matrix3D&lt;DataType, IndexType&gt;</ref><sp/>&amp;<ref refid="classrr_1_1Matrix3D_1a170fe788694b075b5509915831750bf9" kindref="member">colSliceByName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>&amp;rowNames)<sp/>{</highlight></codeline>
+<codeline lineno="116" refid="classrr_1_1Matrix3D_1aedf37b75f9258d04deecf44725c13554" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1Matrix3D" kindref="compound">rr::Matrix3D&lt;DataType, IndexType&gt;</ref><sp/>&amp;<ref refid="classrr_1_1Matrix3D_1aedf37b75f9258d04deecf44725c13554" kindref="member">colSliceByName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>&amp;rowNames)<sp/>{</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"></highlight></codeline>
 <codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="119"><highlight class="normal"></highlight></codeline>
-<codeline lineno="129" refid="classrr_1_1Matrix3D_1a3d3e20638dd709df478c6dab345585a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;DataType&gt;<sp/><ref refid="classrr_1_1Matrix3D_1a3d3e20638dd709df478c6dab345585a3" kindref="member">slice</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="129" refid="classrr_1_1Matrix3D_1a3423be3aa48493af2fe53394a4e54ac6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;DataType&gt;<sp/><ref refid="classrr_1_1Matrix3D_1a3423be3aa48493af2fe53394a4e54ac6" kindref="member">slice</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j)<sp/>{</highlight></codeline>
 <codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(k<sp/>&gt;<sp/><ref refid="classrr_1_1Matrix3D_1a97e450bd370dc45a47b1aeafeed562ba" kindref="member">numZ</ref>())<sp/>{</highlight></codeline>
 <codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ostringstream<sp/>err;</highlight></codeline>
 <codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>err<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;requested<sp/>kth<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>k<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>from<sp/>a<sp/>Matrix3D<sp/>with<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classrr_1_1Matrix3D_1a97e450bd370dc45a47b1aeafeed562ba" kindref="member">numZ</ref>()</highlight></codeline>
@@ -218,7 +218,7 @@
 <codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>submatrix[j][i];</highlight></codeline>
 <codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="178"><highlight class="normal"></highlight></codeline>
-<codeline lineno="184" refid="classrr_1_1Matrix3D_1ae8a33b146d067035a4fc45a791d6680a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1Matrix" kindref="compound">Matrix &lt;DataType&gt;</ref><sp/>&amp;<ref refid="classrr_1_1Matrix3D_1ae8a33b146d067035a4fc45a791d6680a" kindref="member">getItem</ref>(IndexType<sp/>idx)<sp/>{</highlight></codeline>
+<codeline lineno="184" refid="classrr_1_1Matrix3D_1a33cd475dccdaea17701501e49526b91b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1Matrix" kindref="compound">Matrix &lt;DataType&gt;</ref><sp/>&amp;<ref refid="classrr_1_1Matrix3D_1a33cd475dccdaea17701501e49526b91b" kindref="member">getItem</ref>(IndexType<sp/>idx)<sp/>{</highlight></codeline>
 <codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>first<sp/>check<sp/>if<sp/>idx<sp/>in<sp/>index</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::find(index_.begin(),<sp/>index_.end(),<sp/>idx)<sp/>==<sp/>index_.end())<sp/>{</highlight></codeline>
 <codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ostringstream<sp/>err;</highlight></codeline>
@@ -230,7 +230,7 @@
 <codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data_[pos];</highlight></codeline>
 <codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="195"><highlight class="normal"></highlight></codeline>
-<codeline lineno="200" refid="classrr_1_1Matrix3D_1a4a9b332443cffbf149576fe023175b65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;IndexType&gt;<sp/>&amp;<ref refid="classrr_1_1Matrix3D_1a4a9b332443cffbf149576fe023175b65" kindref="member">getIndex</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="200" refid="classrr_1_1Matrix3D_1a5dd0744b45f6515866043732d65eab3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;IndexType&gt;<sp/>&amp;<ref refid="classrr_1_1Matrix3D_1a5dd0744b45f6515866043732d65eab3f" kindref="member">getIndex</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>index_;</highlight></codeline>
 <codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="203"><highlight class="normal"></highlight></codeline>
@@ -278,12 +278,12 @@
 <codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="265"><highlight class="normal"></highlight></codeline>
-<codeline lineno="269" refid="classrr_1_1Matrix3D_1a87927a275352b6925024580ffa7870b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classrr_1_1Matrix3D_1a87927a275352b6925024580ffa7870b0" kindref="member">getRowNames</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Matrix3D_1a0e6ccf3c0c6a740ca12af375fca03a99" kindref="member">slice</ref>(0).rowNames;</highlight></codeline>
+<codeline lineno="269" refid="classrr_1_1Matrix3D_1aac93524a42c81121d2736560144e1e8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classrr_1_1Matrix3D_1aac93524a42c81121d2736560144e1e8e" kindref="member">getRowNames</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Matrix3D_1a3d233fae57bab6e3022dca4893707e23" kindref="member">slice</ref>(0).rowNames;</highlight></codeline>
 <codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="272"><highlight class="normal"></highlight></codeline>
-<codeline lineno="276" refid="classrr_1_1Matrix3D_1a5bc22ee391622eb7a1d0f1aad991a38a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classrr_1_1Matrix3D_1a5bc22ee391622eb7a1d0f1aad991a38a" kindref="member">getColNames</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Matrix3D_1a0e6ccf3c0c6a740ca12af375fca03a99" kindref="member">slice</ref>(0).colNames;</highlight></codeline>
+<codeline lineno="276" refid="classrr_1_1Matrix3D_1abeb0f3f248125bfd202adfbb6f1e65de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classrr_1_1Matrix3D_1abeb0f3f248125bfd202adfbb6f1e65de" kindref="member">getColNames</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Matrix3D_1a3d233fae57bab6e3022dca4893707e23" kindref="member">slice</ref>(0).colNames;</highlight></codeline>
 <codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="279"><highlight class="normal"></highlight></codeline>
 <codeline lineno="283" refid="classrr_1_1Matrix3D_1ac6964e5fab09e336189a817c8480307e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Matrix3D_1ac6964e5fab09e336189a817c8480307e" kindref="member">operator==</ref>(<ref refid="classrr_1_1Matrix3D" kindref="compound">Matrix3D&lt;IndexType, DataType&gt;</ref><sp/>&amp;other)<sp/>{</highlight></codeline>

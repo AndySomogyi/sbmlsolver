@@ -21,6 +21,152 @@ public:
 };
 
 
+TEST_F(ModelAnalysisTests, getConcentrationRateSimple) {
+    RoadRunner rr((modelAnalysisModelsDir / "threestep.xml").string());
+    double S1_conc_rate = rr.getValue("[S1]'");
+    double S1_rate = rr.getValue("S1'");
+    EXPECT_NEAR(S1_conc_rate, -1.3, 0.001);
+    EXPECT_NEAR(S1_rate, -1.3, 0.001);
+}
+
+TEST_F(ModelAnalysisTests, getConcentrationRateComplex) {
+    RoadRunner rr((modelAnalysisModelsDir / "threestep_varC.xml").string());
+    double S1_rate = rr.getValue("S1'");
+    double S1_conc = rr.getValue("[S1]");
+    double comp = rr.getValue("C");
+    double comp_rate = rr.getValue("C'");
+    double S1_conc_rate = rr.getValue("[S1]'");
+    EXPECT_NEAR(S1_rate, -1.3, 0.001);
+    EXPECT_NEAR(S1_conc, 10, 0.001);
+    EXPECT_NEAR(comp, 2, 0.001);
+    EXPECT_NEAR(comp_rate, 2, 0.001);
+    EXPECT_NEAR(S1_conc_rate, (S1_rate - (S1_conc * comp_rate))/comp, 0.001);
+}
+
+TEST_F(ModelAnalysisTests, getConcentrationRateBoundary) {
+    RoadRunner rr((modelAnalysisModelsDir / "threestep_varC.xml").string());
+    rr.setBoundary("S1", true, false);
+    rr.setHasOnlySubstanceUnits("S1", true, false);
+    rr.addRateRule("S1", "-1.3");
+    double S1_rate = rr.getValue("S1'");
+    double S1_conc = rr.getValue("[S1]");
+    double comp = rr.getValue("C");
+    double comp_rate = rr.getValue("C'");
+    double S1_conc_rate = rr.getValue("[S1]'");
+    EXPECT_NEAR(S1_rate, -1.3, 0.001);
+    EXPECT_NEAR(S1_conc, 10, 0.001);
+    EXPECT_NEAR(comp, 2, 0.001);
+    EXPECT_NEAR(comp_rate, 2, 0.001);
+    EXPECT_NEAR(S1_conc_rate, (S1_rate - (S1_conc * comp_rate)) / comp, 0.001);
+}
+
+TEST_F(ModelAnalysisTests, getConcentrationRateFail) {
+    RoadRunner rr((modelAnalysisModelsDir / "threestep.xml").string());
+    rr.addAssignmentRule("C", "3");
+    EXPECT_THROW(
+        double S1_conc_rate = rr.getValue("[S1]'"), 
+        std::invalid_argument);
+}
+
+TEST_F(ModelAnalysisTests, SameJacobians1) {
+    RoadRunner rr((modelAnalysisModelsDir / "apap_liver_core_9.xml").string());
+
+    rr.setValue("Vext", 0.1 * 0.2);
+    rr.setValue("Vli", 0.1 * (0.3 + (1 - 0.3 - 0.2)));
+
+    SimulateOptions opt;
+    opt.start = 0;
+    opt.duration = 0.1;
+    opt.steps = 1;
+    rr.simulate(&opt);
+
+    double origVext = rr.getValue("Vext");
+    double origapap = rr.getValue("apap");
+
+    ls::DoubleMatrix jf = rr.getFullJacobian();
+    ls::DoubleMatrix jr = rr.getReducedJacobian();
+
+    ASSERT_EQ(jf.CSize(), jr.CSize());
+    ASSERT_EQ(jf.RSize(), jr.RSize());
+
+    for (unsigned int c = 0; c < jf.CSize(); c++)
+    {
+        for (unsigned int r = 0; r < jf.RSize(); r++)
+        {
+            EXPECT_NEAR(jf.Element(r, c), jr.Element(r, c), 0.01);
+        }
+    }
+
+    EXPECT_NEAR(origVext, rr.getValue("Vext"), 0.0001);
+    EXPECT_NEAR(origapap, rr.getValue("apap"), 0.0001);
+}
+
+
+TEST_F(ModelAnalysisTests, SameJacobians2) {
+    RoadRunner rr((modelAnalysisModelsDir / "apap_liver_core_simplified.xml").string());
+
+    rr.setValue("Vext", 0.1 * 0.2);
+    rr.setValue("Vli", 0.1 * (0.3 + (1 - 0.3 - 0.2)));
+
+    SimulateOptions opt;
+    opt.start = 0;
+    opt.duration = 0.1;
+    opt.steps = 1;
+    rr.simulate(&opt);
+
+    double origVext = rr.getValue("Vext");
+    double origapap = rr.getValue("apap");
+
+    ls::DoubleMatrix jf = rr.getFullJacobian();
+    ls::DoubleMatrix jr = rr.getReducedJacobian();
+
+    ASSERT_EQ(jf.CSize(), jr.CSize());
+    ASSERT_EQ(jf.RSize(), jr.RSize());
+
+    for (unsigned int c = 0; c < jf.CSize(); c++)
+    {
+        for (unsigned int r = 0; r < jf.RSize(); r++)
+        {
+            EXPECT_NEAR(jf.Element(r, c), jr.Element(r, c), 0.01);
+        }
+    }
+
+    EXPECT_NEAR(origVext, rr.getValue("Vext"), 0.0001);
+    EXPECT_NEAR(origapap, rr.getValue("apap"), 0.0001);
+}
+
+
+TEST_F(ModelAnalysisTests, SameJacobians3) {
+    RoadRunner rr((modelAnalysisModelsDir / "apap_liver_core_volchange.xml").string());
+
+    SimulateOptions opt;
+    opt.start = 0;
+    opt.duration = 1;
+    opt.steps = 10;
+    rr.simulate(&opt);
+
+    ls::DoubleMatrix jf = rr.getFullJacobian();
+    ls::DoubleMatrix jr = rr.getReducedJacobian();
+
+    double origVext = rr.getValue("Vext");
+    double origapap = rr.getValue("apap");
+
+    ASSERT_EQ(jf.CSize(), jr.CSize());
+    ASSERT_EQ(jf.RSize(), jr.RSize());
+
+    for (unsigned int c = 0; c < jf.CSize(); c++)
+    {
+        for (unsigned int r = 0; r < jf.RSize(); r++)
+        {
+            EXPECT_NEAR(jf.Element(r, c), jr.Element(r, c), 0.01);
+        }
+    }
+
+    EXPECT_NEAR(origVext, rr.getValue("Vext"), 0.0001);
+    EXPECT_NEAR(origapap, rr.getValue("apap"), 0.0001);
+}
+
+
 TEST_F(ModelAnalysisTests, SimulateCVODEFromNegativeStartGeneral) {
     //Event:  at S1 > 500: S1 = 300;
     RoadRunner rr((modelAnalysisModelsDir / "negstart_event.xml").string());
@@ -1219,4 +1365,14 @@ TEST_F(ModelAnalysisTests, SimulateWithTimesFunction) {
     EXPECT_EQ(result->Element(2, 0), 5);
     EXPECT_EQ(result->Element(3, 0), 10);
 }
+
+TEST_F(ModelAnalysisTests, ResetAfterControlCalc) {
+    RoadRunner rr((modelAnalysisModelsDir / "conserved_cycle.xml").string());
+    double pre = rr.getValue("S1");
+    double val = rr.getValue("ucc(J0, Vm)");
+    double post = rr.getValue("S1");
+
+    EXPECT_EQ(pre, post);
+}
+
 

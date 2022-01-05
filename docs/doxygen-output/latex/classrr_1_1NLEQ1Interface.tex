@@ -10,7 +10,7 @@ Inheritance diagram for rr\+::NLEQ1\+Interface\+:\begin{figure}[H]
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{classrr_1_1NLEQ1Interface_ab674b1a3c8e36b5bb8035d9f88a8d2b5}\label{classrr_1_1NLEQ1Interface_ab674b1a3c8e36b5bb8035d9f88a8d2b5}} 
-\mbox{\hyperlink{classrr_1_1NLEQ1Interface_ab674b1a3c8e36b5bb8035d9f88a8d2b5}{NLEQ1\+Interface}} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$\+\_\+model=NULL)
+{\bfseries NLEQ1\+Interface} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$\+\_\+model=NULL)
 \begin{DoxyCompactList}\small\item\em Creates a new Instance of NLEQ1 for the given Model. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classrr_1_1NLEQ1Interface_aa37ad681b763e644a4c4753edaebf280}{solve}} ()
 \begin{DoxyCompactList}\small\item\em Thea actual solver routine making the call to NLEQ1. \end{DoxyCompactList}\item 
@@ -18,13 +18,10 @@ virtual void \mbox{\hyperlink{classrr_1_1NLEQ1Interface_af96bd43cb07909357c1dd10
 \begin{DoxyCompactList}\small\item\em Implement \mbox{\hyperlink{classrr_1_1Dictionary}{Dictionary}} Interface. \end{DoxyCompactList}\item 
 virtual \mbox{\hyperlink{classrr_1_1Setting}{Setting}} \mbox{\hyperlink{classrr_1_1NLEQ1Interface_a1a8928cba0c954524c5361a79ee3d0b4}{get\+Item}} (const std\+::string \&key) const
 \begin{DoxyCompactList}\small\item\em get a value. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1NLEQ1Interface_aa3e2aca38a96402f1d7d33c4b5fb186f}\label{classrr_1_1NLEQ1Interface_aa3e2aca38a96402f1d7d33c4b5fb186f}} 
 virtual bool \mbox{\hyperlink{classrr_1_1NLEQ1Interface_aa3e2aca38a96402f1d7d33c4b5fb186f}{has\+Key}} (const std\+::string \&key) const
 \begin{DoxyCompactList}\small\item\em is there a key matching this name. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1NLEQ1Interface_ac6515e4785ab7094a19bf3e0747c5f6b}\label{classrr_1_1NLEQ1Interface_ac6515e4785ab7094a19bf3e0747c5f6b}} 
 virtual size\+\_\+t \mbox{\hyperlink{classrr_1_1NLEQ1Interface_ac6515e4785ab7094a19bf3e0747c5f6b}{delete\+Item}} (const std\+::string \&key)
 \begin{DoxyCompactList}\small\item\em remove a value \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1NLEQ1Interface_a72c681cfe17374a786130a3740841238}\label{classrr_1_1NLEQ1Interface_a72c681cfe17374a786130a3740841238}} 
 virtual std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classrr_1_1NLEQ1Interface_a72c681cfe17374a786130a3740841238}{get\+Keys}} () const
 \begin{DoxyCompactList}\small\item\em list of keys in this object. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classrr_1_1NLEQ1Interface_a63a783d485816dda9b037557f70de500}{set\+Scaling\+Factors}} (const std\+::vector$<$ double $>$ \&sx)
@@ -46,7 +43,7 @@ double {\bfseries compute\+Sums\+Of\+Squares} ()
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{classrr_1_1NLEQ1Interface_a53a8fc2f367213fafc6f325c1f0dc707}\label{classrr_1_1NLEQ1Interface_a53a8fc2f367213fafc6f325c1f0dc707}} 
-static const \mbox{\hyperlink{classrr_1_1Dictionary}{Dictionary}} $\ast$ \mbox{\hyperlink{classrr_1_1NLEQ1Interface_a53a8fc2f367213fafc6f325c1f0dc707}{get\+Steady\+State\+Options}} ()
+static const \mbox{\hyperlink{classrr_1_1Dictionary}{Dictionary}} $\ast$ {\bfseries get\+Steady\+State\+Options} ()
 \begin{DoxyCompactList}\small\item\em list of keys that this integrator supports. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -99,6 +96,20 @@ class {\bfseries NLEQ1\+Solver}
 
 
 \doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrr_1_1NLEQ1Interface_ac6515e4785ab7094a19bf3e0747c5f6b}\label{classrr_1_1NLEQ1Interface_ac6515e4785ab7094a19bf3e0747c5f6b}} 
+\index{rr::NLEQ1Interface@{rr::NLEQ1Interface}!deleteItem@{deleteItem}}
+\index{deleteItem@{deleteItem}!rr::NLEQ1Interface@{rr::NLEQ1Interface}}
+\doxysubsubsection{\texorpdfstring{deleteItem()}{deleteItem()}}
+{\footnotesize\ttfamily size\+\_\+t rr\+::\+NLEQ1\+Interface\+::delete\+Item (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+remove a value 
+
+
+
+Implements \mbox{\hyperlink{classrr_1_1Dictionary_aafd395297acc9cb73ea1e244b3f02d5c}{rr\+::\+Dictionary}}.
+
 \mbox{\Hypertarget{classrr_1_1NLEQ1Interface_a1a8928cba0c954524c5361a79ee3d0b4}\label{classrr_1_1NLEQ1Interface_a1a8928cba0c954524c5361a79ee3d0b4}} 
 \index{rr::NLEQ1Interface@{rr::NLEQ1Interface}!getItem@{getItem}}
 \index{getItem@{getItem}!rr::NLEQ1Interface@{rr::NLEQ1Interface}}
@@ -112,6 +123,20 @@ get a value.
 Variants are POD. 
 
 Implements \mbox{\hyperlink{classrr_1_1Dictionary_a0fcdd3d9089af14e49e8713c254c9b67}{rr\+::\+Dictionary}}.
+
+\mbox{\Hypertarget{classrr_1_1NLEQ1Interface_a72c681cfe17374a786130a3740841238}\label{classrr_1_1NLEQ1Interface_a72c681cfe17374a786130a3740841238}} 
+\index{rr::NLEQ1Interface@{rr::NLEQ1Interface}!getKeys@{getKeys}}
+\index{getKeys@{getKeys}!rr::NLEQ1Interface@{rr::NLEQ1Interface}}
+\doxysubsubsection{\texorpdfstring{getKeys()}{getKeys()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ rr\+::\+NLEQ1\+Interface\+::get\+Keys (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+list of keys in this object. 
+
+
+
+Implements \mbox{\hyperlink{classrr_1_1Dictionary_a378b4142bc6b038465b375d36350b51e}{rr\+::\+Dictionary}}.
 
 \mbox{\Hypertarget{classrr_1_1NLEQ1Interface_ac6fb6374db032cc5b06bfe0bfc33f551}\label{classrr_1_1NLEQ1Interface_ac6fb6374db032cc5b06bfe0bfc33f551}} 
 \index{rr::NLEQ1Interface@{rr::NLEQ1Interface}!getNumberOfCorrectorSteps@{getNumberOfCorrectorSteps}}
@@ -178,6 +203,20 @@ Returns the Number of Newton Iterations
 \begin{DoxyReturn}{Returns}
 the Number of Newton Iterations
 \end{DoxyReturn}
+\mbox{\Hypertarget{classrr_1_1NLEQ1Interface_aa3e2aca38a96402f1d7d33c4b5fb186f}\label{classrr_1_1NLEQ1Interface_aa3e2aca38a96402f1d7d33c4b5fb186f}} 
+\index{rr::NLEQ1Interface@{rr::NLEQ1Interface}!hasKey@{hasKey}}
+\index{hasKey@{hasKey}!rr::NLEQ1Interface@{rr::NLEQ1Interface}}
+\doxysubsubsection{\texorpdfstring{hasKey()}{hasKey()}}
+{\footnotesize\ttfamily bool rr\+::\+NLEQ1\+Interface\+::has\+Key (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+is there a key matching this name. 
+
+
+
+Implements \mbox{\hyperlink{classrr_1_1Dictionary_a7ec0accc7149a403ee5eeeb9457059ed}{rr\+::\+Dictionary}}.
+
 \mbox{\Hypertarget{classrr_1_1NLEQ1Interface_af96bd43cb07909357c1dd102e8d81e51}\label{classrr_1_1NLEQ1Interface_af96bd43cb07909357c1dd102e8d81e51}} 
 \index{rr::NLEQ1Interface@{rr::NLEQ1Interface}!setItem@{setItem}}
 \index{setItem@{setItem}!rr::NLEQ1Interface@{rr::NLEQ1Interface}}

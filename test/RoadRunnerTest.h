@@ -5,7 +5,6 @@
 #ifndef ROADRUNNER_ROADRUNNERTEST_H
 #define ROADRUNNER_ROADRUNNERTEST_H
 
-#include "C/rrc_api.h"
 #include "rrIniFile.h"
 #include "rrLogger.h"
 #include <filesystem>

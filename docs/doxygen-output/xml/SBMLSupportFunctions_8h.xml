@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="SBMLSupportFunctions_8h" kind="file" language="C++">
     <compoundname>SBMLSupportFunctions.h</compoundname>
+    <includedby refid="Jit_8cpp" local="yes">llvm/Jit.cpp</includedby>
+    <includedby refid="LLJit_8cpp" local="yes">llvm/LLJit.cpp</includedby>
+    <includedby refid="MCJit_8cpp" local="yes">llvm/MCJit.cpp</includedby>
     <includedby refid="ModelGeneratorContext_8cpp" local="yes">llvm/ModelGeneratorContext.cpp</includedby>
     <includedby refid="ModelResources_8cpp" local="yes">llvm/ModelResources.cpp</includedby>
     <includedby refid="SBMLSupportFunctions_8cpp" local="yes">llvm/SBMLSupportFunctions.cpp</includedby>
@@ -33,13 +36,13 @@
 <codeline lineno="20"><highlight class="normal"></highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>powerf(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>base,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>exponent);</highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>factoriali(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rr_factoriali(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>factoriald(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_factoriald(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
 <codeline lineno="26"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rootd(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_rootd(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b);</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>logd(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>base,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>number);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_logd(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>base,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>number);</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sec(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
@@ -47,7 +50,7 @@
 <codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//</highlight></codeline>
 <codeline lineno="37"><highlight class="comment"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>arccot(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight></codeline>
-<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>arccot_negzero(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_arccot_negzero(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a);</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
 <codeline lineno="47"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>arccot2(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b);</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"></highlight></codeline>
@@ -79,13 +82,20 @@
 <codeline lineno="89"><highlight class="normal"></highlight></codeline>
 <codeline lineno="91"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>quotient(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b);</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"></highlight></codeline>
-<codeline lineno="94"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b);</highlight></codeline>
+<codeline lineno="94"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_max(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b);</highlight></codeline>
 <codeline lineno="95"><highlight class="normal"></highlight></codeline>
-<codeline lineno="97"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b);</highlight></codeline>
-<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_min(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
 <codeline lineno="99"><highlight class="normal"></highlight></codeline>
-<codeline lineno="100"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>sbmlsupport<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>SBMLSUPPORTFUNCTIONS_H_<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rr_pow(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>sbmlsupport<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>SBMLSUPPORTFUNCTIONS_H_<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
     </programlisting>
     <location file="llvm/SBMLSupportFunctions.h"/>
   </compounddef>
