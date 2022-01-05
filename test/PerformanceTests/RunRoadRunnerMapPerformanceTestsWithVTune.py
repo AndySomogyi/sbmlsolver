@@ -35,6 +35,14 @@ def buildThreadingAnalysisCommand(n_models: int, jit: str, n_threads: int, test_
     command += f"--NModels={n_models} --jit={jit} --nThreads={n_threads} --testName={test_name}"
     return command
 
+def buildHotSpotsAnalysisCommand(n_models: int, jit: str, n_threads: int, test_name: str):
+    dirname = build_results_dirname(n_models, jit, n_threads, test_name)
+    command = f"\"{vtuneExe}\" --collect hotspots "
+    command += f"-app-working-dir \"{outDir}\" --app-working-dir=\"{outDir}\" -no-allow-multiple-runs -result-dir=\"{dirname}\" --data-limit=6000 "
+    command += f" -- {perfExe} "
+    command += f"--NModels={n_models} --jit={jit} --nThreads={n_threads} --testName={test_name}"
+    return command
+
 
 if __name__ == "__main__":
     n_models = [100]
@@ -48,7 +56,7 @@ if __name__ == "__main__":
             print("Running BuildSerial ", "n models: ", n, " jit type: ", j)
             dire = build_results_dirname(n, j, 1, "BuildSerial")
             if not os.path.isdir(dire):
-                cmd = buildThreadingAnalysisCommand(n, j, 1, "BuildSerial")
+                cmd = buildHotSpotsAnalysisCommand(n, j, 1, "BuildSerial")
                 print(cmd)
                 subprocess.check_output(cmd, shell=True)
 
