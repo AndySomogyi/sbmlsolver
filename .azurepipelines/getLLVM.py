@@ -15,11 +15,11 @@ For example:
 import glob
 import argparse
 import os
-from os.path import *
+from os.path import join, splitext, isdir, isfile
 import zipfile
 import tarfile
 import requests
-import requests, zipfile, io
+import io
 import shutil
 
 # command line arguments
