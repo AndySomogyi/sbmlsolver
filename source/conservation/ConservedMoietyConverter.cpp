@@ -16,6 +16,7 @@
 #include "rrSBMLReader.h"
 #include "rrLogger.h"
 #include "rrConfig.h"
+#include "rrRoadRunner.h"
 
 #include <sbml/math/ASTNode.h>
 #include <sbml/AlgebraicRule.h>
@@ -741,10 +742,8 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
     {
         const Rule *rule = rules->get(i);
 
-        const SBase *element = const_cast<Model*>(model)->getElementBySId(
-                rule->getVariable());
+        const Species *species = model->getSpecies(rule->getVariable());
 
-        const Species *species = dynamic_cast<const Species*>(element);
         if(species && !species->getBoundaryCondition() && model->getNumReactions() > 0)
         {
             std::string msg = "Cannot perform moiety conversion when floating "
@@ -754,8 +753,10 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
             conservedMoietyException(msg);
         }
 
+        ListOfReactions* lor = const_cast<ListOfReactions*>(model->getListOfReactions());
+
         const SpeciesReference *ref =
-                dynamic_cast<const SpeciesReference*>(element);
+                dynamic_cast<const SpeciesReference*>(lor->getElementBySId(rule->getVariable()));
         if(ref)
         {
             std::string msg = "Cannot perform moiety conversion with non-constant "
@@ -812,10 +813,8 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
             if (!ass->isSetMath()) {
                 continue;
             }
-            const SBase *element = const_cast<Model*>(model)->getElementBySId(
-                    ass->getVariable());
 
-            const Species *species = dynamic_cast<const Species*>(element);
+            const Species* species = model->getSpecies(ass->getVariable());
             if(species && !species->getBoundaryCondition())
             {
                 std::string msg = "Cannot perform moiety conversion when floating "
@@ -824,6 +823,8 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
                 conservedMoietyException(msg);
             }
 
+            libsbml::ListOfReactions* lor = const_cast<libsbml::ListOfReactions*>(model->getListOfReactions());
+            const SBase* element = lor->getElementBySId(ass->getVariable());
             const SpeciesReference *ref =
                     dynamic_cast<const SpeciesReference*>(element);
             if(ref)

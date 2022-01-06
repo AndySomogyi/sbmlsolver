@@ -1707,6 +1707,14 @@ namespace rr {
          */
         std::string getTempDir();
 
+        /**
+         * @internal
+         *
+         * Search for the element with the given ID, but only among SBML elements that have mathematical meaning:  Species, Parameters, Compartments, and SpeciesReferences (in that order).
+         */
+        static const libsbml::SBase* getElementWithMathematicalMeaning(const libsbml::Model* model, const std::string& id);
+
+
 #endif // #ifndef SWIG
 
     private:
