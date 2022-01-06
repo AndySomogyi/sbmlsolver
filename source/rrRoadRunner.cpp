@@ -497,7 +497,9 @@ namespace rr {
     }
 
     RoadRunner::RoadRunner(unsigned int level, unsigned int version)
-            : impl(new RoadRunnerImpl("", NULL)) {
+        : impl(new RoadRunnerImpl("", NULL))
+        , dataVersionNumber(RR_VERSION_MAJOR * 10 + RR_VERSION_MINOR)
+    {
 
         initLLVM();
 
@@ -527,7 +529,9 @@ namespace rr {
 
 
     RoadRunner::RoadRunner(const std::string &uriOrSBML, const Dictionary *options)
-            : impl(new RoadRunnerImpl(uriOrSBML, options)) {
+        : impl(new RoadRunnerImpl(uriOrSBML, options))
+        , dataVersionNumber(RR_VERSION_MAJOR * 10 + RR_VERSION_MINOR)
+    {
         initLLVM();
 
         /**
@@ -555,8 +559,10 @@ namespace rr {
 
 
     RoadRunner::RoadRunner(const std::string &_compiler, const std::string &_tempDir,
-                           const std::string &supportCodeDir) :
-            impl(new RoadRunnerImpl(_compiler, _tempDir, supportCodeDir)) {
+                           const std::string &supportCodeDir) 
+        : impl(new RoadRunnerImpl(_compiler, _tempDir, supportCodeDir)) 
+        , dataVersionNumber(RR_VERSION_MAJOR * 10 + RR_VERSION_MINOR)
+    {
         initLLVM();
         // must be run to register solvers
         registerSolvers();
@@ -584,7 +590,9 @@ namespace rr {
     }
 
     RoadRunner::RoadRunner(const RoadRunner &rr)
-            : impl(new RoadRunnerImpl(*rr.impl)) {
+        : impl(new RoadRunnerImpl(*rr.impl))
+        , dataVersionNumber(RR_VERSION_MAJOR * 10 + RR_VERSION_MINOR)
+    {
         //Set up integrators.
         // We loop through all the integrators in the source, setting the current one to
         //  each in turn, and setting the values of that current one based on the one in
