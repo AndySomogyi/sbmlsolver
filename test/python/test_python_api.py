@@ -44,6 +44,7 @@ except ImportError:
 #  So we import TestModelFactory as an alias.
 import roadrunner.tests.TestModelFactory as tmf
 
+Config.setValue(Config.LLJIT_OPTIMIZATION_LEVEL, Config.LLJIT_OPTIMIZATION_LEVEL.none)
 
 class RoadRunnerTests(unittest.TestCase):
     maxDiff = None

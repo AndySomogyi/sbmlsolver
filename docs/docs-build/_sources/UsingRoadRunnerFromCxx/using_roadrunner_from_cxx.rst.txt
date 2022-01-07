@@ -17,7 +17,7 @@ link roadrunner into an executable or library.
 
 The following is a very simple example of how to link
 roadrunner into an executable and run a simulation from C++.
-Create a new folder with whatever name seems appropriate and 
+Create a new folder with whatever name seems appropriate and
 create the following files:
 
 .. code-block:: bash
