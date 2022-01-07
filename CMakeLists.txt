@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
+
 # libRoadRunner semantic versioning (http://semver.org/) - used to generate
 # source files expose library version information
 
@@ -7,8 +8,8 @@ cmake_minimum_required(VERSION 3.16)
 # Version information and include modules
 
 set(ROADRUNNER_VERSION_MAJOR 2)
-set(ROADRUNNER_VERSION_MINOR 1)
-set(ROADRUNNER_VERSION_PATCH 3)
+set(ROADRUNNER_VERSION_MINOR 2)
+set(ROADRUNNER_VERSION_PATCH 0)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
 project(
@@ -102,6 +103,9 @@ option(BUILD_LLVM "Build the LLVM back end" ON)
 # note I've tried using the C backend and it no longer compiles. Could be useful to keep though
 option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" OFF)
 
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "../roadrunner-${CMAKE_GENERATOR_PLATFORM}-${CMAKE_BUILD_TYPE}" CACHE PATH "..." FORCE)
+endif()
 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "Build the SWIG generated python wrapper" OFF)
@@ -121,12 +125,12 @@ if (BUILD_PYTHON)
     # build directories
     set(PYTHON_PACKAGE_SITE_DIR_BUILD_TREE "${CMAKE_BINARY_DIR}/lib/site-packages" CACHE PATH "Path to Python site packages directory in the build tree")
     set(PYTHON_PACKAGE_BUILD_PREFIX "${PYTHON_PACKAGE_SITE_DIR_BUILD_TREE}/roadrunner")
-    set(RR_PYTHON_TESTING_BUILD_PREFIX "${PYTHON_PACKAGE_BUILD_PREFIX}/testing")
+    set(RR_PYTHON_TESTING_BUILD_PREFIX "${PYTHON_PACKAGE_BUILD_PREFIX}/tests")
 
     # install directories
     set(PYTHON_PACKAGE_SITE_DIR "${CMAKE_INSTALL_PREFIX}/site-packages" CACHE PATH "Path to Python site packages directory in the install tree")
     set(PYTHON_PACKAGE_INSTALL_PREFIX "${PYTHON_PACKAGE_SITE_DIR}/roadrunner")#CACHE PATH "Destination for roadrunner python bindings.")
-    set(RR_PYTHON_TESTING_INSTALL_PREFIX "${PYTHON_PACKAGE_INSTALL_PREFIX}/testing")
+    set(RR_PYTHON_TESTING_INSTALL_PREFIX "${PYTHON_PACKAGE_INSTALL_PREFIX}/tests")
 
 
     # plugin directories
@@ -174,6 +178,8 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Asan")
     # and they will only work if CMake can find address sanitizer
     # executable.
     #
+    # Only works on macos.
+    #
     # The Asan build is based on the Debug build, but with a few extra flags
     #
     get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
@@ -191,21 +197,25 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Asan")
         endif ()
     endif ()
 
+    set(WHICH_SANITIZER "address" CACHE STRING "which sanitizer to use. address, memory, thread, leak, undefined")
+    set(SANITIZER_OPTIONS "-fno-omit-frame-pointer" CACHE STRING "options to pass to command -fsanitize")
+
+    message(STATUS "WHICH_SANITIZER ${WHICH_SANITIZER}")
 
     set(CMAKE_C_FLAGS_ASAN
-            "${CMAKE_C_FLAGS_DEBUG} -fsanitize=address -fno-omit-frame-pointer" CACHE STRING
+            "${CMAKE_C_FLAGS_DEBUG} -fsanitize=${WHICH_SANITIZER} ${SANITIZER_OPTIONS}" CACHE STRING
             "Flags used by the C compiler for Asan build type or configuration." FORCE)
 
     set(CMAKE_CXX_FLAGS_ASAN
-            "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address -fno-omit-frame-pointer" CACHE STRING
+            "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=${WHICH_SANITIZER} ${SANITIZER_OPTIONS}" CACHE STRING
             "Flags used by the C++ compiler for Asan build type or configuration." FORCE)
 
     set(CMAKE_EXE_LINKER_FLAGS_ASAN
-            "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} -fsanitize=address" CACHE STRING
+            "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} -fsanitize=${WHICH_SANITIZER}" CACHE STRING
             "Linker flags to be used to create executables for Asan build type." FORCE)
 
     set(CMAKE_SHARED_LINKER_FLAGS_ASAN
-            "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} -fsanitize=address" CACHE STRING
+            "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} -fsanitize=${WHICH_SANITIZER}" CACHE STRING
             "Linker lags to be used to create shared libraries for Asan build type." FORCE)
 endif ()
 
@@ -388,6 +398,7 @@ find_package(PocoFoundation CONFIG REQUIRED)
 find_package(PocoNet CONFIG REQUIRED)
 find_package(PocoXML CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
+
 find_package(SUNDIALS CONFIG REQUIRED)
 
 # not for windows. So not required, but we throw error if not win and not found.
@@ -403,13 +414,15 @@ set(BUILD_STATIC_LIBS ON)
 
 # install dependencies so clients can use roadrunner from c++/cmake
 message(STATUS "CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR}")
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/lib DESTINATION ${CMAKE_INSTALL_PREFIX})
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/bin DESTINATION ${CMAKE_INSTALL_PREFIX})
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/include DESTINATION ${CMAKE_INSTALL_PREFIX})
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/share DESTINATION ${CMAKE_INSTALL_PREFIX})
-
+install(DIRECTORY "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib" DESTINATION "${CMAKE_INSTALL_PREFIX}")
+install(DIRECTORY "${RR_DEPENDENCIES_INSTALL_PREFIX}/bin" DESTINATION "${CMAKE_INSTALL_PREFIX}")
+install(DIRECTORY "${RR_DEPENDENCIES_INSTALL_PREFIX}/include" DESTINATION "${CMAKE_INSTALL_PREFIX}")
+install(DIRECTORY "${RR_DEPENDENCIES_INSTALL_PREFIX}/share" DESTINATION "${CMAKE_INSTALL_PREFIX}")
+if (WIN32)
+    install(DIRECTORY "${RR_DEPENDENCIES_INSTALL_PREFIX}/cmake" DESTINATION "${CMAKE_INSTALL_PREFIX}")
+endif()
 # install a cmake script for consumer libraries to easily import roadrunner targets
-install(FILES cmake/ImportRoadrunnerAndDependencies.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
+install(FILES "cmake/ImportRoadrunnerAndDependencies.cmake" DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
 
 if (${MINGW})
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
@@ -495,7 +508,7 @@ if (BUILD_TESTS)
 
     message(STATUS "building tests")
 
-    file(GLOB PYTHON_TEST_FILES "wrappers/Python/roadrunner/testing/*.*")
+    file(GLOB PYTHON_TEST_FILES "test/python/*.*")
 
     file(GLOB PYTHON_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/test/rrtest_files/*.rrtest")
 
@@ -504,21 +517,21 @@ if (BUILD_TESTS)
     foreach (f ${PYTHON_TEST_FILES})
         if (NOT IS_DIRECTORY ${f})
             get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY)
+            configure_file(${f} lib/site-packages/roadrunner/tests/${FILE_NAME} COPYONLY)
         endif ()
     endforeach ()
 
     foreach (f ${PYTHON_TEST_DATA})
         if (NOT IS_DIRECTORY ${f})
             get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+            configure_file(${f} lib/site-packages/roadrunner/tests/test_data/${FILE_NAME} COPYONLY)
         endif ()
     endforeach ()
 
     foreach (f ${TEST_DATA_XML})
         if (NOT IS_DIRECTORY ${f})
             get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} lib/site-packages/roadrunner/testing/test_data/${FILE_NAME} COPYONLY)
+            configure_file(${f} lib/site-packages/roadrunner/tests/test_data/${FILE_NAME} COPYONLY)
         endif ()
     endforeach ()
 

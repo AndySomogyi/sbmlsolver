@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="namespacesbmlsupport" kind="namespace" language="C++">
     <compoundname>sbmlsupport</compoundname>
       <sectiondef kind="func">
@@ -8,6 +8,7 @@
         <definition>double sbmlsupport::trunc</definition>
         <argsstring>(double d)</argsstring>
         <name>trunc</name>
+        <qualifiedname>sbmlsupport::trunc</qualifiedname>
         <param>
           <type>double</type>
           <declname>d</declname>
@@ -25,6 +26,7 @@
         <definition>double sbmlsupport::poweri</definition>
         <argsstring>(double x, int y)</argsstring>
         <name>poweri</name>
+        <qualifiedname>sbmlsupport::poweri</qualifiedname>
         <param>
           <type>double</type>
           <declname>x</declname>
@@ -46,6 +48,7 @@
         <definition>double sbmlsupport::spf_abs</definition>
         <argsstring>(double x)</argsstring>
         <name>spf_abs</name>
+        <qualifiedname>sbmlsupport::spf_abs</qualifiedname>
         <param>
           <type>double</type>
           <declname>x</declname>
@@ -63,6 +66,7 @@
         <definition>double sbmlsupport::powerf</definition>
         <argsstring>(double base, double exponent)</argsstring>
         <name>powerf</name>
+        <qualifiedname>sbmlsupport::powerf</qualifiedname>
         <param>
           <type>double</type>
           <declname>base</declname>
@@ -79,11 +83,12 @@
         </inbodydescription>
         <location file="llvm/SBMLSupportFunctions.cpp" line="69" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="69" bodyend="101" declfile="llvm/SBMLSupportFunctions.h" declline="21" declcolumn="8"/>
       </memberdef>
-      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a8c97244a050fadf1c71a4f858a924111" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1ae0ac1c206d04d23b7a6dcb1ac400b29b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
-        <definition>double sbmlsupport::logd</definition>
+        <definition>double sbmlsupport::rr_logd</definition>
         <argsstring>(double base, double number)</argsstring>
-        <name>logd</name>
+        <name>rr_logd</name>
+        <qualifiedname>sbmlsupport::rr_logd</qualifiedname>
         <param>
           <type>double</type>
           <declname>base</declname>
@@ -100,11 +105,12 @@
         </inbodydescription>
         <location file="llvm/SBMLSupportFunctions.cpp" line="103" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="103" bodyend="106" declfile="llvm/SBMLSupportFunctions.h" declline="29" declcolumn="8"/>
       </memberdef>
-      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a7970330200bb8d7163df5cba4a964fa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a01fd25e98d8877d2daf9e11ffc80ed44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
-        <definition>double sbmlsupport::factoriald</definition>
+        <definition>double sbmlsupport::rr_factoriald</definition>
         <argsstring>(double a)</argsstring>
-        <name>factoriald</name>
+        <name>rr_factoriald</name>
+        <qualifiedname>sbmlsupport::rr_factoriald</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -117,11 +123,12 @@
         </inbodydescription>
         <location file="llvm/SBMLSupportFunctions.cpp" line="108" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="108" bodyend="116" declfile="llvm/SBMLSupportFunctions.h" declline="25" declcolumn="8"/>
       </memberdef>
-      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1af1db43b882ed83de04557635386af0af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a931dffedc93f55776ded47f3dd774c2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int sbmlsupport::factoriali</definition>
+        <definition>int sbmlsupport::rr_factoriali</definition>
         <argsstring>(int a)</argsstring>
-        <name>factoriali</name>
+        <name>rr_factoriali</name>
+        <qualifiedname>sbmlsupport::rr_factoriali</qualifiedname>
         <param>
           <type>int</type>
           <declname>a</declname>
@@ -134,11 +141,12 @@
         </inbodydescription>
         <location file="llvm/SBMLSupportFunctions.cpp" line="118" column="5" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="118" bodyend="126" declfile="llvm/SBMLSupportFunctions.h" declline="23" declcolumn="5"/>
       </memberdef>
-      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a9f572bedab4cfbff7712dcb16c5861ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1ac5e4329731274a7d6c88762220027ec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
-        <definition>double sbmlsupport::rootd</definition>
+        <definition>double sbmlsupport::rr_rootd</definition>
         <argsstring>(double a, double b)</argsstring>
-        <name>rootd</name>
+        <name>rr_rootd</name>
+        <qualifiedname>sbmlsupport::rr_rootd</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -160,6 +168,7 @@
         <definition>double sbmlsupport::sec</definition>
         <argsstring>(double a)</argsstring>
         <name>sec</name>
+        <qualifiedname>sbmlsupport::sec</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -177,6 +186,7 @@
         <definition>double sbmlsupport::cot</definition>
         <argsstring>(double a)</argsstring>
         <name>cot</name>
+        <qualifiedname>sbmlsupport::cot</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -194,6 +204,7 @@
         <definition>double sbmlsupport::arccot</definition>
         <argsstring>(double a)</argsstring>
         <name>arccot</name>
+        <qualifiedname>sbmlsupport::arccot</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -206,11 +217,12 @@
         </inbodydescription>
         <location file="llvm/SBMLSupportFunctions.cpp" line="153" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="153" bodyend="165" declfile="llvm/SBMLSupportFunctions.h" declline="37" declcolumn="8"/>
       </memberdef>
-      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1aff15eddec741ebfb9c25c82f91445996" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1ac98604447d3abfbebaac0b2598f2a800" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
-        <definition>double sbmlsupport::arccot_negzero</definition>
+        <definition>double sbmlsupport::rr_arccot_negzero</definition>
         <argsstring>(double a)</argsstring>
-        <name>arccot_negzero</name>
+        <name>rr_arccot_negzero</name>
+        <qualifiedname>sbmlsupport::rr_arccot_negzero</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -230,6 +242,7 @@
         <definition>double sbmlsupport::arccot2</definition>
         <argsstring>(double a, double b)</argsstring>
         <name>arccot2</name>
+        <qualifiedname>sbmlsupport::arccot2</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -251,6 +264,7 @@
         <definition>double sbmlsupport::arcsec</definition>
         <argsstring>(double a)</argsstring>
         <name>arcsec</name>
+        <qualifiedname>sbmlsupport::arcsec</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -268,6 +282,7 @@
         <definition>double sbmlsupport::csc</definition>
         <argsstring>(double a)</argsstring>
         <name>csc</name>
+        <qualifiedname>sbmlsupport::csc</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -285,6 +300,7 @@
         <definition>double sbmlsupport::arccsc</definition>
         <argsstring>(double a)</argsstring>
         <name>arccsc</name>
+        <qualifiedname>sbmlsupport::arccsc</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -302,6 +318,7 @@
         <definition>double sbmlsupport::sech</definition>
         <argsstring>(double a)</argsstring>
         <name>sech</name>
+        <qualifiedname>sbmlsupport::sech</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -319,6 +336,7 @@
         <definition>double sbmlsupport::asech</definition>
         <argsstring>(double a)</argsstring>
         <name>asech</name>
+        <qualifiedname>sbmlsupport::asech</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -336,6 +354,7 @@
         <definition>double sbmlsupport::arcsech</definition>
         <argsstring>(double z)</argsstring>
         <name>arcsech</name>
+        <qualifiedname>sbmlsupport::arcsech</qualifiedname>
         <param>
           <type>double</type>
           <declname>z</declname>
@@ -353,6 +372,7 @@
         <definition>double sbmlsupport::csch</definition>
         <argsstring>(double a)</argsstring>
         <name>csch</name>
+        <qualifiedname>sbmlsupport::csch</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -370,6 +390,7 @@
         <definition>double sbmlsupport::arccsch</definition>
         <argsstring>(double z)</argsstring>
         <name>arccsch</name>
+        <qualifiedname>sbmlsupport::arccsch</qualifiedname>
         <param>
           <type>double</type>
           <declname>z</declname>
@@ -387,6 +408,7 @@
         <definition>double sbmlsupport::coth</definition>
         <argsstring>(double a)</argsstring>
         <name>coth</name>
+        <qualifiedname>sbmlsupport::coth</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -404,6 +426,7 @@
         <definition>double sbmlsupport::arccoth</definition>
         <argsstring>(double a)</argsstring>
         <name>arccoth</name>
+        <qualifiedname>sbmlsupport::arccoth</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -421,6 +444,7 @@
         <definition>double sbmlsupport::arcsinh</definition>
         <argsstring>(double a)</argsstring>
         <name>arcsinh</name>
+        <qualifiedname>sbmlsupport::arcsinh</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -438,6 +462,7 @@
         <definition>double sbmlsupport::arccosh</definition>
         <argsstring>(double a)</argsstring>
         <name>arccosh</name>
+        <qualifiedname>sbmlsupport::arccosh</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -455,6 +480,7 @@
         <definition>double sbmlsupport::arctanh</definition>
         <argsstring>(double a)</argsstring>
         <name>arctanh</name>
+        <qualifiedname>sbmlsupport::arctanh</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -472,6 +498,7 @@
         <definition>double sbmlsupport::quotient</definition>
         <argsstring>(double a, double b)</argsstring>
         <name>quotient</name>
+        <qualifiedname>sbmlsupport::quotient</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -488,11 +515,12 @@
         </inbodydescription>
         <location file="llvm/SBMLSupportFunctions.cpp" line="267" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="267" bodyend="270" declfile="llvm/SBMLSupportFunctions.h" declline="91" declcolumn="8"/>
       </memberdef>
-      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1aa33c8e302b807b6f7a97170aba603256" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a7b96b1d82ce33b5782b7f5bb8630c07d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
-        <definition>double sbmlsupport::max</definition>
+        <definition>double sbmlsupport::rr_max</definition>
         <argsstring>(double a, double b)</argsstring>
-        <name>max</name>
+        <name>rr_max</name>
+        <qualifiedname>sbmlsupport::rr_max</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -509,11 +537,12 @@
         </inbodydescription>
         <location file="llvm/SBMLSupportFunctions.cpp" line="273" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="273" bodyend="276" declfile="llvm/SBMLSupportFunctions.h" declline="94" declcolumn="8"/>
       </memberdef>
-      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a284dee4e8ecac5f6476b47a1f07b71bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a4a1cb3e8d8fd69ad5eac8ce1104c4ebd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
-        <definition>double sbmlsupport::min</definition>
+        <definition>double sbmlsupport::rr_min</definition>
         <argsstring>(double a, double b)</argsstring>
-        <name>min</name>
+        <name>rr_min</name>
+        <qualifiedname>sbmlsupport::rr_min</qualifiedname>
         <param>
           <type>double</type>
           <declname>a</declname>
@@ -529,6 +558,28 @@
         <inbodydescription>
         </inbodydescription>
         <location file="llvm/SBMLSupportFunctions.cpp" line="279" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="279" bodyend="282" declfile="llvm/SBMLSupportFunctions.h" declline="97" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1ad3b081e432892b2effd6fac8f33abac9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::rr_pow</definition>
+        <argsstring>(double a, double b)</argsstring>
+        <name>rr_pow</name>
+        <qualifiedname>sbmlsupport::rr_pow</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="284" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="284" bodyend="286" declfile="llvm/SBMLSupportFunctions.h" declline="100" declcolumn="8"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

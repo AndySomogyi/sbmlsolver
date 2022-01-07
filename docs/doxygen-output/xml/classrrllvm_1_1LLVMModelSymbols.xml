@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1LLVMModelSymbols" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::LLVMModelSymbols</compoundname>
     <basecompoundref prot="private" virt="non-virtual">libsbml::SBMLVisitor</basecompoundref>
@@ -9,6 +9,7 @@
       <memberdef kind="enum" id="classrrllvm_1_1LLVMModelSymbols_1aab332944da88f5c74e0b6dd11a7c98b1" prot="protected" static="no" strong="no">
         <type></type>
         <name>SpeciesReferenceType</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::SpeciesReferenceType</qualifiedname>
         <enumvalue id="classrrllvm_1_1LLVMModelSymbols_1aab332944da88f5c74e0b6dd11a7c98b1af9ea0b8bb58186f96ef01543b25caea2" prot="protected">
           <name>Reactant</name>
           <briefdescription>
@@ -36,6 +37,7 @@
         <definition>typedef std::list&lt;const libsbml::ASTNode*&gt; rrllvm::LLVMModelSymbols::ASTNodeList</definition>
         <argsstring></argsstring>
         <name>ASTNodeList</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::ASTNodeList</qualifiedname>
         <briefdescription>
 <para>a species can appear more than once in a reaction, there can be several stoichiometries for a species both as a product and as a reactant, for example, we could have </para>
         </briefdescription>
@@ -53,6 +55,7 @@
         <definition>typedef std::map&lt;int, ASTNodeList&gt; rrllvm::LLVMModelSymbols::IntASTNodeListMap</definition>
         <argsstring></argsstring>
         <name>IntASTNodeListMap</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::IntASTNodeListMap</qualifiedname>
         <briefdescription>
 <para>we reference the reactants and products by the species index </para>
         </briefdescription>
@@ -69,6 +72,7 @@
         <definition>SymbolForest rrllvm::LLVMModelSymbols::initialValues</definition>
         <argsstring></argsstring>
         <name>initialValues</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::initialValues</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -82,6 +86,7 @@
         <definition>SymbolForest rrllvm::LLVMModelSymbols::assignmentRules</definition>
         <argsstring></argsstring>
         <name>assignmentRules</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::assignmentRules</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -95,6 +100,7 @@
         <definition>SymbolForest rrllvm::LLVMModelSymbols::initialAssignmentRules</definition>
         <argsstring></argsstring>
         <name>initialAssignmentRules</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::initialAssignmentRules</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -108,6 +114,7 @@
         <definition>SymbolForest rrllvm::LLVMModelSymbols::rateRules</definition>
         <argsstring></argsstring>
         <name>rateRules</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::rateRules</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -121,6 +128,7 @@
         <definition>ASTNodeFactory rrllvm::LLVMModelSymbols::nodes</definition>
         <argsstring></argsstring>
         <name>nodes</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::nodes</qualifiedname>
         <briefdescription>
 <para>all ASTNodes we create are stored here. </para>
         </briefdescription>
@@ -135,6 +143,7 @@
         <definition>std::vector&lt;ReactionSymbols&gt; rrllvm::LLVMModelSymbols::reactions</definition>
         <argsstring></argsstring>
         <name>reactions</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::reactions</qualifiedname>
         <briefdescription>
 <para>these are indexed by reaction index. </para>
         </briefdescription>
@@ -152,6 +161,7 @@
         <definition>libsbml::Model const* rrllvm::LLVMModelSymbols::model</definition>
         <argsstring></argsstring>
         <name>model</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::model</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -165,6 +175,7 @@
         <definition>const LLVMModelDataSymbols&amp; rrllvm::LLVMModelSymbols::symbols</definition>
         <argsstring></argsstring>
         <name>symbols</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::symbols</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -180,6 +191,7 @@
         <definition>rrllvm::LLVMModelSymbols::LLVMModelSymbols</definition>
         <argsstring>(libsbml::Model const *m, LLVMModelDataSymbols const &amp;sym)</argsstring>
         <name>LLVMModelSymbols</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::LLVMModelSymbols</qualifiedname>
         <param>
           <type>libsbml::Model const *</type>
           <declname>m</declname>
@@ -201,6 +213,7 @@
         <definition>rrllvm::LLVMModelSymbols::~LLVMModelSymbols</definition>
         <argsstring>()</argsstring>
         <name>~LLVMModelSymbols</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::~LLVMModelSymbols</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -214,6 +227,7 @@
         <definition>ASTNode * rrllvm::LLVMModelSymbols::createStoichiometryNode</definition>
         <argsstring>(int row, int col) const</argsstring>
         <name>createStoichiometryNode</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::createStoichiometryNode</qualifiedname>
         <param>
           <type>int</type>
           <declname>row</declname>
@@ -237,6 +251,7 @@
         <definition>const SymbolForest &amp; rrllvm::LLVMModelSymbols::getAssigmentRules</definition>
         <argsstring>() const</argsstring>
         <name>getAssigmentRules</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::getAssigmentRules</qualifiedname>
         <briefdescription>
 <para>assignment rules are always active </para>
         </briefdescription>
@@ -251,6 +266,7 @@
         <definition>const SymbolForest &amp; rrllvm::LLVMModelSymbols::getInitialAssignmentRules</definition>
         <argsstring>() const</argsstring>
         <name>getInitialAssignmentRules</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::getInitialAssignmentRules</qualifiedname>
         <briefdescription>
 <para>only valid before the model is started. </para>
         </briefdescription>
@@ -268,6 +284,7 @@
         <definition>const SymbolForest &amp; rrllvm::LLVMModelSymbols::getInitialValues</definition>
         <argsstring>() const</argsstring>
         <name>getInitialValues</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::getInitialValues</qualifiedname>
         <briefdescription>
 <para>contains the intial symbols along with the intial assignments which override the initial values. </para>
         </briefdescription>
@@ -282,6 +299,7 @@
         <definition>const SymbolForest &amp; rrllvm::LLVMModelSymbols::getRateRules</definition>
         <argsstring>() const</argsstring>
         <name>getRateRules</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::getRateRules</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -297,6 +315,7 @@
         <definition>bool rrllvm::LLVMModelSymbols::visit</definition>
         <argsstring>(const libsbml::Compartment &amp;x)</argsstring>
         <name>visit</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::visit</qualifiedname>
         <param>
           <type>const libsbml::Compartment &amp;</type>
           <declname>x</declname>
@@ -314,6 +333,7 @@
         <definition>bool rrllvm::LLVMModelSymbols::visit</definition>
         <argsstring>(const libsbml::Species &amp;x)</argsstring>
         <name>visit</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::visit</qualifiedname>
         <param>
           <type>const libsbml::Species &amp;</type>
           <declname>x</declname>
@@ -331,6 +351,7 @@
         <definition>bool rrllvm::LLVMModelSymbols::visit</definition>
         <argsstring>(const libsbml::AssignmentRule &amp;x)</argsstring>
         <name>visit</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::visit</qualifiedname>
         <param>
           <type>const libsbml::AssignmentRule &amp;</type>
           <declname>x</declname>
@@ -348,6 +369,7 @@
         <definition>bool rrllvm::LLVMModelSymbols::visit</definition>
         <argsstring>(const libsbml::InitialAssignment &amp;x)</argsstring>
         <name>visit</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::visit</qualifiedname>
         <param>
           <type>const libsbml::InitialAssignment &amp;</type>
           <declname>x</declname>
@@ -374,6 +396,7 @@
         <definition>bool rrllvm::LLVMModelSymbols::visit</definition>
         <argsstring>(const libsbml::RateRule &amp;rule)</argsstring>
         <name>visit</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::visit</qualifiedname>
         <param>
           <type>const libsbml::RateRule &amp;</type>
           <declname>rule</declname>
@@ -399,6 +422,7 @@
         <definition>bool rrllvm::LLVMModelSymbols::visit</definition>
         <argsstring>(const libsbml::Reaction &amp;x)</argsstring>
         <name>visit</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::visit</qualifiedname>
         <param>
           <type>const libsbml::Reaction &amp;</type>
           <declname>x</declname>
@@ -417,6 +441,7 @@
         <definition>bool rrllvm::LLVMModelSymbols::visit</definition>
         <argsstring>(const libsbml::Rule &amp;x)</argsstring>
         <name>visit</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::visit</qualifiedname>
         <param>
           <type>const libsbml::Rule &amp;</type>
           <declname>x</declname>
@@ -436,6 +461,7 @@
         <definition>bool rrllvm::LLVMModelSymbols::visit</definition>
         <argsstring>(const libsbml::Event &amp;event)</argsstring>
         <name>visit</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::visit</qualifiedname>
         <param>
           <type>const libsbml::Event &amp;</type>
           <declname>event</declname>
@@ -454,6 +480,7 @@
         <definition>void rrllvm::LLVMModelSymbols::processElement</definition>
         <argsstring>(SymbolForest &amp;currentSymbols, const libsbml::SBase *element, const libsbml::ASTNode *math)</argsstring>
         <name>processElement</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::processElement</qualifiedname>
         <param>
           <type><ref refid="classrrllvm_1_1SymbolForest" kindref="compound">SymbolForest</ref> &amp;</type>
           <declname>currentSymbols</declname>
@@ -481,6 +508,7 @@
         <definition>void rrllvm::LLVMModelSymbols::processSpecies</definition>
         <argsstring>(SymbolForest &amp;currentSymbols, const libsbml::Species *element, const libsbml::ASTNode *math)</argsstring>
         <name>processSpecies</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::processSpecies</qualifiedname>
         <param>
           <type><ref refid="classrrllvm_1_1SymbolForest" kindref="compound">SymbolForest</ref> &amp;</type>
           <declname>currentSymbols</declname>
@@ -507,6 +535,7 @@
         <definition>const ASTNode * rrllvm::LLVMModelSymbols::getSpeciesReferenceStoichMath</definition>
         <argsstring>(const libsbml::SpeciesReference *reference)</argsstring>
         <name>getSpeciesReferenceStoichMath</name>
+        <qualifiedname>rrllvm::LLVMModelSymbols::getSpeciesReferenceStoichMath</qualifiedname>
         <param>
           <type>const libsbml::SpeciesReference *</type>
           <declname>reference</declname>
@@ -528,18 +557,21 @@
 <para>TODO: some real docs... </para>
     </detaileddescription>
     <inheritancegraph>
+      <node id="2">
+        <label>libsbml::SBMLVisitor</label>
+      </node>
       <node id="1">
         <label>rrllvm::LLVMModelSymbols</label>
         <link refid="classrrllvm_1_1LLVMModelSymbols"/>
         <childnode refid="2" relation="private-inheritance">
         </childnode>
       </node>
+    </inheritancegraph>
+    <collaborationgraph>
       <node id="2">
         <label>libsbml::SBMLVisitor</label>
       </node>
-    </inheritancegraph>
-    <collaborationgraph>
-      <node id="3">
+      <node id="4">
         <label>rrllvm::ASTNodeFactory</label>
         <link refid="classrrllvm_1_1ASTNodeFactory"/>
       </node>
@@ -549,21 +581,18 @@
         <childnode refid="2" relation="private-inheritance">
         </childnode>
         <childnode refid="3" relation="usage">
-          <edgelabel>nodes</edgelabel>
-        </childnode>
-        <childnode refid="4" relation="usage">
           <edgelabel>assignmentRules</edgelabel>
           <edgelabel>initialAssignmentRules</edgelabel>
           <edgelabel>initialValues</edgelabel>
           <edgelabel>rateRules</edgelabel>
         </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>nodes</edgelabel>
+        </childnode>
       </node>
-      <node id="4">
+      <node id="3">
         <label>rrllvm::SymbolForest</label>
         <link refid="classrrllvm_1_1SymbolForest"/>
-      </node>
-      <node id="2">
-        <label>libsbml::SBMLVisitor</label>
       </node>
     </collaborationgraph>
     <location file="llvm/LLVMModelSymbols.h" line="25" column="1" bodyfile="llvm/LLVMModelSymbols.h" bodystart="26" bodyend="254"/>

@@ -11,6 +11,7 @@
 #include "rrLogger.h"
 #include "rrStringUtils.h"
 #include "rrException.h"
+#include "rrRoadRunner.h"
 
 #include "conservation/ConservationExtension.h"
 
@@ -128,7 +129,7 @@ bool LLVMModelSymbols::visit(const libsbml::Species& x)
 bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 {
     rrLog(Logger::LOG_TRACE) << "processing AssignmentRule, id: " << x.getId();
-    SBase *element = const_cast<Model*>(model)->getElementBySId(x.getVariable());
+    const SBase* element = rr::RoadRunner::getElementWithMathematicalMeaning(model, x.getId());
 
     if (element)
     {
@@ -147,7 +148,7 @@ bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
 {
     rrLog(Logger::LOG_TRACE) << "processing InitialAssignment, id: " +  x.getId();
-    SBase *element = const_cast<Model*>(model)->getElementBySId(x.getSymbol());
+    const SBase* element = rr::RoadRunner::getElementWithMathematicalMeaning(model, x.getId());
     processElement(initialValues, element, x.getMath());
     processElement(initialAssignmentRules, element, x.getMath());
     return true;
@@ -156,7 +157,7 @@ bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
 bool LLVMModelSymbols::visit(const libsbml::RateRule& rule)
 {
     rrLog(Logger::LOG_TRACE) << "processing RateRule, id: " +  rule.getId();
-    SBase *element = const_cast<Model*>(model)->getElementBySId(rule.getVariable());
+    const SBase* element = rr::RoadRunner::getElementWithMathematicalMeaning(model, rule.getVariable());
     processElement(rateRules, element, rule.getMath());
     return true;
 }

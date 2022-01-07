@@ -214,6 +214,11 @@ namespace rr {
         out.write((char *) &t, sizeof(T));
     }
 
+    template<typename T>
+    inline void saveBinary(std::ostream &out, T *t) {
+        out.write((char *) t, sizeof(T));
+    }
+
     template<>
     inline void saveBinary(std::ostream &out, const std::string &s) {
         saveBinary(out, s.size());
@@ -290,6 +295,7 @@ namespace rr {
                 break;
             case Setting::DOUBLEVECTOR:
                 saveBinary(out, var.get<std::vector<double>>());
+                break;
             default:
                 break;
         }
@@ -305,6 +311,11 @@ namespace rr {
         T temp;
         in.read((char *) &temp, sizeof(T));
         t = temp;
+    }
+
+    template<typename T>
+    inline void loadBinary(std::istream &in, T* t) {
+        in.read((char *) t, sizeof(T));
     }
 
     template<>

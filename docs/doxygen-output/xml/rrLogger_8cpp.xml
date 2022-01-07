@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrLogger_8cpp" kind="file" language="C++">
     <compoundname>rrLogger.cpp</compoundname>
     <includes refid="rrLogger_8h" local="yes">rrLogger.h</includes>
@@ -23,27 +23,6 @@
     <includes local="no">map</includes>
     <includes local="no">assert.h</includes>
     <incdepgraph>
-      <node id="25">
-        <label>list</label>
-      </node>
-      <node id="39">
-        <label>Poco/AutoPtr.h</label>
-      </node>
-      <node id="14">
-        <label>functional</label>
-      </node>
-      <node id="22">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
       <node id="8">
         <label>Setting.h</label>
         <link refid="Setting_8h_source"/>
@@ -68,17 +47,45 @@
         <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="12">
-        <label>limits</label>
+      <node id="6">
+        <label>rrConfig.h</label>
+        <link refid="rrConfig_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
-      <node id="30">
-        <label>filesystem</label>
+      <node id="22">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
-      <node id="44">
-        <label>assert.h</label>
+      <node id="17">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
-      <node id="20">
-        <label>float.h</label>
+      <node id="4">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
       </node>
       <node id="1">
         <label>rrLogger.cpp</label>
@@ -124,25 +131,6 @@
         <childnode refid="44" relation="include">
         </childnode>
       </node>
-      <node id="34">
-        <label>Poco/SimpleFileChannel.h</label>
-      </node>
-      <node id="4">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="29">
-        <label>stdint.h</label>
-      </node>
-      <node id="9">
-        <label>variant</label>
-      </node>
-      <node id="38">
-        <label>Poco/Formatter.h</label>
-      </node>
-      <node id="33">
-        <label>Poco/ConsoleChannel.h</label>
-      </node>
       <node id="2">
         <label>rrLogger.h</label>
         <link refid="rrLogger_8h_source"/>
@@ -151,99 +139,11 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="7">
-        <label>string</label>
-      </node>
-      <node id="6">
-        <label>rrConfig.h</label>
-        <link refid="rrConfig_8h_source"/>
-        <childnode refid="7" relation="include">
-        </childnode>
+      <node id="5">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-      </node>
-      <node id="27">
-        <label>map</label>
-      </node>
-      <node id="37">
-        <label>Poco/PatternFormatter.h</label>
-      </node>
-      <node id="42">
-        <label>Poco/File.h</label>
-      </node>
-      <node id="18">
-        <label>exception</label>
-      </node>
-      <node id="43">
-        <label>Poco/Path.h</label>
-      </node>
-      <node id="17">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="15">
-        <label>typeinfo</label>
-      </node>
-      <node id="32">
-        <label>Poco/AsyncChannel.h</label>
-      </node>
-      <node id="19">
-        <label>rrUtils.h</label>
-        <link refid="rrUtils_8h_source"/>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-      </node>
-      <node id="35">
-        <label>Poco/SplitterChannel.h</label>
-      </node>
-      <node id="16">
-        <label>setting_t.h</label>
-        <link refid="setting__t_8h_source"/>
-      </node>
-      <node id="11">
-        <label>vector</label>
-      </node>
-      <node id="3">
-        <label>sstream</label>
-      </node>
-      <node id="36">
-        <label>Poco/FormattingChannel.h</label>
-      </node>
-      <node id="23">
-        <label>cstdlib</label>
-      </node>
-      <node id="10">
-        <label>iostream</label>
       </node>
       <node id="24">
         <label>rrStringUtils.h</label>
@@ -269,8 +169,51 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="28">
-        <label>unordered_map</label>
+      <node id="19">
+        <label>rrUtils.h</label>
+        <link refid="rrUtils_8h_source"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>setting_t.h</label>
+        <link refid="setting__t_8h_source"/>
+      </node>
+      <node id="32">
+        <label>Poco/AsyncChannel.h</label>
+      </node>
+      <node id="39">
+        <label>Poco/AutoPtr.h</label>
+      </node>
+      <node id="33">
+        <label>Poco/ConsoleChannel.h</label>
+      </node>
+      <node id="42">
+        <label>Poco/File.h</label>
+      </node>
+      <node id="38">
+        <label>Poco/Formatter.h</label>
+      </node>
+      <node id="36">
+        <label>Poco/FormattingChannel.h</label>
       </node>
       <node id="40">
         <label>Poco/LogStream.h</label>
@@ -278,23 +221,80 @@
       <node id="31">
         <label>Poco/Logger.h</label>
       </node>
-      <node id="13">
-        <label>type_traits</label>
+      <node id="41">
+        <label>Poco/Mutex.h</label>
       </node>
-      <node id="21">
-        <label>set</label>
+      <node id="43">
+        <label>Poco/Path.h</label>
+      </node>
+      <node id="37">
+        <label>Poco/PatternFormatter.h</label>
+      </node>
+      <node id="34">
+        <label>Poco/SimpleFileChannel.h</label>
+      </node>
+      <node id="35">
+        <label>Poco/SplitterChannel.h</label>
+      </node>
+      <node id="44">
+        <label>assert.h</label>
       </node>
       <node id="26">
         <label>complex</label>
       </node>
-      <node id="41">
-        <label>Poco/Mutex.h</label>
+      <node id="23">
+        <label>cstdlib</label>
       </node>
-      <node id="5">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
+      <node id="18">
+        <label>exception</label>
+      </node>
+      <node id="30">
+        <label>filesystem</label>
+      </node>
+      <node id="20">
+        <label>float.h</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>iostream</label>
+      </node>
+      <node id="12">
+        <label>limits</label>
+      </node>
+      <node id="25">
+        <label>list</label>
+      </node>
+      <node id="27">
+        <label>map</label>
+      </node>
+      <node id="21">
+        <label>set</label>
+      </node>
+      <node id="3">
+        <label>sstream</label>
+      </node>
+      <node id="29">
+        <label>stdint.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>type_traits</label>
+      </node>
+      <node id="15">
+        <label>typeinfo</label>
+      </node>
+      <node id="28">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>variant</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>
@@ -819,28 +819,28 @@
 <codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/>Poco::Logger<sp/>&amp;logger<sp/>=<sp/>getLogger();</highlight></codeline>
 <codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(level)</highlight></codeline>
 <codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>Message::PRIO_FATAL:</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>LOG_FATAL:</highlight></codeline>
 <codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.fatal(msg);</highlight></codeline>
 <codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>Message::PRIO_CRITICAL:</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>LOG_CRITICAL:</highlight></codeline>
 <codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.critical(msg);</highlight></codeline>
 <codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>Message::PRIO_ERROR:</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>LOG_ERROR:</highlight></codeline>
 <codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.error(msg);</highlight></codeline>
 <codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>Message::PRIO_WARNING:</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>LOG_WARNING:</highlight></codeline>
 <codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.warning(msg);</highlight></codeline>
 <codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>Message::PRIO_NOTICE:</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>LOG_NOTICE:</highlight></codeline>
 <codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.notice(msg);</highlight></codeline>
 <codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>Message::PRIO_INFORMATION:</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>LOG_INFORMATION:</highlight></codeline>
 <codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.information(msg);</highlight></codeline>
 <codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>Message::PRIO_DEBUG:</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>LOG_DEBUG:</highlight></codeline>
 <codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.debug(msg);</highlight></codeline>
 <codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>Message::PRIO_TRACE:</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>LOG_TRACE:</highlight></codeline>
 <codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.trace(msg);</highlight></codeline>
 <codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>

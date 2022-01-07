@@ -1,14 +1,8 @@
 var searchData=
 [
-  ['_7ebasicdictionary_2499',['~BasicDictionary',['../classrr_1_1BasicDictionary.html#ad76c8129a4634d039f320659dfe28e0a',1,'rr::BasicDictionary']]],
-  ['_7ecvodeintegrator_2500',['~CVODEIntegrator',['../classrr_1_1CVODEIntegrator.html#ad60746a373a8de7a5163d56475bfd55c',1,'rr::CVODEIntegrator']]],
-  ['_7edictionary_2501',['~Dictionary',['../classrr_1_1Dictionary.html#ada6593bddd5fd2f3f75374863191f419',1,'rr::Dictionary']]],
-  ['_7eeulerintegrator_2502',['~EulerIntegrator',['../classrr_1_1EulerIntegrator.html#ae67944a6230da902b4a4e0e5aa59a82d',1,'rr::EulerIntegrator']]],
-  ['_7eexecutablemodel_2503',['~ExecutableModel',['../classrr_1_1ExecutableModel.html#a7d670c92b720d7dcf3ab70fa9d1b14d0',1,'rr::ExecutableModel']]],
-  ['_7ekinsolsteadystatesolver_2504',['~KinsolSteadyStateSolver',['../classrr_1_1KinsolSteadyStateSolver.html#ab8569c93c7aa13a0656919d692bc08fe',1,'rr::KinsolSteadyStateSolver']]],
-  ['_7eloggingbuffer_2505',['~LoggingBuffer',['../classrr_1_1LoggingBuffer.html#a604487b60a968da939c335195a9fba19',1,'rr::LoggingBuffer']]],
-  ['_7erk45integrator_2506',['~RK45Integrator',['../classrr_1_1RK45Integrator.html#a8f080676c2c77fb14fc1f45b5705ebb4',1,'rr::RK45Integrator']]],
-  ['_7erk4integrator_2507',['~RK4Integrator',['../classrr_1_1RK4Integrator.html#abb1a43506358e94d2fbca78c4a2cc479',1,'rr::RK4Integrator']]],
-  ['_7eroadrunner_2508',['~RoadRunner',['../classrr_1_1RoadRunner.html#a102e7c27e29219ae56e48ffd607fd621',1,'rr::RoadRunner']]],
-  ['_7evariant_2509',['~Variant',['../classrr_1_1Variant.html#a5bfdfef2698dc62678ed6e5b9f807c2a',1,'rr::Variant']]]
+  ['validatecurrentsbml_0',['validateCurrentSBML',['../classrr_1_1RoadRunner.html#a4e75cb4bdcd03300133aef022f53b34c',1,'rr::RoadRunner::validateCurrentSBML()'],['../group__edit.html#ga63e642abda6ec0756781e159be5d3010',1,'validateCurrentSBML():&#160;rrc_api.h']]],
+  ['variant_1',['Variant',['../classrr_1_1Variant.html#a48f0736e18b6463303047b46cccca550',1,'rr::Variant::Variant()'],['../classrr_1_1Variant.html#a81b0ca7e57d1985f2e05ef7f0805b1cf',1,'rr::Variant::Variant(const T &amp;val)'],['../classrr_1_1Variant.html#a950ad51abe6f9e7ed4bbe865bac93e99',1,'rr::Variant::Variant(const Variant &amp;other)']]],
+  ['vectortostring_2',['vectorToString',['../group__toString.html#gae737d3ff4bb374340b686e3f302de04f',1,'rrc_utilities.h']]],
+  ['verifyfunction_3',['verifyFunction',['../classrrllvm_1_1CodeGenBase.html#a85538605d4b0d3dc1f6e1a69afe6eb8e',1,'rrllvm::CodeGenBase']]],
+  ['visit_4',['visit',['../classrr_1_1Setting.html#ac2a86d3d0bd3a722a37f26d6afeef5a2',1,'rr::Setting::visit()'],['../classrrllvm_1_1LLVMModelSymbols.html#a11942961af6c34d90fd7aa33ea2bc8e9',1,'rrllvm::LLVMModelSymbols::visit(const libsbml::InitialAssignment &amp;x)'],['../classrrllvm_1_1LLVMModelSymbols.html#ab49c19ac0832e343222276be67190bb4',1,'rrllvm::LLVMModelSymbols::visit(const libsbml::RateRule &amp;rule)'],['../classrrllvm_1_1LLVMModelSymbols.html#a62c37bbb6a3226e32748383962e58a4c',1,'rrllvm::LLVMModelSymbols::visit(const libsbml::Reaction &amp;x)'],['../classrrllvm_1_1LLVMModelSymbols.html#a7a829d1b0ddfb1618c4d1536fd841bf9',1,'rrllvm::LLVMModelSymbols::visit(const libsbml::Rule &amp;x)'],['../classrrllvm_1_1LLVMModelSymbols.html#a9c6fb0b90d1ccd464919ac47031ebee8',1,'rrllvm::LLVMModelSymbols::visit(const libsbml::Event &amp;event)']]]
 ];

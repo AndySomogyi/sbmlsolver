@@ -2,7 +2,7 @@
 #include <fstream>
 #include "TestModelFactory.h"
 
-std::vector<int> getVofI(){
+std::vector<int> getVofI() {
     return std::vector<int>({1, 2, 3});
 }
 
@@ -20,7 +20,7 @@ std::unordered_map<std::string, rr::Setting> SteadyStateResult::steadyStateSetti
 }
 
 void SteadyStateResult::applySteadyStateSettings(rr::RoadRunner *rr) {
-    for (auto &settingsIterator : steadyStateSettings()) {
+    for (auto &settingsIterator: steadyStateSettings()) {
         if (settingsIterator.first == "moiety_conservation") {
             rr->setConservedMoietyAnalysis(settingsIterator.second);
         } else {
@@ -2876,10 +2876,307 @@ std::string BatchImmigrationDeath03::str() {
            "</sbml>";
 }
 
-std::string BatchImmigrationDeath03::modelName(){
+std::string BatchImmigrationDeath03::modelName() {
     return "BatchImmigrationDeath03";
 }
 
+std::string OneEvent10Triggers::str() {
+    return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+           "<!-- Created by libAntimony version v2.13.0 with libSBML version 5.19.1. -->\n"
+           "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version2/core\" level=\"3\" version=\"2\">\n"
+           "  <model metaid=\"__main\" id=\"__main\">\n"
+           "    <listOfCompartments>\n"
+           "      <compartment sboTerm=\"SBO:0000410\" id=\"default_compartment\" spatialDimensions=\"3\" size=\"1\" constant=\"true\"/>\n"
+           "    </listOfCompartments>\n"
+           "    <listOfSpecies>\n"
+           "      <species id=\"S1\" compartment=\"default_compartment\" initialConcentration=\"10\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+           "    </listOfSpecies>\n"
+           "    <listOfReactions>\n"
+           "      <reaction id=\"_J0\" reversible=\"true\">\n"
+           "        <listOfReactants>\n"
+           "          <speciesReference species=\"S1\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfReactants>\n"
+           "        <kineticLaw>\n"
+           "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "            <apply>\n"
+           "              <times/>\n"
+           "              <cn> 0.1 </cn>\n"
+           "              <ci> S1 </ci>\n"
+           "            </apply>\n"
+           "          </math>\n"
+           "        </kineticLaw>\n"
+           "      </reaction>\n"
+           "    </listOfReactions>\n"
+           "    <listOfEvents>\n"
+           "      <event id=\"E0\" useValuesFromTriggerTime=\"true\">\n"
+           "        <trigger initialValue=\"true\" persistent=\"true\">\n"
+           "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "            <apply>\n"
+           "              <lt/>\n"
+           "              <ci> S1 </ci>\n"
+           "              <cn> 9.1 </cn>\n"
+           "            </apply>\n"
+           "          </math>\n"
+           "        </trigger>\n"
+           "        <listOfEventAssignments>\n"
+           "          <eventAssignment variable=\"S1\">\n"
+           "            <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "              <cn type=\"integer\"> 10 </cn>\n"
+           "            </math>\n"
+           "          </eventAssignment>\n"
+           "        </listOfEventAssignments>\n"
+           "      </event>\n"
+           "    </listOfEvents>\n"
+           "  </model>\n"
+           "</sbml>";
+}
+
+std::string OneEvent10Triggers::modelName() {
+    return "OneEvent10Triggers";
+}
+
+rr::Matrix<double> OneEvent10Triggers::timeSeriesResult() {
+    return {
+            //Time	S1, simulated in copaso
+            {0,   10},
+            {0.1, 9.900498337599121},
+            {0.2, 9.801986733109503},
+            {0.3, 9.704455335409618},
+            {0.4, 9.607894391423173},
+            {0.5, 9.512294244882895},
+            {0.6, 9.41764533467136},
+            {0.7, 9.323938190416554},
+            {0.8, 9.231163440200909},
+            {0.9, 9.139311806913465},
+            {1,   9.943267349736855},
+            {1.1, 9.844327582426407},
+            {1.2, 9.746372760148947},
+            {1.3, 9.649396980622468},
+            {1.4, 9.553377235790519},
+            {1.5, 9.458319907594781},
+            {1.6, 9.364211868095033},
+            {1.7, 9.271041811552541},
+            {1.8, 9.178798638555726},
+            {1.9, 9.986232003230747},
+            {2,   9.88686465714203},
+            {2.1, 9.788487115783116},
+            {2.2, 9.691087326073134},
+            {2.3, 9.59465829630076},
+            {2.4, 9.49918747790848},
+            {2.5, 9.404671551204883},
+            {2.6, 9.31109841698469},
+            {2.7, 9.218456977051515},
+            {2.8, 9.126736133208976},
+            {2.9, 9.929586303761361},
+            {3,   9.830782977125118},
+            {3.1, 9.732962610341014},
+            {3.2, 9.63611948616269},
+            {3.3, 9.540232711490885},
+            {3.4, 9.44530671250818},
+            {3.5, 9.351328413319985},
+            {3.6, 9.25828661830429},
+            {3.7, 9.166170230670497},
+            {3.8, 9.972492519140374},
+            {3.9, 9.873261718535785},
+            {4,   9.775019511110752},
+            {4.1, 9.677753955750838},
+            {4.2, 9.581457039897009},
+            {4.3, 9.486118329811216},
+            {4.4, 9.391732781558424},
+            {4.5, 9.298288544663956},
+            {4.6, 9.20577452370263},
+            {4.7, 9.114179623249267},
+            {4.8, 9.91592517397659},
+            {4.9, 9.817258066574535},
+            {5,   9.719572027151},
+            {5.1, 9.622861428861079},
+            {5.2, 9.527107438476122},
+            {5.3, 9.43231252389242},
+            {5.4, 9.338463757047611},
+            {5.5, 9.245550014661282},
+            {5.6, 9.15356020275814},
+            {5.7, 9.958773339660825},
+            {5.8, 9.859679003969502},
+            {5.9, 9.761571853167116},
+            {6,   9.664446710213277},
+            {6.1, 9.568275458175785},
+            {6.2, 9.473068613042424},
+            {6.3, 9.37881323079978},
+            {6.4, 9.285497679052195},
+            {6.5, 9.193110865206098},
+            {6.6, 9.101641696667908},
+            {6.7, 9.902284652462448},
+            {6.8, 9.803753483210256},
+            {6.9, 9.706201687758112},
+            {7,   9.609623471901049},
+            {7.1, 9.514002066310594},
+            {7.2, 9.419337978789228},
+            {7.3, 9.325618528444815},
+            {7.4, 9.232832623482011},
+            {7.5, 9.140969172764938},
+            {7.6, 9.945075154705448},
+            {7.7, 9.846117196176486},
+            {7.8, 9.74814481778595},
+            {7.9, 9.65115230577598},
+            {8,   9.555114200974549},
+            {8.1, 9.46003896723014},
+            {8.2, 9.36591353142403},
+            {8.3, 9.272726446032577},
+            {8.4, 9.180466621304527},
+            {8.5, 9.988050531309957},
+            {8.6, 9.888665378701464},
+            {8.7, 9.790269860598405},
+            {8.8, 9.69285221966681},
+            {8.9, 9.596406220300574},
+            {9,   9.500917183467228},
+            {9.1, 9.40638367447622},
+            {9.2, 9.312793319774205},
+            {9.3, 9.220135030994012},
+            {9.4, 9.128397719768483},
+            {9.5, 9.9313986087952},
+            {9.6, 9.832576933057183},
+            {9.7, 9.734739036554286},
+            {9.8, 9.637879042265219},
+            {9.9, 9.541973874277165},
+            {10,  9.447029989963335},
+
+    };
+};
+
+std::unordered_map<std::string, rr::Setting> OneEvent10Triggers::timeSeriesSettings() {
+    return {
+            {"start",    0},
+            {"duration", 10},
+            {"steps",    100}
+    };
+};
+#if LIBSBML_HAS_PACKAGE_DISTRIB
+
+std::string StochasticTestSuiteCase43::str() {
+    return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+           "<sbml xmlns:distrib=\"http://www.sbml.org/sbml/level3/version1/distrib/version1\" xmlns=\"http://www.sbml.org/sbml/level3/version2/core\" level=\"3\" version=\"2\" distrib:required=\"true\">\n"
+           "  <model>\n"
+           "    <listOfCompartments>\n"
+           "      <compartment id=\"C\" spatialDimensions=\"3\" size=\"1\" constant=\"true\"/>\n"
+           "    </listOfCompartments>\n"
+           "    <listOfSpecies>\n"
+           "      <species id=\"X\" compartment=\"C\" initialAmount=\"0\" hasOnlySubstanceUnits=\"true\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+           "    </listOfSpecies>\n"
+           "    <listOfParameters>\n"
+           "      <parameter id=\"t\" value=\"0\" constant=\"false\"/>\n"
+           "    </listOfParameters>\n"
+           "    <listOfRules>\n"
+           "      <rateRule variable=\"t\">\n"
+           "        <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "          <cn type=\"integer\"> 1 </cn>\n"
+           "        </math>\n"
+           "      </rateRule>\n"
+           "    </listOfRules>\n"
+           "    <listOfEvents>\n"
+           "      <event id=\"E0\" useValuesFromTriggerTime=\"true\">\n"
+           "        <trigger initialValue=\"true\" persistent=\"true\">\n"
+           "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "            <apply>\n"
+           "              <geq/>\n"
+           "              <ci> t </ci>\n"
+           "              <cn> 0.5 </cn>\n"
+           "            </apply>\n"
+           "          </math>\n"
+           "        </trigger>\n"
+           "        <listOfEventAssignments>\n"
+           "          <eventAssignment variable=\"X\">\n"
+           "            <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "              <apply>\n"
+           "                <csymbol encoding=\"text\" definitionURL=\"http://www.sbml.org/sbml/symbols/distrib/exponential\"> exponential </csymbol>\n"
+           "                <cn type=\"integer\"> 1 </cn>\n"
+           "              </apply>\n"
+           "            </math>\n"
+           "          </eventAssignment>\n"
+           "          <eventAssignment variable=\"t\">\n"
+           "            <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "              <apply>\n"
+           "                <minus/>\n"
+           "                <cn> 0.5 </cn>\n"
+           "              </apply>\n"
+           "            </math>\n"
+           "          </eventAssignment>\n"
+           "        </listOfEventAssignments>\n"
+           "      </event>\n"
+           "    </listOfEvents>\n"
+           "  </model>\n"
+           "</sbml>";
+}
+
+std::string StochasticTestSuiteCase43::modelName() {
+    return "StochasticTestSuiteCase43";
+}
+
+rr::Matrix<double> StochasticTestSuiteCase43::timeSeriesResult() {
+    return {
+            //time,X-mean,X-sd
+            {0,  0, 0},
+            {1,  1, 1},
+            {2,  1, 1},
+            {3,  1, 1},
+            {4,  1, 1},
+            {5,  1, 1},
+            {6,  1, 1},
+            {7,  1, 1},
+            {8,  1, 1},
+            {9,  1, 1},
+            {10, 1, 1},
+            {11, 1, 1},
+            {12, 1, 1},
+            {13, 1, 1},
+            {14, 1, 1},
+            {15, 1, 1},
+            {16, 1, 1},
+            {17, 1, 1},
+            {18, 1, 1},
+            {19, 1, 1},
+            {20, 1, 1},
+            {21, 1, 1},
+            {22, 1, 1},
+            {23, 1, 1},
+            {24, 1, 1},
+            {25, 1, 1},
+            {26, 1, 1},
+            {27, 1, 1},
+            {28, 1, 1},
+            {29, 1, 1},
+            {30, 1, 1},
+            {31, 1, 1},
+            {32, 1, 1},
+            {33, 1, 1},
+            {34, 1, 1},
+            {35, 1, 1},
+            {36, 1, 1},
+            {37, 1, 1},
+            {38, 1, 1},
+            {39, 1, 1},
+            {40, 1, 1},
+            {41, 1, 1},
+            {42, 1, 1},
+            {43, 1, 1},
+            {44, 1, 1},
+            {45, 1, 1},
+            {46, 1, 1},
+            {47, 1, 1},
+            {48, 1, 1},
+            {49, 1, 1},
+            {50, 1, 1},
+    };
+}
+
+std::unordered_map<std::string, rr::Setting> StochasticTestSuiteCase43::timeSeriesSettings() {
+    return {
+            {"start",    0},
+            {"duration", 50},
+            {"steps",    50}
+    };
+}
+
+#endif
 
 std::vector<std::string> getAvailableTestModels() {
     return std::vector<std::string>(
@@ -2896,7 +3193,11 @@ std::vector<std::string> getAvailableTestModels() {
                     "LayoutOnly",
                     "ModelWithLocalParameters",
                     "BimolecularEnd",
-                    "BatchImmigrationDeath03"
+                    "BatchImmigrationDeath03",
+                    "OneEvent10Triggers",
+#if LIBSBML_HAS_PACKAGE_DISTRIB
+                    "StochasticTestSuiteCase43"
+#endif
             });
 }
 
@@ -2928,6 +3229,13 @@ TestModel *TestModelFactory(const std::string &modelName) {
         return new BimolecularEnd();
     } else if (modelName == "BatchImmigrationDeath03") {
         return new BatchImmigrationDeath03();
+    } else if (modelName == "OneEvent10Triggers") {
+        return new OneEvent10Triggers();
+    }
+#if LIBSBML_HAS_PACKAGE_DISTRIB
+    else if (modelName == "StochasticTestSuiteCase43") {
+        return new StochasticTestSuiteCase43();
+#endif
     } else {
         std::ostringstream err;
         err << "TestModelFactory::TestModelFactory(): no model called \"" << modelName << "\" found. ";
@@ -3097,16 +3405,17 @@ namespace privateSwigTests_ {
         return rrMatrix;
     };
 
-    std::string _testPythonStringToCxxRoundTrip(std::string s){
+    std::string _testPythonStringToCxxRoundTrip(std::string s) {
         return s;
     }
 
-    std::vector<std::string> _testAddElementToStringVec(std::vector<std::string> stringVec, std::string newElement){
+    std::vector<std::string> _testAddElementToStringVec(std::vector<std::string> stringVec, std::string newElement) {
         stringVec.push_back(newElement);
         return stringVec;
     }
 
-     std::vector<std::string>& _testAddElementToStringVecAsReference( std::vector< std::string>& stringVec, std::string newElement){
+    std::vector<std::string> &
+    _testAddElementToStringVecAsReference(std::vector<std::string> &stringVec, std::string newElement) {
         stringVec.push_back(newElement);
         return stringVec;
     }

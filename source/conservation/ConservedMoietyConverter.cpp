@@ -16,6 +16,7 @@
 #include "rrSBMLReader.h"
 #include "rrLogger.h"
 #include "rrConfig.h"
+#include "rrRoadRunner.h"
 
 #include <sbml/math/ASTNode.h>
 #include <sbml/AlgebraicRule.h>
@@ -180,7 +181,7 @@ ConversionProperties ConservedMoietyConverter::getDefaultProperties() const
 bool ConservedMoietyConverter::matchesProperties(
         const ConversionProperties &props) const
 {
-    if (&props == NULL || !props.hasOption("sortRules"))
+    if (!props.hasOption("sortRules"))
         return false;
     return true;
 }
@@ -210,8 +211,8 @@ int ConservedMoietyConverter::convert()
     }
 
 
-    Model* mModel = mDocument->getModel();
-    if (mModel == NULL)
+    Model* m = mDocument->getModel();
+    if (m == NULL)
     {
         rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter document does not have a model";
         return LIBSBML_INVALID_OBJECT;
@@ -243,9 +244,9 @@ int ConservedMoietyConverter::convert()
     }
 
     // makes a clone of the model
-    if((err = resultDoc->setModel(mModel)) != LIBSBML_OPERATION_SUCCESS)
+    if((err = resultDoc->setModel(m)) != LIBSBML_OPERATION_SUCCESS)
     {
-        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter resultDoc->syncWithModel(mModel) failed: "
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter resultDoc->syncWithModel(m) failed: "
                 << std::endl
                 << OperationReturnValue_toString(err);
         return err;
@@ -264,7 +265,7 @@ int ConservedMoietyConverter::convert()
 
     if (rr::Logger::getLevel() >= loggingLevel)
     {
-        rrLog(loggingLevel) << "performing conversion on " << mModel->getName();
+        rrLog(loggingLevel) << "performing conversion on " << m->getName();
         rrLog(loggingLevel) << "independent species: " << toString(indSpecies);
         rrLog(loggingLevel) << "dependent species: " << toString(depSpecies);
         rrLog(loggingLevel) << "L0 matrix: " << std::endl << *L0;
@@ -274,7 +275,7 @@ int ConservedMoietyConverter::convert()
                 << std::endl << *(structural->getReorderedStoichiometryMatrix());
     }
 
-    createReorderedSpecies(resultModel, mModel, indSpecies, depSpecies);
+    createReorderedSpecies(resultModel, m, indSpecies, depSpecies);
 
     std::vector<std::string> conservedMoieties = createConservedMoietyParameters(
             resultModel, *L0, indSpecies, depSpecies);
@@ -320,15 +321,11 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
     if (doc->getLevel() != ConservationExtension::getDefaultLevel()
         || doc->getVersion() != ConservationExtension::getDefaultVersion())
     {
-        if ((rr::Config::getBool(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
-                rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY == 0))
-        {
-            rrLog(rr::Logger::LOG_NOTICE) << "source document is level " << doc->getLevel()
-                        << ", version " << doc->getVersion() << ", converting to "
-                        << "level " << ConservationExtension::getDefaultLevel()
-                        << ", version " << ConservationExtension::getDefaultVersion()
-                        << " for Moiety Conservation Conversion";
-        }
+        rrLog(rr::Logger::LOG_NOTICE) << "source document is level " << doc->getLevel()
+            << ", version " << doc->getVersion() << ", converting to "
+            << "level " << ConservationExtension::getDefaultLevel()
+            << ", version " << ConservationExtension::getDefaultVersion()
+            << " for Moiety Conservation Conversion";
 
         // this does an in-place conversion, at least for the time being
         SBMLLevelVersionConverter versionConverter;
@@ -745,10 +742,8 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
     {
         const Rule *rule = rules->get(i);
 
-        const SBase *element = const_cast<Model*>(model)->getElementBySId(
-                rule->getVariable());
+        const Species *species = model->getSpecies(rule->getVariable());
 
-        const Species *species = dynamic_cast<const Species*>(element);
         if(species && !species->getBoundaryCondition() && model->getNumReactions() > 0)
         {
             std::string msg = "Cannot perform moiety conversion when floating "
@@ -758,8 +753,10 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
             conservedMoietyException(msg);
         }
 
+        ListOfReactions* lor = const_cast<ListOfReactions*>(model->getListOfReactions());
+
         const SpeciesReference *ref =
-                dynamic_cast<const SpeciesReference*>(element);
+                dynamic_cast<const SpeciesReference*>(lor->getElementBySId(rule->getVariable()));
         if(ref)
         {
             std::string msg = "Cannot perform moiety conversion with non-constant "
@@ -816,10 +813,8 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
             if (!ass->isSetMath()) {
                 continue;
             }
-            const SBase *element = const_cast<Model*>(model)->getElementBySId(
-                    ass->getVariable());
 
-            const Species *species = dynamic_cast<const Species*>(element);
+            const Species* species = model->getSpecies(ass->getVariable());
             if(species && !species->getBoundaryCondition())
             {
                 std::string msg = "Cannot perform moiety conversion when floating "
@@ -828,6 +823,8 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
                 conservedMoietyException(msg);
             }
 
+            libsbml::ListOfReactions* lor = const_cast<libsbml::ListOfReactions*>(model->getListOfReactions());
+            const SBase* element = lor->getElementBySId(ass->getVariable());
             const SpeciesReference *ref =
                     dynamic_cast<const SpeciesReference*>(element);
             if(ref)

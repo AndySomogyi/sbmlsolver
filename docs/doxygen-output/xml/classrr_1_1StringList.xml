@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1StringList" kind="class" language="C++" prot="public">
     <compoundname>rr::StringList</compoundname>
       <sectiondef kind="protected-attrib">
@@ -8,6 +8,7 @@
         <definition>std::vector&lt;std::string&gt; rr::StringList::mStrings</definition>
         <argsstring></argsstring>
         <name>mStrings</name>
+        <qualifiedname>rr::StringList::mStrings</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -21,6 +22,7 @@
         <definition>std::vector&lt;std::string&gt;::iterator rr::StringList::mLI</definition>
         <argsstring></argsstring>
         <name>mLI</name>
+        <qualifiedname>rr::StringList::mLI</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -36,6 +38,7 @@
         <definition>rrc::StringList::StringList</definition>
         <argsstring>()</argsstring>
         <name>StringList</name>
+        <qualifiedname>rr::StringList::StringList</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -49,6 +52,7 @@
         <definition>rrc::StringList::StringList</definition>
         <argsstring>(char **stringList, const int &amp;count)</argsstring>
         <name>StringList</name>
+        <qualifiedname>rr::StringList::StringList</qualifiedname>
         <param>
           <type>char **</type>
           <declname>stringList</declname>
@@ -70,6 +74,7 @@
         <definition>rr::StringList::StringList</definition>
         <argsstring>(const std::string &amp;str, const std::string &amp;delimiters=&quot;, &quot;)</argsstring>
         <name>StringList</name>
+        <qualifiedname>rr::StringList::StringList</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>str</declname>
@@ -92,6 +97,7 @@
         <definition>rr::StringList::StringList</definition>
         <argsstring>(const std::vector&lt; std::string &gt; &amp;strings)</argsstring>
         <name>StringList</name>
+        <qualifiedname>rr::StringList::StringList</qualifiedname>
         <param>
           <type>const std::vector&lt; std::string &gt; &amp;</type>
           <declname>strings</declname>
@@ -109,6 +115,7 @@
         <definition>rrc::StringList::StringList</definition>
         <argsstring>(const StringList &amp;cp)</argsstring>
         <name>StringList</name>
+        <qualifiedname>rr::StringList::StringList</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1StringList" kindref="compound">StringList</ref> &amp;</type>
           <declname>cp</declname>
@@ -126,6 +133,7 @@
         <definition>rr::StringList::StringList</definition>
         <argsstring>(rrc::RRStringArrayPtr cp)</argsstring>
         <name>StringList</name>
+        <qualifiedname>rr::StringList::StringList</qualifiedname>
         <param>
           <type><ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">rrc::RRStringArrayPtr</ref></type>
           <declname>cp</declname>
@@ -143,6 +151,7 @@
         <definition>rrc::StringList::~StringList</definition>
         <argsstring>()</argsstring>
         <name>~StringList</name>
+        <qualifiedname>rr::StringList::~StringList</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -156,6 +165,7 @@
         <definition>void rr::StringList::InsertAt</definition>
         <argsstring>(const int &amp;index, const std::string &amp;item)</argsstring>
         <name>InsertAt</name>
+        <qualifiedname>rr::StringList::InsertAt</qualifiedname>
         <param>
           <type>const int &amp;</type>
           <declname>index</declname>
@@ -177,6 +187,7 @@
         <definition>void rrc::StringList::Append</definition>
         <argsstring>(const StringList &amp;list)</argsstring>
         <name>Append</name>
+        <qualifiedname>rr::StringList::Append</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1StringList" kindref="compound">StringList</ref> &amp;</type>
           <declname>list</declname>
@@ -194,6 +205,7 @@
         <definition>std::string rr::StringList::AsString</definition>
         <argsstring>(const std::string &amp;delimiter=gComma) const</argsstring>
         <name>AsString</name>
+        <qualifiedname>rr::StringList::AsString</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>delimiter</declname>
@@ -212,6 +224,7 @@
         <definition>unsigned int rrc::StringList::size</definition>
         <argsstring>() const</argsstring>
         <name>size</name>
+        <qualifiedname>rr::StringList::size</qualifiedname>
         <briefdescription>
 <para>get the size to be compatible with std::vector&lt;std::string&gt; </para>
         </briefdescription>
@@ -226,6 +239,7 @@
         <definition>unsigned int rrc::StringList::Count</definition>
         <argsstring>() const</argsstring>
         <name>Count</name>
+        <qualifiedname>rr::StringList::Count</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -239,6 +253,7 @@
         <definition>StringList &amp; rrc::StringList::operator=</definition>
         <argsstring>(const StringList &amp;rhs)</argsstring>
         <name>operator=</name>
+        <qualifiedname>rr::StringList::operator=</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1StringList" kindref="compound">StringList</ref> &amp;</type>
           <declname>rhs</declname>
@@ -256,6 +271,7 @@
         <definition>StringList &amp; rr::StringList::operator=</definition>
         <argsstring>(const std::vector&lt; std::string &gt; &amp;rhs)</argsstring>
         <name>operator=</name>
+        <qualifiedname>rr::StringList::operator=</qualifiedname>
         <param>
           <type>const std::vector&lt; std::string &gt; &amp;</type>
           <declname>rhs</declname>
@@ -273,6 +289,7 @@
         <definition>string &amp; rrc::StringList::operator[]</definition>
         <argsstring>(const int &amp;index)</argsstring>
         <name>operator[]</name>
+        <qualifiedname>rr::StringList::operator[]</qualifiedname>
         <param>
           <type>const int &amp;</type>
           <declname>index</declname>
@@ -290,6 +307,7 @@
         <definition>const string &amp; rrc::StringList::operator[]</definition>
         <argsstring>(const int &amp;index) const</argsstring>
         <name>operator[]</name>
+        <qualifiedname>rr::StringList::operator[]</qualifiedname>
         <param>
           <type>const int &amp;</type>
           <declname>index</declname>
@@ -307,6 +325,7 @@
         <definition>StringList rrc::StringList::operator-</definition>
         <argsstring>(const StringList &amp;rhs)</argsstring>
         <name>operator-</name>
+        <qualifiedname>rr::StringList::operator-</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1StringList" kindref="compound">StringList</ref> &amp;</type>
           <declname>rhs</declname>
@@ -324,6 +343,7 @@
         <definition>void rrc::StringList::removeAt</definition>
         <argsstring>(const int &amp;index)</argsstring>
         <name>removeAt</name>
+        <qualifiedname>rr::StringList::removeAt</qualifiedname>
         <param>
           <type>const int &amp;</type>
           <declname>index</declname>
@@ -341,6 +361,7 @@
         <definition>int rr::StringList::find</definition>
         <argsstring>(const std::string &amp;item)</argsstring>
         <name>find</name>
+        <qualifiedname>rr::StringList::find</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>item</declname>
@@ -358,6 +379,7 @@
         <definition>int rr::StringList::indexOf</definition>
         <argsstring>(const std::string &amp;item)</argsstring>
         <name>indexOf</name>
+        <qualifiedname>rr::StringList::indexOf</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>item</declname>
@@ -375,6 +397,7 @@
         <definition>void rrc::StringList::clear</definition>
         <argsstring>()</argsstring>
         <name>clear</name>
+        <qualifiedname>rr::StringList::clear</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -388,6 +411,7 @@
         <definition>void rrc::StringList::empty</definition>
         <argsstring>()</argsstring>
         <name>empty</name>
+        <qualifiedname>rr::StringList::empty</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -401,6 +425,7 @@
         <definition>bool rr::StringList::Contains</definition>
         <argsstring>(const std::string &amp;item) const</argsstring>
         <name>Contains</name>
+        <qualifiedname>rr::StringList::Contains</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>item</declname>
@@ -418,6 +443,7 @@
         <definition>bool rr::StringList::DontContain</definition>
         <argsstring>(const std::string &amp;item) const</argsstring>
         <name>DontContain</name>
+        <qualifiedname>rr::StringList::DontContain</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>item</declname>
@@ -435,6 +461,7 @@
         <definition>void rr::StringList::add</definition>
         <argsstring>(const std::string &amp;item)</argsstring>
         <name>add</name>
+        <qualifiedname>rr::StringList::add</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>item</declname>
@@ -452,6 +479,7 @@
         <definition>vector&lt; string &gt;::iterator rrc::StringList::begin</definition>
         <argsstring>()</argsstring>
         <name>begin</name>
+        <qualifiedname>rr::StringList::begin</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -465,6 +493,7 @@
         <definition>vector&lt; string &gt;::iterator rrc::StringList::end</definition>
         <argsstring>()</argsstring>
         <name>end</name>
+        <qualifiedname>rr::StringList::end</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -478,6 +507,7 @@
         <definition>void rr::StringList::PreFix</definition>
         <argsstring>(const std::string &amp;fix)</argsstring>
         <name>PreFix</name>
+        <qualifiedname>rr::StringList::PreFix</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>fix</declname>
@@ -495,6 +525,7 @@
         <definition>void rr::StringList::PostFix</definition>
         <argsstring>(const std::string &amp;fix)</argsstring>
         <name>PostFix</name>
+        <qualifiedname>rr::StringList::PostFix</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>fix</declname>
@@ -512,6 +543,7 @@
         <definition>rr::StringList::operator const std::vector&lt; std::string &gt; &amp;</definition>
         <argsstring>() const</argsstring>
         <name>operator const std::vector&lt; std::string &gt; &amp;</name>
+        <qualifiedname>rr::StringList::vector&lt; std::string &gt; &amp;</qualifiedname>
         <briefdescription>
 <para>so we can start getting rid of this and using standard std::vector&lt;std::string&gt; </para>
         </briefdescription>
@@ -523,11 +555,12 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
-      <memberdef kind="friend" id="classrr_1_1StringList_1ae35ab1e7dae364d4f4e9460b150b1f4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="friend" id="classrr_1_1StringList_1aba42118658481613c1aab654d8dd3697" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>RR_DECLSPEC friend std::ostream &amp;</type>
-        <definition>RR_DECLSPEC friend std::ostream&amp; operator&lt;&lt;</definition>
+        <definition>RR_DECLSPEC friend std::ostream &amp; operator&lt;&lt;</definition>
         <argsstring>(std::ostream &amp;stream, const StringList &amp;list)</argsstring>
         <name>operator&lt;&lt;</name>
+        <qualifiedname>rr::StringList::operator&lt;&lt;</qualifiedname>
         <param>
           <type>std::ostream &amp;</type>
           <declname>stream</declname>
@@ -568,7 +601,7 @@
       <member refid="classrr_1_1StringList_1aeb2650ad8e6eb397ee72dacf0003f95c" prot="protected" virt="non-virtual"><scope>rr::StringList</scope><name>mStrings</name></member>
       <member refid="classrr_1_1StringList_1ab9df1f41a8963154433c26e71b892056" prot="public" virt="non-virtual"><scope>rr::StringList</scope><name>operator const std::vector&lt; std::string &gt; &amp;</name></member>
       <member refid="classrr_1_1StringList_1a75c23082809a6f16e5de805916275feb" prot="public" virt="non-virtual"><scope>rr::StringList</scope><name>operator-</name></member>
-      <member refid="classrr_1_1StringList_1ae35ab1e7dae364d4f4e9460b150b1f4e" prot="public" virt="non-virtual"><scope>rr::StringList</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classrr_1_1StringList_1aba42118658481613c1aab654d8dd3697" prot="public" virt="non-virtual"><scope>rr::StringList</scope><name>operator&lt;&lt;</name></member>
       <member refid="classrr_1_1StringList_1a531b42e8fa64872b03df476f5edfcc63" prot="public" virt="non-virtual"><scope>rr::StringList</scope><name>operator=</name></member>
       <member refid="classrr_1_1StringList_1a19fc72a15c857d7bc6c6a57744020a74" prot="public" virt="non-virtual"><scope>rr::StringList</scope><name>operator=</name></member>
       <member refid="classrr_1_1StringList_1a09f43d630b50512eca1c6d16d57f3904" prot="public" virt="non-virtual"><scope>rr::StringList</scope><name>operator[]</name></member>

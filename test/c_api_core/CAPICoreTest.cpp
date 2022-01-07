@@ -201,10 +201,10 @@ TEST_F(CAPICoreTest, GetMicroSeconds) {
     const int len = 5;
     int64_t prev = rr::getMicroSeconds();
     for (int i = 0; i < len; ++i) {
-        // the timer on Windows appears to be significantaly less 
-        // accurate than standard Unix machines, so have to sleep 
+        // the timer on Windows appears to be significantaly less
+        // accurate than standard Unix machines, so have to sleep
         // for the miminal amount to time to get the alleged 'microseconds'
-        // to move. Timer is also not super accurate in virtualbox. 
+        // to move. Timer is also not super accurate in virtualbox.
         rr::sleep(1);
         int64_t curr = rr::getMicroSeconds();
         EXPECT_TRUE(curr > prev);
@@ -270,8 +270,3 @@ TEST_F(CAPICoreTest, CheckRK4WorksFromC) {
         EXPECT_NEAR((*cvode)(cvode->RSize() - 1, k), (*rk4)(rk4->RSize() - 1, k), 1e-6);
     }
 }
-
-
-
-
-

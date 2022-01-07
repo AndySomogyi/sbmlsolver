@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ASTNodeFactory &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -37,13 +36,11 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div>
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../steady_state.html">Steady State Analysis</a></li>
@@ -53,6 +50,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bifurcation.html">Bifurcation Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
@@ -146,17 +145,14 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" aria-label="Top" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">libRoadRunner</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          
-
-<div role="navigation" aria-label="Breadcrumbs">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../index.html">The LibRoadRunner C++ Library</a> &raquo;</li>
@@ -171,7 +167,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="astnodefactory">
+  <div class="section" id="astnodefactory">
 <h1>ASTNodeFactory<a class="headerlink" href="#astnodefactory" title="Permalink to this headline"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm14ASTNodeFactoryE">
@@ -195,10 +191,12 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm14ASTNodeFactory6createEN7libsbml13ASTNodeType_tE">
 <span id="_CPPv3N6rrllvm14ASTNodeFactory6createEN7libsbml13ASTNodeType_tE"></span><span id="_CPPv2N6rrllvm14ASTNodeFactory6createEN7libsbml13ASTNodeType_tE"></span><span id="rrllvm::ASTNodeFactory::create__libsbml::ASTNodeType_t"></span><span class="target" id="classrrllvm_1_1ASTNodeFactory_1aa492e96aa042c33f1cf3480dc1b65e3c"></span><span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ASTNode</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">create</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ASTNodeType_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">AST_UNKNOWN</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm14ASTNodeFactory6createEN7libsbml13ASTNodeType_tE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Creates and returns a new ASTNode. </p>
-<p>Unless the argument <code class="docutils literal notranslate"><span class="pre">type</span></code> is given, the returned node will by default have a type of AST_UNKNOWN. If the type isn’t supplied when caling this constructor, the caller should set the node type to something else as soon as possible using ASTNode::setType(int).</p>
+<p>Unless the argument <code class="docutils literal notranslate"><span class="pre">type</span></code> is given, the returned node will by default have a type of AST_UNKNOWN<p>. If the type isn’t supplied when caling this constructor, the caller should set the node type to something else as soon as possible using  ASTNode::setType(int)</p>
+<p>code indicating the type of node to create.</p>
+</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>type</strong> – an optional type code indicating the type of node to create. </p>
+<dd class="field-odd"><p><strong>type</strong> – an optional  type</p>
 </dd>
 </dl>
 </dd></dl>
@@ -237,7 +235,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm14ASTNodeFactoryaSERK14ASTNodeFactory">
-<span id="_CPPv3N6rrllvm14ASTNodeFactoryaSERK14ASTNodeFactory"></span><span id="_CPPv2N6rrllvm14ASTNodeFactoryaSERK14ASTNodeFactory"></span><span id="rrllvm::ASTNodeFactory::assign-operator__ASTNodeFactoryCR"></span><span class="target" id="classrrllvm_1_1ASTNodeFactory_1a64f4523e99e0fa6413bf9b10e480daf6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6rrllvm14ASTNodeFactoryE" title="rrllvm::ASTNodeFactory"><span class="n"><span class="pre">ASTNodeFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6rrllvm14ASTNodeFactoryE" title="rrllvm::ASTNodeFactory"><span class="n"><span class="pre">ASTNodeFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm14ASTNodeFactoryaSERK14ASTNodeFactory" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3N6rrllvm14ASTNodeFactoryaSERK14ASTNodeFactory"></span><span id="_CPPv2N6rrllvm14ASTNodeFactoryaSERK14ASTNodeFactory"></span><span id="rrllvm::ASTNodeFactory::assign-operator__ASTNodeFactoryCR"></span><span class="target" id="classrrllvm_1_1ASTNodeFactory_1a3e251ee2dd958084cef069c87a79e839"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6rrllvm14ASTNodeFactoryE" title="rrllvm::ASTNodeFactory"><span class="n"><span class="pre">ASTNodeFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6rrllvm14ASTNodeFactoryE" title="rrllvm::ASTNodeFactory"><span class="n"><span class="pre">ASTNodeFactory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm14ASTNodeFactoryaSERK14ASTNodeFactory" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 </div>
@@ -252,13 +250,12 @@
 </div>
 </dd></dl>
 
-</section>
+</div>
 
 
            </div>
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="ASTNodeCodeGen.html" class="btn btn-neutral float-left" title="ASTNodeCodeGen" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="AssignmentRuleEvaluator.html" class="btn btn-neutral float-right" title="AssignmentRuleEvaluator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
@@ -270,7 +267,8 @@
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

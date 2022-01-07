@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrRoadRunnerData_8h" kind="file" language="C++">
     <compoundname>rrRoadRunnerData.h</compoundname>
     <includes local="yes">rr-libstruct/lsMatrix.h</includes>
@@ -8,21 +8,15 @@
     <includes local="no">vector</includes>
     <includes local="no">fstream</includes>
     <includes local="no">sstream</includes>
+    <includedby refid="rrc__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</includedby>
+    <includedby refid="rrc__cpp__support_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_cpp_support.cpp</includedby>
     <includedby refid="rrRoadRunnerData_8cpp" local="yes">rrRoadRunnerData.cpp</includedby>
     <includedby refid="rrSBMLModelSimulation_8h" local="yes">rrSBMLModelSimulation.h</includedby>
     <includedby refid="rrTestSuiteModelSimulation_8h" local="yes">rrTestSuiteModelSimulation.h</includedby>
-    <includedby refid="rrc__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</includedby>
-    <includedby refid="rrc__cpp__support_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_cpp_support.cpp</includedby>
     <incdepgraph>
       <node id="3">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="4">
-        <label>string</label>
-      </node>
-      <node id="6">
-        <label>fstream</label>
       </node>
       <node id="1">
         <label>rrRoadRunnerData.h</label>
@@ -40,21 +34,23 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
+      <node id="6">
+        <label>fstream</label>
+      </node>
       <node id="2">
         <label>rr-libstruct/lsMatrix.h</label>
-      </node>
-      <node id="5">
-        <label>vector</label>
       </node>
       <node id="7">
         <label>sstream</label>
       </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="4">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
-        <link refid="rrc__api_8cpp"/>
-      </node>
       <node id="1">
         <label>rrRoadRunnerData.h</label>
         <link refid="rrRoadRunnerData_8h"/>
@@ -65,15 +61,19 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="2">
+      <node id="3">
         <label>rrSBMLModelSimulation.h</label>
         <link refid="rrSBMLModelSimulation_8h_source"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
         <label>rrTestSuiteModelSimulation.h</label>
         <link refid="rrTestSuiteModelSimulation_8h_source"/>
+      </node>
+      <node id="2">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
+        <link refid="rrc__api_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classrr_1_1RoadRunnerData" prot="public">rr::RoadRunnerData</innerclass>
@@ -123,7 +123,7 @@
 <codeline lineno="38"><highlight class="normal"></highlight></codeline>
 <codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunnerData" kindref="compound">RoadRunnerData</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>*<sp/>rr);</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classrr_1_1RoadRunnerData" kindref="compound">RoadRunnerData</ref>();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunnerData" kindref="compound">~RoadRunnerData</ref>();</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"></highlight></codeline>
 <codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>allocate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">&amp;<sp/>cSize,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">&amp;<sp/>rSize);</highlight></codeline>
 <codeline lineno="44"><highlight class="normal"></highlight></codeline>

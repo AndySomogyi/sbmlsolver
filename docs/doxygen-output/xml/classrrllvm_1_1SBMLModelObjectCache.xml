@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="classrrllvm_1_1SBMLModelObjectCache" kind="class" language="C++" prot="public">
+    <compoundname>rrllvm::SBMLModelObjectCache</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">llvm::ObjectCache</basecompoundref>
+    <includes refid="SBMLModelObjectCache_8h" local="no">SBMLModelObjectCache.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrrllvm_1_1SBMLModelObjectCache_1a24283c1daec8693dd4446385daa0fa45" prot="private" static="no" mutable="no">
+        <type>llvm::StringMap&lt; std::unique_ptr&lt; llvm::MemoryBuffer &gt; &gt;</type>
+        <definition>llvm::StringMap&lt;std::unique_ptr&lt;llvm::MemoryBuffer&gt; &gt; rrllvm::SBMLModelObjectCache::cachedObjects</definition>
+        <argsstring></argsstring>
+        <name>cachedObjects</name>
+        <qualifiedname>rrllvm::SBMLModelObjectCache::cachedObjects</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLModelObjectCache.h" line="49" column="25" bodyfile="llvm/SBMLModelObjectCache.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classrrllvm_1_1SBMLModelObjectCache_1a2fdacdfc685ed320a0dec38989526718" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrrllvm_1_1SBMLModelObjectCache" kindref="compound">SBMLModelObjectCache</ref> &amp;</type>
+        <definition>SBMLModelObjectCache &amp; rrllvm::SBMLModelObjectCache::getObjectCache</definition>
+        <argsstring>()</argsstring>
+        <name>getObjectCache</name>
+        <qualifiedname>rrllvm::SBMLModelObjectCache::getObjectCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLModelObjectCache.h" line="28" column="37" bodyfile="llvm/SBMLModelObjectCache.cpp" bodystart="15" bodyend="18"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrrllvm_1_1SBMLModelObjectCache_1a17d12a04495e35c0e90aa1ae8fa3895a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::SBMLModelObjectCache::SBMLModelObjectCache</definition>
+        <argsstring>(const SBMLModelObjectCache &amp;objectCache)=delete</argsstring>
+        <name>SBMLModelObjectCache</name>
+        <qualifiedname>rrllvm::SBMLModelObjectCache::SBMLModelObjectCache</qualifiedname>
+        <param>
+          <type>const <ref refid="classrrllvm_1_1SBMLModelObjectCache" kindref="compound">SBMLModelObjectCache</ref> &amp;</type>
+          <declname>objectCache</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLModelObjectCache.h" line="30" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1SBMLModelObjectCache_1a98a3c58c48aaa6561fd8e730e9b60960" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrrllvm_1_1SBMLModelObjectCache" kindref="compound">SBMLModelObjectCache</ref> &amp;</type>
+        <definition>SBMLModelObjectCache &amp; rrllvm::SBMLModelObjectCache::operator=</definition>
+        <argsstring>(const SBMLModelObjectCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>rrllvm::SBMLModelObjectCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classrrllvm_1_1SBMLModelObjectCache" kindref="compound">SBMLModelObjectCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLModelObjectCache.h" line="32" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1SBMLModelObjectCache_1a7f4921a16cd6af34b90a45987bffc11e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::SBMLModelObjectCache::SBMLModelObjectCache</definition>
+        <argsstring>(SBMLModelObjectCache &amp;&amp;objectCache) noexcept=delete</argsstring>
+        <name>SBMLModelObjectCache</name>
+        <qualifiedname>rrllvm::SBMLModelObjectCache::SBMLModelObjectCache</qualifiedname>
+        <param>
+          <type><ref refid="classrrllvm_1_1SBMLModelObjectCache" kindref="compound">SBMLModelObjectCache</ref> &amp;&amp;</type>
+          <declname>objectCache</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLModelObjectCache.h" line="34" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1SBMLModelObjectCache_1a1c57c20fdd1ad2e8c4079ab476dfa3c9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classrrllvm_1_1SBMLModelObjectCache" kindref="compound">SBMLModelObjectCache</ref> &amp;</type>
+        <definition>SBMLModelObjectCache &amp; rrllvm::SBMLModelObjectCache::operator=</definition>
+        <argsstring>(SBMLModelObjectCache &amp;&amp;) noexcept=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>rrllvm::SBMLModelObjectCache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classrrllvm_1_1SBMLModelObjectCache" kindref="compound">SBMLModelObjectCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLModelObjectCache.h" line="36" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1SBMLModelObjectCache_1a6593d9f184c8b9780c26483a1394d791" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::SBMLModelObjectCache::notifyObjectCompiled</definition>
+        <argsstring>(const llvm::Module *M, llvm::MemoryBufferRef ObjBuffer) override</argsstring>
+        <name>notifyObjectCompiled</name>
+        <qualifiedname>rrllvm::SBMLModelObjectCache::notifyObjectCompiled</qualifiedname>
+        <param>
+          <type>const llvm::Module *</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type>llvm::MemoryBufferRef</type>
+          <declname>ObjBuffer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLModelObjectCache.h" line="38" column="14" bodyfile="llvm/SBMLModelObjectCache.cpp" bodystart="20" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1SBMLModelObjectCache_1ae2ba4faf89ab6f076883f69fc01d7196" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; llvm::MemoryBuffer &gt;</type>
+        <definition>std::unique_ptr&lt; llvm::MemoryBuffer &gt; rrllvm::SBMLModelObjectCache::getObject</definition>
+        <argsstring>(const llvm::Module *M) override</argsstring>
+        <name>getObject</name>
+        <qualifiedname>rrllvm::SBMLModelObjectCache::getObject</qualifiedname>
+        <param>
+          <type>const llvm::Module *</type>
+          <declname>M</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLModelObjectCache.h" line="40" column="25" bodyfile="llvm/SBMLModelObjectCache.cpp" bodystart="27" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1SBMLModelObjectCache_1afcf2fa2f2cf3241efddad44a8253713c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; rrllvm::SBMLModelObjectCache::inspect</definition>
+        <argsstring>()</argsstring>
+        <name>inspect</name>
+        <qualifiedname>rrllvm::SBMLModelObjectCache::inspect</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLModelObjectCache.h" line="42" column="21" bodyfile="llvm/SBMLModelObjectCache.cpp" bodystart="38" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1SBMLModelObjectCache_1ae63a018adb2d7f7a59da6fae00ac5905" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::SBMLModelObjectCache::addToCache</definition>
+        <argsstring>(const std::string &amp;key, std::unique_ptr&lt; llvm::MemoryBuffer &gt; mb)</argsstring>
+        <name>addToCache</name>
+        <qualifiedname>rrllvm::SBMLModelObjectCache::addToCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; llvm::MemoryBuffer &gt;</type>
+          <declname>mb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLModelObjectCache.h" line="44" column="14" bodyfile="llvm/SBMLModelObjectCache.cpp" bodystart="49" bodyend="52"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classrrllvm_1_1SBMLModelObjectCache_1a148436738ebcc673378ba8e711aaa895" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::SBMLModelObjectCache::SBMLModelObjectCache</definition>
+        <argsstring>()=default</argsstring>
+        <name>SBMLModelObjectCache</name>
+        <qualifiedname>rrllvm::SBMLModelObjectCache::SBMLModelObjectCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLModelObjectCache.h" line="47" column="9"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Stores SBML model as object files for later use. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="see"><para>llvm example called LLJitWithObjectCache.cpp</para>
+</simplesect>
+This object is a singleton. It cannot be copied, moved or assigned and all interactions with this object must occur through the static call SBMLModelObjectCache::getObjectCache(); </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>llvm::ObjectCache</label>
+      </node>
+      <node id="1">
+        <label>rrllvm::SBMLModelObjectCache</label>
+        <link refid="classrrllvm_1_1SBMLModelObjectCache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>llvm::ObjectCache</label>
+      </node>
+      <node id="1">
+        <label>rrllvm::SBMLModelObjectCache</label>
+        <link refid="classrrllvm_1_1SBMLModelObjectCache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="llvm/SBMLModelObjectCache.h" line="25" column="5" bodyfile="llvm/SBMLModelObjectCache.h" bodystart="25" bodyend="51"/>
+    <listofallmembers>
+      <member refid="classrrllvm_1_1SBMLModelObjectCache_1ae63a018adb2d7f7a59da6fae00ac5905" prot="public" virt="non-virtual"><scope>rrllvm::SBMLModelObjectCache</scope><name>addToCache</name></member>
+      <member refid="classrrllvm_1_1SBMLModelObjectCache_1a24283c1daec8693dd4446385daa0fa45" prot="private" virt="non-virtual"><scope>rrllvm::SBMLModelObjectCache</scope><name>cachedObjects</name></member>
+      <member refid="classrrllvm_1_1SBMLModelObjectCache_1ae2ba4faf89ab6f076883f69fc01d7196" prot="public" virt="non-virtual"><scope>rrllvm::SBMLModelObjectCache</scope><name>getObject</name></member>
+      <member refid="classrrllvm_1_1SBMLModelObjectCache_1a2fdacdfc685ed320a0dec38989526718" prot="public" virt="non-virtual"><scope>rrllvm::SBMLModelObjectCache</scope><name>getObjectCache</name></member>
+      <member refid="classrrllvm_1_1SBMLModelObjectCache_1afcf2fa2f2cf3241efddad44a8253713c" prot="public" virt="non-virtual"><scope>rrllvm::SBMLModelObjectCache</scope><name>inspect</name></member>
+      <member refid="classrrllvm_1_1SBMLModelObjectCache_1a6593d9f184c8b9780c26483a1394d791" prot="public" virt="non-virtual"><scope>rrllvm::SBMLModelObjectCache</scope><name>notifyObjectCompiled</name></member>
+      <member refid="classrrllvm_1_1SBMLModelObjectCache_1a98a3c58c48aaa6561fd8e730e9b60960" prot="public" virt="non-virtual"><scope>rrllvm::SBMLModelObjectCache</scope><name>operator=</name></member>
+      <member refid="classrrllvm_1_1SBMLModelObjectCache_1a1c57c20fdd1ad2e8c4079ab476dfa3c9" prot="public" virt="non-virtual"><scope>rrllvm::SBMLModelObjectCache</scope><name>operator=</name></member>
+      <member refid="classrrllvm_1_1SBMLModelObjectCache_1a17d12a04495e35c0e90aa1ae8fa3895a" prot="public" virt="non-virtual"><scope>rrllvm::SBMLModelObjectCache</scope><name>SBMLModelObjectCache</name></member>
+      <member refid="classrrllvm_1_1SBMLModelObjectCache_1a7f4921a16cd6af34b90a45987bffc11e" prot="public" virt="non-virtual"><scope>rrllvm::SBMLModelObjectCache</scope><name>SBMLModelObjectCache</name></member>
+      <member refid="classrrllvm_1_1SBMLModelObjectCache_1a148436738ebcc673378ba8e711aaa895" prot="private" virt="non-virtual"><scope>rrllvm::SBMLModelObjectCache</scope><name>SBMLModelObjectCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

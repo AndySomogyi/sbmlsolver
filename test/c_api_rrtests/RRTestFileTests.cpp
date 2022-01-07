@@ -981,7 +981,8 @@ public:
         vector<string> refList = splitString(keys, " ,");
 
         const char *d = refList[0].c_str();
-        const char* d_init = ("init(" + refList[0] + ")").c_str();
+        string initstr = "init(" + refList[0] + ")";
+        const char* d_init = initstr.c_str();
         double d_value = toDouble(refList[1]);
 
         double d_value_r;

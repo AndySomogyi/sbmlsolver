@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="group__edit" kind="group">
     <compoundname>edit</compoundname>
     <title>Edit models</title>
@@ -1544,9 +1544,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="737" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="737" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__edit_1gadbf20490f39ce700b719dc17810f186e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__edit_1gaf7730a71f6ddd01a4714d2eebe1f8fd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getKineticLaw</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getKineticLaw</definition>
         <argsstring>(RRHandle handle, const char *rid)</argsstring>
         <name>getKineticLaw</name>
         <param>

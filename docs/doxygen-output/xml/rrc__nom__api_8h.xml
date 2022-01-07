@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrc__nom__api_8h" kind="file" language="C++">
     <compoundname>rrc_nom_api.h</compoundname>
     <includes refid="rrc__exporter_8h" local="yes">rrc_exporter.h</includes>
@@ -7,12 +7,11 @@
     <includedby refid="rrc__api_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</includedby>
     <includedby refid="rrc__nom__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.cpp</includedby>
     <incdepgraph>
-      <node id="3">
-        <label>stdbool.h</label>
-      </node>
-      <node id="4">
-        <label>rrc_types.h</label>
-        <link refid="rrc__types_8h"/>
+      <node id="2">
+        <label>rrc_exporter.h</label>
+        <link refid="rrc__exporter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h</label>
@@ -22,11 +21,12 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="2">
-        <label>rrc_exporter.h</label>
-        <link refid="rrc__exporter_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
+      <node id="4">
+        <label>rrc_types.h</label>
+        <link refid="rrc__types_8h"/>
+      </node>
+      <node id="3">
+        <label>stdbool.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
@@ -34,16 +34,16 @@
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
         <link refid="rrc__api_8cpp"/>
       </node>
-      <node id="1">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h</label>
-        <link refid="rrc__nom__api_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-      </node>
       <node id="2">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</label>
         <link refid="rrc__api_8h"/>
         <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h</label>
+        <link refid="rrc__nom__api_8h"/>
+        <childnode refid="2" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -78,9 +78,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h" line="65" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h" declline="65" declcolumn="29"/>
       </memberdef>
-      <memberdef kind="function" id="group__NOM_1gadd064802065aece47c2e966f9fff5958" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__NOM_1ga5f120b6642ff611966099d066df16d70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getModelName</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getModelName</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getModelName</name>
         <param>
@@ -148,9 +148,9 @@
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h" line="82" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h" declline="82" declcolumn="30"/>
       </memberdef>
-      <memberdef kind="function" id="group__NOM_1ga300c79897dd0002ea7810b0bd7ce640c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__NOM_1gaf002b8a042dbba1eea17a469e5f9d21c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char* rrcCallConv getModelId</definition>
+        <definition>C_DECL_SPEC char *rrcCallConv getModelId</definition>
         <argsstring>(RRHandle handle)</argsstring>
         <name>getModelId</name>
         <param>
@@ -259,13 +259,13 @@
 <codeline lineno="58"><highlight class="normal"></highlight></codeline>
 <codeline lineno="65" refid="group__NOM_1ga97df6daacbf87b1b2d3b4dd3f4e05876" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__NOM_1ga97df6daacbf87b1b2d3b4dd3f4e05876" kindref="member">getNumberOfRules</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle);</highlight></codeline>
 <codeline lineno="66"><highlight class="normal"></highlight></codeline>
-<codeline lineno="73" refid="group__NOM_1gadd064802065aece47c2e966f9fff5958" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__NOM_1gadd064802065aece47c2e966f9fff5958" kindref="member">getModelName</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle);</highlight></codeline>
+<codeline lineno="73" refid="group__NOM_1ga5f120b6642ff611966099d066df16d70" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__NOM_1ga5f120b6642ff611966099d066df16d70" kindref="member">getModelName</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle);</highlight></codeline>
 <codeline lineno="74"><highlight class="normal"></highlight></codeline>
 <codeline lineno="75"><highlight class="normal"></highlight></codeline>
 <codeline lineno="82" refid="group__NOM_1ga41628ed993912f07fef8232af1a01051" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__NOM_1ga41628ed993912f07fef8232af1a01051" kindref="member">setModelName</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name);</highlight></codeline>
 <codeline lineno="83"><highlight class="normal"></highlight></codeline>
 <codeline lineno="84"><highlight class="normal"></highlight></codeline>
-<codeline lineno="91" refid="group__NOM_1ga300c79897dd0002ea7810b0bd7ce640c" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__NOM_1ga300c79897dd0002ea7810b0bd7ce640c" kindref="member">getModelId</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle);</highlight></codeline>
+<codeline lineno="91" refid="group__NOM_1gaf002b8a042dbba1eea17a469e5f9d21c" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__NOM_1gaf002b8a042dbba1eea17a469e5f9d21c" kindref="member">getModelId</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle);</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"></highlight></codeline>
 <codeline lineno="93"><highlight class="normal"></highlight></codeline>
 <codeline lineno="100" refid="group__NOM_1gaa4a7f06dcfd66520eae88c7138c61364" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__NOM_1gaa4a7f06dcfd66520eae88c7138c61364" kindref="member">setModelId</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>

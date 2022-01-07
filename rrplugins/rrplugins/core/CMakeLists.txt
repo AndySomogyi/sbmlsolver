@@ -6,21 +6,17 @@ set(target telplugins_core)
 
 set(
         sources
-        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telCPlugin.cpp
-        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telCPPPlugin.cpp
-        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telPlugin.cpp
-        ${RR_PLUGINS_ROOT}/rrplugins/common/telException.cpp
-#        tel_api   #struct of roadrunner function pointer
         telPluginManager.cpp
         telVersionInfo.cpp
+        telplugins_cpp_support.cpp
+        telAPIHandleManager.cpp
 
-        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telCPlugin.h
-        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telCPPPlugin.h
-        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telPlugin.h
-        ${RR_PLUGINS_ROOT}/rrplugins/common/telException.h
         tel_api.h   #struct of roadrunner function pointer
+        telplugins_cpp_support.h
+        telCoreExporter.h
         telPluginManager.h
         telVersionInfo.h
+        telAPIHandleManager.h
 )
 
 # ** Shared lib ******
@@ -30,9 +26,9 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
     target_compile_definitions(${target} PUBLIC SHARED_PLUGIN_API)
 
     target_link_libraries(${target} PUBLIC
-            #telplugins_common-static
+            telplugins_common-static
             telpluginsBaseClass-static
-            telplugins_c_api
+            roadrunner_c_api
             )
     target_include_directories(${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${RR_PLUGINS_ROOT})
 
@@ -54,7 +50,7 @@ if (RR_PLUGINS_BUILD_STATIC_LIB)
     target_compile_definitions(${target}-static PUBLIC STATIC_PLUGIN_API)
 
     target_link_libraries(${target}-static PUBLIC
-            #telplugins_common-static
+            telplugins_common-static
             telpluginsBaseClass-static
             roadrunner_c_api
             )

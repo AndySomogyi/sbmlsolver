@@ -24,7 +24,6 @@ Inheritance diagram for rr\+::CVODEIntegrator\+:\begin{figure}[H]
 \begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classrr_1_1CVODEIntegrator_a6ffad2eceae5fda58900a1bbaa738eff}{sync\+With\+Model}} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$m) override
 \begin{DoxyCompactList}\small\item\em Called whenever a new model is loaded to allow integrator to reset internal state. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1CVODEIntegrator_ac43da51656919e15d30f450e81b3887b}\label{classrr_1_1CVODEIntegrator_ac43da51656919e15d30f450e81b3887b}} 
 void \mbox{\hyperlink{classrr_1_1CVODEIntegrator_ac43da51656919e15d30f450e81b3887b}{load\+Config\+Settings}} () override
 \begin{DoxyCompactList}\small\item\em It looks like this method only get used inside reset\+Settings. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classrr_1_1CVODEIntegrator_acaa6878fb0d972aa96dba554a7bc65a4}{load\+SBMLSettings}} (const std\+::string \&filename) override
@@ -72,13 +71,13 @@ std\+::string \mbox{\hyperlink{classrr_1_1CVODEIntegrator_a38290b6c0c66556fed4a9
 std\+::string \mbox{\hyperlink{classrr_1_1CVODEIntegrator_a5f7253ee990e699dbc5affe54097fe5a}{To\+String}} (size\+\_\+t val) const
 \begin{DoxyCompactList}\small\item\em Converts size\+\_\+t to std\+::string for error print. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1CVODEIntegrator_a20f0ef30d096122a556f8690b81d7ef0}\label{classrr_1_1CVODEIntegrator_a20f0ef30d096122a556f8690b81d7ef0}} 
-N\+\_\+\+Vector \mbox{\hyperlink{classrr_1_1CVODEIntegrator_a20f0ef30d096122a556f8690b81d7ef0}{get\+State\+Vector}} () const
+N\+\_\+\+Vector {\bfseries get\+State\+Vector} () const
 \begin{DoxyCompactList}\small\item\em getter for the internal state std\+::vector \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1CVODEIntegrator_a72452ef342616919777874ba32dcd1c3}\label{classrr_1_1CVODEIntegrator_a72452ef342616919777874ba32dcd1c3}} 
-SUNNonlinear\+Solver \mbox{\hyperlink{classrr_1_1CVODEIntegrator_a72452ef342616919777874ba32dcd1c3}{get\+Solver}} () const
+SUNNonlinear\+Solver {\bfseries get\+Solver} () const
 \begin{DoxyCompactList}\small\item\em getter for the internal Sundials linear solver object \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1CVODEIntegrator_ad3ad4d2d9d49bce33f8d34d177ff703a}\label{classrr_1_1CVODEIntegrator_ad3ad4d2d9d49bce33f8d34d177ff703a}} 
-void $\ast$ \mbox{\hyperlink{classrr_1_1CVODEIntegrator_ad3ad4d2d9d49bce33f8d34d177ff703a}{get\+Cvode\+Memory}} () const
+void $\ast$ {\bfseries get\+Cvode\+Memory} () const
 \begin{DoxyCompactList}\small\item\em getter for the internal CVode memory buffer \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1CVODEIntegrator_a8a79e9633a25767a1683a0334fd1d917}\label{classrr_1_1CVODEIntegrator_a8a79e9633a25767a1683a0334fd1d917}} 
 {\bfseries Integrator} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$model)
@@ -190,7 +189,7 @@ construct an instance of type \mbox{\hyperlink{classrr_1_1CVODEIntegrator}{CVODE
 
 implements the Registrar interface. Used in factory creation of Integrators. 
 
-Implements \mbox{\hyperlink{classrr_1_1Registrable_a3f529e138fa0288622525bc13cd73c5f}{rr\+::\+Registrable}}.
+Implements \mbox{\hyperlink{classrr_1_1Registrable_a4380db83a3a2b122fe58fc3bbbb32a69}{rr\+::\+Registrable}}.
 
 \mbox{\Hypertarget{classrr_1_1CVODEIntegrator_a7f68228148cf04688881f636a34deb48}\label{classrr_1_1CVODEIntegrator_a7f68228148cf04688881f636a34deb48}} 
 \index{rr::CVODEIntegrator@{rr::CVODEIntegrator}!getConcentrationTolerance@{getConcentrationTolerance}}
@@ -319,6 +318,20 @@ WBC, ETS, MTK
 
 
 Implements \mbox{\hyperlink{classrr_1_1Integrator}{rr\+::\+Integrator}}.
+
+\mbox{\Hypertarget{classrr_1_1CVODEIntegrator_ac43da51656919e15d30f450e81b3887b}\label{classrr_1_1CVODEIntegrator_ac43da51656919e15d30f450e81b3887b}} 
+\index{rr::CVODEIntegrator@{rr::CVODEIntegrator}!loadConfigSettings@{loadConfigSettings}}
+\index{loadConfigSettings@{loadConfigSettings}!rr::CVODEIntegrator@{rr::CVODEIntegrator}}
+\doxysubsubsection{\texorpdfstring{loadConfigSettings()}{loadConfigSettings()}}
+{\footnotesize\ttfamily void rr\+::\+CVODEIntegrator\+::load\+Config\+Settings (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+It looks like this method only get used inside reset\+Settings. 
+
+
+
+Reimplemented from \mbox{\hyperlink{classrr_1_1Integrator}{rr\+::\+Integrator}}.
 
 \mbox{\Hypertarget{classrr_1_1CVODEIntegrator_acaa6878fb0d972aa96dba554a7bc65a4}\label{classrr_1_1CVODEIntegrator_acaa6878fb0d972aa96dba554a7bc65a4}} 
 \index{rr::CVODEIntegrator@{rr::CVODEIntegrator}!loadSBMLSettings@{loadSBMLSettings}}

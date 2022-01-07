@@ -1191,7 +1191,7 @@ namespace rr {
              * calls the NamedArray_New which feeds into NamedArray_Alloc
              * and then NamedArray_Finalize.
              */
-            // PyArray_New calls finalize twice, once for the pyarray and
+            // PyArray_New calls finalizeObject twice, once for the pyarray and
             // again for the subtype
             NamedArrayObject *array = (NamedArrayObject *) PyArray_New(
                     &NamedArray_Type,   // PyTypeObject* subtype,

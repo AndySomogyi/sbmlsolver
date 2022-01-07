@@ -20,9 +20,9 @@ namespace rr{
     }
 
     void IntegratorFactory::Register() {
+        std::lock_guard<std::mutex> lockGuard(integratorRegistrationMutex);
         static bool flag = false;
         if (!flag) {
-            std::lock_guard<std::mutex> lockGuard(integratorRegistrationMutex);
             flag = true;
             IntegratorFactory::getInstance().registerSolver(new CVODEIntegrator);
             IntegratorFactory::getInstance().registerSolver(new GillespieIntegrator);

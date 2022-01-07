@@ -137,7 +137,7 @@ void relabel(solutionp current, int label) {
       } else {
     if(current->new_label != DELETED) {
       printf("Enter new label for point with label %d: ",current->label);
-      scanf("%d",&(current->new_label));
+      int ignore = scanf("%d",&(current->new_label));
       /*strip the carriage return */
       fgetc(stdin);
     }

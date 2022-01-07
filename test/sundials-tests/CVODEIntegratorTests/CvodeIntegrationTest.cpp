@@ -39,9 +39,14 @@ TEST_F(CVODEIntegratorTests, OpenLinearFluxWithRoadRunner) {
     checkModelSimulatesWithRoadRunner("OpenLinearFlux");
 }
 
+TEST_F(CVODEIntegratorTests, OneEvent10TriggersWithRoadRunner) {
+    checkModelSimulatesWithRoadRunner("OneEvent10Triggers");
+}
+
+
 
 /**
- * These tests use the model instead of the RoadRunner interface.
+ * These tests use the LLVMExecutableModel instead of the RoadRunner interface.
  */
 
 TEST_F(CVODEIntegratorTests, TestSimpleFluxWithModel) {
@@ -71,6 +76,11 @@ TEST_F(CVODEIntegratorTests, OpenLinearFluxWithModel) {
 
 TEST_F(CVODEIntegratorTests, FactorialInRateLawWithModel) {
     FactorialInRateLaw testModel;
+    checkModelIntegrates<CVODEIntegrator>(&testModel);
+}
+
+TEST_F(CVODEIntegratorTests, OneEvent10Triggers) {
+    OneEvent10Triggers testModel;
     checkModelIntegrates<CVODEIntegrator>(&testModel);
 }
 

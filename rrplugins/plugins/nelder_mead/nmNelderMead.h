@@ -5,8 +5,8 @@
 #include "lib/nmsimplex.h"
 #include "telProperty.h"
 #include "telCPPPlugin.h"
+#include "telplugins_types.h"
 #include "nmWorker.h"
-#include "telCPPPlugin.h"
 //---------------------------------------------------------------------------
 
 namespace nmfit

@@ -139,7 +139,10 @@ public:                       // *mistakenly* complains in ONE instance.
 class RR_DECLSPEC BasicDictionary : public Dictionary
 {
 public:
+    using item = std::pair<std::string, Setting>;
     BasicDictionary() = default;
+
+    BasicDictionary(std::initializer_list<item> initializerList);
 
     /**
      * sets an item in the internal unordered std::map.

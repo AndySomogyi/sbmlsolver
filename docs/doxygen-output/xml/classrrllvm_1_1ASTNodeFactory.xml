@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1ASTNodeFactory" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::ASTNodeFactory</compoundname>
     <includes refid="ASTNodeFactory_8h" local="no">ASTNodeFactory.h</includes>
@@ -9,6 +9,7 @@
         <definition>std::list&lt;libsbml::ASTNode*&gt; rrllvm::ASTNodeFactory::nodes</definition>
         <argsstring></argsstring>
         <name>nodes</name>
+        <qualifiedname>rrllvm::ASTNodeFactory::nodes</qualifiedname>
         <briefdescription>
 <para>the list of nodes this factory created. </para>
         </briefdescription>
@@ -25,6 +26,7 @@
         <definition>rrllvm::ASTNodeFactory::ASTNodeFactory</definition>
         <argsstring>()</argsstring>
         <name>ASTNodeFactory</name>
+        <qualifiedname>rrllvm::ASTNodeFactory::ASTNodeFactory</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -38,6 +40,7 @@
         <definition>rrllvm::ASTNodeFactory::~ASTNodeFactory</definition>
         <argsstring>()</argsstring>
         <name>~ASTNodeFactory</name>
+        <qualifiedname>rrllvm::ASTNodeFactory::~ASTNodeFactory</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -51,6 +54,7 @@
         <definition>libsbml::ASTNode * rrllvm::ASTNodeFactory::create</definition>
         <argsstring>(libsbml::ASTNodeType_t type=libsbml::AST_UNKNOWN)</argsstring>
         <name>create</name>
+        <qualifiedname>rrllvm::ASTNodeFactory::create</qualifiedname>
         <param>
           <type>libsbml::ASTNodeType_t</type>
           <declname>type</declname>
@@ -60,17 +64,16 @@
 <para>Creates and returns a new ASTNode. </para>
         </briefdescription>
         <detaileddescription>
-<para>Unless the argument <computeroutput>type</computeroutput> is given, the returned node will by default have a type of <ref refid="" kindref="compound">AST_UNKNOWN</ref>. If the type isn&apos;t supplied when caling this constructor, the caller should set the node type to something else as soon as possible using ASTNode::setType(int).</para>
-<para><parameterlist kind="param"><parameteritem>
+<para>Unless the argument <computeroutput>type</computeroutput> is given, the returned node will by default have a type of <ref refid="" kindref="compound">AST_UNKNOWN</ref>. If the type isn&apos;t supplied when caling this constructor, the caller should set the node type to something else as soon as possible using  ASTNode::setType(int) <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>type</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>an optional type code indicating the type of node to create. </para>
+<para>an optional  type</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-</para>
+code indicating the type of node to create.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -81,6 +84,7 @@
         <definition>libsbml::ASTNode * rrllvm::ASTNodeFactory::create</definition>
         <argsstring>(libsbml::Token_t *token)</argsstring>
         <name>create</name>
+        <qualifiedname>rrllvm::ASTNodeFactory::create</qualifiedname>
         <param>
           <type>libsbml::Token_t *</type>
           <declname>token</declname>
@@ -110,6 +114,7 @@
         <definition>libsbml::ASTNode * rrllvm::ASTNodeFactory::create</definition>
         <argsstring>(const libsbml::ASTNode &amp;orig)</argsstring>
         <name>create</name>
+        <qualifiedname>rrllvm::ASTNodeFactory::create</qualifiedname>
         <param>
           <type>const libsbml::ASTNode &amp;</type>
           <declname>orig</declname>
@@ -140,6 +145,7 @@
         <definition>rrllvm::ASTNodeFactory::ASTNodeFactory</definition>
         <argsstring>(const ASTNodeFactory &amp;)</argsstring>
         <name>ASTNodeFactory</name>
+        <qualifiedname>rrllvm::ASTNodeFactory::ASTNodeFactory</qualifiedname>
         <param>
           <type>const <ref refid="classrrllvm_1_1ASTNodeFactory" kindref="compound">ASTNodeFactory</ref> &amp;</type>
         </param>
@@ -152,11 +158,12 @@
         </inbodydescription>
         <location file="llvm/ASTNodeFactory.h" line="72" column="5" bodyfile="llvm/ASTNodeFactory.h" bodystart="72" bodyend="72"/>
       </memberdef>
-      <memberdef kind="function" id="classrrllvm_1_1ASTNodeFactory_1a64f4523e99e0fa6413bf9b10e480daf6" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeFactory_1a3e251ee2dd958084cef069c87a79e839" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classrrllvm_1_1ASTNodeFactory" kindref="compound">ASTNodeFactory</ref> &amp;</type>
-        <definition>ASTNodeFactory&amp; rrllvm::ASTNodeFactory::operator=</definition>
+        <definition>ASTNodeFactory &amp; rrllvm::ASTNodeFactory::operator=</definition>
         <argsstring>(const ASTNodeFactory &amp;rhs)</argsstring>
         <name>operator=</name>
+        <qualifiedname>rrllvm::ASTNodeFactory::operator=</qualifiedname>
         <param>
           <type>const <ref refid="classrrllvm_1_1ASTNodeFactory" kindref="compound">ASTNodeFactory</ref> &amp;</type>
           <declname>rhs</declname>
@@ -185,7 +192,7 @@
       <member refid="classrrllvm_1_1ASTNodeFactory_1a3ee8bfff471bd962ecb440b62f78c983" prot="public" virt="non-virtual"><scope>rrllvm::ASTNodeFactory</scope><name>create</name></member>
       <member refid="classrrllvm_1_1ASTNodeFactory_1a7f53b8f6cd706bbebf98848870e1ca1a" prot="public" virt="non-virtual"><scope>rrllvm::ASTNodeFactory</scope><name>create</name></member>
       <member refid="classrrllvm_1_1ASTNodeFactory_1ae697b39449b494f2c8dd96f2f68a4438" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeFactory</scope><name>nodes</name></member>
-      <member refid="classrrllvm_1_1ASTNodeFactory_1a64f4523e99e0fa6413bf9b10e480daf6" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeFactory</scope><name>operator=</name></member>
+      <member refid="classrrllvm_1_1ASTNodeFactory_1a3e251ee2dd958084cef069c87a79e839" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeFactory</scope><name>operator=</name></member>
       <member refid="classrrllvm_1_1ASTNodeFactory_1a3ab9cad06b39c9b26fc804263c475f60" prot="public" virt="non-virtual"><scope>rrllvm::ASTNodeFactory</scope><name>~ASTNodeFactory</name></member>
     </listofallmembers>
   </compounddef>

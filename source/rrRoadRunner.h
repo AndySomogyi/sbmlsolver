@@ -5,6 +5,7 @@
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerOptions.h"
 #include "sbml/Species.h"
+#include <thread>
 
 #ifdef _MSC_VER
 #pragma warning(disable: 26812)
@@ -45,14 +46,16 @@ namespace rr {
     template<class IndexType, class DataType>
     class Matrix3D;
 
-/**
- * The main RoadRunner class.
- *
- * The RoadRunner class is responsible for loading and simulating SBML models.
- *
- * MemoryManagment: Any pointer returned by a get... method is owned by the
- * RoadRunner object and does NOT have to be deleted.
- */
+    static std::mutex rrMtx;
+
+    /**
+     * The main RoadRunner class.
+     *
+     * The RoadRunner class is responsible for loading and simulating SBML models.
+     *
+     * MemoryManagment: Any pointer returned by a get... method is owned by the
+     * RoadRunner object and does NOT have to be deleted.
+     */
     class RR_DECLSPEC RoadRunner {
 
     public:
@@ -1704,12 +1707,31 @@ namespace rr {
          */
         std::string getTempDir();
 
+        /**
+         * @internal
+         *
+         * Search for the element with the given ID, but only among SBML elements that have mathematical meaning:  Species, Parameters, Compartments, and SpeciesReferences (in that order).
+         */
+        static const libsbml::SBase* getElementWithMathematicalMeaning(const libsbml::Model* model, const std::string& id);
+
+
 #endif // #ifndef SWIG
 
     private:
 
         void fixDependentSpeciesValues(int except, double *ref);
 
+        /**
+         * True once the llvm initialization routines have been run.
+         * This is necessary because they are not threadsafe.
+         */
+        static bool llvmInitialized;
+        static bool solversRegistered;
+
+        /**
+         * @brief calls llvm initialization routines in a thread safe way
+         */
+        void initLLVM();
 
         size_t createDefaultSteadyStateSelectionList();
 
@@ -1827,7 +1849,7 @@ namespace rr {
         void loadSelectionVector(std::istream &, std::vector<SelectionRecord> &);
 
         const int fileMagicNumber = 0xAD6F52;
-        const int dataVersionNumber = 1;
+        const int dataVersionNumber;
     };
 
 }

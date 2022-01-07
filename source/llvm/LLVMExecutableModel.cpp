@@ -217,46 +217,46 @@ LLVMExecutableModel::LLVMExecutableModel() :
 }
 
 LLVMExecutableModel::LLVMExecutableModel(
-    const std::shared_ptr<ModelResources>& rc, LLVMModelData* modelData) :
+    const std::shared_ptr<ModelResources>& modelResources, LLVMModelData* modelData) :
     ExecutableModel(),
-    resources(rc),
-    symbols(rc->symbols),
+    resources(modelResources),
+    symbols(modelResources->symbols),
     modelData(modelData),
     conversionFactor(1.0),
-    evalInitialConditionsPtr(rc->evalInitialConditionsPtr),
-    evalReactionRatesPtr(rc->evalReactionRatesPtr),
-    getBoundarySpeciesAmountPtr(rc->getBoundarySpeciesAmountPtr),
-    getFloatingSpeciesAmountPtr(rc->getFloatingSpeciesAmountPtr),
-    getBoundarySpeciesConcentrationPtr(rc->getBoundarySpeciesConcentrationPtr),
-    getFloatingSpeciesConcentrationPtr(rc->getFloatingSpeciesConcentrationPtr),
-    getCompartmentVolumePtr(rc->getCompartmentVolumePtr),
-    getGlobalParameterPtr(rc->getGlobalParameterPtr),
-    evalRateRuleRatesPtr(rc->evalRateRuleRatesPtr),
-    getEventTriggerPtr(rc->getEventTriggerPtr),
-    getEventPriorityPtr(rc->getEventPriorityPtr),
-    getEventDelayPtr(rc->getEventDelayPtr),
-    eventTriggerPtr(rc->eventTriggerPtr),
-    eventAssignPtr(rc->eventAssignPtr),
-    evalVolatileStoichPtr(rc->evalVolatileStoichPtr),
-    evalConversionFactorPtr(rc->evalConversionFactorPtr),
-    setBoundarySpeciesAmountPtr(rc->setBoundarySpeciesAmountPtr),
-    setFloatingSpeciesAmountPtr(rc->setFloatingSpeciesAmountPtr),
-    setBoundarySpeciesConcentrationPtr(rc->setBoundarySpeciesConcentrationPtr),
-    setFloatingSpeciesConcentrationPtr(rc->setFloatingSpeciesConcentrationPtr),
-    setCompartmentVolumePtr(rc->setCompartmentVolumePtr),
-    setGlobalParameterPtr(rc->setGlobalParameterPtr),
-    getFloatingSpeciesInitConcentrationsPtr(rc->getFloatingSpeciesInitConcentrationsPtr),
-    setFloatingSpeciesInitConcentrationsPtr(rc->setFloatingSpeciesInitConcentrationsPtr),
-    getFloatingSpeciesInitAmountsPtr(rc->getFloatingSpeciesInitAmountsPtr),
-    setFloatingSpeciesInitAmountsPtr(rc->setFloatingSpeciesInitAmountsPtr),
-    getBoundarySpeciesInitConcentrationsPtr(rc->getBoundarySpeciesInitConcentrationsPtr),
-    setBoundarySpeciesInitConcentrationsPtr(rc->setBoundarySpeciesInitConcentrationsPtr),
-    getBoundarySpeciesInitAmountsPtr(rc->getBoundarySpeciesInitAmountsPtr),
-    setBoundarySpeciesInitAmountsPtr(rc->setBoundarySpeciesInitAmountsPtr),
-    getCompartmentInitVolumesPtr(rc->getCompartmentInitVolumesPtr),
-    setCompartmentInitVolumesPtr(rc->setCompartmentInitVolumesPtr),
-    getGlobalParameterInitValuePtr(rc->getGlobalParameterInitValuePtr),
-    setGlobalParameterInitValuePtr(rc->setGlobalParameterInitValuePtr),
+    evalInitialConditionsPtr(modelResources->evalInitialConditionsPtr),
+    evalReactionRatesPtr(modelResources->evalReactionRatesPtr),
+    getBoundarySpeciesAmountPtr(modelResources->getBoundarySpeciesAmountPtr),
+    getFloatingSpeciesAmountPtr(modelResources->getFloatingSpeciesAmountPtr),
+    getBoundarySpeciesConcentrationPtr(modelResources->getBoundarySpeciesConcentrationPtr),
+    getFloatingSpeciesConcentrationPtr(modelResources->getFloatingSpeciesConcentrationPtr),
+    getCompartmentVolumePtr(modelResources->getCompartmentVolumePtr),
+    getGlobalParameterPtr(modelResources->getGlobalParameterPtr),
+    evalRateRuleRatesPtr(modelResources->evalRateRuleRatesPtr),
+    getEventTriggerPtr(modelResources->getEventTriggerPtr),
+    getEventPriorityPtr(modelResources->getEventPriorityPtr),
+    getEventDelayPtr(modelResources->getEventDelayPtr),
+    eventTriggerPtr(modelResources->eventTriggerPtr),
+    eventAssignPtr(modelResources->eventAssignPtr),
+    evalVolatileStoichPtr(modelResources->evalVolatileStoichPtr),
+    evalConversionFactorPtr(modelResources->evalConversionFactorPtr),
+    setBoundarySpeciesAmountPtr(modelResources->setBoundarySpeciesAmountPtr),
+    setFloatingSpeciesAmountPtr(modelResources->setFloatingSpeciesAmountPtr),
+    setBoundarySpeciesConcentrationPtr(modelResources->setBoundarySpeciesConcentrationPtr),
+    setFloatingSpeciesConcentrationPtr(modelResources->setFloatingSpeciesConcentrationPtr),
+    setCompartmentVolumePtr(modelResources->setCompartmentVolumePtr),
+    setGlobalParameterPtr(modelResources->setGlobalParameterPtr),
+    getFloatingSpeciesInitConcentrationsPtr(modelResources->getFloatingSpeciesInitConcentrationsPtr),
+    setFloatingSpeciesInitConcentrationsPtr(modelResources->setFloatingSpeciesInitConcentrationsPtr),
+    getFloatingSpeciesInitAmountsPtr(modelResources->getFloatingSpeciesInitAmountsPtr),
+    setFloatingSpeciesInitAmountsPtr(modelResources->setFloatingSpeciesInitAmountsPtr),
+    getBoundarySpeciesInitConcentrationsPtr(modelResources->getBoundarySpeciesInitConcentrationsPtr),
+    setBoundarySpeciesInitConcentrationsPtr(modelResources->setBoundarySpeciesInitConcentrationsPtr),
+    getBoundarySpeciesInitAmountsPtr(modelResources->getBoundarySpeciesInitAmountsPtr),
+    setBoundarySpeciesInitAmountsPtr(modelResources->setBoundarySpeciesInitAmountsPtr),
+    getCompartmentInitVolumesPtr(modelResources->getCompartmentInitVolumesPtr),
+    setCompartmentInitVolumesPtr(modelResources->setCompartmentInitVolumesPtr),
+    getGlobalParameterInitValuePtr(modelResources->getGlobalParameterInitValuePtr),
+    setGlobalParameterInitValuePtr(modelResources->setGlobalParameterInitValuePtr),
     eventListeners(modelData->numEvents, EventListenerPtr()), // init eventHandlers std::vector
     dirty(0),
     flags(defaultFlags())
@@ -270,26 +270,27 @@ LLVMExecutableModel::LLVMExecutableModel(
 
     eventAssignTimes.resize(modelData->numEvents);
 
-    reset(SelectionRecord::ALL);
+    reset(int(SelectionRecord::ALL));
 }
 
 LLVMExecutableModel::LLVMExecutableModel(std::istream& in, uint modelGeneratorOpt) :
     ExecutableModel(),
-	resources(new ModelResources()),
-	dirty(0),
-	conversionFactor(1.0),
-	flags(defaultFlags())
+    resources(new ModelResources()),
+    dirty(0),
+    conversionFactor(1.0),
+    flags(defaultFlags())
 {
-	modelData = LLVMModelData_from_save(in);
-	resources->loadState(in, modelGeneratorOpt);
-	symbols = resources->symbols;
-	eventListeners = std::vector<EventListenerPtr>(modelData->numEvents, EventListenerPtr());
-	eventAssignTimes.resize(modelData->numEvents);
-	
+    modelData = LLVMModelData_from_save(in);
+    resources->loadState(in, modelGeneratorOpt);
 
-	evalInitialConditionsPtr = resources->evalInitialConditionsPtr;
-	evalReactionRatesPtr = resources->evalReactionRatesPtr;
-	getBoundarySpeciesAmountPtr = resources->getBoundarySpeciesAmountPtr;
+    symbols = resources->symbols;
+    eventListeners = std::vector<EventListenerPtr>(modelData->numEvents, EventListenerPtr());
+    eventAssignTimes.resize(modelData->numEvents);
+
+
+    evalInitialConditionsPtr = resources->evalInitialConditionsPtr;
+    evalReactionRatesPtr = resources->evalReactionRatesPtr;
+    getBoundarySpeciesAmountPtr = resources->getBoundarySpeciesAmountPtr;
     getFloatingSpeciesAmountPtr = resources->getFloatingSpeciesAmountPtr;
     getBoundarySpeciesConcentrationPtr = resources->getBoundarySpeciesConcentrationPtr;
     getFloatingSpeciesConcentrationPtr = resources->getFloatingSpeciesConcentrationPtr;
@@ -299,7 +300,7 @@ LLVMExecutableModel::LLVMExecutableModel(std::istream& in, uint modelGeneratorOp
     getEventTriggerPtr = resources->getEventTriggerPtr;
     getEventPriorityPtr = resources->getEventPriorityPtr;
     getEventDelayPtr = resources->getEventDelayPtr;
-	eventTriggerPtr = resources->eventTriggerPtr;
+    eventTriggerPtr = resources->eventTriggerPtr;
     eventAssignPtr = resources->eventAssignPtr;
     evalVolatileStoichPtr = resources->evalVolatileStoichPtr;
     evalConversionFactorPtr = resources->evalConversionFactorPtr;
@@ -326,6 +327,7 @@ LLVMExecutableModel::LLVMExecutableModel(std::istream& in, uint modelGeneratorOp
     rr::loadBinary(in, eventAssignTimes);
     rr::loadBinary(in, tieBreakMap);
     rr::loadBinary(in, mIntegrationStartTime);
+
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()
@@ -690,7 +692,13 @@ void LLVMExecutableModel::evalInitialConditions(uint32_t flags)
 }
 
 //Resets a single type of model element:  compartment, floating, boundary, or global parameter
-void LLVMExecutableModel::resetOneType(int& opt, int thistype, int independents, int total, int (LLVMExecutableModel::*getInit)(size_t, const int*, double*), int (LLVMExecutableModel::*setCurrent)(size_t, const int*, const double*), string (LLVMModelDataSymbols::*getTypeId)(size_t) const, double* buffer, std::map<std::string, int>& inits, std::map<std::string, double>& initvals)
+void LLVMExecutableModel::resetOneType(
+        int& opt, int thistype, int independents, int total,
+        int (LLVMExecutableModel::*getInit)(size_t, const int*, double*),
+        int (LLVMExecutableModel::*setCurrent)(size_t, const int*, const double*),
+        std::string (LLVMModelDataSymbols::*getTypeId)(size_t) const,
+        double* buffer, std::map<std::string, int>& inits,
+        std::map<std::string, double>& initvals)
 {
     int s = independents;
     //LLVMModelDataSymbols* varsymbols = const_cast<LLVMModelDataSymbols*>(symbols);
@@ -747,7 +755,7 @@ void LLVMExecutableModel::reset(int opt)
 {
     using std::max; // weird linux vs windows thing
 
-    // initializes the the model the init values specifie in the sbml, and
+    // initializes the model to the init values specified in the sbml, and
     // copies these to the initial initial conditions (not a typo),
     // sets the 'init(...)' values to the sbml specified init values.
     if (opt & SelectionRecord::SBML_INITIALIZE)
@@ -1069,45 +1077,20 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
                 &rr::ExecutableModel::getGlobalParameterId, ids);
     }
 
-    // only get init values independent values, dep, with assignment rules
-    // always have the same value.
-    //if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
-    //        && (SelectionRecord::INDEPENDENT & types)) {
-    //    for(size_t i = 0; i < symbols->getIndependentGlobalParameterSize(); ++i) {
-    //        std::string gs = symbols->getGlobalParameterId(i);
-    //        if(symbols->isIndependentGlobalParameter(gs)) {
-    //            ids.push_back("init(" + gs + ")");
-    //        }
-    //    }
-    //}
-
-    //if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
-    //        && (SelectionRecord::DEPENDENT & types)) {
-    //    for(size_t i = symbols->getIndependentGlobalParameterSize();
-    //            i < symbols->getGlobalParametersSize(); ++i) {
-    //        std::string gs = symbols->getGlobalParameterId(i);
-    //        if(symbols->isIndependentGlobalParameter(gs)) {
-    //            ids.push_back("init(" + gs + ")");
-    //        }
-    //    }
-    //}
-
     if (checkExact(SelectionRecord::REACTION_RATE, types)) {
         addIds(this, 0, symbols->getReactionSize(),
                 &rr::ExecutableModel::getReactionId, ids);
     }
 
     if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
-            SelectionRecord::CONCENTRATION, types) &&
-            (SelectionRecord::INDEPENDENT & types)) {
+            SelectionRecord::CONCENTRATION, types)) {
         for (size_t i = 0; i < symbols->getInitFloatingSpeciesSize(); ++i) {
             ids.push_back("init([" + this->getFloatingSpeciesId(i) + "])");
         }
     }
 
     if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
-            SelectionRecord::CONCENTRATION, types) &&
-            (SelectionRecord::DEPENDENT & types)) {
+            SelectionRecord::CONCENTRATION, types)) {
         for (size_t i = symbols->getInitFloatingSpeciesSize();
                 i < symbols->getFloatingSpeciesSize(); ++i) {
             ids.push_back("init([" + this->getFloatingSpeciesId(i) + "])");
@@ -1115,32 +1098,176 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
     }
 
     if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
-            SelectionRecord::AMOUNT, types) &&
-            (SelectionRecord::INDEPENDENT & types)) {
+            SelectionRecord::AMOUNT, types)) {
         for (size_t i = 0; i < symbols->getInitFloatingSpeciesSize(); ++i) {
             ids.push_back("init(" + this->getFloatingSpeciesId(i) + ")");
         }
     }
 
     if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
-            SelectionRecord::AMOUNT, types) &&
-            (SelectionRecord::DEPENDENT & types)) {
+            SelectionRecord::AMOUNT, types)) {
         for (size_t i = symbols->getInitFloatingSpeciesSize();
                 i < symbols->getFloatingSpeciesSize(); ++i) {
             ids.push_back("init(" + this->getFloatingSpeciesId(i) + ")");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::BOUNDARY |
+        SelectionRecord::CONCENTRATION, types)) {
+        for (size_t i = 0; i < symbols->getInitBoundarySpeciesSize(); ++i) {
+            ids.push_back("init([" + this->getBoundarySpeciesId(i) + "])");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::BOUNDARY |
+        SelectionRecord::CONCENTRATION, types)) {
+        for (size_t i = symbols->getInitBoundarySpeciesSize();
+            i < symbols->getBoundarySpeciesSize(); ++i) {
+            ids.push_back("init([" + this->getBoundarySpeciesId(i) + "])");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::BOUNDARY |
+        SelectionRecord::AMOUNT, types)) {
+        for (size_t i = 0; i < symbols->getInitBoundarySpeciesSize(); ++i) {
+            ids.push_back("init(" + this->getBoundarySpeciesId(i) + ")");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::BOUNDARY |
+        SelectionRecord::AMOUNT, types)) {
+        for (size_t i = symbols->getInitBoundarySpeciesSize();
+            i < symbols->getBoundarySpeciesSize(); ++i) {
+            ids.push_back("init(" + this->getBoundarySpeciesId(i) + ")");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::_COMPARTMENT, types)) {
+        for (size_t i = 0; i < symbols->getCompartmentsSize(); ++i) {
+            ids.push_back("init(" + this->getCompartmentId(i) + ")");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::GLOBAL_PARAMETER, types)) {
+        for (size_t i = 0; i < symbols->getGlobalParametersSize(); ++i) {
+            ids.push_back("init(" + this->getGlobalParameterId(i) + ")");
         }
     }
 
     if (checkExact(SelectionRecord::FLOATING_AMOUNT_RATE, types)) {
-        for (size_t i = 0; i < getNumIndFloatingSpecies(); ++i) {
-            ids.push_back(this->getFloatingSpeciesId(i) + "'");
+        for (size_t i = 0; i < getNumFloatingSpecies(); ++i) {
+            string sid = this->getFloatingSpeciesId(i);
+            if (!symbols->hasAssignmentRule(sid))
+            {
+                ids.push_back(sid + "'");
+            }
         }
     }
 
-    if (checkExact(SelectionRecord::GLOBAL_PARAMETER_RATE, types)) {
+    if (checkExact(SelectionRecord::FLOATING_CONCENTRATION_RATE, types)) {
+        for (size_t i = 0; i < getNumFloatingSpecies(); ++i) {
+            string sid = this->getFloatingSpeciesId(i);
+            if (!symbols->hasAssignmentRule(sid))
+            {
+                ids.push_back("[" + sid + "]'");
+            }
+        }
+    }
+
+    if (checkExact(SelectionRecord::BOUNDARY_CONCENTRATION_RATE, types)) {
+        for (size_t i = 0; i < getNumBoundarySpecies(); ++i) {
+            string sid = this->getBoundarySpeciesId(i);
+            if (!symbols->hasAssignmentRule(sid))
+            {
+                ids.push_back("[" + sid + "]'");
+            }
+        }
+    }
+
+    if (checkExact(SelectionRecord::RATE, types)) {
 
         for (size_t i = 0; i < symbols->getRateRuleSize(); ++i) {
-            ids.push_back(symbols->getRateRuleId(i) + "'");
+            string rid = symbols->getRateRuleId(i);
+            if (symbols->getBoundarySpeciesIndex(rid) >= 0 &&
+                checkExact(SelectionRecord::BOUNDARY_AMOUNT_RATE, types))
+            {
+                ids.push_back(rid + "'");
+            }
+            if (symbols->getCompartmentIndex(rid) >= 0 &&
+                checkExact(SelectionRecord::COMPARTMENT_RATE, types))
+            {
+                ids.push_back(rid + "'");
+            }
+            if (symbols->getGlobalParameterIndex(rid) >= 0 &&
+                checkExact(SelectionRecord::GLOBAL_PARAMETER_RATE, types))
+            {
+                ids.push_back(rid + "'");
+            }
+        }
+    }
+
+    if (checkExact(SelectionRecord::STOICHIOMETRY, types)) {
+        for (size_t s = 0; s < getNumFloatingSpecies(); ++s) {
+            string sid = getFloatingSpeciesId(s);
+            for (size_t r = 0; r < getNumReactions(); ++r) {
+                if (getStoichiometry(s, r) != 0)
+                {
+                    string rid = getReactionId(r);
+                    ids.push_back("stoich(" + sid + ", " + rid + ")");
+                }
+            }
+        }
+    }
+
+    if (checkExact(SelectionRecord::UNSCALED_ELASTICITY, types)) {
+        for (size_t r = 0; r < getNumReactions(); ++r) {
+            string rid = getReactionId(r);
+            for (size_t fs = 0; fs < getNumFloatingSpecies(); ++fs) {
+                string fsid = getFloatingSpeciesId(fs);
+                ids.push_back("uec(" + rid + ", " + fsid + ")");
+            }
+            for (size_t bs = 0; bs < getNumBoundarySpecies(); bs++) {
+                string bsid = getBoundarySpeciesId(bs);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(bsid))
+                {
+                    ids.push_back("uec(" + rid + ", " + bsid + ")");
+                }
+            }
+            for (size_t g = 0; g < getNumGlobalParameters(); g++) {
+                string gid = getGlobalParameterId(g);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(gid) && symbols->getConservedMoietyIndex(gid) == -1)
+                {
+                    ids.push_back("uec(" + rid + ", " + gid + ")");
+                }
+            }
+        }
+    }
+
+    if (checkExact(SelectionRecord::ELASTICITY, types)) {
+        for (size_t r = 0; r < getNumReactions(); ++r) {
+            string rid = getReactionId(r);
+            for (size_t fs = 0; fs < getNumFloatingSpecies(); ++fs) {
+                string fsid = getFloatingSpeciesId(fs);
+                ids.push_back("ec(" + rid + ", " + fsid + ")");
+            }
+            for (size_t bs = 0; bs < getNumBoundarySpecies(); bs++) {
+                string bsid = getBoundarySpeciesId(bs);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(bsid))
+                {
+                    ids.push_back("ec(" + rid + ", " + bsid + ")");
+                }
+            }
+            for (size_t g = 0; g < getNumGlobalParameters(); g++) {
+                string gid = getGlobalParameterId(g);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(gid) && symbols->getConservedMoietyIndex(gid) == -1)
+                {
+                    ids.push_back("ec(" + rid + ", " + gid + ")");
+                }
+            }
         }
     }
 
@@ -1151,12 +1278,6 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
         }
     }
 
-    //if (SelectionRecord::EVENT & types)
-    //{
-    //    std::vector<std::string> eventIds = symbols->getEventIds();
-    //    std::copy( eventIds.begin(), eventIds.end(), std::back_inserter(ids));
-    //}
-
     // These are also displayed with global parameters, so
     // only add them if explicity asked for.
     if (SelectionRecord::CONSERVED_MOIETY == types)
@@ -1164,6 +1285,88 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
         for(size_t i = 0; i < symbols->getConservedMoietySize(); ++i)
         {
             ids.push_back(symbols->getConservedMoietyId(i));
+        }
+    }
+
+    if (checkExact(SelectionRecord::UNSCALED_CONTROL, types)) {
+        for (size_t r = 0; r < getNumReactions(); ++r) {
+            string rid = getReactionId(r);
+            for (size_t bs = 0; bs < getNumBoundarySpecies(); bs++) {
+                string bsid = getBoundarySpeciesId(bs);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(bsid))
+                {
+                    ids.push_back("ucc(" + rid + ", " + bsid + ")");
+                }
+            }
+            for (size_t g = 0; g < getNumGlobalParameters(); g++) {
+                string gid = getGlobalParameterId(g);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(gid))
+                {
+                    ids.push_back("ucc(" + rid + ", " + gid + ")");
+                }
+            }
+        }
+        for (size_t fs = 0; fs < getNumFloatingSpecies(); ++fs) {
+            string fsid = getFloatingSpeciesId(fs);
+            for (size_t bs = 0; bs < getNumBoundarySpecies(); bs++) {
+                string bsid = getBoundarySpeciesId(bs);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(bsid))
+                {
+                    ids.push_back("ucc(" + fsid + ", " + bsid + ")");
+                }
+            }
+            for (size_t g = 0; g < getNumGlobalParameters(); g++) {
+                string gid = getGlobalParameterId(g);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(gid))
+                {
+                    ids.push_back("ucc(" + fsid + ", " + gid + ")");
+                }
+            }
+        }
+    }
+
+    if (checkExact(SelectionRecord::CONTROL, types)) {
+        for (size_t r = 0; r < getNumReactions(); ++r) {
+            string rid = getReactionId(r);
+            for (size_t bs = 0; bs < getNumBoundarySpecies(); bs++) {
+                string bsid = getBoundarySpeciesId(bs);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(bsid))
+                {
+                    ids.push_back("cc(" + rid + ", " + bsid + ")");
+                }
+            }
+            for (size_t g = 0; g < getNumGlobalParameters(); g++) {
+                string gid = getGlobalParameterId(g);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(gid))
+                {
+                    ids.push_back("cc(" + rid + ", " + gid + ")");
+                }
+            }
+        }
+        for (size_t fs = 0; fs < getNumFloatingSpecies(); ++fs) {
+            string fsid = getFloatingSpeciesId(fs);
+            for (size_t bs = 0; bs < getNumBoundarySpecies(); bs++) {
+                string bsid = getBoundarySpeciesId(bs);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(bsid))
+                {
+                    ids.push_back("cc(" + fsid + ", " + bsid + ")");
+                }
+            }
+            for (size_t g = 0; g < getNumGlobalParameters(); g++) {
+                string gid = getGlobalParameterId(g);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(gid))
+                {
+                    ids.push_back("cc(" + fsid + ", " + gid + ")");
+                }
+            }
         }
     }
 }
@@ -1222,7 +1425,7 @@ double LLVMExecutableModel::getValue(const std::string& id)
         getFloatingSpeciesAmountRates(1, &index, &result);
         break;
     case SelectionRecord::GLOBAL_PARAMETER_RATE:
-        getRateRueRates(1, &index, &result);
+        getRateRuleRates(1, &index, &result);
         break;
     case SelectionRecord::INITIAL_FLOATING_AMOUNT:
         getFloatingSpeciesInitAmounts(1, &index, &result);
@@ -1998,7 +2201,7 @@ int LLVMExecutableModel::getFloatingSpeciesAmountRates(size_t len,
 }
 
 
-int LLVMExecutableModel::getRateRueRates(size_t len,
+int LLVMExecutableModel::getRateRuleRates(size_t len,
         int const *indx, double *values)
 {
     uint dydtSize = modelData->numRateRules;

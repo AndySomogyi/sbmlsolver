@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1ModelInitialValueStoreSymbolResolver" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::ModelInitialValueStoreSymbolResolver</compoundname>
     <basecompoundref refid="classrrllvm_1_1StoreSymbolResolver" prot="public" virt="non-virtual">rrllvm::StoreSymbolResolver</basecompoundref>
@@ -9,6 +9,7 @@
         <definition>llvm::Value* rrllvm::ModelInitialValueStoreSymbolResolver::modelData</definition>
         <argsstring></argsstring>
         <name>modelData</name>
+        <qualifiedname>rrllvm::ModelInitialValueStoreSymbolResolver::modelData</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -22,6 +23,7 @@
         <definition>const libsbml::Model* rrllvm::ModelInitialValueStoreSymbolResolver::model</definition>
         <argsstring></argsstring>
         <name>model</name>
+        <qualifiedname>rrllvm::ModelInitialValueStoreSymbolResolver::model</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -35,6 +37,7 @@
         <definition>const LLVMModelSymbols&amp; rrllvm::ModelInitialValueStoreSymbolResolver::modelSymbols</definition>
         <argsstring></argsstring>
         <name>modelSymbols</name>
+        <qualifiedname>rrllvm::ModelInitialValueStoreSymbolResolver::modelSymbols</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -48,6 +51,7 @@
         <definition>const LLVMModelDataSymbols&amp; rrllvm::ModelInitialValueStoreSymbolResolver::modelDataSymbols</definition>
         <argsstring></argsstring>
         <name>modelDataSymbols</name>
+        <qualifiedname>rrllvm::ModelInitialValueStoreSymbolResolver::modelDataSymbols</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -61,6 +65,7 @@
         <definition>llvm::IRBuilder&amp; rrllvm::ModelInitialValueStoreSymbolResolver::builder</definition>
         <argsstring></argsstring>
         <name>builder</name>
+        <qualifiedname>rrllvm::ModelInitialValueStoreSymbolResolver::builder</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -74,6 +79,7 @@
         <definition>LoadSymbolResolver&amp; rrllvm::ModelInitialValueStoreSymbolResolver::resolver</definition>
         <argsstring></argsstring>
         <name>resolver</name>
+        <qualifiedname>rrllvm::ModelInitialValueStoreSymbolResolver::resolver</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -89,6 +95,7 @@
         <definition>rrllvm::ModelInitialValueStoreSymbolResolver::ModelInitialValueStoreSymbolResolver</definition>
         <argsstring>(llvm::Value *modelData, const libsbml::Model *model, const LLVMModelSymbols &amp;modelSymbols, const LLVMModelDataSymbols &amp;modelDataSymbols, llvm::IRBuilder&lt;&gt; &amp;builder, LoadSymbolResolver &amp;resolver)</argsstring>
         <name>ModelInitialValueStoreSymbolResolver</name>
+        <qualifiedname>rrllvm::ModelInitialValueStoreSymbolResolver::ModelInitialValueStoreSymbolResolver</qualifiedname>
         <param>
           <type>llvm::Value *</type>
           <declname>modelData</declname>
@@ -126,6 +133,7 @@
         <definition>virtual rrllvm::ModelInitialValueStoreSymbolResolver::~ModelInitialValueStoreSymbolResolver</definition>
         <argsstring>()</argsstring>
         <name>~ModelInitialValueStoreSymbolResolver</name>
+        <qualifiedname>rrllvm::ModelInitialValueStoreSymbolResolver::~ModelInitialValueStoreSymbolResolver</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -139,7 +147,8 @@
         <definition>llvm::Value * rrllvm::ModelInitialValueStoreSymbolResolver::storeSymbolValue</definition>
         <argsstring>(const std::string &amp;symbol, llvm::Value *value)</argsstring>
         <name>storeSymbolValue</name>
-        <reimplements refid="classrrllvm_1_1StoreSymbolResolver_1a7e1a7be9b79a35adb67ac8e9aff9cfa7">storeSymbolValue</reimplements>
+        <qualifiedname>rrllvm::ModelInitialValueStoreSymbolResolver::storeSymbolValue</qualifiedname>
+        <reimplements refid="classrrllvm_1_1StoreSymbolResolver_1ac8481e0e12fb88d58af4b3e8b96f9f44">storeSymbolValue</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>symbol</declname>
@@ -162,27 +171,27 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="2">
-        <label>rrllvm::StoreSymbolResolver</label>
-        <link refid="classrrllvm_1_1StoreSymbolResolver"/>
-      </node>
       <node id="1">
         <label>rrllvm::ModelInitialValueStoreSymbolResolver</label>
         <link refid="classrrllvm_1_1ModelInitialValueStoreSymbolResolver"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
+      </node>
+      <node id="2">
+        <label>rrllvm::StoreSymbolResolver</label>
+        <link refid="classrrllvm_1_1StoreSymbolResolver"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="2">
-        <label>rrllvm::StoreSymbolResolver</label>
-        <link refid="classrrllvm_1_1StoreSymbolResolver"/>
-      </node>
       <node id="1">
         <label>rrllvm::ModelInitialValueStoreSymbolResolver</label>
         <link refid="classrrllvm_1_1ModelInitialValueStoreSymbolResolver"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
+      </node>
+      <node id="2">
+        <label>rrllvm::StoreSymbolResolver</label>
+        <link refid="classrrllvm_1_1StoreSymbolResolver"/>
       </node>
     </collaborationgraph>
     <location file="llvm/ModelInitialValueSymbolResolver.h" line="45" column="1" bodyfile="llvm/ModelInitialValueSymbolResolver.h" bodystart="46" bodyend="67"/>

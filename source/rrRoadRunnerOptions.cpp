@@ -56,7 +56,7 @@ namespace rr {
         , start(0)
         , duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION))
         , times()
-        , hstep(0)
+        , hstep(0) 
     {
     }
 
@@ -217,39 +217,35 @@ namespace rr {
     //    }
     //}
 
-    void SimulateOptions::initialize()
-    {
+    void SimulateOptions::initialize() {
         if (times.empty())//!hasKey("times"))
         {
             hstep = duration / steps;
         }
         else {
-            if (steps != times.size() - 1)
-            {
-                if (steps == Config::getInt(Config::SIMULATEOPTIONS_STEPS))
-                {
+            if (steps != times.size() - 1) {
+                if (steps == Config::getInt(Config::SIMULATEOPTIONS_STEPS)) {
                     steps = times.size() - 1;
                 }
-                else 
-                {
+                else {
                     std::stringstream err;
-                    err << "If the 'times' and the 'steps' settings are both used, the number of steps must equal the length of the 'times' vector, minus one.  The length of the 'times' vector is " << times.size() << ", and the 'steps' setting is " << steps << ".";
+                    err << "If the 'times' and the 'steps' settings are both used, the number of steps must equal the length of the 'times' vector, minus one.  The length of the 'times' vector is "
+                        << times.size() << ", and the 'steps' setting is " << steps << ".";
                     throw std::invalid_argument(err.str());
                 }
             }
             if (times.size() <= 1) {
                 throw std::invalid_argument("The 'times' setting must be a vector of at least two values.");
             }
-            if (times[0] != start)
-            {
+            if (times[0] != start) {
                 if (start == 0) //The default.
                 {
                     start = times[0];
                 }
-                else
-                {
+                else {
                     std::stringstream err;
-                    err << "If the 'times' and the 'start' settings are both used, the first value of 'times' must equal the value of 'start'.  Instead, 'start' is " << start << ", and the first value of 'times' is " << times[0] << ".";
+                    err << "If the 'times' and the 'start' settings are both used, the first value of 'times' must equal the value of 'start'.  Instead, 'start' is "
+                        << start << ", and the first value of 'times' is " << times[0] << ".";
                     throw std::invalid_argument(err.str());
                 }
             }
@@ -258,7 +254,8 @@ namespace rr {
                 double hstep = times[tv] - prev;
                 if (hstep <= 0) {
                     std::stringstream err;
-                    err << "The 'times' setting must be a vector of time values that start at the time value at the initial state of the model and increase along the vector.  The value " << times[tv] << " is less than or equal to the previous value of " << prev << ".";
+                    err << "The 'times' setting must be a vector of time values that start at the time value at the initial state of the model and increase along the vector.  The value "
+                        << times[tv] << " is less than or equal to the previous value of " << prev << ".";
                     throw std::invalid_argument(err.str());
                 }
                 prev = times[tv];
@@ -266,21 +263,18 @@ namespace rr {
         }
     }
 
-    double SimulateOptions::getNext(size_t step)
-    {
-        if (hstep)
-        {
+    double SimulateOptions::getNext(size_t step) {
+        if (hstep) {
             return start + step * hstep;
         }
         if (step > times.size()) {
             std::stringstream err;
-            err << "Cannot get the time step " << step << " because there are only " << times.size() << " set for the output.";
+            err << "Cannot get the time step " << step << " because there are only " << times.size()
+                << " set for the output.";
             throw std::invalid_argument(err.str());
         }
         return times[step];
     }
-
-
 
     void LoadSBMLOptions::setItem(const std::string &key, const rr::Setting &value) {
         BasicDictionary::setItem(key, value);
@@ -340,18 +334,93 @@ namespace rr {
         if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER))
             modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_INSTRUCTION_SIMPLIFIER;
 
-        if (Config::getBool(Config::LOADSBMLOPTIONS_USE_MCJIT))
-            modelGeneratorOpt |= LoadSBMLOptions::USE_MCJIT;
-
         if (Config::getBool(Config::LLVM_SYMBOL_CACHE))
             modelGeneratorOpt |= LoadSBMLOptions::LLVM_SYMBOL_CACHE;
 
+        // todo delete this options and use the below system instead
+        if (Config::getBool(Config::LOADSBMLOPTIONS_USE_MCJIT))
+            modelGeneratorOpt |= LoadSBMLOptions::USE_MCJIT;
+
+        // use the values in Config to update values in Options
+        Config::LLVM_BACKEND_VALUES whichBackend =
+                (Config::LLVM_BACKEND_VALUES) Config::getValue(Config::LLVM_BACKEND).getAs<int>();
+
+        // updates modelGeneratorOpt inside setLLVMBackend...
+        switch (whichBackend) {
+            case Config::MCJIT:
+                setLLVMBackend(LoadSBMLOptions::MCJIT);
+                break;
+            case Config::LLJIT:
+                setLLVMBackend(LoadSBMLOptions::LLJIT);
+                break;
+            default:
+                std::string err = "Compiler option is invalid";
+                rrLogWarn << err;
+                throw std::invalid_argument(err);
+        }
+
+        Config::LLJIT_OPTIMIZATION_LEVELS whichOptLevel
+                = (Config::LLJIT_OPTIMIZATION_LEVELS) Config::getValue(Config::LLJIT_OPTIMIZATION_LEVEL).getAs<int>();
+
+        switch (whichOptLevel) {
+            case Config::NONE:
+                setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS::NONE);
+                break;
+            case Config::LESS:
+                setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS::LESS);
+                break;
+            case Config::DEFAULT:
+                setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS::DEFAULT);
+                break;
+            case Config::AGGRESSIVE:
+                setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS::AGGRESSIVE);
+                break;
+        }
 
         setItem("tempDir", Setting(std::string()));
         setItem("compiler", Setting("LLVM"));
         setItem("supportCodeDir", Setting(std::string()));
-
         loadFlags = 0;
+    }
+
+    void LoadSBMLOptions::setLLVMBackend(LoadSBMLOptions::LLVM_BACKEND_VALUES val) {
+        // backend options are multiple choice. So iterate over all and turn them off
+        for (auto backendValue: getAllLLVMBackendValues()) {
+            modelGeneratorOpt = modelGeneratorOpt & ~backendValue;
+        }
+
+        // before turning the right one on
+        switch (val) {
+            case MCJIT:
+                modelGeneratorOpt = modelGeneratorOpt | LLVM_BACKEND_VALUES::MCJIT;
+                break;
+            case LLJIT:
+                modelGeneratorOpt = modelGeneratorOpt | LLVM_BACKEND_VALUES::LLJIT;
+                break;
+        }
+    }
+
+    void LoadSBMLOptions::setLLJitOptimizationLevel(LoadSBMLOptions::LLJIT_OPTIMIZATION_LEVELS level) {
+        // turn off all options
+        for (auto lljitOptValue: getAllLLJitOptimizationValues()) {
+            modelGeneratorOpt = modelGeneratorOpt & ~lljitOptValue;
+        }
+
+        // now turn just the one on
+        switch (level) {
+            case NONE:
+                modelGeneratorOpt = modelGeneratorOpt | LLJIT_OPTIMIZATION_LEVELS::NONE;
+                break;
+            case LESS:
+                modelGeneratorOpt = modelGeneratorOpt | LLJIT_OPTIMIZATION_LEVELS::LESS;
+                break;
+            case DEFAULT:
+                modelGeneratorOpt = modelGeneratorOpt | LLJIT_OPTIMIZATION_LEVELS::DEFAULT;
+                break;
+            case AGGRESSIVE:
+                modelGeneratorOpt = modelGeneratorOpt | LLJIT_OPTIMIZATION_LEVELS::AGGRESSIVE;
+                break;
+        }
     }
 
 } /* namespace rr */

@@ -196,18 +196,26 @@ namespace rrllvm {
             }
             return true;
         } else if (ast->isName()) {
-            const SBase *element = const_cast<Model *>(model)->getElementBySId(
+            const Species* species = model->getSpecies(ast->getName());
+            if (species) {
+                return species->getConstant();
+            }
+            
+            const Parameter* param = model->getParameter(ast->getName());
+            if (param) {
+                return param->getConstant();
+            }
+
+            const Compartment* comp = model->getCompartment(ast->getName());
+            if (comp) {
+                return comp->getConstant();
+            }
+
+            const ListOfReactions* lor = model->getListOfReactions();
+            const SBase *element = const_cast<ListOfReactions *>(lor)->getElementBySId(
                     ast->getName());
-
             bool result;
-
-            if (isSetConstant<Parameter>(element, result)) {
-                return result;
-            } else if (isSetConstant<Compartment>(element, result)) {
-                return result;
-            } else if (isSetConstant<Species>(element, result)) {
-                return result;
-            } else if (isSetConstant<SpeciesReference>(element, result)) {
+            if (isSetConstant<SpeciesReference>(element, result)) {
                 return result;
             } else {
                 return false;

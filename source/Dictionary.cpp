@@ -9,6 +9,14 @@
 
 namespace rr {
 
+BasicDictionary::BasicDictionary(std::initializer_list<item> initializerList)
+{
+    for (auto [key, val] : initializerList){
+        BasicDictionary::setItem(key, val);
+    }
+}
+
+
 void BasicDictionary::setItem(const std::string& key,
         const rr::Setting& value)
 {

@@ -1584,7 +1584,7 @@ int rrcCallConv getNumInstantiatedIntegrators(RRHandle handle)
     catch_int_macro
 }
 
-int rrcCallConv setCurrentIntegrator (RRHandle handle, char *nameOfIntegrator)
+int rrcCallConv setCurrentIntegrator (RRHandle handle, const char* nameOfIntegrator)
 {
 	start_try
         rrLog(Logger::LOG_DEBUG) << "setCurrentIntegrator called with " << nameOfIntegrator;
@@ -1711,7 +1711,7 @@ RRStringArrayPtr rrcCallConv getListOfCurrentIntegratorParameterNames (RRHandle 
     catch_ptr_macro
 }
 
-char* rrcCallConv getCurrentIntegratorParameterDescription (RRHandle handle, char *parameterName)
+char* rrcCallConv getCurrentIntegratorParameterDescription (RRHandle handle, const char *parameterName)
 {
     start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -1722,7 +1722,7 @@ char* rrcCallConv getCurrentIntegratorParameterDescription (RRHandle handle, cha
     catch_ptr_macro
 }
 
-char* rrcCallConv getCurrentIntegratorParameterHint (RRHandle handle, char *parameterName)
+char* rrcCallConv getCurrentIntegratorParameterHint (RRHandle handle, const char *parameterName)
 {
     start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -1733,7 +1733,7 @@ char* rrcCallConv getCurrentIntegratorParameterHint (RRHandle handle, char *para
     catch_ptr_macro
 }
 
-int rrcCallConv getCurrentIntegratorParameterType (RRHandle handle, char *parameterName)
+int rrcCallConv getCurrentIntegratorParameterType (RRHandle handle, const char *parameterName)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -2327,7 +2327,7 @@ bool rrcCallConv validateCurrentSBML(RRHandle handle)
 // Set and Get Methods
 // -------------------------------------------------------------------------------------
 
-int rrcCallConv getCurrentIntegratorParameterInt (RRHandle handle, char *parameterName)
+int rrcCallConv getCurrentIntegratorParameterInt (RRHandle handle, const char *parameterName)
 {
     start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -2337,7 +2337,7 @@ int rrcCallConv getCurrentIntegratorParameterInt (RRHandle handle, char *paramet
     catch_int_macro
 }
 
-int rrcCallConv setCurrentIntegratorParameterInt (RRHandle handle, char *parameterName, int value)
+int rrcCallConv setCurrentIntegratorParameterInt (RRHandle handle, const char *parameterName, int value)
 {
     start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -2348,7 +2348,7 @@ int rrcCallConv setCurrentIntegratorParameterInt (RRHandle handle, char *paramet
     catch_int_macro
 }
 
-unsigned int rrcCallConv getCurrentIntegratorParameterUInt (RRHandle handle, char *parameterName)
+unsigned int rrcCallConv getCurrentIntegratorParameterUInt (RRHandle handle, const char *parameterName)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2358,7 +2358,7 @@ unsigned int rrcCallConv getCurrentIntegratorParameterUInt (RRHandle handle, cha
     catch_int_macro
 }
 
-int rrcCallConv setCurrentIntegratorParameterUInt (RRHandle handle, char *parameterName, unsigned int value)
+int rrcCallConv setCurrentIntegratorParameterUInt (RRHandle handle, const char *parameterName, unsigned int value)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2369,7 +2369,7 @@ int rrcCallConv setCurrentIntegratorParameterUInt (RRHandle handle, char *parame
     catch_int_macro
 }
 
-double rrcCallConv getCurrentIntegratorParameterDouble (RRHandle handle, char *parameterName)
+double rrcCallConv getCurrentIntegratorParameterDouble (RRHandle handle, const char *parameterName)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -2379,7 +2379,7 @@ double rrcCallConv getCurrentIntegratorParameterDouble (RRHandle handle, char *p
 	catch_int_macro
 }
 
-int rrcCallConv setCurrentIntegratorParameterDouble (RRHandle handle, char *parameterName, double value)
+int rrcCallConv setCurrentIntegratorParameterDouble (RRHandle handle, const char *parameterName, double value)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -2391,7 +2391,7 @@ int rrcCallConv setCurrentIntegratorParameterDouble (RRHandle handle, char *para
 }
 
 
-char* rrcCallConv getCurrentIntegratorParameterString (RRHandle handle, char *parameterName)
+char* rrcCallConv getCurrentIntegratorParameterString (RRHandle handle, const char *parameterName)
 {
     start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -2403,7 +2403,7 @@ char* rrcCallConv getCurrentIntegratorParameterString (RRHandle handle, char *pa
 }
 
 
-int rrcCallConv setCurrentIntegratorParameterString (RRHandle handle, char *parameterName, char* value)
+int rrcCallConv setCurrentIntegratorParameterString (RRHandle handle, const char *parameterName, const char* value)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -2415,7 +2415,7 @@ int rrcCallConv setCurrentIntegratorParameterString (RRHandle handle, char *para
 }
 
 
-int rrcCallConv getCurrentIntegratorParameterBoolean (RRHandle handle, char *parameterName)
+int rrcCallConv getCurrentIntegratorParameterBoolean (RRHandle handle, const char *parameterName)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -2426,7 +2426,7 @@ int rrcCallConv getCurrentIntegratorParameterBoolean (RRHandle handle, char *par
 }
 
 
-int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handle, char *parameterName, int value)
+int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handle, const char *parameterName, int value)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -2438,7 +2438,7 @@ int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handle, char *par
 }
 
 
-int rrcCallConv getCurrentIntegratorParameterDoubleArray(RRHandle handle, char* parameterName, double** value, int* len)
+int rrcCallConv getCurrentIntegratorParameterDoubleArray(RRHandle handle, const char* parameterName, double** value, int* len)
 
 {
 	start_try
@@ -2459,7 +2459,7 @@ int rrcCallConv getCurrentIntegratorParameterDoubleArray(RRHandle handle, char* 
 }
 
 
-int rrcCallConv setCurrentIntegratorParameterDoubleArray(RRHandle handle, char* parameterName, double* value, int len)
+int rrcCallConv setCurrentIntegratorParameterDoubleArray(RRHandle handle, const char* parameterName, double* value, int len)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -2490,7 +2490,7 @@ int rrcCallConv setCurrentIntegratorVectorConcentrationTolerance(RRHandle handle
 	catch_int_macro
 }
 
-int rrcCallConv setCurrentIntegratorIndividualTolerance(RRHandle handle, char* sid, double value)
+int rrcCallConv setCurrentIntegratorIndividualTolerance(RRHandle handle, const char* sid, double value)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
@@ -2545,7 +2545,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverDescription(int n)
     catch_ptr_macro
 }
 
-int rrcCallConv setCurrentSteadyStateSolver (RRHandle handle, char *nameOfSteadyStateSolver)
+int rrcCallConv setCurrentSteadyStateSolver (RRHandle handle, const char *nameOfSteadyStateSolver)
 {
     start_try
         rrLog(Logger::LOG_DEBUG) << "setCurrentSteadyStateSolver called with " << nameOfSteadyStateSolver;
@@ -2703,7 +2703,7 @@ RRStringArrayPtr rrcCallConv getListOfCurrentSteadyStateSolverParameterNames (RR
     catch_ptr_macro
 }
 
-char* rrcCallConv getCurrentSteadyStateSolverParameterDescription (RRHandle handle, char *parameterName)
+char* rrcCallConv getCurrentSteadyStateSolverParameterDescription (RRHandle handle, const char *parameterName)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2714,7 +2714,7 @@ char* rrcCallConv getCurrentSteadyStateSolverParameterDescription (RRHandle hand
     catch_ptr_macro
 }
 
-char* rrcCallConv getCurrentSteadyStateSolverParameterHint (RRHandle handle, char *parameterName)
+char* rrcCallConv getCurrentSteadyStateSolverParameterHint (RRHandle handle, const char *parameterName)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2725,7 +2725,7 @@ char* rrcCallConv getCurrentSteadyStateSolverParameterHint (RRHandle handle, cha
     catch_ptr_macro
 }
 
-int rrcCallConv getCurrentSteadyStateSolverParameterType (RRHandle handle, char *parameterName)
+int rrcCallConv getCurrentSteadyStateSolverParameterType (RRHandle handle, const char *parameterName)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2739,7 +2739,7 @@ int rrcCallConv getCurrentSteadyStateSolverParameterType (RRHandle handle, char 
 // Set and Get Methods
 // -------------------------------------------------------------------------------------
 
-int rrcCallConv getCurrentSteadyStateSolverParameterInt (RRHandle handle, char *parameterName)
+int rrcCallConv getCurrentSteadyStateSolverParameterInt (RRHandle handle, const char *parameterName)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2749,7 +2749,7 @@ int rrcCallConv getCurrentSteadyStateSolverParameterInt (RRHandle handle, char *
     catch_int_macro
 }
 
-int rrcCallConv setCurrentSteadyStateSolverParameterInt (RRHandle handle, char *parameterName, int value)
+int rrcCallConv setCurrentSteadyStateSolverParameterInt (RRHandle handle, const char *parameterName, int value)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2760,7 +2760,7 @@ int rrcCallConv setCurrentSteadyStateSolverParameterInt (RRHandle handle, char *
     catch_int_macro
 }
 
-unsigned int rrcCallConv getCurrentSteadyStateSolverParameterUInt (RRHandle handle, char *parameterName)
+unsigned int rrcCallConv getCurrentSteadyStateSolverParameterUInt (RRHandle handle, const char *parameterName)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2770,7 +2770,7 @@ unsigned int rrcCallConv getCurrentSteadyStateSolverParameterUInt (RRHandle hand
     catch_int_macro
 }
 
-int rrcCallConv setCurrentSteadyStateSolverParameterUInt (RRHandle handle, char *parameterName, unsigned int value)
+int rrcCallConv setCurrentSteadyStateSolverParameterUInt (RRHandle handle, const char *parameterName, unsigned int value)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2781,7 +2781,7 @@ int rrcCallConv setCurrentSteadyStateSolverParameterUInt (RRHandle handle, char 
     catch_int_macro
 }
 
-double rrcCallConv getCurrentSteadyStateSolverParameterDouble (RRHandle handle, char *parameterName)
+double rrcCallConv getCurrentSteadyStateSolverParameterDouble (RRHandle handle, const char *parameterName)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2791,7 +2791,7 @@ double rrcCallConv getCurrentSteadyStateSolverParameterDouble (RRHandle handle, 
     catch_int_macro
 }
 
-int rrcCallConv setCurrentSteadyStateSolverParameterDouble (RRHandle handle, char *parameterName, double value)
+int rrcCallConv setCurrentSteadyStateSolverParameterDouble (RRHandle handle, const char *parameterName, double value)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2803,7 +2803,7 @@ int rrcCallConv setCurrentSteadyStateSolverParameterDouble (RRHandle handle, cha
 }
 
 
-char* rrcCallConv getCurrentSteadyStateSolverParameterString (RRHandle handle, char *parameterName)
+char* rrcCallConv getCurrentSteadyStateSolverParameterString (RRHandle handle, const char *parameterName)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2815,7 +2815,7 @@ char* rrcCallConv getCurrentSteadyStateSolverParameterString (RRHandle handle, c
 }
 
 
-int rrcCallConv setCurrentSteadyStateSolverParameterString (RRHandle handle, char *parameterName, char* value)
+int rrcCallConv setCurrentSteadyStateSolverParameterString (RRHandle handle, const char *parameterName, const char* value)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2827,7 +2827,7 @@ int rrcCallConv setCurrentSteadyStateSolverParameterString (RRHandle handle, cha
 }
 
 
-int rrcCallConv getCurrentSteadyStateSolverParameterBoolean (RRHandle handle, char *parameterName)
+int rrcCallConv getCurrentSteadyStateSolverParameterBoolean (RRHandle handle, const char *parameterName)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -2838,7 +2838,7 @@ int rrcCallConv getCurrentSteadyStateSolverParameterBoolean (RRHandle handle, ch
 }
 
 
-int rrcCallConv setCurrentSteadyStateSolverParameterBoolean (RRHandle handle, char *parameterName, int value)
+int rrcCallConv setCurrentSteadyStateSolverParameterBoolean (RRHandle handle, const char *parameterName, int value)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
@@ -3285,25 +3285,25 @@ ArrayList sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr)
         for(int j = 0; j < oFloating.size(); j++)
         {
             string variable = oFloating[j];
-            oInner.add(format("uee({0},{1})", reac_name, variable));
+            oInner.add(format("uec({0},{1})", reac_name, variable));
         }
 
         for(int j = 0; j < oBoundary.size(); j++)
         {
             string variable = oBoundary[j];
-            oInner.add(format("uee({0},{1})", reac_name, variable));
+            oInner.add(format("uec({0},{1})", reac_name, variable));
         }
 
         for(int j = 0; j < oGlobalParameters.size(); j++)
         {
             string variable = oGlobalParameters[j];
-            oInner.add(format("uee({0},{1})", reac_name, variable));
+            oInner.add(format("uec({0},{1})", reac_name, variable));
         }
 
         for(int j = 0; j < oConservation.size(); j++)
         {
             string variable = oConservation[j];
-            oInner.add(format("uee({0},{1})", reac_name, variable));
+            oInner.add(format("uec({0},{1})", reac_name, variable));
         }
 
         oCCReaction.Add(oInner);
@@ -3608,7 +3608,7 @@ bool rrcCallConv resetToOrigin(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        rri->reset(SelectionRecord::ALL);
+        rri->reset(int(SelectionRecord::ALL));
         return true;
     catch_bool_macro
 }

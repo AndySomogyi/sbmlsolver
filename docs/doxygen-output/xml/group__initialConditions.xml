@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="group__initialConditions" kind="group">
     <compoundname>initialConditions</compoundname>
     <title>Initial conditions group</title>
@@ -21,7 +21,7 @@
 <para>Set the initial floating species concentrations. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>setFloatingSpeciesInitialConcentrations<sp/>(vec);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>setFloatingSpeciesInitialConcentrations<sp/>(vec);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -61,7 +61,7 @@
 <para>Get the initial floating species concentrations. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">vec<sp/>=<sp/>getFloatingSpeciesInitialConcentrations<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">vec<sp/>=<sp/>getFloatingSpeciesInitialConcentrations<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -95,7 +95,7 @@
         <detaileddescription>
 <para><xrefsect id="deprecated_1_deprecated000001"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="group__initialConditions_1ga205905d483bb876f0557d8b40cba2213" kindref="member">getFloatingSpeciesInitialConcentrationIds</ref> </para>
 </xrefdescription></xrefsect></para>
-<para>Example:<programlisting><codeline><highlight class="normal">vec<sp/>=<sp/>getFloatingSpeciesInitialConditionIds<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">vec<sp/>=<sp/>getFloatingSpeciesInitialConditionIds<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -127,7 +127,7 @@
 <para>Get the initial floating species Ids. </para>
         </briefdescription>
         <detaileddescription>
-<para>Example:<programlisting><codeline><highlight class="normal">vec<sp/>=<sp/>getFloatingSpeciesInitialConcentrationIds<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
+<para>Example: <programlisting><codeline><highlight class="normal">vec<sp/>=<sp/>getFloatingSpeciesInitialConcentrationIds<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

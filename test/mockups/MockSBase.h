@@ -33,8 +33,8 @@ public:
     MOCK_METHOD(void, replaceSIDWithFunction, (const std::string& id, const ASTNode* function), (override));
     MOCK_METHOD(void, divideAssignmentsToSIdByFunction, (const std::string& id, const ASTNode* function), (override));
     MOCK_METHOD(void, multiplyAssignmentsToSIdByFunction, (const std::string& id, const ASTNode* function), (override));
-    MOCK_METHOD(SBase*, getElementFromPluginsBySId, (std::string id), (override));
-    MOCK_METHOD(SBase*, getElementFromPluginsByMetaId, (std::string metaid), (override));
+    MOCK_METHOD(SBase*, getElementFromPluginsBySId, (const std::string& id), (override));
+    MOCK_METHOD(SBase*, getElementFromPluginsByMetaId, (const std::string& metaid), (override));
     MOCK_METHOD(bool, hasNonstandardIdentifierBeginningWith, (const std::string& prefix), (override));
     MOCK_METHOD(int, prependStringToAllIdentifiers, (const std::string& prefix), (override));
     MOCK_METHOD(int, transformIdentifiers, (IdentifierTransformer * idTransformer), (override));

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CodeGenBase &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -37,13 +36,11 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div>
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../steady_state.html">Steady State Analysis</a></li>
@@ -53,6 +50,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bifurcation.html">Bifurcation Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
@@ -146,17 +145,14 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" aria-label="Top" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">libRoadRunner</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          
-
-<div role="navigation" aria-label="Breadcrumbs">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../index.html">The LibRoadRunner C++ Library</a> &raquo;</li>
@@ -171,14 +167,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="codegenbase">
+  <div class="section" id="codegenbase">
 <h1>CodeGenBase<a class="headerlink" href="#codegenbase" title="Permalink to this headline"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4I0EN6rrllvm11CodeGenBaseE">
 <span id="_CPPv3I0EN6rrllvm11CodeGenBaseE"></span><span id="_CPPv2I0EN6rrllvm11CodeGenBaseE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FunctionPtrType</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classrrllvm_1_1CodeGenBase"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rrllvm</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">CodeGenBase</span></span></span><a class="headerlink" href="#_CPPv4I0EN6rrllvm11CodeGenBaseE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>a convenience class to pull the vars out of a context, and store them as ivars. </p>
 <p>It can get tedious alwasy typing mgc.getThis and mgc.getThat. Furthermore, its faster to access them as ivars as it does not incur a func call each time. </p>
-<p>Subclassed by rrllvm::GetEventValueCodeGenBase&lt; GetEventTriggerCodeGen, GetEventTriggerCodeGen_FunctionPtr &gt;</p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
 <dl class="cpp type">
@@ -191,7 +186,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm11CodeGenBase14createFunctionEv">
-<span id="_CPPv3N6rrllvm11CodeGenBase14createFunctionEv"></span><span id="_CPPv2N6rrllvm11CodeGenBase14createFunctionEv"></span><span id="rrllvm::CodeGenBase::createFunction"></span><span class="target" id="classrrllvm_1_1CodeGenBase_1aa1851ab17329f6a7854d4c7f9e230af9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Function</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">createFunction</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm11CodeGenBase14createFunctionEv" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3N6rrllvm11CodeGenBase14createFunctionEv"></span><span id="_CPPv2N6rrllvm11CodeGenBase14createFunctionEv"></span><span id="rrllvm::CodeGenBase::createFunction"></span><span class="target" id="classrrllvm_1_1CodeGenBase_1a1c1b041c97065adb07f106341a248bfc"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Function</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">createFunction</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm11CodeGenBase14createFunctionEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 </div>
@@ -204,23 +199,23 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm11CodeGenBase7codeGenEv">
-<span id="_CPPv3N6rrllvm11CodeGenBase7codeGenEv"></span><span id="_CPPv2N6rrllvm11CodeGenBase7codeGenEv"></span><span id="rrllvm::CodeGenBase::codeGen"></span><span class="target" id="classrrllvm_1_1CodeGenBase_1ac59757fb9d9fdb2f2d964a572c3bcae6"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Value</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">codeGen</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6rrllvm11CodeGenBase7codeGenEv" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3N6rrllvm11CodeGenBase7codeGenEv"></span><span id="_CPPv2N6rrllvm11CodeGenBase7codeGenEv"></span><span id="rrllvm::CodeGenBase::codeGen"></span><span class="target" id="classrrllvm_1_1CodeGenBase_1a86b8f0607cf199bfbcedd4d68a96ae75"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Value</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">codeGen</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6rrllvm11CodeGenBase7codeGenEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4I_6size_tEN6rrllvm11CodeGenBase13codeGenHeaderEPN4llvm10BasicBlockEPKcPN4llvm4TypeERA1N_PN4llvm4TypeERA1N_PKcRA1N_PN4llvm5ValueE">
-<span id="_CPPv3I_6size_tEN6rrllvm11CodeGenBase13codeGenHeaderEPKcPN4llvm4TypeERA1N_PN4llvm4TypeERA1N_PKcRA1N_PN4llvm5ValueE"></span><span id="_CPPv2I_6size_tEN6rrllvm11CodeGenBase13codeGenHeaderEPKcPN4llvm4TypeERAN_PN4llvm4TypeERAN_PKcRAN_PN4llvm5ValueE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">N</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classrrllvm_1_1CodeGenBase_1a3a0717caee609a520643ae7c9a7e7d5d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">BasicBlock</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">codeGenHeader</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">functionName</span></span>, <span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Type</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">retType</span></span>, <span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Type</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">argTypes</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#_CPPv4I_6size_tEN6rrllvm11CodeGenBase13codeGenHeaderEPN4llvm10BasicBlockEPKcPN4llvm4TypeERA1N_PN4llvm4TypeERA1N_PKcRA1N_PN4llvm5ValueE" title="rrllvm::CodeGenBase::codeGenHeader::N"><span class="n"><span class="pre">N</span></span></a><span class="p"><span class="pre">]</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">argNames</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#_CPPv4I_6size_tEN6rrllvm11CodeGenBase13codeGenHeaderEPN4llvm10BasicBlockEPKcPN4llvm4TypeERA1N_PN4llvm4TypeERA1N_PKcRA1N_PN4llvm5ValueE" title="rrllvm::CodeGenBase::codeGenHeader::N"><span class="n"><span class="pre">N</span></span></a><span class="p"><span class="pre">]</span></span>, <span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Value</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#_CPPv4I_6size_tEN6rrllvm11CodeGenBase13codeGenHeaderEPN4llvm10BasicBlockEPKcPN4llvm4TypeERA1N_PN4llvm4TypeERA1N_PKcRA1N_PN4llvm5ValueE" title="rrllvm::CodeGenBase::codeGenHeader::N"><span class="n"><span class="pre">N</span></span></a><span class="p"><span class="pre">]</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I_6size_tEN6rrllvm11CodeGenBase13codeGenHeaderEPN4llvm10BasicBlockEPKcPN4llvm4TypeERA1N_PN4llvm4TypeERA1N_PKcRA1N_PN4llvm5ValueE" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3I_6size_tEN6rrllvm11CodeGenBase13codeGenHeaderEPKcPN4llvm4TypeERA1N_PN4llvm4TypeERA1N_PKcRA1N_PN4llvm5ValueE"></span><span id="_CPPv2I_6size_tEN6rrllvm11CodeGenBase13codeGenHeaderEPKcPN4llvm4TypeERAN_PN4llvm4TypeERAN_PKcRAN_PN4llvm5ValueE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">N</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classrrllvm_1_1CodeGenBase_1a13efaf2abf3be680c16cc13b77e6cc86"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">BasicBlock</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">codeGenHeader</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">functionName</span></span>, <span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Type</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">retType</span></span>, <span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Type</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">argTypes</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#_CPPv4I_6size_tEN6rrllvm11CodeGenBase13codeGenHeaderEPN4llvm10BasicBlockEPKcPN4llvm4TypeERA1N_PN4llvm4TypeERA1N_PKcRA1N_PN4llvm5ValueE" title="rrllvm::CodeGenBase::codeGenHeader::N"><span class="n"><span class="pre">N</span></span></a><span class="p"><span class="pre">]</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">argNames</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#_CPPv4I_6size_tEN6rrllvm11CodeGenBase13codeGenHeaderEPN4llvm10BasicBlockEPKcPN4llvm4TypeERA1N_PN4llvm4TypeERA1N_PKcRA1N_PN4llvm5ValueE" title="rrllvm::CodeGenBase::codeGenHeader::N"><span class="n"><span class="pre">N</span></span></a><span class="p"><span class="pre">]</span></span>, <span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Value</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">args</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#_CPPv4I_6size_tEN6rrllvm11CodeGenBase13codeGenHeaderEPN4llvm10BasicBlockEPKcPN4llvm4TypeERA1N_PN4llvm4TypeERA1N_PKcRA1N_PN4llvm5ValueE" title="rrllvm::CodeGenBase::codeGenHeader::N"><span class="n"><span class="pre">N</span></span></a><span class="p"><span class="pre">]</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I_6size_tEN6rrllvm11CodeGenBase13codeGenHeaderEPN4llvm10BasicBlockEPKcPN4llvm4TypeERA1N_PN4llvm4TypeERA1N_PKcRA1N_PN4llvm5ValueE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm11CodeGenBase26codeGenVoidModelDataHeaderEPKcRPN4llvm5ValueE">
-<span id="_CPPv3N6rrllvm11CodeGenBase26codeGenVoidModelDataHeaderEPKcRPN4llvm5ValueE"></span><span id="_CPPv2N6rrllvm11CodeGenBase26codeGenVoidModelDataHeaderEPKcRPN4llvm5ValueE"></span><span id="rrllvm::CodeGenBase::codeGenVoidModelDataHeader__cCP.llvm::ValuePR"></span><span class="target" id="classrrllvm_1_1CodeGenBase_1a3fcef26eb9a2eecf5f7cf332f2b41d8b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">BasicBlock</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">codeGenVoidModelDataHeader</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">functionName</span></span>, <span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Value</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">modelData</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm11CodeGenBase26codeGenVoidModelDataHeaderEPKcRPN4llvm5ValueE" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3N6rrllvm11CodeGenBase26codeGenVoidModelDataHeaderEPKcRPN4llvm5ValueE"></span><span id="_CPPv2N6rrllvm11CodeGenBase26codeGenVoidModelDataHeaderEPKcRPN4llvm5ValueE"></span><span id="rrllvm::CodeGenBase::codeGenVoidModelDataHeader__cCP.llvm::ValuePR"></span><span class="target" id="classrrllvm_1_1CodeGenBase_1aad34a1df81ff99ee0c20e7de8cba89f2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">BasicBlock</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">codeGenVoidModelDataHeader</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">functionName</span></span>, <span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Value</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">modelData</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm11CodeGenBase26codeGenVoidModelDataHeaderEPKcRPN4llvm5ValueE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>the most common type of generated function takes a ModelData*, and returns void. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm11CodeGenBase14verifyFunctionEv">
-<span id="_CPPv3N6rrllvm11CodeGenBase14verifyFunctionEv"></span><span id="_CPPv2N6rrllvm11CodeGenBase14verifyFunctionEv"></span><span id="rrllvm::CodeGenBase::verifyFunction"></span><span class="target" id="classrrllvm_1_1CodeGenBase_1ae2c5677c9b195984feb6c3a06aa801bd"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Function</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">verifyFunction</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm11CodeGenBase14verifyFunctionEv" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3N6rrllvm11CodeGenBase14verifyFunctionEv"></span><span id="_CPPv2N6rrllvm11CodeGenBase14verifyFunctionEv"></span><span id="rrllvm::CodeGenBase::verifyFunction"></span><span class="target" id="classrrllvm_1_1CodeGenBase_1a85538605d4b0d3dc1f6e1a69afe6eb8e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Function</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">verifyFunction</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm11CodeGenBase14verifyFunctionEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
@@ -268,11 +263,6 @@
 <dd></dd></dl>
 
 <dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm11CodeGenBase6engineE">
-<span id="_CPPv3N6rrllvm11CodeGenBase6engineE"></span><span id="_CPPv2N6rrllvm11CodeGenBase6engineE"></span><span id="rrllvm::CodeGenBase::engine__llvm::ExecutionEngineR"></span><span class="target" id="classrrllvm_1_1CodeGenBase_1adb6e61cddb19488b7b8352c7cb365cb8"></span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ExecutionEngine</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">engine</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm11CodeGenBase6engineE" title="Permalink to this definition"></a><br /></dt>
-<dd></dd></dl>
-
-<dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm11CodeGenBase8functionE">
 <span id="_CPPv3N6rrllvm11CodeGenBase8functionE"></span><span id="_CPPv2N6rrllvm11CodeGenBase8functionE"></span><span id="rrllvm::CodeGenBase::function__llvm::FunctionP"></span><span class="target" id="classrrllvm_1_1CodeGenBase_1a0020335232a3ac90dd100aea8a014291"></span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Function</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">function</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm11CodeGenBase8functionE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
@@ -293,13 +283,12 @@
 </div>
 </dd></dl>
 
-</section>
+</div>
 
 
            </div>
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="CodeGen.html" class="btn btn-neutral float-left" title="CodeGen" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="EvalConversionFactorCodeGen.html" class="btn btn-neutral float-right" title="EvalConversionFactorCodeGen" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
@@ -311,7 +300,8 @@
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

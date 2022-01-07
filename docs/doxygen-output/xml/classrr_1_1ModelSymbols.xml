@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1ModelSymbols" kind="class" language="C++" prot="public">
     <compoundname>rr::ModelSymbols</compoundname>
       <sectiondef kind="public-attrib">
@@ -8,6 +8,7 @@
         <definition>const std::string rr::ModelSymbols::mModelName</definition>
         <argsstring></argsstring>
         <name>mModelName</name>
+        <qualifiedname>rr::ModelSymbols::mModelName</qualifiedname>
         <briefdescription>
 <para>! CRITICALLY IMPORTANT ! THE ORDER OF THE MEMBER VARIABLE DEFINITIONS BELOW HAVE TO BE IN THIS ORDER. </para>
         </briefdescription>
@@ -23,6 +24,7 @@
         <definition>const int rr::ModelSymbols::mNumReactions</definition>
         <argsstring></argsstring>
         <name>mNumReactions</name>
+        <qualifiedname>rr::ModelSymbols::mNumReactions</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -36,6 +38,7 @@
         <definition>const bool rr::ModelSymbols::mComputeAndAssignConsevationLaws</definition>
         <argsstring></argsstring>
         <name>mComputeAndAssignConsevationLaws</name>
+        <qualifiedname>rr::ModelSymbols::mComputeAndAssignConsevationLaws</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -49,6 +52,7 @@
         <definition>const StringList rr::ModelSymbols::mIndependentSpeciesList</definition>
         <argsstring></argsstring>
         <name>mIndependentSpeciesList</name>
+        <qualifiedname>rr::ModelSymbols::mIndependentSpeciesList</qualifiedname>
         <briefdescription>
 <para>if we computeAndAssignConsevationLaws, this is the actual Independent species, otherwise, its just species. </para>
         </briefdescription>
@@ -64,6 +68,7 @@
         <definition>const int rr::ModelSymbols::mNumIndependentSpecies</definition>
         <argsstring></argsstring>
         <name>mNumIndependentSpecies</name>
+        <qualifiedname>rr::ModelSymbols::mNumIndependentSpecies</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -77,6 +82,7 @@
         <definition>const StringList rr::ModelSymbols::mDependentSpeciesList</definition>
         <argsstring></argsstring>
         <name>mDependentSpeciesList</name>
+        <qualifiedname>rr::ModelSymbols::mDependentSpeciesList</qualifiedname>
         <briefdescription>
 <para>copied straight from the NOM </para>
         </briefdescription>
@@ -91,6 +97,7 @@
         <definition>const SymbolList rr::ModelSymbols::mCompartmentList</definition>
         <argsstring></argsstring>
         <name>mCompartmentList</name>
+        <qualifiedname>rr::ModelSymbols::mCompartmentList</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -104,6 +111,7 @@
         <definition>const int rr::ModelSymbols::mNumCompartments</definition>
         <argsstring></argsstring>
         <name>mNumCompartments</name>
+        <qualifiedname>rr::ModelSymbols::mNumCompartments</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -117,6 +125,7 @@
         <definition>const SymbolList rr::ModelSymbols::mFloatingSpeciesConcentrationList</definition>
         <argsstring></argsstring>
         <name>mFloatingSpeciesConcentrationList</name>
+        <qualifiedname>rr::ModelSymbols::mFloatingSpeciesConcentrationList</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -130,6 +139,7 @@
         <definition>const int rr::ModelSymbols::mNumFloatingSpecies</definition>
         <argsstring></argsstring>
         <name>mNumFloatingSpecies</name>
+        <qualifiedname>rr::ModelSymbols::mNumFloatingSpecies</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -143,6 +153,7 @@
         <definition>const int rr::ModelSymbols::mNumDependentSpecies</definition>
         <argsstring></argsstring>
         <name>mNumDependentSpecies</name>
+        <qualifiedname>rr::ModelSymbols::mNumDependentSpecies</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -156,6 +167,7 @@
         <definition>const SymbolList rr::ModelSymbols::mBoundarySpeciesList</definition>
         <argsstring></argsstring>
         <name>mBoundarySpeciesList</name>
+        <qualifiedname>rr::ModelSymbols::mBoundarySpeciesList</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -169,6 +181,7 @@
         <definition>const int rr::ModelSymbols::mNumBoundarySpecies</definition>
         <argsstring></argsstring>
         <name>mNumBoundarySpecies</name>
+        <qualifiedname>rr::ModelSymbols::mNumBoundarySpecies</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -182,6 +195,7 @@
         <definition>const SymbolList rr::ModelSymbols::mGlobalParameterList</definition>
         <argsstring></argsstring>
         <name>mGlobalParameterList</name>
+        <qualifiedname>rr::ModelSymbols::mGlobalParameterList</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -195,6 +209,7 @@
         <definition>const int rr::ModelSymbols::mNumGlobalParameters</definition>
         <argsstring></argsstring>
         <name>mNumGlobalParameters</name>
+        <qualifiedname>rr::ModelSymbols::mNumGlobalParameters</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -208,6 +223,7 @@
         <definition>const SymbolList rr::ModelSymbols::mModifiableSpeciesReferenceList</definition>
         <argsstring></argsstring>
         <name>mModifiableSpeciesReferenceList</name>
+        <qualifiedname>rr::ModelSymbols::mModifiableSpeciesReferenceList</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -221,6 +237,7 @@
         <definition>const int rr::ModelSymbols::mNumModifiableSpeciesReferences</definition>
         <argsstring></argsstring>
         <name>mNumModifiableSpeciesReferences</name>
+        <qualifiedname>rr::ModelSymbols::mNumModifiableSpeciesReferences</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -234,6 +251,7 @@
         <definition>const SymbolList rr::ModelSymbols::mReactionList</definition>
         <argsstring></argsstring>
         <name>mReactionList</name>
+        <qualifiedname>rr::ModelSymbols::mReactionList</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -247,6 +265,7 @@
         <definition>const std::vector&lt;int&gt; rr::ModelSymbols::mLocalParameterDimensions</definition>
         <argsstring></argsstring>
         <name>mLocalParameterDimensions</name>
+        <qualifiedname>rr::ModelSymbols::mLocalParameterDimensions</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -260,6 +279,7 @@
         <definition>const std::vector&lt;SymbolList&gt; rr::ModelSymbols::mLocalParameterList</definition>
         <argsstring></argsstring>
         <name>mLocalParameterList</name>
+        <qualifiedname>rr::ModelSymbols::mLocalParameterList</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -273,6 +293,7 @@
         <definition>const SymbolList rr::ModelSymbols::mConservationList</definition>
         <argsstring></argsstring>
         <name>mConservationList</name>
+        <qualifiedname>rr::ModelSymbols::mConservationList</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -286,6 +307,7 @@
         <definition>const int rr::ModelSymbols::mTotalLocalParmeters</definition>
         <argsstring></argsstring>
         <name>mTotalLocalParmeters</name>
+        <qualifiedname>rr::ModelSymbols::mTotalLocalParmeters</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -299,6 +321,7 @@
         <definition>const int rr::ModelSymbols::mNumEvents</definition>
         <argsstring></argsstring>
         <name>mNumEvents</name>
+        <qualifiedname>rr::ModelSymbols::mNumEvents</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -312,6 +335,7 @@
         <definition>const StringList rr::ModelSymbols::mFunctionNames</definition>
         <argsstring></argsstring>
         <name>mFunctionNames</name>
+        <qualifiedname>rr::ModelSymbols::mFunctionNames</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -325,6 +349,7 @@
         <definition>const StringList rr::ModelSymbols::mFunctionParameters</definition>
         <argsstring></argsstring>
         <name>mFunctionParameters</name>
+        <qualifiedname>rr::ModelSymbols::mFunctionParameters</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -338,6 +363,7 @@
         <definition>const IntStringHashTable rr::ModelSymbols::mRateRules</definition>
         <argsstring></argsstring>
         <name>mRateRules</name>
+        <qualifiedname>rr::ModelSymbols::mRateRules</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -351,6 +377,7 @@
         <definition>const int rr::ModelSymbols::mNumRules</definition>
         <argsstring></argsstring>
         <name>mNumRules</name>
+        <qualifiedname>rr::ModelSymbols::mNumRules</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -366,6 +393,7 @@
         <definition>const std::string rr::ModelSymbols::mDoubleFormat</definition>
         <argsstring></argsstring>
         <name>mDoubleFormat</name>
+        <qualifiedname>rr::ModelSymbols::mDoubleFormat</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -381,6 +409,7 @@
         <definition>rr::ModelSymbols::ModelSymbols</definition>
         <argsstring>()</argsstring>
         <name>ModelSymbols</name>
+        <qualifiedname>rr::ModelSymbols::ModelSymbols</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -394,6 +423,7 @@
         <definition>rr::ModelSymbols::ModelSymbols</definition>
         <argsstring>(NOMSupport &amp;nom, ls::LibStructural &amp;libs, bool computeAndAssignConsevationLaws)</argsstring>
         <name>ModelSymbols</name>
+        <qualifiedname>rr::ModelSymbols::ModelSymbols</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
           <declname>nom</declname>
@@ -419,6 +449,7 @@
         <definition>ModelSymbols &amp; rr::ModelSymbols::operator=</definition>
         <argsstring>(const ModelSymbols &amp;)</argsstring>
         <name>operator=</name>
+        <qualifiedname>rr::ModelSymbols::operator=</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1ModelSymbols" kindref="compound">ModelSymbols</ref> &amp;</type>
           <defname>right</defname>
@@ -437,6 +468,7 @@
         <definition>rr::ModelSymbols::~ModelSymbols</definition>
         <argsstring>()</argsstring>
         <name>~ModelSymbols</name>
+        <qualifiedname>rr::ModelSymbols::~ModelSymbols</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -452,8 +484,8 @@
     </detaileddescription>
     <collaborationgraph>
       <node id="5">
-        <label>rr::SymbolList</label>
-        <link refid="classrr_1_1SymbolList"/>
+        <label>rr::IntStringHashTable</label>
+        <link refid="classrr_1_1IntStringHashTable"/>
         <childnode refid="6" relation="public-inheritance">
         </childnode>
       </node>
@@ -467,9 +499,6 @@
           <edgelabel>mIndependentSpeciesList</edgelabel>
         </childnode>
         <childnode refid="3" relation="usage">
-          <edgelabel>mRateRules</edgelabel>
-        </childnode>
-        <childnode refid="5" relation="usage">
           <edgelabel>mBoundarySpeciesList</edgelabel>
           <edgelabel>mCompartmentList</edgelabel>
           <edgelabel>mConservationList</edgelabel>
@@ -478,22 +507,25 @@
           <edgelabel>mModifiableSpeciesReferenceList</edgelabel>
           <edgelabel>mReactionList</edgelabel>
         </childnode>
-      </node>
-      <node id="4">
-        <label>std::map&lt; int, std::string &gt;</label>
-      </node>
-      <node id="3">
-        <label>rr::IntStringHashTable</label>
-        <link refid="classrr_1_1IntStringHashTable"/>
-        <childnode refid="4" relation="public-inheritance">
+        <childnode refid="5" relation="usage">
+          <edgelabel>mRateRules</edgelabel>
         </childnode>
-      </node>
-      <node id="6">
-        <label>std::vector&lt; Symbol &gt;</label>
       </node>
       <node id="2">
         <label>rr::StringList</label>
         <link refid="classrr_1_1StringList"/>
+      </node>
+      <node id="3">
+        <label>rr::SymbolList</label>
+        <link refid="classrr_1_1SymbolList"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>std::map&lt; int, std::string &gt;</label>
+      </node>
+      <node id="4">
+        <label>std::vector&lt; Symbol &gt;</label>
       </node>
     </collaborationgraph>
     <location file="c/rrModelSymbols.h" line="19" column="1" bodyfile="c/rrModelSymbols.h" bodystart="20" bodyend="103"/>

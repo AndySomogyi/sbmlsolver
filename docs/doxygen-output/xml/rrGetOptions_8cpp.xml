@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="rrGetOptions_8cpp" kind="file" language="C++">
     <compoundname>rrGetOptions.cpp</compoundname>
     <includes local="no">stdio.h</includes>
@@ -7,6 +7,10 @@
     <includes local="no">cstring</includes>
     <includes refid="rrGetOptions_8h" local="yes">rrGetOptions.h</includes>
     <incdepgraph>
+      <node id="6">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
       <node id="1">
         <label>rrGetOptions.cpp</label>
         <link refid="rrGetOptions_8cpp"/>
@@ -25,18 +29,14 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="6">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="3">
-        <label>string</label>
+      <node id="4">
+        <label>cstring</label>
       </node>
       <node id="2">
         <label>stdio.h</label>
       </node>
-      <node id="4">
-        <label>cstring</label>
+      <node id="3">
+        <label>string</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>

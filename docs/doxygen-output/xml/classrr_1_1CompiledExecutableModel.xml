@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1CompiledExecutableModel" kind="class" language="C++" prot="public">
     <compoundname>rr::CompiledExecutableModel</compoundname>
     <basecompoundref refid="classrr_1_1ExecutableModel" prot="public" virt="non-virtual">rr::ExecutableModel</basecompoundref>
@@ -8,6 +8,7 @@
       <memberdef kind="enum" id="classrr_1_1CompiledExecutableModel_1ad6a1d9558dfadffa255bad46d3593efa" prot="public" static="no" strong="no">
         <type></type>
         <name>StateStackOptions</name>
+        <qualifiedname>rr::CompiledExecutableModel::StateStackOptions</qualifiedname>
         <enumvalue id="classrr_1_1CompiledExecutableModel_1ad6a1d9558dfadffa255bad46d3593efaaf078a648b00f4a19d8d8ff45147bf65a" prot="public">
           <name>PopDiscard</name>
           <initializer>= 0x00000001</initializer>
@@ -32,6 +33,7 @@
         <definition>bool rr::CompiledExecutableModel::mConservedSumChanged</definition>
         <argsstring></argsstring>
         <name>mConservedSumChanged</name>
+        <qualifiedname>rr::CompiledExecutableModel::mConservedSumChanged</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -45,6 +47,7 @@
         <definition>int rr::CompiledExecutableModel::mDummyInt</definition>
         <argsstring></argsstring>
         <name>mDummyInt</name>
+        <qualifiedname>rr::CompiledExecutableModel::mDummyInt</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -58,6 +61,7 @@
         <definition>int rr::CompiledExecutableModel::mDummyDouble</definition>
         <argsstring></argsstring>
         <name>mDummyDouble</name>
+        <qualifiedname>rr::CompiledExecutableModel::mDummyDouble</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -71,6 +75,7 @@
         <definition>double* rr::CompiledExecutableModel::mDummyDoubleArray</definition>
         <argsstring></argsstring>
         <name>mDummyDoubleArray</name>
+        <qualifiedname>rr::CompiledExecutableModel::mDummyDoubleArray</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -84,6 +89,7 @@
         <definition>ModelData rr::CompiledExecutableModel::mData</definition>
         <argsstring></argsstring>
         <name>mData</name>
+        <qualifiedname>rr::CompiledExecutableModel::mData</qualifiedname>
         <briefdescription>
 <para>the data that is exchanged with the loaded shared lib, and all sorts of other routines such as CVODE. </para>
         </briefdescription>
@@ -98,6 +104,7 @@
         <definition>ModelSymbols rr::CompiledExecutableModel::ms</definition>
         <argsstring></argsstring>
         <name>ms</name>
+        <qualifiedname>rr::CompiledExecutableModel::ms</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -111,6 +118,7 @@
         <definition>bool rr::CompiledExecutableModel::mIsInitialized</definition>
         <argsstring></argsstring>
         <name>mIsInitialized</name>
+        <qualifiedname>rr::CompiledExecutableModel::mIsInitialized</qualifiedname>
         <briefdescription>
 <para>If all functions are found properly in the dll, this one is true. </para>
         </briefdescription>
@@ -125,6 +133,7 @@
         <definition>ModelSharedLibrary* rr::CompiledExecutableModel::mDLL</definition>
         <argsstring></argsstring>
         <name>mDLL</name>
+        <qualifiedname>rr::CompiledExecutableModel::mDLL</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -138,6 +147,7 @@
         <definition>std::stack&lt;CompiledModelState*&gt; rr::CompiledExecutableModel::modelStates</definition>
         <argsstring></argsstring>
         <name>modelStates</name>
+        <qualifiedname>rr::CompiledExecutableModel::modelStates</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -151,6 +161,7 @@
         <definition>c_int_MDS rr::CompiledExecutableModel::cInitModel</definition>
         <argsstring></argsstring>
         <name>cInitModel</name>
+        <qualifiedname>rr::CompiledExecutableModel::cInitModel</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -164,6 +175,7 @@
         <definition>c_int_MDS rr::CompiledExecutableModel::cInitModelData</definition>
         <argsstring></argsstring>
         <name>cInitModelData</name>
+        <qualifiedname>rr::CompiledExecutableModel::cInitModelData</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -177,6 +189,7 @@
         <definition>c_charStar_MDS rr::CompiledExecutableModel::cgetModelName</definition>
         <argsstring></argsstring>
         <name>cgetModelName</name>
+        <qualifiedname>rr::CompiledExecutableModel::cgetModelName</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -190,6 +203,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::cinitializeInitialConditions</definition>
         <argsstring></argsstring>
         <name>cinitializeInitialConditions</name>
+        <qualifiedname>rr::CompiledExecutableModel::cinitializeInitialConditions</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -203,6 +217,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::csetParameterValues</definition>
         <argsstring></argsstring>
         <name>csetParameterValues</name>
+        <qualifiedname>rr::CompiledExecutableModel::csetParameterValues</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -216,6 +231,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::csetCompartmentVolumes</definition>
         <argsstring></argsstring>
         <name>csetCompartmentVolumes</name>
+        <qualifiedname>rr::CompiledExecutableModel::csetCompartmentVolumes</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -229,6 +245,7 @@
         <definition>c_int_MDS_int rr::CompiledExecutableModel::cgetNumLocalParameters</definition>
         <argsstring></argsstring>
         <name>cgetNumLocalParameters</name>
+        <qualifiedname>rr::CompiledExecutableModel::cgetNumLocalParameters</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -242,6 +259,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::csetBoundaryConditions</definition>
         <argsstring></argsstring>
         <name>csetBoundaryConditions</name>
+        <qualifiedname>rr::CompiledExecutableModel::csetBoundaryConditions</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -255,6 +273,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::csetInitialConditions</definition>
         <argsstring></argsstring>
         <name>csetInitialConditions</name>
+        <qualifiedname>rr::CompiledExecutableModel::csetInitialConditions</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -268,6 +287,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::cevalInitialAssignments</definition>
         <argsstring></argsstring>
         <name>cevalInitialAssignments</name>
+        <qualifiedname>rr::CompiledExecutableModel::cevalInitialAssignments</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -281,6 +301,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::cupdateDependentSpeciesValues</definition>
         <argsstring></argsstring>
         <name>cupdateDependentSpeciesValues</name>
+        <qualifiedname>rr::CompiledExecutableModel::cupdateDependentSpeciesValues</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -294,6 +315,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::ccomputeRules</definition>
         <argsstring></argsstring>
         <name>ccomputeRules</name>
+        <qualifiedname>rr::CompiledExecutableModel::ccomputeRules</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -307,6 +329,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::cconvertToAmounts</definition>
         <argsstring></argsstring>
         <name>cconvertToAmounts</name>
+        <qualifiedname>rr::CompiledExecutableModel::cconvertToAmounts</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -320,6 +343,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::ccomputeConservedTotals</definition>
         <argsstring></argsstring>
         <name>ccomputeConservedTotals</name>
+        <qualifiedname>rr::CompiledExecutableModel::ccomputeConservedTotals</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -333,6 +357,7 @@
         <definition>c_double_MDS_int rr::CompiledExecutableModel::cgetConcentration</definition>
         <argsstring></argsstring>
         <name>cgetConcentration</name>
+        <qualifiedname>rr::CompiledExecutableModel::cgetConcentration</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -346,6 +371,7 @@
         <definition>c_doubleStar_MDS rr::CompiledExecutableModel::cGetCurrentValues</definition>
         <argsstring></argsstring>
         <name>cGetCurrentValues</name>
+        <qualifiedname>rr::CompiledExecutableModel::cGetCurrentValues</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -359,6 +385,7 @@
         <definition>c_void_MDS_double_doubleStar rr::CompiledExecutableModel::cevalModel</definition>
         <argsstring></argsstring>
         <name>cevalModel</name>
+        <qualifiedname>rr::CompiledExecutableModel::cevalModel</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -372,6 +399,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::cconvertToConcentrations</definition>
         <argsstring></argsstring>
         <name>cconvertToConcentrations</name>
+        <qualifiedname>rr::CompiledExecutableModel::cconvertToConcentrations</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -385,6 +413,7 @@
         <definition>c_void_MDS_double_doubleStar rr::CompiledExecutableModel::cevalEvents</definition>
         <argsstring></argsstring>
         <name>cevalEvents</name>
+        <qualifiedname>rr::CompiledExecutableModel::cevalEvents</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -398,6 +427,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::ccomputeAllRatesOfChange</definition>
         <argsstring></argsstring>
         <name>ccomputeAllRatesOfChange</name>
+        <qualifiedname>rr::CompiledExecutableModel::ccomputeAllRatesOfChange</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -411,6 +441,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::cAssignRates_a</definition>
         <argsstring></argsstring>
         <name>cAssignRates_a</name>
+        <qualifiedname>rr::CompiledExecutableModel::cAssignRates_a</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -424,6 +455,7 @@
         <definition>c_void_MDS_doubleStar rr::CompiledExecutableModel::cAssignRates_b</definition>
         <argsstring></argsstring>
         <name>cAssignRates_b</name>
+        <qualifiedname>rr::CompiledExecutableModel::cAssignRates_b</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -437,6 +469,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::ctestConstraints</definition>
         <argsstring></argsstring>
         <name>ctestConstraints</name>
+        <qualifiedname>rr::CompiledExecutableModel::ctestConstraints</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -450,6 +483,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::cresetEvents</definition>
         <argsstring></argsstring>
         <name>cresetEvents</name>
+        <qualifiedname>rr::CompiledExecutableModel::cresetEvents</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -463,6 +497,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::cInitializeRates</definition>
         <argsstring></argsstring>
         <name>cInitializeRates</name>
+        <qualifiedname>rr::CompiledExecutableModel::cInitializeRates</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -476,6 +511,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::cInitializeRateRuleSymbols</definition>
         <argsstring></argsstring>
         <name>cInitializeRateRuleSymbols</name>
+        <qualifiedname>rr::CompiledExecutableModel::cInitializeRateRuleSymbols</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -489,6 +525,7 @@
         <definition>c_void_MDS_int_double rr::CompiledExecutableModel::csetConcentration</definition>
         <argsstring></argsstring>
         <name>csetConcentration</name>
+        <qualifiedname>rr::CompiledExecutableModel::csetConcentration</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -502,6 +539,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::cComputeReactionRates</definition>
         <argsstring></argsstring>
         <name>cComputeReactionRates</name>
+        <qualifiedname>rr::CompiledExecutableModel::cComputeReactionRates</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -515,6 +553,7 @@
         <definition>c_void_MDS rr::CompiledExecutableModel::ccomputeEventPriorities</definition>
         <argsstring></argsstring>
         <name>ccomputeEventPriorities</name>
+        <qualifiedname>rr::CompiledExecutableModel::ccomputeEventPriorities</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -528,6 +567,7 @@
         <definition>std::vector&lt;PendingAssignment&gt; rr::CompiledExecutableModel::mAssignments</definition>
         <argsstring></argsstring>
         <name>mAssignments</name>
+        <qualifiedname>rr::CompiledExecutableModel::mAssignments</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -541,6 +581,7 @@
         <definition>std::vector&lt;double&gt; rr::CompiledExecutableModel::mAssignmentTimes</definition>
         <argsstring></argsstring>
         <name>mAssignmentTimes</name>
+        <qualifiedname>rr::CompiledExecutableModel::mAssignmentTimes</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -554,6 +595,7 @@
         <definition>DoubleMatrix rr::CompiledExecutableModel::stoichiometryMatrix</definition>
         <argsstring></argsstring>
         <name>stoichiometryMatrix</name>
+        <qualifiedname>rr::CompiledExecutableModel::stoichiometryMatrix</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -569,6 +611,7 @@
         <definition>friend class CompiledModelState</definition>
         <argsstring></argsstring>
         <name>CompiledModelState</name>
+        <qualifiedname>rr::CompiledExecutableModel::CompiledModelState</qualifiedname>
         <param>
           <type><ref refid="classrr_1_1CompiledModelState" kindref="compound">CompiledModelState</ref></type>
         </param>
@@ -578,7 +621,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="c/rrCompiledExecutableModel.h" line="502" column="5" bodyfile="c/rrCompiledExecutableModel.h" bodystart="502" bodyend="-1"/>
+        <location file="c/rrCompiledExecutableModel.h" line="502" column="18" bodyfile="c/rrCompiledExecutableModel.h" bodystart="502" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -587,6 +630,7 @@
         <definition>virtual std::string rr::CompiledExecutableModel::getExecutableModelDesc</definition>
         <argsstring>() const</argsstring>
         <name>getExecutableModelDesc</name>
+        <qualifiedname>rr::CompiledExecutableModel::getExecutableModelDesc</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a07791b0ccd6feeb665278e9888cb8af7">getExecutableModelDesc</reimplements>
         <briefdescription>
 <para>Returns a human-readable description of the code generation backend, e.g. LLVM, legacy C, etc. </para>
@@ -607,6 +651,7 @@
         <definition>rr::CompiledExecutableModel::CompiledExecutableModel</definition>
         <argsstring>(const ModelSymbols &amp;symbols, ModelSharedLibrary *dll)</argsstring>
         <name>CompiledExecutableModel</name>
+        <qualifiedname>rr::CompiledExecutableModel::CompiledExecutableModel</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1ModelSymbols" kindref="compound">ModelSymbols</ref> &amp;</type>
           <declname>symbols</declname>
@@ -630,6 +675,7 @@
         <definition>rr::CompiledExecutableModel::~CompiledExecutableModel</definition>
         <argsstring>()</argsstring>
         <name>~CompiledExecutableModel</name>
+        <qualifiedname>rr::CompiledExecutableModel::~CompiledExecutableModel</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -643,6 +689,7 @@
         <definition>bool rr::CompiledExecutableModel::getConservedSumChanged</definition>
         <argsstring>()</argsstring>
         <name>getConservedSumChanged</name>
+        <qualifiedname>rr::CompiledExecutableModel::getConservedSumChanged</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -656,6 +703,7 @@
         <definition>void rr::CompiledExecutableModel::setConservedSumChanged</definition>
         <argsstring>(bool)</argsstring>
         <name>setConservedSumChanged</name>
+        <qualifiedname>rr::CompiledExecutableModel::setConservedSumChanged</qualifiedname>
         <param>
           <type>bool</type>
           <defname>val</defname>
@@ -673,6 +721,7 @@
         <definition>std::string rr::CompiledExecutableModel::getModelName</definition>
         <argsstring>()</argsstring>
         <name>getModelName</name>
+        <qualifiedname>rr::CompiledExecutableModel::getModelName</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a6ad7fd317a2335c337d7c8a3aeb8e044">getModelName</reimplements>
         <briefdescription>
 <para>get the name of the model </para>
@@ -688,6 +737,7 @@
         <definition>void rr::CompiledExecutableModel::setTime</definition>
         <argsstring>(double _time)</argsstring>
         <name>setTime</name>
+        <qualifiedname>rr::CompiledExecutableModel::setTime</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1ad38c7e2bf987ce1f7cbb8ac7316b8760">setTime</reimplements>
         <param>
           <type>double</type>
@@ -706,6 +756,7 @@
         <definition>double rr::CompiledExecutableModel::getTime</definition>
         <argsstring>()</argsstring>
         <name>getTime</name>
+        <qualifiedname>rr::CompiledExecutableModel::getTime</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a9f4ae8c898f3c1553377b0f90b96c8e4">getTime</reimplements>
         <briefdescription>
         </briefdescription>
@@ -720,6 +771,7 @@
         <definition>void rr::CompiledExecutableModel::evalInitialConditions</definition>
         <argsstring>()</argsstring>
         <name>evalInitialConditions</name>
+        <qualifiedname>rr::CompiledExecutableModel::evalInitialConditions</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -733,6 +785,7 @@
         <definition>void rr::CompiledExecutableModel::reset</definition>
         <argsstring>()</argsstring>
         <name>reset</name>
+        <qualifiedname>rr::CompiledExecutableModel::reset</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a217c61819d9b029c5928ace53b805e89">reset</reimplements>
         <briefdescription>
 <para>reset the model to its original state </para>
@@ -748,6 +801,7 @@
         <definition>void rr::CompiledExecutableModel::reset</definition>
         <argsstring>(int options)</argsstring>
         <name>reset</name>
+        <qualifiedname>rr::CompiledExecutableModel::reset</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1ac87e7f485678d07d7567398dea63c512">reset</reimplements>
         <param>
           <type>int</type>
@@ -767,6 +821,7 @@
         <definition>int rr::CompiledExecutableModel::pushState</definition>
         <argsstring>(unsigned options=0)</argsstring>
         <name>pushState</name>
+        <qualifiedname>rr::CompiledExecutableModel::pushState</qualifiedname>
         <param>
           <type>unsigned</type>
           <declname>options</declname>
@@ -789,6 +844,7 @@
         <definition>int rr::CompiledExecutableModel::popState</definition>
         <argsstring>(unsigned options=0)</argsstring>
         <name>popState</name>
+        <qualifiedname>rr::CompiledExecutableModel::popState</qualifiedname>
         <param>
           <type>unsigned</type>
           <declname>options</declname>
@@ -811,6 +867,7 @@
         <definition>int rr::CompiledExecutableModel::getNumIndFloatingSpecies</definition>
         <argsstring>()</argsstring>
         <name>getNumIndFloatingSpecies</name>
+        <qualifiedname>rr::CompiledExecutableModel::getNumIndFloatingSpecies</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1ace75e9d47e3eeb59661e7c2e2b2ed6e4">getNumIndFloatingSpecies</reimplements>
         <briefdescription>
 <para>independent species do are not defined by rules, they typically participate in reactions and can have thier values set at any time. </para>
@@ -826,6 +883,7 @@
         <definition>int rr::CompiledExecutableModel::getNumDepFloatingSpecies</definition>
         <argsstring>()</argsstring>
         <name>getNumDepFloatingSpecies</name>
+        <qualifiedname>rr::CompiledExecutableModel::getNumDepFloatingSpecies</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a2acd2a498cee58cfdc676d9010be5ec0">getNumDepFloatingSpecies</reimplements>
         <briefdescription>
 <para>dependent species are defined by rules and the only way to change them is by changing the values on which they depend. </para>
@@ -841,6 +899,7 @@
         <definition>int rr::CompiledExecutableModel::getNumFloatingSpecies</definition>
         <argsstring>()</argsstring>
         <name>getNumFloatingSpecies</name>
+        <qualifiedname>rr::CompiledExecutableModel::getNumFloatingSpecies</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1aa2999a84a5a0d691dc08f3f78b94636d">getNumFloatingSpecies</reimplements>
         <briefdescription>
 <para>total number of floating species. </para>
@@ -856,6 +915,7 @@
         <definition>int rr::CompiledExecutableModel::getFloatingSpeciesIndex</definition>
         <argsstring>(const std::string &amp;name)</argsstring>
         <name>getFloatingSpeciesIndex</name>
+        <qualifiedname>rr::CompiledExecutableModel::getFloatingSpeciesIndex</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a390a1905aabac6056f6dceff11833c43">getFloatingSpeciesIndex</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -874,6 +934,7 @@
         <definition>std::string rr::CompiledExecutableModel::getFloatingSpeciesId</definition>
         <argsstring>(int index)</argsstring>
         <name>getFloatingSpeciesId</name>
+        <qualifiedname>rr::CompiledExecutableModel::getFloatingSpeciesId</qualifiedname>
         <param>
           <type>int</type>
           <declname>index</declname>
@@ -891,6 +952,7 @@
         <definition>int rr::CompiledExecutableModel::getNumBoundarySpecies</definition>
         <argsstring>()</argsstring>
         <name>getNumBoundarySpecies</name>
+        <qualifiedname>rr::CompiledExecutableModel::getNumBoundarySpecies</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a6ee272090a6b7a4a6808f091c1930495">getNumBoundarySpecies</reimplements>
         <briefdescription>
 <para>get the number of boundary species. </para>
@@ -906,6 +968,7 @@
         <definition>int rr::CompiledExecutableModel::getBoundarySpeciesIndex</definition>
         <argsstring>(const std::string &amp;name)</argsstring>
         <name>getBoundarySpeciesIndex</name>
+        <qualifiedname>rr::CompiledExecutableModel::getBoundarySpeciesIndex</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a28488139fa975776eded9e8c899c307d">getBoundarySpeciesIndex</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -924,6 +987,7 @@
         <definition>std::string rr::CompiledExecutableModel::getBoundarySpeciesId</definition>
         <argsstring>(int index)</argsstring>
         <name>getBoundarySpeciesId</name>
+        <qualifiedname>rr::CompiledExecutableModel::getBoundarySpeciesId</qualifiedname>
         <param>
           <type>int</type>
           <declname>index</declname>
@@ -941,6 +1005,7 @@
         <definition>int rr::CompiledExecutableModel::getBoundarySpeciesCompartmentIndex</definition>
         <argsstring>(int index)</argsstring>
         <name>getBoundarySpeciesCompartmentIndex</name>
+        <qualifiedname>rr::CompiledExecutableModel::getBoundarySpeciesCompartmentIndex</qualifiedname>
         <param>
           <type>int</type>
           <declname>index</declname>
@@ -958,6 +1023,7 @@
         <definition>int rr::CompiledExecutableModel::getFloatingSpeciesAmounts</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getFloatingSpeciesAmounts</name>
+        <qualifiedname>rr::CompiledExecutableModel::getFloatingSpeciesAmounts</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -1010,6 +1076,7 @@
         <definition>int rr::CompiledExecutableModel::setFloatingSpeciesAmounts</definition>
         <argsstring>(int len, int const *indx, const double *values)</argsstring>
         <name>setFloatingSpeciesAmounts</name>
+        <qualifiedname>rr::CompiledExecutableModel::setFloatingSpeciesAmounts</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -1035,6 +1102,7 @@
         <definition>int rr::CompiledExecutableModel::getFloatingSpeciesConcentrations</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getFloatingSpeciesConcentrations</name>
+        <qualifiedname>rr::CompiledExecutableModel::getFloatingSpeciesConcentrations</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -1087,6 +1155,7 @@
         <definition>int rr::CompiledExecutableModel::setFloatingSpeciesConcentrations</definition>
         <argsstring>(int len, int const *indx, double const *values)</argsstring>
         <name>setFloatingSpeciesConcentrations</name>
+        <qualifiedname>rr::CompiledExecutableModel::setFloatingSpeciesConcentrations</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -1139,6 +1208,7 @@
         <definition>int rr::CompiledExecutableModel::getFloatingSpeciesAmountRates</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getFloatingSpeciesAmountRates</name>
+        <qualifiedname>rr::CompiledExecutableModel::getFloatingSpeciesAmountRates</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -1164,6 +1234,7 @@
         <definition>int rr::CompiledExecutableModel::getFloatingSpeciesConcentrationRates</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getFloatingSpeciesConcentrationRates</name>
+        <qualifiedname>rr::CompiledExecutableModel::getFloatingSpeciesConcentrationRates</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -1189,6 +1260,7 @@
         <definition>int rr::CompiledExecutableModel::getBoundarySpeciesAmounts</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getBoundarySpeciesAmounts</name>
+        <qualifiedname>rr::CompiledExecutableModel::getBoundarySpeciesAmounts</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -1241,6 +1313,7 @@
         <definition>int rr::CompiledExecutableModel::getBoundarySpeciesConcentrations</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getBoundarySpeciesConcentrations</name>
+        <qualifiedname>rr::CompiledExecutableModel::getBoundarySpeciesConcentrations</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -1293,6 +1366,7 @@
         <definition>int rr::CompiledExecutableModel::setBoundarySpeciesConcentrations</definition>
         <argsstring>(int len, int const *indx, double const *values)</argsstring>
         <name>setBoundarySpeciesConcentrations</name>
+        <qualifiedname>rr::CompiledExecutableModel::setBoundarySpeciesConcentrations</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -1345,6 +1419,7 @@
         <definition>int rr::CompiledExecutableModel::getNumGlobalParameters</definition>
         <argsstring>()</argsstring>
         <name>getNumGlobalParameters</name>
+        <qualifiedname>rr::CompiledExecutableModel::getNumGlobalParameters</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1aabbf6f025ea3c064f0dcaa5e4afaa87e">getNumGlobalParameters</reimplements>
         <briefdescription>
 <para>get the number of global parameters </para>
@@ -1360,6 +1435,7 @@
         <definition>int rr::CompiledExecutableModel::getGlobalParameterIndex</definition>
         <argsstring>(const std::string &amp;name)</argsstring>
         <name>getGlobalParameterIndex</name>
+        <qualifiedname>rr::CompiledExecutableModel::getGlobalParameterIndex</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1abcdcc03c4563dfbe6b64f932812906ee">getGlobalParameterIndex</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -1379,6 +1455,7 @@
         <definition>std::string rr::CompiledExecutableModel::getGlobalParameterId</definition>
         <argsstring>(int index)</argsstring>
         <name>getGlobalParameterId</name>
+        <qualifiedname>rr::CompiledExecutableModel::getGlobalParameterId</qualifiedname>
         <param>
           <type>int</type>
           <declname>index</declname>
@@ -1396,6 +1473,7 @@
         <definition>int rr::CompiledExecutableModel::getGlobalParameterValues</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getGlobalParameterValues</name>
+        <qualifiedname>rr::CompiledExecutableModel::getGlobalParameterValues</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -1448,6 +1526,7 @@
         <definition>int rr::CompiledExecutableModel::setGlobalParameterValues</definition>
         <argsstring>(int len, int const *indx, const double *values)</argsstring>
         <name>setGlobalParameterValues</name>
+        <qualifiedname>rr::CompiledExecutableModel::setGlobalParameterValues</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -1473,6 +1552,7 @@
         <definition>int rr::CompiledExecutableModel::getNumCompartments</definition>
         <argsstring>()</argsstring>
         <name>getNumCompartments</name>
+        <qualifiedname>rr::CompiledExecutableModel::getNumCompartments</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1acada1e982eafe06d0d5e46defdb40ca7">getNumCompartments</reimplements>
         <briefdescription>
         </briefdescription>
@@ -1487,6 +1567,7 @@
         <definition>int rr::CompiledExecutableModel::getCompartmentIndex</definition>
         <argsstring>(const std::string &amp;name)</argsstring>
         <name>getCompartmentIndex</name>
+        <qualifiedname>rr::CompiledExecutableModel::getCompartmentIndex</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a366727be244766db2ff917b64949858c">getCompartmentIndex</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -1505,6 +1586,7 @@
         <definition>std::string rr::CompiledExecutableModel::getCompartmentId</definition>
         <argsstring>(int index)</argsstring>
         <name>getCompartmentId</name>
+        <qualifiedname>rr::CompiledExecutableModel::getCompartmentId</qualifiedname>
         <param>
           <type>int</type>
           <declname>index</declname>
@@ -1522,6 +1604,7 @@
         <definition>int rr::CompiledExecutableModel::getCompartmentVolumes</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getCompartmentVolumes</name>
+        <qualifiedname>rr::CompiledExecutableModel::getCompartmentVolumes</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -1574,6 +1657,7 @@
         <definition>int rr::CompiledExecutableModel::getNumRateRules</definition>
         <argsstring>()</argsstring>
         <name>getNumRateRules</name>
+        <qualifiedname>rr::CompiledExecutableModel::getNumRateRules</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1aa6ccf1c5b3b8817c7ce291a933bcaab7">getNumRateRules</reimplements>
         <briefdescription>
         </briefdescription>
@@ -1588,6 +1672,7 @@
         <definition>int rr::CompiledExecutableModel::getNumReactions</definition>
         <argsstring>()</argsstring>
         <name>getNumReactions</name>
+        <qualifiedname>rr::CompiledExecutableModel::getNumReactions</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1acb056a72125190c2abe39dba9c3600f1">getNumReactions</reimplements>
         <briefdescription>
 <para>get the number of reactions the model has </para>
@@ -1603,6 +1688,7 @@
         <definition>int rr::CompiledExecutableModel::getReactionRates</definition>
         <argsstring>(int len, const int *indx, double *values)</argsstring>
         <name>getReactionRates</name>
+        <qualifiedname>rr::CompiledExecutableModel::getReactionRates</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -1628,6 +1714,7 @@
         <definition>int rr::CompiledExecutableModel::getReactionIndex</definition>
         <argsstring>(const std::string &amp;reactionName)</argsstring>
         <name>getReactionIndex</name>
+        <qualifiedname>rr::CompiledExecutableModel::getReactionIndex</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a86fe96598b06cee5ca9a28dfdfd9d437">getReactionIndex</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -1650,6 +1737,7 @@
         <definition>std::string rr::CompiledExecutableModel::getReactionId</definition>
         <argsstring>(int index)</argsstring>
         <name>getReactionId</name>
+        <qualifiedname>rr::CompiledExecutableModel::getReactionId</qualifiedname>
         <param>
           <type>int</type>
           <declname>index</declname>
@@ -1668,6 +1756,7 @@
         <definition>int rr::CompiledExecutableModel::getNumEvents</definition>
         <argsstring>()</argsstring>
         <name>getNumEvents</name>
+        <qualifiedname>rr::CompiledExecutableModel::getNumEvents</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1abd94b60defc6ffa9ab17166ebaa440c5">getNumEvents</reimplements>
         <briefdescription>
         </briefdescription>
@@ -1682,6 +1771,7 @@
         <definition>void rr::CompiledExecutableModel::computeEventPriorites</definition>
         <argsstring>()</argsstring>
         <name>computeEventPriorites</name>
+        <qualifiedname>rr::CompiledExecutableModel::computeEventPriorites</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1695,6 +1785,7 @@
         <definition>void rr::CompiledExecutableModel::setConcentration</definition>
         <argsstring>(int index, double value)</argsstring>
         <name>setConcentration</name>
+        <qualifiedname>rr::CompiledExecutableModel::setConcentration</qualifiedname>
         <param>
           <type>int</type>
           <declname>index</declname>
@@ -1716,6 +1807,7 @@
         <definition>void rr::CompiledExecutableModel::evalReactionRates</definition>
         <argsstring>()</argsstring>
         <name>evalReactionRates</name>
+        <qualifiedname>rr::CompiledExecutableModel::evalReactionRates</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1729,6 +1821,7 @@
         <definition>void rr::CompiledExecutableModel::setCompartmentVolumes</definition>
         <argsstring>()</argsstring>
         <name>setCompartmentVolumes</name>
+        <qualifiedname>rr::CompiledExecutableModel::setCompartmentVolumes</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1742,6 +1835,7 @@
         <definition>int rr::CompiledExecutableModel::getNumLocalParameters</definition>
         <argsstring>(int reactionId)</argsstring>
         <name>getNumLocalParameters</name>
+        <qualifiedname>rr::CompiledExecutableModel::getNumLocalParameters</qualifiedname>
         <param>
           <type>int</type>
           <declname>reactionId</declname>
@@ -1759,6 +1853,7 @@
         <definition>void rr::CompiledExecutableModel::computeRules</definition>
         <argsstring>()</argsstring>
         <name>computeRules</name>
+        <qualifiedname>rr::CompiledExecutableModel::computeRules</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1772,6 +1867,7 @@
         <definition>void rr::CompiledExecutableModel::initializeInitialConditions</definition>
         <argsstring>()</argsstring>
         <name>initializeInitialConditions</name>
+        <qualifiedname>rr::CompiledExecutableModel::initializeInitialConditions</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1785,6 +1881,7 @@
         <definition>void rr::CompiledExecutableModel::setParameterValues</definition>
         <argsstring>()</argsstring>
         <name>setParameterValues</name>
+        <qualifiedname>rr::CompiledExecutableModel::setParameterValues</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1798,6 +1895,7 @@
         <definition>void rr::CompiledExecutableModel::setBoundaryConditions</definition>
         <argsstring>()</argsstring>
         <name>setBoundaryConditions</name>
+        <qualifiedname>rr::CompiledExecutableModel::setBoundaryConditions</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1811,6 +1909,7 @@
         <definition>void rr::CompiledExecutableModel::setInitialConditions</definition>
         <argsstring>()</argsstring>
         <name>setInitialConditions</name>
+        <qualifiedname>rr::CompiledExecutableModel::setInitialConditions</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1824,6 +1923,7 @@
         <definition>void rr::CompiledExecutableModel::evalInitialAssignments</definition>
         <argsstring>()</argsstring>
         <name>evalInitialAssignments</name>
+        <qualifiedname>rr::CompiledExecutableModel::evalInitialAssignments</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1837,6 +1937,7 @@
         <definition>void rr::CompiledExecutableModel::convertToAmounts</definition>
         <argsstring>()</argsstring>
         <name>convertToAmounts</name>
+        <qualifiedname>rr::CompiledExecutableModel::convertToAmounts</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1850,6 +1951,7 @@
         <definition>void rr::CompiledExecutableModel::computeConservedTotals</definition>
         <argsstring>()</argsstring>
         <name>computeConservedTotals</name>
+        <qualifiedname>rr::CompiledExecutableModel::computeConservedTotals</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1863,6 +1965,7 @@
         <definition>void rr::CompiledExecutableModel::getRateRuleValues</definition>
         <argsstring>(double *rateRuleValues)</argsstring>
         <name>getRateRuleValues</name>
+        <qualifiedname>rr::CompiledExecutableModel::getRateRuleValues</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a8372872ec5858e91adc81080ad763c84">getRateRuleValues</reimplements>
         <param>
           <type>double *</type>
@@ -1884,6 +1987,7 @@
         <definition>double rr::CompiledExecutableModel::getAmount</definition>
         <argsstring>(const int i)</argsstring>
         <name>getAmount</name>
+        <qualifiedname>rr::CompiledExecutableModel::getAmount</qualifiedname>
         <param>
           <type>const int</type>
           <declname>i</declname>
@@ -1901,6 +2005,7 @@
         <definition>void rr::CompiledExecutableModel::initializeRates</definition>
         <argsstring>()</argsstring>
         <name>initializeRates</name>
+        <qualifiedname>rr::CompiledExecutableModel::initializeRates</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1914,6 +2019,7 @@
         <definition>std::string rr::CompiledExecutableModel::getStateVectorId</definition>
         <argsstring>(int index)</argsstring>
         <name>getStateVectorId</name>
+        <qualifiedname>rr::CompiledExecutableModel::getStateVectorId</qualifiedname>
         <param>
           <type>int</type>
           <declname>index</declname>
@@ -1931,6 +2037,7 @@
         <definition>void rr::CompiledExecutableModel::setRateRuleValues</definition>
         <argsstring>(const double *rateRuleValues)</argsstring>
         <name>setRateRuleValues</name>
+        <qualifiedname>rr::CompiledExecutableModel::setRateRuleValues</qualifiedname>
         <param>
           <type>const double *</type>
           <declname>rateRuleValues</declname>
@@ -1948,6 +2055,7 @@
         <definition>int rr::CompiledExecutableModel::getStateVector</definition>
         <argsstring>(double *stateVector)</argsstring>
         <name>getStateVector</name>
+        <qualifiedname>rr::CompiledExecutableModel::getStateVector</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a75b6f37ac538d2d2a0709fe4080b0570">getStateVector</reimplements>
         <param>
           <type>double *</type>
@@ -1979,6 +2087,7 @@
         <definition>int rr::CompiledExecutableModel::setStateVector</definition>
         <argsstring>(const double *stateVector)</argsstring>
         <name>setStateVector</name>
+        <qualifiedname>rr::CompiledExecutableModel::setStateVector</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a57a67063c957714b916d4a3d4277c3b9">setStateVector</reimplements>
         <param>
           <type>const double *</type>
@@ -2010,6 +2119,7 @@
         <definition>void rr::CompiledExecutableModel::convertToConcentrations</definition>
         <argsstring>()</argsstring>
         <name>convertToConcentrations</name>
+        <qualifiedname>rr::CompiledExecutableModel::convertToConcentrations</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -2023,6 +2133,7 @@
         <definition>void rr::CompiledExecutableModel::updateDependentSpeciesValues</definition>
         <argsstring>()</argsstring>
         <name>updateDependentSpeciesValues</name>
+        <qualifiedname>rr::CompiledExecutableModel::updateDependentSpeciesValues</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -2036,6 +2147,7 @@
         <definition>void rr::CompiledExecutableModel::computeAllRatesOfChange</definition>
         <argsstring>()</argsstring>
         <name>computeAllRatesOfChange</name>
+        <qualifiedname>rr::CompiledExecutableModel::computeAllRatesOfChange</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -2049,6 +2161,7 @@
         <definition>void rr::CompiledExecutableModel::getStateVectorRate</definition>
         <argsstring>(double time, const double *y, double *dydt=0)</argsstring>
         <name>getStateVectorRate</name>
+        <qualifiedname>rr::CompiledExecutableModel::getStateVectorRate</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a0495c2ece9edad29d61849b2443d4274">getStateVectorRate</reimplements>
         <param>
           <type>double</type>
@@ -2105,6 +2218,7 @@
         <definition>void rr::CompiledExecutableModel::evalEvents</definition>
         <argsstring>(const double time, const double *y)</argsstring>
         <name>evalEvents</name>
+        <qualifiedname>rr::CompiledExecutableModel::evalEvents</qualifiedname>
         <param>
           <type>const double</type>
           <declname>time</declname>
@@ -2126,6 +2240,7 @@
         <definition>void rr::CompiledExecutableModel::resetEvents</definition>
         <argsstring>()</argsstring>
         <name>resetEvents</name>
+        <qualifiedname>rr::CompiledExecutableModel::resetEvents</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a936756fa4facd2b182b4cfcbe0f07fab">resetEvents</reimplements>
         <briefdescription>
         </briefdescription>
@@ -2140,6 +2255,7 @@
         <definition>void rr::CompiledExecutableModel::testConstraints</definition>
         <argsstring>()</argsstring>
         <name>testConstraints</name>
+        <qualifiedname>rr::CompiledExecutableModel::testConstraints</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1abe4be4ec2e96aaf0a256776dff3cc9a9">testConstraints</reimplements>
         <briefdescription>
         </briefdescription>
@@ -2154,6 +2270,7 @@
         <definition>void rr::CompiledExecutableModel::initializeRateRuleSymbols</definition>
         <argsstring>()</argsstring>
         <name>initializeRateRuleSymbols</name>
+        <qualifiedname>rr::CompiledExecutableModel::initializeRateRuleSymbols</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -2167,6 +2284,7 @@
         <definition>std::string rr::CompiledExecutableModel::getInfo</definition>
         <argsstring>()</argsstring>
         <name>getInfo</name>
+        <qualifiedname>rr::CompiledExecutableModel::getInfo</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1ab8073e0f3e57cb6f0d807bdf60d1d2a1">getInfo</reimplements>
         <briefdescription>
         </briefdescription>
@@ -2181,6 +2299,7 @@
         <definition>void rr::CompiledExecutableModel::print</definition>
         <argsstring>(std::ostream &amp;stream)</argsstring>
         <name>print</name>
+        <qualifiedname>rr::CompiledExecutableModel::print</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1acea87cea26a0f322a8df7b5ae73f065c">print</reimplements>
         <param>
           <type>std::ostream &amp;</type>
@@ -2199,6 +2318,7 @@
         <definition>void rr::CompiledExecutableModel::getIds</definition>
         <argsstring>(int types, std::list&lt; std::string &gt; &amp;ids)</argsstring>
         <name>getIds</name>
+        <qualifiedname>rr::CompiledExecutableModel::getIds</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a172aeacd0685bcce8153ae67718fc697">getIds</reimplements>
         <param>
           <type>int</type>
@@ -2240,6 +2360,7 @@
         <definition>int rr::CompiledExecutableModel::getSupportedIdTypes</definition>
         <argsstring>()</argsstring>
         <name>getSupportedIdTypes</name>
+        <qualifiedname>rr::CompiledExecutableModel::getSupportedIdTypes</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a200b81cd9a7f1f9a6b3af6a35fcc4c63">getSupportedIdTypes</reimplements>
         <briefdescription>
 <para>returns a bit field of the ids that this class supports. </para>
@@ -2255,6 +2376,7 @@
         <definition>double rr::CompiledExecutableModel::getValue</definition>
         <argsstring>(const std::string &amp;id)</argsstring>
         <name>getValue</name>
+        <qualifiedname>rr::CompiledExecutableModel::getValue</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1aebaced13ef2afd070d7a1c35eec8d9f2">getValue</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -2275,6 +2397,7 @@
         <definition>void rr::CompiledExecutableModel::setValue</definition>
         <argsstring>(const std::string &amp;id, double value)</argsstring>
         <name>setValue</name>
+        <qualifiedname>rr::CompiledExecutableModel::setValue</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1ac98de72b8f4f43bc6b93b191852702b5">setValue</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -2298,6 +2421,7 @@
         <definition>int rr::CompiledExecutableModel::getEventDelays</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getEventDelays</name>
+        <qualifiedname>rr::CompiledExecutableModel::getEventDelays</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -2323,6 +2447,7 @@
         <definition>int rr::CompiledExecutableModel::getEventPriorities</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getEventPriorities</name>
+        <qualifiedname>rr::CompiledExecutableModel::getEventPriorities</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -2348,6 +2473,7 @@
         <definition>void rr::CompiledExecutableModel::eventAssignment</definition>
         <argsstring>(int eventId)</argsstring>
         <name>eventAssignment</name>
+        <qualifiedname>rr::CompiledExecutableModel::eventAssignment</qualifiedname>
         <param>
           <type>int</type>
           <declname>eventId</declname>
@@ -2365,6 +2491,7 @@
         <definition>double * rr::CompiledExecutableModel::evalEventAssignment</definition>
         <argsstring>(int eventId)</argsstring>
         <name>evalEventAssignment</name>
+        <qualifiedname>rr::CompiledExecutableModel::evalEventAssignment</qualifiedname>
         <param>
           <type>int</type>
           <declname>eventId</declname>
@@ -2382,6 +2509,7 @@
         <definition>void rr::CompiledExecutableModel::applyEventAssignment</definition>
         <argsstring>(int eventId, double *values)</argsstring>
         <name>applyEventAssignment</name>
+        <qualifiedname>rr::CompiledExecutableModel::applyEventAssignment</qualifiedname>
         <param>
           <type>int</type>
           <declname>eventId</declname>
@@ -2403,6 +2531,7 @@
         <definition>int rr::CompiledExecutableModel::getEventTriggers</definition>
         <argsstring>(int len, const int *indx, unsigned char *values)</argsstring>
         <name>getEventTriggers</name>
+        <qualifiedname>rr::CompiledExecutableModel::getEventTriggers</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -2428,6 +2557,7 @@
         <definition>int rr::CompiledExecutableModel::getNumConservedMoieties</definition>
         <argsstring>()</argsstring>
         <name>getNumConservedMoieties</name>
+        <qualifiedname>rr::CompiledExecutableModel::getNumConservedMoieties</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1ab4927aa2d8bf20c59b75a568757d369b">getNumConservedMoieties</reimplements>
         <briefdescription>
         </briefdescription>
@@ -2442,6 +2572,7 @@
         <definition>int rr::CompiledExecutableModel::getConservedMoietyIndex</definition>
         <argsstring>(const std::string &amp;name)</argsstring>
         <name>getConservedMoietyIndex</name>
+        <qualifiedname>rr::CompiledExecutableModel::getConservedMoietyIndex</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1afb584e140ba5ef19865d0256d275e538">getConservedMoietyIndex</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -2460,6 +2591,7 @@
         <definition>std::string rr::CompiledExecutableModel::getConservedMoietyId</definition>
         <argsstring>(int index)</argsstring>
         <name>getConservedMoietyId</name>
+        <qualifiedname>rr::CompiledExecutableModel::getConservedMoietyId</qualifiedname>
         <param>
           <type>int</type>
           <declname>index</declname>
@@ -2477,6 +2609,7 @@
         <definition>int rr::CompiledExecutableModel::getConservedMoietyValues</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getConservedMoietyValues</name>
+        <qualifiedname>rr::CompiledExecutableModel::getConservedMoietyValues</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -2502,6 +2635,7 @@
         <definition>int rr::CompiledExecutableModel::setConservedMoietyValues</definition>
         <argsstring>(int len, int const *indx, const double *values)</argsstring>
         <name>setConservedMoietyValues</name>
+        <qualifiedname>rr::CompiledExecutableModel::setConservedMoietyValues</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -2527,6 +2661,7 @@
         <definition>int rr::CompiledExecutableModel::setCompartmentVolumes</definition>
         <argsstring>(int len, int const *indx, const double *values)</argsstring>
         <name>setCompartmentVolumes</name>
+        <qualifiedname>rr::CompiledExecutableModel::setCompartmentVolumes</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -2552,6 +2687,7 @@
         <definition>int rr::CompiledExecutableModel::setFloatingSpeciesInitConcentrations</definition>
         <argsstring>(int len, int const *indx, double const *values)</argsstring>
         <name>setFloatingSpeciesInitConcentrations</name>
+        <qualifiedname>rr::CompiledExecutableModel::setFloatingSpeciesInitConcentrations</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -2577,6 +2713,7 @@
         <definition>int rr::CompiledExecutableModel::getFloatingSpeciesInitConcentrations</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getFloatingSpeciesInitConcentrations</name>
+        <qualifiedname>rr::CompiledExecutableModel::getFloatingSpeciesInitConcentrations</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -2602,6 +2739,7 @@
         <definition>double rr::CompiledExecutableModel::getStoichiometry</definition>
         <argsstring>(int speciesIndex, int reactionIndex)</argsstring>
         <name>getStoichiometry</name>
+        <qualifiedname>rr::CompiledExecutableModel::getStoichiometry</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1af9f7809b903426c14942b01a8e24a2b7">getStoichiometry</reimplements>
         <param>
           <type>int</type>
@@ -2626,6 +2764,7 @@
         <definition>int rr::CompiledExecutableModel::getStoichiometryMatrix</definition>
         <argsstring>(int *rows, int *cols, double **data)</argsstring>
         <name>getStoichiometryMatrix</name>
+        <qualifiedname>rr::CompiledExecutableModel::getStoichiometryMatrix</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a2aacbf75ac32b2b188f7850cd48b8f71">getStoichiometryMatrix</reimplements>
         <param>
           <type>int *</type>
@@ -2680,6 +2819,7 @@
         <definition>double rr::CompiledExecutableModel::getFloatingSpeciesConcentration</definition>
         <argsstring>(int index)</argsstring>
         <name>getFloatingSpeciesConcentration</name>
+        <qualifiedname>rr::CompiledExecutableModel::getFloatingSpeciesConcentration</qualifiedname>
         <param>
           <type>int</type>
           <declname>index</declname>
@@ -2697,6 +2837,7 @@
         <definition>bool rr::CompiledExecutableModel::setupModelData</definition>
         <argsstring>()</argsstring>
         <name>setupModelData</name>
+        <qualifiedname>rr::CompiledExecutableModel::setupModelData</qualifiedname>
         <briefdescription>
 <para>initialize and allocate space for the ModelData buffers. </para>
         </briefdescription>
@@ -2711,6 +2852,7 @@
         <definition>bool rr::CompiledExecutableModel::setupDLLFunctions</definition>
         <argsstring>()</argsstring>
         <name>setupDLLFunctions</name>
+        <qualifiedname>rr::CompiledExecutableModel::setupDLLFunctions</qualifiedname>
         <briefdescription>
 <para>setup the function pointer variables to point to the C functions in the loaded shared library. </para>
         </briefdescription>
@@ -2725,6 +2867,7 @@
         <definition>std::vector&lt; int &gt; rr::CompiledExecutableModel::retestEvents</definition>
         <argsstring>(const double &amp;timeEnd, const std::vector&lt; int &gt; &amp;handledEvents, std::vector&lt; int &gt; &amp;removeEvents)</argsstring>
         <name>retestEvents</name>
+        <qualifiedname>rr::CompiledExecutableModel::retestEvents</qualifiedname>
         <param>
           <type>const double &amp;</type>
           <declname>timeEnd</declname>
@@ -2750,6 +2893,7 @@
         <definition>std::vector&lt; int &gt; rr::CompiledExecutableModel::retestEvents</definition>
         <argsstring>(const double &amp;timeEnd, std::vector&lt; int &gt; &amp;handledEvents, const bool &amp;assignOldState)</argsstring>
         <name>retestEvents</name>
+        <qualifiedname>rr::CompiledExecutableModel::retestEvents</qualifiedname>
         <param>
           <type>const double &amp;</type>
           <declname>timeEnd</declname>
@@ -2775,6 +2919,7 @@
         <definition>std::vector&lt; int &gt; rr::CompiledExecutableModel::retestEvents</definition>
         <argsstring>(const double &amp;timeEnd, const std::vector&lt; int &gt; &amp;handledEvents, const bool &amp;assignOldState, std::vector&lt; int &gt; &amp;removeEvents)</argsstring>
         <name>retestEvents</name>
+        <qualifiedname>rr::CompiledExecutableModel::retestEvents</qualifiedname>
         <param>
           <type>const double &amp;</type>
           <declname>timeEnd</declname>
@@ -2804,6 +2949,7 @@
         <definition>int rr::CompiledExecutableModel::applyPendingEvents</definition>
         <argsstring>(double timeEnd)</argsstring>
         <name>applyPendingEvents</name>
+        <qualifiedname>rr::CompiledExecutableModel::applyPendingEvents</qualifiedname>
         <param>
           <type>double</type>
           <declname>timeEnd</declname>
@@ -2821,6 +2967,7 @@
         <definition>int rr::CompiledExecutableModel::applyEvents</definition>
         <argsstring>(double timeEnd, const unsigned char *previousEventStatus, const double *initialState, double *finalState)</argsstring>
         <name>applyEvents</name>
+        <qualifiedname>rr::CompiledExecutableModel::applyEvents</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1ae30181bdbfd3e4fedc2dedcf988ecb95">applyEvents</reimplements>
         <param>
           <type>double</type>
@@ -2887,6 +3034,7 @@
         <definition>void rr::CompiledExecutableModel::getEventRoots</definition>
         <argsstring>(double time, const double *y, double *gdot)</argsstring>
         <name>getEventRoots</name>
+        <qualifiedname>rr::CompiledExecutableModel::getEventRoots</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a2c4d631f32873d4d98d613add078d9b3">getEventRoots</reimplements>
         <param>
           <type>double</type>
@@ -2941,6 +3089,7 @@
         <definition>double rr::CompiledExecutableModel::getNextPendingEventTime</definition>
         <argsstring>(bool pop)</argsstring>
         <name>getNextPendingEventTime</name>
+        <qualifiedname>rr::CompiledExecutableModel::getNextPendingEventTime</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1ad80b6a7167b0a78364dc680475ab2e3c">getNextPendingEventTime</reimplements>
         <param>
           <type>bool</type>
@@ -2959,6 +3108,7 @@
         <definition>int rr::CompiledExecutableModel::getPendingEventSize</definition>
         <argsstring>()</argsstring>
         <name>getPendingEventSize</name>
+        <qualifiedname>rr::CompiledExecutableModel::getPendingEventSize</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a9875c1203e09d4d51c29fdb2318f9a4c">getPendingEventSize</reimplements>
         <briefdescription>
         </briefdescription>
@@ -2973,6 +3123,7 @@
         <definition>void rr::CompiledExecutableModel::removePendingAssignmentForIndex</definition>
         <argsstring>(int eventIndex)</argsstring>
         <name>removePendingAssignmentForIndex</name>
+        <qualifiedname>rr::CompiledExecutableModel::removePendingAssignmentForIndex</qualifiedname>
         <param>
           <type>int</type>
           <declname>eventIndex</declname>
@@ -2990,6 +3141,7 @@
         <definition>void rr::CompiledExecutableModel::sortEventsByPriority</definition>
         <argsstring>(std::vector&lt; Event &gt; &amp;firedEvents)</argsstring>
         <name>sortEventsByPriority</name>
+        <qualifiedname>rr::CompiledExecutableModel::sortEventsByPriority</qualifiedname>
         <param>
           <type>std::vector&lt; <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &gt; &amp;</type>
           <declname>firedEvents</declname>
@@ -3007,6 +3159,7 @@
         <definition>void rr::CompiledExecutableModel::sortEventsByPriority</definition>
         <argsstring>(std::vector&lt; int &gt; &amp;firedEvents)</argsstring>
         <name>sortEventsByPriority</name>
+        <qualifiedname>rr::CompiledExecutableModel::sortEventsByPriority</qualifiedname>
         <param>
           <type>std::vector&lt; int &gt; &amp;</type>
           <declname>firedEvents</declname>
@@ -3024,6 +3177,7 @@
         <definition>int rr::CompiledExecutableModel::setFloatingSpeciesInitAmounts</definition>
         <argsstring>(int len, int const *indx, double const *values)</argsstring>
         <name>setFloatingSpeciesInitAmounts</name>
+        <qualifiedname>rr::CompiledExecutableModel::setFloatingSpeciesInitAmounts</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -3049,6 +3203,7 @@
         <definition>int rr::CompiledExecutableModel::getFloatingSpeciesInitAmounts</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getFloatingSpeciesInitAmounts</name>
+        <qualifiedname>rr::CompiledExecutableModel::getFloatingSpeciesInitAmounts</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -3074,6 +3229,7 @@
         <definition>int rr::CompiledExecutableModel::setCompartmentInitVolumes</definition>
         <argsstring>(int len, int const *indx, double const *values)</argsstring>
         <name>setCompartmentInitVolumes</name>
+        <qualifiedname>rr::CompiledExecutableModel::setCompartmentInitVolumes</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -3099,6 +3255,7 @@
         <definition>int rr::CompiledExecutableModel::getCompartmentInitVolumes</definition>
         <argsstring>(int len, int const *indx, double *values)</argsstring>
         <name>getCompartmentInitVolumes</name>
+        <qualifiedname>rr::CompiledExecutableModel::getCompartmentInitVolumes</qualifiedname>
         <param>
           <type>int</type>
           <declname>len</declname>
@@ -3124,6 +3281,7 @@
         <definition>int rr::CompiledExecutableModel::getEventIndex</definition>
         <argsstring>(const std::string &amp;)</argsstring>
         <name>getEventIndex</name>
+        <qualifiedname>rr::CompiledExecutableModel::getEventIndex</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1ae9b3e5baef45072822f9ccaf9d13ffa8">getEventIndex</reimplements>
         <param>
           <type>const std::string &amp;</type>
@@ -3144,6 +3302,7 @@
         <definition>std::string rr::CompiledExecutableModel::getEventId</definition>
         <argsstring>(int)</argsstring>
         <name>getEventId</name>
+        <qualifiedname>rr::CompiledExecutableModel::getEventId</qualifiedname>
         <param>
           <type>int</type>
         </param>
@@ -3160,6 +3319,7 @@
         <definition>void rr::CompiledExecutableModel::setEventListener</definition>
         <argsstring>(int, rr::EventListenerPtr)</argsstring>
         <name>setEventListener</name>
+        <qualifiedname>rr::CompiledExecutableModel::setEventListener</qualifiedname>
         <param>
           <type>int</type>
         </param>
@@ -3179,6 +3339,7 @@
         <definition>EventListenerPtr rr::CompiledExecutableModel::getEventListener</definition>
         <argsstring>(int)</argsstring>
         <name>getEventListener</name>
+        <qualifiedname>rr::CompiledExecutableModel::getEventListener</qualifiedname>
         <param>
           <type>int</type>
         </param>
@@ -3195,6 +3356,7 @@
         <definition>double rr::CompiledExecutableModel::getFloatingSpeciesAmountRate</definition>
         <argsstring>(int index, const double *reactionRates)</argsstring>
         <name>getFloatingSpeciesAmountRate</name>
+        <qualifiedname>rr::CompiledExecutableModel::getFloatingSpeciesAmountRate</qualifiedname>
         <param>
           <type>int</type>
           <declname>index</declname>
@@ -3216,6 +3378,7 @@
         <definition>void rr::CompiledExecutableModel::setRandomSeed</definition>
         <argsstring>(int64_t)</argsstring>
         <name>setRandomSeed</name>
+        <qualifiedname>rr::CompiledExecutableModel::setRandomSeed</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1aa5b4c23527fab27a54ac279de045c735">setRandomSeed</reimplements>
         <param>
           <type>int64_t</type>
@@ -3235,6 +3398,7 @@
         <definition>int64_t rr::CompiledExecutableModel::getRandomSeed</definition>
         <argsstring>()</argsstring>
         <name>getRandomSeed</name>
+        <qualifiedname>rr::CompiledExecutableModel::getRandomSeed</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a7a543cc2ccca4130d26c871308fa2b4d">getRandomSeed</reimplements>
         <briefdescription>
 <para>get the seed used by the RNG. </para>
@@ -3250,6 +3414,7 @@
         <definition>double rr::CompiledExecutableModel::getRandom</definition>
         <argsstring>()</argsstring>
         <name>getRandom</name>
+        <qualifiedname>rr::CompiledExecutableModel::getRandom</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a1f69d29d4291440935ed41122ed83e7f">getRandom</reimplements>
         <briefdescription>
 <para>Get a uniform random number between 0 and 1 created by the RNG. </para>
@@ -3266,6 +3431,7 @@
         <definition>virtual uint32_t rr::CompiledExecutableModel::getFlags</definition>
         <argsstring>() const</argsstring>
         <name>getFlags</name>
+        <qualifiedname>rr::CompiledExecutableModel::getFlags</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a86c218fc4ad993ddd532a50f2918f383">getFlags</reimplements>
         <briefdescription>
 <para>Get the current set of flags. </para>
@@ -3281,6 +3447,7 @@
         <definition>virtual void rr::CompiledExecutableModel::setFlags</definition>
         <argsstring>(uint32_t)</argsstring>
         <name>setFlags</name>
+        <qualifiedname>rr::CompiledExecutableModel::setFlags</qualifiedname>
         <reimplements refid="classrr_1_1ExecutableModel_1a3474ace3dd70d16662142d377bd1b5f6">setFlags</reimplements>
         <param>
           <type>uint32_t</type>
@@ -3314,11 +3481,15 @@
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="11">
-        <label>rr::SymbolList</label>
-        <link refid="classrr_1_1SymbolList"/>
-        <childnode refid="12" relation="public-inheritance">
-        </childnode>
+      <node id="12">
+        <label>SharedLibrary</label>
+      </node>
+      <node id="3">
+        <label>SModelData</label>
+        <link refid="structSModelData"/>
+      </node>
+      <node id="13">
+        <label>DoubleMatrix</label>
       </node>
       <node id="1">
         <label>rr::CompiledExecutableModel</label>
@@ -3326,15 +3497,6 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
         <childnode refid="3" relation="usage">
-          <edgelabel>stoichiometryMatrix</edgelabel>
-        </childnode>
-        <childnode refid="4" relation="usage">
-          <edgelabel>mDLL</edgelabel>
-        </childnode>
-        <childnode refid="7" relation="usage">
-          <edgelabel>ms</edgelabel>
-        </childnode>
-        <childnode refid="13" relation="usage">
           <edgelabel>cAssignRates_b</edgelabel>
           <edgelabel>cGetCurrentValues</edgelabel>
           <edgelabel>cInitModel</edgelabel>
@@ -3347,20 +3509,47 @@
           <edgelabel>csetConcentration</edgelabel>
           <edgelabel>...</edgelabel>
         </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>ms</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>mDLL</edgelabel>
+        </childnode>
+        <childnode refid="13" relation="usage">
+          <edgelabel>stoichiometryMatrix</edgelabel>
+        </childnode>
       </node>
-      <node id="7">
+      <node id="2">
+        <label>rr::ExecutableModel</label>
+        <link refid="classrr_1_1ExecutableModel"/>
+      </node>
+      <node id="8">
+        <label>rr::IntStringHashTable</label>
+        <link refid="classrr_1_1IntStringHashTable"/>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>rr::ModelSharedLibrary</label>
+        <link refid="classrr_1_1ModelSharedLibrary"/>
+        <childnode refid="11" relation="usage">
+          <edgelabel>mLibName</edgelabel>
+          <edgelabel>mPathToLib</edgelabel>
+        </childnode>
+        <childnode refid="12" relation="usage">
+          <edgelabel>mTheLib</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
         <label>rr::ModelSymbols</label>
         <link refid="classrr_1_1ModelSymbols"/>
-        <childnode refid="8" relation="usage">
+        <childnode refid="5" relation="usage">
           <edgelabel>mDependentSpeciesList</edgelabel>
           <edgelabel>mFunctionNames</edgelabel>
           <edgelabel>mFunctionParameters</edgelabel>
           <edgelabel>mIndependentSpeciesList</edgelabel>
         </childnode>
-        <childnode refid="9" relation="usage">
-          <edgelabel>mRateRules</edgelabel>
-        </childnode>
-        <childnode refid="11" relation="usage">
+        <childnode refid="6" relation="usage">
           <edgelabel>mBoundarySpeciesList</edgelabel>
           <edgelabel>mCompartmentList</edgelabel>
           <edgelabel>mConservationList</edgelabel>
@@ -3369,50 +3558,28 @@
           <edgelabel>mModifiableSpeciesReferenceList</edgelabel>
           <edgelabel>mReactionList</edgelabel>
         </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>mRateRules</edgelabel>
+        </childnode>
       </node>
       <node id="5">
-        <label>string</label>
-      </node>
-      <node id="10">
-        <label>std::map&lt; int, std::string &gt;</label>
-      </node>
-      <node id="6">
-        <label>SharedLibrary</label>
-      </node>
-      <node id="9">
-        <label>rr::IntStringHashTable</label>
-        <link refid="classrr_1_1IntStringHashTable"/>
-        <childnode refid="10" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="13">
-        <label>SModelData</label>
-        <link refid="structSModelData"/>
-      </node>
-      <node id="3">
-        <label>DoubleMatrix</label>
-      </node>
-      <node id="12">
-        <label>std::vector&lt; Symbol &gt;</label>
-      </node>
-      <node id="4">
-        <label>rr::ModelSharedLibrary</label>
-        <link refid="classrr_1_1ModelSharedLibrary"/>
-        <childnode refid="5" relation="usage">
-          <edgelabel>mLibName</edgelabel>
-          <edgelabel>mPathToLib</edgelabel>
-        </childnode>
-        <childnode refid="6" relation="usage">
-          <edgelabel>mTheLib</edgelabel>
-        </childnode>
-      </node>
-      <node id="8">
         <label>rr::StringList</label>
         <link refid="classrr_1_1StringList"/>
       </node>
-      <node id="2">
-        <label>rr::ExecutableModel</label>
-        <link refid="classrr_1_1ExecutableModel"/>
+      <node id="6">
+        <label>rr::SymbolList</label>
+        <link refid="classrr_1_1SymbolList"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>std::map&lt; int, std::string &gt;</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>std::vector&lt; Symbol &gt;</label>
       </node>
     </collaborationgraph>
     <location file="c/rrCompiledExecutableModel.h" line="42" column="1" bodyfile="c/rrCompiledExecutableModel.h" bodystart="43" bodyend="524"/>
@@ -3549,7 +3716,8 @@
       <member refid="classrr_1_1CompiledExecutableModel_1a02b3938fd3ad7d20d33ed3e0b42da21a" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getRandom</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a728ba55db8c4d193990452c9303ea133" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getRandomSeed</name></member>
       <member refid="classrr_1_1ExecutableModel_1a4445b440c3be7b63e587e000af4ada17" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>getRateRuleIds</name></member>
-      <member refid="classrr_1_1ExecutableModel_1aa1d89fd7d5690de7add613f5ce75b631" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>getRateRuleSymbols</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a8a266e7c864913e6dede8c69a063adac" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getRateRuleRates</name></member>
+      <member refid="classrr_1_1ExecutableModel_1aaa7f485ab09875d5914a784d3190c8be" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>getRateRuleSymbols</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a2a820ae64f278087b85f836aef5afb32" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getRateRuleValues</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a448c9bcff065fbb2e0c12015beea16c2" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getReactionId</name></member>
       <member refid="classrr_1_1ExecutableModel_1aeb911dc90408981370c78149680d9027" prot="public" virt="pure-virtual" ambiguityscope="rr::ExecutableModel::"><scope>rr::CompiledExecutableModel</scope><name>getReactionId</name></member>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
   <compounddef id="classrr_1_1Event" kind="class" language="C++" prot="public">
     <compoundname>rr::Event</compoundname>
       <sectiondef kind="protected-attrib">
@@ -8,6 +8,7 @@
         <definition>int rr::Event::mID</definition>
         <argsstring></argsstring>
         <name>mID</name>
+        <qualifiedname>rr::Event::mID</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -21,6 +22,7 @@
         <definition>double rr::Event::mPriority</definition>
         <argsstring></argsstring>
         <name>mPriority</name>
+        <qualifiedname>rr::Event::mPriority</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -34,6 +36,7 @@
         <definition>double rr::Event::mDelay</definition>
         <argsstring></argsstring>
         <name>mDelay</name>
+        <qualifiedname>rr::Event::mDelay</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -47,6 +50,7 @@
         <definition>Random rr::Event::mRandom</definition>
         <argsstring></argsstring>
         <name>mRandom</name>
+        <qualifiedname>rr::Event::mRandom</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -62,6 +66,7 @@
         <definition>rr::Event::Event</definition>
         <argsstring>(int id, double prior=0, double delay=0)</argsstring>
         <name>Event</name>
+        <qualifiedname>rr::Event::Event</qualifiedname>
         <param>
           <type>int</type>
           <declname>id</declname>
@@ -89,6 +94,7 @@
         <definition>rrllvm::Event::Event</definition>
         <argsstring>(const Event &amp;id)</argsstring>
         <name>Event</name>
+        <qualifiedname>rr::Event::Event</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
           <declname>id</declname>
@@ -106,6 +112,7 @@
         <definition>rrllvm::Event::~Event</definition>
         <argsstring>()</argsstring>
         <name>~Event</name>
+        <qualifiedname>rr::Event::~Event</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -119,6 +126,7 @@
         <definition>double rr::Event::GetPriority</definition>
         <argsstring>() const</argsstring>
         <name>GetPriority</name>
+        <qualifiedname>rr::Event::GetPriority</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -132,6 +140,7 @@
         <definition>void rr::Event::SetPriority</definition>
         <argsstring>(double prior)</argsstring>
         <name>SetPriority</name>
+        <qualifiedname>rr::Event::SetPriority</qualifiedname>
         <param>
           <type>double</type>
           <declname>prior</declname>
@@ -149,6 +158,7 @@
         <definition>int rr::Event::GetID</definition>
         <argsstring>() const</argsstring>
         <name>GetID</name>
+        <qualifiedname>rr::Event::GetID</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -162,6 +172,7 @@
         <definition>Event &amp; rrllvm::Event::operator=</definition>
         <argsstring>(const Event &amp;rhs)</argsstring>
         <name>operator=</name>
+        <qualifiedname>rr::Event::operator=</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
           <declname>rhs</declname>
@@ -181,6 +192,7 @@
         <definition>bool operator&lt;</definition>
         <argsstring>(const Event &amp;e1, const Event &amp;e2)</argsstring>
         <name>operator&lt;</name>
+        <qualifiedname>rr::Event::operator&lt;</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
           <declname>e1</declname>
@@ -202,6 +214,7 @@
         <definition>bool operator==</definition>
         <argsstring>(const Event &amp;e1, const Event &amp;e2)</argsstring>
         <name>operator==</name>
+        <qualifiedname>rr::Event::operator==</qualifiedname>
         <param>
           <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
           <declname>e1</declname>
@@ -224,16 +237,16 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="2">
-        <label>rr::Random</label>
-        <link refid="classrr_1_1Random"/>
-      </node>
       <node id="1">
         <label>rr::Event</label>
         <link refid="classrr_1_1Event"/>
         <childnode refid="2" relation="usage">
           <edgelabel>mRandom</edgelabel>
         </childnode>
+      </node>
+      <node id="2">
+        <label>rr::Random</label>
+        <link refid="classrr_1_1Random"/>
       </node>
     </collaborationgraph>
     <location file="c/rrEvent.h" line="11" column="1" bodyfile="c/rrEvent.h" bodystart="12" bodyend="31"/>

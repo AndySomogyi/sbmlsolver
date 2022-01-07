@@ -134,6 +134,24 @@ static bool is_concentration(const std::string& str, std::string& p1)
     }
 }
 
+static const Poco::RegularExpression is_concentration_rate_re("^\\s*\\[\\s*(\\w*)\\s*\\]\\'\\s*$", RegularExpression::RE_CASELESS);
+static bool is_concentration_rate(const std::string& str, std::string& p1)
+{
+    std::vector<std::string> matches;
+
+    int nmatch = is_concentration_rate_re.split(str, matches);
+
+    if (nmatch == 2)
+    {
+        p1 = matches[1];
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 static const Poco::RegularExpression is_symbol_re("^\\s*(\\w*)\\s*$", RegularExpression::RE_CASELESS);
 static bool is_symbol(const std::string& str, std::string& p1)
 {
@@ -261,7 +279,7 @@ std::ostream& operator<<(std::ostream& stream, const SelectionRecord& rec)
     stream << "A Selection Record --" << std::endl;
     stream << "Index: " << rec.index << std::endl;
     stream << "p1: " << rec.p1 << std::endl;
-    stream << "p2: " << rec.p1 << std::endl;
+    stream << "p2: " << rec.p2 << std::endl;
     stream << "SelectionType: " << rec.selectionType << std::endl;
     return stream;
 }
@@ -332,6 +350,10 @@ rr::SelectionRecord::SelectionRecord(const std::string str) :
     {
         selectionType = UNKNOWN_CONCENTRATION;
     }
+    else if (is_concentration_rate(str, p1))
+    {
+        selectionType = FLOATING_CONCENTRATION_RATE;
+    }
     else if(is_amount_rate(str, p1))
     {
         selectionType = FLOATING_AMOUNT_RATE;
@@ -382,8 +404,12 @@ std::string rr::SelectionRecord::to_string() const
     case UNKNOWN_CONCENTRATION:
         result = "[" + p1 + "]";
         break;
+    case FLOATING_CONCENTRATION_RATE:
+        result = "[" + p1 + "]'";
+        break;
     case FLOATING_AMOUNT_RATE:
     case GLOBAL_PARAMETER_RATE:
+    case COMPARTMENT_RATE:
         result = p1 + "'";
         break;
     case COMPARTMENT:
@@ -395,7 +421,7 @@ std::string rr::SelectionRecord::to_string() const
         result = p1;
         break;
     case ELASTICITY:
-        result = "ec(" + p1 + ", " + p1 + ")";
+        result = "ec(" + p1 + ", " + p2 + ")";
         break;
     case UNSCALED_ELASTICITY:
         result = "uec(" + p1 + ", " + p2 + ")";
@@ -416,9 +442,15 @@ std::string rr::SelectionRecord::to_string() const
         result = "eigenImag(" + p1 + ")";
         break;
     case INITIAL_AMOUNT:
+    case INITIAL_FLOATING_AMOUNT:
+    case INITIAL_BOUNDARY_AMOUNT:
+    case INITIAL_GLOBAL_PARAMETER:
+    case INITIAL_COMPARTMENT:
         result = "init(" + p1 + ")";
         break;
     case INITIAL_CONCENTRATION:
+    case INITIAL_FLOATING_CONCENTRATION:
+    case INITIAL_BOUNDARY_CONCENTRATION:
         result = "init([" + p1 + "])";
         break;
     case STOICHIOMETRY:
@@ -426,9 +458,6 @@ std::string rr::SelectionRecord::to_string() const
         break;
     case UNKNOWN:
         result = "UNKNOWN";
-        break;
-    case INITIAL_GLOBAL_PARAMETER:
-        result = "init(" + p1 + ")";
         break;
     default:
         result = "ERROR";

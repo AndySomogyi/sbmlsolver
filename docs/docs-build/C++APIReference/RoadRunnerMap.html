@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RoadRunnerMap &mdash; libRoadRunner 1.1.16 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> libRoadRunner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic.html">Stochastic Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../metabolic.html">Metabolic Control Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stability.html">Stability Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">The LibRoadRunner C++ Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers_docs/index.html">Developers Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libRoadRunner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>RoadRunnerMap</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/C++APIReference/RoadRunnerMap.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="roadrunnermap">
+<h1>RoadRunnerMap<a class="headerlink" href="#roadrunnermap" title="Permalink to this headline"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMapE">
+<span id="_CPPv3N2rr13RoadRunnerMapE"></span><span id="_CPPv2N2rr13RoadRunnerMapE"></span><span id="rr::RoadRunnerMap"></span><span class="target" id="classrr_1_1RoadRunnerMap"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">RoadRunnerMap</span></span></span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMapE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Hash table designed for storing <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> models. </p>
+<p>Expensive operations like building models are done in parallel.</p>
+<p>Loading <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> models requires expensive builds, which can be prohibitive when loading many models. <a class="reference internal" href="#classrr_1_1RoadRunnerMap"><span class="std std-ref">RoadRunnerMap</span></a> is a container for <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> objects which abstracts the process of loading or simulating in parallel. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap13RoadRunnerMapEv">
+<span id="_CPPv3N2rr13RoadRunnerMap13RoadRunnerMapEv"></span><span id="_CPPv2N2rr13RoadRunnerMap13RoadRunnerMapEv"></span><span id="rr::RoadRunnerMap::RoadRunnerMap"></span><span class="target" id="classrr_1_1RoadRunnerMap_1abddb9c2088301dbd735518c8f44e9cf3"></span><span class="sig-name descname"><span class="n"><span class="pre">RoadRunnerMap</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap13RoadRunnerMapEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Default construct a <a class="reference internal" href="#classrr_1_1RoadRunnerMap"><span class="std std-ref">RoadRunnerMap</span></a>. </p>
+<p>The default number of threads is 1, which can be changed with <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ad81f2df7069d3e6cf9fe7d9f2246711c"><span class="std std-ref">RoadRunnerMap::setNumThreads</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap13RoadRunnerMapERKNSt6vectorINSt6stringEEEj">
+<span id="_CPPv3N2rr13RoadRunnerMap13RoadRunnerMapERKNSt6vectorINSt6stringEEEj"></span><span id="_CPPv2N2rr13RoadRunnerMap13RoadRunnerMapERKNSt6vectorINSt6stringEEEj"></span><span id="rr::RoadRunnerMap::RoadRunnerMap__std::vector:ss:CR.unsigned-i"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a573a1b64126cd3250e8719c9cb5e766c"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RoadRunnerMap</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sbmlStringsOrFiles</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">numThreads</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap13RoadRunnerMapERKNSt6vectorINSt6stringEEEj" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Instantiate a <a class="reference internal" href="#classrr_1_1RoadRunnerMap"><span class="std std-ref">RoadRunnerMap</span></a> from a. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sbmlStringsOrFiles</strong> – vector of sbml files, sbml strings or a mix thereof. </p></li>
+<li><p><strong>numThreads</strong> – How many threads to use, if 1, the overhead of setting up multithreading pool is avoided. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr13RoadRunnerMap7getKeysEv">
+<span id="_CPPv3NK2rr13RoadRunnerMap7getKeysEv"></span><span id="_CPPv2NK2rr13RoadRunnerMap7getKeysEv"></span><span id="rr::RoadRunnerMap::getKeysC"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a04c55065dea70d20cd142bb44aa955e7"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getKeys</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr13RoadRunnerMap7getKeysEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the keys of the map in order of insertion. </p>
+<p>Does a linear search over hashmap to build a vector of keys O(N). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr13RoadRunnerMap9getValuesEv">
+<span id="_CPPv3NK2rr13RoadRunnerMap9getValuesEv"></span><span id="_CPPv2NK2rr13RoadRunnerMap9getValuesEv"></span><span id="rr::RoadRunnerMap::getValuesC"></span><span class="target" id="classrr_1_1RoadRunnerMap_1aaf51a8e379e9ce9573a3675616b42e1f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="rrRoadRunner.html#_CPPv4N2rr10RoadRunnerE" title="rr::RoadRunner"><span class="n"><span class="pre">RoadRunner</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getValues</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr13RoadRunnerMap9getValuesEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>return values of the map as a RoadRunnervector. </p>
+<p>the RoadRunner* instances are still owned by the <a class="reference internal" href="#classrr_1_1RoadRunnerMap"><span class="std std-ref">RoadRunnerMap</span></a> Linear complexity in the size of the map. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr13RoadRunnerMap8getItemsEv">
+<span id="_CPPv3NK2rr13RoadRunnerMap8getItemsEv"></span><span id="_CPPv2NK2rr13RoadRunnerMap8getItemsEv"></span><span id="rr::RoadRunnerMap::getItemsC"></span><span class="target" id="classrr_1_1RoadRunnerMap_1ae59ca74069ba95baadeeedfbc48995e8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="rrRoadRunner.html#_CPPv4N2rr10RoadRunnerE" title="rr::RoadRunner"><span class="n"><span class="pre">RoadRunner</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getItems</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr13RoadRunnerMap8getItemsEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>get items of this map as vector of std::pair&lt;std::string, RoadRuner*&gt; types. </p>
+<p>pointers are owned by the <a class="reference internal" href="#classrr_1_1RoadRunnerMap"><span class="std std-ref">RoadRunnerMap</span></a>  so do not delete. O(N). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap6insertENSt10unique_ptrI10RoadRunnerEE">
+<span id="_CPPv3N2rr13RoadRunnerMap6insertENSt10unique_ptrI10RoadRunnerEE"></span><span id="_CPPv2N2rr13RoadRunnerMap6insertENSt10unique_ptrI10RoadRunnerEE"></span><span id="rr::RoadRunnerMap::insert__std::unique_ptr:RoadRunner:"></span><span class="target" id="classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">insert</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="rrRoadRunner.html#_CPPv4N2rr10RoadRunnerE" title="rr::RoadRunner"><span class="n"><span class="pre">RoadRunner</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">roadRunner</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap6insertENSt10unique_ptrI10RoadRunnerEE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Insert a. </p>
+<p>
+The model must already be a unique pointer. The key for accessing the map will be the model name. Loading another model with the same name will overwrite the original. <dl class="simple">
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"><span class="std std-ref">insert(const std::string &amp;key, std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"><span class="std std-ref">insert(const std::string &amp;sbmlOrFile)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"><span class="std std-ref">insert(const std::string &amp;key, const std::string &amp;sbmlOrFile)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"><span class="std std-ref">insert(const std::vector&lt;std::string&gt; &amp;sbmlStringsOrFiles)</span></a>; </p>
+</dd>
+</dl>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>roadRunner</strong> – roadrunner model into the map.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap6insertERKNSt6stringENSt10unique_ptrI10RoadRunnerEE">
+<span id="_CPPv3N2rr13RoadRunnerMap6insertERKNSt6stringENSt10unique_ptrI10RoadRunnerEE"></span><span id="_CPPv2N2rr13RoadRunnerMap6insertERKNSt6stringENSt10unique_ptrI10RoadRunnerEE"></span><span id="rr::RoadRunnerMap::insert__ssCR.std::unique_ptr:RoadRunner:"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">insert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="rrRoadRunner.html#_CPPv4N2rr10RoadRunnerE" title="rr::RoadRunner"><span class="n"><span class="pre">RoadRunner</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">roadRunner</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap6insertERKNSt6stringENSt10unique_ptrI10RoadRunnerEE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>The same as the std::unique_ptr&lt;RoadRunner&gt; overload but with a user provided key. </p>
+<p><dl class="simple">
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"><span class="std std-ref">insert(std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"><span class="std std-ref">insert(const std::string &amp;sbmlOrFile)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"><span class="std std-ref">insert(const std::string &amp;key, const std::string &amp;sbmlOrFile)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"><span class="std std-ref">insert(const std::vector&lt;std::string&gt; &amp;sbmlStringsOrFiles)</span></a>; </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap6insertERKNSt6stringE">
+<span id="_CPPv3N2rr13RoadRunnerMap6insertERKNSt6stringE"></span><span id="_CPPv2N2rr13RoadRunnerMap6insertERKNSt6stringE"></span><span id="rr::RoadRunnerMap::insert__ssCR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">insert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sbmlOrFile</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap6insertERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>insert a roadrunner model into the map using the model name as key. </p>
+<p><dl class="simple">
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"><span class="std std-ref">insert(std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"><span class="std std-ref">insert(const std::string &amp;key, std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"><span class="std std-ref">insert(const std::string &amp;key, const std::string &amp;sbmlOrFile)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"><span class="std std-ref">insert(const std::vector&lt;std::string&gt; &amp;sbmlStringsOrFiles)</span></a>; </p>
+</dd>
+</dl>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sbmlOrFile</strong> – either a sbml string or a valid file path to a sbml file. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap6insertERKNSt6stringERKNSt6stringE">
+<span id="_CPPv3N2rr13RoadRunnerMap6insertERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N2rr13RoadRunnerMap6insertERKNSt6stringERKNSt6stringE"></span><span id="rr::RoadRunnerMap::insert__ssCR.ssCR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">insert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sbmlOrFile</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap6insertERKNSt6stringERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>insert a roadrunner model into the map using a user define key. </p>
+<p><dl class="simple">
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"><span class="std std-ref">insert(std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"><span class="std std-ref">insert(const std::string &amp;key, std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"><span class="std std-ref">insert(const std::string &amp;sbmlOrFile)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"><span class="std std-ref">insert(const std::vector&lt;std::string&gt; &amp;sbmlStringsOrFiles)</span></a>; </p>
+</dd>
+</dl>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – The string to use for the key to the roadrunner model you are inserting. </p></li>
+<li><p><strong>sbmlOrFile</strong> – either a sbml string or a valid file path to a sbml file. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap6insertERKNSt6vectorINSt6stringEEE">
+<span id="_CPPv3N2rr13RoadRunnerMap6insertERKNSt6vectorINSt6stringEEE"></span><span id="_CPPv2N2rr13RoadRunnerMap6insertERKNSt6vectorINSt6stringEEE"></span><span id="rr::RoadRunnerMap::insert__std::vector:ss:CR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">insert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sbmlStringsOrFiles</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap6insertERKNSt6vectorINSt6stringEEE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Like the “insert(const std::string &amp;sbmlOrFile);” overload, but pass in a vector of sbml file or sbml strings. </p>
+<p><dl class="simple">
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"><span class="std std-ref">insert(std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"><span class="std std-ref">insert(const std::string &amp;key, std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"><span class="std std-ref">insert(const std::string &amp;sbmlOrFile)</span></a>; </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"><span class="std std-ref">insert(const std::string &amp;key, const std::string &amp;sbmlOrFile)</span></a>; </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap5eraseERKNSt6stringE">
+<span id="_CPPv3N2rr13RoadRunnerMap5eraseERKNSt6stringE"></span><span id="_CPPv2N2rr13RoadRunnerMap5eraseERKNSt6stringE"></span><span id="rr::RoadRunnerMap::erase__ssCR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a6d384b01fbf98397a0d475838ac5fd75"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">erase</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap5eraseERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>remove an element with </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key</strong> – from the map </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap5beginEv">
+<span id="_CPPv3N2rr13RoadRunnerMap5beginEv"></span><span id="_CPPv2N2rr13RoadRunnerMap5beginEv"></span><span id="rr::RoadRunnerMap::begin"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a34903c378ab7ac40ccc656bf4d0dac9d"></span><span class="n"><span class="pre">ThreadSafeUnorderedMap</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">iterator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">begin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap5beginEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>map iterator </p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="p">(</span><span class="n">auto</span><span class="o">&amp;</span><span class="p">[</span><span class="n">modelName</span><span class="p">,</span> <span class="n">rr</span><span class="p">]:</span> <span class="n">rrm</span><span class="p">)</span> <span class="p">{</span>
+   <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</p>
+<p>or <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="p">(</span><span class="n">auto</span><span class="o">&amp;</span> <span class="p">[</span><span class="n">modelName</span><span class="p">,</span> <span class="n">rr</span><span class="p">]</span> <span class="p">:</span> <span class="n">rrm</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">actual</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rr</span><span class="o">-&gt;</span><span class="n">getInstanceID</span><span class="p">();</span>
+    <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr13RoadRunnerMap5beginEv">
+<span id="_CPPv3NK2rr13RoadRunnerMap5beginEv"></span><span id="_CPPv2NK2rr13RoadRunnerMap5beginEv"></span><span id="rr::RoadRunnerMap::beginC"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a0fda87a87041ffddf67c427dd16f3254"></span><span class="n"><span class="pre">ThreadSafeUnorderedMap</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">const_iterator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">begin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr13RoadRunnerMap5beginEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap3endEv">
+<span id="_CPPv3N2rr13RoadRunnerMap3endEv"></span><span id="_CPPv2N2rr13RoadRunnerMap3endEv"></span><span id="rr::RoadRunnerMap::end"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a32cd8895262727088f335c25ae813e98"></span><span class="n"><span class="pre">ThreadSafeUnorderedMap</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">iterator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">end</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap3endEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="k">for</span> <span class="p">(</span><span class="n">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">rrm</span><span class="o">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">rrm</span><span class="o">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">auto</span><span class="o">&amp;</span><span class="p">[</span><span class="n">modelName</span><span class="p">,</span> <span class="n">rr</span><span class="p">]</span> <span class="o">=</span> <span class="o">*</span><span class="n">it</span><span class="p">;</span>
+    <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr13RoadRunnerMap3endEv">
+<span id="_CPPv3NK2rr13RoadRunnerMap3endEv"></span><span id="_CPPv2NK2rr13RoadRunnerMap3endEv"></span><span id="rr::RoadRunnerMap::endC"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a07ad39be64cd0c4a2c6b54f6f3183bf2"></span><span class="n"><span class="pre">ThreadSafeUnorderedMap</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">const_iterator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">end</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr13RoadRunnerMap3endEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap4findERKNSt6stringE">
+<span id="_CPPv3N2rr13RoadRunnerMap4findERKNSt6stringE"></span><span id="_CPPv2N2rr13RoadRunnerMap4findERKNSt6stringE"></span><span id="rr::RoadRunnerMap::find__ssCR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a1de37edd3f1822e61c98c200b1b4832a"></span><span class="n"><span class="pre">ThreadSafeUnorderedMap</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">iterator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">find</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap4findERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>find item with key equal to </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key.</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>iterator to item if found or end if not found </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr13RoadRunnerMap4findERKNSt6stringE">
+<span id="_CPPv3NK2rr13RoadRunnerMap4findERKNSt6stringE"></span><span id="_CPPv2NK2rr13RoadRunnerMap4findERKNSt6stringE"></span><span id="rr::RoadRunnerMap::find__ssCRC"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a02f78458e7f08a5b5607f41271bbf488"></span><span class="n"><span class="pre">ThreadSafeUnorderedMap</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">const_iterator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">find</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr13RoadRunnerMap4findERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>find item with key equal to </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key.</strong> – Const version. </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>iterator to item if found or end if not found </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr13RoadRunnerMap5emptyEv">
+<span id="_CPPv3NK2rr13RoadRunnerMap5emptyEv"></span><span id="_CPPv2NK2rr13RoadRunnerMap5emptyEv"></span><span id="rr::RoadRunnerMap::emptyC"></span><span class="target" id="classrr_1_1RoadRunnerMap_1ab6b731d13f9c513083d4ed3ad3daef37"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">empty</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr13RoadRunnerMap5emptyEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>return true if the map is empty </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr13RoadRunnerMap4sizeEv">
+<span id="_CPPv3NK2rr13RoadRunnerMap4sizeEv"></span><span id="_CPPv2NK2rr13RoadRunnerMap4sizeEv"></span><span id="rr::RoadRunnerMap::sizeC"></span><span class="target" id="classrr_1_1RoadRunnerMap_1af9fe81b21e2e159f10bae6ed7be72c50"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr13RoadRunnerMap4sizeEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>returns the number of elements in the map </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap5clearEv">
+<span id="_CPPv3N2rr13RoadRunnerMap5clearEv"></span><span id="_CPPv2N2rr13RoadRunnerMap5clearEv"></span><span id="rr::RoadRunnerMap::clear"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a03349e67a3093ab5fbd86c10df56953f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clear</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap5clearEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>empty the map so that there are 0 elements left </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMapixERKNSt6stringE">
+<span id="_CPPv3N2rr13RoadRunnerMapixERKNSt6stringE"></span><span id="_CPPv2N2rr13RoadRunnerMapixERKNSt6stringE"></span><span id="rr::RoadRunnerMap::subscript-operator__ssCR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1af4e532a36e0066b981b7a477f4fc9f67"></span><a class="reference internal" href="rrRoadRunner.html#_CPPv4N2rr10RoadRunnerE" title="rr::RoadRunner"><span class="n"><span class="pre">RoadRunner</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">[]</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMapixERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Getter operator. </p>
+<p>Returns a <em>borrowed</em> reference to a roadruner model that is owned by the <a class="reference internal" href="#classrr_1_1RoadRunnerMap"><span class="std std-ref">RoadRunnerMap</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap2atERKNSt6stringE">
+<span id="_CPPv3N2rr13RoadRunnerMap2atERKNSt6stringE"></span><span id="_CPPv2N2rr13RoadRunnerMap2atERKNSt6stringE"></span><span id="rr::RoadRunnerMap::at__ssCR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1ad3859547479a3df5e699b6ea054f85d7"></span><a class="reference internal" href="rrRoadRunner.html#_CPPv4N2rr10RoadRunnerE" title="rr::RoadRunner"><span class="n"><span class="pre">RoadRunner</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">at</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap2atERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>get borrowed reference from map for roadrunner model with key equal to </p>
+<p>
+returned pointer is owned by the <a class="reference internal" href="#classrr_1_1RoadRunnerMap"><span class="std std-ref">RoadRunnerMap</span></a> object. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key.</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr13RoadRunnerMap2atERKNSt6stringE">
+<span id="_CPPv3NK2rr13RoadRunnerMap2atERKNSt6stringE"></span><span id="_CPPv2NK2rr13RoadRunnerMap2atERKNSt6stringE"></span><span id="rr::RoadRunnerMap::at__ssCRC"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a2664990c32cf86d3bfb4c659cf805b55"></span><a class="reference internal" href="rrRoadRunner.html#_CPPv4N2rr10RoadRunnerE" title="rr::RoadRunner"><span class="n"><span class="pre">RoadRunner</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">at</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr13RoadRunnerMap2atERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap14wait_for_tasksEv">
+<span id="_CPPv3N2rr13RoadRunnerMap14wait_for_tasksEv"></span><span id="_CPPv2N2rr13RoadRunnerMap14wait_for_tasksEv"></span><span id="rr::RoadRunnerMap::wait_for_tasks"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a16ff276f7e61351ce79643831f3ee202"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wait_for_tasks</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap14wait_for_tasksEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>wait for all tasks to finish before allowing program execution to continue </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap5countERKNSt6stringE">
+<span id="_CPPv3N2rr13RoadRunnerMap5countERKNSt6stringE"></span><span id="_CPPv2N2rr13RoadRunnerMap5countERKNSt6stringE"></span><span id="rr::RoadRunnerMap::count__ssCR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a1af8de359ac7fbca433c3e249a2d9496"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">count</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap5countERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>count the number of keys with value </p>
+<p>
+Because there can be only 1 element with a particular key in the map, the return value of count is guarenteed to be either 0 for not found, or 1 for found. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key.</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap13setNumThreadsEj">
+<span id="_CPPv3N2rr13RoadRunnerMap13setNumThreadsEj"></span><span id="_CPPv2N2rr13RoadRunnerMap13setNumThreadsEj"></span><span id="rr::RoadRunnerMap::setNumThreads__unsigned-i"></span><span class="target" id="classrr_1_1RoadRunnerMap_1ad81f2df7069d3e6cf9fe7d9f2246711c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setNumThreads</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">n</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap13setNumThreadsEj" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Reset the number of threads in the pool. </p>
+<p><ul class="simple">
+<li><p>If we are asked for more than 0 threads and we have an existing thread pool, the pool will wait for current tasks to finish before resetting the pool with the new number of threads</p></li>
+<li><p>If we are asked for more than 0 threads and we do not have an existing thread pool, creates one with the requested number of threads</p></li>
+<li><p>If we are asked for 0 threads and we have an existing thread pool, the thread pool is destroyed.</p></li>
+<li><p>If we are asked for 0 threads and we do not have an existing thread pool, does nothing </p></li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr13RoadRunnerMap13getNumThreadsEv">
+<span id="_CPPv3NK2rr13RoadRunnerMap13getNumThreadsEv"></span><span id="_CPPv2NK2rr13RoadRunnerMap13getNumThreadsEv"></span><span id="rr::RoadRunnerMap::getNumThreadsC"></span><span class="target" id="classrr_1_1RoadRunnerMap_1aa35ab70a630780f570b4ac5574c18728"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumThreads</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr13RoadRunnerMap13getNumThreadsEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>get the number of threds in the thread_pool </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap12loadParallelERKNSt6vectorINSt6stringEEE">
+<span id="_CPPv3N2rr13RoadRunnerMap12loadParallelERKNSt6vectorINSt6stringEEE"></span><span id="_CPPv2N2rr13RoadRunnerMap12loadParallelERKNSt6vectorINSt6stringEEE"></span><span id="rr::RoadRunnerMap::loadParallel__std::vector:ss:CR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1af0bb98087113e3314d9b2ff07d5b7433"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">loadParallel</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sbmlFilesOrStrings</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap12loadParallelERKNSt6vectorINSt6stringEEE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Load models in parallel, using numThread_ threads. </p>
+<p>Private.</p>
+<p>Uses a thread_pool under the hood to manage workloads. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap10loadSerialERKNSt6vectorINSt6stringEEE">
+<span id="_CPPv3N2rr13RoadRunnerMap10loadSerialERKNSt6vectorINSt6stringEEE"></span><span id="_CPPv2N2rr13RoadRunnerMap10loadSerialERKNSt6vectorINSt6stringEEE"></span><span id="rr::RoadRunnerMap::loadSerial__std::vector:ss:CR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a9485439b0a71062a9acffde65e945428"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">loadSerial</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sbmlFilesOrStrings</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap10loadSerialERKNSt6vectorINSt6stringEEE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>loads models in serial, without the overhead of having thread_pool </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap11numThreads_E">
+<span id="_CPPv3N2rr13RoadRunnerMap11numThreads_E"></span><span id="_CPPv2N2rr13RoadRunnerMap11numThreads_E"></span><span id="rr::RoadRunnerMap::numThreads___unsigned-i"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a9ebf87dbc6b81daafb55740453b02cc0"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">numThreads_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap11numThreads_E" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Variable to hold the number of threads int the pool. </p>
+<p><dl class="simple">
+<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ad81f2df7069d3e6cf9fe7d9f2246711c"><span class="std std-ref">RoadRunnerMap::setNumThreads</span></a> </p>
+</dd>
+<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#classrr_1_1RoadRunnerMap_1aa35ab70a630780f570b4ac5574c18728"><span class="std std-ref">RoadRunnerMap::getNumThreads</span></a> </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap6rrMap_E">
+<span id="_CPPv3N2rr13RoadRunnerMap6rrMap_E"></span><span id="_CPPv2N2rr13RoadRunnerMap6rrMap_E"></span><span id="rr::RoadRunnerMap::rrMap___ThreadSafeUnorderedMap"></span><span class="target" id="classrr_1_1RoadRunnerMap_1af0f8c63ff09ecab72f6376b6d4fb964f"></span><span class="n"><span class="pre">ThreadSafeUnorderedMap</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rrMap_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap6rrMap_E" title="Permalink to this definition"></a><br /></dt>
+<dd><p>a map type that does all the heavy lifting in this class. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap4poolE">
+<span id="_CPPv3N2rr13RoadRunnerMap4poolE"></span><span id="_CPPv2N2rr13RoadRunnerMap4poolE"></span><span id="rr::RoadRunnerMap::pool__std::unique_ptr:thread_pool:"></span><span class="target" id="classrr_1_1RoadRunnerMap_1ae9e4cab3c36c9c819f9024d31c7a8d0e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">thread_pool</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pool</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap4poolE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>manages workloads using numThreads_ threads. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

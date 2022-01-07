@@ -28,8 +28,8 @@ class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
         double                  mLargestError;
 
     public:
-                                TestSuiteModelSimulation(const std::filesystem::path& dataOutputFolder = "", const std::filesystem::path& modelFilePath = "", const std::filesystem::path& modelFileName = "");
-                               ~TestSuiteModelSimulation();
+        explicit                TestSuiteModelSimulation(const std::filesystem::path& dataOutputFolder = "", const std::filesystem::path& modelFilePath = "", const std::filesystem::path& modelFileName = "");
+                               ~TestSuiteModelSimulation() override;
         void                    SetCaseNumber(int cNr);
         void                    SetIntegrator(std::string integrator);
         bool                    LoadReferenceData(std::filesystem::path refDataFileName = "");
@@ -39,7 +39,7 @@ class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
         double                  LargestError();
         bool                    Pass();
         int                     NrOfFailingPoints();
-        virtual bool            LoadSettings(const std::filesystem::path& fName = "");
+        bool                    LoadSettings(const std::filesystem::path& fName = "") override;
         virtual bool            LoadSettingsEx(const std::filesystem::path& settingsFName);
 };
 

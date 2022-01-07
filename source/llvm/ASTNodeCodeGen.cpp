@@ -935,6 +935,7 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
     LibFunc funcId;
 	TargetLibraryInfoImpl defaultImpl;
     TargetLibraryInfo targetLib(defaultImpl);
+
     Function* func;
     Module *module = getModule();
 
