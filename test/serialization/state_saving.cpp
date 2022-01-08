@@ -220,6 +220,7 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
             throw (rr::Exception(msg));
         }
 
+
         if (!createFolder(dataOutputFolder.string())) {
             string msg("Failed creating output folder for data output: " + dataOutputFolder.string());
             throw (rr::Exception(msg));
