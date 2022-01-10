@@ -1,10 +1,24 @@
 Building the Documentation
 ==========================
 
+.. warning::
+
+    Please familiarize yourself with our :ref:`Git Workflow` before attempting to add to
+    or build the docs yourself. If you are not, there is a high probability that you
+    will break something, or just get frustrated.
+
 Quick instructions
 -------------------
 
-1. Make sure you are on the ``gh-pages`` branch.
+1. Make sure you are on the ``gh-pages`` branch. Changes to the docs source should have been merged into this branch from develop.
+
+.. warning::
+
+    Adding documentation source code to the `gh-pages` branch means that the `gh-pages`
+    branch will need to be merged with develop. Failure to do so dramatically increases
+    the likelihood of a merge conflict somewhere down the line, since the `gh-pages` will
+    contain
+
 2. Configure the roadrunner cmake system using the ``-DBUILD_DOCS=ON`` flag
 3. Build the ``roadrunner-docs-sphinx`` target.
 
@@ -27,6 +41,19 @@ For example:
 
 Details
 ----------
+Github hosts our documentation. It does so off of the `gh-pages` branch, and specifically
+the `<roadrunner-root>/docs` subfolder. The homepage of our documentation is the `index.html`
+of the `docs` subfolder, but this only redirects to `<roadrunner-root>/docs/docs-build/index.html`.
+Therefore, the docs-build folder is where all the action happens. When you build the
+`roadrunner-docs-sphinx` target, you are using Python's Sphinx library
+to create a documentation website (using `sphinx-build`) and storing it in the `docs-build`
+directory, which is served as a website by github.
+
+Because our documentation is hosted on the `gh-pages` branch, care must be taken with
+version control when updating the documentation. Specifically, you should commit
+documentation source code to your feature branch and this should gradually make its
+way to the `gh-pages` branch after merging with develop. Please see our :ref:`Git Workflow`
+page if any of this sounds unfamiliar.
 
 Roadrunner is a C++ library with a C and Python front end. The C and C++ code is documented using the standard
 ``doxygen`` tool, whilst the Python front end is documented using ``Sphinx``. Furthermore, we make use of a

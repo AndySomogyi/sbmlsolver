@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1756" column="9" bodyfile="rrRoadRunner.h" bodystart="1756" bodyend="1758"/>
+        <location file="rrRoadRunner.h" line="1764" column="9" bodyfile="rrRoadRunner.h" bodystart="1764" bodyend="1766"/>
       </memberdef>
       <memberdef kind="enum" id="classrr_1_1RoadRunner_1ac5a7719aaa9fea6e11db2b194f88c386" prot="private" static="no" strong="no">
         <type></type>
@@ -55,7 +55,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1792" column="9" bodyfile="rrRoadRunner.h" bodystart="1792" bodyend="1794"/>
+        <location file="rrRoadRunner.h" line="1800" column="9" bodyfile="rrRoadRunner.h" bodystart="1800" bodyend="1802"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-attrib">
@@ -74,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1720" column="21" bodyfile="rrRoadRunner.h" bodystart="1720" bodyend="-1"/>
+        <location file="rrRoadRunner.h" line="1728" column="21" bodyfile="rrRoadRunner.h" bodystart="1728" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunner_1a4d337717ab4237e734f268c54d55cea6" prot="private" static="yes" mutable="no">
         <type>bool</type>
@@ -89,7 +89,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1721" column="21" bodyfile="rrRoadRunner.h" bodystart="1721" bodyend="-1"/>
+        <location file="rrRoadRunner.h" line="1729" column="21" bodyfile="rrRoadRunner.h" bodystart="1729" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -106,7 +106,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1804" column="29" bodyfile="rrRoadRunner.h" bodystart="1804" bodyend="-1"/>
+        <location file="rrRoadRunner.h" line="1812" column="29" bodyfile="rrRoadRunner.h" bodystart="1812" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunner_1a09cc39fcf1ae7a5046291a1b47d58d45" prot="private" static="no" mutable="no">
         <type>const int</type>
@@ -121,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1843" column="19" bodyfile="rrRoadRunner.h" bodystart="1843" bodyend="-1"/>
+        <location file="rrRoadRunner.h" line="1851" column="19" bodyfile="rrRoadRunner.h" bodystart="1851" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunner_1aab16c1bf7efe4d1076d3715bd4c1d6e0" prot="private" static="no" mutable="no">
         <type>const int</type>
@@ -129,14 +129,13 @@
         <argsstring></argsstring>
         <name>dataVersionNumber</name>
         <qualifiedname>rr::RoadRunner::dataVersionNumber</qualifiedname>
-        <initializer>= 1</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1844" column="19" bodyfile="rrRoadRunner.h" bodystart="1844" bodyend="-1"/>
+        <location file="rrRoadRunner.h" line="1852" column="19" bodyfile="rrRoadRunner.h" bodystart="1852" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -163,7 +162,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="66" column="9" bodyfile="rrRoadRunner.cpp" bodystart="499" bodyend="526"/>
+        <location file="rrRoadRunner.h" line="66" column="9" bodyfile="rrRoadRunner.cpp" bodystart="499" bodyend="528"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad66240360fee4ccad50097e4b4c8460b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -208,7 +207,7 @@
         <inbodydescription>
 <para>Register solvers</para>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="79" column="9" bodyfile="rrRoadRunner.cpp" bodystart="529" bodyend="554"/>
+        <location file="rrRoadRunner.h" line="79" column="9" bodyfile="rrRoadRunner.cpp" bodystart="531" bodyend="558"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3e326546550b3f4533dd7d6b3f2f4250" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -261,7 +260,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="91" column="9" bodyfile="rrRoadRunner.cpp" bodystart="557" bodyend="584"/>
+        <location file="rrRoadRunner.h" line="91" column="9" bodyfile="rrRoadRunner.cpp" bodystart="561" bodyend="590"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa6518611d8ac7cd908dbf5704d129020" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -280,7 +279,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="98" column="9" bodyfile="rrRoadRunner.cpp" bodystart="586" bodyend="643"/>
+        <location file="rrRoadRunner.h" line="98" column="9" bodyfile="rrRoadRunner.cpp" bodystart="592" bodyend="651"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a102e7c27e29219ae56e48ffd607fd621" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -295,7 +294,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="103" column="17" bodyfile="rrRoadRunner.cpp" bodystart="645" bodyend="647"/>
+        <location file="rrRoadRunner.h" line="103" column="17" bodyfile="rrRoadRunner.cpp" bodystart="653" bodyend="655"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6cc53f3668f94b3d88764e14b24bc87e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -340,7 +339,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="124" column="21" bodyfile="rrRoadRunner.cpp" bodystart="661" bodyend="699"/>
+        <location file="rrRoadRunner.h" line="124" column="21" bodyfile="rrRoadRunner.cpp" bodystart="669" bodyend="707"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a284282cedaec1cc02059125532378cfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -355,7 +354,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="129" column="16" bodyfile="rrRoadRunner.cpp" bodystart="701" bodyend="703"/>
+        <location file="rrRoadRunner.h" line="129" column="16" bodyfile="rrRoadRunner.cpp" bodystart="709" bodyend="711"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a329f2009c2688bbedc906c21c4b8b3ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>class <ref refid="classrr_1_1Compiler" kindref="compound">Compiler</ref> *</type>
@@ -370,7 +369,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="134" column="23" bodyfile="rrRoadRunner.cpp" bodystart="729" bodyend="731"/>
+        <location file="rrRoadRunner.h" line="134" column="23" bodyfile="rrRoadRunner.cpp" bodystart="737" bodyend="739"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8372249ea83ce40f91b935b09791a920" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -391,7 +390,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="142" column="14" bodyfile="rrRoadRunner.cpp" bodystart="734" bodyend="736"/>
+        <location file="rrRoadRunner.h" line="142" column="14" bodyfile="rrRoadRunner.cpp" bodystart="742" bodyend="744"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ac7ed0222daee67405616805b1bd02125" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1Integrator" kindref="compound">Integrator</ref> *</type>
@@ -406,7 +405,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="148" column="20" bodyfile="rrRoadRunner.cpp" bodystart="738" bodyend="741"/>
+        <location file="rrRoadRunner.h" line="148" column="20" bodyfile="rrRoadRunner.cpp" bodystart="746" bodyend="749"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aaaefc29aa1ff7f6fffdbcaa4425408cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1SteadyStateSolver" kindref="compound">SteadyStateSolver</ref> *</type>
@@ -421,7 +420,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="153" column="27" bodyfile="rrRoadRunner.cpp" bodystart="743" bodyend="745"/>
+        <location file="rrRoadRunner.h" line="153" column="27" bodyfile="rrRoadRunner.cpp" bodystart="751" bodyend="753"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a51b5fe2a5b0d1b67120e61aa39f6c4da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1SensitivitySolver" kindref="compound">SensitivitySolver</ref> *</type>
@@ -436,7 +435,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="158" column="27" bodyfile="rrRoadRunner.cpp" bodystart="747" bodyend="750"/>
+        <location file="rrRoadRunner.h" line="158" column="27" bodyfile="rrRoadRunner.cpp" bodystart="755" bodyend="758"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8acc349df7a67c32d696bb56952a069e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1Integrator" kindref="compound">Integrator</ref> *</type>
@@ -455,7 +454,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="163" column="20" bodyfile="rrRoadRunner.cpp" bodystart="753" bodyend="763"/>
+        <location file="rrRoadRunner.h" line="163" column="20" bodyfile="rrRoadRunner.cpp" bodystart="761" bodyend="771"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a588a2b17f736b4830f0327bf18bf455d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1SteadyStateSolver" kindref="compound">SteadyStateSolver</ref> *</type>
@@ -474,7 +473,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="168" column="27" bodyfile="rrRoadRunner.cpp" bodystart="765" bodyend="775"/>
+        <location file="rrRoadRunner.h" line="168" column="27" bodyfile="rrRoadRunner.cpp" bodystart="773" bodyend="783"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a53e466cbc03508fc2f02e6cc957a3309" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1SensitivitySolver" kindref="compound">SensitivitySolver</ref> *</type>
@@ -493,7 +492,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="173" column="27" bodyfile="rrRoadRunner.cpp" bodystart="777" bodyend="787"/>
+        <location file="rrRoadRunner.h" line="173" column="27" bodyfile="rrRoadRunner.cpp" bodystart="785" bodyend="795"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aaa2b76b778006437b495a524b7ec94ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1Integrator" kindref="compound">Integrator</ref> *</type>
@@ -512,7 +511,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="178" column="20" bodyfile="rrRoadRunner.cpp" bodystart="790" bodyend="801"/>
+        <location file="rrRoadRunner.h" line="178" column="20" bodyfile="rrRoadRunner.cpp" bodystart="798" bodyend="809"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad1c1bf612dfbc109788eb79450fadc75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1SteadyStateSolver" kindref="compound">SteadyStateSolver</ref> *</type>
@@ -531,7 +530,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="183" column="27" bodyfile="rrRoadRunner.cpp" bodystart="804" bodyend="815"/>
+        <location file="rrRoadRunner.h" line="183" column="27" bodyfile="rrRoadRunner.cpp" bodystart="812" bodyend="823"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1accc767f44bdc41e29155e8a3ff6a4eb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1SensitivitySolver" kindref="compound">SensitivitySolver</ref> *</type>
@@ -550,7 +549,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="188" column="27" bodyfile="rrRoadRunner.cpp" bodystart="817" bodyend="828"/>
+        <location file="rrRoadRunner.h" line="188" column="27" bodyfile="rrRoadRunner.cpp" bodystart="825" bodyend="836"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad9d66d24ede15b0c28db4093b782cd28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -565,7 +564,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="193" column="21" bodyfile="rrRoadRunner.cpp" bodystart="830" bodyend="836"/>
+        <location file="rrRoadRunner.h" line="193" column="21" bodyfile="rrRoadRunner.cpp" bodystart="838" bodyend="844"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa0bc0322f7c8728205afe03628c136cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -580,7 +579,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="198" column="21" bodyfile="rrRoadRunner.cpp" bodystart="838" bodyend="844"/>
+        <location file="rrRoadRunner.h" line="198" column="21" bodyfile="rrRoadRunner.cpp" bodystart="846" bodyend="852"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa8b6f3e37b479867bc58c5ba7c40fb41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -595,7 +594,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="203" column="21" bodyfile="rrRoadRunner.cpp" bodystart="846" bodyend="852"/>
+        <location file="rrRoadRunner.h" line="203" column="21" bodyfile="rrRoadRunner.cpp" bodystart="854" bodyend="860"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1400fd93277e9c4b85be1685a4c6ebb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -624,7 +623,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="224" column="14" bodyfile="rrRoadRunner.cpp" bodystart="879" bodyend="894"/>
+        <location file="rrRoadRunner.h" line="224" column="14" bodyfile="rrRoadRunner.cpp" bodystart="887" bodyend="902"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8bfdd74d62dfebda90f01d183c8f4201" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -652,7 +651,7 @@ use getRegisteredSteadyStateSolverNames to get a list of available names </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="231" column="14" bodyfile="rrRoadRunner.cpp" bodystart="896" bodyend="915"/>
+        <location file="rrRoadRunner.h" line="231" column="14" bodyfile="rrRoadRunner.cpp" bodystart="904" bodyend="923"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa3581eec71bf1d7385d86bb6b2e247ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -680,7 +679,7 @@ use getRegisteredSensitivitySolverNames to get a list of available sensitivity s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="238" column="14" bodyfile="rrRoadRunner.cpp" bodystart="917" bodyend="936"/>
+        <location file="rrRoadRunner.h" line="238" column="14" bodyfile="rrRoadRunner.cpp" bodystart="925" bodyend="944"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8ca66bd2ccdbe4e9fac1457d67884a69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -709,7 +708,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="245" column="14" bodyfile="rrRoadRunner.cpp" bodystart="938" bodyend="945"/>
+        <location file="rrRoadRunner.h" line="245" column="14" bodyfile="rrRoadRunner.cpp" bodystart="946" bodyend="953"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a079cff347871871d192c2db5c02cbdf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -738,7 +737,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="250" column="14" bodyfile="rrRoadRunner.cpp" bodystart="947" bodyend="954"/>
+        <location file="rrRoadRunner.h" line="250" column="14" bodyfile="rrRoadRunner.cpp" bodystart="955" bodyend="962"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae645693f2c3652b951e106be544a09cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -767,7 +766,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="255" column="14" bodyfile="rrRoadRunner.cpp" bodystart="956" bodyend="963"/>
+        <location file="rrRoadRunner.h" line="255" column="14" bodyfile="rrRoadRunner.cpp" bodystart="964" bodyend="971"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aecea2dbffc17d0322b00e18f126058b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -781,7 +780,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="262" column="14" bodyfile="rrRoadRunner.cpp" bodystart="978" bodyend="980"/>
+        <location file="rrRoadRunner.h" line="262" column="14" bodyfile="rrRoadRunner.cpp" bodystart="986" bodyend="988"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ac03b62cc39f62a61a556fe393e859e36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -796,7 +795,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="267" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3159" bodyend="3170"/>
+        <location file="rrRoadRunner.h" line="267" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3185" bodyend="3196"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a946f9140f83ede43c2e5bc2192d8e052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -815,7 +814,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="272" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3172" bodyend="3176"/>
+        <location file="rrRoadRunner.h" line="272" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3198" bodyend="3202"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad46f7fb56422a9220e9b02d5acc13d78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -830,7 +829,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="277" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3178" bodyend="3186"/>
+        <location file="rrRoadRunner.h" line="277" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3204" bodyend="3212"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5c63bb6592faf97451de620a6ab4d444" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -849,7 +848,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="282" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3188" bodyend="3192"/>
+        <location file="rrRoadRunner.h" line="282" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3214" bodyend="3218"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6486934df5e346da4209a578f4eaea2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -867,7 +866,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="290" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1477" bodyend="1490"/>
+        <location file="rrRoadRunner.h" line="290" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1503" bodyend="1516"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a27aedd28b2a2d5453200ca4a4a2bf4c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -921,7 +920,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="300" column="16" bodyfile="rrRoadRunner.cpp" bodystart="2231" bodyend="2246"/>
+        <location file="rrRoadRunner.h" line="300" column="16" bodyfile="rrRoadRunner.cpp" bodystart="2257" bodyend="2272"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2d4f3df674f8f6500d87a584b4f365cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -975,7 +974,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="309" column="16" bodyfile="rrRoadRunner.cpp" bodystart="2249" bodyend="2273"/>
+        <location file="rrRoadRunner.h" line="309" column="16" bodyfile="rrRoadRunner.cpp" bodystart="2275" bodyend="2299"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a377834f22edadb7706779ecca7c1eb4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const ls::DoubleMatrix *</type>
@@ -1031,7 +1030,7 @@ If one wants to not store the result matrix in memory and instead write it to a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="365" column="32" bodyfile="rrRoadRunner.cpp" bodystart="1886" bodyend="2202"/>
+        <location file="rrRoadRunner.h" line="365" column="32" bodyfile="rrRoadRunner.cpp" bodystart="1912" bodyend="2228"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad3701c04d6317e96c2d2bb235b99d60b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const ls::DoubleMatrix *</type>
@@ -1084,7 +1083,7 @@ If one wants to not store the result matrix in memory and instead write it to a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="373" column="32" bodyfile="rrRoadRunner.cpp" bodystart="2204" bodyend="2212"/>
+        <location file="rrRoadRunner.h" line="373" column="32" bodyfile="rrRoadRunner.cpp" bodystart="2230" bodyend="2238"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3148beddf65c37bcdce6cfd2726c48ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const ls::DoubleMatrix *</type>
@@ -1113,7 +1112,7 @@ If one wants to not store the result matrix in memory and instead write it to a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="379" column="32" bodyfile="rrRoadRunner.cpp" bodystart="2214" bodyend="2218"/>
+        <location file="rrRoadRunner.h" line="379" column="32" bodyfile="rrRoadRunner.cpp" bodystart="2240" bodyend="2244"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5b337a5d5625545db98bdcaf9ba71c7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1Matrix3D" kindref="compound">Matrix3D</ref>&lt; double, double &gt;</type>
@@ -1205,7 +1204,7 @@ If one wants to not store the result matrix in memory and instead write it to a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="399" column="18" bodyfile="rrRoadRunner.cpp" bodystart="2220" bodyend="2229"/>
+        <location file="rrRoadRunner.h" line="399" column="18" bodyfile="rrRoadRunner.cpp" bodystart="2246" bodyend="2255"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ac982f0742233d5ad487064734c3b793c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1243,7 +1242,7 @@ If one wants to not store the result matrix in memory and instead write it to a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="410" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5027" bodyend="5034"/>
+        <location file="rrRoadRunner.h" line="410" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5053" bodyend="5060"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3f30bcb94eeb86ac029b123f51214c94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::stringstream *</type>
@@ -1280,7 +1279,7 @@ If one wants to not store the result matrix in memory and instead write it to a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="422" column="27" bodyfile="rrRoadRunner.cpp" bodystart="5036" bodyend="5228"/>
+        <location file="rrRoadRunner.h" line="422" column="27" bodyfile="rrRoadRunner.cpp" bodystart="5062" bodyend="5254"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a56030d98802a87d9aa960cbb7bb5f0c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1304,7 +1303,7 @@ If one wants to not store the result matrix in memory and instead write it to a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="430" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5240" bodyend="5253"/>
+        <location file="rrRoadRunner.h" line="430" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5266" bodyend="5279"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a68f5a245b02936d4ed83dcfe9145bf83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1333,7 +1332,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="441" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5255" bodyend="5388"/>
+        <location file="rrRoadRunner.h" line="441" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5281" bodyend="5414"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a12d2a06c5525aaf10c541d9cc91665ca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const ls::DoubleMatrix *</type>
@@ -1349,7 +1348,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="447" column="32" bodyfile="rrRoadRunner.cpp" bodystart="4996" bodyend="4998"/>
+        <location file="rrRoadRunner.h" line="447" column="32" bodyfile="rrRoadRunner.cpp" bodystart="5022" bodyend="5024"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aca42a09b3b1ce89330d42c48ddae21c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1367,7 +1366,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="449" column="14" bodyfile="rrRoadRunner.cpp" bodystart="982" bodyend="984"/>
+        <location file="rrRoadRunner.h" line="449" column="14" bodyfile="rrRoadRunner.cpp" bodystart="990" bodyend="992"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1200e15aa2a3c0b8662e26f74f8320ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1SimulateOptions" kindref="compound">SimulateOptions</ref> &amp;</type>
@@ -1382,7 +1381,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="455" column="25" bodyfile="rrRoadRunner.cpp" bodystart="986" bodyend="988"/>
+        <location file="rrRoadRunner.h" line="455" column="25" bodyfile="rrRoadRunner.cpp" bodystart="994" bodyend="996"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1abca853c2d24000857a1c0971b99ec004" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structrr_1_1RoadRunnerOptions" kindref="compound">RoadRunnerOptions</ref> &amp;</type>
@@ -1400,7 +1399,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="463" column="27" bodyfile="rrRoadRunner.cpp" bodystart="4992" bodyend="4994"/>
+        <location file="rrRoadRunner.h" line="463" column="27" bodyfile="rrRoadRunner.cpp" bodystart="5018" bodyend="5020"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5e00a39a88bf7d36c165f4ca9fbb3674" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1418,7 +1417,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="466" column="14" bodyfile="rrRoadRunner.cpp" bodystart="653" bodyend="655"/>
+        <location file="rrRoadRunner.h" line="466" column="14" bodyfile="rrRoadRunner.cpp" bodystart="661" bodyend="663"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae154e3cc9560f4a5725f03cbe9bb3aa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1445,7 +1444,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="476" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4221" bodyend="4233"/>
+        <location file="rrRoadRunner.h" line="476" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4247" bodyend="4259"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1abd7ed519514ee77cfe64c5d4cab6fc3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1473,7 +1472,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="488" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4235" bodyend="4291"/>
+        <location file="rrRoadRunner.h" line="488" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4261" bodyend="4317"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae4b0eaa39fd37737e5f5fd7f7741e06c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1489,7 +1488,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="496" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1492" bodyend="1499"/>
+        <location file="rrRoadRunner.h" line="496" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1518" bodyend="1525"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a807cbac5ca760b0f3ff033851cf5276b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1521,7 +1520,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="512" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1501" bodyend="1518"/>
+        <location file="rrRoadRunner.h" line="512" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1527" bodyend="1544"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5d1d6591131764e8e7a6cdd6a9ae6ae8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1536,7 +1535,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="517" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1520" bodyend="1522"/>
+        <location file="rrRoadRunner.h" line="517" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1546" bodyend="1548"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a57f1463dafcc61a90c3122a8fb37b08d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1554,7 +1553,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="525" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4293" bodyend="4300"/>
+        <location file="rrRoadRunner.h" line="525" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4319" bodyend="4326"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1afa827d569de3c83dd286ac2aa25d1cf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
@@ -1569,7 +1568,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="530" column="25" bodyfile="rrRoadRunner.cpp" bodystart="649" bodyend="651"/>
+        <location file="rrRoadRunner.h" line="530" column="25" bodyfile="rrRoadRunner.cpp" bodystart="657" bodyend="659"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a9d1e7a6e9b2fff7561bd59d2e8475d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1613,7 +1612,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="543" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1388" bodyend="1454"/>
+        <location file="rrRoadRunner.h" line="543" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1412" bodyend="1480"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a422a0c1c50dfe1b6ae343e9313a005ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1SelectionRecord" kindref="compound">rr::SelectionRecord</ref></type>
@@ -1633,7 +1632,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="552" column="29" bodyfile="rrRoadRunner.cpp" bodystart="4369" bodyend="4540"/>
+        <location file="rrRoadRunner.h" line="552" column="29" bodyfile="rrRoadRunner.cpp" bodystart="4395" bodyend="4566"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a093f8d8cfe6959e2607eddccfd4a4989" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="classrr_1_1SelectionRecord" kindref="compound">rr::SelectionRecord</ref> &gt; &amp;</type>
@@ -1648,7 +1647,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="558" column="21" bodyfile="rrRoadRunner.cpp" bodystart="1535" bodyend="1537"/>
+        <location file="rrRoadRunner.h" line="558" column="21" bodyfile="rrRoadRunner.cpp" bodystart="1561" bodyend="1563"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa030bd78fd18af9737b6798e246dd4cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -1667,7 +1666,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="564" column="16" bodyfile="rrRoadRunner.cpp" bodystart="4328" bodyend="4330"/>
+        <location file="rrRoadRunner.h" line="564" column="16" bodyfile="rrRoadRunner.cpp" bodystart="4354" bodyend="4356"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1ffdbba3a4b35b4092bc743aad78ccdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -1685,7 +1684,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="566" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1106" bodyend="1342"/>
+        <location file="rrRoadRunner.h" line="566" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1130" bodyend="1366"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae2638d52117ad68f9ca1dc7bff285bd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1703,7 +1702,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="569" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4542" bodyend="4554"/>
+        <location file="rrRoadRunner.h" line="569" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4568" bodyend="4580"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a152430ddf10b8270698519bd4d1d0738" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1721,7 +1720,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="571" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4556" bodyend="4558"/>
+        <location file="rrRoadRunner.h" line="571" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4582" bodyend="4584"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab5c1eda6c4babfbe69d46eaaa00e4b55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -1736,7 +1735,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="576" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4333" bodyend="4345"/>
+        <location file="rrRoadRunner.h" line="576" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4359" bodyend="4371"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8891806bc553fef5898f9e81751a9899" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1760,7 +1759,7 @@ The stingstream pointer should be heap allocated and generated from <ref refid="
         <inbodydescription>
 <para>types is -1 when <ref refid="classrr_1_1SelectionRecord" kindref="compound">SelectionRecord</ref> is set to ALL.</para>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="581" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4808" bodyend="4827"/>
+        <location file="rrRoadRunner.h" line="581" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4834" bodyend="4853"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1778,7 +1777,7 @@ Independent means (in this case) that the species is unique up to a conserved cy
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="591" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4829" bodyend="4831"/>
+        <location file="rrRoadRunner.h" line="591" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4855" bodyend="4857"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae1510bf8ed8a09c375605346c21eaefc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1796,7 +1795,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="599" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4833" bodyend="4835"/>
+        <location file="rrRoadRunner.h" line="599" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4859" bodyend="4861"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2282dace1e13af6f074819684536c2d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1814,7 +1813,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="605" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4939" bodyend="4947"/>
+        <location file="rrRoadRunner.h" line="605" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4965" bodyend="4973"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0bf792116912df16a5bffd637eb241c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1830,7 +1829,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="612" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4959" bodyend="4967"/>
+        <location file="rrRoadRunner.h" line="612" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4985" bodyend="4993"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a64fd889ed2292a496bc06739e8fa206e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -1845,7 +1844,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="617" column="13" bodyfile="rrRoadRunner.cpp" bodystart="4837" bodyend="4845"/>
+        <location file="rrRoadRunner.h" line="617" column="13" bodyfile="rrRoadRunner.cpp" bodystart="4863" bodyend="4871"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2aeb31b55a8f049c27910cd00f90c868" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1869,7 +1868,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="625" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4314" bodyend="4325"/>
+        <location file="rrRoadRunner.h" line="625" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4340" bodyend="4351"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a530082f417fdf1f947fcdf8c936ff074" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1887,7 +1886,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="633" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2332" bodyend="2351"/>
+        <location file="rrRoadRunner.h" line="633" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2358" bodyend="2377"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a449efe2b9a55e7c728c3a7ad47d0454e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1905,7 +1904,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="639" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2353" bodyend="2372"/>
+        <location file="rrRoadRunner.h" line="639" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2379" bodyend="2398"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a02467c06ea6325afa7536f29ec0c9f09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1923,7 +1922,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="645" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3386" bodyend="3405"/>
+        <location file="rrRoadRunner.h" line="645" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3412" bodyend="3431"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab13b18bcd87ed95a65b0f54412b22d53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1941,7 +1940,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="651" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3364" bodyend="3383"/>
+        <location file="rrRoadRunner.h" line="651" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3390" bodyend="3409"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a129683b1d67a59066a0759983a9be38a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -1959,7 +1958,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="657" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2374" bodyend="2405"/>
+        <location file="rrRoadRunner.h" line="657" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2400" bodyend="2431"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a228559aa22f87707bf0914e4e09654bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1977,7 +1976,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="663" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2407" bodyend="2439"/>
+        <location file="rrRoadRunner.h" line="663" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2433" bodyend="2465"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6c974443cc51485d9150c80dc5e730db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -1995,7 +1994,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="669" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2441" bodyend="2459"/>
+        <location file="rrRoadRunner.h" line="669" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2467" bodyend="2485"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a856f9ed2a2abe44a1f91d679bd9f4d69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2013,7 +2012,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="675" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2461" bodyend="2481"/>
+        <location file="rrRoadRunner.h" line="675" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2487" bodyend="2507"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8ab4bc9fd188058f67e84ac291d7eacd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -2031,7 +2030,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="681" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2483" bodyend="2501"/>
+        <location file="rrRoadRunner.h" line="681" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2509" bodyend="2527"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aed709485753c6718a1a861ae5eda1856" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2049,7 +2048,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="687" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2503" bodyend="2523"/>
+        <location file="rrRoadRunner.h" line="687" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2529" bodyend="2549"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8407626c7864621c3fd08781217b85b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2064,7 +2063,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="692" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2525" bodyend="2702"/>
+        <location file="rrRoadRunner.h" line="692" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2551" bodyend="2728"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a084f0b815a37adbe36636d5e8d465673" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2078,7 +2077,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="694" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2704" bodyend="2711"/>
+        <location file="rrRoadRunner.h" line="694" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2730" bodyend="2737"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a63002e13888d647221cec2fc5de559ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2108,7 +2107,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="701" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2713" bodyend="2795"/>
+        <location file="rrRoadRunner.h" line="701" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2739" bodyend="2821"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a08bb116b872c4f9f4d515745f2de7012" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::complex&lt; double &gt; &gt;</type>
@@ -2124,7 +2123,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="710" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2276" bodyend="2278"/>
+        <location file="rrRoadRunner.h" line="710" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2302" bodyend="2304"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6927dede026cdbea282a7bdd504a1ebf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::complex&lt; double &gt; &gt;</type>
@@ -2140,7 +2139,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="719" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2281" bodyend="2283"/>
+        <location file="rrRoadRunner.h" line="719" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2307" bodyend="2309"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1b4939dd00d63dd4b73a0317b692b110" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2156,7 +2155,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="730" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2298" bodyend="2300"/>
+        <location file="rrRoadRunner.h" line="730" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2324" bodyend="2326"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a05fbd6d9b494008b255c945d486078f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2172,7 +2171,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="740" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2302" bodyend="2304"/>
+        <location file="rrRoadRunner.h" line="740" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2328" bodyend="2330"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0799a1330b5f488ac4ffd940b431e32a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2186,7 +2185,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="743" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2797" bodyend="2808"/>
+        <location file="rrRoadRunner.h" line="743" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2823" bodyend="2834"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8770cc21abd02ecd76e348a5d59971d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2203,7 +2202,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="751" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2814" bodyend="2825"/>
+        <location file="rrRoadRunner.h" line="751" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2840" bodyend="2851"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a24ba9e58efcfc856cb27c92f469fbdc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2218,7 +2217,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="758" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2827" bodyend="2838"/>
+        <location file="rrRoadRunner.h" line="758" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2853" bodyend="2864"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a53727bd9547815c2645505a2b0580368" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2235,7 +2234,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="766" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2810" bodyend="2812"/>
+        <location file="rrRoadRunner.h" line="766" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2836" bodyend="2838"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a41cc42926d90928298b56d4aac722cd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2250,7 +2249,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="772" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2841" bodyend="2862"/>
+        <location file="rrRoadRunner.h" line="772" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2867" bodyend="2888"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6f87138b278b52031eba49422843a567" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2264,7 +2263,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="774" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2865" bodyend="2985"/>
+        <location file="rrRoadRunner.h" line="774" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2891" bodyend="3011"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6b0be3f7470f1c52bb6965c9b4a4b662" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2278,7 +2277,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="777" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2988" bodyend="3000"/>
+        <location file="rrRoadRunner.h" line="777" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3014" bodyend="3026"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab2e1c9070010a6e372365102c4b4664c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2292,7 +2291,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="780" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3003" bodyend="3033"/>
+        <location file="rrRoadRunner.h" line="780" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3029" bodyend="3059"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1acbd395494bb482a6e571f848e825bf1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2306,7 +2305,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="782" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4053" bodyend="4091"/>
+        <location file="rrRoadRunner.h" line="782" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4079" bodyend="4117"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a56e53094e1e9be55fa0a7356e1526d2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2320,7 +2319,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="784" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4094" bodyend="4114"/>
+        <location file="rrRoadRunner.h" line="784" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4120" bodyend="4140"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1afadf49f466a97f5fa4f1f1bdfcf1e3f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2334,7 +2333,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="786" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4118" bodyend="4137"/>
+        <location file="rrRoadRunner.h" line="786" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4144" bodyend="4163"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8fab3bc1554a5a3cce0ee8fc7a2522a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2348,7 +2347,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="788" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4140" bodyend="4168"/>
+        <location file="rrRoadRunner.h" line="788" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4166" bodyend="4194"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aea6a2de3cb5502f2924f6c874b848758" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -2363,7 +2362,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="795" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4979" bodyend="4985"/>
+        <location file="rrRoadRunner.h" line="795" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5005" bodyend="5011"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5fb2c2cc40a2badce7c4803917cba029" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2386,7 +2385,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="801" column="16" bodyfile="rrRoadRunner.cpp" bodystart="4686" bodyend="4764"/>
+        <location file="rrRoadRunner.h" line="801" column="16" bodyfile="rrRoadRunner.cpp" bodystart="4712" bodyend="4790"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5db663d82f5087b6d289ff9810256168" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2428,7 +2427,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="805" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4573" bodyend="4682"/>
+        <location file="rrRoadRunner.h" line="805" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4599" bodyend="4708"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1adbea6710dcab6c825573ce5c9b35dd57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2447,7 +2446,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="813" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1652" bodyend="1673"/>
+        <location file="rrRoadRunner.h" line="813" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1678" bodyend="1699"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af69cf22ce68c8d5c4ab869fedefa16f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -2463,7 +2462,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="818" column="14" bodyfile="rrRoadRunner.cpp" bodystart="990" bodyend="992"/>
+        <location file="rrRoadRunner.h" line="818" column="14" bodyfile="rrRoadRunner.cpp" bodystart="998" bodyend="1000"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1add8f2cfb1a37ad4e352f43a9529a3035" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2481,7 +2480,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="831" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1719" bodyend="1723"/>
+        <location file="rrRoadRunner.h" line="831" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1745" bodyend="1749"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae5b37837542f842bd6ac6aef11875e97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2503,7 +2502,7 @@ See <ref refid="classrr_1_1RoadRunner_1a5008edbb3df7cd74abb87414638dea55" kindre
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="837" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1725" bodyend="1729"/>
+        <location file="rrRoadRunner.h" line="837" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1751" bodyend="1755"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1acae600eb92e9bd2a7739040e7148c0ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2521,7 +2520,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="845" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1731" bodyend="1735"/>
+        <location file="rrRoadRunner.h" line="845" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1757" bodyend="1761"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a64b81cdc2b84a6f28affd212ef474392" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2543,7 +2542,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="853" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1737" bodyend="1741"/>
+        <location file="rrRoadRunner.h" line="853" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1763" bodyend="1767"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a7df50d5a0fa7265b62af24a2e996b6e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2568,7 +2567,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="863" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3667" bodyend="3784"/>
+        <location file="rrRoadRunner.h" line="863" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3693" bodyend="3810"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3d2c1d4727f38714ce6575a70d789429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2593,7 +2592,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="873" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3787" bodyend="3825"/>
+        <location file="rrRoadRunner.h" line="873" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3813" bodyend="3851"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad1a582f68475ad9e923dd23b12397d86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2616,7 +2615,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="878" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1743" bodyend="1745"/>
+        <location file="rrRoadRunner.h" line="878" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1769" bodyend="1771"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6957a9119e32959e4bbd47107a22f8a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2644,7 +2643,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="884" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1790" bodyend="1875"/>
+        <location file="rrRoadRunner.h" line="884" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1816" bodyend="1901"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a4faad67b12aaf15212f7c57697556d61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2667,7 +2666,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="890" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1677" bodyend="1679"/>
+        <location file="rrRoadRunner.h" line="890" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1703" bodyend="1705"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a54d7fece5e6ac6fcba4d113f62aff1e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2695,7 +2694,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="896" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1682" bodyend="1717"/>
+        <location file="rrRoadRunner.h" line="896" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1708" bodyend="1743"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae70640f21445afff8da22e8ee23921b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2710,7 +2709,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="902" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3972" bodyend="3989"/>
+        <location file="rrRoadRunner.h" line="902" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3998" bodyend="4015"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a511551ead0b6dcf50f161a0e6c8060d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2725,7 +2724,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="907" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3991" bodyend="4021"/>
+        <location file="rrRoadRunner.h" line="907" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4017" bodyend="4047"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6a388eb7c0f64e215490fa606f458770" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2748,7 +2747,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="912" column="16" bodyfile="rrRoadRunner.cpp" bodystart="4024" bodyend="4048"/>
+        <location file="rrRoadRunner.h" line="912" column="16" bodyfile="rrRoadRunner.cpp" bodystart="4050" bodyend="4074"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5856b94d04fadfb190b407b126382503" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2771,7 +2770,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="920" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3828" bodyend="3969"/>
+        <location file="rrRoadRunner.h" line="920" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3854" bodyend="3995"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6930962f454f983b35c2a147c1092347" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2860,7 +2859,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="935" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5405" bodyend="5453"/>
+        <location file="rrRoadRunner.h" line="935" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5431" bodyend="5479"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3af3fb5238087c26851a244ee0dcff8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2950,7 +2949,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="952" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5455" bodyend="5500"/>
+        <location file="rrRoadRunner.h" line="952" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5481" bodyend="5526"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2d24e223ee2a7b1c44a7b9d6db0d4b93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2973,7 +2972,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="968" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5502" bodyend="5575"/>
+        <location file="rrRoadRunner.h" line="968" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5528" bodyend="5601"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3254de1bcafde8fb4aa28e4241fa7c9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3027,7 +3026,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="982" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5578" bodyend="5592"/>
+        <location file="rrRoadRunner.h" line="982" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5604" bodyend="5618"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af0c85ad9ef78812bfbf31636683b4ddb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3081,7 +3080,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="995" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5595" bodyend="5609"/>
+        <location file="rrRoadRunner.h" line="995" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5621" bodyend="5635"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3e87e92d78163d57e36fd49c09676589" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -3110,7 +3109,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1001" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5611" bodyend="5622"/>
+        <location file="rrRoadRunner.h" line="1001" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5637" bodyend="5648"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8d8050a4d09992b395de75ff50f66b3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3164,7 +3163,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1014" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5625" bodyend="5649"/>
+        <location file="rrRoadRunner.h" line="1014" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5651" bodyend="5675"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a968b5f01bf7fe6a76a860794130d15e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3218,7 +3217,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1028" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5651" bodyend="5681"/>
+        <location file="rrRoadRunner.h" line="1028" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5677" bodyend="5707"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa4eff2424c186a5ba3a3d35cf91dce2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3272,7 +3271,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1043" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5683" bodyend="5706"/>
+        <location file="rrRoadRunner.h" line="1043" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5709" bodyend="5732"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa2247347171d5d46c270e18bbeaac4b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3295,7 +3294,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1056" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5709" bodyend="5718"/>
+        <location file="rrRoadRunner.h" line="1056" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5735" bodyend="5744"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a651d468cbbc04ad129e3fd8b94f71307" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3330,7 +3329,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1075" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5720" bodyend="5798"/>
+        <location file="rrRoadRunner.h" line="1075" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5746" bodyend="5824"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0d0a6d74578a9017244bae5a74b253e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3377,7 +3376,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1088" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5801" bodyend="5840"/>
+        <location file="rrRoadRunner.h" line="1088" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5827" bodyend="5866"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a61d920026f1d614669007665c3aec5fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3404,7 +3403,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1101" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5898" bodyend="5913"/>
+        <location file="rrRoadRunner.h" line="1101" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5924" bodyend="5939"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a7424f3dc7d18d5697e66b0d19700aae4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3431,7 +3430,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1115" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5916" bodyend="5954"/>
+        <location file="rrRoadRunner.h" line="1115" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5942" bodyend="5980"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3e0b8f15b7ab0042dcfd85c14fa207ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -3460,7 +3459,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1121" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5957" bodyend="5985"/>
+        <location file="rrRoadRunner.h" line="1121" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5983" bodyend="6011"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a68e98a5de63e4dc8418738290d4c762b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3514,7 +3513,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1135" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5988" bodyend="6005"/>
+        <location file="rrRoadRunner.h" line="1135" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6014" bodyend="6031"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa22a0401fda4aa17a3118a833fdde286" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3556,7 +3555,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1147" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6007" bodyend="6018"/>
+        <location file="rrRoadRunner.h" line="1147" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6033" bodyend="6044"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a7e475483794fc8b59d3b1b423607b2f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3610,7 +3609,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1161" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6021" bodyend="6036"/>
+        <location file="rrRoadRunner.h" line="1161" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6047" bodyend="6062"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad3f2043bc6e645f5319119df37a9eadb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3652,7 +3651,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1173" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6039" bodyend="6066"/>
+        <location file="rrRoadRunner.h" line="1173" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6065" bodyend="6092"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8d7d526b65b7f4da57416eef928edc6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3679,7 +3678,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1187" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6114" bodyend="6132"/>
+        <location file="rrRoadRunner.h" line="1187" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6140" bodyend="6158"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa3a9acbff059e9feb7789b730681c86d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3706,7 +3705,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1201" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6134" bodyend="6152"/>
+        <location file="rrRoadRunner.h" line="1201" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6160" bodyend="6178"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1adc65f44da5821758e912bd109fadfa1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3761,7 +3760,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1217" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6155" bodyend="6272"/>
+        <location file="rrRoadRunner.h" line="1217" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6181" bodyend="6298"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa27ba6eab817899a3fe14f4ad65527dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3788,7 +3787,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1231" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6274" bodyend="6308"/>
+        <location file="rrRoadRunner.h" line="1231" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6300" bodyend="6334"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a4a47d78c63af139f9cbe5aedab5e7b3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3830,7 +3829,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1244" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6310" bodyend="6368"/>
+        <location file="rrRoadRunner.h" line="1244" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6336" bodyend="6394"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a30b86079c416eb73b6f4da63ef6734af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3861,7 +3860,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1259" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6371" bodyend="6399"/>
+        <location file="rrRoadRunner.h" line="1259" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6397" bodyend="6425"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aaaac271c2bcebe239646576d48592f01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3888,7 +3887,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1275" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6402" bodyend="6428"/>
+        <location file="rrRoadRunner.h" line="1275" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6428" bodyend="6454"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0c10e1079ae0ae44f0e54b4f9b54c884" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3915,7 +3914,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1288" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6430" bodyend="6453"/>
+        <location file="rrRoadRunner.h" line="1288" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6456" bodyend="6479"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6731da1be25ebbe4ab0c7cddcbc8e97b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3942,7 +3941,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1301" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6455" bodyend="6479"/>
+        <location file="rrRoadRunner.h" line="1301" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6481" bodyend="6505"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab2cd3d8f9ca1b79014357b5445ee9bbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3969,7 +3968,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1315" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6482" bodyend="6506"/>
+        <location file="rrRoadRunner.h" line="1315" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6508" bodyend="6532"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa65de948a2fbc7287c31b33cf676ced6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3996,7 +3995,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1329" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6509" bodyend="6529"/>
+        <location file="rrRoadRunner.h" line="1329" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6535" bodyend="6555"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab1f82e576456f8c7ad94c30f1480a8f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4027,7 +4026,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1344" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6532" bodyend="6576"/>
+        <location file="rrRoadRunner.h" line="1344" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6558" bodyend="6602"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6f5bbcfeff4758a5e91c15e16c880641" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4081,7 +4080,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1359" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6579" bodyend="6599"/>
+        <location file="rrRoadRunner.h" line="1359" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6605" bodyend="6625"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad5e6fc77db2c058d9d165a37c56ce700" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4123,7 +4122,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1371" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6602" bodyend="6611"/>
+        <location file="rrRoadRunner.h" line="1371" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6628" bodyend="6637"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a4e75cb4bdcd03300133aef022f53b34c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4138,7 +4137,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1376" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6613" bodyend="6624"/>
+        <location file="rrRoadRunner.h" line="1376" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6639" bodyend="6650"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a018f17c09b36e42f052989a57fc5b2a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -4152,7 +4151,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1381" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1540" bodyend="1557"/>
+        <location file="rrRoadRunner.h" line="1381" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1566" bodyend="1583"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af310e01ec241bc2b19a46629087024d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -4184,7 +4183,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1394" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1559" bodyend="1643"/>
+        <location file="rrRoadRunner.h" line="1394" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1585" bodyend="1669"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af49d6134c7a2e1728e32ee9182ed152d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -4204,7 +4203,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1400" column="26" bodyfile="rrRoadRunner.cpp" bodystart="1646" bodyend="1649"/>
+        <location file="rrRoadRunner.h" line="1400" column="26" bodyfile="rrRoadRunner.cpp" bodystart="1672" bodyend="1675"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af51f2c52092490f993e790ae4ece8fff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="classrr_1_1SelectionRecord" kindref="compound">rr::SelectionRecord</ref> &gt; &amp;</type>
@@ -4219,7 +4218,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1405" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3108" bodyend="3110"/>
+        <location file="rrRoadRunner.h" line="1405" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3134" bodyend="3136"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a166d905000777fc76767f6625df12bcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4238,7 +4237,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1411" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4560" bodyend="4566"/>
+        <location file="rrRoadRunner.h" line="1411" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4586" bodyend="4592"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5113f4906344694a60663dc57531bf30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4258,7 +4257,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1418" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4568" bodyend="4570"/>
+        <location file="rrRoadRunner.h" line="1418" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4594" bodyend="4596"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab365ab17ad44a2e96e215e76d440f779" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -4273,7 +4272,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1426" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3112" bodyend="3127"/>
+        <location file="rrRoadRunner.h" line="1426" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3138" bodyend="3153"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1062bc78d3b41301fa97dc5f2167baa2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -4288,7 +4287,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1431" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3129" bodyend="3137"/>
+        <location file="rrRoadRunner.h" line="1431" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3155" bodyend="3163"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aae721d16b518ee9ca9b9b8dfe0e18ec9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -4303,7 +4302,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1436" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3139" bodyend="3157"/>
+        <location file="rrRoadRunner.h" line="1436" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3165" bodyend="3183"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0e944d337b8d9204092df7056e1d2b83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4329,7 +4328,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1443" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6635" bodyend="6684"/>
+        <location file="rrRoadRunner.h" line="1443" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6661" bodyend="6710"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af8d2ff8ebf2c85f918cc2888ac68f479" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4352,7 +4351,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1453" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3338" bodyend="3348"/>
+        <location file="rrRoadRunner.h" line="1453" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3364" bodyend="3374"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0cbcdf248d716058325e50adf9239d4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -4367,7 +4366,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1458" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3052" bodyend="3063"/>
+        <location file="rrRoadRunner.h" line="1458" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3078" bodyend="3089"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a744ddb0d6ee6b750e11d752685a29797" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -4383,7 +4382,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1464" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4867" bodyend="4875"/>
+        <location file="rrRoadRunner.h" line="1464" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4893" bodyend="4901"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a4d2c6e653ebbfdebfe9708ee6b99eacc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -4398,7 +4397,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1469" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4877" bodyend="4885"/>
+        <location file="rrRoadRunner.h" line="1469" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4903" bodyend="4911"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a64b828272c3f6429b72d38e39cfcc3c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -4413,7 +4412,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1474" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4887" bodyend="4894"/>
+        <location file="rrRoadRunner.h" line="1474" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4913" bodyend="4920"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aba310cd6f953aa82908c2006219270e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -4428,7 +4427,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1479" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4896" bodyend="4903"/>
+        <location file="rrRoadRunner.h" line="1479" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4922" bodyend="4929"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3702f25236b2aead62907f1982ec2ac4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -4443,7 +4442,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1484" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4905" bodyend="4912"/>
+        <location file="rrRoadRunner.h" line="1484" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4931" bodyend="4938"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6d3c6c4f7d7e1a318ccda22b8c4dc540" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -4458,7 +4457,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1489" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4914" bodyend="4922"/>
+        <location file="rrRoadRunner.h" line="1489" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4940" bodyend="4948"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1afc7498e1fe7098233c87f4427e74509b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -4477,7 +4476,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1494" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3351" bodyend="3361"/>
+        <location file="rrRoadRunner.h" line="1494" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3377" bodyend="3387"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a241c4374d564427ef61df52862136574" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -4497,7 +4496,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1500" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3609" bodyend="3637"/>
+        <location file="rrRoadRunner.h" line="1500" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3635" bodyend="3663"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1b5525fc1a0ada03bb75f78f77c9bbbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4540,7 +4539,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1506" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3574" bodyend="3588"/>
+        <location file="rrRoadRunner.h" line="1506" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3600" bodyend="3614"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af376e9fce37cc7b50cea8e8642eafb00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -4579,7 +4578,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1513" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3590" bodyend="3606"/>
+        <location file="rrRoadRunner.h" line="1513" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3616" bodyend="3632"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1abdb0de6271ba9e054316d739cb9da1e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -4597,7 +4596,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1523" column="21" bodyfile="rrRoadRunner.cpp" bodystart="1384" bodyend="1386"/>
+        <location file="rrRoadRunner.h" line="1523" column="21" bodyfile="rrRoadRunner.cpp" bodystart="1408" bodyend="1410"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad352e9290b7827a2d780a3cc33be194d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -4611,7 +4610,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1525" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4924" bodyend="4927"/>
+        <location file="rrRoadRunner.h" line="1525" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4950" bodyend="4953"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0aeef3b4db855e2cd6e901372c9082f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -4626,7 +4625,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1532" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3257" bodyend="3262"/>
+        <location file="rrRoadRunner.h" line="1532" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3283" bodyend="3288"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a9284f10d515b8ef441473b5c14f5920e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -4645,7 +4644,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1537" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3265" bodyend="3277"/>
+        <location file="rrRoadRunner.h" line="1537" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3291" bodyend="3303"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a67736588f72a8fb4f429368716acda93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -4664,7 +4663,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1542" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3280" bodyend="3292"/>
+        <location file="rrRoadRunner.h" line="1542" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3306" bodyend="3318"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a900fe6274335e44e7633e9e60695ed14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -4679,7 +4678,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1547" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4847" bodyend="4855"/>
+        <location file="rrRoadRunner.h" line="1547" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4873" bodyend="4881"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2f26307521e9930a85ed5c44bae67cfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -4694,7 +4693,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1552" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3296" bodyend="3301"/>
+        <location file="rrRoadRunner.h" line="1552" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3322" bodyend="3327"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a01dbe5358bd652891be6209260523cb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4717,7 +4716,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1557" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3304" bodyend="3314"/>
+        <location file="rrRoadRunner.h" line="1557" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3330" bodyend="3340"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a14b51ebe111fd7292dbca21a2749125b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -4736,7 +4735,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1562" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3316" bodyend="3328"/>
+        <location file="rrRoadRunner.h" line="1562" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3342" bodyend="3354"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3175df12d85de114996361b468c2c38e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -4751,7 +4750,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1567" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4857" bodyend="4865"/>
+        <location file="rrRoadRunner.h" line="1567" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4883" bodyend="4891"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a54a9d80927c998e0981a2deac0671758" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -4766,7 +4765,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1572" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3330" bodyend="3335"/>
+        <location file="rrRoadRunner.h" line="1572" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3356" bodyend="3361"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a42a995530149829e8deda1a18419a864" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4785,7 +4784,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1577" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3539" bodyend="3545"/>
+        <location file="rrRoadRunner.h" line="1577" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3565" bodyend="3571"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1abc64866144a2a728af78010c1d8badb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4804,7 +4803,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1582" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3549" bodyend="3555"/>
+        <location file="rrRoadRunner.h" line="1582" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3575" bodyend="3581"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af2467ad14443e89ac9a1ed98481093c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -4819,7 +4818,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1587" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3409" bodyend="3414"/>
+        <location file="rrRoadRunner.h" line="1587" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3435" bodyend="3440"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6b228e88494e9a1c5615c81889358df5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -4838,7 +4837,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1592" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3447" bodyend="3458"/>
+        <location file="rrRoadRunner.h" line="1592" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3473" bodyend="3484"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad68d81c08a570f120db08c8e5ca735e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4861,7 +4860,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1597" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3433" bodyend="3444"/>
+        <location file="rrRoadRunner.h" line="1597" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3459" bodyend="3470"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8c771da043718ef6a2ebf2a72cde498b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -4876,7 +4875,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1602" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3461" bodyend="3470"/>
+        <location file="rrRoadRunner.h" line="1602" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3487" bodyend="3496"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a4151d7c08054661f86265e36cdef51ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -4891,7 +4890,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1607" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3473" bodyend="3482"/>
+        <location file="rrRoadRunner.h" line="1607" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3499" bodyend="3508"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a08b51ec16a7cd7d13bf2df7628adf471" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -4906,7 +4905,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1612" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3515" bodyend="3524"/>
+        <location file="rrRoadRunner.h" line="1612" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3541" bodyend="3550"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae69dfa3779123d7d1b1da495477bcdd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -4921,7 +4920,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1617" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3526" bodyend="3535"/>
+        <location file="rrRoadRunner.h" line="1617" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3552" bodyend="3561"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a9f58d69e9b0d77e7a141c3cbab08cd46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -4936,7 +4935,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1622" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3485" bodyend="3492"/>
+        <location file="rrRoadRunner.h" line="1622" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3511" bodyend="3518"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5e1dcd14759e468e510a298f61b267de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4955,7 +4954,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1627" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3507" bodyend="3513"/>
+        <location file="rrRoadRunner.h" line="1627" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3533" bodyend="3539"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a08176e93872548591ce96b2f9c20dc74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4978,7 +4977,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1632" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3418" bodyend="3430"/>
+        <location file="rrRoadRunner.h" line="1632" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3444" bodyend="3456"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3c85d3178f85ec302f1dd8f13fb87aa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4997,7 +4996,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1638" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3495" bodyend="3504"/>
+        <location file="rrRoadRunner.h" line="1638" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3521" bodyend="3530"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2df3e839e9faa56b6fb1b50f64aedfb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -5012,7 +5011,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1643" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4929" bodyend="4937"/>
+        <location file="rrRoadRunner.h" line="1643" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4955" bodyend="4963"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a4d160ec4bffd82338fbd6d7c367418f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -5027,7 +5026,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1648" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4949" bodyend="4957"/>
+        <location file="rrRoadRunner.h" line="1648" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4975" bodyend="4983"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af23fe6ec9b4ca66c07e14db3dad23462" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -5042,7 +5041,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1653" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3559" bodyend="3564"/>
+        <location file="rrRoadRunner.h" line="1653" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3585" bodyend="3590"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa90f680c2d8e3c1dbd67c90de015338c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5065,7 +5064,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1658" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3566" bodyend="3572"/>
+        <location file="rrRoadRunner.h" line="1658" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3592" bodyend="3598"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1104cc3634e461f963a8682cbb6e0bbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -5081,7 +5080,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1665" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3640" bodyend="3662"/>
+        <location file="rrRoadRunner.h" line="1665" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3666" bodyend="3688"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad3f4b6ef217424cb9b12c798dfd1129c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5095,7 +5094,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1670" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1878" bodyend="1883"/>
+        <location file="rrRoadRunner.h" line="1670" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1904" bodyend="1909"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a78708a8b3088ada0b5d7b2630a24904e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -5110,7 +5109,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1675" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3036" bodyend="3049"/>
+        <location file="rrRoadRunner.h" line="1675" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3062" bodyend="3075"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1d4371619e6e4e7a31ad721c75718c14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -5126,7 +5125,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1682" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4303" bodyend="4311"/>
+        <location file="rrRoadRunner.h" line="1682" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4329" bodyend="4337"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae8b19594ecf70d1995fc30e63c9a0826" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -5142,7 +5141,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1689" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4969" bodyend="4977"/>
+        <location file="rrRoadRunner.h" line="1689" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4995" bodyend="5003"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a03d8db00d714b31251af8427e4bbac55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5160,7 +5159,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1699" column="14" bodyfile="rrRoadRunner.cpp" bodystart="994" bodyend="996"/>
+        <location file="rrRoadRunner.h" line="1699" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1002" bodyend="1004"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0fde5be334c5dfd9cc8738210839978d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -5174,7 +5173,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1708" column="21" bodyfile="rrRoadRunner.cpp" bodystart="998" bodyend="1000"/>
+        <location file="rrRoadRunner.h" line="1708" column="21" bodyfile="rrRoadRunner.cpp" bodystart="1006" bodyend="1008"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -5195,7 +5194,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="119" column="28" bodyfile="rrRoadRunner.cpp" bodystart="1066" bodyend="1104"/>
+        <location file="rrRoadRunner.h" line="119" column="28" bodyfile="rrRoadRunner.cpp" bodystart="1090" bodyend="1128"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a862621117012d7e294d7628fed11f82b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -5210,7 +5209,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="208" column="28" bodyfile="rrRoadRunner.cpp" bodystart="854" bodyend="860"/>
+        <location file="rrRoadRunner.h" line="208" column="28" bodyfile="rrRoadRunner.cpp" bodystart="862" bodyend="868"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a4064f1dba1c7342c6e81987bfc61d2f7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -5225,7 +5224,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="213" column="28" bodyfile="rrRoadRunner.cpp" bodystart="862" bodyend="868"/>
+        <location file="rrRoadRunner.h" line="213" column="28" bodyfile="rrRoadRunner.cpp" bodystart="870" bodyend="876"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1acc731ff7a1fecb361366460e2dc0cdbe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -5240,7 +5239,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="218" column="28" bodyfile="rrRoadRunner.cpp" bodystart="870" bodyend="876"/>
+        <location file="rrRoadRunner.h" line="218" column="28" bodyfile="rrRoadRunner.cpp" bodystart="878" bodyend="884"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ace9c4f3cde41235114838e6b4368f3c8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5255,7 +5254,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="260" column="21" bodyfile="rrRoadRunner.cpp" bodystart="967" bodyend="976"/>
+        <location file="rrRoadRunner.h" line="260" column="21" bodyfile="rrRoadRunner.cpp" bodystart="975" bodyend="984"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a99dbe4b81831a8b7d5b53077027f465a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -5270,7 +5269,29 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="824" column="28" bodyfile="rrRoadRunner.cpp" bodystart="705" bodyend="711"/>
+        <location file="rrRoadRunner.h" line="824" column="28" bodyfile="rrRoadRunner.cpp" bodystart="713" bodyend="719"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1RoadRunner_1adbcf65d0a1a411988f9e5f07308da05c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const libsbml::SBase *</type>
+        <definition>const libsbml::SBase * rr::RoadRunner::getElementWithMathematicalMeaning</definition>
+        <argsstring>(const libsbml::Model *model, const std::string &amp;id)</argsstring>
+        <name>getElementWithMathematicalMeaning</name>
+        <qualifiedname>rr::RoadRunner::getElementWithMathematicalMeaning</qualifiedname>
+        <param>
+          <type>const libsbml::Model *</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrRoadRunner.h" line="1715" column="37" bodyfile="rrRoadRunner.cpp" bodystart="1010" bodyend="1024"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -5294,7 +5315,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1714" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1747" bodyend="1757"/>
+        <location file="rrRoadRunner.h" line="1722" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1773" bodyend="1783"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2abbc28f0781c4d0355c94405303749f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5312,7 +5333,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
 <para>The main program should call this function to initialize the native target assembly (asm) printer.</para>
 <para>The main program should call this function to initialize the native target assembly (asm) parser.</para>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1726" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1761" bodyend="1787"/>
+        <location file="rrRoadRunner.h" line="1734" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1787" bodyend="1813"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0c49373f5b4da7d9bd23c278022b6429" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -5326,7 +5347,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1728" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3089" bodyend="3106"/>
+        <location file="rrRoadRunner.h" line="1736" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3115" bodyend="3132"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a51c4d5d1cfd6e8c8177d2bc0d6356cf4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -5340,7 +5361,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1730" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1002" bodyend="1044"/>
+        <location file="rrRoadRunner.h" line="1738" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1026" bodyend="1068"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a7be498f9a0d78bd85530b10a1b650125" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5367,7 +5388,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1736" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1365" bodyend="1370"/>
+        <location file="rrRoadRunner.h" line="1744" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1389" bodyend="1394"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae51454870dda3981349064eeb5469fc5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5390,7 +5411,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1742" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1372" bodyend="1381"/>
+        <location file="rrRoadRunner.h" line="1750" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1396" bodyend="1405"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aafcbbfa263f8ca43ac0eda623b86a7b9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5404,7 +5425,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1744" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1524" bodyend="1532"/>
+        <location file="rrRoadRunner.h" line="1752" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1550" bodyend="1558"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a9c11a913c607be2ec0aaee76e81bef07" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -5426,7 +5447,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1747" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1344" bodyend="1352"/>
+        <location file="rrRoadRunner.h" line="1755" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1368" bodyend="1376"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad7c60d7ae5c8b92b1c4a1490f1d9d929" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5444,7 +5465,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1749" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5842" bodyend="5895"/>
+        <location file="rrRoadRunner.h" line="1757" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5868" bodyend="5921"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2937cdfb17c33ce04dc3184b066bb942" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5466,7 +5487,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1751" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6880" bodyend="6888"/>
+        <location file="rrRoadRunner.h" line="1759" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6906" bodyend="6914"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0b5a3f0d39365ceef41514fabd1c90d5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -5481,7 +5502,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1754" column="13" bodyfile="rrRoadRunner.cpp" bodystart="1354" bodyend="1363"/>
+        <location file="rrRoadRunner.h" line="1762" column="13" bodyfile="rrRoadRunner.cpp" bodystart="1378" bodyend="1387"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1cecf2554210e549f7a379001a57066c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -5503,7 +5524,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1760" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3065" bodyend="3087"/>
+        <location file="rrRoadRunner.h" line="1768" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3091" bodyend="3113"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af7bf954facc34a728c55c151a82b4513" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::LibStructural *</type>
@@ -5518,7 +5539,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1766" column="27" bodyfile="rrRoadRunner.cpp" bodystart="714" bodyend="727"/>
+        <location file="rrRoadRunner.h" line="1774" column="27" bodyfile="rrRoadRunner.cpp" bodystart="722" bodyend="735"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6fef677633e62e8c9cc9a124e4aa4968" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5533,7 +5554,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1774" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1456" bodyend="1475"/>
+        <location file="rrRoadRunner.h" line="1782" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1482" bodyend="1501"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8f04709a840ba7ea344db95b3db486c3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -5548,7 +5569,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1780" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1046" bodyend="1064"/>
+        <location file="rrRoadRunner.h" line="1788" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1070" bodyend="1088"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a123438e90579635b6fd21fec8f11d83d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="classrr_1_1SelectionRecord" kindref="compound">SelectionRecord</ref> &gt;</type>
@@ -5562,7 +5583,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1782" column="21" bodyfile="rrRoadRunner.cpp" bodystart="657" bodyend="659"/>
+        <location file="rrRoadRunner.h" line="1790" column="21" bodyfile="rrRoadRunner.cpp" bodystart="665" bodyend="667"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae32c3f10a636667166a3547b211bb6ac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5578,7 +5599,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1789" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5000" bodyend="5016"/>
+        <location file="rrRoadRunner.h" line="1797" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5026" bodyend="5042"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab0091e3fd01aa0d2051ab5136832da68" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::complex&lt; double &gt; &gt;</type>
@@ -5596,7 +5617,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1796" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2285" bodyend="2295"/>
+        <location file="rrRoadRunner.h" line="1804" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2311" bodyend="2321"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a27cbba124047718be497467c183a7ab6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -5614,7 +5635,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1798" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2307" bodyend="2329"/>
+        <location file="rrRoadRunner.h" line="1806" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2333" bodyend="2355"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa7c8c79214cdf3a420a3c6a05cd01360" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5636,7 +5657,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1809" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6627" bodyend="6632"/>
+        <location file="rrRoadRunner.h" line="1817" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6653" bodyend="6658"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a78a345b13c9b8f6c1297988bb6df5384" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5662,7 +5683,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1814" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6687" bodyend="6695"/>
+        <location file="rrRoadRunner.h" line="1822" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6713" bodyend="6721"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1adbfc8696409d5a806aee2e09c3cfa575" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5680,7 +5701,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1819" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6697" bodyend="6878"/>
+        <location file="rrRoadRunner.h" line="1827" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6723" bodyend="6904"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae21c2b6e8bcedc335d90c5e141f6e655" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5702,7 +5723,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1824" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6890" bodyend="6904"/>
+        <location file="rrRoadRunner.h" line="1832" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6916" bodyend="6930"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1adb04ab9782b9025f5209c194b12f1d57" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5724,7 +5745,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1829" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6907" bodyend="6914"/>
+        <location file="rrRoadRunner.h" line="1837" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6933" bodyend="6940"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6ff8350406024a03f77f758516a28e11" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5750,7 +5771,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1831" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6916" bodyend="6928"/>
+        <location file="rrRoadRunner.h" line="1839" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6942" bodyend="6954"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a010cf5633324667c3e3d8c83f005fe07" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5764,7 +5785,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1837" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6931" bodyend="6954"/>
+        <location file="rrRoadRunner.h" line="1845" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6957" bodyend="6980"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a516972576c9b42e85387307db03f936c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5786,7 +5807,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1839" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5230" bodyend="5238"/>
+        <location file="rrRoadRunner.h" line="1847" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5256" bodyend="5264"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1afb806cadbfb14bddc33ef82b2ea7bb43" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -5808,7 +5829,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1841" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5390" bodyend="5402"/>
+        <location file="rrRoadRunner.h" line="1849" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5416" bodyend="5428"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -5818,7 +5839,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
 <para>The <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref> class is responsible for loading and simulating SBML models.</para>
 <para>MemoryManagment: Any pointer returned by a get... method is owned by the <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref> object and does NOT have to be deleted. </para>
     </detaileddescription>
-    <location file="rrRoadRunner.h" line="59" column="5" bodyfile="rrRoadRunner.h" bodystart="59" bodyend="1845"/>
+    <location file="rrRoadRunner.h" line="59" column="5" bodyfile="rrRoadRunner.h" bodystart="59" bodyend="1853"/>
     <listofallmembers>
       <member refid="classrr_1_1RoadRunner_1a8d7d526b65b7f4da57416eef928edc6e" prot="public" virt="non-virtual"><scope>rr::RoadRunner</scope><name>addAssignmentRule</name></member>
       <member refid="classrr_1_1RoadRunner_1a7e475483794fc8b59d3b1b423607b2f5" prot="public" virt="non-virtual"><scope>rr::RoadRunner</scope><name>addCompartment</name></member>
@@ -5876,6 +5897,7 @@ In the MCA routines, <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadR
       <member refid="classrr_1_1RoadRunner_1aea6a2de3cb5502f2924f6c874b848758" prot="public" virt="non-virtual"><scope>rr::RoadRunner</scope><name>getEigenValueIds</name></member>
       <member refid="classrr_1_1RoadRunner_1ab0091e3fd01aa0d2051ab5136832da68" prot="private" virt="non-virtual"><scope>rr::RoadRunner</scope><name>getEigenValues</name></member>
       <member refid="classrr_1_1RoadRunner_1a27cbba124047718be497467c183a7ab6" prot="private" virt="non-virtual"><scope>rr::RoadRunner</scope><name>getEigenValuesNamedArray</name></member>
+      <member refid="classrr_1_1RoadRunner_1adbcf65d0a1a411988f9e5f07308da05c" prot="public" virt="non-virtual"><scope>rr::RoadRunner</scope><name>getElementWithMathematicalMeaning</name></member>
       <member refid="classrr_1_1RoadRunner_1ad9d66d24ede15b0c28db4093b782cd28" prot="public" virt="non-virtual"><scope>rr::RoadRunner</scope><name>getExistingIntegratorNames</name></member>
       <member refid="classrr_1_1RoadRunner_1aa8b6f3e37b479867bc58c5ba7c40fb41" prot="public" virt="non-virtual"><scope>rr::RoadRunner</scope><name>getExistingSensitivitySolverNames</name></member>
       <member refid="classrr_1_1RoadRunner_1aa0bc0322f7c8728205afe03628c136cd" prot="public" virt="non-virtual"><scope>rr::RoadRunner</scope><name>getExistingSteadyStateSolverNames</name></member>

@@ -19,6 +19,7 @@
     <includedby refid="rrc__utilities_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.cpp</includedby>
     <includedby refid="rrCCompiler_8cpp" local="yes">c/rrCCompiler.cpp</includedby>
     <includedby refid="rrCModelGenerator_8cpp" local="yes">c/rrCModelGenerator.cpp</includedby>
+    <includedby refid="LLVMModelSymbols_8cpp" local="yes">llvm/LLVMModelSymbols.cpp</includedby>
     <includedby refid="rrRoadRunner_8cpp" local="yes">rrRoadRunner.cpp</includedby>
     <includedby refid="rrRoadRunnerData_8cpp" local="yes">rrRoadRunnerData.cpp</includedby>
     <includedby refid="rrRoadRunnerMap_8h" local="yes">rrRoadRunnerMap.h</includedby>
@@ -1035,111 +1036,114 @@
 <codeline lineno="1700"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1708"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>getTempDir();</highlight></codeline>
 <codeline lineno="1709"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1710"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>#ifndef<sp/>SWIG</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1711"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1712"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="1713"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1714"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>fixDependentSpeciesValues(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>except,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*ref);</highlight></codeline>
-<codeline lineno="1715"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1720"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>llvmInitialized;</highlight></codeline>
-<codeline lineno="1721"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>solversRegistered;</highlight></codeline>
-<codeline lineno="1722"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1726"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initLLVM();</highlight></codeline>
-<codeline lineno="1727"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1728"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>createDefaultSteadyStateSelectionList();</highlight></codeline>
-<codeline lineno="1729"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1730"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>createDefaultTimeCourseSelectionList();</highlight></codeline>
-<codeline lineno="1731"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1736"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getSelectedValues(ls::DoubleMatrix<sp/>&amp;results,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>nRow,</highlight></codeline>
-<codeline lineno="1737"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>currentTime);</highlight></codeline>
-<codeline lineno="1738"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1742"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getSelectedValues(std::vector&lt;double&gt;<sp/>&amp;results,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>currentTime);</highlight></codeline>
-<codeline lineno="1743"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1744"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>populateResult();</highlight></codeline>
-<codeline lineno="1745"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1715"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libsbml::SBase*<sp/>getElementWithMathematicalMeaning(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libsbml::Model*<sp/>model,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1716"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1717"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1718"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>#ifndef<sp/>SWIG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1719"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1720"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="1721"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1722"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>fixDependentSpeciesValues(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>except,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*ref);</highlight></codeline>
+<codeline lineno="1723"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1728"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>llvmInitialized;</highlight></codeline>
+<codeline lineno="1729"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>solversRegistered;</highlight></codeline>
+<codeline lineno="1730"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1734"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initLLVM();</highlight></codeline>
+<codeline lineno="1735"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1736"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>createDefaultSteadyStateSelectionList();</highlight></codeline>
+<codeline lineno="1737"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1738"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>createDefaultTimeCourseSelectionList();</highlight></codeline>
+<codeline lineno="1739"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1744"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getSelectedValues(ls::DoubleMatrix<sp/>&amp;results,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>nRow,</highlight></codeline>
+<codeline lineno="1745"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>currentTime);</highlight></codeline>
 <codeline lineno="1746"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1747"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>getNthSelectedOutput(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>index,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>currentTime);</highlight></codeline>
-<codeline lineno="1748"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1749"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isParameterUsed(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;sid);</highlight></codeline>
-<codeline lineno="1750"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1751"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getAllVariables(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libsbml::ASTNode<sp/>*node,<sp/>std::set&lt;std::string&gt;<sp/>&amp;ids);</highlight></codeline>
-<codeline lineno="1752"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1754"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>getTimeRowIndex();</highlight></codeline>
-<codeline lineno="1755"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1756"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>VariableType<sp/>{</highlight></codeline>
-<codeline lineno="1757"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtSpecies<sp/>=<sp/>0,<sp/>vtFlux</highlight></codeline>
-<codeline lineno="1758"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1759"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1760"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>getVariableValue(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VariableType<sp/>variableType,</highlight></codeline>
-<codeline lineno="1761"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>variableIndex);</highlight></codeline>
-<codeline lineno="1762"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1766"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ls::LibStructural<sp/>*getLibStruct();</highlight></codeline>
+<codeline lineno="1750"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getSelectedValues(std::vector&lt;double&gt;<sp/>&amp;results,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>currentTime);</highlight></codeline>
+<codeline lineno="1751"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1752"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>populateResult();</highlight></codeline>
+<codeline lineno="1753"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1754"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1755"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>getNthSelectedOutput(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>index,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>currentTime);</highlight></codeline>
+<codeline lineno="1756"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1757"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isParameterUsed(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;sid);</highlight></codeline>
+<codeline lineno="1758"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1759"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getAllVariables(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libsbml::ASTNode<sp/>*node,<sp/>std::set&lt;std::string&gt;<sp/>&amp;ids);</highlight></codeline>
+<codeline lineno="1760"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1762"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>getTimeRowIndex();</highlight></codeline>
+<codeline lineno="1763"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1764"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>VariableType<sp/>{</highlight></codeline>
+<codeline lineno="1765"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtSpecies<sp/>=<sp/>0,<sp/>vtFlux</highlight></codeline>
+<codeline lineno="1766"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="1767"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1772"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//void<sp/>updateIntegrator();</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1773"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1774"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>createDefaultSelectionLists();</highlight></codeline>
+<codeline lineno="1768"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>getVariableValue(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VariableType<sp/>variableType,</highlight></codeline>
+<codeline lineno="1769"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>variableIndex);</highlight></codeline>
+<codeline lineno="1770"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1774"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ls::LibStructural<sp/>*getLibStruct();</highlight></codeline>
 <codeline lineno="1775"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1780"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>createTimeCourseSelectionList();</highlight></codeline>
+<codeline lineno="1780"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//void<sp/>updateIntegrator();</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="1781"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1782"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;SelectionRecord&gt;<sp/>getSelectionList();</highlight></codeline>
+<codeline lineno="1782"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>createDefaultSelectionLists();</highlight></codeline>
 <codeline lineno="1783"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1789"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>applySimulateOptions();</highlight></codeline>
-<codeline lineno="1790"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1788"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>createTimeCourseSelectionList();</highlight></codeline>
+<codeline lineno="1789"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1790"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;SelectionRecord&gt;<sp/>getSelectionList();</highlight></codeline>
 <codeline lineno="1791"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1792"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>JacobianMode<sp/>{</highlight></codeline>
-<codeline lineno="1793"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>JACOBIAN_FULL,<sp/>JACOBIAN_REDUCED</highlight></codeline>
-<codeline lineno="1794"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1795"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1796"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::complex&lt;double&gt;<sp/>&gt;<sp/>getEigenValues(JacobianMode<sp/>mode);</highlight></codeline>
-<codeline lineno="1797"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1798"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ls::DoubleMatrix<sp/>getEigenValuesNamedArray(JacobianMode<sp/>mode);</highlight></codeline>
+<codeline lineno="1797"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>applySimulateOptions();</highlight></codeline>
+<codeline lineno="1798"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1799"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1804"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrr_1_1RoadRunnerImpl" kindref="compound">RoadRunnerImpl</ref><sp/>*impl;</highlight></codeline>
+<codeline lineno="1800"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>JacobianMode<sp/>{</highlight></codeline>
+<codeline lineno="1801"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>JACOBIAN_FULL,<sp/>JACOBIAN_REDUCED</highlight></codeline>
+<codeline lineno="1802"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1803"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1804"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::complex&lt;double&gt;<sp/>&gt;<sp/>getEigenValues(JacobianMode<sp/>mode);</highlight></codeline>
 <codeline lineno="1805"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1806"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="1807"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Check<sp/>if<sp/>the<sp/>id<sp/>already<sp/>existed<sp/>in<sp/>the<sp/>model</highlight></codeline>
-<codeline lineno="1808"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1809"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkID(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;functionName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;sid);</highlight></codeline>
-<codeline lineno="1810"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1811"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="1812"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Parse<sp/>a<sp/>std::string<sp/>with<sp/>format<sp/>stoichiometry<sp/>+<sp/>sID<sp/>and<sp/>return<sp/>its<sp/>stoichiometry<sp/>value<sp/>and<sp/>sID</highlight></codeline>
-<codeline lineno="1813"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1814"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>parseSpecies(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;species,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*stoichiometry,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**sid);</highlight></codeline>
-<codeline lineno="1815"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1816"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="1817"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Remove<sp/>a<sp/>variable<sp/>from<sp/>the<sp/>current<sp/>model.</highlight></codeline>
-<codeline lineno="1818"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1819"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>removeVariable(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;sid);</highlight></codeline>
-<codeline lineno="1820"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1821"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="1822"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>check<sp/>recursively<sp/>if<sp/>a<sp/>ASTnode<sp/>or<sp/>any<sp/>of<sp/>its<sp/>child<sp/>has<sp/>the<sp/>given<sp/>variable</highlight></codeline>
-<codeline lineno="1823"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1824"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasVariable(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libsbml::ASTNode<sp/>*node,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;sid);</highlight></codeline>
-<codeline lineno="1825"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1826"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="1827"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Get<sp/>the<sp/>names<sp/>of<sp/>all<sp/>the<sp/>species<sp/>involved<sp/>in<sp/>a<sp/>given<sp/>AST</highlight></codeline>
-<codeline lineno="1828"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1829"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getSpeciesIdsFromAST(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libsbml::ASTNode<sp/>*node,<sp/>std::vector&lt;std::string&gt;<sp/>&amp;species);</highlight></codeline>
-<codeline lineno="1830"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1831"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getSpeciesIdsFromAST(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libsbml::ASTNode<sp/>*node,<sp/>std::vector&lt;std::string&gt;<sp/>&amp;species,</highlight></codeline>
-<codeline lineno="1832"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>&amp;speciesNames);</highlight></codeline>
+<codeline lineno="1806"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ls::DoubleMatrix<sp/>getEigenValuesNamedArray(JacobianMode<sp/>mode);</highlight></codeline>
+<codeline lineno="1807"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1812"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrr_1_1RoadRunnerImpl" kindref="compound">RoadRunnerImpl</ref><sp/>*impl;</highlight></codeline>
+<codeline lineno="1813"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1814"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="1815"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Check<sp/>if<sp/>the<sp/>id<sp/>already<sp/>existed<sp/>in<sp/>the<sp/>model</highlight></codeline>
+<codeline lineno="1816"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1817"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkID(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;functionName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;sid);</highlight></codeline>
+<codeline lineno="1818"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1819"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="1820"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Parse<sp/>a<sp/>std::string<sp/>with<sp/>format<sp/>stoichiometry<sp/>+<sp/>sID<sp/>and<sp/>return<sp/>its<sp/>stoichiometry<sp/>value<sp/>and<sp/>sID</highlight></codeline>
+<codeline lineno="1821"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1822"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>parseSpecies(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;species,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*stoichiometry,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**sid);</highlight></codeline>
+<codeline lineno="1823"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1824"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="1825"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Remove<sp/>a<sp/>variable<sp/>from<sp/>the<sp/>current<sp/>model.</highlight></codeline>
+<codeline lineno="1826"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1827"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>removeVariable(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;sid);</highlight></codeline>
+<codeline lineno="1828"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1829"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="1830"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>check<sp/>recursively<sp/>if<sp/>a<sp/>ASTnode<sp/>or<sp/>any<sp/>of<sp/>its<sp/>child<sp/>has<sp/>the<sp/>given<sp/>variable</highlight></codeline>
+<codeline lineno="1831"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1832"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasVariable(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libsbml::ASTNode<sp/>*node,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;sid);</highlight></codeline>
 <codeline lineno="1833"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1834"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="1835"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>check<sp/>and<sp/>remove<sp/>all<sp/>parameter<sp/>without<sp/>any<sp/>assignments</highlight></codeline>
+<codeline lineno="1835"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Get<sp/>the<sp/>names<sp/>of<sp/>all<sp/>the<sp/>species<sp/>involved<sp/>in<sp/>a<sp/>given<sp/>AST</highlight></codeline>
 <codeline lineno="1836"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1837"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkGlobalParameters();</highlight></codeline>
+<codeline lineno="1837"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getSpeciesIdsFromAST(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libsbml::ASTNode<sp/>*node,<sp/>std::vector&lt;std::string&gt;<sp/>&amp;species);</highlight></codeline>
 <codeline lineno="1838"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1839"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>saveSelectionVector(std::ostream<sp/>&amp;,<sp/>std::vector&lt;SelectionRecord&gt;<sp/>&amp;);</highlight></codeline>
-<codeline lineno="1840"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1841"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>loadSelectionVector(std::istream<sp/>&amp;,<sp/>std::vector&lt;SelectionRecord&gt;<sp/>&amp;);</highlight></codeline>
-<codeline lineno="1842"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1843"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fileMagicNumber<sp/>=<sp/>0xAD6F52;</highlight></codeline>
-<codeline lineno="1844"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dataVersionNumber<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="1845"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1839"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getSpeciesIdsFromAST(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libsbml::ASTNode<sp/>*node,<sp/>std::vector&lt;std::string&gt;<sp/>&amp;species,</highlight></codeline>
+<codeline lineno="1840"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>&amp;speciesNames);</highlight></codeline>
+<codeline lineno="1841"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1842"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="1843"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>check<sp/>and<sp/>remove<sp/>all<sp/>parameter<sp/>without<sp/>any<sp/>assignments</highlight></codeline>
+<codeline lineno="1844"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1845"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkGlobalParameters();</highlight></codeline>
 <codeline lineno="1846"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1847"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1847"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>saveSelectionVector(std::ostream<sp/>&amp;,<sp/>std::vector&lt;SelectionRecord&gt;<sp/>&amp;);</highlight></codeline>
 <codeline lineno="1848"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1849"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>rrRoadRunnerH</highlight></codeline>
+<codeline lineno="1849"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>loadSelectionVector(std::istream<sp/>&amp;,<sp/>std::vector&lt;SelectionRecord&gt;<sp/>&amp;);</highlight></codeline>
+<codeline lineno="1850"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1851"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fileMagicNumber<sp/>=<sp/>0xAD6F52;</highlight></codeline>
+<codeline lineno="1852"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dataVersionNumber;</highlight></codeline>
+<codeline lineno="1853"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1854"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1855"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1856"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1857"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>rrRoadRunnerH</highlight></codeline>
     </programlisting>
     <location file="rrRoadRunner.h"/>
   </compounddef>
