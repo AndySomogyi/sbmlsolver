@@ -83,7 +83,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/EvalRateRuleRatesCodeGen.h" line="34" column="17" bodyfile="llvm/EvalRateRuleRatesCodeGen.cpp" bodystart="39" bodyend="141"/>
+        <location file="llvm/EvalRateRuleRatesCodeGen.h" line="34" column="17" bodyfile="llvm/EvalRateRuleRatesCodeGen.cpp" bodystart="39" bodyend="140"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

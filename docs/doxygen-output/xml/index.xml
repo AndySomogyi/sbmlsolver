@@ -3135,6 +3135,7 @@
     <member refid="classrr_1_1RoadRunner_1acc731ff7a1fecb361366460e2dc0cdbe" kind="function"><name>getRegisteredSensitivitySolverNames</name></member>
     <member refid="classrr_1_1RoadRunner_1ace9c4f3cde41235114838e6b4368f3c8" kind="function"><name>registerSolvers</name></member>
     <member refid="classrr_1_1RoadRunner_1a99dbe4b81831a8b7d5b53077027f465a" kind="function"><name>getExtendedVersionInfo</name></member>
+    <member refid="classrr_1_1RoadRunner_1adbcf65d0a1a411988f9e5f07308da05c" kind="function"><name>getElementWithMathematicalMeaning</name></member>
     <member refid="classrr_1_1RoadRunner_1a869c9a08c8ec66645d9910c08a52d41a" kind="function"><name>fixDependentSpeciesValues</name></member>
     <member refid="classrr_1_1RoadRunner_1a2abbc28f0781c4d0355c94405303749f" kind="function"><name>initLLVM</name></member>
     <member refid="classrr_1_1RoadRunner_1a0c49373f5b4da7d9bd23c278022b6429" kind="function"><name>createDefaultSteadyStateSelectionList</name></member>
