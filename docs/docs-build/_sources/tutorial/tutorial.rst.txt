@@ -17,6 +17,7 @@ Tutorial
     plotting_data
     changing_initial_conditions
     solvers
+    jit_engines
 
 Quickstart
 ==========

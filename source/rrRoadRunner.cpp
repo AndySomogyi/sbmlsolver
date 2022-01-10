@@ -497,7 +497,9 @@ namespace rr {
     }
 
     RoadRunner::RoadRunner(unsigned int level, unsigned int version)
-            : impl(new RoadRunnerImpl("", NULL)) {
+        : impl(new RoadRunnerImpl("", NULL))
+        , dataVersionNumber(RR_VERSION_MAJOR * 10 + RR_VERSION_MINOR)
+    {
 
         initLLVM();
 
@@ -527,7 +529,9 @@ namespace rr {
 
 
     RoadRunner::RoadRunner(const std::string &uriOrSBML, const Dictionary *options)
-            : impl(new RoadRunnerImpl(uriOrSBML, options)) {
+        : impl(new RoadRunnerImpl(uriOrSBML, options))
+        , dataVersionNumber(RR_VERSION_MAJOR * 10 + RR_VERSION_MINOR)
+    {
         initLLVM();
 
         /**
@@ -555,8 +559,10 @@ namespace rr {
 
 
     RoadRunner::RoadRunner(const std::string &_compiler, const std::string &_tempDir,
-                           const std::string &supportCodeDir) :
-            impl(new RoadRunnerImpl(_compiler, _tempDir, supportCodeDir)) {
+                           const std::string &supportCodeDir) 
+        : impl(new RoadRunnerImpl(_compiler, _tempDir, supportCodeDir)) 
+        , dataVersionNumber(RR_VERSION_MAJOR * 10 + RR_VERSION_MINOR)
+    {
         initLLVM();
         // must be run to register solvers
         registerSolvers();
@@ -584,7 +590,9 @@ namespace rr {
     }
 
     RoadRunner::RoadRunner(const RoadRunner &rr)
-            : impl(new RoadRunnerImpl(*rr.impl)) {
+        : impl(new RoadRunnerImpl(*rr.impl))
+        , dataVersionNumber(RR_VERSION_MAJOR * 10 + RR_VERSION_MINOR)
+    {
         //Set up integrators.
         // We loop through all the integrators in the source, setting the current one to
         //  each in turn, and setting the values of that current one based on the one in
@@ -999,6 +1007,22 @@ namespace rr {
         return impl->loadOpt.getItem("tempDir");
     }
 
+    const libsbml::SBase* RoadRunner::getElementWithMathematicalMeaning(const libsbml::Model* model, const std::string& id)
+    {
+        const libsbml::SBase* element = model->getSpecies(id);
+        if (!element) {
+            element = model->getParameter(id);
+            if (!element) {
+                element = model->getCompartment(id);
+                if (!element) {
+                    libsbml::ListOfReactions* lor = const_cast<libsbml::ListOfReactions*>(model->getListOfReactions());
+                    element = lor->getElementBySId(id);
+                }
+            }
+        }
+        return element;
+    }
+
     size_t RoadRunner::createDefaultTimeCourseSelectionList() {
         std::vector<std::string> selections;
         std::vector<std::string> oFloating = getFloatingSpeciesIds();
@@ -1386,7 +1410,6 @@ namespace rr {
     }
 
     void RoadRunner::load(const std::string &uriOrSbml, const Dictionary *dict) {
-//        std::lock_guard<std::mutex> lock(rrMtx);
         std::string currentSBML = SBMLReader::read(uriOrSbml);
 
         // chomp any leading or trailing whitespace
@@ -1415,8 +1438,11 @@ namespace rr {
             // we validate the model to provide explicit details about where it
             // failed. Its *VERY* expensive to pre-validate the model.
             libsbml::SBMLReader reader;
-            impl->document.reset(reader.readSBMLFromString(currentSBML));
-            std::string md5 = rr::getSBMLMD5(currentSBML, impl->loadOpt.modelGeneratorOpt);
+            rrMtx.lock();
+            libsbml::SBMLDocument* doc = reader.readSBMLFromString(currentSBML);
+            rrMtx.unlock();
+            impl->document.reset(doc);
+            std::string md5 = rr::getSBMLMD5(currentSBML, (int)impl->loadOpt.modelGeneratorOpt);
 
             // Fix various problems that might occur in incomplete SBML models.  This makes it out of sync with the md5 hash, but the hash still maps to a unique document.
             fixMissingStoichAndMath(impl->document.get());
@@ -1427,7 +1453,7 @@ namespace rr {
             // reason the message is erased, and an 'unknown error' is displayed to the user.
             throw e;
         } catch (const rrllvm::LLVMException &e) {
-            // catch specifically for LLVMException, otherwise the exception type is removed, 
+            // catch specifically for LLVMException, otherwise the exception type is removed,
             // and an 'unknown error' is displayed to the user.
             throw e;
         }
@@ -6066,7 +6092,7 @@ namespace rr {
     }
 
     void checkAddRule(const std::string &vid, libsbml::Model *sbmlModel) {
-        libsbml::SBase *sbase = sbmlModel->getElementBySId(vid);
+        libsbml::SBase *sbase = const_cast<libsbml::SBase*>(RoadRunner::getElementWithMathematicalMeaning(sbmlModel, vid));
         if (sbase == NULL) {
             throw std::invalid_argument(
                     "Unable to add rule because no variable with ID " + vid + " was found in the model.");
