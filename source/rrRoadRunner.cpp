@@ -4406,8 +4406,6 @@ namespace rr {
         // check to see that we have valid selection ids
         switch (sel.selectionType) {
             case SelectionRecord::TIME:
-                // time is always fine...
-                break;
             case SelectionRecord::UNKNOWN_ELEMENT:
                 // check for sbml element types
 
@@ -4425,6 +4423,9 @@ namespace rr {
                     break;
                 } else if ((sel.index = impl->model->getReactionIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::REACTION_RATE;
+                    break;
+                } else if (sel.selectionType == SelectionRecord::TIME) {
+                    //Need to put this here in case there's an actual SBML variable called 'time'
                     break;
                 } else {
                     throw Exception("No sbml element exists for symbol '" + str + "'");
@@ -4565,11 +4566,27 @@ namespace rr {
         return sel;
     }
 
+    bool compareNoCaseRR(const string& str1, const string& str2)
+    {
+#if defined(_WIN32)
+        int res = stricmp(str1.c_str(), str2.c_str());
+#else
+        int res = strcasecmp(str1.c_str(), str2.c_str());
+#endif
+        return res == 0 ? true : false;
+    }
+
     void RoadRunner::setSelections(const std::vector<std::string> &_selList) {
         impl->mSelectionList.clear();
 
         for (int i = 0; i < _selList.size(); ++i) {
             impl->mSelectionList.push_back(createSelection(_selList[i]));
+        }
+
+        //Even if there's a 'time' variable in the model, if the first variable is 'time', make it the TIME selection record anyway.
+        if (impl->mSelectionList.size() && impl->mSelectionList[0].selectionType != SelectionRecord::TIME && compareNoCaseRR(impl->mSelectionList[0].p1, "time"))
+        {
+            impl->mSelectionList[0].selectionType = SelectionRecord::TIME;
         }
 
         std::vector<std::string> selstr = std::vector<std::string>(impl->mSelectionList.size());

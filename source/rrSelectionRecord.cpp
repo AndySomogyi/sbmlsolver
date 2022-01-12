@@ -326,11 +326,7 @@ rr::SelectionRecord::SelectionRecord(const std::string str) :
 {
     int complex;
 
-    if (is_time(str))
-    {
-        selectionType = TIME;
-    }
-    else if (is_ec(str, p1, p2))
+    if (is_ec(str, p1, p2))
     {
         selectionType = ELASTICITY;
     }
@@ -385,9 +381,17 @@ rr::SelectionRecord::SelectionRecord(const std::string str) :
     {
         selectionType = STOICHIOMETRY;
     }
-    else if(is_symbol(str, p1))
+    else if (is_symbol(str, p1))
     {
-        selectionType = UNKNOWN_ELEMENT;
+        //This allows 'p1' to be set even for TIME.
+        if (is_time(str))
+        {
+            selectionType = TIME;
+        }
+        else
+        {
+            selectionType = UNKNOWN_ELEMENT;
+        }
     }
 }
 
