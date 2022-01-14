@@ -251,7 +251,7 @@ bool ModelEditingTests::RunTestModelFromScratch(void(*generate)(RoadRunner *), s
             throw (Exception("Failed saving result"));
         }
 
-        if (!simulation.LoadReferenceData(modelFilePath / ("rr_results-" + testName + ".csv"))) {
+        if (!simulation.LoadReferenceData(modelFilePath / (testName + "-results.csv"))) {
             throw (Exception("Failed Loading reference data"));
         }
 
