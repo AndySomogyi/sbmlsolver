@@ -69,6 +69,10 @@ public:
 
     bool readFrom(const std::string& fileName);
 
+    static void writeOnlyData(std::ostream& ss, const RoadRunnerData& data);
+
+    static void writeWeights(std::ostream& ss, const RoadRunnerData& data);
+
     bool check() const;
 
     bool structuredResult;

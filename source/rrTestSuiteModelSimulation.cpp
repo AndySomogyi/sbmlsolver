@@ -305,7 +305,7 @@ path TestSuiteModelSimulation::GetSettingsFileNameForCase(int caseNr)
 path TestSuiteModelSimulation::GetReferenceDataFileNameForCase(int caseNr)
 {
     std::stringstream name;
-    name<<std::setfill('0')<<std::setw(5)<<caseNr<<"-results.csv";
+    name << std::setfill('0') << std::setw(5) << caseNr << "-results.csv";
     return name.str();
 
 }

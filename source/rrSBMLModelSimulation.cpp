@@ -302,14 +302,18 @@ bool SBMLModelSimulation::Simulate()
 
 bool SBMLModelSimulation::SaveResult()
 {
-    std::filesystem::path resultFileName(mDataOutputFolder / ("rr_" + mModelFileName));
+    string onlyNumber = mModelFileName;
+    onlyNumber.replace(onlyNumber.find("-sbml"), 10, "");
+    std::filesystem::path resultFileName(mDataOutputFolder / ("rr_result-" + onlyNumber));
     resultFileName = resultFileName.replace_extension(".csv");
     rrLog(lInfo)<<"Saving result to file: "<<resultFileName;
     RoadRunnerData resultData(mEngine);
 
     std::ofstream fs(resultFileName.c_str());
-    fs << resultData;
+    RoadRunnerData::writeOnlyData(fs, resultData);
     fs.close();
+
+
     return true;
 }
 } //end of namespace

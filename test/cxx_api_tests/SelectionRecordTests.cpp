@@ -27,7 +27,7 @@ TEST_F(SelectionRecordTests, TIME) {
     SelectionRecord record = rr.createSelection("time");
     EXPECT_EQ(record.selectionType, SelectionRecord::TIME);
     EXPECT_EQ(record.index, -1);
-    EXPECT_EQ(record.p1, "");
+    EXPECT_EQ(record.p1, "time");
     EXPECT_EQ(record.p2, "");
     delete testModel;
 }
