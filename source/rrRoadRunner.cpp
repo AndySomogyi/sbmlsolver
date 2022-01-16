@@ -3783,10 +3783,10 @@ namespace rr {
                 double f2 = -(8 * fd + fi2);
 
                 // What ever happens, make sure we restore the original state
-                impl->model->setFloatingSpeciesAmounts(nfloat, 0, floats);
-                impl->model->setBoundarySpeciesAmounts(nboundary, 0, boundaries);
-                impl->model->setCompartmentVolumes(ncomp, 0, comps);
-                impl->model->setGlobalParameterValues(nparam, 0, params);
+                impl->model->setFloatingSpeciesAmounts(nfloat, 0, floats, false);
+                impl->model->setBoundarySpeciesAmounts(nboundary, 0, boundaries, false);
+                impl->model->setCompartmentVolumes(ncomp, 0, comps, false);
+                impl->model->setGlobalParameterValues(nparam, 0, params, false);
                 //loadStateS(orig_state);
 
                 return 1 / (12 * hstep) * (f1 + f2);

@@ -185,6 +185,9 @@ namespace rr {
         virtual int setFloatingSpeciesAmounts(size_t len, int const *indx,
                                               const double *values) = 0;
 
+        virtual int setFloatingSpeciesAmounts(size_t len, int const* indx,
+            const double* values, bool strict) = 0;
+
         virtual int getFloatingSpeciesAmountRates(size_t len, int const *indx,
                                                   double *values) = 0;
 
@@ -319,6 +322,9 @@ namespace rr {
         virtual int setBoundarySpeciesAmounts(size_t len, int const* indx,
             double const* values) = 0;
 
+        virtual int setBoundarySpeciesAmounts(size_t len, int const* indx,
+            double const* values, bool strict) = 0;
+
         /**
          * Set the initial concentrations of the boundary species.
          *
@@ -398,6 +404,9 @@ namespace rr {
         virtual int setGlobalParameterValues(size_t len, int const *indx,
                                              const double *values) = 0;
 
+        virtual int setGlobalParameterValues(size_t len, int const* indx,
+            const double* values, bool strict) = 0;
+
         /**
         * Set the initial value of the global parameter.
         *
@@ -447,6 +456,9 @@ namespace rr {
 
         virtual int setCompartmentVolumes(size_t len, int const *indx,
                                           const double *values) = 0;
+
+        virtual int setCompartmentVolumes(size_t len, int const* indx,
+            const double* values, bool strict) = 0;
 
         /**
          * Set the initial volumes of the compartments.
