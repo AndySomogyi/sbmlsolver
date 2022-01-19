@@ -116,7 +116,10 @@ stages:
               $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
             displayName: InstallCondaEnv
 
-          - script: brew install ncurses llvm@13
+          - script: |
+               brew install ncurses llvm@13
+               cd /usr/local/
+               find . | grep llvm
             displayName: install ncurses and llvm
           - task: DownloadPipelineArtifact@2
             # In this task we go and grab the build artefacts from
