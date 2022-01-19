@@ -38,12 +38,13 @@ stages:
           matrix:
             64-bit Mac Release:
               BuildType: Release
-              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
+              #LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
             64-bit Mac Debug:
               BuildType: Debug
-              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
+              #LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
         variables:
-          LLVM_CACHE: 'false'
+          #LLVM_CACHE: 'false'
+          LLVM_INSTALL_PREFIX: "/usr/local/bin/"
           PythonName: 'py39'
           MinicondaRoot : '/usr/local/miniconda'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
@@ -92,7 +93,7 @@ stages:
               echo "TF_BUILD $(TF_BUILD)"
             displayName: Print Variables
           - script: |
-              mkdir $(LLVM_INSTALL_PREFIX)
+#              mkdir $(LLVM_INSTALL_PREFIX)
               mkdir $(DEPS_INSTALL_PREFIX)
             displayName: Make Directories
 
@@ -117,22 +118,22 @@ stages:
               $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
             displayName: InstallCondaEnv
 
-          - script: brew install ncurses
-            displayName: install ncurses
-          - task: Cache@2
-            inputs:
-              key: "llvm | $(Agent.OS)"
-              path: $(LLVM_INSTALL_PREFIX)
-              cacheHitVar: LLVM_CACHE
-            displayName: Load cached llvm
-          - script: |
-              $(PipExecutable) install requests
-              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
-              echo "give execute permissions to llvm-config using chmod 777 *"
-              cd $(LLVM_INSTALL_PREFIX)/bin
-              chmod 777 llvm-config
-            displayName: "Get LLVM"
-            condition: ne(variables.LLVM_CACHE, 'true')
+          - script: brew install ncurses llvm@13
+            displayName: install ncurses and llvm
+#          - task: Cache@2
+#            inputs:
+#              key: "llvm | $(Agent.OS)"
+#              path: $(LLVM_INSTALL_PREFIX)
+#              cacheHitVar: LLVM_CACHE
+#            displayName: Load cached llvm
+#          - script: |
+#              $(PipExecutable) install requests
+#              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
+#              echo "give execute permissions to llvm-config using chmod 777 *"
+#              cd $(LLVM_INSTALL_PREFIX)/bin
+#              chmod 777 llvm-config
+#            displayName: "Get LLVM"
+#            condition: ne(variables.LLVM_CACHE, 'true')
           - task: DownloadPipelineArtifact@2
             # In this task we go and grab the build artefacts from
             # the libroadrunner-dependencies package
@@ -165,7 +166,8 @@ stages:
               mkdir $(BUILD_DIR)
               echo "CD to build dir: $(BUILD_DIR)"
               cd $(BUILD_DIR)
-              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
+#              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
+              cmake -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
             displayName: Run CMake Configure Command
           - script: |
               echo "less -N $(BUILD_DIR)/source/CMakeFiles/roadrunner.dir/build.make"
@@ -219,8 +221,8 @@ stages:
           CondaExecutable: '$(MinicondaRoot)/condabin/conda'
           PipExecutable: '$(PythonRoot)/bin/pip'
 
-          LLVM_CACHE: 'false'
-          LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
+#          LLVM_CACHE: 'false'
+#          LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
           SWIG_CACHE: 'false'
           MINICONDA_CACHE: 'false'
         steps:
@@ -259,25 +261,25 @@ stages:
               echo "CondaExecutable $(CondaExecutable)"
             displayName: PrintPythonVariables
           - script: |
-              mkdir $(LLVM_INSTALL_PREFIX)
+#              mkdir $(LLVM_INSTALL_PREFIX)
               mkdir $(DEPS_INSTALL_PREFIX)
             displayName: Make Directories
-          - script: brew install ncurses
-            displayName: install ncurses
-          - task: Cache@2
-            inputs:
-              key: "llvm | $(Agent.OS)"
-              path: $(LLVM_INSTALL_PREFIX)
-              cacheHitVar: LLVM_CACHE
-            displayName: Load cached llvm
-          - script: |
-              $(PipExecutable) install requests
-              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
-              echo "give execute permissions to llvm-config using chmod 777 *"
-              cd $(LLVM_INSTALL_PREFIX)/bin
-              chmod 777 llvm-config
-            displayName: "Get LLVM"
-            condition: ne(variables.LLVM_CACHE, 'true')
+          - script: brew install ncurses llvm@13
+            displayName: install ncurses llvm
+#          - task: Cache@2
+#            inputs:
+#              key: "llvm | $(Agent.OS)"
+#              path: $(LLVM_INSTALL_PREFIX)
+#              cacheHitVar: LLVM_CACHE
+#            displayName: Load cached llvm
+#          - script: |
+#              $(PipExecutable) install requests
+#              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
+#              echo "give execute permissions to llvm-config using chmod 777 *"
+#              cd $(LLVM_INSTALL_PREFIX)/bin
+#              chmod 777 llvm-config
+#            displayName: "Get LLVM"
+#            condition: ne(variables.LLVM_CACHE, 'true')
 
           - task: DownloadPipelineArtifact@2
             inputs:
@@ -355,7 +357,8 @@ stages:
               cd $(BUILD_DIR)
               ls
               export LD_LIBRARY_PATH=$(PythonLibDir)
-              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_PYTHON=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SWIG_EXECUTABLE) ..
+#              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_PYTHON=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SWIG_EXECUTABLE) ..
+              cmake -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_PYTHON=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SWIG_EXECUTABLE) ..
               cmake --build . --target install --config Release -j 12
             displayName: BuildRoadrunnerWithPython
           - script: |
