@@ -37,10 +37,13 @@ stages:
           matrix:
             64-bit Mac Release:
               BuildType: Release
+#              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
             64-bit Mac Debug:
               BuildType: Debug
+#              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
         variables:
           PythonName: 'py39'
+          LLVM_INSTALL_PREFIX :  '/usr/local/opt/'
           MinicondaRoot : '/usr/local/miniconda'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
           PythonLibDir: '$(PythonRoot)/lib'
@@ -54,6 +57,7 @@ stages:
               echo "SOURCE_DIR $(SOURCE_DIR)"
               echo "BUILD_DIR $(BUILD_DIR)"
               echo "INSTALL_DIR $(INSTALL_DIR)"
+              echo "LLVM_INSTALL_PREFIX $(LLVM_INSTALL_PREFIX)"
               echo "DEPS_INSTALL_PREFIX $(DEPS_INSTALL_PREFIX)"
               echo "Build.DefinitionName $(Build.DefinitionName)"
               echo "System.DefinitionId	 $(System.DefinitionId)"
@@ -145,7 +149,7 @@ stages:
               mkdir $(BUILD_DIR)
               echo "CD to build dir: $(BUILD_DIR)"
               cd $(BUILD_DIR)
-              cmake -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
+              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
             displayName: Run CMake Configure Command
           - script: |
               echo "less -N $(BUILD_DIR)/source/CMakeFiles/roadrunner.dir/build.make"
@@ -198,7 +202,7 @@ stages:
           PythonExecutable: '$(PythonRoot)/bin/python'
           CondaExecutable: '$(MinicondaRoot)/condabin/conda'
           PipExecutable: '$(PythonRoot)/bin/pip'
-
+          LLVM_INSTALL_PREFIX :  '/usr/local/opt/'
           SWIG_CACHE: 'false'
           MINICONDA_CACHE: 'false'
         steps:
@@ -317,7 +321,7 @@ stages:
               cd $(BUILD_DIR)
               ls
               export LD_LIBRARY_PATH=$(PythonLibDir)
-              cmake -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_PYTHON=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SWIG_EXECUTABLE) ..
+              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_PYTHON=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SWIG_EXECUTABLE) ..
               cmake --build . --target install --config Release -j 12
             displayName: BuildRoadrunnerWithPython
           - script: |
