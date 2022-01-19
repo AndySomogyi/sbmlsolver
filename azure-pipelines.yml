@@ -38,12 +38,12 @@ stages:
           matrix:
             64-bit Mac Release:
               BuildType: Release
-              #LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
+#              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
             64-bit Mac Debug:
               BuildType: Debug
-              #LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
+#              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
         variables:
-          #LLVM_CACHE: 'false'
+#          LLVM_CACHE: 'false'
           LLVM_INSTALL_PREFIX: "/usr/local/bin/"
           PythonName: 'py39'
           MinicondaRoot : '/usr/local/miniconda'
