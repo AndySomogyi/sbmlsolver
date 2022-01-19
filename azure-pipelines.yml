@@ -37,12 +37,9 @@ stages:
           matrix:
             64-bit Mac Release:
               BuildType: Release
-#              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
             64-bit Mac Debug:
               BuildType: Debug
-#              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
         variables:
-#          LLVM_CACHE: 'false'
           PythonName: 'py39'
           MinicondaRoot : '/usr/local/miniconda'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
@@ -57,7 +54,6 @@ stages:
               echo "SOURCE_DIR $(SOURCE_DIR)"
               echo "BUILD_DIR $(BUILD_DIR)"
               echo "INSTALL_DIR $(INSTALL_DIR)"
-              echo "LLVM_INSTALL_PREFIX $(LLVM_INSTALL_PREFIX)"
               echo "DEPS_INSTALL_PREFIX $(DEPS_INSTALL_PREFIX)"
               echo "Build.DefinitionName $(Build.DefinitionName)"
               echo "System.DefinitionId	 $(System.DefinitionId)"
@@ -91,7 +87,6 @@ stages:
               echo "TF_BUILD $(TF_BUILD)"
             displayName: Print Variables
           - script: |
-#              mkdir $(LLVM_INSTALL_PREFIX)
               mkdir $(DEPS_INSTALL_PREFIX)
             displayName: Make Directories
 
@@ -118,20 +113,6 @@ stages:
 
           - script: brew install ncurses llvm@13
             displayName: install ncurses and llvm
-#          - task: Cache@2
-#            inputs:
-#              key: "llvm | $(Agent.OS)"
-#              path: $(LLVM_INSTALL_PREFIX)
-#              cacheHitVar: LLVM_CACHE
-#            displayName: Load cached llvm
-#          - script: |
-#              $(PipExecutable) install requests
-#              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
-#              echo "give execute permissions to llvm-config using chmod 777 *"
-#              cd $(LLVM_INSTALL_PREFIX)/bin
-#              chmod 777 llvm-config
-#            displayName: "Get LLVM"
-#            condition: ne(variables.LLVM_CACHE, 'true')
           - task: DownloadPipelineArtifact@2
             # In this task we go and grab the build artefacts from
             # the libroadrunner-dependencies package
@@ -164,7 +145,6 @@ stages:
               mkdir $(BUILD_DIR)
               echo "CD to build dir: $(BUILD_DIR)"
               cd $(BUILD_DIR)
-#              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
               cmake -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
             displayName: Run CMake Configure Command
           - script: |
@@ -219,8 +199,6 @@ stages:
           CondaExecutable: '$(MinicondaRoot)/condabin/conda'
           PipExecutable: '$(PythonRoot)/bin/pip'
 
-#          LLVM_CACHE: 'false'
-#          LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
           SWIG_CACHE: 'false'
           MINICONDA_CACHE: 'false'
         steps:
@@ -259,7 +237,6 @@ stages:
               echo "CondaExecutable $(CondaExecutable)"
             displayName: PrintPythonVariables
           - script: |
-#              mkdir $(LLVM_INSTALL_PREFIX)
               mkdir $(DEPS_INSTALL_PREFIX)
             displayName: Make Directories
           - script: brew install ncurses llvm@13
