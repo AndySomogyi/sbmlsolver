@@ -38,11 +38,12 @@ stages:
           matrix:
             64-bit Mac Release:
               BuildType: Release
-#              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
+              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-clang13-universal-binaries-rel.zip'
             64-bit Mac Debug:
               BuildType: Debug
-#              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-Darwin-Release.zip'
+              LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-clang13-universal-binaries-rel.zip'
         variables:
+          LLVM_CACHE: 'false'
           PythonName: 'py39'
           LLVM_CONFIG_EXECUTABLE :  '/usr/local/Cellar/llvm/13.0.0_2/bin/llvm-config'
           LLVM_INSTALL_PREFIX :  '/usr/local/opt/llvm/'
@@ -118,10 +119,27 @@ stages:
             displayName: InstallCondaEnv
 
           - script: |
-               brew install ncurses llvm@13
+               brew install ncurses
                cd /usr/local/
                find . | grep llvm
-            displayName: install ncurses and llvm
+            displayName: install ncurses
+
+          - task: Cache@2
+            inputs:
+              key: "llvm | $(Agent.OS)"
+              path: $(LLVM_INSTALL_PREFIX)
+              cacheHitVar: LLVM_CACHE
+            displayName: Load cached llvm
+          - script: |
+              $(PipExecutable) install requests
+              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
+              echo "give execute permissions to llvm-config using chmod 777 *"
+              cd $(LLVM_INSTALL_PREFIX)/bin
+              chmod 777 llvm-config
+            displayName: "Get LLVM"
+            condition: ne(variables.LLVM_CACHE, 'true')
+
+
           - task: DownloadPipelineArtifact@2
             # In this task we go and grab the build artefacts from
             # the libroadrunner-dependencies package
@@ -210,6 +228,8 @@ stages:
           LLVM_INSTALL_PREFIX :  '/usr/local/opt/llvm/'
           SWIG_CACHE: 'false'
           MINICONDA_CACHE: 'false'
+          LLVM_CACHE: 'false'
+          LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-clang13-universal-binaries-rel.zip'
         steps:
           - checkout: self
             submodules: recursive
@@ -248,8 +268,24 @@ stages:
           - script: |
               mkdir $(DEPS_INSTALL_PREFIX)
             displayName: Make Directories
-          - script: brew install ncurses llvm@13
-            displayName: install ncurses llvm
+          - script: brew install ncurses
+            displayName: install ncurses
+
+          - task: Cache@2
+            inputs:
+              key: "llvm | $(Agent.OS)"
+              path: $(LLVM_INSTALL_PREFIX)
+              cacheHitVar: LLVM_CACHE
+            displayName: Load cached llvm
+          - script: |
+              $(PipExecutable) install requests
+              $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
+              echo "give execute permissions to llvm-config using chmod 777 *"
+              cd $(LLVM_INSTALL_PREFIX)/bin
+              chmod 777 llvm-config
+            displayName: "Get LLVM"
+            condition: ne(variables.LLVM_CACHE, 'true')
+
           - task: DownloadPipelineArtifact@2
             inputs:
               source: 'specific'
