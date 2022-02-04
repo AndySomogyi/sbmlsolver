@@ -12,6 +12,14 @@ set(ROADRUNNER_VERSION_MINOR 2)
 set(ROADRUNNER_VERSION_PATCH 1)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
+
+if (CMAKE_GENERATOR STREQUAL "Xcode" AND NOT CMAKE_OSX_ARCHITECTURES)
+    # Some CMake features like object libraries get confused if you don't
+    # explicitly specify an architecture setting with the Xcode generator.
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+    message(STATUS "building on mac with universal binaries")
+endif()
+
 project(
         roadrunner
         DESCRIPTION "roadrunner project"
@@ -94,6 +102,8 @@ set(RR_DEPENDENCIES_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/dependencies"
 # users will need to provide their own argument to LLVM_INSTALL_PREFIX
 set(LLVM_INSTALL_PREFIX ${RR_DEPENDENCIES_INSTALL_PREFIX} CACHE PATH "Location of LLVM Root directory, which contains bin, lib, include and share directories")
 set(LLVM_ROOT_DIR "${LLVM_ROOT_DIR}")
+
+set(USE_UNIVERSAL_BINARIES "ON" CACHE BOOL "Build llvm with universal binaries on MacOS")
 
 # todo difference between build tests and build test tools option? (cw)
 option(BUILD_TEST_TOOLS "Build and install test tools" OFF)
