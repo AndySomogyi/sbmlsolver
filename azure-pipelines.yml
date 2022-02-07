@@ -225,7 +225,7 @@ stages:
           PythonExecutable: '$(PythonRoot)/bin/python'
           CondaExecutable: '$(MinicondaRoot)/condabin/conda'
           PipExecutable: '$(PythonRoot)/bin/pip'
-          LLVM_INSTALL_PREFIX :  '/usr/local/opt/llvm/'
+          #LLVM_INSTALL_PREFIX :  '/usr/local/opt/llvm/'
           SWIG_CACHE: 'false'
           MINICONDA_CACHE: 'false'
           LLVM_CACHE: 'false'
