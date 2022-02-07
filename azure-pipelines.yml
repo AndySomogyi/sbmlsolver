@@ -45,8 +45,8 @@ stages:
         variables:
           LLVM_CACHE: 'false'
           PythonName: 'py39'
-          LLVM_CONFIG_EXECUTABLE :  '/usr/local/Cellar/llvm/13.0.0_2/bin/llvm-config'
-          LLVM_INSTALL_PREFIX :  '/usr/local/opt/llvm/'
+          LLVM_CONFIG_EXECUTABLE :  '$(LLVM_INSTALL_PREFIX)/bin/llvm-config'
+          #LLVM_INSTALL_PREFIX :  '/usr/local/opt/llvm/'
           MinicondaRoot : '/usr/local/miniconda'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
           PythonLibDir: '$(PythonRoot)/lib'
