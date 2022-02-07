@@ -73,8 +73,8 @@ folders = glob.glob(join(abs_downloaded_llvm_folder, "*"))
 print(folders)
 for f in folders:
     # if exists, delete before copying again
-    if os.path.isdir(f):
-        shutil.rmtree(f)
+    # if os.path.isdir(f):
+    #     shutil.rmtree(f)
     shutil.move(f, args.llvm_install_prefix)
 
 
