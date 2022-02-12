@@ -120,16 +120,8 @@ stages:
 
           - script: |
                brew install ncurses
-               cd /usr/local/
-               find . | grep llvm
             displayName: install ncurses
 
-#          - task: Cache@2
-#            inputs:
-#              key: "llvm | $(Agent.OS)"
-#              path: $(LLVM_INSTALL_PREFIX)
-#              cacheHitVar: LLVM_CACHE
-#            displayName: Load cached llvm
           - script: |
               $(PipExecutable) install requests
               $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
@@ -225,7 +217,6 @@ stages:
           PythonExecutable: '$(PythonRoot)/bin/python'
           CondaExecutable: '$(MinicondaRoot)/condabin/conda'
           PipExecutable: '$(PythonRoot)/bin/pip'
-          #LLVM_INSTALL_PREFIX :  '/usr/local/opt/llvm/'
           SWIG_CACHE: 'false'
           MINICONDA_CACHE: 'false'
           LLVM_CACHE: 'false'
@@ -270,13 +261,6 @@ stages:
             displayName: Make Directories
           - script: brew install ncurses
             displayName: install ncurses
-
-#          - task: Cache@2
-#            inputs:
-#              key: "llvm | $(Agent.OS)"
-#              path: $(LLVM_INSTALL_PREFIX)
-#              cacheHitVar: LLVM_CACHE
-#            displayName: Load cached llvm
           - script: |
               $(PipExecutable) install requests
               $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
