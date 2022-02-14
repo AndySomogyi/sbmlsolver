@@ -211,6 +211,9 @@ stages:
             py39:
               PythonVersion: 3.9
               PythonName: py39
+            py310:
+              PythonVersion: 3.10
+              PythonName: py310
         variables:
           MinicondaRoot : '/usr/local/miniconda'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
@@ -574,6 +577,9 @@ stages:
             py39:
               PythonVersion: 3.9
               PythonName: py39
+            py310:
+              PythonVersion: 3.10
+              PythonName: py310
         variables:
           MinicondaRoot : 'C:\Miniconda'
           PythonRoot: '$(MinicondaRoot)\envs\$(PythonName)'
@@ -921,6 +927,9 @@ stages:
             py39:
               PythonVersion: 3.9
               PythonName: py39
+            py310:
+              PythonVersion: 3.10
+              PythonName: py310
         pool:
           vmImage: 'ubuntu-18.04'
         container: ciaranwelsh/roadrunner-manylinux2014-base:llvm-13.x
