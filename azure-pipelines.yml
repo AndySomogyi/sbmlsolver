@@ -956,6 +956,9 @@ stages:
             submodules: recursive
 
           - script: |
+              eval "$($(CondaExecutable) --version)"
+              eval "$($(CondaExecutable) update conda -y)"
+              eval "$($(CondaExecutable) --version)"
 
               echo "SOURCE_DIRECTORY   $(SOURCE_DIRECTORY)"
               if [ ! -d "$(SOURCE_DIRECTORY)" ]; then
@@ -1014,9 +1017,6 @@ stages:
             displayName: Print Azure Variables
 
           - script: |
-              eval "$($(CondaExecutable) --version)"
-              eval "$($(CondaExecutable) update conda -y)"
-              eval "$($(CondaExecutable) --version)"
               echo "$(CondaExecutable) shell.bash hook"
               eval "$($(CondaExecutable) shell.bash hook)"
               $(CondaExecutable) init
