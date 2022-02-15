@@ -501,6 +501,8 @@ stages:
               $(PipExecutable) install --help
               echo "$(PipExecutable) install requests"
               $(PipExecutable) install requests
+              echo "$(PipExecutable) install numpy"
+              $(PipExecutable) install numpy
               echo "$(PythonExecutable) .\.azurepipelines\getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)"
               $(PythonExecutable) .\.azurepipelines\getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
             displayName: "Get LLVM"
@@ -629,8 +631,9 @@ stages:
               $(PipExecutable) install --help
 
               $(PipExecutable) install requests
+              $(PipExecutable) install numpy
               $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
-            displayName: "Get LLVM"
+            displayName: "Get LLVM and NumPy"
             condition: ne(variables.LLVM_CACHE, 'true')
 
           - task: DownloadPipelineArtifact@2
@@ -956,9 +959,9 @@ stages:
             submodules: recursive
 
           - script: |
-              $(CondaExecutable) --version
-              $(CondaExecutable) update conda -y
-              $(CondaExecutable) --version
+              eval "$($(CondaExecutable) --version)"
+              eval "$($(CondaExecutable) update conda -y)"
+              eval "$($(CondaExecutable) --version)"
 
               echo "SOURCE_DIRECTORY   $(SOURCE_DIRECTORY)"
               if [ ! -d "$(SOURCE_DIRECTORY)" ]; then
