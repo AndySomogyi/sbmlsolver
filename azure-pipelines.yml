@@ -956,9 +956,9 @@ stages:
             submodules: recursive
 
           - script: |
-              eval "$($(CondaExecutable) --version)"
-              eval "$($(CondaExecutable) update conda -y)"
-              eval "$($(CondaExecutable) --version)"
+              $(CondaExecutable) --version
+              $(CondaExecutable) update conda -y
+              $(CondaExecutable) --version
 
               echo "SOURCE_DIRECTORY   $(SOURCE_DIRECTORY)"
               if [ ! -d "$(SOURCE_DIRECTORY)" ]; then
