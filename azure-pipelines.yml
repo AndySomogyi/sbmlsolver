@@ -497,6 +497,8 @@ stages:
           - script: |
               echo "Creating new conda environment"
               conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
+              echo "pip upgrade:"
+              $(PipExecutable) install --upgrade pip
               echo "pip help:"
               $(PipExecutable) install --help
               echo "$(PipExecutable) install requests"
