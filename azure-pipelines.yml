@@ -610,13 +610,14 @@ stages:
               where.exe conda
               where.exe python
               conda update conda -y
+              conda install numpy
               conda --version
               echo "PythonVersion $(PythonVersion)"
               echo "PythonName $(PythonName)"
               echo "MinicondaRoot $(MinicondaRoot)"
               echo "PythonRoot $(PythonRoot)"
               echo "PythonLibDir $(PythonLibDir)"
-            displayName: PrintPythonVariables
+            displayName: "Update conda and print vars"
           - powershell: |
               mkdir -p $(LLVM_INSTALL_PREFIX)
               mkdir -p $(SWIG_INSTALL_PREFIX)
@@ -632,16 +633,12 @@ stages:
           - script: |
               echo "Creating new conda environment"
               conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
-              echo "pip upgrade:"
-              $(PipExecutable) install --upgrade pip
               echo "pip help:"
               $(PipExecutable) install --help
 
               echo "pip install requests:"
               $(PipExecutable) install requests
-              echo "pip install numpy:"
-              $(PipExecutable) install numpy
-            displayName: "Setup conda and get NumPy"
+            displayName: "Setup conda"
 
           - script: |
               $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
