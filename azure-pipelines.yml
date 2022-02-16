@@ -633,7 +633,9 @@ stages:
               echo "pip help:"
               $(PipExecutable) install --help
 
+              echo "pip install requests:"
               $(PipExecutable) install requests
+              echo "pip install numpy:"
               $(PipExecutable) install numpy
             displayName: "Setup conda and get NumPy"
 
