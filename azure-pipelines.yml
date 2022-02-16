@@ -633,11 +633,11 @@ stages:
           - script: |
               echo "Creating new conda environment"
               conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
-              echo "pip help:"
-              $(PipExecutable) install --help
+#              echo "pip help:"
+#              $(PipExecutable) install --help
 
-              echo "pip install requests:"
-              $(PipExecutable) install requests
+#              echo "pip install requests:"
+#              $(PipExecutable) install requests
             displayName: "Setup conda"
 
           - script: |
