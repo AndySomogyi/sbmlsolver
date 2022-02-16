@@ -635,6 +635,9 @@ stages:
 
               $(PipExecutable) install requests
               $(PipExecutable) install numpy
+            displayName: "Setup conda and get NumPy"
+
+          - script: |
               $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
             displayName: "Get LLVM and NumPy"
             condition: ne(variables.LLVM_CACHE, 'true')
