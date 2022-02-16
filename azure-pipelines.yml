@@ -503,6 +503,9 @@ stages:
               $(PipExecutable) install requests
               echo "$(PipExecutable) install numpy"
               $(PipExecutable) install numpy
+            displayName: "Setup conda and get NumPy"
+
+          - script: |
               echo "$(PythonExecutable) .\.azurepipelines\getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)"
               $(PythonExecutable) .\.azurepipelines\getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
             displayName: "Get LLVM"
