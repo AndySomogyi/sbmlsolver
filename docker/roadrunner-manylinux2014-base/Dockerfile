@@ -21,8 +21,8 @@ RUN cd .. && rm -rf gcc-11.1.0
 
 RUN yum install -y nano
 
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.9.2-Linux-x86_64.sh
-RUN bash Miniconda3-py39_4.9.2-Linux-x86_64.sh -b -p /Miniconda3
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+RUN bash Miniconda3-latest-Linux-x86_64.sh -b -p /Miniconda3
 
 RUN /Miniconda3/bin/conda create -y --name py37 python=3.7 pytest
 RUN /Miniconda3/bin/conda create -y --name py38 python=3.8 pytest
