@@ -21,6 +21,15 @@ public:
 };
 
 
+TEST_F(ModelAnalysisTests, checkGetFullStoichimetryMatrixWarningMsg) {
+    RoadRunner rr((modelAnalysisModelsDir / "ansatz.xml").string());
+    //Behind the scenes, we get and then set various values to calculate ucc, and 
+    // have to ensure that we don't worry about setting something that's already set.
+    rr.setConservedMoietyAnalysis(false);
+    ls::DoubleMatrix out = rr.getFullStoichiometryMatrix();
+}
+
+
 TEST_F(ModelAnalysisTests, checkUCCForSet) {
     RoadRunner rr((modelAnalysisModelsDir / "BIOMD0000000021.xml").string());
     //Behind the scenes, we get and then set various values to calculate ucc, and 
