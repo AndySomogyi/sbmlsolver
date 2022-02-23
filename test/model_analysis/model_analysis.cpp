@@ -21,6 +21,16 @@ public:
 };
 
 
+TEST_F(ModelAnalysisTests, checkGetFullStoichimetryMatrixWarningMsg) {
+    //If a model has a lot of reactions but only a few species, it would sometimes
+    // get too small of a scratch space to use in lapack.  The only way to tell
+    // is that lapack would complain to the screen, so this test can only
+    // tell you something's wrong if you look at it and see the lapack error.
+    RoadRunner rr((modelAnalysisModelsDir / "ansatz.xml").string());
+    ls::DoubleMatrix out = rr.getFullStoichiometryMatrix();
+}
+
+
 TEST_F(ModelAnalysisTests, checkUCCForSet) {
     RoadRunner rr((modelAnalysisModelsDir / "BIOMD0000000021.xml").string());
     //Behind the scenes, we get and then set various values to calculate ucc, and 
