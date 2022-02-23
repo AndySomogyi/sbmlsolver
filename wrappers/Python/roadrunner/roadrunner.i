@@ -1560,13 +1560,6 @@ namespace std { class ostream{}; }
 
             result = self._simulate(o)
 
-            #Check to make sure we made it to the 'end'.
-            selections_lower = [x.lower() for x in self.timeCourseSelections]
-            if end is not None and "time" in selections_lower:
-                lastresult_time = result[len(result)-1][selections_lower.index("time")]
-                if end - lastresult_time > end/10000:
-                    warnings.warn("Simulation requested end time point (" + str(end) + ") not reached, because the maximum number of steps reached.  Possible solutions include:\n  * Setting an explicit number of points (i.e. r.simulate(" + str(start) + ", " + str(end) + ", 1001)\n  * Setting r.integrator.variable_step_size to 'False'\n  * Setting r.integrator.max_output_rows to a larger number ")
-
             #Reset any integrator variables we might have changed
             o.steps = originalSteps
             if self.getIntegrator().hasValue('variable_step_size'):
@@ -1576,6 +1569,13 @@ namespace std { class ostream{}; }
                 # result should be empty here.
                 return 'Your results have been written to "{}".'.format(output_file)\
                     + 'To obtain the results directly, pass None or "" to the output_file keyword argument'
+            else:
+                #Check to make sure we made it to the 'end'
+                selections_lower = [x.lower() for x in self.timeCourseSelections]
+                if end is not None and "time" in selections_lower:
+                    lastresult_time = result[len(result)-1][selections_lower.index("time")]
+                    if end - lastresult_time > end/10000:
+                        warnings.warn("Simulation requested end time point (" + str(end) + ") not reached, because the maximum number of steps reached.  Possible solutions include:\n  * Setting an explicit number of points (i.e. r.simulate(" + str(start) + ", " + str(end) + ", 1001)\n  * Setting r.integrator.variable_step_size to 'False'\n  * Setting r.integrator.max_output_rows to a larger number ")
 
             return result
 
