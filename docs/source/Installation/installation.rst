@@ -62,14 +62,14 @@ Everything we need will go into buildroadrunner.
 2) Install LLVM
 ---------------
 
-Install the :ref:`llvm-6.x dependency<LLVM-6.x dependency>`.
+Install the :ref:`llvm-13.x dependency<LLVM-13.x dependency>`.
 
 .. note::
 
     For those wanting to build roadrunner in Debug mode, remember that you will need to download or build the llvm debug binaries, not release.
 
 If you download the precompiled binaries for LLVM you get a top level folder called something
-like llvm-6.x-msvc2019-x64-release or llvm-6.x-msvc2019-x64-debug.
+like llvm-13.x-msvc2022-x64-release or llvm-13.x-msvc2022-x64-debug.
 
 Place this folder (which contains all the LLVM code) into your top level directory we crated in step 1) called buildroadrunner.
 
@@ -112,8 +112,8 @@ At this point you will have a folder called buildroadrunner and inside that you'
 at least two folders, one for the LLVM binaries (two of these if you downloaded the release and debug versions) and the folder libroadrunner-deps. This is shown below.
 
 buildroadrunner
-|  --- llvm-6.x-msvc2019-x64-debug
-|  --- llvm-6.x-msvc2019-x64-debug
+|  --- llvm-13.x-msvc2022-x64-debug
+|  --- llvm-13.x-msvc2022-x64-debug
 |  --- libroadrunner-deps
 
 4) Install Roadrunner
@@ -121,7 +121,7 @@ buildroadrunner
 
 Install roadrunner using the following commands from a windows/linux/mac shell.
 
-If you have not done so already, :ref:`download or build llvm-6.x <LLVM-6.x dependency>`. The folder containing llvm's `bin`, `include` and `lib` directories is the argument to `LLVM_INSTALL_PREFIX` below.
+If you have not done so already, :ref:`download or build llvm-13.x <LLVM-13.x dependency>`. The folder containing llvm's `bin`, `include` and `lib` directories is the argument to `LLVM_INSTALL_PREFIX` below.
 
 .. code-block:: bash
 
@@ -136,7 +136,7 @@ If you have not done so already, :ref:`download or build llvm-6.x <LLVM-6.x depe
     mkdir build-release
     cd build-release
     cmake -DCMAKE_INSTALL_PREFIX="../install-Release" \
-        -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/put/llvm-6.x-release" \
+        -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/put/llvm-13.x-release" \
         -DRR_DEPENDENCIES_INSTALL_PREFIX="../../libroadrunner-deps/install-Release" \
         -DCMAKE_BUILD_TYPE="Release" ..
     cmake --build . --target install --config Release
@@ -171,7 +171,7 @@ Build the Python Bindings
 .. code-block:: bash
 
     cmake -DCMAKE_INSTALL_PREFIX="D:\roadrunner\install-msvc2019" \
-        -DLLVM_INSTALL_PREFIX="D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release" \
+        -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/put/llvm-13.x-release" \
         -DRR_DEPENDENCIES_INSTALL_PREFIX="D:\libroadrunner-deps\libroadrunner-deps-install" \
         -DCMAKE_BUILD_TYPE="Release" \
         -DBUILD_PYTHON=ON \
@@ -200,7 +200,7 @@ while the `RR_PLUGINS_BUILD_STATIC_LIB` option remains OFF.
 .. code-block:: bash
 
     $ cmake -DCMAKE_INSTALL_PREFIX="D:\roadrunner\install-msvc2019" \
-        -DLLVM_INSTALL_PREFIX="D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release" \
+        -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/put/llvm-13.x-release" \
         -DRR_DEPENDENCIES_INSTALL_PREFIX="D:\libroadrunner-deps\libroadrunner-deps-install" \
         -DCMAKE_BUILD_TYPE="Release" \
         -DBUILD_RR_PLUGINS=ON
@@ -217,7 +217,7 @@ Use the `-DBUILD_TESTS=ON` option. Remember that in the following script to chan
 .. code-block:: bash
 
     $ cmake -DCMAKE_INSTALL_PREFIX="../install-Release" \
-        -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/put/llvm-6.x-release" \
+        -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/put/llvm-13.x-release" \
         -DRR_DEPENDENCIES_INSTALL_PREFIX="../../libroadrunner-deps/install-Release" \
         -DCMAKE_BUILD_TYPE="Release" \
         -DBUILD_TESTS=ON ..
@@ -263,7 +263,7 @@ cmake using using the `-DBUILD_PACKAGING=ON` option.
 .. code-block::
 
     $ cmake -DCMAKE_INSTALL_PREFIX="D:\roadrunner\install-msvc2019" \
-        -DLLVM_INSTALL_PREFIX="D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release" \
+        -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/put/llvm-13.x-release" \
         -DRR_DEPENDENCIES_INSTALL_PREFIX="D:\libroadrunner-deps\libroadrunner-deps-install" \
         -DCMAKE_BUILD_TYPE="Release" \
         -DBUILD_PACKAGING=ON
