@@ -21,6 +21,24 @@ public:
 };
 
 
+TEST_F(ModelAnalysisTests, checkGetFullStoichimetryMatrixWarningMsg) {
+    //If a model has a lot of reactions but only a few species, it would sometimes
+    // get too small of a scratch space to use in lapack.  The only way to tell
+    // is that lapack would complain to the screen, so this test can only
+    // tell you something's wrong if you look at it and see the lapack error.
+    RoadRunner rr((modelAnalysisModelsDir / "ansatz.xml").string());
+    ls::DoubleMatrix out = rr.getFullStoichiometryMatrix();
+}
+
+
+TEST_F(ModelAnalysisTests, checkUCCForSet) {
+    RoadRunner rr((modelAnalysisModelsDir / "BIOMD0000000021.xml").string());
+    //Behind the scenes, we get and then set various values to calculate ucc, and 
+    // have to ensure that we don't worry about setting something that's already set.
+    double val = rr.getValue("ucc(P0_to_P1, V_mT)");
+    EXPECT_NEAR(val, 7.78235, 0.001);
+}
+
 TEST_F(ModelAnalysisTests, getConcentrationRateSimple) {
     RoadRunner rr((modelAnalysisModelsDir / "threestep.xml").string());
     double S1_conc_rate = rr.getValue("[S1]'");
@@ -1374,5 +1392,3 @@ TEST_F(ModelAnalysisTests, ResetAfterControlCalc) {
 
     EXPECT_EQ(pre, post);
 }
-
-

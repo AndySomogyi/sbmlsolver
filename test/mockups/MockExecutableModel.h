@@ -24,6 +24,7 @@ public:
     MOCK_METHOD(int, getNumIndFloatingSpecies, (), (override));
     MOCK_METHOD(int, getFloatingSpeciesAmounts, (size_t len, int const *indx, double *values), (override));
     MOCK_METHOD(int, setFloatingSpeciesAmounts, (size_t len, int const *indx, const double *values), (override));
+    MOCK_METHOD(int, setFloatingSpeciesAmounts, (size_t len, int const* indx, const double* values, bool strict), (override));
     MOCK_METHOD(int, getFloatingSpeciesAmountRates, (size_t len, int const *indx, double *values), (override));
     MOCK_METHOD(int, getFloatingSpeciesConcentrationRates, (size_t len, int const *indx, double *values), (override));
     MOCK_METHOD(int, getFloatingSpeciesConcentrations, (size_t len, int const *indx, double *values), (override));
@@ -39,6 +40,7 @@ public:
     MOCK_METHOD(int, getBoundarySpeciesConcentrations,     (size_t len, int const *indx, double *values),        (override));
     MOCK_METHOD(int, setBoundarySpeciesConcentrations,     (size_t len, int const *indx, double const *values), (override));
     MOCK_METHOD(int, setBoundarySpeciesAmounts, (size_t len, int const* indx, double const* values), (override));
+    MOCK_METHOD(int, setBoundarySpeciesAmounts, (size_t len, int const* indx, double const* values, bool strict), (override));
     MOCK_METHOD(int, setBoundarySpeciesInitConcentrations, (size_t len, int const* indx, double const* values), (override));
     MOCK_METHOD(int, getBoundarySpeciesInitConcentrations, (size_t len, int const* indx, double* values), (override));
     MOCK_METHOD(int, setBoundarySpeciesInitAmounts, (size_t len, int const* indx, double const* values), (override));
@@ -48,6 +50,7 @@ public:
     MOCK_METHOD(std::string, getGlobalParameterId, (size_t index), (override));
     MOCK_METHOD(int, getGlobalParameterValues, (size_t len, int const *indx, double *values), (override));
     MOCK_METHOD(int, setGlobalParameterValues, (size_t len, int const *indx, const double *values), (override));
+    MOCK_METHOD(int, setGlobalParameterValues, (size_t len, int const* indx, const double* values, bool strict), (override));
     MOCK_METHOD(int, setGlobalParameterInitValues, (size_t len, int const *indx, double const *values), (override));
     MOCK_METHOD(int, getGlobalParameterInitValues, (size_t len, int const *indx, double *values), (override));
     MOCK_METHOD(int, getNumCompartments, (), (override));
@@ -57,6 +60,7 @@ public:
     MOCK_METHOD(std::string, getCompartmentId, (size_t index), (override));
     MOCK_METHOD(int, getCompartmentVolumes, (size_t len, int const *indx, double *values), (override));
     MOCK_METHOD(int, setCompartmentVolumes, (size_t len, int const *indx, const double *values), (override));
+    MOCK_METHOD(int, setCompartmentVolumes, (size_t len, int const* indx, const double* values, bool strict), (override));
     MOCK_METHOD(int, setCompartmentInitVolumes, (size_t len, int const *indx, double const *values), (override));
     MOCK_METHOD(int, getCompartmentInitVolumes, (size_t len, int const *indx, double *values), (override));
     MOCK_METHOD(void, getIds, (int types, std::list<std::string> & ids), (override));
