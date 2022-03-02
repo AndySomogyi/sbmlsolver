@@ -902,26 +902,20 @@ stages:
             displayName: Copy to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
             artifact: roadrunner-$(Agent.OS)-$(BuildType)
-            displayName: Publish
+            displayName: Publish install
           - script: |
-              echo "Contents of staging directory:"
-              ls $(Build.ArtifactStagingDirectory)
               rm -r $(Build.ArtifactStagingDirectory)/*
-              echo "Contents of staging directory, after deletion:"
-              ls $(Build.ArtifactStagingDirectory)
-              echo "Contents of docs-build directory:"
-              ls $(SOURCE_DIR)/docs/docs-build
-            displayName: Remove install files
+            displayName: Clear staging area
             condition: eq(variables.BuildType, 'Release')
           - task: CopyFiles@2
             inputs:
               contents: '$(SOURCE_DIR)/docs/docs-build/**'
               targetFolder: $(Build.ArtifactStagingDirectory)
-            displayName: Copy to Staging Area
+            displayName: Copy docs to Staging Area
             condition: eq(variables.BuildType, 'Release')
           - publish: $(Build.ArtifactStagingDirectory)
             artifact: roadrunner-docs
-            displayName: Publish
+            displayName: Publish docs
             condition: eq(variables.BuildType, 'Release')
 
 #########################################################################
