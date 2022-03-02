@@ -761,8 +761,10 @@ stages:
           matrix:
             64-bit Linux Release:
               BuildType: Release
+              BuildDocs: ON
             64-bit Linux Debug:
               BuildType: Debug
+              BuildDocs: OFF
         variables:
           MinicondaRoot : '/usr/share/miniconda'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
@@ -830,7 +832,7 @@ stages:
               echo "g++ $(g++ --version)"
               sudo add-apt-repository ppa:ubuntu-toolchain-r/test
               sudo apt-get update
-              sudo apt-get install -y gcc-10 g++-10
+              sudo apt-get install -y gcc-10 g++-10 doxygen python3-sphinx
               sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
             displayName: Install g++10
           - script: |
@@ -872,7 +874,7 @@ stages:
               mkdir $(BUILD_DIR)
               echo "CD to build dir: $(BUILD_DIR)"
               cd $(BUILD_DIR)
-              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
+              cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_DOCS=${BuildDocs} ..
             displayName: Run CMake Configure Command
           - script: |
               export CC=/usr/bin/gcc-10
@@ -901,6 +903,20 @@ stages:
           - publish: $(Build.ArtifactStagingDirectory)
             artifact: roadrunner-$(Agent.OS)-$(BuildType)
             displayName: Publish
+          - script: |
+              rm -r $(Build.ArtifactStagingDirectory)/*
+            displayName: Remove install files
+            condition: eq(variables.BuildType, 'Release')
+          - task: CopyFiles@2
+            inputs:
+              contents: '$($(SOURCE_DIR)/docs/docs-build'
+              targetFolder: $(Build.ArtifactStagingDirectory)
+            displayName: Copy to Staging Area
+            condition: eq(variables.BuildType, 'Release')
+          - publish: $(Build.ArtifactStagingDirectory)
+            artifact: roadrunner-docs
+            displayName: Publish
+            condition: eq(variables.BuildType, 'Release')
 
 #########################################################################
 # Many Linux Build
