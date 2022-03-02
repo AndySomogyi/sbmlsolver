@@ -904,7 +904,10 @@ stages:
             artifact: roadrunner-$(Agent.OS)-$(BuildType)
             displayName: Publish
           - script: |
+              echo "Contents of staging directory:"
+              ls $(Build.ArtifactStagingDirectory)
               rm -r $(Build.ArtifactStagingDirectory)/*
+              echo "Contents of staging directory, after deletion:"
               ls $(Build.ArtifactStagingDirectory)
               echo "Contents of docs-build directory:"
               ls $(SOURCE_DIR)/docs/docs-build
@@ -912,7 +915,7 @@ stages:
             condition: eq(variables.BuildType, 'Release')
           - task: CopyFiles@2
             inputs:
-              contents: '$(SOURCE_DIR)/docs/docs-build'
+              contents: '$(SOURCE_DIR)/docs/docs-build/**'
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy to Staging Area
             condition: eq(variables.BuildType, 'Release')
