@@ -905,11 +905,14 @@ stages:
             displayName: Publish
           - script: |
               rm -r $(Build.ArtifactStagingDirectory)/*
+              ls $(Build.ArtifactStagingDirectory)
+              echo "Contents of docs-build directory:"
+              ls $(SOURCE_DIR)/docs/docs-build
             displayName: Remove install files
             condition: eq(variables.BuildType, 'Release')
           - task: CopyFiles@2
             inputs:
-              contents: '$($(SOURCE_DIR)/docs/docs-build'
+              contents: '$(SOURCE_DIR)/docs/docs-build'
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy to Staging Area
             condition: eq(variables.BuildType, 'Release')
