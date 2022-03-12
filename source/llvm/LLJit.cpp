@@ -6,18 +6,33 @@
 #include "LLJit.h"
 #include "rrConfig.h"
 #include "rrLogger.h"
-#include "llvm/IR/Function.h"
 #include "SBMLSupportFunctions.h"
-#include "llvm/ExecutionEngine/Orc/EPCDynamicLibrarySearchGenerator.h"
 #include "ModelDataIRBuilder.h"
-#include "llvm/Target/TargetMachine.h"
-#include "llvm/IRReader/IRReader.h"
-#include "llvm/Support/SourceMgr.h"
-#include "llvm/ExecutionEngine/Orc/ObjectLinkingLayer.h"
 #include "SBMLModelObjectCache.h"
 #include "rrRoadRunnerOptions.h"
 #include "rrSparse.h"
 #include <thread>
+
+#ifdef _MSC_VER
+#pragma warning(disable: 4146)
+#pragma warning(disable: 4141)
+#pragma warning(disable: 4267)
+#pragma warning(disable: 4624)
+#endif
+
+#include "llvm/IR/Function.h"
+#include "llvm/ExecutionEngine/Orc/EPCDynamicLibrarySearchGenerator.h"
+#include "llvm/Target/TargetMachine.h"
+#include "llvm/IRReader/IRReader.h"
+#include "llvm/Support/SourceMgr.h"
+#include "llvm/ExecutionEngine/Orc/ObjectLinkingLayer.h"
+
+#ifdef _MSC_VER
+#pragma warning(default: 4146)
+#pragma warning(default: 4141)
+#pragma warning(default: 4267)
+#pragma warning(default: 4624)
+#endif
 
 #if LIBSBML_HAS_PACKAGE_DISTRIB
 

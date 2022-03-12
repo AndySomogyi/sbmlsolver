@@ -121,7 +121,7 @@ namespace rrllvm {
         try {
 
             if (options & LoadSBMLOptions::CONSERVED_MOIETIES) {
-                if ((rr::Config::getBool(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
+                if ((rr::Config::getBool(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &&
                      rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0) {
                     rrLog(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
                 }

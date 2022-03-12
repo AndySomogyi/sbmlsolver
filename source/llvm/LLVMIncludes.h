@@ -24,6 +24,10 @@
 
 #ifdef _MSC_VER
 #pragma warning( push )
+#pragma warning(disable: 4146)
+#pragma warning(disable: 4141)
+#pragma warning(disable: 4267)
+#pragma warning(disable: 4624)
 #pragma warning( disable : 4355 )
 #pragma warning( disable : 4244 )
 #endif
@@ -95,6 +99,13 @@
 
 #ifdef _MSC_VER
 #pragma warning( pop )
+#endif
+
+#ifdef _MSC_VER
+#pragma warning(default: 4146)
+#pragma warning(default: 4141)
+#pragma warning(default: 4267)
+#pragma warning(default: 4624)
 #endif
 
 #pragma pop_macro("min")
