@@ -14,7 +14,6 @@
 #include "rrRoadRunnerOptions.h"
 #include "MCJit.h"
 #include "LLJit.h"
-#include "llvm/SBMLSupportFunctions.h"
 #include "rrRoadRunnerOptions.h"
 
 #include <memory>
@@ -30,6 +29,7 @@
 #pragma warning(disable: 4624)
 #endif
 
+#include "llvm/SBMLSupportFunctions.h"
 #include "llvm/Bitcode/BitcodeWriter.h"
 #include "llvm/Bitcode/BitcodeReader.h"
 #include "llvm/Support/Error.h"

@@ -4,73 +4,58 @@
 
 #include "rrOSSpecifics.h"
 
-#include <iostream>
-#include <list>
-#include "rrRoadRunner.h"
-#include "rrException.h"
+#include "ApproxSteadyStateDecorator.h"
 #include "ExecutableModelFactory.h"
-#include "rrCompiler.h"
-#include "rrLogger.h"
-#include "rrUtils.h"
-#include "rrExecutableModel.h"
-#include "rr-libstruct/lsLA.h"
-#include "rr-libstruct/lsLibla.h"
-#include "rrConstants.h"
-#include "rrVersionInfo.h"
+#include "ForwardSensitivitySolver.h"
 #include "Integrator.h"
-#include "SteadyStateSolver.h"
-#include "rrSBMLReader.h"
-#include "rrConfig.h"
+#include "IntegratorFactory.h"
+#include "PresimulationDecorator.h"
+#include "PresimulationProgramDecorator.h"
 #include "SBMLValidator.h"
-#include "sbml/ListOf.h"
-#include "sbml/Model.h"
-#include "sbml/math/FormulaParser.h"
-#include "sbml/common/operationReturnValues.h"
 #include "SVD.h"
 #include "SensitivitySolver.h"
-#include "ForwardSensitivitySolver.h"
 #include "SensitivitySolverFactory.h"
+#include "SteadyStateSolver.h"
 #include "SteadyStateSolverFactory.h"
-#include "IntegratorFactory.h"
+#include "rr-libstruct/lsLA.h"
+#include "rr-libstruct/lsLibla.h"
+#include "rrCompiler.h"
+#include "rrConfig.h"
+#include "rrConstants.h"
+#include "rrException.h"
+#include "rrExecutableModel.h"
+#include "rrLogger.h"
+#include "rrRoadRunner.h"
+#include "rrSBMLReader.h"
+#include "rrUtils.h"
+#include "rrVersionInfo.h"
+#include "sbml/ListOf.h"
+#include "sbml/Model.h"
+#include "sbml/common/operationReturnValues.h"
+#include "sbml/math/FormulaParser.h"
 
-
-#ifdef _MSC_VER
-#pragma warning(disable: 4146)
-#pragma warning(disable: 4141)
-#pragma warning(disable: 4267)
-#pragma warning(disable: 4624)
-#endif
-
+//Have to include these last because of something to do with min and max in Random.h
+#include <rr-libstruct/lsLibStructural.h>
+#include <sbml/UnitKind.h>
+#include <sbml/conversion/SBMLLevelVersionConverter.h>
+#include <sbml/conversion/SBMLLocalParameterConverter.h>
+#include <Poco/File.h>
+#include <assert.h>
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <iostream>
+#include <list>
+#include <list>
+#include <math.h>
+#include <memory>
+#include <thread>
+#include <thread_pool.hpp>
+#include <utility>
+//Shouldn't need the warning-disabling #pragmas here, since these are all links to *our* llvm, not the offical LLVM source.
 #include "llvm/LLVMExecutableModel.h"
 #include "llvm/ModelResources.h"
 #include "llvm/IR/IRBuilder.h"
-#include "PresimulationDecorator.h"
-#include "ApproxSteadyStateDecorator.h"
-#include "PresimulationProgramDecorator.h"
-
-#ifdef _MSC_VER
-#pragma warning(default: 4146)
-#pragma warning(default: 4141)
-#pragma warning(default: 4267)
-#pragma warning(default: 4624)
-#endif
-
-#include <sbml/conversion/SBMLLocalParameterConverter.h>
-#include <sbml/conversion/SBMLLevelVersionConverter.h>
-#include <sbml/UnitKind.h>
-#include <thread>
-#include <thread_pool.hpp>
-
-#include <iostream>
-#include <math.h>
-#include <assert.h>
-#include <rr-libstruct/lsLibStructural.h>
-#include <Poco/File.h>
-#include <list>
-#include <cstdlib>
-#include <fstream>
-#include <memory>
-#include <utility>
 
 
 #ifdef _MSC_VER
