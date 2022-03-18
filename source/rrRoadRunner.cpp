@@ -340,6 +340,58 @@ namespace rr {
                 model.reset(ExecutableModelFactory::createModel(istr, loadOpt.modelGeneratorOpt));
                 syncAllSolversWithModel(model.get());
             }
+            //Set up integrators.
+            // We loop through all the integrators in the source, setting the current one to
+            //  each in turn, and setting the values of that current one based on the one in
+            //  the std::vector of the original rr.
+            for (size_t in = 0; in < rri.integrators.size(); in++) {
+                string name = rri.integrators[in]->getName();
+                Integrator* newint = dynamic_cast<Integrator*>(
+                    IntegratorFactory::getInstance().New(name, model.get())
+                    );
+                integrators.push_back(newint);
+                for (const std::string& k : rri.integrators[in]->getSettings()) {
+                    auto x = rri.integrators[in]->getValue(k);
+                    newint->setValue(k, x);
+                }
+                if (newint->getName() == name) {
+                    integrator = newint;
+                    if (model) {
+                        integrator->restart(model->getTime());
+                    }
+                }
+            }
+
+            //Set up steady state solvers as we did the integrators.
+            for (size_t in = 0; in < rri.steady_state_solvers.size(); in++) {
+                string name = rri.steady_state_solvers[in]->getName();
+                SteadyStateSolver* newsolver = dynamic_cast<SteadyStateSolver*>(
+                    SteadyStateSolverFactory::getInstance().New(name, model.get()));
+                steady_state_solvers.push_back(newsolver);
+                for (const std::string& k : rri.steady_state_solvers[in]->getSettings()) {
+                    auto x = rri.steady_state_solvers[in]->getValue(k);
+                    newsolver->setValue(k, x);
+                }
+                if (newsolver->getName() == name) {
+                    steady_state_solver = newsolver;
+                }
+            }
+
+            //Set up sensitivity solvers as we did the integrators.
+            for (size_t in = 0; in < rri.sensitivity_solvers.size(); in++) {
+                string name = rri.sensitivity_solvers[in]->getName();
+                SensitivitySolver* newsolver = dynamic_cast<SensitivitySolver*>(
+                    SensitivitySolverFactory::getInstance().New(name, model.get()));
+                sensitivity_solvers.push_back(newsolver);
+                for (const std::string& k : rri.sensitivity_solvers[in]->getSettings()) {
+                    auto x = rri.sensitivity_solvers[in]->getValue(k);
+                    newsolver->setValue(k, x);
+                }
+                if (newsolver->getName() == name) {
+                    sensitivity_solver = newsolver;
+                }
+            }
+
         }
 
         ~RoadRunnerImpl() {
@@ -578,52 +630,6 @@ namespace rr {
         : impl(new RoadRunnerImpl(*rr.impl))
         , dataVersionNumber(RR_VERSION_MAJOR * 10 + RR_VERSION_MINOR)
     {
-        //Set up integrators.
-        // We loop through all the integrators in the source, setting the current one to
-        //  each in turn, and setting the values of that current one based on the one in
-        //  the std::vector of the original rr.
-        for (size_t in = 0; in < rr.impl->integrators.size(); in++) {
-            setIntegrator(rr.impl->integrators[in]->getName());
-            for (const std::string &k: rr.impl->integrators[in]->getSettings()) {
-                auto x = rr.impl->integrators[in]->getValue(k);
-                impl->integrator->setValue(k, x);
-            }
-        }
-        //Set the current integrator to the correct one.
-        if (rr.impl->integrator) {
-            setIntegrator(rr.impl->integrator->getName());
-            //Restart the integrator and reset the model time
-            if (impl->model) {
-                impl->integrator->restart(impl->model->getTime());
-            }
-        }
-
-        //Set up the steady state solvers, the same as the integrators.
-        for (size_t ss = 0; ss < rr.impl->steady_state_solvers.size(); ss++) {
-            setSteadyStateSolver(rr.impl->steady_state_solvers[ss]->getName());
-            for (std::string k: rr.impl->steady_state_solvers[ss]->getSettings()) {
-                impl->steady_state_solver->setValue(k, rr.impl->steady_state_solvers[ss]->getValue(k));
-            }
-        }
-
-        if (rr.impl->steady_state_solver) {
-            setSteadyStateSolver(rr.impl->steady_state_solver->getName());
-        }
-
-        //Set up the sensitivity state solvers, the same as the integrators and steady state
-        for (size_t ss = 0; ss < rr.impl->sensitivity_solvers.size(); ss++) {
-            std::string name = rr.impl->sensitivity_solvers[ss]->getName();
-            setSensitivitySolver(name);
-            for (std::string k: rr.impl->sensitivity_solvers[ss]->getSettings()) {
-                auto val = rr.impl->sensitivity_solvers[ss]->getValue(k);
-                impl->sensitivity_solver->setValue(k, val);
-            }
-        }
-
-        if (rr.impl->sensitivity_solver) {
-            setSensitivitySolver(rr.impl->sensitivity_solver->getName());
-        }
-
         reset(SelectionRecord::TIME);
 
         //Increase instance count..
@@ -631,8 +637,19 @@ namespace rr {
         mInstanceCount++; // static, so one thread at a time
         impl->mInstanceID = mInstanceCount;
         rrMtx.unlock();
+    }
 
+    void RoadRunner::operator=(const RoadRunner& rr)
+    {
+        delete impl;
+        impl = new RoadRunnerImpl(*rr.impl);
+        reset(SelectionRecord::TIME);
 
+        //Increase instance count..
+        rrMtx.lock();
+        mInstanceCount++; // static, so one thread at a time
+        impl->mInstanceID = mInstanceCount;
+        rrMtx.unlock();
     }
 
     RoadRunner::~RoadRunner() {
