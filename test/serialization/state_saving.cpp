@@ -84,8 +84,6 @@ bool StateSavingTests::RunStateSavingTest(void(*modification)(RoadRunner *, std:
     string testName(UnitTest::GetInstance()->current_test_info()->name());
     string suiteName(UnitTest::GetInstance()->current_test_info()->test_suite_name());
 
-    libsbml::SBMLDocument *doc;
-
     try {
         path dataOutputFolder(stateSavingOutputDir / suiteName);
 
@@ -123,7 +121,6 @@ bool StateSavingTests::RunStateSavingTest(void(*modification)(RoadRunner *, std:
 
         libsbml::SBMLReader reader;
         path fullPath = modelFilePath / modelFileName;
-        doc = reader.readSBML(fullPath.string());
 
         if (!simulation.LoadSBMLFromFile()) {
             throw (Exception("Failed loading sbml from file"));
@@ -182,12 +179,10 @@ bool StateSavingTests::RunStateSavingTest(void(*modification)(RoadRunner *, std:
         string error = ex.what();
         cerr << "Case " << testName << ": Exception: " << error << endl;
         delete rr;
-        delete doc;
         return false;
     }
 
     delete rr;
-    delete doc;
     return result;
 }
 
@@ -203,8 +198,6 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
     string suiteName(UnitTest::GetInstance()->current_test_info()->test_suite_name());
 
     //Setup environment
-    libsbml::SBMLDocument *doc;
-
     try {
         path dataOutputFolder = (stateSavingOutputDir / testName);
         string dummy;
@@ -248,7 +241,6 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
 
         libsbml::SBMLReader reader;
         std::string fullPath = modelFilePath + "/" + modelFileName;
-        doc = reader.readSBML(fullPath);
 
         if (!simulation.LoadSBMLFromFile()) {
             throw (Exception("Failed loading sbml from file"));
@@ -305,8 +297,9 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
 
         simulation.CreateErrorData();
 
-        std::cout << simulation.NrOfFailingPoints() << std::endl;
-
+        if (simulation.NrOfFailingPoints() > 0) {
+            std::cout << simulation.NrOfFailingPoints() << std::endl;
+        }
         result = simulation.Pass();
         result = simulation.SaveAllData() && result;
         result = simulation.SaveModelAsXML(dataOutputFolder) && result;
@@ -317,7 +310,6 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
         result = false;
     }
 
-    delete doc;
     return result;
 }
 
@@ -459,6 +451,20 @@ TEST_F(StateSavingTests, COPY_RR) {
     ASSERT_TRUE(rr.getInstanceID() != rr2.getInstanceID());
 }
 
+
+TEST_F(StateSavingTests, COPY_RR_WITH_ASSIGNMENT) {
+    path f = rrTestSbmlTestSuiteDir_ / "semantic" / "00001" / "00001-sbml-l2v4.xml";
+    path stateFname = fs::current_path() / "save-state-tests.rr";
+    RoadRunner rri(f.string());
+    rri.getIntegrator()->setIndividualTolerance("S1", 5.0);
+    rri.getIntegrator()->setIndividualTolerance("S2", 3.0);
+    rri.saveState(stateFname.string());
+    RoadRunner rri2(3, 1);
+    rri2 = rri;
+    EXPECT_TRUE(rri.getInstanceID() != rri2.getInstanceID());
+    EXPECT_EQ(rri2.getIntegrator()->getConcentrationTolerance()[0], 5.0);
+    EXPECT_EQ(rri2.getIntegrator()->getConcentrationTolerance()[1], 3.0);
+}
 
 TEST_F(StateSavingTests, COPY_RR_TWICE) {
     RoadRunner rr(3, 2);
@@ -843,7 +849,7 @@ TEST_F(StateSavingTests, FromString) {
 
 TEST_F(StateSavingTests, FromFile) {
     std::filesystem::path p = std::filesystem::current_path() / "savedState.rr";
-    std::cout << "saved to " << p << std::endl;
+    //std::cout << "saved to " << p << std::endl;
     RoadRunner rr(OpenLinearFlux().str());
     rr.saveState(p.string());
     RoadRunner rr2;
@@ -960,8 +966,8 @@ public:
         auto expected = rr->getFloatingSpeciesAmountsNamedArray();
         auto rr2 = saveAndLoadState(rr);
         auto actual = rr2->getFloatingSpeciesAmountsNamedArray();
-        std::cout << expected << std::endl;
-        std::cout << actual << std::endl;
+        //std::cout << expected << std::endl;
+        //std::cout << actual << std::endl;
         ASSERT_TRUE(compareTwoLsMatrices(&expected, &actual, 1e-5));
     }
 
