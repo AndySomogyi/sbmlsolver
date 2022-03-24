@@ -81,16 +81,6 @@ TEST_F(ModelAnalysisTests, issue986b) {
     std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
 }
 
-TEST_F(ModelAnalysisTests, checkGetRatesOfChangeIds) {
-    //If a model has non-species with rates of change, 'getRatesOfChange' works fine,
-    // but the labels for those rates were wrong. This tests that they were fixed.
-    RoadRunner rr((modelAnalysisModelsDir / "ratesOfChange.xml").string());
-    vector<double> out = rr.getRatesOfChange();
-    vector<string> outids = rr.getRateOfChangeIds();
-    ASSERT_EQ(out.size(), outids.size());
-}
-
-
 TEST_F(ModelAnalysisTests, checkGetFullStoichimetryMatrixWarningMsg) {
     //If a model has a lot of reactions but only a few species, it would sometimes
     // get too small of a scratch space to use in lapack.  The only way to tell
