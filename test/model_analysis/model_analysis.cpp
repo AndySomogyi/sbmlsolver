@@ -21,6 +21,28 @@ public:
 };
 
 
+TEST_F(ModelAnalysisTests, checkGetRatesOfChangeIds) {
+    //If a model has non-species with rates of change, 'getRatesOfChange' works fine,
+    // but the labels for those rates were wrong. This tests that they were fixed.
+    RoadRunner rr((modelAnalysisModelsDir / "ratesOfChange.xml").string());
+    vector<double> out = rr.getRatesOfChange();
+    vector<string> outids = rr.getRateOfChangeIds();
+    EXPECT_NEAR(out[0], 0.7, 0.0001);
+    EXPECT_NEAR(out[1], 3.0, 0.0001);
+    EXPECT_NEAR(out[2], 0.5, 0.0001);
+    EXPECT_NEAR(out[3], -.3, 0.0001);
+    EXPECT_NEAR(out[4], 0.3, 0.0001);
+    EXPECT_NEAR(out[5], 0.0, 0.0001);
+    EXPECT_STREQ(outids[0].c_str(), "S3'");
+    EXPECT_STREQ(outids[1].c_str(), "C'");
+    EXPECT_STREQ(outids[2].c_str(), "k1'");
+    EXPECT_STREQ(outids[3].c_str(), "S1'");
+    EXPECT_STREQ(outids[4].c_str(), "S2'");
+    EXPECT_STREQ(outids[5].c_str(), "S5'");
+    ASSERT_EQ(out.size(), outids.size());
+}
+
+
 TEST_F(ModelAnalysisTests, checkGetFullStoichimetryMatrixWarningMsg) {
     //If a model has a lot of reactions but only a few species, it would sometimes
     // get too small of a scratch space to use in lapack.  The only way to tell

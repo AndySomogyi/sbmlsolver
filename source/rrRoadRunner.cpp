@@ -4890,13 +4890,16 @@ namespace rr {
     }
 
     std::vector<std::string> RoadRunner::getRateOfChangeIds() {
-        std::list<std::string> list;
+        std::list<std::string> rate_list, ind_spec_list;
 
         if (impl->model) {
-            impl->model->getIds(SelectionRecord::FLOATING_AMOUNT_RATE, list);
+            impl->model->getIds(SelectionRecord::RATE, rate_list);
+            impl->model->getIds(SelectionRecord::FLOATING_AMOUNT_RATE, ind_spec_list);
         }
 
-        return std::vector<std::string>(list.begin(), list.end());
+        std::vector<std::string> ret(rate_list.begin(), rate_list.end());
+        ret.insert(ret.end(), ind_spec_list.begin(), ind_spec_list.end());
+        return ret;
     }
 
     std::vector<std::string> RoadRunner::getCompartmentIds() {
