@@ -6,6 +6,7 @@
 #include "rrRoadRunner.h"
 #include "rrUtils.h"
 #include "sbml/SBMLDocument.h"
+#include "Matrix.h"
 #include "sbml/ListOf.h"
 #include "sbml/Model.h"
 #include "rrExecutableModel.h"
@@ -73,6 +74,8 @@ public:
     bool StateRunTestModelFromScratch(void(*generate)(RoadRunner *, std::string), std::string version = "l2v4");
 
 };
+
+
 
 bool StateSavingTests::RunStateSavingTest(void(*modification)(RoadRunner *, std::string), std::string version) {
     bool result(false);
@@ -421,10 +424,6 @@ bool StateSavingTests::StateRunTestModelFromScratch(void(*generate)(RoadRunner *
     return result;
 }
 
-
-
-
-
 // IN LLVM 6.0.1, this test can result, depending on the OS,
 //  in llvm calling *exit* instead of throwing.  We changed this
 //  in our own updated version of llvm, and updated the patch value
@@ -451,7 +450,6 @@ TEST_F(StateSavingTests, COPY_RR) {
     ASSERT_TRUE(rr.getInstanceID() != rr2.getInstanceID());
 }
 
-
 TEST_F(StateSavingTests, COPY_RR_WITH_ASSIGNMENT) {
     path f = rrTestSbmlTestSuiteDir_ / "semantic" / "00001" / "00001-sbml-l2v4.xml";
     path stateFname = fs::current_path() / "save-state-tests.rr";
@@ -473,6 +471,71 @@ TEST_F(StateSavingTests, COPY_RR_TWICE) {
     ASSERT_TRUE(rr.getInstanceID() != rr2.getInstanceID());
     ASSERT_TRUE(rr.getInstanceID() != rr3.getInstanceID());
 }
+
+TEST_F(StateSavingTests, CopyModelLoadedConstructor) {
+    RoadRunner rr(OpenLinearFlux().str());
+    RoadRunner rr2(rr);
+    // need to use constructor to convert ls::Matrix to rr::Matrix
+    rr::Matrix<double> result = rr::Matrix<double>(*rr2.simulate(0, 10, 11));
+    ASSERT_TRUE(OpenLinearFlux().timeSeriesResult().almostEquals(result, 1e-3));
+}
+
+TEST_F(StateSavingTests, CopyModelLoadedAssignment) {
+    RoadRunner rr(OpenLinearFlux().str());
+    RoadRunner rr2 = rr;
+    // need to use constructor to convert ls::Matrix to rr::Matrix
+    rr::Matrix<double> result = rr::Matrix<double>(*rr2.simulate(0, 10, 11));
+    ASSERT_TRUE(OpenLinearFlux().timeSeriesResult().almostEquals(result, 1e-3));
+}
+
+TEST_F(StateSavingTests, CopyModelTwiceModelLoadedConstructor) {
+    RoadRunner rr(OpenLinearFlux().str());
+    RoadRunner rr2(rr);
+    RoadRunner rr3(rr);
+    // need to use constructor to convert ls::Matrix to rr::Matrix
+    rr::Matrix<double> result2 = rr::Matrix<double>(*rr2.simulate(0, 10, 11));
+    rr::Matrix<double> result3 = rr::Matrix<double>(*rr3.simulate(0, 10, 11));
+    ASSERT_TRUE(OpenLinearFlux().timeSeriesResult().almostEquals(result2, 1e-3));
+    ASSERT_TRUE(OpenLinearFlux().timeSeriesResult().almostEquals(result3, 1e-3));
+}
+
+TEST_F(StateSavingTests, CopyModelTwiceModelLoadedAssignment) {
+    RoadRunner rr(OpenLinearFlux().str());
+    RoadRunner rr2 = rr;
+    RoadRunner rr3 = rr;
+    // need to use constructor to convert ls::Matrix to rr::Matrix
+    rr::Matrix<double> result2 = rr::Matrix<double>(*rr2.simulate(0, 10, 11));
+    rr::Matrix<double> result3 = rr::Matrix<double>(*rr3.simulate(0, 10, 11));
+    ASSERT_TRUE(OpenLinearFlux().timeSeriesResult().almostEquals(result2, 1e-3));
+    ASSERT_TRUE(OpenLinearFlux().timeSeriesResult().almostEquals(result3, 1e-3));
+}
+
+// repeat with LLJit
+
+TEST_F(StateSavingTests, CopyModelAndCopyBackMCJit) {
+    RoadRunner rr(OpenLinearFlux().str());
+    RoadRunner rr2;
+    rr2 = rr;
+    rr = rr2;
+    rr::Matrix<double> result = rr::Matrix<double>(*rr.simulate(0, 10, 11));
+    rr::Matrix<double> result2 = rr::Matrix<double>(*rr2.simulate(0, 10, 11));
+    ASSERT_TRUE(OpenLinearFlux().timeSeriesResult().almostEquals(result, 1e-3));
+    ASSERT_TRUE(OpenLinearFlux().timeSeriesResult().almostEquals(result2, 1e-3));
+}
+
+TEST_F(StateSavingTests, CopyModelAndCopyBackLLJit) {
+    Config::setValue(Config::LLVM_BACKEND, Config::LLJIT);
+    RoadRunner rr(OpenLinearFlux().str());
+    RoadRunner rr2;
+    rr2 = rr;
+    rr = rr2;
+    // need to use constructor to convert ls::Matrix to rr::Matrix
+    rr::Matrix<double> result = rr::Matrix<double>(*rr.simulate(0, 10, 11));
+    rr::Matrix<double> result2 = rr::Matrix<double>(*rr2.simulate(0, 10, 11));
+    ASSERT_TRUE(OpenLinearFlux().timeSeriesResult().almostEquals(result, 1e-3));
+    ASSERT_TRUE(OpenLinearFlux().timeSeriesResult().almostEquals(result2, 1e-3));
+}
+
 
 TEST_F(StateSavingTests, COPY_RR_TWICE2) {
     RoadRunner rr(3, 2);
