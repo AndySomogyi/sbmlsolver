@@ -27,6 +27,7 @@ TEST_F(ModelAnalysisTests, checkGetRatesOfChangeIds) {
     RoadRunner rr((modelAnalysisModelsDir / "ratesOfChange.xml").string());
     vector<double> out = rr.getRatesOfChange();
     vector<string> outids = rr.getRateOfChangeIds();
+    ASSERT_EQ(out.size(), outids.size());
     EXPECT_NEAR(out[0], 0.7, 0.0001);
     EXPECT_NEAR(out[1], 3.0, 0.0001);
     EXPECT_NEAR(out[2], 0.5, 0.0001);
@@ -39,7 +40,10 @@ TEST_F(ModelAnalysisTests, checkGetRatesOfChangeIds) {
     EXPECT_STREQ(outids[3].c_str(), "S1'");
     EXPECT_STREQ(outids[4].c_str(), "S2'");
     EXPECT_STREQ(outids[5].c_str(), "S5'");
-    ASSERT_EQ(out.size(), outids.size());
+
+    ls::DoubleMatrix out2m = rr.getRatesOfChangeNamedArray();
+    vector<string> cols = out2m.getColNames();
+    EXPECT_EQ(cols, outids);
 }
 
 

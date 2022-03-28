@@ -2461,7 +2461,7 @@ namespace rr {
         delete[] vals;
         delete[] ssv;
 
-        v.setColNames(getFloatingSpeciesIds());
+        v.setColNames(getRateOfChangeIds());
 
         return v;
     }
