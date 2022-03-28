@@ -4898,7 +4898,20 @@ namespace rr {
         }
 
         std::vector<std::string> ret(rate_list.begin(), rate_list.end());
-        ret.insert(ret.end(), ind_spec_list.begin(), ind_spec_list.end());
+        for (auto isl = ind_spec_list.begin(); isl != ind_spec_list.end(); isl++)
+        {
+            bool found = false;
+            for (auto rr = rate_list.begin(); rr != rate_list.end(); rr++)
+            {
+                if (*rr == *isl) {
+                    found = true;
+                }
+            }
+            if (!found)
+            {
+                ret.push_back(*isl);
+            }
+        }
         return ret;
     }
 

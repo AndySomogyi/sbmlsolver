@@ -1166,6 +1166,12 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
             {
                 ids.push_back(rid + "'");
             }
+            if (symbols->getFloatingSpeciesIndex(rid, false) >= 0 &&
+                (checkExact(SelectionRecord::FLOATING_AMOUNT_RATE, types) ||
+                    SelectionRecord::RATE == types))
+            {
+                ids.push_back(rid + "'");
+            }
             if (symbols->getCompartmentIndex(rid) >= 0 &&
                 (checkExact(SelectionRecord::COMPARTMENT_RATE, types) ||
                     SelectionRecord::RATE == types))
@@ -1184,7 +1190,8 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
     if (checkExact(SelectionRecord::FLOATING_AMOUNT_RATE, types)) {
         for (size_t i = 0; i < getNumFloatingSpecies(); ++i) {
             string sid = this->getFloatingSpeciesId(i);
-            if (!symbols->hasAssignmentRule(sid))
+            if (!symbols->hasAssignmentRule(sid) &&
+                !symbols->hasRateRule(sid))
             {
                 ids.push_back(sid + "'");
             }
