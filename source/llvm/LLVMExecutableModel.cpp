@@ -1154,10 +1154,44 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
         }
     }
 
+    //Do the rate rules first because that's the way they're ordered in the 
+    // underlying data model.
+    if (checkExact(SelectionRecord::RATE, types)) {
+
+        for (size_t i = 0; i < symbols->getRateRuleSize(); ++i) {
+            string rid = symbols->getRateRuleId(i);
+            if (symbols->getBoundarySpeciesIndex(rid) >= 0 &&
+                (checkExact(SelectionRecord::BOUNDARY_AMOUNT_RATE, types) ||
+                    SelectionRecord::RATE == types))
+            {
+                ids.push_back(rid + "'");
+            }
+            if (symbols->getFloatingSpeciesIndex(rid, false) >= 0 &&
+                (checkExact(SelectionRecord::FLOATING_AMOUNT_RATE, types) ||
+                    SelectionRecord::RATE == types))
+            {
+                ids.push_back(rid + "'");
+            }
+            if (symbols->getCompartmentIndex(rid) >= 0 &&
+                (checkExact(SelectionRecord::COMPARTMENT_RATE, types) ||
+                    SelectionRecord::RATE == types))
+            {
+                ids.push_back(rid + "'");
+            }
+            if (symbols->getGlobalParameterIndex(rid) >= 0 &&
+                (checkExact(SelectionRecord::GLOBAL_PARAMETER_RATE, types) ||
+                    SelectionRecord::RATE == types))
+            {
+                ids.push_back(rid + "'");
+            }
+        }
+    }
+
     if (checkExact(SelectionRecord::FLOATING_AMOUNT_RATE, types)) {
         for (size_t i = 0; i < getNumFloatingSpecies(); ++i) {
             string sid = this->getFloatingSpeciesId(i);
-            if (!symbols->hasAssignmentRule(sid))
+            if (!symbols->hasAssignmentRule(sid) &&
+                !symbols->hasRateRule(sid))
             {
                 ids.push_back(sid + "'");
             }
@@ -1180,28 +1214,6 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
             if (!symbols->hasAssignmentRule(sid))
             {
                 ids.push_back("[" + sid + "]'");
-            }
-        }
-    }
-
-    if (checkExact(SelectionRecord::RATE, types)) {
-
-        for (size_t i = 0; i < symbols->getRateRuleSize(); ++i) {
-            string rid = symbols->getRateRuleId(i);
-            if (symbols->getBoundarySpeciesIndex(rid) >= 0 &&
-                checkExact(SelectionRecord::BOUNDARY_AMOUNT_RATE, types))
-            {
-                ids.push_back(rid + "'");
-            }
-            if (symbols->getCompartmentIndex(rid) >= 0 &&
-                checkExact(SelectionRecord::COMPARTMENT_RATE, types))
-            {
-                ids.push_back(rid + "'");
-            }
-            if (symbols->getGlobalParameterIndex(rid) >= 0 &&
-                checkExact(SelectionRecord::GLOBAL_PARAMETER_RATE, types))
-            {
-                ids.push_back(rid + "'");
             }
         }
     }

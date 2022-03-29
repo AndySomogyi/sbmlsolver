@@ -526,7 +526,7 @@ std::string LLVMModelDataSymbols::getCompartmentId(size_t indx) const
 
     std::stringstream errSS;
     errSS << "Attempted to access compartment id at index " << indx << ", but ";
-    auto size = boundarySpeciesMap.size();
+    auto size = compartmentsMap.size();
     if (size == 0) {
         errSS << "there are no compartments in the model.";
     }
@@ -1568,7 +1568,7 @@ void LLVMModelDataSymbols::initEvents(const libsbml::Model* model)
                 attr = attr | EventInitialValue;
             }
 
-            // older versions seem to default to persisent
+            // older versions default to persisent
             const SBMLDocument *doc = model->getSBMLDocument();
             if (doc->getLevel() < 3 ||
                     (trigger->isSetPersistent() && trigger->getPersistent()))

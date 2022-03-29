@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.13.0 with libSBML version 5.19.2. -->
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model metaid="__main" id="__main">
+    <listOfCompartments>
+      <compartment id="C" spatialDimensions="3" size="1" constant="false"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="S1" compartment="C" initialAmount="1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S2" compartment="C" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S3" compartment="C" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="S4" compartment="C" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="S5" compartment="C" initialAmount="3" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="k1" value="0.3" constant="false"/>
+    </listOfParameters>
+    <listOfRules>
+      <assignmentRule variable="S4">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <cn type="integer"> 2 </cn>
+              <ci> S1 </ci>
+            </apply>
+            <ci> S2 </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <rateRule variable="S3">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <cn> 0.7 </cn>
+        </math>
+      </rateRule>
+      <rateRule variable="C">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <cn type="integer"> 3 </cn>
+        </math>
+      </rateRule>
+      <rateRule variable="k1">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <cn> 0.5 </cn>
+        </math>
+      </rateRule>
+    </listOfRules>
+    <listOfReactions>
+      <reaction id="_J0" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="S1" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S2" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k1 </ci>
+              <ci> S1 </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

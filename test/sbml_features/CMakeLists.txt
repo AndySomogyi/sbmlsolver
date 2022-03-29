@@ -3,6 +3,7 @@ add_test_executable(
         ${SharedTestFiles}
         boolean_delay.cpp
         invalid_sbml.cpp
+        valid_sbml.cpp
 )
 
 # make test_targets list global to all tests
