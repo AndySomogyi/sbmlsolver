@@ -75,6 +75,33 @@ TEST_F(ModelAnalysisTests, checkGetRatesOfChangeIdsNonBoundarySpeciesRate) {
 }
 
 
+TEST_F(ModelAnalysisTests, checkGetRatesOfChangeIdsConservedMoiety) {
+    //As above, but in a model with conserved moieties
+    RoadRunner rr((modelAnalysisModelsDir / "conserved_cycle.xml").string());
+    rr.setConservedMoietyAnalysis(true);
+    vector<double> out = rr.getRatesOfChange();
+    vector<string> outids = rr.getRateOfChangeIds();
+    ASSERT_EQ(out.size(), outids.size());
+    EXPECT_NEAR(out[0], -0.10748794268115947, 0.000001);
+    EXPECT_STREQ(outids[0].c_str(), "S1'");
+    ls::DoubleMatrix out2m = rr.getRatesOfChangeNamedArray();
+    vector<string> cols = out2m.getColNames();
+    EXPECT_EQ(cols, outids);
+
+    rr.setConservedMoietyAnalysis(false);
+    out = rr.getRatesOfChange();
+    outids = rr.getRateOfChangeIds();
+    ASSERT_EQ(out.size(), outids.size());
+    EXPECT_NEAR(out[0], -0.10748794268115947, 0.000001);
+    EXPECT_NEAR(out[1], 0.10748794268115947, 0.000001);
+    EXPECT_STREQ(outids[0].c_str(), "S1'");
+    EXPECT_STREQ(outids[1].c_str(), "S2'");
+    out2m = rr.getRatesOfChangeNamedArray();
+    cols = out2m.getColNames();
+    EXPECT_EQ(cols, outids);
+}
+
+
 TEST_F(ModelAnalysisTests, checkGetFullStoichimetryMatrixWarningMsg) {
     //If a model has a lot of reactions but only a few species, it would sometimes
     // get too small of a scratch space to use in lapack.  The only way to tell
