@@ -76,13 +76,46 @@ namespace rrllvm {
 
     void ModelResources::saveState(std::ostream &out) const {
         symbols->saveState(out);
-
         rr::saveBinary(out, sbmlMD5);
 
-        std::string moduleAsString = jit->getModuleAsString(sbmlMD5);
+        /**
+         * This bit of code is unintuitive really.
+         * The goal is to save the moduleStr variable for loading.
+         * Two situations arise:
+         *  1) moduleStr is not populated, but can be obtained from
+         *     jit->compiledModuleBinaryStream (see MCJit::writeObjectToBinaryStream)
+         *  2) moduleStr is populated with the string we need
+         * Situation 1 occurs if this model has not been saved/loaded before.
+         * Situation 2 occurs if the model we are saving is itself a copy of an
+         * original model. This is a bad design but I can't figure out why
+         * jit->compiledModuleBinaryStream is empty second time around.
+         */
+        std::string moduleAsString;
+        if (moduleStr.empty()){
+            /**
+             * If we already have a moduleStr, use it. This happens
+             * when a model has been saved and loaded already, like in:
+             *     RoadRunner rr(OpenLinearFlux().str());
+             *     RoadRunner rr2;
+             *     rr2 = rr; // first time: rr.saveState used. rr2.loadState used
+             */
+            moduleAsString = jit->getModuleAsString(sbmlMD5);
+        } else {
+            /**
+             * If we already have a moduleStr, use it. This happens
+             * when a model has been saved and loaded already, like in:
+             *     RoadRunner rr(OpenLinearFlux().str());
+             *     RoadRunner rr2;
+             *     rr2 = rr; // first time: rr.saveState used. rr2.loadState used
+             *     rr = rr2; // second time: rr2.saveState and rr.loadState
+             */
+            moduleAsString = moduleStr;
+        }
+
         rr::saveBinary(out, moduleAsString);
 
-        // MCJit uses this variable. LLJit does not.
+        // MCJit uses this variable. LLJit does not. Both are needed due to
+        // awkwardness of having old and new llvm based code.
         bool usingCompiledModuleBinaryStream = false;
 
         // see comment in loadState
