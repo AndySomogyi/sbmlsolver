@@ -2461,7 +2461,7 @@ namespace rr {
         delete[] vals;
         delete[] ssv;
 
-        v.setColNames(getFloatingSpeciesIds());
+        v.setColNames(getRateOfChangeIds());
 
         return v;
     }
@@ -4890,13 +4890,29 @@ namespace rr {
     }
 
     std::vector<std::string> RoadRunner::getRateOfChangeIds() {
-        std::list<std::string> list;
+        std::list<std::string> rate_list, ind_spec_list;
 
         if (impl->model) {
-            impl->model->getIds(SelectionRecord::FLOATING_AMOUNT_RATE, list);
+            impl->model->getIds(SelectionRecord::RATE, rate_list);
+            impl->model->getIds(SelectionRecord::FLOATING_AMOUNT_RATE, ind_spec_list);
         }
 
-        return std::vector<std::string>(list.begin(), list.end());
+        std::vector<std::string> ret(rate_list.begin(), rate_list.end());
+        for (auto isl = ind_spec_list.begin(); isl != ind_spec_list.end(); isl++)
+        {
+            bool found = false;
+            for (auto rr = rate_list.begin(); rr != rate_list.end(); rr++)
+            {
+                if (*rr == *isl) {
+                    found = true;
+                }
+            }
+            if (!found)
+            {
+                ret.push_back(*isl);
+            }
+        }
+        return ret;
     }
 
     std::vector<std::string> RoadRunner::getCompartmentIds() {

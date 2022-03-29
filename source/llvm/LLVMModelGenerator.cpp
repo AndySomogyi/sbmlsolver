@@ -280,7 +280,8 @@ namespace rrllvm {
     }
 
     ExecutableModel*
-        LLVMModelGenerator::regenerateModel(rr::ExecutableModel* oldModel, libsbml::SBMLDocument* doc, uint options) {
+        LLVMModelGenerator::regenerateModel(rr::ExecutableModel* oldModel, libsbml::SBMLDocument* doc, uint options) 
+    {
         SharedModelResourcesPtr modelResources = std::make_shared<ModelResources>();
 
         char* docSBML = doc->toSBML();

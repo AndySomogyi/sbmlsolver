@@ -172,7 +172,7 @@ namespace rrllvm {
                 llvm::object::ObjectFile::createObjectFile(
                         llvm::MemoryBufferRef(moduleStr, sbmlMD5));
         if (!objFile) {
-            std::string err = "Failed to load object data";
+            std::string err = "Failed to load object data.";
             rrLogErr << err;
             llvm::logAllUnhandledErrors(objFile.takeError(), llvm::errs(), err);
         }
