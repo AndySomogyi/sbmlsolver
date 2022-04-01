@@ -1302,6 +1302,24 @@ bool rrcCallConv getCC (RRHandle handle, const char* variable, const char* param
     catch_bool_macro
 }
 
+bool rrcCallConv getDiffStepSize(RRHandle handle, double *value)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        *value = rri->getDiffStepSize();
+        return true;
+    catch_bool_macro
+}
+
+bool rrcCallConv setDiffStepSize(RRHandle handle, const double value)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        rri->setDiffStepSize(value);
+        return true;
+    catch_bool_macro
+}
+
 bool rrcCallConv getuEE(RRHandle handle, const char* name, const char* species, double* value)
 {
     start_try

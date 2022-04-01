@@ -267,7 +267,7 @@ namespace rr {
         bool simulatedSinceReset = false;
 
         RoadRunnerImpl(const std::string &uriOrSBML, const Dictionary *dict) :
-                mDiffStepSize(0.05),
+                mDiffStepSize(0.02),
                 mSteadyStateThreshold(1.E-2),
                 simulationResult(),
                 integrator(0),
@@ -283,7 +283,7 @@ namespace rr {
         }
 
         RoadRunnerImpl(const std::istream &in) :
-                mDiffStepSize(0.05),
+                mDiffStepSize(0.02),
                 mSteadyStateThreshold(1.E-2),
                 simulationResult(),
                 integrator(NULL),
@@ -302,7 +302,7 @@ namespace rr {
 
         RoadRunnerImpl(const std::string &_compiler, const std::string &_tempDir,
                        const std::string &_supportCodeDir) :
-                mDiffStepSize(0.05),
+                mDiffStepSize(0.02),
                 mSteadyStateThreshold(1.E-2),
                 simulationResult(),
                 integrator(NULL),
