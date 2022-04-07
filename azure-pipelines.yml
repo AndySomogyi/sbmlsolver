@@ -955,7 +955,7 @@ stages:
               PythonName: py310
         pool:
           vmImage: 'ubuntu-18.04'
-        container: sysbiouw/roadrunner-manylinux2014-base:llvm-13.x
+        container: sysbiouw/roadrunner-manylinux2014-base
         variables:
           CCACHE_DIR: '$(Pipeline.Workspace)/ccache'
           BUILD_DIRECTORY: '$(System.DefaultWorkingDirectory)/build'
