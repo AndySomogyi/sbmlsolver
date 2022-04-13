@@ -265,8 +265,7 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertEqual(bs["S1"], 20)
 
     def test_getCC(self):
-        self.rr.setDiffStepSize(0.05)
-        self.assertAlmostEqual(self.rr.getCC("_J0", "kf"), 0.009090752242926029)
+        self.assertAlmostEqual(self.rr.getCC("_J0", "kf"), 0.009090905110435235)
 
     def test_getCompiler(self):
         compiler_string = str(self.rr.getCompiler())
@@ -312,7 +311,7 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertTrue(callable(self.rr.getDependentRatesOfChangeNamedArray))
 
     def test_getDiffStepSize(self):
-        self.assertEqual(0.05, self.rr.getDiffStepSize())
+        self.assertEqual(0.02, self.rr.getDiffStepSize())
 
     def test_getEE(self):
         self.assertAlmostEqual(self.rr.getEE("_J0", "kf"), 1.0000000000000024)
@@ -662,9 +661,8 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getUnscaledSpeciesElasticity(self):
-        self.rr.setDiffStepSize(0.05)
         self.assertEqual(
-            0.09999999999999994,
+            0.10000000000000007,
             self.rr.getUnscaledSpeciesElasticity(0, 0),
         )
 
@@ -675,9 +673,8 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getuCC(self):
-        self.rr.setDiffStepSize(0.05)
         self.assertAlmostEqual(
-            0.09090752242926028,
+            0.09090905110435235,
             self.rr.getuCC("_J0", "kf"),
         )
 
@@ -734,40 +731,40 @@ class RoadRunnerTests(unittest.TestCase):
                     ('stoich(S1, _J1)', 1.0),
                     ('stoich(S2, _J0)', 1.0),
                     ('stoich(S2, _J1)', -1.0),
-                    ('uec(_J0, S1)', 0.09999999999999994),
+                    ('uec(_J0, S1)', 0.10000000000000007),
                     ('uec(_J0, S2)', 0.0),
-                    ('uec(_J0, kf)', 10.000000000000023),
+                    ('uec(_J0, kf)', 10.000000000000082),
                     ('uec(_J0, kb)', 0.0),
                     ('uec(_J1, S1)', 0.0),
-                    ('uec(_J1, S2)', 0.010000000000000007),
+                    ('uec(_J1, S2)', 0.009999999999999998),
                     ('uec(_J1, kf)', 0.0),
-                    ('uec(_J1, kb)', 1.0000000000000009),
-                    ('ec(_J0, S1)', 0.9999999999999993),
+                    ('uec(_J1, kb)', 1.0000000000000053),
+                    ('ec(_J0, S1)', 1.0000000000000007),
                     ('ec(_J0, S2)', 0.0),
-                    ('ec(_J0, kf)', 1.0000000000000024),
+                    ('ec(_J0, kf)', 1.0000000000000082),
                     ('ec(_J0, kb)', 0.0),
                     ('ec(_J1, S1)', 0.0),
-                    ('ec(_J1, S2)', 1.0000000000000007),
+                    ('ec(_J1, S2)', 0.9999999999999998),
                     ('ec(_J1, kf)', 0.0),
-                    ('ec(_J1, kb)', 1.0000000000000009),
-                    ('ucc(_J0, kf)', 0.09090752242926028),
-                    ('ucc(_J0, kb)', 9.090909075384493),
-                    ('ucc(_J1, kf)', 0.09090752242926028),
-                    ('ucc(_J1, kb)', 9.090909075384475),
-                    ('ucc(S1, kf)', -9.090752242926154),
-                    ('ucc(S1, kb)', 90.90909075384494),
-                    ('ucc(S2, kf)', 9.090752242926213),
-                    ('ucc(S2, kb)', -90.90909075384464),
-                    ('cc(_J0, kf)', 0.009090752242926029),
-                    ('cc(_J0, kb)', 0.09090909075384493),
-                    ('cc(_J1, kf)', 0.9090752242926029),
-                    ('cc(_J1, kb)', 9.090909075384475),
-                    ('cc(S1, kf)', -0.09090752242926155),
-                    ('cc(S1, kb)', 0.09090909075384493),
-                    ('cc(S2, kf)', 0.9090752242926213),
-                    ('cc(S2, kb)', -0.9090909075384463),
-                    ('eigen(S1)', (-0.11000000000000017+0j)),
-                    ('eigenReal(S1)', -0.11000000000000017),
+                    ('ec(_J1, kb)', 1.0000000000000053),
+                    ('ucc(_J0, kf)', 0.09090905110435235),
+                    ('ucc(_J0, kb)', 9.090909090511781),
+                    ('ucc(_J1, kf)', 0.09090905110435235),
+                    ('ucc(_J1, kb)', 9.090909090511735),
+                    ('ucc(S1, kf)', -9.09090511043516),
+                    ('ucc(S1, kb)', 90.90909090511799),
+                    ('ucc(S2, kf)', 9.090905110435088),
+                    ('ucc(S2, kb)', -90.90909090512392),
+                    ('cc(_J0, kf)', 0.009090905110435235),
+                    ('cc(_J0, kb)', 0.09090909090511781),
+                    ('cc(_J1, kf)', 0.9090905110435236),
+                    ('cc(_J1, kb)', 9.090909090511735),
+                    ('cc(S1, kf)', -0.09090905110435162),
+                    ('cc(S1, kb)', 0.09090909090511799),
+                    ('cc(S2, kf)', 0.9090905110435088),
+                    ('cc(S2, kb)', -0.9090909090512392),
+                    ('eigen(S1)', (-0.10999999999999983+0j)),
+                    ('eigenReal(S1)', -0.10999999999999983),
                     ('eigenImag(S1)', 0.0),
                     ('eigen(S2)', 0j),
                     ('eigenReal(S2)', 0.0),
