@@ -186,7 +186,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_diffstep_getter(self):
-        self.assertEqual(self.rr._diffstep_getter(), 0.05)
+        self.assertEqual(self.rr._diffstep_getter(), 0.02)
 
     def test_diffstep_stter(self):
         self.rr._diffstep_stter(0.01)
@@ -244,7 +244,7 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertEqual(self.rr.default_compartment, 1)
 
     def test_diffstep(self):
-        self.assertEqual(self.rr.diffstep, 0.05)
+        self.assertEqual(self.rr.diffstep, 0.02)
 
     @unittest.skip("This API is unclear. ")
     def test_ensureSolversRegistered(self):
@@ -265,6 +265,7 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertEqual(bs["S1"], 20)
 
     def test_getCC(self):
+        self.rr.setDiffStepSize(0.05)
         self.assertAlmostEqual(self.rr.getCC("_J0", "kf"), 0.009090752242926029)
 
     def test_getCompiler(self):
@@ -661,6 +662,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getUnscaledSpeciesElasticity(self):
+        self.rr.setDiffStepSize(0.05)
         self.assertEqual(
             0.09999999999999994,
             self.rr.getUnscaledSpeciesElasticity(0, 0),
@@ -673,6 +675,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getuCC(self):
+        self.rr.setDiffStepSize(0.05)
         self.assertAlmostEqual(
             0.09090752242926028,
             self.rr.getuCC("_J0", "kf"),
