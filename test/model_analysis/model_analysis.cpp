@@ -178,7 +178,7 @@ TEST_F(ModelAnalysisTests, checkUCCForSet) {
     //Behind the scenes, we get and then set various values to calculate ucc, and 
     // have to ensure that we don't worry about setting something that's already set.
     double val = rr.getValue("ucc(P0_to_P1, V_mT)");
-    EXPECT_NEAR(val, 7.78235, 0.001);
+    EXPECT_NEAR(val, 7.84724, 0.001);
 }
 
 TEST_F(ModelAnalysisTests, getConcentrationRateSimple) {
