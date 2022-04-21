@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/EvalVolatileStoichCodeGen.h" line="51" column="9" bodyfile="llvm/EvalVolatileStoichCodeGen.cpp" bodystart="189" bodyend="217"/>
+        <location file="llvm/EvalVolatileStoichCodeGen.h" line="51" column="9" bodyfile="llvm/EvalVolatileStoichCodeGen.cpp" bodystart="189" bodyend="225"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

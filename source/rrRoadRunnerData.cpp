@@ -375,36 +375,47 @@ bool RoadRunnerData::readFrom(const std::string& fileName)
 std::ostream& operator << (std::ostream& ss, const RoadRunnerData& data)
 {
     //Check that the dimensions of col header and data is ok
-    if(!data.check())
+    if (!data.check())
     {
-        rrLog(Logger::LOG_ERROR)<<"Can't write data.. the dimension of the header don't agree with nr of cols of data";
+        rrLog(Logger::LOG_ERROR) << "Can't write data. The dimension of the header don't agree with number of columns of data";
         return ss;
     }
 
-    ss<<"[INFO]"<<std::endl;
-    ss<<"DATA_FORMAT_VERSION=1.0"   <<std::endl;
-    ss<<"CREATOR=libRoadRunner"      <<std::endl;
-    ss<<"NUMBER_OF_COLS="            <<data.cSize()<<std::endl;
-    ss<<"NUMBER_OF_ROWS="            <<data.rSize()<<std::endl;
-    ss<<"COLUMN_HEADERS="            <<data.getColumnNamesAsString()<<std::endl;
+    ss << "[INFO]" << std::endl;
+    ss << "DATA_FORMAT_VERSION=1.0" << std::endl;
+    ss << "CREATOR=libRoadRunner" << std::endl;
+    ss << "NUMBER_OF_COLS=" << data.cSize() << std::endl;
+    ss << "NUMBER_OF_ROWS=" << data.rSize() << std::endl;
+    ss << "COLUMN_HEADERS=" << data.getColumnNamesAsString() << std::endl;
 
-    ss<<std::endl;
-    ss<<"[DATA]"<<std::endl;
+    ss << std::endl;
+    ss << "[DATA]" << std::endl;
+
+    RoadRunnerData::writeOnlyData(ss, data);
+    RoadRunnerData::writeWeights(ss, data);
+
+    return ss;
+}
+
+void RoadRunnerData::writeOnlyData(std::ostream& ss, const RoadRunnerData& data)
+{
+    //Write the headers:
+    ss << data.getColumnNamesAsString() << std::endl;
     //Then the data
-    for(u_int row = 0; row < data.mTheData.RSize(); row++)
+    for (u_int row = 0; row < data.mTheData.RSize(); row++)
     {
-        for(u_int col = 0; col < data.mTheData.CSize(); col++)
+        for (u_int col = 0; col < data.mTheData.CSize(); col++)
         {
-            if(col == 0)
+            if (col == 0)
             {
-                ss<<std::setprecision(data.mTimePrecision)<<data.mTheData(row, col);
+                ss << std::setprecision(data.mTimePrecision) << data.mTheData(row, col);
             }
             else
             {
-                ss<<std::setprecision(data.mDataPrecision)<<data.mTheData(row, col);
+                ss << std::setprecision(data.mDataPrecision) << data.mTheData(row, col);
             }
 
-            if(col <data.mTheData.CSize() -1)
+            if (col < data.mTheData.CSize() - 1)
             {
                 ss << ",";
             }
@@ -414,7 +425,10 @@ std::ostream& operator << (std::ostream& ss, const RoadRunnerData& data)
             }
         }
     }
+}
 
+void RoadRunnerData::writeWeights(std::ostream& ss, const RoadRunnerData& data)
+{
     if(data.mWeights.isAllocated())
     {
         //Write weights section
@@ -446,7 +460,6 @@ std::ostream& operator << (std::ostream& ss, const RoadRunnerData& data)
             }
         }
     }
-    return ss;
 }
 
 //Stream data from a file

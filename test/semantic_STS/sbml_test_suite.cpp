@@ -249,10 +249,10 @@ public:
 };
 
 
-TEST_F(SbmlTestSuite, DISABLED_test_single)
+TEST_F(SbmlTestSuite, test_single)
 {
     // Use when need to run one test.
-    EXPECT_TRUE(RunTest(1120));
+    EXPECT_TRUE(RunTest(1511));
 }
 TEST_F(SbmlTestSuite, t1)
 {
@@ -7508,4 +7508,125 @@ TEST_F(SbmlTestSuite, t1809)
 {
     EXPECT_TRUE(RunTest(1809));
 }
+TEST_F(SbmlTestSuite, t1810)
+{
+    EXPECT_TRUE(RunTest(1810));
+}
+TEST_F(SbmlTestSuite, t1811)
+{
+    EXPECT_TRUE(RunTest(1811));
+}
+TEST_F(SbmlTestSuite, t1812)
+{
+    EXPECT_TRUE(RunTest(1812));
+}
+TEST_F(SbmlTestSuite, t1813)
+{
+    EXPECT_TRUE(RunTest(1813));
+}
+TEST_F(SbmlTestSuite, t1814)
+{
+    EXPECT_TRUE(RunTest(1814));
+}
+TEST_F(SbmlTestSuite, t1815)
+{
+    EXPECT_TRUE(RunTest(1815));
+}
+TEST_F(SbmlTestSuite, t1816)
+{
+    EXPECT_TRUE(RunTest(1816));
+}
+TEST_F(SbmlTestSuite, t1817)
+{
+    EXPECT_TRUE(RunTest(1817));
+}
+TEST_F(SbmlTestSuite, t1818)
+{
+    EXPECT_TRUE(RunTest(1818));
+}
+TEST_F(SbmlTestSuite, t1819)
+{
+    EXPECT_TRUE(RunTest(1819));
+}
+TEST_F(SbmlTestSuite, t1820)
+{
+    EXPECT_TRUE(RunTest(1820));
+}
+TEST_F(SbmlTestSuite, t1821)
+{
+    EXPECT_TRUE(RunTest(1821));
+}
+//The following tests do not yet exist.
+//TEST_F(SbmlTestSuite, t1822)
+//{
+//    EXPECT_TRUE(RunTest(1822));
+//}
+//TEST_F(SbmlTestSuite, t1823)
+//{
+//    EXPECT_TRUE(RunTest(1823));
+//}
+//TEST_F(SbmlTestSuite, t1824)
+//{
+//    EXPECT_TRUE(RunTest(1824));
+//}
+//TEST_F(SbmlTestSuite, t1825)
+//{
+//    EXPECT_TRUE(RunTest(1825));
+//}
+//TEST_F(SbmlTestSuite, t1826)
+//{
+//    EXPECT_TRUE(RunTest(1826));
+//}
+//TEST_F(SbmlTestSuite, t1827)
+//{
+//    EXPECT_TRUE(RunTest(1827));
+//}
+//TEST_F(SbmlTestSuite, t1828)
+//{
+//    EXPECT_TRUE(RunTest(1828));
+//}
+//TEST_F(SbmlTestSuite, t1829)
+//{
+//    EXPECT_TRUE(RunTest(1829));
+//}
+//TEST_F(SbmlTestSuite, t1830)
+//{
+//    EXPECT_TRUE(RunTest(1830));
+//}
+//TEST_F(SbmlTestSuite, t1831)
+//{
+//    EXPECT_TRUE(RunTest(1831));
+//}
+//TEST_F(SbmlTestSuite, t1832)
+//{
+//    EXPECT_TRUE(RunTest(1832));
+//}
+//TEST_F(SbmlTestSuite, t1833)
+//{
+//    EXPECT_TRUE(RunTest(1833));
+//}
+//TEST_F(SbmlTestSuite, t1834)
+//{
+//    EXPECT_TRUE(RunTest(1834));
+//}
+//TEST_F(SbmlTestSuite, t1835)
+//{
+//    EXPECT_TRUE(RunTest(1835));
+//}
+//TEST_F(SbmlTestSuite, t1836)
+//{
+//    EXPECT_TRUE(RunTest(1836));
+//}
+//TEST_F(SbmlTestSuite, t1837)
+//{
+//    EXPECT_TRUE(RunTest(1837));
+//}
+//TEST_F(SbmlTestSuite, t1838)
+//{
+//    EXPECT_TRUE(RunTest(1838));
+//}
+//TEST_F(SbmlTestSuite, t1839)
+//{
+//    EXPECT_TRUE(RunTest(1839));
+//}
 

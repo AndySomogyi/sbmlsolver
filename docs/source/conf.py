@@ -19,8 +19,8 @@
 
 # General information about the project.
 project = u'libRoadRunner'
-copyright = u'2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro'
-author = "Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro"
+copyright = u'2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro'
+author = "Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro: Funding NIGMS: R01-GM123032"
 
 # The full version, including alpha/beta/rc tags
 release = '1.1.16'

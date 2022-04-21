@@ -139,14 +139,14 @@ int LLVMExecutableModel::getValues(double (*funcPtr)(LLVMModelData*, size_t),
 }
 
 int LLVMExecutableModel::setValues(bool (*funcPtr)(LLVMModelData*, int, double),
-        GetNameFuncPtr getNameFuncPtr, size_t len, const int *indx, const double *values)
+    GetNameFuncPtr getNameFuncPtr, size_t len, const int* indx, const double* values, bool strict)
 {
     for (size_t i = 0; i < len; ++i)
     {
         size_t j = indx ? indx[i] : i;
         bool result =  funcPtr(modelData, static_cast<int>(j), values[i]);
 
-        if (!result)
+        if (!result && strict)
         {
             std::stringstream s;
             std::string id = (this->*getNameFuncPtr)(j);
@@ -154,15 +154,15 @@ int LLVMExecutableModel::setValues(bool (*funcPtr)(LLVMModelData*, int, double),
 
             if (symbols->hasAssignmentRule(id))
             {
-                s << ", it is defined by an assignment rule, can not be set independently.";
+                s << ", as it is defined by an assignment rule, and can not be set independently.";
             }
             else if (symbols->hasInitialAssignmentRule(id))
             {
-                s << ", it is defined by an initial assignment rule and can not be set independently.";
+                s << ", as it is defined by an initial assignment rule and can not be set independently.";
             }
             else if (symbols->hasRateRule(id))
             {
-                s << ", it is defined by a rate rule and can not be set independently.";
+                s << ", as it is defined by a rate rule and can not be set independently.";
             }
 
             throw_llvm_exception(s.str());
@@ -1154,10 +1154,44 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
         }
     }
 
+    //Do the rate rules first because that's the way they're ordered in the 
+    // underlying data model.
+    if (checkExact(SelectionRecord::RATE, types)) {
+
+        for (size_t i = 0; i < symbols->getRateRuleSize(); ++i) {
+            string rid = symbols->getRateRuleId(i);
+            if (symbols->getBoundarySpeciesIndex(rid) >= 0 &&
+                (checkExact(SelectionRecord::BOUNDARY_AMOUNT_RATE, types) ||
+                    SelectionRecord::RATE == types))
+            {
+                ids.push_back(rid + "'");
+            }
+            if (symbols->getFloatingSpeciesIndex(rid, false) >= 0 &&
+                (checkExact(SelectionRecord::FLOATING_AMOUNT_RATE, types) ||
+                    SelectionRecord::RATE == types))
+            {
+                ids.push_back(rid + "'");
+            }
+            if (symbols->getCompartmentIndex(rid) >= 0 &&
+                (checkExact(SelectionRecord::COMPARTMENT_RATE, types) ||
+                    SelectionRecord::RATE == types))
+            {
+                ids.push_back(rid + "'");
+            }
+            if (symbols->getGlobalParameterIndex(rid) >= 0 &&
+                (checkExact(SelectionRecord::GLOBAL_PARAMETER_RATE, types) ||
+                    SelectionRecord::RATE == types))
+            {
+                ids.push_back(rid + "'");
+            }
+        }
+    }
+
     if (checkExact(SelectionRecord::FLOATING_AMOUNT_RATE, types)) {
         for (size_t i = 0; i < getNumFloatingSpecies(); ++i) {
             string sid = this->getFloatingSpeciesId(i);
-            if (!symbols->hasAssignmentRule(sid))
+            if (!symbols->hasAssignmentRule(sid) &&
+                !symbols->hasRateRule(sid))
             {
                 ids.push_back(sid + "'");
             }
@@ -1180,28 +1214,6 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
             if (!symbols->hasAssignmentRule(sid))
             {
                 ids.push_back("[" + sid + "]'");
-            }
-        }
-    }
-
-    if (checkExact(SelectionRecord::RATE, types)) {
-
-        for (size_t i = 0; i < symbols->getRateRuleSize(); ++i) {
-            string rid = symbols->getRateRuleId(i);
-            if (symbols->getBoundarySpeciesIndex(rid) >= 0 &&
-                checkExact(SelectionRecord::BOUNDARY_AMOUNT_RATE, types))
-            {
-                ids.push_back(rid + "'");
-            }
-            if (symbols->getCompartmentIndex(rid) >= 0 &&
-                checkExact(SelectionRecord::COMPARTMENT_RATE, types))
-            {
-                ids.push_back(rid + "'");
-            }
-            if (symbols->getGlobalParameterIndex(rid) >= 0 &&
-                checkExact(SelectionRecord::GLOBAL_PARAMETER_RATE, types))
-            {
-                ids.push_back(rid + "'");
             }
         }
     }
@@ -1759,7 +1771,13 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(size_t len,
 }
 
 int LLVMExecutableModel::setBoundarySpeciesAmounts(size_t len, const int* indx,
-        const double* values)
+    const double* values)
+{
+    return setBoundarySpeciesAmounts(len, indx, values, true);
+}
+
+int LLVMExecutableModel::setBoundarySpeciesAmounts(size_t len, const int* indx,
+    const double* values, bool strict)
 {
     bool result = false;
     if (setBoundarySpeciesAmountPtr)
@@ -1768,7 +1786,7 @@ int LLVMExecutableModel::setBoundarySpeciesAmounts(size_t len, const int* indx,
         {
             int j = indx ? indx[i] : i;
             result = setBoundarySpeciesAmountPtr(modelData, j, values[i]);
-            if (!result)
+            if (!result && strict)
             {
                 std::stringstream s;
                 std::string id = symbols->getBoundarySpeciesId(j);
@@ -1897,8 +1915,14 @@ int LLVMExecutableModel::getFloatingSpeciesAmounts(size_t len, const int* indx,
     return getValues(getFloatingSpeciesAmountPtr, len, indx, values);
 }
 
-int LLVMExecutableModel::setFloatingSpeciesAmounts(size_t len, int const *indx,
-        const double *values)
+int LLVMExecutableModel::setFloatingSpeciesAmounts(size_t len, int const* indx,
+    const double* values)
+{
+    return setFloatingSpeciesAmounts(len, indx, values, true);
+}
+
+int LLVMExecutableModel::setFloatingSpeciesAmounts(size_t len, int const* indx,
+    const double* values, bool strict)
 {
     for (int i = 0; i < len; ++i)
     {
@@ -1929,24 +1953,24 @@ int LLVMExecutableModel::setFloatingSpeciesAmounts(size_t len, int const *indx,
                         << ", setting CM to " << newCmVal
                         << ", was " << currCmVal;
 
-                setGlobalParameterValues(1, &gpIndex, &newCmVal);
+                setGlobalParameterValues(1, &gpIndex, &newCmVal, strict);
             }
-            else
+            else if (strict)
             {
-            std::stringstream s;
-            std::string id = symbols->getFloatingSpeciesId(j);
-            s << "Could not set value for NON conserved moiety floating species " << id;
+                std::stringstream s;
+                std::string id = symbols->getFloatingSpeciesId(j);
+                s << "Could not set value for NON conserved moiety floating species " << id;
 
-            if (symbols->hasAssignmentRule(id))
-            {
-                s << ", it is defined by an assignment rule, can not be set independently.";
-            }
-            else if (symbols->hasRateRule(id))
-            {
-                s << ", it is defined by a rate rule and can not be set independently.";
-            }
+                if (symbols->hasAssignmentRule(id))
+                {
+                    s << ", it is defined by an assignment rule, can not be set independently.";
+                }
+                else if (symbols->hasRateRule(id))
+                {
+                    s << ", it is defined by a rate rule and can not be set independently.";
+                }
 
-            throw_llvm_exception(s.str());
+                throw_llvm_exception(s.str());
             }
         }
     }
@@ -2045,13 +2069,19 @@ int LLVMExecutableModel::getGlobalParameterValues(size_t len, const int* indx,
 }
 
 int LLVMExecutableModel::setGlobalParameterValues(size_t len, const int* indx,
-        const double* values)
+    const double* values)
+{
+    return setGlobalParameterValues(len, indx, values, true);
+}
+
+int LLVMExecutableModel::setGlobalParameterValues(size_t len, const int* indx,
+    const double* values, bool strict)
 {
     int result = -1;
     if (setGlobalParameterPtr)
     {
         result = setValues(setGlobalParameterPtr,
-                &LLVMExecutableModel::getGlobalParameterId, len, indx, values);
+                &LLVMExecutableModel::getGlobalParameterId, len, indx, values, strict);
 
         for (int i = 0; i < len; ++i)
         {
@@ -2231,13 +2261,19 @@ int LLVMExecutableModel::getRateRuleRates(size_t len,
 
 
 int LLVMExecutableModel::setCompartmentVolumes(size_t len, const int* indx,
-        const double* values)
+    const double* values)
+{
+    return setCompartmentVolumes(len, indx, values, true);
+}
+
+int LLVMExecutableModel::setCompartmentVolumes(size_t len, const int* indx,
+    const double* values, bool strict)
 {
     int result = -1;
     if (setCompartmentVolumePtr)
     {
         result = setValues(setCompartmentVolumePtr,
-                &LLVMExecutableModel::getCompartmentId, len, indx, values);
+                &LLVMExecutableModel::getCompartmentId, len, indx, values, strict);
     }
     return result;
 }

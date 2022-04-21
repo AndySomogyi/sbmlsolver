@@ -139,6 +139,9 @@ public:
     virtual int setGlobalParameterValues(size_t len, int const *indx,
             const double *values);
 
+    virtual int setGlobalParameterValues(size_t len, int const* indx,
+        const double* values, bool strict);
+
     virtual int getNumReactions();
 
     virtual int getReactionRates(size_t len, int const *indx,
@@ -267,6 +270,9 @@ public:
     virtual int setFloatingSpeciesAmounts(size_t len, int const *indx,
             const double *values);
 
+    virtual int setFloatingSpeciesAmounts(size_t len, int const* indx,
+        const double* values, bool strict);
+
     /**
      * get the boundary species amounts
      *
@@ -312,6 +318,9 @@ public:
      virtual int setBoundarySpeciesAmounts(size_t len, int const *indx,
              double const *values);
 
+     virtual int setBoundarySpeciesAmounts(size_t len, int const* indx,
+         double const* values, bool strict);
+
 
     virtual int getGlobalParameterIndex(const std::string&);
     virtual std::string getGlobalParameterId(size_t);
@@ -330,8 +339,11 @@ public:
             const double *values);
 
 
-    virtual int setCompartmentVolumes(size_t len, int const *indx,
-            const double *values);
+    virtual int setCompartmentVolumes(size_t len, int const* indx,
+        const double* values);
+
+    virtual int setCompartmentVolumes(size_t len, int const* indx,
+        const double* values, bool strict);
 
 
     virtual double getStoichiometry(int speciesIndex, int reactionIndex);
@@ -696,7 +708,7 @@ private:
      * set the model struct values from the given array.
      */
     int setValues(bool (*funcPtr)(LLVMModelData*, int, double), GetNameFuncPtr, size_t len,
-            const int *indx, const double *values);
+            const int *indx, const double *values, bool strict=true);
 
     static LLVMExecutableModel* dummy();
 

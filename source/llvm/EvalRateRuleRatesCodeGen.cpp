@@ -77,21 +77,21 @@ Value* EvalRateRuleRatesCodeGen::codeGen()
                         rrLog(Logger::LOG_DEBUG) << "species " << species->getId()
                                 << " is a concentration with time dependent volume, "
                                 "converting conc rate to amt rate using product rule";
-                        ASTNode *dcdt = new ASTNode(*rateRule->getMath());
-                        ASTNode *v = new ASTNode(AST_NAME);
-                        v->setName(species->getCompartment().c_str());
-
-                        ASTNode *dvdt = new ASTNode(*compRateRule->getMath());
+                        ASTNode *dcdt = new ASTNode(*compRateRule->getMath());
                         ASTNode *c = new ASTNode(AST_NAME);
-                        c->setName(species->getId().c_str());
+                        c->setName(species->getCompartment().c_str());
+
+                        ASTNode *dvdt = new ASTNode(*rateRule->getMath());
+                        ASTNode *v = new ASTNode(AST_NAME);
+                        v->setName(species->getId().c_str());
 
                         ASTNode *l = new ASTNode(AST_TIMES);
+                        l->addChild(v);
                         l->addChild(dcdt);
-                        l->addChild(c);
 
                         ASTNode *r = new ASTNode(AST_TIMES);
+                        r->addChild(c);
                         r->addChild(dvdt);
-                        r->addChild(v);
 
                         ASTNode *plus = nodes.create(AST_PLUS);
                         plus->addChild(l);

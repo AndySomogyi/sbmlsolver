@@ -59,6 +59,7 @@ For instructions on how to install roadrunner please see the :ref:`installation 
     parallel/parallel_index
     utility_functions
     accessing_model
+    UsingRoadRunnerFromCxx/using_roadrunner_from_cxx
     rrplugins/rrplugins_documentation
     PythonAPIReference/api_reference
     C++APIReference/index

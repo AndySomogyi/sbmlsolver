@@ -54,6 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
@@ -100,10 +101,25 @@
              
   <div class="section" id="building-the-documentation">
 <h1>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline"></a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please familiarize yourself with our <a class="reference internal" href="git_workflow.html#git-workflow"><span class="std std-ref">Git Workflow</span></a> before attempting to add to
+or build the docs yourself. If you are not, there is a high probability that you
+will break something, or just get frustrated.</p>
+</div>
 <div class="section" id="quick-instructions">
 <h2>Quick instructions<a class="headerlink" href="#quick-instructions" title="Permalink to this headline"></a></h2>
 <ol class="arabic simple">
-<li><p>Make sure you are on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.</p></li>
+<li><p>Make sure you are on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch. Changes to the docs source should have been merged into this branch from develop.</p></li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Adding documentation source code to the <cite>gh-pages</cite> branch means that the <cite>gh-pages</cite>
+branch will need to be merged with develop. Failure to do so dramatically increases
+the likelihood of a merge conflict somewhere down the line, since the <cite>gh-pages</cite> will
+contain</p>
+</div>
+<ol class="arabic simple" start="2">
 <li><p>Configure the roadrunner cmake system using the <code class="docutils literal notranslate"><span class="pre">-DBUILD_DOCS=ON</span></code> flag</p></li>
 <li><p>Build the <code class="docutils literal notranslate"><span class="pre">roadrunner-docs-sphinx</span></code> target.</p></li>
 </ol>
@@ -124,6 +140,18 @@ cmake --build . --target roadrunner-docs-sphinx --config Release
 </div>
 <div class="section" id="details">
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline"></a></h2>
+<p>Github hosts our documentation. It does so off of the <cite>gh-pages</cite> branch, and specifically
+the <cite>&lt;roadrunner-root&gt;/docs</cite> subfolder. The homepage of our documentation is the <cite>index.html</cite>
+of the <cite>docs</cite> subfolder, but this only redirects to <cite>&lt;roadrunner-root&gt;/docs/docs-build/index.html</cite>.
+Therefore, the docs-build folder is where all the action happens. When you build the
+<cite>roadrunner-docs-sphinx</cite> target, you are using Python’s Sphinx library
+to create a documentation website (using <cite>sphinx-build</cite>) and storing it in the <cite>docs-build</cite>
+directory, which is served as a website by github.</p>
+<p>Because our documentation is hosted on the <cite>gh-pages</cite> branch, care must be taken with
+version control when updating the documentation. Specifically, you should commit
+documentation source code to your feature branch and this should gradually make its
+way to the <cite>gh-pages</cite> branch after merging with develop. Please see our <a class="reference internal" href="git_workflow.html#git-workflow"><span class="std std-ref">Git Workflow</span></a>
+page if any of this sounds unfamiliar.</p>
 <p>Roadrunner is a C++ library with a C and Python front end. The C and C++ code is documented using the standard
 <code class="docutils literal notranslate"><span class="pre">doxygen</span></code> tool, whilst the Python front end is documented using <code class="docutils literal notranslate"><span class="pre">Sphinx</span></code>. Furthermore, we make use of a
 Python package called <a class="reference external" href="https://breathe.readthedocs.io/en/latest/">Breathe</a> for bridging the gap between

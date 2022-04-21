@@ -2429,7 +2429,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4348" column="24" bodyfile="rrRoadRunner.cpp" bodystart="4348" bodyend="4367" declfile="rrRoadRunner.cpp" declline="118" declcolumn="24"/>
+        <location file="rrRoadRunner.cpp" line="4374" column="24" bodyfile="rrRoadRunner.cpp" bodystart="4374" bodyend="4393" declfile="rrRoadRunner.cpp" declline="118" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a917d75bd4f447fd8ce903024a4b54b16" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -2458,7 +2458,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4767" column="17" bodyfile="rrRoadRunner.cpp" bodystart="4767" bodyend="4778" declfile="rrRoadRunner.cpp" declline="130" declcolumn="24"/>
+        <location file="rrRoadRunner.cpp" line="4793" column="17" bodyfile="rrRoadRunner.cpp" bodystart="4793" bodyend="4804" declfile="rrRoadRunner.cpp" declline="130" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a75109bf37b627be32b9afc0b88faa6cb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2476,7 +2476,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4780" column="12" bodyfile="rrRoadRunner.cpp" bodystart="4780" bodyend="4786" declfile="rrRoadRunner.cpp" declline="132" declcolumn="19"/>
+        <location file="rrRoadRunner.cpp" line="4806" column="12" bodyfile="rrRoadRunner.cpp" bodystart="4806" bodyend="4812" declfile="rrRoadRunner.cpp" declline="132" declcolumn="19"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a974b1666ce3b0140ebe3f84c2de8dac8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2494,7 +2494,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4789" column="12" bodyfile="rrRoadRunner.cpp" bodystart="4789" bodyend="4801" declfile="rrRoadRunner.cpp" declline="134" declcolumn="19"/>
+        <location file="rrRoadRunner.cpp" line="4815" column="12" bodyfile="rrRoadRunner.cpp" bodystart="4815" bodyend="4827" declfile="rrRoadRunner.cpp" declline="134" declcolumn="19"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1acf824e8a1d12cf613cbff9f108fb55e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2515,7 +2515,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="5019" column="17" bodyfile="rrRoadRunner.cpp" bodystart="5019" bodyend="5025" declfile="rrRoadRunner.cpp" declline="150" declcolumn="17"/>
+        <location file="rrRoadRunner.cpp" line="5045" column="17" bodyfile="rrRoadRunner.cpp" bodystart="5045" bodyend="5051" declfile="rrRoadRunner.cpp" declline="150" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a0600f1d6e25aacf7e78a999c5f09ea47" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2537,7 +2537,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="6956" column="10" bodyfile="rrRoadRunner.cpp" bodystart="6956" bodyend="6966" declfile="rrRoadRunner.cpp" declline="156" declcolumn="17"/>
+        <location file="rrRoadRunner.cpp" line="6982" column="10" bodyfile="rrRoadRunner.cpp" bodystart="6982" bodyend="6992" declfile="rrRoadRunner.cpp" declline="156" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1ad900af7633d26b2608f329edb942501a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2563,7 +2563,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="6968" column="10" bodyfile="rrRoadRunner.cpp" bodystart="6968" bodyend="6979" declfile="rrRoadRunner.cpp" declline="158" declcolumn="17"/>
+        <location file="rrRoadRunner.cpp" line="6994" column="10" bodyfile="rrRoadRunner.cpp" bodystart="6994" bodyend="7005" declfile="rrRoadRunner.cpp" declline="158" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a569819a5525e04339f43eb978f1a190e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2590,7 +2590,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="3197" column="17" bodyfile="rrRoadRunner.cpp" bodystart="3197" bodyend="3236"/>
+        <location file="rrRoadRunner.cpp" line="3223" column="17" bodyfile="rrRoadRunner.cpp" bodystart="3223" bodyend="3262"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a630339ba3a50c08fb38901e1decaf7b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2616,7 +2616,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="3239" column="17" bodyfile="rrRoadRunner.cpp" bodystart="3239" bodyend="3253"/>
+        <location file="rrRoadRunner.cpp" line="3265" column="17" bodyfile="rrRoadRunner.cpp" bodystart="3265" bodyend="3279"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a7c7c65070a14127d9d684112801d4360" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -2642,7 +2642,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4170" column="24" bodyfile="rrRoadRunner.cpp" bodystart="4170" bodyend="4219"/>
+        <location file="rrRoadRunner.cpp" line="4196" column="24" bodyfile="rrRoadRunner.cpp" bodystart="4196" bodyend="4245"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a410ba7a28b6d72c94782c0b8d6a02902" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2664,7 +2664,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="6068" column="10" bodyfile="rrRoadRunner.cpp" bodystart="6068" bodyend="6111"/>
+        <location file="rrRoadRunner.cpp" line="6094" column="10" bodyfile="rrRoadRunner.cpp" bodystart="6094" bodyend="6137"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunnerData_8cpp_1a0e666e5ba85bccf08a1f2920a69aa660" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>

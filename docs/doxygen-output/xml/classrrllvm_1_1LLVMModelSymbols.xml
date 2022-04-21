@@ -206,7 +206,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="30" column="5" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="32" bodyend="93"/>
+        <location file="llvm/LLVMModelSymbols.h" line="30" column="5" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="33" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1a3922090a6b7da9224f9b4ae2bcbc2157" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -220,7 +220,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="32" column="5" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="95" bodyend="97"/>
+        <location file="llvm/LLVMModelSymbols.h" line="32" column="5" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="96" bodyend="98"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1a67637dde17c580f01ed1a54476e17e2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>libsbml::ASTNode *</type>
@@ -244,7 +244,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="39" column="22" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="416" bodyend="515"/>
+        <location file="llvm/LLVMModelSymbols.h" line="39" column="22" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="417" bodyend="516"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1afaf501a34dd03317a49d5f3ba70839dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classrrllvm_1_1SymbolForest" kindref="compound">SymbolForest</ref> &amp;</type>
@@ -259,7 +259,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="44" column="24" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="517" bodyend="520"/>
+        <location file="llvm/LLVMModelSymbols.h" line="44" column="24" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="518" bodyend="521"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1ad7d0e9e5abc92d6295a5f520436f54e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classrrllvm_1_1SymbolForest" kindref="compound">SymbolForest</ref> &amp;</type>
@@ -277,7 +277,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="62" column="24" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="532" bodyend="535"/>
+        <location file="llvm/LLVMModelSymbols.h" line="62" column="24" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="533" bodyend="536"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1a49316f650dfad2cd908e12d61d78be50" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classrrllvm_1_1SymbolForest" kindref="compound">SymbolForest</ref> &amp;</type>
@@ -292,7 +292,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="68" column="24" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="522" bodyend="525"/>
+        <location file="llvm/LLVMModelSymbols.h" line="68" column="24" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="523" bodyend="526"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1a386262795c9ce38df4cec2dec51f1104" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classrrllvm_1_1SymbolForest" kindref="compound">SymbolForest</ref> &amp;</type>
@@ -306,7 +306,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="70" column="24" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="527" bodyend="530"/>
+        <location file="llvm/LLVMModelSymbols.h" line="70" column="24" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="528" bodyend="531"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -326,7 +326,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="78" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="99" bodyend="120"/>
+        <location file="llvm/LLVMModelSymbols.h" line="78" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="100" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1a3e98cee17cce98a3e09b31f683c5e2a5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -344,7 +344,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="79" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="122" bodyend="126"/>
+        <location file="llvm/LLVMModelSymbols.h" line="79" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="123" bodyend="127"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1a402445cf2bacf7dd2acfe84b7af112c4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -362,7 +362,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="80" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="128" bodyend="145"/>
+        <location file="llvm/LLVMModelSymbols.h" line="80" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="129" bodyend="146"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1a11942961af6c34d90fd7aa33ea2bc8e9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -389,7 +389,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="111" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="147" bodyend="154"/>
+        <location file="llvm/LLVMModelSymbols.h" line="111" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="148" bodyend="155"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1ab49c19ac0832e343222276be67190bb4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -415,7 +415,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="146" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="156" bodyend="162"/>
+        <location file="llvm/LLVMModelSymbols.h" line="146" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="157" bodyend="163"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1a62c37bbb6a3226e32748383962e58a4c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -434,7 +434,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="152" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="207" bodyend="283"/>
+        <location file="llvm/LLVMModelSymbols.h" line="152" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="208" bodyend="284"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1a7a829d1b0ddfb1618c4d1536fd841bf9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -454,7 +454,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="162" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="201" bodyend="205"/>
+        <location file="llvm/LLVMModelSymbols.h" line="162" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="202" bodyend="206"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1a9c6fb0b90d1ccd464919ac47031ebee8" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -473,7 +473,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="167" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="164" bodyend="167"/>
+        <location file="llvm/LLVMModelSymbols.h" line="167" column="18" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="165" bodyend="168"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1a1a77a8995e4fc70336da702e63c2d0f0" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -501,7 +501,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="177" column="10" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="169" bodyend="199"/>
+        <location file="llvm/LLVMModelSymbols.h" line="177" column="10" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="170" bodyend="200"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1a0d6de412f4d409e3f5e70adaeecd4727" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -528,7 +528,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="183" column="10" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="287" bodyend="391"/>
+        <location file="llvm/LLVMModelSymbols.h" line="183" column="10" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="288" bodyend="392"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelSymbols_1add3232506b1afb34e63e18ee4bf56466" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const libsbml::ASTNode *</type>
@@ -547,7 +547,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelSymbols.h" line="190" column="28" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="393" bodyend="412"/>
+        <location file="llvm/LLVMModelSymbols.h" line="190" column="28" bodyfile="llvm/LLVMModelSymbols.cpp" bodystart="394" bodyend="413"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

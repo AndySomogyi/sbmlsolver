@@ -2,16 +2,31 @@
 // Created by Ciaran on 25/10/2021.
 //
 
-#include <llvm/ExecutionEngine/SectionMemoryManager.h>
-#include "llvm/Support/DynamicLibrary.h"
 #include "MCJit.h"
 #include "ModelDataIRBuilder.h"
 #include "SBMLSupportFunctions.h"
 #include "rrRoadRunnerOptions.h"
 #include "rrLogger.h"
 #include "ModelResources.h"
+
+#ifdef _MSC_VER
+#pragma warning(disable: 4146)
+#pragma warning(disable: 4141)
+#pragma warning(disable: 4267)
+#pragma warning(disable: 4624)
+#endif
+
+#include <llvm/ExecutionEngine/SectionMemoryManager.h>
+#include "llvm/Support/DynamicLibrary.h"
 #include "llvm/IR/AssemblyAnnotationWriter.h"
 #include "llvm/IR/Mangler.h"
+
+#ifdef _MSC_VER
+#pragma warning(default: 4146)
+#pragma warning(default: 4141)
+#pragma warning(default: 4267)
+#pragma warning(default: 4624)
+#endif
 
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
 

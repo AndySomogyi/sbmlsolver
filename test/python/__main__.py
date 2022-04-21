@@ -18,6 +18,7 @@ print("Adding roadrunner site-packages to sys.path: ", rr_site_packages_dir)
 
 import roadrunner
 import test_rrtests
+roadrunner.Config.setValue(roadrunner.Config.LLVM_BACKEND, roadrunner.Config.LLJIT)
 print(f"Using roadrunner at {os.path.abspath(roadrunner.__file__)}")
 print(f"Running test_rrtests at {os.path.abspath(test_rrtests.__file__)}")
 

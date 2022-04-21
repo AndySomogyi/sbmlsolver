@@ -732,110 +732,113 @@
 \DoxyCodeLine{1700 }
 \DoxyCodeLine{1708         std::string getTempDir();}
 \DoxyCodeLine{1709 }
-\DoxyCodeLine{1710 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \#ifndef SWIG}}
-\DoxyCodeLine{1711 }
-\DoxyCodeLine{1712     \textcolor{keyword}{private}:}
-\DoxyCodeLine{1713 }
-\DoxyCodeLine{1714         \textcolor{keywordtype}{void} fixDependentSpeciesValues(\textcolor{keywordtype}{int} except, \textcolor{keywordtype}{double} *ref);}
-\DoxyCodeLine{1715 }
-\DoxyCodeLine{1720         \textcolor{keyword}{static} \textcolor{keywordtype}{bool} llvmInitialized;}
-\DoxyCodeLine{1721         \textcolor{keyword}{static} \textcolor{keywordtype}{bool} solversRegistered;}
-\DoxyCodeLine{1722 }
-\DoxyCodeLine{1726         \textcolor{keywordtype}{void} initLLVM();}
-\DoxyCodeLine{1727 }
-\DoxyCodeLine{1728         \textcolor{keywordtype}{size\_t} createDefaultSteadyStateSelectionList();}
-\DoxyCodeLine{1729 }
-\DoxyCodeLine{1730         \textcolor{keywordtype}{size\_t} createDefaultTimeCourseSelectionList();}
-\DoxyCodeLine{1731 }
-\DoxyCodeLine{1736         \textcolor{keywordtype}{void} getSelectedValues(ls::DoubleMatrix \&results, \textcolor{keywordtype}{int} nRow,}
-\DoxyCodeLine{1737                                \textcolor{keywordtype}{double} currentTime);}
-\DoxyCodeLine{1738 }
-\DoxyCodeLine{1742         \textcolor{keywordtype}{void} getSelectedValues(std::vector<double> \&results, \textcolor{keywordtype}{double} currentTime);}
-\DoxyCodeLine{1743 }
-\DoxyCodeLine{1744         \textcolor{keywordtype}{bool} populateResult();}
-\DoxyCodeLine{1745 }
+\DoxyCodeLine{1715         \textcolor{keyword}{static} \textcolor{keyword}{const} libsbml::SBase* getElementWithMathematicalMeaning(\textcolor{keyword}{const} libsbml::Model* model, \textcolor{keyword}{const} std::string\& \textcolor{keywordtype}{id});}
+\DoxyCodeLine{1716 }
+\DoxyCodeLine{1717 }
+\DoxyCodeLine{1718 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \#ifndef SWIG}}
+\DoxyCodeLine{1719 }
+\DoxyCodeLine{1720     \textcolor{keyword}{private}:}
+\DoxyCodeLine{1721 }
+\DoxyCodeLine{1722         \textcolor{keywordtype}{void} fixDependentSpeciesValues(\textcolor{keywordtype}{int} except, \textcolor{keywordtype}{double} *ref);}
+\DoxyCodeLine{1723 }
+\DoxyCodeLine{1728         \textcolor{keyword}{static} \textcolor{keywordtype}{bool} llvmInitialized;}
+\DoxyCodeLine{1729         \textcolor{keyword}{static} \textcolor{keywordtype}{bool} solversRegistered;}
+\DoxyCodeLine{1730 }
+\DoxyCodeLine{1734         \textcolor{keywordtype}{void} initLLVM();}
+\DoxyCodeLine{1735 }
+\DoxyCodeLine{1736         \textcolor{keywordtype}{size\_t} createDefaultSteadyStateSelectionList();}
+\DoxyCodeLine{1737 }
+\DoxyCodeLine{1738         \textcolor{keywordtype}{size\_t} createDefaultTimeCourseSelectionList();}
+\DoxyCodeLine{1739 }
+\DoxyCodeLine{1744         \textcolor{keywordtype}{void} getSelectedValues(ls::DoubleMatrix \&results, \textcolor{keywordtype}{int} nRow,}
+\DoxyCodeLine{1745                                \textcolor{keywordtype}{double} currentTime);}
 \DoxyCodeLine{1746 }
-\DoxyCodeLine{1747         \textcolor{keywordtype}{double} getNthSelectedOutput(\textcolor{keywordtype}{size\_t} index, \textcolor{keywordtype}{double} currentTime);}
-\DoxyCodeLine{1748 }
-\DoxyCodeLine{1749         \textcolor{keywordtype}{bool} isParameterUsed(\textcolor{keyword}{const} std::string \&sid);}
-\DoxyCodeLine{1750 }
-\DoxyCodeLine{1751         \textcolor{keywordtype}{void} getAllVariables(\textcolor{keyword}{const} libsbml::ASTNode *node, std::set<std::string> \&ids);}
-\DoxyCodeLine{1752 }
-\DoxyCodeLine{1754         \textcolor{keywordtype}{int} getTimeRowIndex();}
-\DoxyCodeLine{1755 }
-\DoxyCodeLine{1756         \textcolor{keyword}{enum} VariableType \{}
-\DoxyCodeLine{1757             vtSpecies = 0, vtFlux}
-\DoxyCodeLine{1758         \};}
-\DoxyCodeLine{1759 }
-\DoxyCodeLine{1760         \textcolor{keywordtype}{double} getVariableValue(\textcolor{keyword}{const} VariableType variableType,}
-\DoxyCodeLine{1761                                 \textcolor{keyword}{const} \textcolor{keywordtype}{int} variableIndex);}
-\DoxyCodeLine{1762 }
-\DoxyCodeLine{1766         ls::LibStructural *getLibStruct();}
+\DoxyCodeLine{1750         \textcolor{keywordtype}{void} getSelectedValues(std::vector<double> \&results, \textcolor{keywordtype}{double} currentTime);}
+\DoxyCodeLine{1751 }
+\DoxyCodeLine{1752         \textcolor{keywordtype}{bool} populateResult();}
+\DoxyCodeLine{1753 }
+\DoxyCodeLine{1754 }
+\DoxyCodeLine{1755         \textcolor{keywordtype}{double} getNthSelectedOutput(\textcolor{keywordtype}{size\_t} index, \textcolor{keywordtype}{double} currentTime);}
+\DoxyCodeLine{1756 }
+\DoxyCodeLine{1757         \textcolor{keywordtype}{bool} isParameterUsed(\textcolor{keyword}{const} std::string \&sid);}
+\DoxyCodeLine{1758 }
+\DoxyCodeLine{1759         \textcolor{keywordtype}{void} getAllVariables(\textcolor{keyword}{const} libsbml::ASTNode *node, std::set<std::string> \&ids);}
+\DoxyCodeLine{1760 }
+\DoxyCodeLine{1762         \textcolor{keywordtype}{int} getTimeRowIndex();}
+\DoxyCodeLine{1763 }
+\DoxyCodeLine{1764         \textcolor{keyword}{enum} VariableType \{}
+\DoxyCodeLine{1765             vtSpecies = 0, vtFlux}
+\DoxyCodeLine{1766         \};}
 \DoxyCodeLine{1767 }
-\DoxyCodeLine{1772         \textcolor{comment}{//void updateIntegrator();}}
-\DoxyCodeLine{1773 }
-\DoxyCodeLine{1774         \textcolor{keywordtype}{bool} createDefaultSelectionLists();}
+\DoxyCodeLine{1768         \textcolor{keywordtype}{double} getVariableValue(\textcolor{keyword}{const} VariableType variableType,}
+\DoxyCodeLine{1769                                 \textcolor{keyword}{const} \textcolor{keywordtype}{int} variableIndex);}
+\DoxyCodeLine{1770 }
+\DoxyCodeLine{1774         ls::LibStructural *getLibStruct();}
 \DoxyCodeLine{1775 }
-\DoxyCodeLine{1780         \textcolor{keywordtype}{size\_t} createTimeCourseSelectionList();}
+\DoxyCodeLine{1780         \textcolor{comment}{//void updateIntegrator();}}
 \DoxyCodeLine{1781 }
-\DoxyCodeLine{1782         std::vector<SelectionRecord> getSelectionList();}
+\DoxyCodeLine{1782         \textcolor{keywordtype}{bool} createDefaultSelectionLists();}
 \DoxyCodeLine{1783 }
-\DoxyCodeLine{1789         \textcolor{keywordtype}{void} applySimulateOptions();}
-\DoxyCodeLine{1790 }
+\DoxyCodeLine{1788         \textcolor{keywordtype}{size\_t} createTimeCourseSelectionList();}
+\DoxyCodeLine{1789 }
+\DoxyCodeLine{1790         std::vector<SelectionRecord> getSelectionList();}
 \DoxyCodeLine{1791 }
-\DoxyCodeLine{1792         \textcolor{keyword}{enum} JacobianMode \{}
-\DoxyCodeLine{1793             JACOBIAN\_FULL, JACOBIAN\_REDUCED}
-\DoxyCodeLine{1794         \};}
-\DoxyCodeLine{1795 }
-\DoxyCodeLine{1796         std::vector<std::complex<double> > getEigenValues(JacobianMode mode);}
-\DoxyCodeLine{1797 }
-\DoxyCodeLine{1798         ls::DoubleMatrix getEigenValuesNamedArray(JacobianMode mode);}
+\DoxyCodeLine{1797         \textcolor{keywordtype}{void} applySimulateOptions();}
+\DoxyCodeLine{1798 }
 \DoxyCodeLine{1799 }
-\DoxyCodeLine{1804         \textcolor{keyword}{class }\mbox{\hyperlink{classrr_1_1RoadRunnerImpl}{RoadRunnerImpl}} *impl;}
+\DoxyCodeLine{1800         \textcolor{keyword}{enum} JacobianMode \{}
+\DoxyCodeLine{1801             JACOBIAN\_FULL, JACOBIAN\_REDUCED}
+\DoxyCodeLine{1802         \};}
+\DoxyCodeLine{1803 }
+\DoxyCodeLine{1804         std::vector<std::complex<double> > getEigenValues(JacobianMode mode);}
 \DoxyCodeLine{1805 }
-\DoxyCodeLine{1806         \textcolor{comment}{/*}}
-\DoxyCodeLine{1807 \textcolor{comment}{        * Check if the id already existed in the model}}
-\DoxyCodeLine{1808 \textcolor{comment}{        */}}
-\DoxyCodeLine{1809         \textcolor{keywordtype}{void} checkID(\textcolor{keyword}{const} std::string \&functionName, \textcolor{keyword}{const} std::string \&sid);}
-\DoxyCodeLine{1810 }
-\DoxyCodeLine{1811         \textcolor{comment}{/*}}
-\DoxyCodeLine{1812 \textcolor{comment}{        * Parse a std::string with format stoichiometry + sID and return its stoichiometry value and sID}}
-\DoxyCodeLine{1813 \textcolor{comment}{        */}}
-\DoxyCodeLine{1814         \textcolor{keywordtype}{void} parseSpecies(\textcolor{keyword}{const} std::string \&species, \textcolor{keywordtype}{double} *stoichiometry, \textcolor{keywordtype}{char} **sid);}
-\DoxyCodeLine{1815 }
-\DoxyCodeLine{1816         \textcolor{comment}{/*}}
-\DoxyCodeLine{1817 \textcolor{comment}{        * Remove a variable from the current model.}}
-\DoxyCodeLine{1818 \textcolor{comment}{        */}}
-\DoxyCodeLine{1819         \textcolor{keywordtype}{void} removeVariable(\textcolor{keyword}{const} std::string \&sid);}
-\DoxyCodeLine{1820 }
-\DoxyCodeLine{1821         \textcolor{comment}{/*}}
-\DoxyCodeLine{1822 \textcolor{comment}{        * check recursively if a ASTnode or any of its child has the given variable}}
-\DoxyCodeLine{1823 \textcolor{comment}{        */}}
-\DoxyCodeLine{1824         \textcolor{keywordtype}{bool} hasVariable(\textcolor{keyword}{const} libsbml::ASTNode *node, \textcolor{keyword}{const} std::string \&sid);}
-\DoxyCodeLine{1825 }
-\DoxyCodeLine{1826         \textcolor{comment}{/*}}
-\DoxyCodeLine{1827 \textcolor{comment}{        * Get the names of all the species involved in a given AST}}
-\DoxyCodeLine{1828 \textcolor{comment}{        */}}
-\DoxyCodeLine{1829         \textcolor{keywordtype}{void} getSpeciesIdsFromAST(\textcolor{keyword}{const} libsbml::ASTNode *node, std::vector<std::string> \&species);}
-\DoxyCodeLine{1830 }
-\DoxyCodeLine{1831         \textcolor{keywordtype}{void} getSpeciesIdsFromAST(\textcolor{keyword}{const} libsbml::ASTNode *node, std::vector<std::string> \&species,}
-\DoxyCodeLine{1832                                   std::vector<std::string> \&speciesNames);}
+\DoxyCodeLine{1806         ls::DoubleMatrix getEigenValuesNamedArray(JacobianMode mode);}
+\DoxyCodeLine{1807 }
+\DoxyCodeLine{1812         \textcolor{keyword}{class }\mbox{\hyperlink{classrr_1_1RoadRunnerImpl}{RoadRunnerImpl}} *impl;}
+\DoxyCodeLine{1813 }
+\DoxyCodeLine{1814         \textcolor{comment}{/*}}
+\DoxyCodeLine{1815 \textcolor{comment}{        * Check if the id already existed in the model}}
+\DoxyCodeLine{1816 \textcolor{comment}{        */}}
+\DoxyCodeLine{1817         \textcolor{keywordtype}{void} checkID(\textcolor{keyword}{const} std::string \&functionName, \textcolor{keyword}{const} std::string \&sid);}
+\DoxyCodeLine{1818 }
+\DoxyCodeLine{1819         \textcolor{comment}{/*}}
+\DoxyCodeLine{1820 \textcolor{comment}{        * Parse a std::string with format stoichiometry + sID and return its stoichiometry value and sID}}
+\DoxyCodeLine{1821 \textcolor{comment}{        */}}
+\DoxyCodeLine{1822         \textcolor{keywordtype}{void} parseSpecies(\textcolor{keyword}{const} std::string \&species, \textcolor{keywordtype}{double} *stoichiometry, \textcolor{keywordtype}{char} **sid);}
+\DoxyCodeLine{1823 }
+\DoxyCodeLine{1824         \textcolor{comment}{/*}}
+\DoxyCodeLine{1825 \textcolor{comment}{        * Remove a variable from the current model.}}
+\DoxyCodeLine{1826 \textcolor{comment}{        */}}
+\DoxyCodeLine{1827         \textcolor{keywordtype}{void} removeVariable(\textcolor{keyword}{const} std::string \&sid);}
+\DoxyCodeLine{1828 }
+\DoxyCodeLine{1829         \textcolor{comment}{/*}}
+\DoxyCodeLine{1830 \textcolor{comment}{        * check recursively if a ASTnode or any of its child has the given variable}}
+\DoxyCodeLine{1831 \textcolor{comment}{        */}}
+\DoxyCodeLine{1832         \textcolor{keywordtype}{bool} hasVariable(\textcolor{keyword}{const} libsbml::ASTNode *node, \textcolor{keyword}{const} std::string \&sid);}
 \DoxyCodeLine{1833 }
 \DoxyCodeLine{1834         \textcolor{comment}{/*}}
-\DoxyCodeLine{1835 \textcolor{comment}{        * check and remove all parameter without any assignments}}
+\DoxyCodeLine{1835 \textcolor{comment}{        * Get the names of all the species involved in a given AST}}
 \DoxyCodeLine{1836 \textcolor{comment}{        */}}
-\DoxyCodeLine{1837         \textcolor{keywordtype}{void} checkGlobalParameters();}
+\DoxyCodeLine{1837         \textcolor{keywordtype}{void} getSpeciesIdsFromAST(\textcolor{keyword}{const} libsbml::ASTNode *node, std::vector<std::string> \&species);}
 \DoxyCodeLine{1838 }
-\DoxyCodeLine{1839         \textcolor{keywordtype}{void} saveSelectionVector(std::ostream \&, std::vector<SelectionRecord> \&);}
-\DoxyCodeLine{1840 }
-\DoxyCodeLine{1841         \textcolor{keywordtype}{void} loadSelectionVector(std::istream \&, std::vector<SelectionRecord> \&);}
-\DoxyCodeLine{1842 }
-\DoxyCodeLine{1843         \textcolor{keyword}{const} \textcolor{keywordtype}{int} fileMagicNumber = 0xAD6F52;}
-\DoxyCodeLine{1844         \textcolor{keyword}{const} \textcolor{keywordtype}{int} dataVersionNumber = 1;}
-\DoxyCodeLine{1845     \};}
+\DoxyCodeLine{1839         \textcolor{keywordtype}{void} getSpeciesIdsFromAST(\textcolor{keyword}{const} libsbml::ASTNode *node, std::vector<std::string> \&species,}
+\DoxyCodeLine{1840                                   std::vector<std::string> \&speciesNames);}
+\DoxyCodeLine{1841 }
+\DoxyCodeLine{1842         \textcolor{comment}{/*}}
+\DoxyCodeLine{1843 \textcolor{comment}{        * check and remove all parameter without any assignments}}
+\DoxyCodeLine{1844 \textcolor{comment}{        */}}
+\DoxyCodeLine{1845         \textcolor{keywordtype}{void} checkGlobalParameters();}
 \DoxyCodeLine{1846 }
-\DoxyCodeLine{1847 \}}
+\DoxyCodeLine{1847         \textcolor{keywordtype}{void} saveSelectionVector(std::ostream \&, std::vector<SelectionRecord> \&);}
 \DoxyCodeLine{1848 }
-\DoxyCodeLine{1849 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// rrRoadRunnerH}}
+\DoxyCodeLine{1849         \textcolor{keywordtype}{void} loadSelectionVector(std::istream \&, std::vector<SelectionRecord> \&);}
+\DoxyCodeLine{1850 }
+\DoxyCodeLine{1851         \textcolor{keyword}{const} \textcolor{keywordtype}{int} fileMagicNumber = 0xAD6F52;}
+\DoxyCodeLine{1852         \textcolor{keyword}{const} \textcolor{keywordtype}{int} dataVersionNumber;}
+\DoxyCodeLine{1853     \};}
+\DoxyCodeLine{1854 }
+\DoxyCodeLine{1855 \}}
+\DoxyCodeLine{1856 }
+\DoxyCodeLine{1857 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// rrRoadRunnerH}}
 
 \end{DoxyCode}

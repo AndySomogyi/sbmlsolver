@@ -2817,6 +2817,26 @@ C_DECL_SPEC bool rrcCallConv getuCC (RRHandle handle, const char* variable, cons
 C_DECL_SPEC bool  rrcCallConv getCC (RRHandle handle, const char* variable, const char* parameter, double* value);
 
 /*!
+ \brief Retrieve the differential step size used in routines such as getCC
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param[out] value This is the value of the step size returns to the caller
+ \return Returns true if successful
+ \ingroup mca
+*/
+C_DECL_SPEC bool  rrcCallConv getDiffStepSize(RRHandle handle, double* value);
+
+/*!
+ \brief Sets the differential step size used in routines such as getCC
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] value This is the desired step size value
+ \return Returns true if successful
+ \ingroup mca
+*/
+C_DECL_SPEC bool  rrcCallConv setDiffStepSize(RRHandle handle, const double value);
+
+/*!
  \brief Retrieve a single elasticity coefficient
 
  \param[in] handle Handle to a RoadRunner instance
@@ -3048,8 +3068,8 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGridEx(RRHandle handle, doub
 C_DECL_SPEC bool rrcCallConv reset(RRHandle handle);
 
 /*!
- \brief Resets all variables of the model to their current initial values,
- and resets all parameters to their original values.
+ \brief Resets all variables of all types in the model to their 
+ current initial values.
 
  \param[in] handle Handle to a RoadRunner instance
  \return Boolean indicating success
