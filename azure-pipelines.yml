@@ -200,9 +200,6 @@ stages:
           vmImage: 'macOS-10.15'
         strategy:
           matrix:
-            py37:
-              PythonVersion: 3.7
-              PythonName: py37
             py38:
               PythonVersion: 3.8
               PythonName: py38
@@ -566,9 +563,6 @@ stages:
           vmImage: 'windows-2019'
         strategy:
           matrix:
-            py37:
-              PythonVersion: 3.7
-              PythonName: py37
             py38:
               PythonVersion: 3.8
               PythonName: py38
@@ -941,9 +935,6 @@ stages:
       - job:
         strategy:
           matrix:
-            py37:
-              PythonVersion: 3.7
-              PythonName: py37
             py38:
               PythonVersion: 3.8
               PythonName: py38
