@@ -864,8 +864,10 @@ stages:
               make html
               echo "list build/html"
               ls build/html
-              #echo "move docs to installation"
-              #mv build/html '$(INSTALL_DIR)/docs-build'
+              echo "move docs to installation"
+              cd
+              pwd
+              mv build/html docs-build
             displayName: Make Docs
             condition: eq(variables.BuildType, 'Release')
           - task: DownloadPipelineArtifact@2
