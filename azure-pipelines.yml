@@ -867,7 +867,7 @@ stages:
               echo "move docs to installation"
               cd
               pwd
-              mv build/html docs-build
+              mv $(SOURCE_DIR)/docs/build/html 'docs-build'
             displayName: Make Docs
             condition: eq(variables.BuildType, 'Release')
           - task: DownloadPipelineArtifact@2
