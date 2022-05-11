@@ -847,6 +847,11 @@ stages:
               cd $(SOURCE_DIR)/docs/
               echo "pip install dependencies"
               $(PipExecutable) install -r requirements.txt
+            displayName: Install Sphinx et al
+            condition: eq(variables.BuildType, 'Release')
+          - script: |
+              echo "cd to docs dir"
+              cd $(SOURCE_DIR)/docs/
               echo "make html"
               make html
               echo "move docs to installation"
