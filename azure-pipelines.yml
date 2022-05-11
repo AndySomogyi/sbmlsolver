@@ -843,17 +843,6 @@ stages:
               sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
             displayName: Install g++10
           - script: |
-              echo "cd to docs dir"
-              cd $(SOURCE_DIR)/docs/
-              echo "pip install dependencies"
-              $(PipExecutable) install -r requirements.txt
-              echo "make html"
-              make html
-              echo "move docs to installation"
-              mv build/html '$(INSTALL_DIR)/docs-build'
-            displayName: Install Sphinx et al
-            condition: eq(variables.BuildType, 'Release')
-          - script: |
               eval "$(conda shell.bash hook)"
               conda create -y --name $(PythonName) python=$(PythonVersion)
               $(PipExecutable) install requests
