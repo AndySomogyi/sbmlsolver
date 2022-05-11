@@ -778,6 +778,7 @@ stages:
           PythonLibDir: '$(PythonRoot)/lib'
           PythonExecutable: '$(PythonRoot)/bin/python'
           PipExecutable: '$(PythonRoot)/bin/pip'
+          SphinxExecutable: '$(PythonRoot)/bin/sphinx-build'
           PythonName: 'py39'
           PythonVersion: '3.9'
           LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm13-ubuntu-gcc10-rel.tar.gz'
@@ -858,6 +859,7 @@ stages:
               cd $(SOURCE_DIR)/docs/
               echo "pip install dependencies"
               $(PipExecutable) install -r requirements.txt
+              export SPHINXBUILD=$(SphinxExecutable)
               echo "make html"
               make html
               echo "move docs to installation"
