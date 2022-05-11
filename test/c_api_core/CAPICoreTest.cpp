@@ -326,3 +326,57 @@ TEST_F(CAPICoreTest, CheckGetCC) {
     delete rrH;
 
 }
+
+TEST_F(CAPICoreTest, CheckGetEC) {
+
+    RRHandle rrH = createRRInstance();
+    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    RRListPtr actual = getElasticityCoefficientIds(rrH);
+    std::vector<std::string> expectedRxns(
+        { "_J0", "_J1" });
+    std::vector<std::string> expectedIds(
+        { "ec(_J0,A)", "ec(_J0,AP)", "ec(_J0,K)", "ec(_J0,Vm1)", "ec(_J0,Km1)", "ec(_J1,A)", "ec(_J1,AP)", "ec(_J1,K)", "ec(_J1,Vm1)", "ec(_J1,Km1)"});
+
+    for (int r = 0; r < actual->Count; r++) {
+        RRListItem* element = actual->Items[r];
+        RRList* sublist = element->data.lValue;
+        char* id = sublist->Items[0]->data.sValue;
+        EXPECT_STREQ(id, expectedRxns[r].c_str());
+        RRList* subsublist = sublist->Items[1]->data.lValue;
+        for (int sr=0; sr < subsublist->Count; sr++) {
+            char* id = subsublist->Items[sr]->data.sValue;
+            EXPECT_STREQ(id, expectedIds[r*subsublist->Count + sr].c_str());
+        }
+    }
+
+    delete actual;
+    delete rrH;
+}
+
+TEST_F(CAPICoreTest, CheckGetUEC) {
+
+    RRHandle rrH = createRRInstance();
+    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    RRListPtr actual = getUnscaledElasticityCoefficientIds(rrH);
+    std::vector<std::string> expectedRxns(
+        { "_J0", "_J1" });
+    std::vector<std::string> expectedIds(
+        { "uec(_J0,A)", "uec(_J0,AP)", "uec(_J0,K)", "uec(_J0,Vm1)", "uec(_J0,Km1)", "uec(_J1,A)", "uec(_J1,AP)", "uec(_J1,K)", "uec(_J1,Vm1)", "uec(_J1,Km1)"});
+
+    for (int r = 0; r < actual->Count; r++) {
+        RRListItem* element = actual->Items[r];
+        RRList* sublist = element->data.lValue;
+        char* id = sublist->Items[0]->data.sValue;
+        EXPECT_STREQ(id, expectedRxns[r].c_str());
+        RRList* subsublist = sublist->Items[1]->data.lValue;
+        for (int sr=0; sr < subsublist->Count; sr++) {
+            char* id = subsublist->Items[sr]->data.sValue;
+            EXPECT_STREQ(id, expectedIds[r*subsublist->Count + sr].c_str());
+        }
+    }
+
+    delete actual;
+    delete rrH;
+}

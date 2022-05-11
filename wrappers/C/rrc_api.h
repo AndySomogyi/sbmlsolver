@@ -2688,6 +2688,15 @@ C_DECL_SPEC RRListPtr rrcCallConv getAvailableSteadyStateSymbols(RRHandle handle
 C_DECL_SPEC RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle);
 
 /*!
+ \brief Obtain the list of unscaled elasticity coefficient Ids
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns null if it fails, if successful it returns a list
+ \ingroup mca
+*/
+C_DECL_SPEC RRListPtr rrcCallConv getUnscaledElasticityCoefficientIds(RRHandle handle);
+
+/*!
  \brief Obtain the list of unscaled flux control coefficient Ids
 
  \param[in] handle Handle to a RoadRunner instance
@@ -3188,6 +3197,38 @@ C_DECL_SPEC double rrcCallConv getConfigDouble(const char* key);
  \ingroup config
 */
 C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfConfigKeys();
+
+/*!
+ \brief Set the selection list for output from simulate(void) or simulateEx(void)
+ Use setTimeCourseSelectionListEx(handle, length, list) to set the the simulate selection list.
+ Compared to setTimeCourseSelectionList, setTimeCourseSelectionListEx, expects a list of char* strings
+ otherwise it has identical functionality.
+ \param[in] handle Handle to a RoadRunner instance
+ \param[n]  length Number of elements in the list
+ \param[in] list A list of char* strings of Ids
+ \return Returns true if successful
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrcCallConv setTimeCourseSelectionListEx(RRHandle handle, int length, const char** list);
+
+/*!
+ \brief Set the selection list for the steady-state analysis
+ Use setSteadyStateSelectionListEx(handle, length, list) to set the steady-state selection list.
+ Compared to setSteadyStateSelectionList, setSteadyStateSelectionList, expects
+a list of char* strings otherwise it has identical functionality.
+ Example:
+ \code
+ setSteadyStateSelectionListEx (handle, 3, list)
+ \endcode
+ \param[in] handle to roadrunner instance
+ \param[in] length Number of elements in the list
+ \param[in] list The list of symbols.
+ \return Returns true if successful
+ \ingroup steadystate
+*/
+C_DECL_SPEC bool rrcCallConv setSteadyStateSelectionListEx(RRHandle handle, int length, const char** list);
+
+
 
 #if defined( __cplusplus)
 }
