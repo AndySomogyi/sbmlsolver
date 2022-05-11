@@ -30,7 +30,7 @@ For example:
 
     cmake -DCMAKE_INSTALL_PREFIX=../install-mac-rel \
         -DRR_DEPENDENCIES_INSTALL_PREFIX=/Users/ciaranwelsh/Documents/libroadrunner-deps/install-clang13-rel \
-        -DLLVM_INSTALL_PREFIX=/Users/ciaranwelsh/Documents/llvm-6.x/llvm-6.x-clang11.0.3-x64-release \
+        -DLLVM_INSTALL_PREFIX=/Users/ciaranwelsh/Documents/llvm-13.x/llvm-13.x-clang11.0.3-x64-release \
         -DBUILD_TESTS=ON \
         -DPython_ROOT_DIR=/Users/ciaranwelsh/miniconda3/envs/py39 \
         -DBUILD_PYTHON=ON \

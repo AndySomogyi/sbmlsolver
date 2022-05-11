@@ -914,9 +914,20 @@ stages:
               rm -r $(Build.ArtifactStagingDirectory)/*
             displayName: Clear staging area
             condition: eq(variables.BuildType, 'Release')
+          - script: |
+              echo "cd to docs dir"
+              cd $(SOURCE_DIR)/docs/
+              echo "pip install dependencies"
+              $(PipExecutable) install -r requirements.txt
+              echo "make html"
+              make html
+              echo "move docs to installation"
+              mv build/html '$(INSTALL_DIR)/docs-build'
+            displayName: Make Docs
+            condition: eq(variables.BuildType, 'Release')
           - task: CopyFiles@2
             inputs:
-              contents: '$(SOURCE_DIR)/docs/docs-build/**'
+              contents: '$(INSTALL_DIR)/docs-build/**'
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy docs to Staging Area
             condition: eq(variables.BuildType, 'Release')
