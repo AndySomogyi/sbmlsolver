@@ -930,12 +930,13 @@ stages:
               echo "move docs to installation"
               cd
               pwd
-              mv $(SOURCE_DIR)/docs/build/html 'docs-build'
+              mv $(SOURCE_DIR)/docs/build/html '$(INSTALL_DIR)/docs-build'
+              mv $(SOURCE_DIR)/docs/doxygen-output '$(INSTALL_DIR)/doxygen-output'
             displayName: Make Docs
             condition: eq(variables.BuildType, 'Release')
           - task: CopyFiles@2
             inputs:
-              contents: 'docs-build/**'
+              contents: '$(INSTALL_DIR)/docs-build/** $(INSTALL_DIR)/doxygen-output/**'
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy docs to Staging Area
             condition: eq(variables.BuildType, 'Release')
