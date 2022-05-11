@@ -862,8 +862,10 @@ stages:
               export SPHINXBUILD=$(SphinxExecutable)
               echo "make html"
               make html
-              echo "move docs to installation"
-              mv build/html '$(INSTALL_DIR)/docs-build'
+              echo "list build/html"
+              ls build/html
+              #echo "move docs to installation"
+              #mv build/html '$(INSTALL_DIR)/docs-build'
             displayName: Make Docs
             condition: eq(variables.BuildType, 'Release')
           - task: DownloadPipelineArtifact@2
@@ -928,6 +930,11 @@ stages:
           - script: |
               rm -r $(Build.ArtifactStagingDirectory)/*
             displayName: Clear staging area
+            condition: eq(variables.BuildType, 'Release')
+          - script: |
+              echo "move docs to installation"
+              mv $(SOURCE_DIR)/docs/build/html '$(INSTALL_DIR)/docs-build'
+            displayName: Make Docs
             condition: eq(variables.BuildType, 'Release')
           - task: CopyFiles@2
             inputs:
