@@ -4613,6 +4613,7 @@ namespace rr {
         for (int i = 0; i < ss.size(); ++i) {
             impl->mSteadyStateSelection.push_back(createSelection(ss[i]));
         }
+        impl->loadOpt.loadFlags = impl->loadOpt.loadFlags | LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
     }
 
     void RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord> &ss) {

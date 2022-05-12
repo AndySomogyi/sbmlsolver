@@ -408,7 +408,7 @@ TEST_F(CAPICoreTest, CheckSetSteadyStateSelectionListEx) {
     RRHandle rrH = createRRInstance();
     EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
 
-    char* sel_list[] = { "time", "uec(_J0, A)", "ec(_J1, K)" };
+    char* sel_list[] = { "A", "uec(_J0, A)", "ec(_J1, K)" };
 
     setSteadyStateSelectionListEx(rrH, 3, (const char**)sel_list);
     RRStringArrayPtr sel_rt = getSteadyStateSelectionList(rrH);
@@ -416,12 +416,16 @@ TEST_F(CAPICoreTest, CheckSetSteadyStateSelectionListEx) {
     for (int i = 0; i < 3; i++) {
         EXPECT_STREQ(sel_list[i], sel_rt->String[i]);
     }
-    //'steadyState' doesn't return a vector of values like 'simulate' does.
-    //RRCDataPtr res = steadyState(rrH);
-    //char** rescols = res->ColumnHeaders;
-    //for (int i = 0; i < 3; i++) {
-    //    EXPECT_STREQ(sel_list[i], rescols[i]);
-    //}
+    RRVectorPtr res = computeSteadyStateValues(rrH);
+    ASSERT_EQ(res->Count, 3);
+    double* values = res->Data;
+    for (int i = 0; i < 3; i++) {
+        double modelval;
+        bool check = getValue(rrH, sel_list[i], &modelval);
+        ASSERT_TRUE(check);
+        EXPECT_EQ(values[i], modelval);
+    }
+
 
     delete rrH;
 }
