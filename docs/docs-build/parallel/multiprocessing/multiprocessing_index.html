@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RoadRunner with Multiprocessing &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -95,13 +96,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="roadrunner-with-multiprocessing">
+  <section id="roadrunner-with-multiprocessing">
 <h1>RoadRunner with Multiprocessing<a class="headerlink" href="#roadrunner-with-multiprocessing" title="Permalink to this headline"></a></h1>
 <p>For these simulations we use a simple model that we can access easily from one of RoadRunners
 test suites. Its called <code class="docutils literal notranslate"><span class="pre">BatchImmigrationDeath03</span></code> and is model number <code class="docutils literal notranslate"><span class="pre">00039</span></code> from the
 stochastic sbml test suite.</p>
 <p>In each of the following sections we use RoadRunner to generate 1e6 stochastic simulations.</p>
-<div class="section" id="serial-code">
+<section id="serial-code">
 <h2>Serial code<a class="headerlink" href="#serial-code" title="Permalink to this headline"></a></h2>
 <p>Performing the simulations in serial gives us a way to measure the performance enhancements
 of using parallel code.</p>
@@ -171,8 +172,8 @@ of using parallel code.</p>
 <span class="linenos">64</span><span class="sd">    &#39;&#39;&#39;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="multiprocessing-library">
+</section>
+<section id="multiprocessing-library">
 <h2>Multiprocessing library<a class="headerlink" href="#multiprocessing-library" title="Permalink to this headline"></a></h2>
 <p>The simplest way in Python to use multiple cores simultaneously for running RoadRunner simulations
 is to use the <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html">multiprocessing</a> library.
@@ -241,8 +242,8 @@ to about a x3 speed up for this example.</p>
 <span class="linenos">61</span><span class="sd">    &#39;&#39;&#39;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="ray-library">
+</section>
+<section id="ray-library">
 <h2>Ray library<a class="headerlink" href="#ray-library" title="Permalink to this headline"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="linenos"> 2</span>
@@ -328,8 +329,8 @@ to about a x3 speed up for this example.</p>
 <span class="linenos">82</span><span class="sd">    &#39;&#39;&#39;</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -342,7 +343,7 @@ to about a x3 speed up for this example.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

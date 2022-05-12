@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Integrator Class &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -54,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api_reference.html">Python RoadRunner API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="cls_Config.html">Configuration</a></li>
@@ -106,7 +108,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="integrator-class">
+  <section id="integrator-class">
 <h1>Integrator Class<a class="headerlink" href="#integrator-class" title="Permalink to this headline">ÔÉÅ</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="roadrunner.Integrator">
@@ -215,7 +217,7 @@ Note that if a double list is given, the size of list must be equal to numIndFlo
 The vector includes tolerances for each independent floating species that doesn‚Äôt have a rate rule followed by tolerances for each variable(including dependent floating species) that has a rate rule. The order of independent floating species and variables is the same as the order how they were defined in species list and rate rule list.</p>
 </dd></dl>
 
-<div class="section" id="cvode">
+<section id="cvode">
 <h2>CVODE<a class="headerlink" href="#cvode" title="Permalink to this headline">ÔÉÅ</a></h2>
 <blockquote>
 <div><p>CVODE is a deterministic ODE solver from the SUNDIALS suite of timecourse integrators. It implements an Adams-Moulton solver for non-stiff problems and a backward differentiation formula (BDF) solver for stiff problems.</p>
@@ -299,8 +301,8 @@ The vector includes tolerances for each independent floating species that doesn‚
 <dd><p>Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is false.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="gillespie">
+</section>
+<section id="gillespie">
 <h2>Gillespie<a class="headerlink" href="#gillespie" title="Permalink to this headline">ÔÉÅ</a></h2>
 <blockquote>
 <div><p>RoadRunner‚Äôs implementation of the standard Gillespie Direct Method SSA. The granularity of this simulator is individual molecules and kinetic processes are stochastic. Results will, in general, be different in each run, but a sufficiently large ensemble of runs should be statistically correct.</p>
@@ -352,8 +354,8 @@ The vector includes tolerances for each independent floating species that doesn‚
 <dd><p>Sets the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents massive output for simulations where the variable step size ends up decreasing too much.  This setting is ignored when the variable_step_size is false, and is also ignored when the output is being written directly to a file.  Default value is 100,000.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="euler">
+</section>
+<section id="euler">
 <h2>Euler<a class="headerlink" href="#euler" title="Permalink to this headline">ÔÉÅ</a></h2>
 <blockquote>
 <div><p>The Euler method is one of the simplest approaches to solving a first order ODE. Given the rate of change of function f at time t, it computes the new value of f as <code class="docutils literal notranslate"><span class="pre">f(t+h)</span> <span class="pre">=</span> <span class="pre">f(t)</span> <span class="pre">+</span> <span class="pre">h*f'(t)</span></code>, where h is the time step. Euler‚Äôs method is rarely used in practice due to poor numerical robustness. Can be used with:</p>
@@ -361,8 +363,8 @@ The vector includes tolerances for each independent floating species that doesn‚
 </pre></div>
 </div>
 </div></blockquote>
-</div>
-<div class="section" id="rk4">
+</section>
+<section id="rk4">
 <h2>RK4<a class="headerlink" href="#rk4" title="Permalink to this headline">ÔÉÅ</a></h2>
 <blockquote>
 <div><p>Runge-Kutta methods are a family of algorithms for solving ODEs. They have considerably better accuracy than the Euler method. This integrator is a standard 4th order Runge-Kutta solver. Can be used with:</p>
@@ -370,8 +372,8 @@ The vector includes tolerances for each independent floating species that doesn‚
 </pre></div>
 </div>
 </div></blockquote>
-</div>
-<div class="section" id="rk45">
+</section>
+<section id="rk45">
 <h2>RK45<a class="headerlink" href="#rk45" title="Permalink to this headline">ÔÉÅ</a></h2>
 <blockquote>
 <div><p>RoadRunner‚Äôs implementation of the standard Gillespie Direct Method SSA. The granularity of this simulator is individual molecules and kinetic processes are stochastic. Results will, in general, be different in each run, but a sufficiently large ensemble of runs should be statistically correct.</p>
@@ -404,8 +406,8 @@ The vector includes tolerances for each independent floating species that doesn‚
 <dd><p>Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is false.</p>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -418,7 +420,7 @@ The vector includes tolerances for each independent floating species that doesn‚
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

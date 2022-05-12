@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Main RoadRunner Class &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -54,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api_reference.html">Python RoadRunner API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="cls_Config.html">Configuration</a></li>
@@ -109,7 +111,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="the-main-roadrunner-class">
+  <section id="the-main-roadrunner-class">
 <h1>The Main RoadRunner Class<a class="headerlink" href="#the-main-roadrunner-class" title="Permalink to this headline"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="RoadRunner">
@@ -378,7 +380,7 @@ For more information on the possible settings, see <a class="reference internal"
 </dl>
 </dd></dl>
 
-<div class="section" id="selections">
+<section id="selections">
 <h2>Selections<a class="headerlink" href="#selections" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.getIds">
@@ -444,8 +446,8 @@ For more information on accepted selection types, see <a class="reference intern
 <dd><p>Resets time course and steady state selection lists to defaults</p>
 </dd></dl>
 
-</div>
-<div class="section" id="model-access">
+</section>
+<section id="model-access">
 <h2>Model Access<a class="headerlink" href="#model-access" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.isModelLoaded">
@@ -553,8 +555,8 @@ parameters are introduced.</p>
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="model-editing">
+</section>
+<section id="model-editing">
 <h2>Model Editing<a class="headerlink" href="#model-editing" title="Permalink to this headline"></a></h2>
 <p>Easy edit to the model without modifying and reloading sbml files.</p>
 <dl class="py method">
@@ -1121,8 +1123,8 @@ the model once after all editings are completed.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="simulation">
+</section>
+<section id="simulation">
 <h2>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline"></a></h2>
 <p>Fast and easy time series simulations is one of the main objectives of the RoadRunner project.</p>
 <p>All simulation related tasks can be accomplished with the single <code class="docutils literal notranslate"><span class="pre">simulate</span></code> method.</p>
@@ -1237,8 +1239,8 @@ column vector, and the 0’th column is the simulation time.</p>
 the function will return an empty array.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="steady-state">
+</section>
+<section id="steady-state">
 <h2>Steady State<a class="headerlink" href="#steady-state" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.SteadyStateSolver">
@@ -1326,8 +1328,8 @@ the steady state selections with all necessary labels.</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="metabolic-control-analysis">
+</section>
+<section id="metabolic-control-analysis">
 <h2>Metabolic control analysis<a class="headerlink" href="#metabolic-control-analysis" title="Permalink to this headline"></a></h2>
 <p>In the special case when an SBML model is a purely reaction kinetics model – no rate rules, no
 assignment rules for chemical species, and time invariant stoichiometry, specialized analysis methods
@@ -1600,8 +1602,8 @@ named parameter</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="stoichiometric-analysis">
+</section>
+<section id="stoichiometric-analysis">
 <h2>Stoichiometric Analysis<a class="headerlink" href="#stoichiometric-analysis" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.getFullStoichiometryMatrix">
@@ -1621,8 +1623,8 @@ this is the matrix that coresponds to the independent species.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.getConservationMatrix">
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getConservationMatrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getConservationMatrix" title="Permalink to this definition"></a></dt>
-<dd><p>Returns a conservation matrix <img class="math" src="../_images/math/e7003fd3463f843ee1e53385878369f078d362ad.png" alt="\Gamma"/> which is a <img class="math" src="../_images/math/0bcf53c61f33b169107655d4c7a4243e94a4227f.png" alt="c \times m"/> matrix
-where <img class="math" src="../_images/math/d520a12f1579170834c32ad5f656de081bbb36fe.png" alt="c"/> is the number of conservation laws and <img class="math" src="../_images/math/e9bc7da808d33a16a8347f27a519bd067186aa66.png" alt="m"/> the number of species.</p>
+<dd><p>Returns a conservation matrix <span class="math">\Gamma</span> which is a <span class="math">c \times m</span> matrix
+where <span class="math">c</span> is the number of conservation laws and <span class="math">m</span> the number of species.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1653,8 +1655,8 @@ is the number of floating species and r the rank of the stoichiometric matrix, N
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.getNrMatrix">
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getNrMatrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getNrMatrix" title="Permalink to this definition"></a></dt>
-<dd><p>Returns the reduced stoichiometry matrix, <img class="math" src="../_images/math/0e9e98fcfc2cd5b0587d8d9571609869a7f8bbb2.png" alt="N_R"/>, which will have only r rows where r is the rank of
-the full stoichiometry matrix. The matrix will be reordered such that the rows of <img class="math" src="../_images/math/0e9e98fcfc2cd5b0587d8d9571609869a7f8bbb2.png" alt="N_R"/> are independent.</p>
+<dd><p>Returns the reduced stoichiometry matrix, <span class="math">N_R</span>, which will have only r rows where r is the rank of
+the full stoichiometry matrix. The matrix will be reordered such that the rows of <span class="math">N_R</span> are independent.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
@@ -1665,8 +1667,8 @@ the full stoichiometry matrix. The matrix will be reordered such that the rows o
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.getKMatrix">
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getKMatrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getKMatrix" title="Permalink to this definition"></a></dt>
-<dd><p>Returns the K matrix, <img class="math" src="../_images/math/2f2d393903a4dca6ea8baac0db8535dc80345434.png" alt="ker(N_R)"/>, (right nullspace of Nr)
-The K matrix has the structure, <img class="math" src="../_images/math/adc2c97900ab88829eb36ff8437d7283b0f8a30c.png" alt="[I K0]'"/></p>
+<dd><p>Returns the K matrix, <span class="math">ker(N_R)</span>, (right nullspace of Nr)
+The K matrix has the structure, <span class="math">[I K0]'</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
@@ -1674,8 +1676,8 @@ The K matrix has the structure, <img class="math" src="../_images/math/adc2c9790
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="analysis">
+</section>
+<section id="analysis">
 <h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.getFrequencyResponse">
@@ -1789,8 +1791,8 @@ given by the order of Ids returned by getDependentFloatingSpeciesIds()</p>
 </div>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -1803,7 +1805,7 @@ given by the order of Ids returned by getDependentFloatingSpeciesIds()</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LLVMModelDataSymbols &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -168,20 +169,20 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="llvmmodeldatasymbols">
+  <section id="llvmmodeldatasymbols">
 <h1>LLVMModelDataSymbols<a class="headerlink" href="#llvmmodeldatasymbols" title="Permalink to this headline"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm20LLVMModelDataSymbolsE">
 <span id="_CPPv3N6rrllvm20LLVMModelDataSymbolsE"></span><span id="_CPPv2N6rrllvm20LLVMModelDataSymbolsE"></span><span id="rrllvm::LLVMModelDataSymbols"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rrllvm</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">LLVMModelDataSymbols</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm20LLVMModelDataSymbolsE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>stores the names of all the symbols in the sbml model and thier indexes in the ModelData arrays. </p>
 <p>This class essentially maps symbol names into ModelData indexes.</p>
-<p>The logic behind splitting up <a class="reference internal" href="#classrrllvm_1_1LLVMModelDataSymbols"><span class="std std-ref">LLVMModelDataSymbols</span></a> and <a class="reference internal" href="LLVMModelSymbols.html#classrrllvm_1_1LLVMModelSymbols"><span class="std std-ref">LLVMModelSymbols</span></a> is that <a class="reference internal" href="LLVMModelSymbols.html#classrrllvm_1_1LLVMModelSymbols"><span class="std std-ref">LLVMModelSymbols</span></a> contains all the ASTs from the model, and this contains only ModelData indices  once the all the model functions are generated, there is no need to keep AST information around, but we still need to know what symbol is at what index for the various Model accessor functions.</p>
+<p>The logic behind splitting up <a class="reference internal" href="#classrrllvm_1_1LLVMModelDataSymbols"><span class="std std-ref">LLVMModelDataSymbols</span></a> and <a class="reference internal" href="LLVMModelSymbols.html#classrrllvm_1_1LLVMModelSymbols"><span class="std std-ref">LLVMModelSymbols</span></a> is that <a class="reference internal" href="LLVMModelSymbols.html#classrrllvm_1_1LLVMModelSymbols"><span class="std std-ref">LLVMModelSymbols</span></a> contains all the ASTs from the model, and this contains only ModelData indices &amp;#8212; once the all the model functions are generated, there is no need to keep AST information around, but we still need to know what symbol is at what index for the various Model accessor functions.</p>
 <p><ul class="simple">
 <li><p>data storage: There can exist rules (assigment, rate, and eventually algebraic) rules that determine the value of a symbol.</p></li>
 <li><p>All items for which a rate rule exists are stored in the modelData::rateRules array.</p></li>
 <li><p>No space is allocated for items determined by rate rules.</p></li>
 <li><p>All elements get an index value, even the dependent ones, this allows us uniquely identify them in the generated accessor functions.</p></li>
-<li><p>Most of the indexes used in this class are indexes into ModelData arrays, therefore we use unsigned integers  these are less error prone and its easier to check if they are valid i.e. only check that they are less than the the array size and we do not have to check that it is positive.</p></li>
+<li><p>Most of the indexes used in this class are indexes into ModelData arrays, therefore we use unsigned integers &amp;#8212; these are less error prone and its easier to check if they are valid i.e. only check that they are less than the the array size and we do not have to check that it is positive.</p></li>
 <li><p>All symbols from the sbml are reordered such that the independent ones are first, followed by the dependent values. </p></li>
 </ul>
 </p>
@@ -332,7 +333,7 @@
 <dd><p>get the index of a floating species. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>requireIndependent</strong> – if true, the float species must be independent  not defined by a rule. </p>
+<dd class="field-odd"><p><strong>requireIndependent</strong> – if true, the float species must be independent &amp;#8212; not defined by a rule. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -351,7 +352,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm20LLVMModelDataSymbols33getIndependentFloatingSpeciesSizeEv">
 <span id="_CPPv3NK6rrllvm20LLVMModelDataSymbols33getIndependentFloatingSpeciesSizeEv"></span><span id="_CPPv2NK6rrllvm20LLVMModelDataSymbols33getIndependentFloatingSpeciesSizeEv"></span><span id="rrllvm::LLVMModelDataSymbols::getIndependentFloatingSpeciesSizeC"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1a262c5cc26d6bd5fc7c3b4efdf49a76b9"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getIndependentFloatingSpeciesSize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm20LLVMModelDataSymbols33getIndependentFloatingSpeciesSizeEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>number of fully indenpendent species, these are species that have thier dynamics fully determined by the reaction rates / stoichiometric matrix  these DO NOT have any rules determining their dynamics. </p>
+<dd><p>number of fully indenpendent species, these are species that have thier dynamics fully determined by the reaction rates / stoichiometric matrix &amp;#8212; these DO NOT have any rules determining their dynamics. </p>
 <p>This is size of the allocated array in the ModelData struct. </p>
 </dd></dl>
 
@@ -675,13 +676,13 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm20LLVMModelDataSymbols32isIndependentInitGlobalParameterERKNSt6stringE">
 <span id="_CPPv3NK6rrllvm20LLVMModelDataSymbols32isIndependentInitGlobalParameterERKNSt6stringE"></span><span id="_CPPv2NK6rrllvm20LLVMModelDataSymbols32isIndependentInitGlobalParameterERKNSt6stringE"></span><span id="rrllvm::LLVMModelDataSymbols::isIndependentInitGlobalParameter__ssCRC"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1a9e69809c00382d494280b0124bae2e57"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">isIndependentInitGlobalParameter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">symbol</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm20LLVMModelDataSymbols32isIndependentInitGlobalParameterERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>has this std::string been found to be an independent init global param is a global param and not having an assignment or init assignment rule. </p>
+<dd><p>has this std::string been found to be an independent init global param&amp;#8212; is a global param and not having an assignment or init assignment rule. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm20LLVMModelDataSymbols32isIndependentInitGlobalParameterE6size_t">
 <span id="_CPPv3NK6rrllvm20LLVMModelDataSymbols32isIndependentInitGlobalParameterE6size_t"></span><span id="_CPPv2NK6rrllvm20LLVMModelDataSymbols32isIndependentInitGlobalParameterE6size_t"></span><span id="rrllvm::LLVMModelDataSymbols::isIndependentInitGlobalParameter__sC"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1a4980057e894a24a75faad509c9ecc616"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">isIndependentInitGlobalParameter</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm20LLVMModelDataSymbols32isIndependentInitGlobalParameterE6size_t" title="Permalink to this definition"></a><br /></dt>
-<dd><p>is this global parameter id an independent init param  a global param without an init assignment rule. </p>
+<dd><p>is this global parameter id an independent init param &amp;#8212; a global param without an init assignment rule. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -1138,7 +1139,7 @@
 
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -1151,7 +1152,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

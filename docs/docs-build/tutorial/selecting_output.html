@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Selecting Simulation Output &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -51,6 +52,7 @@
 <li class="toctree-l2"><a class="reference internal" href="plotting_data.html">Plotting Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changing_initial_conditions.html">Changing Initial Conditions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="solvers.html">Roadrunner Solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_engines.html">Jit Engines</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#quickstart">Quickstart</a></li>
 </ul>
 </li>
@@ -67,6 +69,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
@@ -98,7 +101,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="selecting-simulation-output">
+  <section id="selecting-simulation-output">
 <h1>Selecting Simulation Output<a class="headerlink" href="#selecting-simulation-output" title="Permalink to this headline"></a></h1>
 <p>RoadRunner supports a range of options for selecting what data a simulation should return. For more
 detailed information on selections, see the <a class="reference internal" href="../selecting_values.html#selecting-values"><span class="std std-ref">Selecting Values</span></a> section.</p>
@@ -128,7 +131,7 @@ type the following:</p>
 <span class="n">rr</span><span class="o">.</span><span class="n">timeCourseSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;[S1]&#39;</span><span class="p">,</span> <span class="s1">&#39;[S2]&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
+</section>
 
 
            </div>
@@ -141,7 +144,7 @@ type the following:</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Configuration &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -54,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api_reference.html">Python RoadRunner API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Configuration</a><ul>
@@ -103,7 +105,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="configuration">
+  <section id="configuration">
 <h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline"></a></h1>
 <p>Many of RoadRunner classes use a number of configuration parameters. Most of these can be set using
 the Config class. The values stored in the Config class only determine the <em>default</em> values of
@@ -147,7 +149,7 @@ ignored. Therefore, any line that does not start with a word character is consid
 all of the configuration keys are static attributes of the Config class, these are documented in the
 Configuration Functions section.</p>
 <p>As all of the Config class methods are static, one never instantiates the Config class.</p>
-<div class="section" id="configuration-functions">
+<section id="configuration-functions">
 <h2>Configuration Functions<a class="headerlink" href="#configuration-functions" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.Config.setValue">
@@ -193,8 +195,8 @@ need to use a double back slash, “\\”.</p>
 default locations, or to any other location, and re-loaded at a later time.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="available-configuration-parameters">
+</section>
+<section id="available-configuration-parameters">
 <h2>Available Configuration Parameters<a class="headerlink" href="#available-configuration-parameters" title="Permalink to this headline"></a></h2>
 <p>All of the configuration parameter keys are static attributes of the Config class and are listed
 here. The variable type of the parameter is listed after the key name.</p>
@@ -355,8 +357,8 @@ If false, steady state calculations will not be carried out
 in the presence of events.</p>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -369,7 +371,7 @@ in the presence of events.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

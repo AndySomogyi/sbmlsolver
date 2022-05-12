@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Logging &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -54,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api_reference.html">Python RoadRunner API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="cls_Config.html">Configuration</a></li>
@@ -103,7 +105,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="logging">
+  <section id="logging">
 <h1>Logging<a class="headerlink" href="#logging" title="Permalink to this headline"></a></h1>
 <p>RoadRunner has extensive logging system. Many internal methods will log extensive details (in full
 color) to either the clog (typically stderr) or a user specified file path. Internally, the
@@ -138,7 +140,7 @@ displayed, one would run:</p>
 </pre></div>
 </div>
 <p>The available color property names and values are listed below at the Logger.setProperty method.</p>
-<div class="section" id="logging-levels">
+<section id="logging-levels">
 <h2>Logging Levels<a class="headerlink" href="#logging-levels" title="Permalink to this headline"></a></h2>
 <p>The Logger has the following logging levels:</p>
 <dl class="py attribute">
@@ -195,8 +197,8 @@ displayed, one would run:</p>
 <dd><p>A tracing message. This is the lowest priority.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="logging-methods">
+</section>
+<section id="logging-methods">
 <h2>Logging Methods<a class="headerlink" href="#logging-methods" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.Logger.setLevel">
@@ -441,8 +443,8 @@ which are replaced by the corresponding value.</p>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -455,7 +457,7 @@ which are replaced by the corresponding value.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
