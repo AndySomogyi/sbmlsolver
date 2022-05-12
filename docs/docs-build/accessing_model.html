@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Accessing the SBML Model Variables &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="rrPlugins Documentation" href="rrplugins/rrplugins_documentation.html" />
+    <link rel="next" title="Using RoadRunner from C++" href="UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html" />
     <link rel="prev" title="Utility Functions" href="utility_functions.html" /> 
 </head>
 
@@ -63,6 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#global-parameters">Global Parameters</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
@@ -93,10 +95,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="accessing-the-sbml-model-variables">
+  <section id="accessing-the-sbml-model-variables">
 <h1>Accessing the SBML Model Variables<a class="headerlink" href="#accessing-the-sbml-model-variables" title="Permalink to this headline"></a></h1>
 <p>The following methods allow users to obtain information on the model</p>
-<div class="section" id="compartments">
+<section id="compartments">
 <h2>Compartments<a class="headerlink" href="#compartments" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><ul class="simple">
@@ -106,8 +108,8 @@
 <li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel21setCompartmentVolumesE6size_tPKiPKd" title="rr::ExecutableModel::setCompartmentVolumes"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::ExecutableModel::setCompartmentVolumes()</span></code></a></p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="boundary-species">
+</section>
+<section id="boundary-species">
 <h2>Boundary Species<a class="headerlink" href="#boundary-species" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><ul class="simple">
@@ -117,8 +119,8 @@
 <li><p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::ExecutableModel::getBoundarySpeciesIds()</span></code></p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="floating-species">
+</section>
+<section id="floating-species">
 <h2>Floating Species<a class="headerlink" href="#floating-species" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><ul class="simple">
@@ -128,8 +130,8 @@
 <li><p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::ExecutableModel::getFloatingSpeciesIds()</span></code></p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="initial-conditions">
+</section>
+<section id="initial-conditions">
 <h2>Initial Conditions<a class="headerlink" href="#initial-conditions" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><ul class="simple">
@@ -141,8 +143,8 @@
 <li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel36setFloatingSpeciesInitConcentrationsE6size_tPKiPKd" title="rr::ExecutableModel::setFloatingSpeciesInitConcentrations"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::ExecutableModel::setFloatingSpeciesInitConcentrations()</span></code></a></p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="reactions">
+</section>
+<section id="reactions">
 <h2>Reactions<a class="headerlink" href="#reactions" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><ul class="simple">
@@ -151,8 +153,8 @@
 <li><p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::ExecutableModel::getReactionIds()</span></code></p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="reaction-rates">
+</section>
+<section id="reaction-rates">
 <h2>Reaction Rates<a class="headerlink" href="#reaction-rates" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><ul class="simple">
@@ -162,8 +164,8 @@
 <li><p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::ExecutableModel::getReactionIds()</span></code></p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="global-parameters">
+</section>
+<section id="global-parameters">
 <h2>Global Parameters<a class="headerlink" href="#global-parameters" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><ul class="simple">
@@ -173,21 +175,21 @@
 <li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel22getNumGlobalParametersEv" title="rr::ExecutableModel::getNumGlobalParameters"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::ExecutableModel::getNumGlobalParameters()</span></code></a></p></li>
 </ul>
 </div></blockquote>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="utility_functions.html" class="btn btn-neutral float-left" title="Utility Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="rrplugins/rrplugins_documentation.html" class="btn btn-neutral float-right" title="rrPlugins Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html" class="btn btn-neutral float-right" title="Using RoadRunner from C++" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

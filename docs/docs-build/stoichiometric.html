@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stoichiometric Analysis &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -59,6 +60,7 @@
 <li class="toctree-l1"><a class="reference internal" href="parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
@@ -89,37 +91,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="stoichiometric-analysis">
+  <section id="stoichiometric-analysis">
 <h1>Stoichiometric Analysis<a class="headerlink" href="#stoichiometric-analysis" title="Permalink to this headline"></a></h1>
-<div class="section" id="preliminaries">
+<section id="preliminaries">
 <h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline"></a></h2>
-<p>A network of <img class="math" src="_images/math/e9bc7da808d33a16a8347f27a519bd067186aa66.png" alt="m"/> chemical species and <img class="math" src="_images/math/5a939c5280da7202ca4531f175a7780ad5e1f80a.png" alt="n"/> reactions can be described by the
-<img class="math" src="_images/math/e9bc7da808d33a16a8347f27a519bd067186aa66.png" alt="m"/> by <img class="math" src="_images/math/5a939c5280da7202ca4531f175a7780ad5e1f80a.png" alt="n"/> stochiometry matrix <img class="math" src="_images/math/ea18548ce92f7f30b06ad9b72a157be42ff2ca44.png" alt="\mathbf{N}"/>. <img class="math" src="_images/math/eee64e36e8aaf0b2ee7f8771812575247e7f248c.png" alt="\mathbf{N}_{i,j}"/> is the net number of
-species <img class="math" src="_images/math/5aa339d4daf45a810dda332e3c80a0698e526e04.png" alt="i"/> produced or consumed in reaction <img class="math" src="_images/math/e3fc28292267f066fee7718c64f4bbfece521f24.png" alt="j"/>.  The dynamics of the network are
+<p>A network of <span class="math">m</span> chemical species and <span class="math">n</span> reactions can be described by the
+<span class="math">m</span> by <span class="math">n</span> stochiometry matrix <span class="math">\mathbf{N}</span>. <span class="math">\mathbf{N}_{i,j}</span> is the net number of
+species <span class="math">i</span> produced or consumed in reaction <span class="math">j</span>.  The dynamics of the network are
 described by</p>
 <div class="math">
-<p><img src="_images/math/1a419a6a6e05433235913e605955c489f0260a02.png" alt="\frac{d}{dt}\mathbf{s}(t) = \mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t),"/></p>
-</div><p>where <img class="math" src="_images/math/464e1592f73b030553a806f080b3a0370d1c6543.png" alt="\mathbf{s}"/> is the vector of species concentrations, <img class="math" src="_images/math/c11f55e4a25377e79397d43a2cb7ec0365799d59.png" alt="\mathbf{p}"/>
-is a vector of time independent parameters, and <img class="math" src="_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png" alt="t"/> is time.</p>
+<p><span class="math">\frac{d}{dt}\mathbf{s}(t) = \mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t),</span></p>
+</div><p>where <span class="math">\mathbf{s}</span> is the vector of species concentrations, <span class="math">\mathbf{p}</span>
+is a vector of time independent parameters, and <span class="math">t</span> is time.</p>
 <p>Each structural conservation, or interchangably, <em>conserved sum</em> (e.g. conserved moiety) in
-the network coresponds to a lineraly dependent row in the stoichiometry matrix <img class="math" src="_images/math/ea18548ce92f7f30b06ad9b72a157be42ff2ca44.png" alt="\mathbf{N}"/>.</p>
-<p>If there are conserved sums, then the row rank, <img class="math" src="_images/math/79a3d439d28652c547386f39b555d90d3aaf102d.png" alt="r"/> of <img class="math" src="_images/math/3bfb3a64189a14b2704f4610827762d5e3145114.png" alt="N"/> is <img class="math" src="_images/math/db27e81b5043871690d5a4931735c1956e2ec546.png" alt="&lt; m"/>, and
-the stochiometry matrix <img class="math" src="_images/math/3bfb3a64189a14b2704f4610827762d5e3145114.png" alt="N"/> may first be re-ordered such that the first <img class="math" src="_images/math/79a3d439d28652c547386f39b555d90d3aaf102d.png" alt="r"/> are linearly
-independent, and the remaining <img class="math" src="_images/math/086cd74c9904c93b79178f3ba70e62ccdd15b965.png" alt="m-r"/> rows are linear combinations of the first <img class="math" src="_images/math/79a3d439d28652c547386f39b555d90d3aaf102d.png" alt="r"/>
-rows. The <em>reduced stochiometry matrix</em> <img class="math" src="_images/math/2c72c1075a2c3832027d935c6eb8309244b4e719.png" alt="\mathbf{N_R}"/> is then formed from the first
-<img class="math" src="_images/math/79a3d439d28652c547386f39b555d90d3aaf102d.png" alt="r"/> rows of <img class="math" src="_images/math/3bfb3a64189a14b2704f4610827762d5e3145114.png" alt="N"/>. Finally, <img class="math" src="_images/math/3bfb3a64189a14b2704f4610827762d5e3145114.png" alt="N"/> may be expressed as a product of the <img class="math" src="_images/math/06507d0275a183f9e76fa928f5fa8267c3d9a560.png" alt="m \times r"/>
-<em>link matrix</em> <img class="math" src="_images/math/6ee4d528434e9cc050483bee7faf289b37f2e009.png" alt="\mathbf{L}"/> and the <img class="math" src="_images/math/206aaa090beda7a9f021e91e89168008c395fd70.png" alt="r \times n"/> <img class="math" src="_images/math/2c72c1075a2c3832027d935c6eb8309244b4e719.png" alt="\mathbf{N_R}"/> matrix:</p>
+the network coresponds to a lineraly dependent row in the stoichiometry matrix <span class="math">\mathbf{N}</span>.</p>
+<p>If there are conserved sums, then the row rank, <span class="math">r</span> of <span class="math">N</span> is <span class="math">&lt; m</span>, and
+the stochiometry matrix <span class="math">N</span> may first be re-ordered such that the first <span class="math">r</span> are linearly
+independent, and the remaining <span class="math">m-r</span> rows are linear combinations of the first <span class="math">r</span>
+rows. The <em>reduced stochiometry matrix</em> <span class="math">\mathbf{N_R}</span> is then formed from the first
+<span class="math">r</span> rows of <span class="math">N</span>. Finally, <span class="math">N</span> may be expressed as a product of the <span class="math">m \times r</span>
+<em>link matrix</em> <span class="math">\mathbf{L}</span> and the <span class="math">r \times n</span> <span class="math">\mathbf{N_R}</span> matrix:</p>
 <div class="math">
-<p><img src="_images/math/ae61aad36fddef879163eab34799d66db6e93b19.png" alt="\mathbf{N} = \mathbf{L}\mathbf{N_R}."/></p>
-</div><p>The link matrix <img class="math" src="_images/math/6ee4d528434e9cc050483bee7faf289b37f2e009.png" alt="\mathbf{L}"/> has the form</p>
+<p><span class="math">\mathbf{N} = \mathbf{L}\mathbf{N_R}.</span></p>
+</div><p>The link matrix <span class="math">\mathbf{L}</span> has the form</p>
 <div class="math">
-<p><img src="_images/math/c6977eac5c8c4130105d582c2ef1d2f666ac533a.png" alt="\mathbf{L} = \left[ \begin{array}{c}
+<p><span class="math">\mathbf{L} = \left[ \begin{array}{c}
                     \mathbf{I}_{r} \\
-                    \mathbf{L}_0    \end{array} \right],"/></p>
-</div><p>where <img class="math" src="_images/math/6936cef5cd163fc7a980484698867c3d74316594.png" alt="\mathbf{I}_{r}"/> is the <img class="math" src="_images/math/624d5b647a5e5e2a9043877f387cbb9632637dfe.png" alt="r \times r"/> identity matrix and <img class="math" src="_images/math/3276c0da6ae1d98d129fdbc0336f66156e0d5db1.png" alt="\mathbf{L}_0"/> is a <img class="math" src="_images/math/b70ca4b8e6bef577623306f53b72e08fbbcd7843.png" alt="(m-r) \times r"/>
+                    \mathbf{L}_0    \end{array} \right],</span></p>
+</div><p>where <span class="math">\mathbf{I}_{r}</span> is the <span class="math">r \times r</span> identity matrix and <span class="math">\mathbf{L}_0</span> is a <span class="math">(m-r) \times r</span>
 matrix.</p>
-</div>
-<div class="section" id="full-vs-extended-stoichiometry-matrix">
+</section>
+<section id="full-vs-extended-stoichiometry-matrix">
 <h2>Full vs. Extended Stoichiometry Matrix<a class="headerlink" href="#full-vs-extended-stoichiometry-matrix" title="Permalink to this headline"></a></h2>
 <p>The “full” stoichiometric matrix includes any conserved quantities (as opposed to the reduced stoichiometric matrix,
 which does not). The <em>extended</em> stoichiometric matrix is equal to the full stoichiometric matrix plus additional
@@ -146,8 +148,8 @@ rows representing boundary species and sources / sinks. For example, consider th
 <span class="go"> reaction3_sink    [         0,         0,         1,         0,         0,         0,         0]]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="methods-for-stoichiometric-analysis">
+</section>
+<section id="methods-for-stoichiometric-analysis">
 <h2>Methods for Stoichiometric Analysis<a class="headerlink" href="#methods-for-stoichiometric-analysis" title="Permalink to this headline"></a></h2>
 <p>The following methods are related to the analysis of the stoichiometric matrix.</p>
 <blockquote>
@@ -164,8 +166,8 @@ rows representing boundary species and sources / sinks. For example, consider th
 <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ExecutableModel::getConservedMoietyValues</span></code>
 <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ExecutableModel::setConservedMoietyValues</span></code></p>
 </div></blockquote>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -178,7 +180,7 @@ rows representing boundary species and sources / sinks. For example, consider th
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

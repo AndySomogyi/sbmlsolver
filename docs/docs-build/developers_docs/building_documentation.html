@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Building the Documentation &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -99,7 +100,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="building-the-documentation">
+  <section id="building-the-documentation">
 <h1>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline"></a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -107,7 +108,7 @@
 or build the docs yourself. If you are not, there is a high probability that you
 will break something, or just get frustrated.</p>
 </div>
-<div class="section" id="quick-instructions">
+<section id="quick-instructions">
 <h2>Quick instructions<a class="headerlink" href="#quick-instructions" title="Permalink to this headline"></a></h2>
 <ol class="arabic simple">
 <li><p>Make sure you are on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch. Changes to the docs source should have been merged into this branch from develop.</p></li>
@@ -127,7 +128,7 @@ contain</p>
 <p>For example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span>../install-mac-rel <span class="se">\</span>
     -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span>/Users/ciaranwelsh/Documents/libroadrunner-deps/install-clang13-rel <span class="se">\</span>
-    -DLLVM_INSTALL_PREFIX<span class="o">=</span>/Users/ciaranwelsh/Documents/llvm-6.x/llvm-6.x-clang11.0.3-x64-release <span class="se">\</span>
+    -DLLVM_INSTALL_PREFIX<span class="o">=</span>/Users/ciaranwelsh/Documents/llvm-13.x/llvm-13.x-clang11.0.3-x64-release <span class="se">\</span>
     -DBUILD_TESTS<span class="o">=</span>ON <span class="se">\</span>
     -DPython_ROOT_DIR<span class="o">=</span>/Users/ciaranwelsh/miniconda3/envs/py39 <span class="se">\</span>
     -DBUILD_PYTHON<span class="o">=</span>ON <span class="se">\</span>
@@ -137,8 +138,8 @@ contain</p>
 cmake --build . --target roadrunner-docs-sphinx --config Release
 </pre></div>
 </div>
-</div>
-<div class="section" id="details">
+</section>
+<section id="details">
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline"></a></h2>
 <p>Github hosts our documentation. It does so off of the <cite>gh-pages</cite> branch, and specifically
 the <cite>&lt;roadrunner-root&gt;/docs</cite> subfolder. The homepage of our documentation is the <cite>index.html</cite>
@@ -168,8 +169,8 @@ into html is handled by sphinx, we still maintain and provide access to the <a c
 </dl>
 <p>Since the <code class="docutils literal notranslate"><span class="pre">roadrunner-docs-sphinx</span></code> target depends on the <code class="docutils literal notranslate"><span class="pre">roadrunner-docs-doxygen</span></code> target, cmake will always
 make sure to build the <code class="docutils literal notranslate"><span class="pre">roadrunner-docs-doxygen</span></code> target before it builds the <code class="docutils literal notranslate"><span class="pre">roadrunner-docs-doxygen</span></code> target.</p>
-</div>
-<div class="section" id="dependencies">
+</section>
+<section id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline"></a></h2>
 <dl class="simple">
 <dt>You will need Sphinx, <a class="reference external" href="https://www.doxygen.nl/download.html">Doxygen</a> and some python packages</dt><dd><ul class="simple">
@@ -182,8 +183,8 @@ make sure to build the <code class="docutils literal notranslate"><span class="p
 <p>Make sure you either install doxygen in a default location (i.e. already on the PATH)  or that you add the path to the
 doxygen executable to the PATH environment variable so cmake can find it.</p>
 </div>
-</div>
-<div class="section" id="troubleshooting">
+</section>
+<section id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline"></a></h2>
 <p>Sometimes cmake finds a different version of Python installed on your system
 compared to what you were expecting. Therefore, if cmake complains that it cannot
@@ -203,8 +204,8 @@ then the Python executable is located at:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``/Users/ciaranwelsh/miniconda/envs/py38``
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -217,7 +218,7 @@ then the Python executable is located at:</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

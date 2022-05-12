@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Using RoadRunner from C++ &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -85,7 +86,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="using-roadrunner-from-c">
+  <section id="using-roadrunner-from-c">
 <h1>Using RoadRunner from C++<a class="headerlink" href="#using-roadrunner-from-c" title="Permalink to this headline"></a></h1>
 <p>Despite RoadRunner’s user interface being primarily in Python,
 RoadRunner is first and foremost a C++ library. It is therefore is possible to
@@ -111,20 +112,20 @@ create the following files:</p>
 </pre></div>
 </div>
 <p>The <cite>CMakeLists.txt</cite> file should contain the following:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.22</span><span class="p">)</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.22</span><span class="p">)</span>
 <span class="linenos"> 2</span><span class="nb">project</span><span class="p">(</span><span class="s">UseRoadRunnerFromC</span><span class="p">)</span>
 <span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span> <span class="s">17</span><span class="p">)</span>
+<span class="linenos"> 4</span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span><span class="w"> </span><span class="s">17</span><span class="p">)</span>
 <span class="linenos"> 5</span>
 <span class="linenos"> 6</span><span class="c"># could be command line variables (-DROADRUNNER_INSTALL_PREFIX=...)</span>
-<span class="linenos"> 7</span><span class="nb">set</span><span class="p">(</span><span class="s">ROADRUNNER_INSTALL_PREFIX</span> <span class="s2">&quot;D:/roadrunner/roadrunner/roadrunner-install-rel&quot;</span><span class="p">)</span>
-<span class="linenos"> 8</span><span class="nb">set</span><span class="p">(</span><span class="s">LLVM_INSTALL_PREFIX</span> <span class="s2">&quot;D:/roadrunner/llvm-13.x/llvm-13.x-msvc2022-x64-rel&quot;</span><span class="p">)</span>
+<span class="linenos"> 7</span><span class="nb">set</span><span class="p">(</span><span class="s">ROADRUNNER_INSTALL_PREFIX</span><span class="w"> </span><span class="s2">&quot;D:/roadrunner/roadrunner/roadrunner-install-rel&quot;</span><span class="p">)</span>
+<span class="linenos"> 8</span><span class="nb">set</span><span class="p">(</span><span class="s">LLVM_INSTALL_PREFIX</span><span class="w"> </span><span class="s2">&quot;D:/roadrunner/llvm-13.x/llvm-13.x-msvc2022-x64-rel&quot;</span><span class="p">)</span>
 <span class="linenos"> 9</span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_PREFIX_PATH</span>
-<span class="linenos">10</span>        <span class="s2">&quot;${ROADRUNNER_INSTALL_PREFIX}/cmake&quot;</span> <span class="c"># needed because this is where poco installs config files to</span>
-<span class="linenos">11</span>        <span class="s2">&quot;${ROADRUNNER_INSTALL_PREFIX}/lib/cmake&quot;</span> <span class="c"># all other normal packages install config files to here</span>
-<span class="linenos">12</span>        <span class="p">)</span>
+<span class="linenos">10</span><span class="w">        </span><span class="s2">&quot;${ROADRUNNER_INSTALL_PREFIX}/cmake&quot;</span><span class="w"> </span><span class="c"># needed because this is where poco installs config files to</span>
+<span class="linenos">11</span><span class="w">        </span><span class="s2">&quot;${ROADRUNNER_INSTALL_PREFIX}/lib/cmake&quot;</span><span class="w"> </span><span class="c"># all other normal packages install config files to here</span>
+<span class="linenos">12</span><span class="w">        </span><span class="p">)</span>
 <span class="linenos">13</span><span class="c"># for registering location of ImportRoadRunnerAndDependencies</span>
-<span class="linenos">14</span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_MODULE_PATH</span> <span class="s2">&quot;${ROADRUNNER_INSTALL_PREFIX}/lib/cmake&quot;</span><span class="p">)</span>
+<span class="linenos">14</span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_MODULE_PATH</span><span class="w"> </span><span class="s2">&quot;${ROADRUNNER_INSTALL_PREFIX}/lib/cmake&quot;</span><span class="p">)</span>
 <span class="linenos">15</span>
 <span class="linenos">16</span><span class="c"># Import roadrunner and all necessary dependencies for linking roadrunner.</span>
 <span class="linenos">17</span><span class="c"># This command is a roadrunner convenience cmake script which does all of the</span>
@@ -135,7 +136,7 @@ create the following files:</p>
 <span class="linenos">22</span><span class="nb">include</span><span class="p">(</span><span class="s">ImportRoadRunnerAndDependencies</span><span class="p">)</span>
 <span class="linenos">23</span>
 <span class="linenos">24</span><span class="c"># add an executable</span>
-<span class="linenos">25</span><span class="nb">add_executable</span><span class="p">(</span><span class="s">UseRoadRunnerFromCxx</span> <span class="s">main.cpp</span><span class="p">)</span>
+<span class="linenos">25</span><span class="nb">add_executable</span><span class="p">(</span><span class="s">UseRoadRunnerFromCxx</span><span class="w"> </span><span class="s">main.cpp</span><span class="p">)</span>
 <span class="linenos">26</span>
 <span class="linenos">27</span><span class="c"># link roadrunner-static. Note that we have configured roadrunner-static target (which is imported</span>
 <span class="linenos">28</span><span class="c"># under the alias roadrunner-static::roadrunner-static) with PUBLIC visibility, which means</span>
@@ -143,7 +144,7 @@ create the following files:</p>
 <span class="linenos">30</span><span class="c"># without this, you would have to manually link roadrunner dependencies and manually</span>
 <span class="linenos">31</span><span class="c"># include roadrunner include directories with something like:</span>
 <span class="linenos">32</span><span class="c">#   - target_include_directories(UseRoadRunnerFromCxx PRIVATE &quot;${ROADRUNNER_INSTALL_PREFIX}/include&quot;)</span>
-<span class="linenos">33</span><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">UseRoadRunnerFromCxx</span> <span class="s">PRIVATE</span> <span class="s">roadrunner-static::roadrunner-static</span><span class="p">)</span>
+<span class="linenos">33</span><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">UseRoadRunnerFromCxx</span><span class="w"> </span><span class="s">PRIVATE</span><span class="w"> </span><span class="s">roadrunner-static::roadrunner-static</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now you can use RoadRunner from C++.</p>
@@ -214,7 +215,7 @@ create the following files:</p>
 <span class="linenos">65</span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
+</section>
 
 
            </div>
@@ -227,7 +228,7 @@ create the following files:</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

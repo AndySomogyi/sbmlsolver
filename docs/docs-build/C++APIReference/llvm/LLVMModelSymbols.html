@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LLVMModelSymbols &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -168,7 +169,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="llvmmodelsymbols">
+  <section id="llvmmodelsymbols">
 <h1>LLVMModelSymbols<a class="headerlink" href="#llvmmodelsymbols" title="Permalink to this headline"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm16LLVMModelSymbolsE">
@@ -245,7 +246,7 @@
 <dd><p>a species can appear more than once in a reaction, there can be several stoichiometries for a species both as a product and as a reactant, for example, we could have </p>
 <p>A + 2A + B -&gt; A + C</p>
 <p>In this case, we calculate the stochiometry for each species as S(A) = -1 -2 + 1 = -1 S(B) = -1 + 0 = -1 S(C) = 0 + 1 = 1</p>
-<p>Stochiometries can however change, so we have to delay evaluation of them  if we have a named species reference, we add an ASTNode with a reference to it: this way, when it get evaluated, we can look up to see if we have any assigment rules or intitial assigments overriding the original value. each species has a list of stoichiometry nodes, this way it can appear more than once. </p>
+<p>Stochiometries can however change, so we have to delay evaluation of them &amp;#8212; if we have a named species reference, we add an ASTNode with a reference to it: this way, when it get evaluated, we can look up to see if we have any assigment rules or intitial assigments overriding the original value. each species has a list of stoichiometry nodes, this way it can appear more than once. </p>
 </dd></dl>
 
 <dl class="cpp type">
@@ -408,7 +409,7 @@
 
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -421,7 +422,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
