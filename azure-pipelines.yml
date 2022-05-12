@@ -896,24 +896,6 @@ stages:
               cmake --build . --target install --config $(BuildType) -j 12
             displayName: Run CMake Build Command
           - script: |
-              echo "cd to docs dir"
-              cd $(SOURCE_DIR)/docs/
-              echo "pip install dependencies"
-              $(PipExecutable) install -r requirements.txt
-              export SPHINXBUILD=$(SphinxExecutable)
-              echo "make html"
-              make html
-              echo "list build/html"
-              ls build/html
-              echo "move docs to installation"
-              cd
-              pwd
-              mv $(SOURCE_DIR)/docs/build/html '$(INSTALL_DIR)/docs-build'
-              mv $(SOURCE_DIR)/docs/doxygen-output '$(INSTALL_DIR)/doxygen-output'
-              ls '$(INSTALL_DIR)'
-            displayName: Make Docs
-            condition: eq(variables.BuildType, 'Release')
-          - script: |
               export CC=/usr/bin/gcc-10
               export CXX=/usr/bin/g++-10
               export C=/usr/bin/gcc-10
@@ -948,14 +930,15 @@ stages:
               echo "move docs to installation"
               cd
               pwd
-              mv $(SOURCE_DIR)/docs/build/html '$(INSTALL_DIR)/docs-build'
-              mv $(SOURCE_DIR)/docs/doxygen-output '$(INSTALL_DIR)/doxygen-output'
-              ls '$(INSTALL_DIR)'
+              mkdir $(INSTALL_DIR)/docs
+              mv $(SOURCE_DIR)/docs/build/html '$(INSTALL_DIR)/docs/docs-build'
+              mv $(SOURCE_DIR)/docs/doxygen-output '$(INSTALL_DIR)/docs/doxygen-output'
+              ls '$(INSTALL_DIR)/docs'
             displayName: Make Docs
             condition: eq(variables.BuildType, 'Release')
           - task: CopyFiles@2
             inputs:
-              contents: '$(INSTALL_DIR)/docs-build/** $(INSTALL_DIR)/doxygen-output/**'
+              contents: '$(INSTALL_DIR)/docs/**'
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy docs to Staging Area
             condition: eq(variables.BuildType, 'Release')
