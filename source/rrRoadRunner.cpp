@@ -4149,9 +4149,9 @@ namespace rr {
         check_model();
 
         ls::DoubleMatrix ucc = getUnscaledConcentrationControlCoefficientMatrix();
-        ls::DoubleMatrix uee = getUnscaledElasticityMatrix();
+        ls::DoubleMatrix uec = getUnscaledElasticityMatrix();
 
-        ls::DoubleMatrix T1 = mult(uee, ucc);
+        ls::DoubleMatrix T1 = mult(uec, ucc);
 
         // Add an identity matrix I to T1, that is add a 1 to every diagonal of T1
         for (int i = 0; i < T1.RSize(); i++) {
@@ -4613,6 +4613,7 @@ namespace rr {
         for (int i = 0; i < ss.size(); ++i) {
             impl->mSteadyStateSelection.push_back(createSelection(ss[i]));
         }
+        impl->loadOpt.loadFlags = impl->loadOpt.loadFlags | LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
     }
 
     void RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord> &ss) {
@@ -6715,7 +6716,7 @@ namespace rr {
             }
 
 
-            // regeneate the model
+            // regenerate the model
             impl->model.reset(ExecutableModelFactory::regenerateModel(
                     impl->model.get(),
                     impl->document.get(),

@@ -326,3 +326,106 @@ TEST_F(CAPICoreTest, CheckGetCC) {
     delete rrH;
 
 }
+
+TEST_F(CAPICoreTest, CheckGetEC) {
+
+    RRHandle rrH = createRRInstance();
+    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    RRListPtr actual = getElasticityCoefficientIds(rrH);
+    std::vector<std::string> expectedRxns(
+        { "_J0", "_J1" });
+    std::vector<std::string> expectedIds(
+        { "ec(_J0,A)", "ec(_J0,AP)", "ec(_J0,K)", "ec(_J0,Vm1)", "ec(_J0,Km1)", "ec(_J1,A)", "ec(_J1,AP)", "ec(_J1,K)", "ec(_J1,Vm1)", "ec(_J1,Km1)"});
+
+    for (int r = 0; r < actual->Count; r++) {
+        RRListItem* element = actual->Items[r];
+        RRList* sublist = element->data.lValue;
+        char* id = sublist->Items[0]->data.sValue;
+        EXPECT_STREQ(id, expectedRxns[r].c_str());
+        RRList* subsublist = sublist->Items[1]->data.lValue;
+        for (int sr=0; sr < subsublist->Count; sr++) {
+            char* id = subsublist->Items[sr]->data.sValue;
+            EXPECT_STREQ(id, expectedIds[r*subsublist->Count + sr].c_str());
+        }
+    }
+
+    delete actual;
+    delete rrH;
+}
+
+TEST_F(CAPICoreTest, CheckGetUEC) {
+
+    RRHandle rrH = createRRInstance();
+    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    RRListPtr actual = getUnscaledElasticityCoefficientIds(rrH);
+    std::vector<std::string> expectedRxns(
+        { "_J0", "_J1" });
+    std::vector<std::string> expectedIds(
+        { "uec(_J0,A)", "uec(_J0,AP)", "uec(_J0,K)", "uec(_J0,Vm1)", "uec(_J0,Km1)", "uec(_J1,A)", "uec(_J1,AP)", "uec(_J1,K)", "uec(_J1,Vm1)", "uec(_J1,Km1)"});
+
+    for (int r = 0; r < actual->Count; r++) {
+        RRListItem* element = actual->Items[r];
+        RRList* sublist = element->data.lValue;
+        char* id = sublist->Items[0]->data.sValue;
+        EXPECT_STREQ(id, expectedRxns[r].c_str());
+        RRList* subsublist = sublist->Items[1]->data.lValue;
+        for (int sr=0; sr < subsublist->Count; sr++) {
+            char* id = subsublist->Items[sr]->data.sValue;
+            EXPECT_STREQ(id, expectedIds[r*subsublist->Count + sr].c_str());
+        }
+    }
+
+    delete actual;
+    delete rrH;
+}
+
+TEST_F(CAPICoreTest, CheckSetTimeCourseSelectionListEx) {
+
+    RRHandle rrH = createRRInstance();
+    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    char* sel_list[] = { "time", "uec(_J0, A)", "ec(_J1, K)" };
+
+    setTimeCourseSelectionListEx(rrH, 3, (const char**)sel_list);
+    RRStringArrayPtr sel_rt = getTimeCourseSelectionList(rrH);
+    ASSERT_EQ(sel_rt->Count, 3);
+    for (int i = 0; i < 3; i++) {
+        EXPECT_STREQ(sel_list[i], sel_rt->String[i]);
+    }
+    RRCDataPtr res = simulate(rrH);
+    char** rescols = res->ColumnHeaders;
+    for (int i = 0; i < 3; i++) {
+        EXPECT_STREQ(sel_list[i], rescols[i]);
+    }
+
+    delete rrH;
+}
+
+TEST_F(CAPICoreTest, CheckSetSteadyStateSelectionListEx) {
+
+    RRHandle rrH = createRRInstance();
+    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    char* sel_list[] = { "A", "uec(_J0, A)", "ec(_J1, K)" };
+
+    setSteadyStateSelectionListEx(rrH, 3, (const char**)sel_list);
+    RRStringArrayPtr sel_rt = getSteadyStateSelectionList(rrH);
+    ASSERT_EQ(sel_rt->Count, 3);
+    for (int i = 0; i < 3; i++) {
+        EXPECT_STREQ(sel_list[i], sel_rt->String[i]);
+    }
+    RRVectorPtr res = computeSteadyStateValues(rrH);
+    ASSERT_EQ(res->Count, 3);
+    double* values = res->Data;
+    for (int i = 0; i < 3; i++) {
+        double modelval;
+        bool check = getValue(rrH, sel_list[i], &modelval);
+        ASSERT_TRUE(check);
+        EXPECT_EQ(values[i], modelval);
+    }
+
+
+    delete rrH;
+}
