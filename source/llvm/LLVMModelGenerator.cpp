@@ -15,6 +15,7 @@
 #include "LLVMExecutableModel.h"
 #include "ModelGeneratorContext.h"
 #include "LLVMIncludes.h"
+#include "JitFactory.h"
 #include "ModelResources.h"
 #include "Random.h"
 #include <rrLogger.h>
@@ -28,12 +29,9 @@
 #pragma warning(disable: 4624)
 #endif
 
-
 #include "llvm/Object/ObjectFile.h"
 #include "llvm/LLVMExecutableModel.h"
-
 #include "llvm/MCJit.h"
-#include "JitFactory.h"
 
 #if LLVM_VERSION_MAJOR >= 13
 
@@ -282,7 +280,8 @@ namespace rrllvm {
     }
 
     ExecutableModel*
-        LLVMModelGenerator::regenerateModel(rr::ExecutableModel* oldModel, libsbml::SBMLDocument* doc, uint options) {
+        LLVMModelGenerator::regenerateModel(rr::ExecutableModel* oldModel, libsbml::SBMLDocument* doc, uint options) 
+    {
         SharedModelResourcesPtr modelResources = std::make_shared<ModelResources>();
 
         char* docSBML = doc->toSBML();

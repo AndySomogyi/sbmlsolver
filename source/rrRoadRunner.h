@@ -93,9 +93,13 @@ namespace rr {
 
         /**
         * RoadRunner copy constructor
-        * Explicitly defined because of Python.
         */
         RoadRunner(const RoadRunner &rr);
+
+        /**
+        * RoadRunner copy constructor
+        */
+        void operator=(const RoadRunner& rr);
 
         /**
          * free any memory this class allocated
@@ -1719,14 +1723,23 @@ namespace rr {
 
     private:
 
-        void fixDependentSpeciesValues(int except, double *ref);
-
         /**
          * True once the llvm initialization routines have been run.
          * This is necessary because they are not threadsafe.
          */
         static bool llvmInitialized;
         static bool solversRegistered;
+
+        /**
+         * private implementation class, can only access if inside
+         * the implementation file.
+         */
+        class RoadRunnerImpl* impl;
+
+        const int fileMagicNumber = 0xAD6F52;
+        const int dataVersionNumber;
+
+        void fixDependentSpeciesValues(int except, double *ref);
 
         /**
          * @brief calls llvm initialization routines in a thread safe way
@@ -1805,12 +1818,6 @@ namespace rr {
 
         ls::DoubleMatrix getEigenValuesNamedArray(JacobianMode mode);
 
-        /**
-         * private implementation class, can only access if inside
-         * the implementation file.
-         */
-        class RoadRunnerImpl *impl;
-
         /*
         * Check if the id already existed in the model
         */
@@ -1847,9 +1854,6 @@ namespace rr {
         void saveSelectionVector(std::ostream &, std::vector<SelectionRecord> &);
 
         void loadSelectionVector(std::istream &, std::vector<SelectionRecord> &);
-
-        const int fileMagicNumber = 0xAD6F52;
-        const int dataVersionNumber;
     };
 
 }

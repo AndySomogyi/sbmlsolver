@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Accessing the SBML Model Variables &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -54,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api_reference.html">Python RoadRunner API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="cls_Config.html">Configuration</a></li>
@@ -112,7 +114,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="accessing-the-sbml-model-variables">
+  <section id="accessing-the-sbml-model-variables">
 <h1>Accessing the SBML Model Variables<a class="headerlink" href="#accessing-the-sbml-model-variables" title="Permalink to this headline"></a></h1>
 <p>All of the SBML model variables are accessed via the <code class="docutils literal notranslate"><span class="pre">RoadRunner.model</span></code> object. This is an instance of
 the ExecutableModel class described here. One always access the model object that belongs to the top
@@ -180,7 +182,7 @@ reaction rates. If one attempts to set the value of a read-only symbol,
 an exception is raised indicating the error, and no harm done.</p>
 </dd></dl>
 
-<div class="section" id="floating-species">
+<section id="floating-species">
 <h2>Floating Species<a class="headerlink" href="#floating-species" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.ExecutableModel.getFloatingSpeciesIds">
@@ -325,8 +327,8 @@ array of all the  values to set.</p></li>
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="floating-species-initial-conditions">
+</section>
+<section id="floating-species-initial-conditions">
 <h2>Floating Species Initial Conditions<a class="headerlink" href="#floating-species-initial-conditions" title="Permalink to this headline"></a></h2>
 <p>RoadRunner stores all initial conditions separately from the model state variables. This means that
 you can update the initial conditions at any time, and it does not affect the current state of the
@@ -431,8 +433,8 @@ given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()</p>
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="boundary-species">
+</section>
+<section id="boundary-species">
 <h2>Boundary Species<a class="headerlink" href="#boundary-species" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.ExecutableModel.getBoundarySpeciesAmounts">
@@ -546,8 +548,8 @@ array of all the  values to set.</p></li>
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="compartments">
+</section>
+<section id="compartments">
 <h2>Compartments<a class="headerlink" href="#compartments" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.ExecutableModel.getCompartmentIds">
@@ -628,8 +630,8 @@ array of all the  values to set.</p></li>
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="global-parameters">
+</section>
+<section id="global-parameters">
 <h2>Global Parameters<a class="headerlink" href="#global-parameters" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.ExecutableModel.getGlobalParameterIds">
@@ -696,8 +698,8 @@ array of all the values to set.</p></li>
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="reactions">
+</section>
+<section id="reactions">
 <h2>Reactions<a class="headerlink" href="#reactions" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.ExecutableModel.getNumReactions">
@@ -749,8 +751,8 @@ order of reaction rates is given by the order of Ids returned by getReactionIds(
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="events">
+</section>
+<section id="events">
 <h2>Events<a class="headerlink" href="#events" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.ExecutableModel.getNumEvents">
@@ -762,8 +764,8 @@ order of reaction rates is given by the order of Ids returned by getReactionIds(
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="rate-rules">
+</section>
+<section id="rate-rules">
 <h2>Rate Rules<a class="headerlink" href="#rate-rules" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.ExecutableModel.getNumRateRules">
@@ -790,8 +792,8 @@ order of reaction rates is given by the order of Ids returned by getReactionIds(
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="stoichiometry">
+</section>
+<section id="stoichiometry">
 <h2>Stoichiometry<a class="headerlink" href="#stoichiometry" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.ExecutableModel.getStoichiometry">
@@ -813,8 +815,8 @@ large and only a single coefficient is needed.</p>
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="conserved-moieties">
+</section>
+<section id="conserved-moieties">
 <h2>Conserved Moieties<a class="headerlink" href="#conserved-moieties" title="Permalink to this headline"></a></h2>
 <p>Refer to <code class="xref py py-attr docutils literal notranslate"><span class="pre">RoadRunner.conservedMoietyAnalysis</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES</span></code> for more information.</p>
 <dl class="py method">
@@ -898,8 +900,8 @@ array of all the  values to set.</p></li>
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="misc">
+</section>
+<section id="misc">
 <h2>Misc<a class="headerlink" href="#misc" title="Permalink to this headline"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.ExecutableModel.getAllTimeCourseComponentIds">
@@ -1020,8 +1022,8 @@ It also resets all parameter back to the values they had when the model was firs
 The scope of reset includes all initial values and parameters, etc.</p>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -1034,7 +1036,7 @@ The scope of reset includes all initial values and parameters, etc.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

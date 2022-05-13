@@ -7,16 +7,31 @@
 
 #define NOMINMAX
 
-#include <llvm/Analysis/TargetLibraryInfo.h>
 #include <rrSparse.h>
-#include "llvm/IR/IRBuilder.h"
 #include "LLVMException.h"
+#include "rrSparse.h"
+#include <unordered_map>
+
+#ifdef _MSC_VER
+#pragma warning(disable: 4146)
+#pragma warning(disable: 4141)
+#pragma warning(disable: 4267)
+#pragma warning(disable: 4624)
+#endif
+
+#include <llvm/Analysis/TargetLibraryInfo.h>
+#include "llvm/IR/IRBuilder.h"
+#include "llvm/ExecutionEngine/ObjectCache.h"
 #include "llvm/Target/TargetMachine.h"
 #include "llvm/Object/ObjectFile.h"
-#include "llvm/ExecutionEngine/ObjectCache.h"
-#include "rrSparse.h"
 #include "llvm/IR/Mangler.h"
-#include <unordered_map>
+
+#ifdef _MSC_VER
+#pragma warning(default: 4146)
+#pragma warning(default: 4141)
+#pragma warning(default: 4267)
+#pragma warning(default: 4624)
+#endif
 
 namespace rr {
     class ExecutableModel;

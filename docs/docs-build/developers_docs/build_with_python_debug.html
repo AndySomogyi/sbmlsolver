@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Build roadrunner using Python’s debug build &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -53,6 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
@@ -91,14 +93,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="build-roadrunner-using-python-s-debug-build">
+  <section id="build-roadrunner-using-python-s-debug-build">
 <h1>Build roadrunner using Python’s debug build<a class="headerlink" href="#build-roadrunner-using-python-s-debug-build" title="Permalink to this headline"></a></h1>
 <p>Get the CPython source code:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/python/cpython.git
 </pre></div>
 </div>
-</div>
-<div class="section" id="windows">
+</section>
+<section id="windows">
 <h1>Windows<a class="headerlink" href="#windows" title="Permalink to this headline"></a></h1>
 <p>Build CPython in debug mode:</p>
 <div class="highlight-powerhsell notranslate"><div class="highlight"><pre><span></span>.\PCbuild\build.bat -e -d -p x64
@@ -115,7 +117,7 @@ we can use:</p>
 </pre></div>
 </div>
 <p>Now build roadrunner like normal but passing <code class="docutils literal notranslate"><span class="pre">-DPython_ROOT_DIR=D:\cpython\install-cpython\x64\dbg</span></code></p>
-</div>
+</section>
 
 
            </div>
@@ -127,7 +129,7 @@ we can use:</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Parallel RoadRunnerMap &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -96,7 +97,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="parallel-roadrunnermap">
+  <section id="parallel-roadrunnermap">
 <h1>Parallel RoadRunnerMap<a class="headerlink" href="#parallel-roadrunnermap" title="Permalink to this headline"></a></h1>
 <p>RoadRunner compiles sbml code into machine code for fast execution of
 model simulations. However model compilation takes time and can be prohibitory
@@ -153,7 +154,7 @@ in the following examples.</p>
 <span class="linenos">31</span>    <span class="n">get_biomodels_folder</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="section" id="loading-models-1-thread">
+<section id="loading-models-1-thread">
 <h2>Loading Models: 1 Thread<a class="headerlink" href="#loading-models-1-thread" title="Permalink to this headline"></a></h2>
 <p>When a single thread is requested, serial algorithms take over from the parallel ones.
 This avoids some of the overhead required to set up multiple threads and
@@ -191,8 +192,8 @@ is useful when you only have a few models to manage.</p>
 <span class="linenos">31</span><span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="loading-models-multithreading">
+</section>
+<section id="loading-models-multithreading">
 <h2>Loading Models: Multithreading<a class="headerlink" href="#loading-models-multithreading" title="Permalink to this headline"></a></h2>
 <p>To use multithreading, pass the number of threads you want to use
 in to the <cite>RoadRunnerMap</cite> constructor.</p>
@@ -226,8 +227,8 @@ in to the <cite>RoadRunnerMap</cite> constructor.</p>
 <span class="linenos">28</span><span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="roadrunnermap-has-a-dict-like-interface">
+</section>
+<section id="roadrunnermap-has-a-dict-like-interface">
 <h2>RoadRunnerMap has a dict-like interface<a class="headerlink" href="#roadrunnermap-has-a-dict-like-interface" title="Permalink to this headline"></a></h2>
 <p>Many of the functions you are used to from Python’s <cite>dict</cite> object
 are also available in <cite>RoadRunnerMap</cite>. The
@@ -293,8 +294,8 @@ O(N) as the map is iterated over to construct lists at runt time.</p>
 <span class="linenos">57</span><span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="inserting-new-models">
+</section>
+<section id="inserting-new-models">
 <h2>Inserting new models<a class="headerlink" href="#inserting-new-models" title="Permalink to this headline"></a></h2>
 <p>Insertion of a new model into the dictionary works much like you might expect,
 except that instead of passing in a fully constructed RoadRunner model,
@@ -371,8 +372,8 @@ may specify their own key manually.</p>
 <span class="linenos">63</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -385,7 +386,7 @@ may specify their own key manually.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>What is libRoadRunner &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -57,6 +58,7 @@
 <li class="toctree-l2"><a class="reference internal" href="plotting_data.html">Plotting Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changing_initial_conditions.html">Changing Initial Conditions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="solvers.html">Roadrunner Solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_engines.html">Jit Engines</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#quickstart">Quickstart</a></li>
 </ul>
 </li>
@@ -73,6 +75,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
@@ -104,14 +107,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="what-is-libroadrunner">
+  <section id="what-is-libroadrunner">
 <h1>What is libRoadRunner<a class="headerlink" href="#what-is-libroadrunner" title="Permalink to this headline"></a></h1>
 <p>RoadRunner is a package for loading, simulating and
 analyzing SBML based systems biology models utilzing JIT compilation.</p>
 <p>RoadRunner 1.4.3</p>
 <p>Up to date documentation can be found on <a class="reference external" href="http://libroadrunner.org/">http://libroadrunner.org/</a>.</p>
 <p>Also <a class="reference external" href="../index.html">documentation home page</a> provides an introduction.</p>
-<div class="section" id="licence-and-copyright">
+<section id="licence-and-copyright">
 <h2>Licence and Copyright<a class="headerlink" href="#licence-and-copyright" title="Permalink to this headline"></a></h2>
 <p>libRoadRunner is free and open source. Licensing and Distribution
 Terms can be found in the LICENCE.txt file in the root directory
@@ -119,8 +122,8 @@ of the distribution.</p>
 <p>Copyright (C) 2012-2016 University of Washington, Seattle, WA, USA</p>
 <p>Licensed under the Apache License, Version 2.0: <a class="reference external" href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a></p>
 <p><a class="reference external" href="http://libroadrunner.org/">http://libroadrunner.org/</a></p>
-</div>
-<div class="section" id="fundamental-objects">
+</section>
+<section id="fundamental-objects">
 <h2>Fundamental Objects<a class="headerlink" href="#fundamental-objects" title="Permalink to this headline"></a></h2>
 <p>The libRoadRunner package uses two fundametal objects e.g. <code class="docutils literal notranslate"><span class="pre">rr</span></code> of
 class <code class="docutils literal notranslate"><span class="pre">RoadRunner</span></code> and e.g. <code class="docutils literal notranslate"><span class="pre">rr.model</span></code> of class <code class="docutils literal notranslate"><span class="pre">ExecutableModel</span></code>.</p>
@@ -141,8 +144,8 @@ JIT compilation, integration and output.</p></li>
 </dl>
 <p>The Python API is a very clean simple interface that uses all native Python objects.
 All the returned types are structured <cite>Numpy</cite> arrays.</p>
-</div>
-<div class="section" id="example-of-libroadrunner-in-use">
+</section>
+<section id="example-of-libroadrunner-in-use">
 <h2>Example of libRoadRunner in Use<a class="headerlink" href="#example-of-libroadrunner-in-use" title="Permalink to this headline"></a></h2>
 <p>Transcript from an Python session to demonstrate libRoadRunner use on this interactive Python console.</p>
 <p><strong>Import</strong> roardrunner and numpy:</p>
@@ -228,8 +231,8 @@ If the optional prameter &#39;show&#39; [default is True] is given, the pylab
 show() method is called.
 </pre></div>
 </div>
-</div>
-<div class="section" id="technical-footnotes">
+</section>
+<section id="technical-footnotes">
 <h2>Technical Footnotes<a class="headerlink" href="#technical-footnotes" title="Permalink to this headline"></a></h2>
 <p><strong>Numpy arrays</strong></p>
 <p>Most of the time, Numpy array holds a pointer to a block of data owned
@@ -249,8 +252,8 @@ example, if one has a cell with an equation that depends on other cell, and thos
 other cell depend on other values, setting the value of any upstream cell automatically
 causes that value to cascade down to the terminal cells. The LLVM back end roadruner
 function identically.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -263,7 +266,7 @@ function identically.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

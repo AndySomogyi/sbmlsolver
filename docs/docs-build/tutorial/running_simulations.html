@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Running Simulations &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -51,6 +52,7 @@
 <li class="toctree-l2"><a class="reference internal" href="plotting_data.html">Plotting Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changing_initial_conditions.html">Changing Initial Conditions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="solvers.html">Roadrunner Solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_engines.html">Jit Engines</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#quickstart">Quickstart</a></li>
 </ul>
 </li>
@@ -67,6 +69,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
@@ -98,7 +101,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="running-simulations">
+  <section id="running-simulations">
 <h1>Running Simulations<a class="headerlink" href="#running-simulations" title="Permalink to this headline"></a></h1>
 <p>Once a model is successfully loaded we can run a time course simulation. To run a simulation we use the
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">simulate()</span></code> method:</p>
@@ -158,7 +161,7 @@ with slightly different parameters values. For this we must reset the model to i
 </pre></div>
 </div>
 <p>RoadRunner also has two other reset methods: <code class="xref py py-meth docutils literal notranslate"><span class="pre">resetAll()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">resetToOrigin()</span></code>. These are typically only used in advanced scenarios. This is because RoadRunner maintains its own copy of the “initial” value of every quantity, which can be set via <code class="docutils literal notranslate"><span class="pre">rr_instance.setValue('init(quantity)',123)</span></code>. When <code class="xref py py-meth docutils literal notranslate"><span class="pre">resetAll()</span></code> is called, it resets the quantity to RoadRunner’s internal copy, not the SBML-defined value. <code class="xref py py-meth docutils literal notranslate"><span class="pre">resetToOrigin()</span></code> completely reverts everything in the model back to the SBML-specified values, whereas <code class="xref py py-meth docutils literal notranslate"><span class="pre">resetAll()</span></code> preserves any changes you have made to initial values.</p>
-</div>
+</section>
 
 
            </div>
@@ -171,7 +174,7 @@ with slightly different parameters values. For this we must reset the model to i
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

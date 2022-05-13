@@ -270,3 +270,59 @@ TEST_F(CAPICoreTest, CheckRK4WorksFromC) {
         EXPECT_NEAR((*cvode)(cvode->RSize() - 1, k), (*rk4)(rk4->RSize() - 1, k), 1e-6);
     }
 }
+
+TEST_F(CAPICoreTest, SetAndGetMDiffStepSize) {
+    string xml = getFileContent((testModelFilePath.string()));
+    RRHandle rr = createRRInstance();
+    EXPECT_TRUE(loadSBML(rr, xml.c_str()));
+
+    double mDiffStepSize;
+    EXPECT_TRUE(getDiffStepSize(rr, &mDiffStepSize));
+    EXPECT_EQ(mDiffStepSize, 0.02);
+
+    EXPECT_TRUE(setDiffStepSize(rr, 0.06));
+
+    EXPECT_TRUE(getDiffStepSize(rr, &mDiffStepSize));
+    EXPECT_EQ(mDiffStepSize, 0.06);
+
+    freeRRInstance(rr);
+}
+
+TEST_F(CAPICoreTest, CheckGetCC) {
+    
+    RRHandle rrH = createRRInstance();
+    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    double K = 0.8;
+    double ss_val;
+    double prev_AP;
+    double AP;
+    EXPECT_TRUE(steadyState(rrH, &ss_val));
+    EXPECT_TRUE(getCC(rrH, "AP", "K", &prev_AP));
+
+    bool found_local_max = false;
+    bool success = true;
+    for (int i = 1; i < 20; i++) {
+        K = K + 0.01;
+        EXPECT_TRUE(setValue(rrH, "K", K));
+        EXPECT_TRUE(steadyState(rrH, &ss_val));
+        EXPECT_TRUE(getCC(rrH, "AP", "K", &AP));
+        if (!found_local_max) {
+            if (AP < prev_AP) {
+                found_local_max = true;
+            }
+        }
+        else {
+            if (AP > prev_AP) {
+                success = false;
+                break;
+            }
+        }
+        prev_AP = AP;
+    }
+
+    EXPECT_TRUE(success);
+
+    delete rrH;
+
+}

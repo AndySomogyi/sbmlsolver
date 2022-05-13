@@ -4,6 +4,7 @@
 #include "rrStringUtils.h"
 #include "gtest/gtest.h"
 #include "LLVMExecutableModel.h"
+#include "rrConfig.h"
 #include <filesystem>
 #include "RoadRunnerTest.h"
 
@@ -21,6 +22,147 @@ public:
 };
 
 
+TEST_F(ModelAnalysisTests, issue986a) {
+    //Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::LLJIT);
+    rr::RoadRunner roadrunner((modelAnalysisModelsDir / "BIOMD0000000021.xml").string());
+    double t_start = 0;
+    double delta_time = 0.5;
+
+    //create copy for checkpoint
+    rr::RoadRunner roadrunnerB;
+
+    // save checkpoint
+    roadrunnerB = roadrunner;
+    std::stringstream* saved = roadrunnerB.saveStateS();
+    roadrunner.oneStep(t_start, delta_time);
+    std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
+
+    //go back to checkpoint if FEM did not converged
+    std::stringstream* saved2 = roadrunnerB.saveStateS();
+    //roadrunner = roadrunnerB;
+    roadrunner.loadStateS(saved2);
+    roadrunner = roadrunnerB;
+
+    //rerun with smaller timestep
+    roadrunner.oneStep(t_start, (delta_time / 2));
+
+    std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
+}
+
+
+TEST_F(ModelAnalysisTests, issue986b) {
+    rr::RoadRunner roadrunner((modelAnalysisModelsDir / "BIOMD0000000021.xml").string());
+    double t_start = 0;
+    double delta_time = 0.5;
+
+    // save State for checkpoint
+    std::stringstream* roadrunner_state = roadrunner.saveStateS();
+
+    roadrunner.oneStep(t_start, delta_time);
+    std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
+
+    //go back to checkpoint if FEM did not converged
+    roadrunner.loadStateS(roadrunner_state);
+
+    //save State again
+    std::stringstream* roadrunner_state2 = roadrunner.saveStateS();
+
+    //rerun with smaller timestep
+    roadrunner.oneStep(t_start, (delta_time / 2));
+
+    std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
+
+    //go back to checkpoint if FEM did not converged
+    roadrunner.loadStateS(roadrunner_state2);
+
+    //rerun with smaller timestep
+    roadrunner.oneStep(t_start, (delta_time / 4));
+
+    std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
+}
+
+
+TEST_F(ModelAnalysisTests, checkGetRatesOfChangeIds) {
+    //If a model has non-species with rates of change, 'getRatesOfChange' works fine,
+    // but the labels for those rates were wrong. This tests that they were fixed.
+    RoadRunner rr((modelAnalysisModelsDir / "ratesOfChange.xml").string());
+    vector<double> out = rr.getRatesOfChange();
+    vector<string> outids = rr.getRateOfChangeIds();
+    ASSERT_EQ(out.size(), outids.size());
+    EXPECT_NEAR(out[0], 0.7, 0.0001);
+    EXPECT_NEAR(out[1], 3.0, 0.0001);
+    EXPECT_NEAR(out[2], 0.5, 0.0001);
+    EXPECT_NEAR(out[3], -.3, 0.0001);
+    EXPECT_NEAR(out[4], 0.3, 0.0001);
+    EXPECT_NEAR(out[5], 0.0, 0.0001);
+    EXPECT_STREQ(outids[0].c_str(), "S3'");
+    EXPECT_STREQ(outids[1].c_str(), "C'");
+    EXPECT_STREQ(outids[2].c_str(), "k1'");
+    EXPECT_STREQ(outids[3].c_str(), "S1'");
+    EXPECT_STREQ(outids[4].c_str(), "S2'");
+    EXPECT_STREQ(outids[5].c_str(), "S5'");
+
+    ls::DoubleMatrix out2m = rr.getRatesOfChangeNamedArray();
+    vector<string> cols = out2m.getColNames();
+    EXPECT_EQ(cols, outids);
+}
+
+
+TEST_F(ModelAnalysisTests, checkGetRatesOfChangeIdsNonBoundarySpeciesRate) {
+    //A species can be 'boundary=false' and still have a rate rule if it
+    // never shows up in a reaction.  This makes it 'floating', which makes
+    // things more awkward for situations like this.
+    RoadRunner rr((modelAnalysisModelsDir / "ratesOfChange.xml").string());
+    rr.setBoundary("S3", false);
+    vector<double> out = rr.getRatesOfChange();
+    vector<string> outids = rr.getRateOfChangeIds();
+    ASSERT_EQ(out.size(), outids.size());
+    EXPECT_NEAR(out[0], 0.7, 0.0001);
+    EXPECT_NEAR(out[1], 3.0, 0.0001);
+    EXPECT_NEAR(out[2], 0.5, 0.0001);
+    EXPECT_NEAR(out[3], -.3, 0.0001);
+    EXPECT_NEAR(out[4], 0.3, 0.0001);
+    EXPECT_NEAR(out[5], 0.0, 0.0001);
+    EXPECT_STREQ(outids[0].c_str(), "S3'");
+    EXPECT_STREQ(outids[1].c_str(), "C'");
+    EXPECT_STREQ(outids[2].c_str(), "k1'");
+    EXPECT_STREQ(outids[3].c_str(), "S1'");
+    EXPECT_STREQ(outids[4].c_str(), "S2'");
+    EXPECT_STREQ(outids[5].c_str(), "S5'");
+
+    ls::DoubleMatrix out2m = rr.getRatesOfChangeNamedArray();
+    vector<string> cols = out2m.getColNames();
+    EXPECT_EQ(cols, outids);
+}
+
+
+TEST_F(ModelAnalysisTests, checkGetRatesOfChangeIdsConservedMoiety) {
+    //As above, but in a model with conserved moieties
+    RoadRunner rr((modelAnalysisModelsDir / "conserved_cycle.xml").string());
+    rr.setConservedMoietyAnalysis(true);
+    vector<double> out = rr.getRatesOfChange();
+    vector<string> outids = rr.getRateOfChangeIds();
+    ASSERT_EQ(out.size(), outids.size());
+    EXPECT_NEAR(out[0], -0.10748794268115947, 0.000001);
+    EXPECT_STREQ(outids[0].c_str(), "S1'");
+    ls::DoubleMatrix out2m = rr.getRatesOfChangeNamedArray();
+    vector<string> cols = out2m.getColNames();
+    EXPECT_EQ(cols, outids);
+
+    rr.setConservedMoietyAnalysis(false);
+    out = rr.getRatesOfChange();
+    outids = rr.getRateOfChangeIds();
+    ASSERT_EQ(out.size(), outids.size());
+    EXPECT_NEAR(out[0], -0.10748794268115947, 0.000001);
+    EXPECT_NEAR(out[1], 0.10748794268115947, 0.000001);
+    EXPECT_STREQ(outids[0].c_str(), "S1'");
+    EXPECT_STREQ(outids[1].c_str(), "S2'");
+    out2m = rr.getRatesOfChangeNamedArray();
+    cols = out2m.getColNames();
+    EXPECT_EQ(cols, outids);
+}
+
+
 TEST_F(ModelAnalysisTests, checkGetFullStoichimetryMatrixWarningMsg) {
     //If a model has a lot of reactions but only a few species, it would sometimes
     // get too small of a scratch space to use in lapack.  The only way to tell
@@ -36,7 +178,7 @@ TEST_F(ModelAnalysisTests, checkUCCForSet) {
     //Behind the scenes, we get and then set various values to calculate ucc, and 
     // have to ensure that we don't worry about setting something that's already set.
     double val = rr.getValue("ucc(P0_to_P1, V_mT)");
-    EXPECT_NEAR(val, 7.78235, 0.001);
+    EXPECT_NEAR(val, 7.84724, 0.001);
 }
 
 TEST_F(ModelAnalysisTests, getConcentrationRateSimple) {

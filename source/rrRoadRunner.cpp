@@ -4,73 +4,58 @@
 
 #include "rrOSSpecifics.h"
 
-#include <iostream>
-#include <list>
-#include "rrRoadRunner.h"
-#include "rrException.h"
+#include "ApproxSteadyStateDecorator.h"
 #include "ExecutableModelFactory.h"
-#include "rrCompiler.h"
-#include "rrLogger.h"
-#include "rrUtils.h"
-#include "rrExecutableModel.h"
-#include "rr-libstruct/lsLA.h"
-#include "rr-libstruct/lsLibla.h"
-#include "rrConstants.h"
-#include "rrVersionInfo.h"
+#include "ForwardSensitivitySolver.h"
 #include "Integrator.h"
-#include "SteadyStateSolver.h"
-#include "rrSBMLReader.h"
-#include "rrConfig.h"
+#include "IntegratorFactory.h"
+#include "PresimulationDecorator.h"
+#include "PresimulationProgramDecorator.h"
 #include "SBMLValidator.h"
-#include "sbml/ListOf.h"
-#include "sbml/Model.h"
-#include "sbml/math/FormulaParser.h"
-#include "sbml/common/operationReturnValues.h"
 #include "SVD.h"
 #include "SensitivitySolver.h"
-#include "ForwardSensitivitySolver.h"
 #include "SensitivitySolverFactory.h"
+#include "SteadyStateSolver.h"
 #include "SteadyStateSolverFactory.h"
-#include "IntegratorFactory.h"
+#include "rr-libstruct/lsLA.h"
+#include "rr-libstruct/lsLibla.h"
+#include "rrCompiler.h"
+#include "rrConfig.h"
+#include "rrConstants.h"
+#include "rrException.h"
+#include "rrExecutableModel.h"
+#include "rrLogger.h"
+#include "rrRoadRunner.h"
+#include "rrSBMLReader.h"
+#include "rrUtils.h"
+#include "rrVersionInfo.h"
+#include "sbml/ListOf.h"
+#include "sbml/Model.h"
+#include "sbml/common/operationReturnValues.h"
+#include "sbml/math/FormulaParser.h"
 
-
-#ifdef _MSC_VER
-#pragma warning(disable: 4146)
-#pragma warning(disable: 4141)
-#pragma warning(disable: 4267)
-#pragma warning(disable: 4624)
-#endif
-
+//Have to include these last because of something to do with min and max in Random.h
+#include <rr-libstruct/lsLibStructural.h>
+#include <sbml/UnitKind.h>
+#include <sbml/conversion/SBMLLevelVersionConverter.h>
+#include <sbml/conversion/SBMLLocalParameterConverter.h>
+#include <Poco/File.h>
+#include <assert.h>
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <iostream>
+#include <list>
+#include <list>
+#include <math.h>
+#include <memory>
+#include <thread>
+#include <thread_pool.hpp>
+#include <utility>
+//Shouldn't need the warning-disabling #pragmas here, since these are all links to *our* llvm, not the offical LLVM source.
 #include "llvm/LLVMExecutableModel.h"
 #include "llvm/ModelResources.h"
 #include "llvm/IR/IRBuilder.h"
-#include "PresimulationDecorator.h"
-#include "ApproxSteadyStateDecorator.h"
-#include "PresimulationProgramDecorator.h"
-
-#ifdef _MSC_VER
-#pragma warning(default: 4146)
-#pragma warning(default: 4141)
-#pragma warning(default: 4267)
-#pragma warning(default: 4624)
-#endif
-
-#include <sbml/conversion/SBMLLocalParameterConverter.h>
-#include <sbml/conversion/SBMLLevelVersionConverter.h>
-#include <sbml/UnitKind.h>
-#include <thread>
-#include <thread_pool.hpp>
-
-#include <iostream>
-#include <math.h>
-#include <assert.h>
-#include <rr-libstruct/lsLibStructural.h>
-#include <Poco/File.h>
-#include <list>
-#include <cstdlib>
-#include <fstream>
-#include <memory>
-#include <utility>
 
 
 #ifdef _MSC_VER
@@ -267,7 +252,7 @@ namespace rr {
         bool simulatedSinceReset = false;
 
         RoadRunnerImpl(const std::string &uriOrSBML, const Dictionary *dict) :
-                mDiffStepSize(0.05),
+                mDiffStepSize(0.02),
                 mSteadyStateThreshold(1.E-2),
                 simulationResult(),
                 integrator(0),
@@ -283,7 +268,7 @@ namespace rr {
         }
 
         RoadRunnerImpl(const std::istream &in) :
-                mDiffStepSize(0.05),
+                mDiffStepSize(0.02),
                 mSteadyStateThreshold(1.E-2),
                 simulationResult(),
                 integrator(NULL),
@@ -302,7 +287,7 @@ namespace rr {
 
         RoadRunnerImpl(const std::string &_compiler, const std::string &_tempDir,
                        const std::string &_supportCodeDir) :
-                mDiffStepSize(0.05),
+                mDiffStepSize(0.02),
                 mSteadyStateThreshold(1.E-2),
                 simulationResult(),
                 integrator(NULL),
@@ -355,6 +340,58 @@ namespace rr {
                 model.reset(ExecutableModelFactory::createModel(istr, loadOpt.modelGeneratorOpt));
                 syncAllSolversWithModel(model.get());
             }
+            //Set up integrators.
+            // We loop through all the integrators in the source, setting the current one to
+            //  each in turn, and setting the values of that current one based on the one in
+            //  the std::vector of the original rr.
+            for (size_t in = 0; in < rri.integrators.size(); in++) {
+                string name = rri.integrators[in]->getName();
+                Integrator* newint = dynamic_cast<Integrator*>(
+                    IntegratorFactory::getInstance().New(name, model.get())
+                    );
+                integrators.push_back(newint);
+                for (const std::string& k : rri.integrators[in]->getSettings()) {
+                    auto x = rri.integrators[in]->getValue(k);
+                    newint->setValue(k, x);
+                }
+                if (newint->getName() == name) {
+                    integrator = newint;
+                    if (model) {
+                        integrator->restart(model->getTime());
+                    }
+                }
+            }
+
+            //Set up steady state solvers as we did the integrators.
+            for (size_t in = 0; in < rri.steady_state_solvers.size(); in++) {
+                string name = rri.steady_state_solvers[in]->getName();
+                SteadyStateSolver* newsolver = dynamic_cast<SteadyStateSolver*>(
+                    SteadyStateSolverFactory::getInstance().New(name, model.get()));
+                steady_state_solvers.push_back(newsolver);
+                for (const std::string& k : rri.steady_state_solvers[in]->getSettings()) {
+                    auto x = rri.steady_state_solvers[in]->getValue(k);
+                    newsolver->setValue(k, x);
+                }
+                if (newsolver->getName() == name) {
+                    steady_state_solver = newsolver;
+                }
+            }
+
+            //Set up sensitivity solvers as we did the integrators.
+            for (size_t in = 0; in < rri.sensitivity_solvers.size(); in++) {
+                string name = rri.sensitivity_solvers[in]->getName();
+                SensitivitySolver* newsolver = dynamic_cast<SensitivitySolver*>(
+                    SensitivitySolverFactory::getInstance().New(name, model.get()));
+                sensitivity_solvers.push_back(newsolver);
+                for (const std::string& k : rri.sensitivity_solvers[in]->getSettings()) {
+                    auto x = rri.sensitivity_solvers[in]->getValue(k);
+                    newsolver->setValue(k, x);
+                }
+                if (newsolver->getName() == name) {
+                    sensitivity_solver = newsolver;
+                }
+            }
+
         }
 
         ~RoadRunnerImpl() {
@@ -593,52 +630,6 @@ namespace rr {
         : impl(new RoadRunnerImpl(*rr.impl))
         , dataVersionNumber(RR_VERSION_MAJOR * 10 + RR_VERSION_MINOR)
     {
-        //Set up integrators.
-        // We loop through all the integrators in the source, setting the current one to
-        //  each in turn, and setting the values of that current one based on the one in
-        //  the std::vector of the original rr.
-        for (size_t in = 0; in < rr.impl->integrators.size(); in++) {
-            setIntegrator(rr.impl->integrators[in]->getName());
-            for (const std::string &k: rr.impl->integrators[in]->getSettings()) {
-                auto x = rr.impl->integrators[in]->getValue(k);
-                impl->integrator->setValue(k, x);
-            }
-        }
-        //Set the current integrator to the correct one.
-        if (rr.impl->integrator) {
-            setIntegrator(rr.impl->integrator->getName());
-            //Restart the integrator and reset the model time
-            if (impl->model) {
-                impl->integrator->restart(impl->model->getTime());
-            }
-        }
-
-        //Set up the steady state solvers, the same as the integrators.
-        for (size_t ss = 0; ss < rr.impl->steady_state_solvers.size(); ss++) {
-            setSteadyStateSolver(rr.impl->steady_state_solvers[ss]->getName());
-            for (std::string k: rr.impl->steady_state_solvers[ss]->getSettings()) {
-                impl->steady_state_solver->setValue(k, rr.impl->steady_state_solvers[ss]->getValue(k));
-            }
-        }
-
-        if (rr.impl->steady_state_solver) {
-            setSteadyStateSolver(rr.impl->steady_state_solver->getName());
-        }
-
-        //Set up the sensitivity state solvers, the same as the integrators and steady state
-        for (size_t ss = 0; ss < rr.impl->sensitivity_solvers.size(); ss++) {
-            std::string name = rr.impl->sensitivity_solvers[ss]->getName();
-            setSensitivitySolver(name);
-            for (std::string k: rr.impl->sensitivity_solvers[ss]->getSettings()) {
-                auto val = rr.impl->sensitivity_solvers[ss]->getValue(k);
-                impl->sensitivity_solver->setValue(k, val);
-            }
-        }
-
-        if (rr.impl->sensitivity_solver) {
-            setSensitivitySolver(rr.impl->sensitivity_solver->getName());
-        }
-
         reset(SelectionRecord::TIME);
 
         //Increase instance count..
@@ -646,8 +637,19 @@ namespace rr {
         mInstanceCount++; // static, so one thread at a time
         impl->mInstanceID = mInstanceCount;
         rrMtx.unlock();
+    }
 
+    void RoadRunner::operator=(const RoadRunner& rr)
+    {
+        delete impl;
+        impl = new RoadRunnerImpl(*rr.impl);
+        reset(SelectionRecord::TIME);
 
+        //Increase instance count..
+        rrMtx.lock();
+        mInstanceCount++; // static, so one thread at a time
+        impl->mInstanceID = mInstanceCount;
+        rrMtx.unlock();
     }
 
     RoadRunner::~RoadRunner() {
@@ -2459,7 +2461,7 @@ namespace rr {
         delete[] vals;
         delete[] ssv;
 
-        v.setColNames(getFloatingSpeciesIds());
+        v.setColNames(getRateOfChangeIds());
 
         return v;
     }
@@ -4344,9 +4346,14 @@ namespace rr {
 
         SelectionRecord sel(sId);
 
-        if (sel.selectionType == SelectionRecord::INITIAL_AMOUNT ||
-            sel.selectionType == SelectionRecord::INITIAL_CONCENTRATION) {
-            reset();
+        if (sel.selectionType & SelectionRecord::INITIAL) {
+            reset(
+                SelectionRecord::TIME |
+                SelectionRecord::RATE |
+                SelectionRecord::FLOATING |
+                SelectionRecord::BOUNDARY |
+                SelectionRecord::COMPARTMENT |
+                SelectionRecord::GLOBAL_PARAMETER);
         }
     }
 
@@ -4888,13 +4895,29 @@ namespace rr {
     }
 
     std::vector<std::string> RoadRunner::getRateOfChangeIds() {
-        std::list<std::string> list;
+        std::list<std::string> rate_list, ind_spec_list;
 
         if (impl->model) {
-            impl->model->getIds(SelectionRecord::FLOATING_AMOUNT_RATE, list);
+            impl->model->getIds(SelectionRecord::RATE, rate_list);
+            impl->model->getIds(SelectionRecord::FLOATING_AMOUNT_RATE, ind_spec_list);
         }
 
-        return std::vector<std::string>(list.begin(), list.end());
+        std::vector<std::string> ret(rate_list.begin(), rate_list.end());
+        for (auto isl = ind_spec_list.begin(); isl != ind_spec_list.end(); isl++)
+        {
+            bool found = false;
+            for (auto rr = rate_list.begin(); rr != rate_list.end(); rr++)
+            {
+                if (*rr == *isl) {
+                    found = true;
+                }
+            }
+            if (!found)
+            {
+                ret.push_back(*isl);
+            }
+        }
+        return ret;
     }
 
     std::vector<std::string> RoadRunner::getCompartmentIds() {

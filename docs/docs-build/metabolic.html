@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Metabolic Control Analysis &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -58,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="parallel/parallel_index.html">Parallel RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
@@ -88,36 +90,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="metabolic-control-analysis">
+  <section id="metabolic-control-analysis">
 <h1>Metabolic Control Analysis<a class="headerlink" href="#metabolic-control-analysis" title="Permalink to this headline"></a></h1>
-<div class="section" id="preliminaries">
+<section id="preliminaries">
 <h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline"></a></h2>
 <p>Metabolic control analysis is the study of how sensitive the system is to pertubrations in parameters and how those perturbations
 progagate through the network. Two kinds of sensitivity are defined, system and local. The local sensitivities are
 described by the elasticities. These are defined as follows:</p>
 <div class="math">
-<p><img src="_images/math/e63962441d5dd8a9a866eb7e3def06cca1d95758.png" alt="\varepsilon^v_S = \frac{\partial v}{\partial S} \frac{S}{v} = \frac{\partial \ln v}{\partial \ln S}"/></p>
-</div><p>Given a reaction rate <img class="math" src="_images/math/5bd39cc00b680a56dad487c2aa31394db3e90140.png" alt="v_i"/>, the elasticity describes how a given effector of the reaction step affects
+<p><span class="math">\varepsilon^v_S = \frac{\partial v}{\partial S} \frac{S}{v} = \frac{\partial \ln v}{\partial \ln S}</span></p>
+</div><p>Given a reaction rate <span class="math">v_i</span>, the elasticity describes how a given effector of the reaction step affects
 the reaction rate. Because the definition is in terms of partial deriviatives, any effector that is perturbed assumes
 that all other potential effectors are unchanged.</p>
 <p>The system sensitivities are described by the control and response coefficients. These come in two forms, flux
 and concentration. The flux control coefficients measures how senstive a given flux is to a perturbation in the
 local rate of a reaction step. Often the local rate is perturbed by changing the enzyme concentration at the step.
-In this siutation the flux control coefficicent with respect to enzyme <img class="math" src="_images/math/9c58f0e8b0fe372667bf1fad2943133f3a2b4370.png" alt="E_i"/> is defined as follow:</p>
+In this siutation the flux control coefficicent with respect to enzyme <span class="math">E_i</span> is defined as follow:</p>
 <div class="math">
-<p><img src="_images/math/7cff1fb3a4e17883b36bd4cf446b3bd8f72a0dd6.png" alt="C^J_{E_i} = \frac{dJ}{dE_i} \frac{E_1}{J} = \frac{d\ln J}{d\ln E_i}"/></p>
+<p><span class="math">C^J_{E_i} = \frac{dJ}{dE_i} \frac{E_1}{J} = \frac{d\ln J}{d\ln E_i}</span></p>
 </div><p>Likewise the concentration control coefficient is defined by:</p>
 <div class="math">
-<p><img src="_images/math/91ae9e829cccc56293bed54d54c13b51ae3af087.png" alt="C^S_{E_i} = \frac{dS}{d E_i} \frac{E_1}{S} = \frac{d\ln S}{d\ln E_i}"/></p>
-</div><p>where <img class="math" src="_images/math/b988975be41fd13b4d091c10202ba19374643586.png" alt="S"/> is a given species. The response coefficients measure the sensitivity of a flux or species concentration
+<p><span class="math">C^S_{E_i} = \frac{dS}{d E_i} \frac{E_1}{S} = \frac{d\ln S}{d\ln E_i}</span></p>
+</div><p>where <span class="math">S</span> is a given species. The response coefficients measure the sensitivity of a flux or species concentration
 to a perturbation in some external effector. These are defined by:</p>
 <div class="math">
-<p><img src="_images/math/ee87ddf656c7e0d3511e97b47f80b6d675a77eb3.png" alt="R^J_{X} = \frac{dJ}{dX} \frac{X}{J} = \frac{d\ln J}{d\ln X}"/></p>
+<p><span class="math">R^J_{X} = \frac{dJ}{dX} \frac{X}{J} = \frac{d\ln J}{d\ln X}</span></p>
 </div><div class="math">
-<p><img src="_images/math/0fded292aa273bcbe6be7682a9744195bc343bd1.png" alt="R^S_{X} = \frac{dJ}{dX} \frac{X}{S} = \frac{d\ln S}{d\ln X}"/></p>
-</div><p>where <img class="math" src="_images/math/ed38fa24f1c94891bd312012aab3f6673be3eb83.png" alt="X"/> is the external effector.</p>
-</div>
-<div class="section" id="methods">
+<p><span class="math">R^S_{X} = \frac{dJ}{dX} \frac{X}{S} = \frac{d\ln S}{d\ln X}</span></p>
+</div><p>where <span class="math">X</span> is the external effector.</p>
+</section>
+<section id="methods">
 <h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline"></a></h2>
 <p>The following methods allow users to obtain various metabolic control coefficients.</p>
 <p>This first block of methods are for parameter independent coefficients.</p>
@@ -140,8 +142,8 @@ RoadRunner.setDiffStepSize
 RoadRunner.getuEE
 RoadRunner.getEE</p>
 </div></blockquote>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -154,7 +156,7 @@ RoadRunner.getEE</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
