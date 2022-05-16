@@ -43,7 +43,7 @@ extensions = [
 ]
 
 # make todo items show in docs
-todo_include_todos = True
+todo_include_todos = False
 
 # Breathe Configuration
 breathe_default_project = "roadrunner"
