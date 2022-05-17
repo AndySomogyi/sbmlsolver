@@ -429,3 +429,21 @@ TEST_F(CAPICoreTest, CheckSetSteadyStateSelectionListEx) {
 
     delete rrH;
 }
+
+TEST_F(CAPICoreTest, CheckGetStoichiometryMatrix) {
+
+    RRHandle rrH = createRRInstance();
+    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    RRDoubleMatrixPtr stoichs = getStoichiometryMatrix(rrH);
+    ASSERT_EQ(stoichs->CSize, 2);
+    ASSERT_EQ(stoichs->RSize, 2);
+    stoichs->Data;
+    EXPECT_EQ(stoichs->Data[0], -1.0);
+    EXPECT_EQ(stoichs->Data[1], 1.0);
+    EXPECT_EQ(stoichs->Data[2], 1.0);
+    EXPECT_EQ(stoichs->Data[3], -1.0);
+
+
+    delete rrH;
+}
