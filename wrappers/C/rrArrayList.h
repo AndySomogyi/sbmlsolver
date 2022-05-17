@@ -11,26 +11,26 @@
 
 namespace rrc
 {
-class StringList;
-using std::vector;
-using std::string;
+    class StringList;
+    using std::vector;
+    using std::string;
 
-/**
- * @internal
- * a proprietaty collection class that is theoretically deprecated, but used extensively in rrc_api.cpp
- */
-class C_DECL_SPEC ArrayList
-{
+    /**
+     * @cond PRIVATE
+     * a proprietaty collection class that is theoretically deprecated, but used extensively in rrc_api.cpp
+     */
+    class C_DECL_SPEC ArrayList
+    {
     protected:
     public:
         vector< ArrayListItemBase* >   mList; //List of ArrayListItemBase items
 
     public:
-                                            ArrayList();
-                                            ArrayList(const ArrayList& cpyMe);
-                                            ArrayList(const string& lbl, const StringList& stringList);
-                                            ArrayList(const string& lbl, const ArrayList& stringList);
-                                           ~ArrayList();
+        ArrayList();
+        ArrayList(const ArrayList& cpyMe);
+        ArrayList(const string& lbl, const StringList& stringList);
+        ArrayList(const string& lbl, const ArrayList& stringList);
+        ~ArrayList();
         unsigned int                        Count() const;
         void                                Clear();
         void                                Add(const int& item);
@@ -42,17 +42,17 @@ class C_DECL_SPEC ArrayList
         void                                Add(const string& lbl, const ArrayList& list);
 
 
-        const ArrayListItemBase&       operator[](int pos) const;
-        ArrayListItemBase&             operator[](int pos);
+        const ArrayListItemBase& operator[](int pos) const;
+        ArrayListItemBase& operator[](int pos);
         void                                operator = (const ArrayList& rhs);
         StringList                          GetStringList(const string& lName);
         StringList                          GetStringList(const int& index);
         string                              GetString(const int& index);
         string                              AsString();
-};
+    };
 
+    C_DECL_SPEC std::ostream& operator<<(std::ostream& stream, const ArrayList& list);
 
-C_DECL_SPEC std::ostream& operator<<(std::ostream& stream, const ArrayList& list);
-
+    /** @endcond */
 }
 #endif

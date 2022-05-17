@@ -23,7 +23,7 @@ using std::vector;
 namespace rr {
 
 /**
- * @internal
+ * @cond PRIVATE
  */
     class RR_DECLSPEC NLEQ1Solver : public NLEQSolver {
     public:
@@ -63,6 +63,7 @@ namespace rr {
         double solve() override;
     };
 
+    /** @endcond */
 }
 
 #endif

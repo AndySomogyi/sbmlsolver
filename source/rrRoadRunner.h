@@ -521,7 +521,6 @@ namespace rr {
         void resetSelectionLists();
 
         /**
-         * @internal
          * set the floating species initial concentrations.
          *
          * equivalent to ExecutableModel::reset, then ExecutableModel::setFloatingSpeciesConcentrations
@@ -1669,7 +1668,7 @@ namespace rr {
         std::vector<double> getGlobalParameterValues();
 
         /**
-         * @internal
+         * Updates the model based on all recent changes.
          */
         void evalModel();
 
@@ -1692,8 +1691,8 @@ namespace rr {
          */
         std::vector<std::string> getReactionIds();
 
-        /**
-         * @internal
+       /**@cond PRIVATE */
+       /**
          * @deprecated
          *
          * C backend only
@@ -1703,7 +1702,6 @@ namespace rr {
         void setTempDir(const std::string &folder);
 
         /**
-         * @internal
          * @deprecated
          *
          * legacy C backend only
@@ -1712,12 +1710,10 @@ namespace rr {
         std::string getTempDir();
 
         /**
-         * @internal
-         *
          * Search for the element with the given ID, but only among SBML elements that have mathematical meaning:  Species, Parameters, Compartments, and SpeciesReferences (in that order).
          */
         static const libsbml::SBase* getElementWithMathematicalMeaning(const libsbml::Model* model, const std::string& id);
-
+        /** endcond */
 
 #endif // #ifndef SWIG
 

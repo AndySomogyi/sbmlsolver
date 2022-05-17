@@ -13,6 +13,11 @@
 
 namespace rrllvm {
 
+    /**
+     * Define and collect ways to generate random values and values from
+     * random distributions.  Of particular use when encountering MathML
+     * defined by the 'Distributions' SBML L3 package.
+     */
     class Random {
     public:
         /**

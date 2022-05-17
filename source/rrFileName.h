@@ -10,7 +10,7 @@ namespace rr
 {
 
 /**
- * @internal
+ * @cond PRIVATE
  * Used in FileName.
  */
 class RR_DECLSPEC FileName
@@ -45,6 +45,7 @@ class RR_DECLSPEC FileName
 };
 
 RR_DECLSPEC std::ostream& operator         <<(std::ostream &os, FileName &obj);
+/** @endcond */
 
 }
 #endif

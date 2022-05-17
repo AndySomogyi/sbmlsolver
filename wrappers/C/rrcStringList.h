@@ -14,7 +14,7 @@ using std::string;
 using std::ostream;
 
 /**
- * @internal
+ * @cond PRIVATE
  */
 class C_DECL_SPEC StringList
 {
@@ -72,7 +72,7 @@ class C_DECL_SPEC StringList
         //operator vector<string>() const { return mStrings; }
         operator const vector<string>&() const { return mStrings;}
 };
-
+/** @endcond */
 
 
 }

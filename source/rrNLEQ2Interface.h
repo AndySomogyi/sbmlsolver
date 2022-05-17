@@ -11,7 +11,7 @@ namespace rr
 {
 
 /**
- * @internal
+ * @cond PRIVATE
  */
 class RR_DECLSPEC NLEQ2Interface : public Dictionary
 {
@@ -140,6 +140,7 @@ public:
     friend class NLEQ2Solver;
 
 };
+/** @endcond */
 }
 
 #endif

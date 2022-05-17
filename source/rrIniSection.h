@@ -16,7 +16,7 @@ typedef NonKeyList::iterator             NonKeyItor;
 
 
 /**
- * @internal
+ * @cond PRIVATE
  * This class stores the definition of a section. A section contains any number
  * of keys (see IniKeys), and may or may not have a comment.
  */
@@ -44,5 +44,6 @@ class RR_DECLSPEC IniSection
            std::string            GetNonKeysAsString();
         std::string            AsString();
 };
+/** @endcond */
 }
 #endif
