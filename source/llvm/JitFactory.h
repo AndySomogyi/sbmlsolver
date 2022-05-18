@@ -12,7 +12,7 @@
 
 namespace rrllvm {
 
-    /**
+    /** @class JitFactory
      * @brief Use the options in LoadSBMLOptions.ModelGeneratorOpt
      * or fall back on the global Config settings to create a
      * Jit.

@@ -134,6 +134,10 @@ private:
 
 std::string to_string(const libsbml::ASTNode *ast);
 
+/** @class ASTNodeCodeGenScalarTicket
+ *  Used in LoadSymbolResolverBase::loadReactionRate when resolving a kinetic law.
+ */
+
 class ASTNodeCodeGenScalarTicket {
     public:
         ASTNodeCodeGenScalarTicket(ASTNodeCodeGen& gen, bool val, std::string n = "");

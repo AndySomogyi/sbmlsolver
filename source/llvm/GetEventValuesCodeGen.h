@@ -151,7 +151,7 @@ namespace rrllvm
         llvm::Value* createRet(llvm::Value*);
     };
 
-    /** @class GetEventTriggerCodeGen
+    /** @class GetEventPriorityCodeGen
     * Get the priority of an SBML Event.
     */
     class GetEventPriorityCodeGen : public
@@ -170,7 +170,7 @@ namespace rrllvm
         libsbml::ASTNode* node;
     };
 
-    /** @class GetEventTriggerCodeGen
+    /** @class GetEventDelayCodeGen
     * Get the delay of an SBML Event.
     */
     class GetEventDelayCodeGen : public

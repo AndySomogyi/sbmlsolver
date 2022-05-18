@@ -271,7 +271,7 @@ public:
     bool isDoubleVector() const;
 
 private:
-    /**
+    /** @struct VariantImpl
      * private implementation, this gives us the flexibility to use
      * different implementations in the future and maintain binary
      * compatability.

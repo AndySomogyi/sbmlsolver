@@ -22,7 +22,7 @@ namespace rrllvm
 
     typedef void (*EvalVolatileStoichCodeGen_FunctionPtr)(LLVMModelData*);
 
-    /** @class EvalConversionFactorCodeGen
+    /** @class EvalVolatileStoichCodeGen
     * Evaluate 'volatile stoichiometries', or, stoichiometries that can change over the course of a simulation.
     */
     class EvalVolatileStoichCodeGen :
