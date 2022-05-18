@@ -18,104 +18,119 @@
 
 namespace rrllvm
 {
-
-
-
-class GetFloatingSpeciesInitConcentrationCodeGen: public
-    GetInitialValueCodeGenBase<GetFloatingSpeciesInitConcentrationCodeGen, false>
-{
-public:
-    GetFloatingSpeciesInitConcentrationCodeGen(const ModelGeneratorContext &mgc);
-    ~GetFloatingSpeciesInitConcentrationCodeGen() {};
-
-    std::vector<std::string> getIds()
+    /** @class GetFloatingSpeciesInitConcentrationCodeGen
+    * Get the initial concentration of a floating species.
+    */
+    class GetFloatingSpeciesInitConcentrationCodeGen : public
+        GetInitialValueCodeGenBase<GetFloatingSpeciesInitConcentrationCodeGen, false>
     {
-        return dataSymbols.getFloatingSpeciesIds();
-    }
+    public:
+        GetFloatingSpeciesInitConcentrationCodeGen(const ModelGeneratorContext& mgc);
+        ~GetFloatingSpeciesInitConcentrationCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        std::vector<std::string> getIds()
+        {
+            return dataSymbols.getFloatingSpeciesIds();
+        }
 
-class GetBoundarySpeciesInitConcentrationCodeGen : public
-    GetInitialValueCodeGenBase<GetBoundarySpeciesInitConcentrationCodeGen, false>
-{
-public:
-    GetBoundarySpeciesInitConcentrationCodeGen(const ModelGeneratorContext& mgc);
-    ~GetBoundarySpeciesInitConcentrationCodeGen() {};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-    std::vector<string> getIds()
+    /** @class GetBoundarySpeciesInitConcentrationCodeGen
+    * Get the initial concentration of a boundary species.
+    */
+    class GetBoundarySpeciesInitConcentrationCodeGen : public
+        GetInitialValueCodeGenBase<GetBoundarySpeciesInitConcentrationCodeGen, false>
     {
-        return dataSymbols.getBoundarySpeciesIds();
-    }
+    public:
+        GetBoundarySpeciesInitConcentrationCodeGen(const ModelGeneratorContext& mgc);
+        ~GetBoundarySpeciesInitConcentrationCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        std::vector<string> getIds()
+        {
+            return dataSymbols.getBoundarySpeciesIds();
+        }
 
-class GetFloatingSpeciesInitAmountCodeGen: public
-    GetInitialValueCodeGenBase<GetFloatingSpeciesInitAmountCodeGen, true>
-{
-public:
-    GetFloatingSpeciesInitAmountCodeGen(const ModelGeneratorContext &mgc);
-    ~GetFloatingSpeciesInitAmountCodeGen() {};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-    std::vector<std::string> getIds()
+    /** @class GetFloatingSpeciesInitAmountCodeGen
+    * Get the initial amount of a floating species.
+    */
+    class GetFloatingSpeciesInitAmountCodeGen : public
+        GetInitialValueCodeGenBase<GetFloatingSpeciesInitAmountCodeGen, true>
     {
-        return dataSymbols.getFloatingSpeciesIds();
-    }
+    public:
+        GetFloatingSpeciesInitAmountCodeGen(const ModelGeneratorContext& mgc);
+        ~GetFloatingSpeciesInitAmountCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        std::vector<std::string> getIds()
+        {
+            return dataSymbols.getFloatingSpeciesIds();
+        }
 
-class GetBoundarySpeciesInitAmountCodeGen : public
-    GetInitialValueCodeGenBase<GetBoundarySpeciesInitAmountCodeGen, true>
-{
-public:
-    GetBoundarySpeciesInitAmountCodeGen(const ModelGeneratorContext& mgc);
-    ~GetBoundarySpeciesInitAmountCodeGen() {};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-    std::vector<string> getIds()
+    /** @class GetBoundarySpeciesInitAmountCodeGen
+    * Get the initial amount of a boundary species.
+    */
+    class GetBoundarySpeciesInitAmountCodeGen : public
+        GetInitialValueCodeGenBase<GetBoundarySpeciesInitAmountCodeGen, true>
     {
-        return dataSymbols.getBoundarySpeciesIds();
-    }
+    public:
+        GetBoundarySpeciesInitAmountCodeGen(const ModelGeneratorContext& mgc);
+        ~GetBoundarySpeciesInitAmountCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        std::vector<string> getIds()
+        {
+            return dataSymbols.getBoundarySpeciesIds();
+        }
 
-class GetCompartmentInitVolumeCodeGen: public
-    GetInitialValueCodeGenBase<GetCompartmentInitVolumeCodeGen, false>
-{
-public:
-    GetCompartmentInitVolumeCodeGen(const ModelGeneratorContext &mgc);
-    ~GetCompartmentInitVolumeCodeGen() {};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-    std::vector<std::string> getIds()
+    /** @class GetBoundarySpeciesInitAmountCodeGen
+    * Get the initial volume of a compartment.
+    */
+    class GetCompartmentInitVolumeCodeGen : public
+        GetInitialValueCodeGenBase<GetCompartmentInitVolumeCodeGen, false>
     {
-        return dataSymbols.getCompartmentIds();
-    }
+    public:
+        GetCompartmentInitVolumeCodeGen(const ModelGeneratorContext& mgc);
+        ~GetCompartmentInitVolumeCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        std::vector<std::string> getIds()
+        {
+            return dataSymbols.getCompartmentIds();
+        }
 
-class GetGlobalParameterInitValueCodeGen: public
-    GetInitialValueCodeGenBase<GetGlobalParameterInitValueCodeGen, false>
-{
-public:
-    GetGlobalParameterInitValueCodeGen(const ModelGeneratorContext &mgc);
-    ~GetGlobalParameterInitValueCodeGen() {};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-    std::vector<std::string> getIds()
+    /** @class GetGlobalParameterInitValueCodeGen
+    * Get the initial value of a parameter.
+    */
+    class GetGlobalParameterInitValueCodeGen : public
+        GetInitialValueCodeGenBase<GetGlobalParameterInitValueCodeGen, false>
     {
-        return dataSymbols.getGlobalParameterIds();
-    }
+    public:
+        GetGlobalParameterInitValueCodeGen(const ModelGeneratorContext& mgc);
+        ~GetGlobalParameterInitValueCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        std::vector<std::string> getIds()
+        {
+            return dataSymbols.getGlobalParameterIds();
+        }
+
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
 
 

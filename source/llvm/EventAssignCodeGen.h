@@ -12,18 +12,21 @@
 
 namespace rrllvm
 {
+    /** @class EventAssignCodeGen
+    * Evaluate SBML Event Assignments (which execute after the event is triggered).
+    */
 
-class EventAssignCodeGen: public EventCodeGenBase<EventAssignCodeGen>
-{
-public:
-    EventAssignCodeGen(const ModelGeneratorContext &mgc);
-    ~EventAssignCodeGen();
+    class EventAssignCodeGen : public EventCodeGenBase<EventAssignCodeGen>
+    {
+    public:
+        EventAssignCodeGen(const ModelGeneratorContext& mgc);
+        ~EventAssignCodeGen();
 
-    bool eventCodeGen(llvm::Value *modelData, llvm::Value *data,
+        bool eventCodeGen(llvm::Value* modelData, llvm::Value* data,
             const libsbml::Event* event);
 
-    static const char* FunctionName;
-};
+        static const char* FunctionName;
+    };
 
 } /* namespace rr */
 #endif /* EVENTASSIGNCODEGEN_H_ */
