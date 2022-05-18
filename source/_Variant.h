@@ -17,7 +17,7 @@
 namespace rr
 {
 
-/**
+/** @class Variant
  * A basic type to hold a variety of data types.
  *
  * Unfourtunatly C++ does not have a standard variant type so we have to

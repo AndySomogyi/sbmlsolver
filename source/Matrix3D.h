@@ -9,6 +9,10 @@
 
 namespace rr {
 
+    /**
+     * @class Matrix3D
+     * A basic local 3D version of the Matrix class, based on initializer_list.
+     */
     template<typename IndexType, typename DataType>
     class Matrix3D {
         using Matrix3DInitializer = std::initializer_list<std::initializer_list<std::initializer_list<DataType>>>;

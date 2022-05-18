@@ -24,7 +24,7 @@ class ASTNode;
 
 namespace rrllvm
 {
-/**
+/** @class ASTNodeCodeGen
  * All of the LLVM IR generation is handled here.
  */
 class ASTNodeCodeGen

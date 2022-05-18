@@ -10,6 +10,10 @@
 
 namespace rr {
 
+    /**
+     * @class Matrix
+     * A basic local matrix class, based on the libstruct version.
+     */
     template<typename T>
     class Matrix : public ls::Matrix<T> {
     public:
@@ -34,6 +38,10 @@ namespace rr {
          */
         explicit Matrix<T>(ls::Matrix<T> &matrix);
 
+        /**
+         * @brief Constructor for creating a Matrix<T> from a
+         * ls::Matrix<T>
+         */
         explicit Matrix<T>(ls::Matrix<T> *matrix);
 
         /**

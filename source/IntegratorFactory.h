@@ -12,7 +12,7 @@
 namespace rr{
 
     /**
-     * @author JKM, WBC
+     * @class IntegratorFactory
      * @brief Constructs new integrators
      * @details This is a singleton class. All methods except for
      * getInstance are fully determined by superclass FactoryWithRegistration.

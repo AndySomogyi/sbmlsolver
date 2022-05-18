@@ -171,6 +171,8 @@ set(
         PresimulationProgramDecorator.h
         ApproxSteadyStateDecorator.h
 
+        _Variant.h
+
         conservation/ConservationExtension.h
         conservation/ConservationDocumentPlugin.h
         conservation/ConservedMoietyPlugin.h
@@ -253,6 +255,7 @@ if (BUILD_LLVM)
             llvm/ASTNodeCodeGen.h
             llvm/ASTNodeFactory.h
             llvm/AssignmentRuleEvaluator.h
+            llvm/CodeGen.h
             llvm/CodeGenBase.h
             llvm/EvalConversionFactorCodeGen.h
             llvm/EvalInitialConditionsCodeGen.h
@@ -275,6 +278,7 @@ if (BUILD_LLVM)
             llvm/LLJit.h
             llvm/LLVMCompiler.h
             llvm/LLVMExecutableModel.h
+            llvm/LLVMException.h
             llvm/LLVMModelData.h
             llvm/LLVMModelDataSymbols.h
             llvm/LLVMModelGenerator.h

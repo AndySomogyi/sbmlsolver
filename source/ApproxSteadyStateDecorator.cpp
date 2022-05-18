@@ -7,6 +7,7 @@
 #include "rrExecutableModel.h"
 
 namespace rr {
+    /** @cond PRIVATE */
 
     ApproxSteadyStateDecorator::ApproxSteadyStateDecorator(SteadyStateSolver *solver)
             : SteadyStateSolverDecorator(solver) {}
@@ -77,4 +78,5 @@ namespace rr {
         return new ApproxSteadyStateDecorator(executableModel);
     }
 
+    /** @endcond PRIVATE */
 }
