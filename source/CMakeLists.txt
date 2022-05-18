@@ -208,87 +208,92 @@ set(rrHeaders ${rrHeaders} ${rrCoreHeaders} ${rrCoreConservationHeaders} ${rrCor
 # Add the LLVM sources to compilation
 if (BUILD_LLVM)
     set(rrLLVMSources
-            llvm/AssignmentRuleEvaluator.cpp
             llvm/ASTNodeCodeGen.cpp
             llvm/ASTNodeFactory.cpp
-            llvm/ModelResources.cpp
+            llvm/AssignmentRuleEvaluator.cpp
             llvm/CodeGenBase.cpp
-            llvm/LLVMCompiler.cpp
             llvm/EvalConversionFactorCodeGen.cpp
             llvm/EvalInitialConditionsCodeGen.cpp
             llvm/EvalRateRuleRatesCodeGen.cpp
             llvm/EvalReactionRatesCodeGen.cpp
+            llvm/EvalVolatileStoichCodeGen.cpp
             llvm/EventAssignCodeGen.cpp
-            llvm/EventTriggerCodeGen.cpp
             llvm/EventQueue.cpp
+            llvm/EventTriggerCodeGen.cpp
             llvm/FunctionResolver.cpp
-            llvm/LLVMExecutableModel.cpp
-            llvm/GetValuesCodeGen.cpp
-            llvm/LoadSymbolResolverBase.cpp
-            llvm/GetInitialValuesCodeGen.cpp
             llvm/GetEventValuesCodeGen.cpp
+            llvm/GetInitialValuesCodeGen.cpp
+            llvm/GetValuesCodeGen.cpp
+            llvm/Jit.cpp
+            llvm/JitFactory.cpp
             llvm/KineticLawParameterResolver.cpp
+            llvm/LLJit.cpp
+            llvm/LLVMCompiler.cpp
+            llvm/LLVMExecutableModel.cpp
             llvm/LLVMModelData.cpp
-            llvm/ModelDataIRBuilder.cpp
-            llvm/ModelDataSymbolResolver.cpp
-            llvm/ModelInitialValueSymbolResolver.cpp
             llvm/LLVMModelDataSymbols.cpp
             llvm/LLVMModelGenerator.cpp
-            llvm/ModelGeneratorContext.cpp
             llvm/LLVMModelSymbols.cpp
-            llvm/SetValuesCodeGen.cpp
-            llvm/SetInitialValuesCodeGen.cpp
-            llvm/SBMLSupportFunctions.cpp
-            llvm/EvalVolatileStoichCodeGen.cpp
-            llvm/SBMLInitialValueSymbolResolver.cpp
-            llvm/Random.cpp
-            llvm/Jit.cpp
-            llvm/LLJit.cpp
+            llvm/LoadSymbolResolverBase.cpp
             llvm/MCJit.cpp
+            llvm/ModelDataIRBuilder.cpp
+            llvm/ModelDataSymbolResolver.cpp
+            llvm/ModelGeneratorContext.cpp
+            llvm/ModelInitialValueSymbolResolver.cpp
+            llvm/ModelResources.cpp
+            llvm/Random.cpp
+            llvm/SBMLInitialValueSymbolResolver.cpp
             llvm/SBMLModelObjectCache.cpp
-            llvm/JitFactory.cpp
+            llvm/SBMLSupportFunctions.cpp
+            llvm/SetInitialValuesCodeGen.cpp
+            llvm/SetValuesCodeGen.cpp
             )
 
     set(rrLLVMHeaders
-            llvm/AssignmentRuleEvaluator.h
             llvm/ASTNodeCodeGen.h
             llvm/ASTNodeFactory.h
-            llvm/ModelResources.h
+            llvm/AssignmentRuleEvaluator.h
             llvm/CodeGenBase.h
-            llvm/LLVMCompiler.h
             llvm/EvalConversionFactorCodeGen.h
             llvm/EvalInitialConditionsCodeGen.h
             llvm/EvalRateRuleRatesCodeGen.h
             llvm/EvalReactionRatesCodeGen.h
+            llvm/EvalVolatileStoichCodeGen.h
             llvm/EventAssignCodeGen.h
-            llvm/EventTriggerCodeGen.h
+            llvm/EventCodeGenBase.h
             llvm/EventQueue.h
+            llvm/EventTriggerCodeGen.h
             llvm/FunctionResolver.h
-            llvm/LLVMExecutableModel.h
-            llvm/GetValuesCodeGen.h
-            llvm/LoadSymbolResolverBase.h
-            llvm/GetInitialValuesCodeGen.h
             llvm/GetEventValuesCodeGen.h
+            llvm/GetInitialValueCodeGenBase.h
+            llvm/GetInitialValuesCodeGen.h
+            llvm/GetValueCodeGenBase.h
+            llvm/GetValuesCodeGen.h
+            llvm/Jit.h
+            llvm/JitFactory.h
             llvm/KineticLawParameterResolver.h
+            llvm/LLJit.h
+            llvm/LLVMCompiler.h
+            llvm/LLVMExecutableModel.h
             llvm/LLVMModelData.h
-            llvm/ModelDataIRBuilder.h
-            llvm/ModelDataSymbolResolver.h
-            llvm/ModelInitialValueSymbolResolver.h
             llvm/LLVMModelDataSymbols.h
             llvm/LLVMModelGenerator.h
-            llvm/ModelGeneratorContext.h
             llvm/LLVMModelSymbols.h
-            llvm/SetValuesCodeGen.h
-            llvm/SetInitialValuesCodeGen.h
-            llvm/SBMLSupportFunctions.h
-            llvm/EvalVolatileStoichCodeGen.h
-            llvm/SBMLInitialValueSymbolResolver.h
-            llvm/Random.h
-            llvm/Jit.h
-            llvm/LLJit.h
+            llvm/LoadSymbolResolverBase.h
             llvm/MCJit.h
+            llvm/ModelDataIRBuilder.h
+            llvm/ModelDataSymbolResolver.h
+            llvm/ModelGeneratorContext.h
+            llvm/ModelInitialValueSymbolResolver.h
+            llvm/ModelResources.h
+            llvm/Random.h
+            llvm/SBMLInitialValueSymbolResolver.h
             llvm/SBMLModelObjectCache.h
-            llvm/JitFactory.h
+            llvm/SBMLSupportFunctions.h
+            llvm/SetInitialValueCodeGenBase.h
+            llvm/SetInitialValuesCodeGen.h
+            llvm/SetValueCodeGenBase.h
+            llvm/SetValuesCodeGen.h
             )
     install(FILES ${rrLLVMHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr/llvm)
 

@@ -72,7 +72,7 @@ class C_DECL_SPEC StringList
         //operator vector<string>() const { return mStrings; }
         operator const vector<string>&() const { return mStrings;}
 };
-/** @endcond */
+/** @endcond PRIVATE */
 
 
 }

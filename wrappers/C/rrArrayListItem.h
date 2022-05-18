@@ -48,7 +48,7 @@ namespace rrc
     }
 
     std::ostream& operator<<(std::ostream& stream, const ArrayListItemBase& item);
-    /** @endcond */
+    /** @endcond PRIVATE */
 
 }
 #endif

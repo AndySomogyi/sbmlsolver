@@ -61,7 +61,7 @@ namespace rr {
          */
         Solver *construct(ExecutableModel *executableModel) const override;
     };
-    /** @endcond */
+    /** @endcond PRIVATE */
 }
 
 #endif

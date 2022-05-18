@@ -66,7 +66,7 @@ typedef struct csr_matrix_t
     unsigned* rowptr;
 
 } csr_matrix;
-/** @endcond */
+/** @endcond PRIVATE */
 
 
 /**

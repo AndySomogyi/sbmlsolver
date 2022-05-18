@@ -121,7 +121,7 @@ namespace rr
         bool                ClearSection(const std::string& section);
         bool                IsModified() { return mIsDirty; }
     };
-    /** @endcond */
+    /** @endcond PRIVATE */
 
 }
 #endif

@@ -44,6 +44,6 @@ namespace tlp
         string              GetNonKeysAsString();
         string              AsString();
     };
-    /** @endcond */
+    /** @endcond PRIVATE */
 }
 #endif

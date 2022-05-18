@@ -116,11 +116,11 @@ typedef struct RRCData
     char**          ColumnHeaders;          /*!< Pointer to an array of column header strings */
 } *RRCDataPtr;                              /*!< Pointer to RRCDataPtr struct */
 
-/*!@enum*/
+/*!@enum ListItemType*/
 /*!@brief The list type supports strings, integers, double and lists */
 enum ListItemType {litString, litInteger, litDouble, litList};
 
-/*!@enum*/
+/*!@enum RRParameterType*/
 /*!@brief A parameters type can be string, bool, integer, double, vector or a matrix */
 enum RRParameterType {ptString, ptBool, ptInteger, ptDouble, ptVector, ptMatrix};
 

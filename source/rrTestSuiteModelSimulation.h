@@ -42,7 +42,7 @@ class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
         bool                    LoadSettings(const std::filesystem::path& fName = "") override;
         virtual bool            LoadSettingsEx(const std::filesystem::path& settingsFName);
 };
-/** @endcond */
+/** @endcond PRIVATE */
 }
 
 

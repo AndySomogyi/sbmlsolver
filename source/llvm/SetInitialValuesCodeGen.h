@@ -129,7 +129,7 @@ namespace rrllvm
         static const char* IndexArgName;
     };
 
-    /** @endcond */
+    /** @endcond PRIVATE */
 
 } /* namespace rrllvm */
 #endif /* RRLLVMSETINITIALVALUESCODEGEN_H_ */

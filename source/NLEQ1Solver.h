@@ -63,7 +63,7 @@ namespace rr {
         double solve() override;
     };
 
-    /** @endcond */
+    /** @endcond PRIVATE */
 }
 
 #endif

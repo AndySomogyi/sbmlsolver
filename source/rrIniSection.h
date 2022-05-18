@@ -44,6 +44,6 @@ class RR_DECLSPEC IniSection
            std::string            GetNonKeysAsString();
         std::string            AsString();
 };
-/** @endcond */
+/** @endcond PRIVATE */
 }
 #endif

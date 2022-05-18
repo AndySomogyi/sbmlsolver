@@ -71,7 +71,7 @@ class RR_DECLSPEC SBMLModelSimulation
         /// relative tolerance for residual comparison, does not affect integrator
         double mRelative;
 };
-/** @endcond */
+/** @endcond PRIVATE */
 }
 
 

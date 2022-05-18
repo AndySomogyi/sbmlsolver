@@ -14,7 +14,7 @@ namespace rrc
     public:
         virtual ~ArrayListItemBase();
     };
-    /** @endcond */
+    /** @endcond PRIVATE */
 
 
 }

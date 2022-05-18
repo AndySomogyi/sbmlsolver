@@ -39,7 +39,7 @@ namespace tlp
         COMMON_DECLSPEC
             friend std::ostream& operator<<(std::ostream& stream, const IniKey& aKey);
     };
-    /** @endcond */
+    /** @endcond PRIVATE */
 }
 
 #endif

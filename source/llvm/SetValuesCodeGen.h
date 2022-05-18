@@ -98,7 +98,7 @@ namespace rrllvm
         static const char* IndexArgName;
     };
 
-    /** @endcond */
+    /** @endcond PRIVATE */
 
 } /* namespace rrllvm */
 #endif /* SETVALUESCODEGEN_H_ */

@@ -53,6 +53,6 @@ namespace rrc
 
     C_DECL_SPEC std::ostream& operator<<(std::ostream& stream, const ArrayList& list);
 
-    /** @endcond */
+    /** @endcond PRIVATE */
 }
 #endif

@@ -141,7 +141,7 @@ public:
     friend class NLEQ1Solver;
 
 };
-/** @endcond */
+/** @endcond PRIVATE */
 }
 
 #endif
