@@ -94,7 +94,7 @@ namespace rrllvm
         static const char* IndexArgName;
     };
 
-    /** @class GetBoundarySpeciesInitAmountCodeGen
+    /** @class GetCompartmentInitVolumeCodeGen
     * Get the initial volume of a compartment.
     */
     class GetCompartmentInitVolumeCodeGen : public
