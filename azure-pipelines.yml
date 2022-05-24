@@ -1085,7 +1085,7 @@ stages:
               echo "cd'ing to build dir $(BUILD_DIR)"
               cd $(BUILD_DIR)
               ctest --tests-regex python_tests_RunStochasticTestSuite .
-            displayName: (DISABLED) Run Stochastic test suite
+            displayName: Run Stochastic test suite
 
           - script: |
               echo "cd to $(INSTALL_DIRECTORY)"
