@@ -1024,6 +1024,22 @@ RRStringArrayPtr rrcCallConv getDependentFloatingSpeciesIds(RRHandle handle)
 }
 
 
+RRStringArrayPtr rrcCallConv getIndependentFloatingSpeciesIds(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    StringList fNames = rri->getIndependentFloatingSpeciesIds();
+
+    if (!fNames.Count())
+    {
+        return NULL;
+    }
+
+    return createList(fNames);
+    catch_ptr_macro
+}
+
+
 RRStringArrayPtr rrcCallConv getFloatingSpeciesConcentrationIds(RRHandle handle)
 {
     start_try
@@ -3367,7 +3383,8 @@ vector<double> rr_getRatesOfChange(RoadRunner* rr)
     }
 
     mModel->computeAllRatesOfChange();
-    vector<double> result(mModel->getNumFloatingSpecies());
+    //vector<double> result(mModel->getNumFloatingSpecies());
+    vector<double> result(mModel->getNumIndFloatingSpecies());
     mModel->getFloatingSpeciesAmountRates(result.size(), 0, &result[0]);
     return result;
 }

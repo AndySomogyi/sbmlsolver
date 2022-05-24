@@ -444,6 +444,34 @@ TEST_F(CAPICoreTest, CheckGetStoichiometryMatrix) {
     EXPECT_EQ(stoichs->Data[2], 1.0);
     EXPECT_EQ(stoichs->Data[3], -1.0);
 
+    delete rrH;
+}
+
+TEST_F(CAPICoreTest, CheckRatesOfChangeFunctions) {
+
+    RRHandle rrH = createRRInstance();
+    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadyState.xml")).string().c_str(), true));
+    bool ret = setComputeAndAssignConservationLaws(rrH, true);
+
+    RRVectorPtr roc = getRatesOfChange(rrH);
+    ASSERT_EQ(roc->Count, 1);
+    EXPECT_NEAR(roc->Data[0], -0.496, 0.001);
+    delete roc;
+
+    RRStringArrayPtr roc_ids = getRatesOfChangeIds(rrH);
+    ASSERT_EQ(roc_ids->Count, 1);
+    EXPECT_STREQ(roc_ids->String[0], "A'");
+    delete roc_ids;
+
+    roc_ids = getIndependentFloatingSpeciesIds(rrH);
+    ASSERT_EQ(roc_ids->Count, 1);
+    EXPECT_STREQ(roc_ids->String[0], "A");
+    delete roc_ids;
+
+    roc_ids = getDependentFloatingSpeciesIds(rrH);
+    ASSERT_EQ(roc_ids->Count, 1);
+    EXPECT_STREQ(roc_ids->String[0], "AP");
+    delete roc_ids;
 
     delete rrH;
 }
