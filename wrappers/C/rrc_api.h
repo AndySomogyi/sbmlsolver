@@ -1217,7 +1217,7 @@ C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorDescription (int n);
 
 /*!
 \brief Get the number of instantiated integrators.
-\description To instantiate an integrator, use @ref setCurrentIntegrator.
+To instantiate an integrator, use @ref setCurrentIntegrator.
 \param[in] handle Handle to a RoadRunner instance.
 \return Returns an integer that corresponds to the number of currently registered integrators.
 \ingroup simopts
@@ -1226,7 +1226,7 @@ C_DECL_SPEC int rrcCallConv getNumInstantiatedIntegrators (RRHandle handle);
 
 /*!
 \brief Specify the current integrator to be used for simulation.
-\description This method instantiates a new integrator of the given type (e.g. cvode, gillespie) if
+This method instantiates a new integrator of the given type (e.g. cvode, gillespie) if
 one does not currently exist. Otherwise, the existing integrator of this type is used.
 \param[in] handle Handle to a RoadRunner instance.
 \param[in] nameOfIntegrator Name of the integrator to be used.
@@ -1538,7 +1538,7 @@ C_DECL_SPEC char* rrcCallConv getRegisteredSteadyStateSolverDescription (int n);
 
 /*!
 \brief Specify the current steady state solver to be used for simulation.
-\description This method instantiates a new steady state solver of the given type (e.g. cvode, gillespie) if
+This method instantiates a new steady state solver of the given type (e.g. cvode, gillespie) if
 one does not currently exist. Otherwise, the existing steady state solver of this type is used.
 \param[in] handle Handle to a RoadRunner instance.
 \param[in] nameOfSteadyStateSolver Name of the steady state solver to be used.
@@ -1629,7 +1629,7 @@ C_DECL_SPEC int rrcCallConv resetCurrentSteadyStateSolverParameters (RRHandle ha
 
 /*!
 \brief Get a string description of the type [STATIC MEMORY - DO NOT FREE]
-\description Can call on return value of e.g. @ref getCurrentSteadyStateSolverNthParameterType
+Can call on return value of e.g. @ref getCurrentSteadyStateSolverNthParameterType
 to retrieve human-readable string representation.
 \param[in] code Type code for the parameter
 \ingroup simopts
@@ -2107,6 +2107,15 @@ C_DECL_SPEC bool rrcCallConv setValue(RRHandle handle, const char* symbolId, con
 */
 C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle);
 
+/*!
+ \brief Retrieve in a vector the amounts for all the floating species
+
+ Example: \code RRVectorPtr values = getFloatingSpeciesAmounts (void); \endcode
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns the vector of floating species amounts or null if an error occurred
+ \ingroup floating
+*/
 C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesAmounts(RRHandle handle);
 
 
@@ -2121,6 +2130,15 @@ C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesAmounts(RRHandle handle);
 */
 C_DECL_SPEC RRVectorPtr rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle);
 
+/*!
+ \brief Retrieve the amounts for all the boundary species in a vector
+
+ Example: \code RRVectorPtr values = getBoundarySpeciesAmounts (void); \endcode
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns the vector of boundary species amounts or null if an error occurred
+ \ingroup boundary
+*/
 C_DECL_SPEC RRVectorPtr rrcCallConv getBoundarySpeciesAmounts(RRHandle handle);
 
 // --------------------------------------------------------------------------------
@@ -2614,6 +2632,13 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesIds(RRHandle handle);
 
 
 
+/*!
+ \brief Obtain the list of dependent floating species Id
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns null if it fails, if successful it returns a pointer to a RRStringArrayPtr struct
+ \ingroup floating
+*/
 C_DECL_SPEC RRStringArrayPtr rrcCallConv getDependentFloatingSpeciesIds(RRHandle handle);
 
 
