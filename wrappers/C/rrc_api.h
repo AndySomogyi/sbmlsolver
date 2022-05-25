@@ -3348,6 +3348,16 @@ Notice: Creating C based model generator using ..\compilers\tcc\tcc.exe compiler
 10.000000        0.269437        0.678127        1.199353        1.868247
 
 \endcode
+ * Note that if you are using a C++ compiler, you'll need to change the #include lines of both above programs to:
+\code
+#include <stdio.h>
+#include <stdlib.h>
+#include "rrc_api.h"
+#include "rrc_types.h"
+#include "rrc_utilities.h"
+
+using namespace rrc;
+\endcode
  * \section install_sec Installation
  *
  * Installation documentation is provided at libRoadRunner.org.
