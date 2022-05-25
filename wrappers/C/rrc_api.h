@@ -448,11 +448,12 @@ C_DECL_SPEC char* rrcCallConv getSBML(RRHandle handle);
  \param[in] sid ID of the species to be added
  \param[in] compartment Compartment of the species to be added
  \param[in] initialAmount Initial amount of the species to be added
- \param[in] substanceUnit Substance unit of the species to be added
+ \param[in] hasOnlySubstanceUnits Boolean value indicating whether the species is always considered to be in amounts when used in other formulas.
+ \param[in] boundaryCondition Boolean value indicating whether the species is a boundary species.
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
-C_DECL_SPEC bool rrcCallConv addSpeciesAmount  (RRHandle handle, const char* sid, const char* compartment, double initialAmount,        bool hasOnlySubstanceUnits, bool boundaryCondition);
+C_DECL_SPEC bool rrcCallConv addSpeciesAmount  (RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition);
 
 /*!
  \brief Add a species to the current model
@@ -460,7 +461,8 @@ C_DECL_SPEC bool rrcCallConv addSpeciesAmount  (RRHandle handle, const char* sid
  \param[in] sid ID of the species to be added
  \param[in] compartment Compartment of the species to be added
  \param[in] initialConcentration Initial concentration of the species to be added
- \param[in] substanceUnit Substance unit of the species to be added
+ \param[in] hasOnlySubstanceUnits Boolean value indicating whether the species is always considered to be in amounts when used in other formulas.
+ \param[in] boundaryCondition Boolean value indicating whether the species is a boundary species.
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -473,7 +475,8 @@ C_DECL_SPEC bool rrcCallConv addSpeciesConcentration (RRHandle handle, const cha
  \param[in] sid ID of the species to be added
  \param[in] compartment Compartment of the species to be added
  \param[in] initialConcentration Initial concentration of the species to be added
- \param[in] substanceUnit Substance unit of the species to be added
+ \param[in] hasOnlySubstanceUnits Boolean value indicating whether the species is always considered to be in amounts when used in other formulas.
+ \param[in] boundaryCondition Boolean value indicating whether the species is a boundary species.
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -487,7 +490,8 @@ C_DECL_SPEC bool rrcCallConv addSpeciesConcentrationNoRegen(RRHandle handle, con
  \param[in] sid ID of the species to be added
  \param[in] compartment Compartment of the species to be added
  \param[in] initialAmount Initial amount of the species to be added
- \param[in] substanceUnit Substance unit of the species to be added
+ \param[in] hasOnlySubstanceUnits Boolean value indicating whether the species is always considered to be in amounts when used in other formulas.
+ \param[in] boundaryCondition Boolean value indicating whether the species is a boundary species.
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -830,9 +834,10 @@ C_DECL_SPEC bool rrcCallConv removeCompartmentNoRegen(RRHandle handle, const cha
 
 /*!
 \brief Add an initial assignment to an exsiting symbol of the current model
-\param vid : ID of symbol
-\param formula : the math formula of the initial assignment
-\param forceRegenerate : a boolean value to indicate if the model is regenerated
+\param[in] handle Handle to a RoadRunner instance
+\param[in] vid : ID of symbol
+\param[in] formula : the math formula of the initial assignment
+\param[in] forceRegenerate : a boolean value to indicate if the model is regenerated
 after this function call default value is true to regenerate model after each call
 of editing function to save time for editing for multiple times, one could
 set this flag to true only in the last call of editing
@@ -952,7 +957,7 @@ C_DECL_SPEC bool rrcCallConv addTriggerNoRegen(RRHandle handle, const char* eid,
  \brief Set the persistent attribute of the trigger of given event
  \param[in] handle Handle to a RoadRunner instance
  \param[in] eid ID of the event of the trigger
- \param[in] reversible Reversible attribute to be set
+ \param[in] persistent Persistent attribute to be set
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -963,7 +968,7 @@ C_DECL_SPEC bool rrcCallConv setPersistent(RRHandle handle, const char* eid, boo
 		The last modification must regenerate for the modifications to take effect
  \param[in] handle Handle to a RoadRunner instance
  \param[in] eid ID of the event of the trigger
- \param[in] reversible Reversible attribute to be set
+ \param[in] persistent Persistent attribute to be set
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -1020,7 +1025,7 @@ C_DECL_SPEC bool rrcCallConv addPriorityNoRegen(RRHandle handle, const char* eid
 		If the given event already has a delay object, the given delay will replace the old delay in the model
  \param[in] handle Handle to a RoadRunner instance
  \param[in] eid ID of the event to add delay
- \param[in] priority the math formula of event priority
+ \param[in] delay the math formula of event delay
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -1043,7 +1048,7 @@ C_DECL_SPEC bool rrcCallConv addDelayNoRegen(RRHandle handle, const char* eid, c
  \param[in] handle Handle to a RoadRunner instance
  \param[in] eid ID of the event to add assignment
  \param[in] vid the ID of the variable to assign formula
- \param[in] fomula the math formula to assign
+ \param[in] formula the math formula to assign
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -1055,7 +1060,7 @@ C_DECL_SPEC bool rrcCallConv addEventAssignment(RRHandle handle, const char* eid
  \param[in] handle Handle to a RoadRunner instance
  \param[in] eid ID of the event to add assignment
  \param[in] vid the ID of the variable to assign formula
- \param[in] fomula the math formula to assign
+ \param[in] formula the math formula to assign
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -1493,9 +1498,8 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorVectorConcentrationTolerance(RRH
 /*!
 \brief Set the double array value for a specific integrator setting. Should only used for absoluate tolerace.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] parameterName Name of the integrator setting.
+\param[in] sid id of the tolerance.
 \param[in] value The double array value for the integrator setting.
-\param[in] len The length of given soubld array.
 \return Returns True if successful.
 \ingroup simopts
 */
@@ -1957,12 +1961,12 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulateTimes(RRHandle handle, const double* 
 /*!
  \brief Carry out a one step integration of the model
 
- Example: \code status = OneStep (rrHandle, currentTime, stepSize, newTime); \endcode
+ Example: \code status = OneStep (rrHandle, currentTime, stepSize, value); \endcode
 
  \param[in] handle Handle to a RoadRunner instance
  \param[in] currentTime The current time in the simulation
  \param[in] stepSize The step size to use in the integration
- \param[in] newTime The new time (currentTime + stepSize)
+ \param[in] value The new time (currentTime + stepSize)
 
  \return Returns true if successful
  \ingroup simulation
@@ -3077,7 +3081,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int nu
  \param[in] handle Handle to a RoadRunner instance
  \param[in] timeStart Time start
  \param[in] timeEnd Time end
- \param[in] numberOfPoints Fixed number of points to generate
+ \param[in] numberOfSteps Fixed number of steps to generate
  \param[in] numberOfSimulations Number of simulations to perform
  \return Returns an array (RRCDataPtr) of columns containing the average of the
  results of the simulation including string labels for the individual columns. The
@@ -3229,7 +3233,7 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfConfigKeys();
  Compared to setTimeCourseSelectionList, setTimeCourseSelectionListEx, expects a list of char* strings
  otherwise it has identical functionality.
  \param[in] handle Handle to a RoadRunner instance
- \param[n]  length Number of elements in the list
+ \param[in] length Number of elements in the list
  \param[in] list A list of char* strings of Ids
  \return Returns true if successful
  \ingroup simulation

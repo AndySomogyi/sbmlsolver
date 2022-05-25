@@ -73,14 +73,14 @@ using std::vector;
 /*!
  \brief Set wrappers error
 
- \param[in] error A string containg the error
+ \param[in] err A string containg the error
  \ingroup cpp_support
 */
 C_DECL_SPEC void                        setError(const string& err);
 
 /*!
  \brief Cast a handle to RoadRunner instance pointer, throws if it fails
- \param[in] handle  A handle to a roadrunner instance
+ \param[in] rrHandle  A handle to a roadrunner instance
  \return Pointer to a roadrunner instance
  \ingroup cpp_support
 */
