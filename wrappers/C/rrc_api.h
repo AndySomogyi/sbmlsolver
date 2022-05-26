@@ -2634,16 +2634,22 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getBoundarySpeciesConcentrationIds(RRHa
 */
 C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesIds(RRHandle handle);
 
-
-
 /*!
  \brief Obtain the list of dependent floating species Id
-
  \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, if successful it returns a pointer to a RRStringArrayPtr struct
  \ingroup floating
 */
 C_DECL_SPEC RRStringArrayPtr rrcCallConv getDependentFloatingSpeciesIds(RRHandle handle);
+
+/*!
+ \brief Obtain the list of independent floating species Id
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns null if it fails, if successful it returns a pointer to a RRStringArrayPtr struct
+ \ingroup floating
+*/
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getIndependentFloatingSpeciesIds(RRHandle handle);
 
 
 /*!
