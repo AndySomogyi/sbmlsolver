@@ -13,7 +13,7 @@ namespace rr {
 
     /**
      * @brief Convert kinsol error codes into text.
-     * @param kinsolError the error code
+     * @param cvodeError the error code
      * @author CW
      * @details These error messages are taken directly
      * from the kinsol documentation. More information

@@ -736,9 +736,10 @@ private:
     /**
      * init the floating species symbols.
      *
+     * @param model the model to check.
      * @param conservedMoieties: are conserved moieties enabled?
      */
-    void initFloatingSpecies(const libsbml::Model *,
+    void initFloatingSpecies(const libsbml::Model *model,
             bool conservedMoieties);
 
     /**
@@ -750,6 +751,7 @@ private:
      * get the global parameters, need to reorder them to set the independent
      * ones first
      *
+     * @param model the model to check.
      * @param conservedMoieties: are conserved moieties enabled?
      */
     void initGlobalParameters(const libsbml::Model *model,
