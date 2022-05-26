@@ -192,7 +192,7 @@ public:
     /**
      * sets the internal model state to the provided packed state std::vector.
      *
-     * @param[in] an array which holds the packed state std::vector, must be
+     * @param[in] stateVector an array which holds the packed state std::vector, must be
      *         at least the size returned by getStateVector.
      *
      * @return the number of items copied from the state std::vector, negative

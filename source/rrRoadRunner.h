@@ -297,9 +297,9 @@ namespace rr {
          * Carry out a single integration step using a stepsize as indicated
          * in the method call.
          *
-         * @param t0 starting time
-         * @param tf final time
-         * @param options override current options.
+         * @param currentTime current time
+         * @param stepSize the step size
+         * @param reset whether to reset the model (defaults to true).
          */
         double oneStep(double currentTime, double stepSize, bool reset = true);
 
@@ -407,7 +407,7 @@ namespace rr {
                 int k = 0);
 
         /**
-         * @brief similar to saveStateS but save data to file caled @param filename.
+         * @brief similar to saveStateS but save data to file caled @param filename .
          * @see RoadRunner::saveStateS
          * @see RoadRunner::loadState
          */
@@ -419,7 +419,7 @@ namespace rr {
          *   Importantly, if the stream is read into a new RoadRunner instance via
          *   RoadRunner::loadStateS then the user no longer needs to handle the reference manually
          *   because RoadRunner::loadStateS does it after loading the state.
-         * @param opt, either 'b' (default) or 'r'. The latter is used for debugging.
+         * @param opt , either 'b' (default) or 'r'. The latter is used for debugging.
          * @see RoadRunner::loadStateS
          * @see RoadRunner::saveState
          */

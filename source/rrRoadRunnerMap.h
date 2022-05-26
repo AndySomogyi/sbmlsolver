@@ -160,13 +160,13 @@ namespace rr {
         ThreadSafeUnorderedMap::const_iterator end() const;
 
         /**
-         * @brief find item with key equal to @param key.
+         * @brief find item with key equal to @param key .
          * @returns iterator to item if found or end if not found
          */
         ThreadSafeUnorderedMap::iterator find(const std::string &key);
 
         /**
-         * @brief find item with key equal to @param key. Const version.
+         * @brief find item with key equal to @param key . Const version.
          * @returns iterator to item if found or end if not found
          */
         ThreadSafeUnorderedMap::const_iterator find(const std::string &key) const;
@@ -193,7 +193,7 @@ namespace rr {
         RoadRunner *operator[](const std::string &key);
 
         /**
-         * @brief get borrowed reference from map for roadrunner model with key equal to @param key.
+         * @brief get borrowed reference from map for roadrunner model with key equal to @param key .
          * @details returned pointer is owned by the RoadRunnerMap object.
          */
         RoadRunner *at(const std::string &key);
@@ -206,7 +206,7 @@ namespace rr {
         void wait_for_tasks();
 
         /**
-         * @brief count the number of keys with value @param key.
+         * @brief count the number of keys with value @param key .
          * @details Because there can be only 1 element with a particular key in the map,
          * the return value of count is guarenteed to be either 0 for not found, or 1 for found.
          */

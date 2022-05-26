@@ -115,7 +115,7 @@ llvm::Value* ModelDataIRBuilder::createGlobalParamGEP(const std::string& id)
 }
 
 
-llvm::Value* ModelDataIRBuilder::createGEP(ModelDataFields field, const Twine& name)
+llvm::Value* ModelDataIRBuilder::createGEP(ModelDataFields field)
 {
     const char* fieldName = LLVMModelDataSymbols::getFieldName(field);
 	// FIXME:
@@ -131,7 +131,7 @@ llvm::Value* ModelDataIRBuilder::createGEP(ModelDataFields field,
     if (isAliasOrPointer(field))
     {
         Twine fieldName = LLVMModelDataSymbols::getFieldName(field);
-        Value *fieldGEP = createGEP(field, fieldName + "_gep");
+        Value *fieldGEP = createGEP(field);
         Value *load = builder.CreateLoad(fieldGEP, fieldName + "_load");
         return builder.CreateConstGEP1_32(load, index, name + "_gep");
     }

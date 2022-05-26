@@ -48,9 +48,9 @@ namespace rrllvm
         /**
          * create a GEP for a ModelData structure field.
          *
-         * @param md: value for a ModelData pointer type.
+         * @param field value for a ModelData pointer type.
          */
-        llvm::Value* createGEP(ModelDataFields field, const llvm::Twine& name = "");
+        llvm::Value* createGEP(ModelDataFields field);
 
         /**
          * create a GEP for an array which belongs to the ModelData struct,
