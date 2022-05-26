@@ -11,12 +11,3 @@ add_test_executable(test_c_api_core test_targets
 
 # make test_targets list global to all tests
 set(test_targets ${test_targets} PARENT_SCOPE)
-
-
-
-
-
-
-
-
-
