@@ -52,7 +52,7 @@ public:
      * symbol would result in indeterminism.
      *
      *
-     * \conservation: In the case of conserved moieties, these are species that
+     * conservation: In the case of conserved moieties, these are species that
      * are defined by assignment rules, they however can have initial values
      * defined by initial value or assignment rules.
      *
