@@ -3266,7 +3266,7 @@ C_DECL_SPEC bool rrcCallConv setSteadyStateSelectionListEx(RRHandle handle, int 
 #endif
 
 #endif
-/*! \mainpage RoadRunner C wrappers Library
+/*! \subpage RoadRunner C wrappers Library
  *
  * \section intro_sec Introduction
  *

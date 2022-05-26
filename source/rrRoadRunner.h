@@ -407,7 +407,9 @@ namespace rr {
                 int k = 0);
 
         /**
-         * @brief similar to saveStateS but save data to file caled @param filename .
+         * @brief similar to saveStateS but save data to file 
+         * @param filename the filename to save the data to.
+         * @param opt either 'b' (default) or 'r'. The latter is used for debugging.
          * @see RoadRunner::saveStateS
          * @see RoadRunner::loadState
          */
@@ -419,7 +421,7 @@ namespace rr {
          *   Importantly, if the stream is read into a new RoadRunner instance via
          *   RoadRunner::loadStateS then the user no longer needs to handle the reference manually
          *   because RoadRunner::loadStateS does it after loading the state.
-         * @param opt , either 'b' (default) or 'r'. The latter is used for debugging.
+         * @param opt either 'b' (default) or 'r'. The latter is used for debugging.
          * @see RoadRunner::loadStateS
          * @see RoadRunner::saveState
          */
@@ -1081,6 +1083,7 @@ namespace rr {
         /**
          * Remove a reaction from the current model
          * @param rid: the ID of the reaction to be removed
+         * @param deleteUnusedParameters; a boolean value to indicate whether to remove unused parameters from the model as well.
          * @param forceRegenerate: a boolean value to indicate if the model is regenerated
          *					       after this function call
          *						   default value is true to regenerate model after each call
@@ -1351,7 +1354,7 @@ namespace rr {
         /**
          * Remove event assignments for given variable from an existing event
          * @param eid: the ID of the event
-         * @param eid: the ID of the vairable of the event assignments
+         * @param vid: the ID of the vairable of the event assignments
          * @param forceRegenerate: a boolean value to indicate if the model is regenerated
          *					       after this function call
          *						   default value is true to regenerate model after each call

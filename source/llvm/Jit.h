@@ -272,7 +272,9 @@ namespace rrllvm {
 
         /**
          * @brief Map the Jit'd functions that collectively represent a
-         * roadrunner compiled sbml model to symbols in @param modelResources
+         * roadrunner compiled sbml model to symbols in the ModelResources.
+         * @param modelResources the ModelResources to which to map.
+         * @param options bitfield options to use.
          * @details this must be called after a the main roadrunner module
          * has been added to the Jit -- otherwise the lookup will fail.
          */

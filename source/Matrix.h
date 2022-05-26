@@ -192,6 +192,7 @@ namespace rr {
     /**
      * @brief Element-wise compareison between this Matrix<double> with another @param other
      * Matrix<double>
+     * @param tolerance the tolerance to use between the real and expected values.
      */
     template<typename T>
     bool Matrix<T>::almostEquals(Matrix<double> &other, const double &tolerance) {

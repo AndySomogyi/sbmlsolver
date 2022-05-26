@@ -346,12 +346,13 @@ namespace rrllvm
         /**
          * get the module, only valid whilst a BasicBlock is begin filled.
          *
-         * @param fname: name of the calling function, used for generating exception
+         * @param builder the  name of the calling function, used for generating exception
+         * @param func name of the calling function, used for generating exception
          * on failure.
          *
          * @returns a module on success, throws exeption on failure.
          */
-        static llvm::Module* getModule(llvm::IRBuilder<>&, const char* func);
+        static llvm::Module* getModule(llvm::IRBuilder<>& builder, const char* func);
 
         /**
          * check to see that s is a ModelData struct pointer,

@@ -190,14 +190,20 @@ public:
     SymbolIndexType getSymbolIndex(const std::string& name, int& result) const;
 
     /**
-     * get the index of a floating species.
+     * Get the index of a floating species.
      *
+     * @param id the id of the species to retrieve.
      * @param requireIndependent if true, the float species must be independent --
      * not defined by a rule.
      */
-    int getFloatingSpeciesIndex(std::string const&, bool requireIndependent = true) const;
+    int getFloatingSpeciesIndex(std::string const& id, bool requireIndependent = true) const;
 
-    int getBoundarySpeciesIndex(std::string const&) const;
+    /**
+     * Get the index of a boundary species.
+     *
+     * @param id the id of the species to retrieve.
+     */
+    int getBoundarySpeciesIndex(std::string const& id) const;
 
     /**
      * number of boundary species not defined by rules.
