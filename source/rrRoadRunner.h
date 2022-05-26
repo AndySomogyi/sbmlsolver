@@ -929,6 +929,8 @@ namespace rr {
          * @param sid: the ID of the species to be added
          * @param compartment: the compartment of the species to be added
          * @param initConcentration: the initial concentration of the species to be added
+         * @param hasOnlySubstanceUnits: the boolean value of the hasOnlySubstanceUnits attribute, indicating whether the species is to be used as an amount when encountered in formulas elsewhere in the model.
+         * @param boundaryCondition: the boolean value of the boundaryCondition attribute, indicating whether the species is a boundary species.
          * @param substanceUnits: the substance unit of the species to be added
          * @param forceRegenerate: a boolean value to indicate if the model is regenerated
          *					       after this function call
@@ -946,6 +948,8 @@ namespace rr {
          * @param sid: the ID of the species to be added
          * @param compartment: the compartment of the species to be added
          * @param initAmount: the initial amount of the species to be added
+         * @param hasOnlySubstanceUnits: the boolean value of the hasOnlySubstanceUnits attribute, indicating whether the species is to be used as an amount when encountered in formulas elsewhere in the model.
+         * @param boundaryCondition: the boolean value of the boundaryCondition attribute, indicating whether the species is a boundary species.
          * @param substanceUnits: the substance unit of the species to be added
          * @param forceRegenerate: a boolean value to indicate if the model is regenerated
          *					       after this function call
