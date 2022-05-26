@@ -97,7 +97,7 @@ namespace rr {
         void deleteRow(int which);
 
         /**
-         * @brief delete a row with the label @param which.
+         * @brief delete a row with the label @param which .
          * @details interally uses deleteRow(int) overload
          * after locating the index of the correct row to
          * remove.
@@ -119,7 +119,7 @@ namespace rr {
         void deleteCol(int which);
 
         /**
-         * @brief delete a col with the label @param which.
+         * @brief delete a col with the label @param which .
          * @details interally uses deleteCol(int) overload
          * after locating the index of the correct col to
          * remove.

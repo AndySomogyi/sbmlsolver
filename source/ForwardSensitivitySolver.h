@@ -129,7 +129,7 @@ namespace rr {
         /**
          * @brief get current values of sensitivities of model variables
          * to parameters.
-         * @param kth derivative of the sensitivities.
+         * @param k the kth derivative of the sensitivities.
          */
         rr::Matrix<double> getSensitivityMatrix(int k = 0) override;
 
@@ -145,6 +145,8 @@ namespace rr {
          * @param num number of data points to simulate. Determines Z of Matrix3D.
          * @param params vector of parameters that you want sensitivity for. When empty (default), compute
          * sensitivities for all parameters vs all variables.
+         * @param species vector of species that you want sensitivity for. When empty (default), compute
+         * sensitivities for parameters vs all variables.
          * @param k (default 0) return the kth other derivative of the sensitivity data.
          * @note for developers. Pass by value for the params is easier to wrap with swig.
          */

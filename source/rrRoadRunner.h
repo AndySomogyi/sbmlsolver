@@ -306,9 +306,9 @@ namespace rr {
         /**
         * Carry out a single internal solver integration step.
         *
-        * @param t0 starting time
-        * @param tf final time
-        * @param options override current options.
+        * @param currentTime current time
+        * @param stepSize the step size
+        * @param reset whether to reset the model (defaults to true).
         */
         double internalOneStep(double currentTime, double stepSize, bool reset = true);
 
@@ -434,7 +434,7 @@ namespace rr {
         void loadState(const std::string& filename);
 
         /**
-         * @brief load state from a @param stringstream
+         * @brief load state from a @param state stringstream
          * that was produced by RoadRunner::saveStateS.
          * @details The stingstream pointer should be heap allocated
          * and generated from RoadRunner::saveStateS. It is an error to
@@ -1510,7 +1510,7 @@ namespace rr {
 
         /**
          * @author ciaran welsh
-         * @brief get the @param value of global parameter with id @param param
+         * @brief get the value of global parameter with id @param param
          *
          */
         double getGlobalParameterByName(const std::string &param);

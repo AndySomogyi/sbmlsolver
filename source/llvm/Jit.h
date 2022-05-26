@@ -371,8 +371,10 @@ namespace rrllvm {
 
         /**
          * @brief Add a function from the standard C library to the IR Module.
-         * @example An example declaration is:
+         * An example declaration is:
+         * @code
          *   declare double pow(double, double)
+         * @endcode
          * @details the declaration is resolved with the standard C
          * library.
          * @code
