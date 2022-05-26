@@ -14,20 +14,21 @@
 
 namespace rrllvm
 {
+    /** @cond PRIVATE */
 
-class LLVMException: public std::runtime_error
-{
-public:
-    explicit LLVMException(const std::string& what) :
+    class LLVMException : public std::runtime_error
+    {
+    public:
+        explicit LLVMException(const std::string& what) :
             std::runtime_error(what)
-    {
-    }
+        {
+        }
 
-    explicit LLVMException(const std::string& what, const std::string &where) :
+        explicit LLVMException(const std::string& what, const std::string& where) :
             std::runtime_error(what + ", at " + where)
-    {
-    }
-};
+        {
+        }
+    };
 
 #define throw_llvm_exception(what) \
         {  \
@@ -36,7 +37,7 @@ public:
                 throw LLVMException(what, __FUNC__); \
         }
 
-
+    /** @endcond PRIVATE */
 }
 
 #endif /* RRLLVMEXCEPTION_H_ */

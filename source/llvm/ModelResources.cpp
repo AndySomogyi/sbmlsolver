@@ -51,6 +51,7 @@ using rr::getLogger;
 using rr::LoadSBMLOptions;
 
 namespace rrllvm {
+    /** @cond PRIVATE */
 
     ModelResources::ModelResources() :
             symbols(nullptr), executionEngine(nullptr), context(nullptr), random(nullptr), errStr(nullptr) {
@@ -184,5 +185,5 @@ namespace rrllvm {
 
     }
 
-
+    /** @endcond PRIVATE */
 } /* namespace rrllvm */

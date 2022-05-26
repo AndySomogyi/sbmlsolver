@@ -17,293 +17,294 @@ using namespace llvm;
 
 namespace rrllvm
 {
+    /** @cond PRIVATE */
 
-ModelInitialValueSymbolResolver::ModelInitialValueSymbolResolver(
-        llvm::Value *modelData,
+    ModelInitialValueSymbolResolver::ModelInitialValueSymbolResolver(
+        llvm::Value* modelData,
         const ModelGeneratorContext& ctx) :
-            LoadSymbolResolverBase(ctx, modelData),
-            modelData(modelData)
-{
-}
+        LoadSymbolResolverBase(ctx, modelData),
+        modelData(modelData)
+    {
+    }
 
 
-ModelInitialValueStoreSymbolResolver::ModelInitialValueStoreSymbolResolver(llvm::Value *modelData,
-        const libsbml::Model *model,
-        const LLVMModelSymbols &modelSymbols,
-        const LLVMModelDataSymbols &modelDataSymbols,
-        llvm::IRBuilder<> &builder,
-        LoadSymbolResolver &resolver) :
-            modelData(modelData),
-            model(model),
-            modelSymbols(modelSymbols),
-            modelDataSymbols(modelDataSymbols),
-            builder(builder),
-            resolver(resolver)
-{
-}
+    ModelInitialValueStoreSymbolResolver::ModelInitialValueStoreSymbolResolver(llvm::Value* modelData,
+        const libsbml::Model* model,
+        const LLVMModelSymbols& modelSymbols,
+        const LLVMModelDataSymbols& modelDataSymbols,
+        llvm::IRBuilder<>& builder,
+        LoadSymbolResolver& resolver) :
+        modelData(modelData),
+        model(model),
+        modelSymbols(modelSymbols),
+        modelDataSymbols(modelDataSymbols),
+        builder(builder),
+        resolver(resolver)
+    {
+    }
 
 
-llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(
+    llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(
         const std::string& symbol,
         const llvm::ArrayRef<llvm::Value*>& args)
-{
-    ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols, builder);
-
-    /*************************************************************************/
-    /* time */
-    /*************************************************************************/
-    if (symbol.compare(SBML_TIME_SYMBOL) == 0)
     {
-        return ConstantFP::get(builder.getContext(), APFloat(0.0));
-    }
+        ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols, builder);
 
-    /*************************************************************************/
-    /* Function */
-    /*************************************************************************/
-    {
-        Value *funcVal =
-            FunctionResolver(*this, modelData, modelGenContext).loadSymbolValue(symbol, args);
-        if (funcVal)
+        /*************************************************************************/
+        /* time */
+        /*************************************************************************/
+        if (symbol.compare(SBML_TIME_SYMBOL) == 0)
         {
-            return funcVal;
+            return ConstantFP::get(builder.getContext(), APFloat(0.0));
         }
-    }
 
-    /*************************************************************************/
-    /* Initial AssignmentRule */
-    /*************************************************************************/
-    {
-        SymbolForest::ConstIterator i =
+        /*************************************************************************/
+        /* Function */
+        /*************************************************************************/
+        {
+            Value* funcVal =
+                FunctionResolver(*this, modelData, modelGenContext).loadSymbolValue(symbol, args);
+            if (funcVal)
+            {
+                return funcVal;
+            }
+        }
+
+        /*************************************************************************/
+        /* Initial AssignmentRule */
+        /*************************************************************************/
+        {
+            SymbolForest::ConstIterator i =
                 modelSymbols.getInitialAssignmentRules().find(symbol);
-        if (i != modelSymbols.getInitialAssignmentRules().end())
-        {
-            recursiveSymbolPush(symbol);
-            Value* result =  ASTNodeCodeGen(builder, *this, modelGenContext, modelData).codeGenDouble(i->second);
-            recursiveSymbolPop();
-            return result;
+            if (i != modelSymbols.getInitialAssignmentRules().end())
+            {
+                recursiveSymbolPush(symbol);
+                Value* result = ASTNodeCodeGen(builder, *this, modelGenContext, modelData).codeGenDouble(i->second);
+                recursiveSymbolPop();
+                return result;
+            }
         }
-    }
 
-    /*************************************************************************/
-    /* AssignmentRule */
-    /*************************************************************************/
-    if (!modelDataSymbols.isConservedMoietySpecies(symbol))
-    {
-        SymbolForest::ConstIterator i =
+        /*************************************************************************/
+        /* AssignmentRule */
+        /*************************************************************************/
+        if (!modelDataSymbols.isConservedMoietySpecies(symbol))
+        {
+            SymbolForest::ConstIterator i =
                 modelSymbols.getAssigmentRules().find(symbol);
-        if (i != modelSymbols.getAssigmentRules().end())
-        {
-            recursiveSymbolPush(symbol);
-            Value* result = ASTNodeCodeGen(builder, *this, modelGenContext, modelData).codeGenDouble(i->second);
-            recursiveSymbolPop();
-            return result;
-        }
-    }
-
-    if (modelDataSymbols.isIndependentInitFloatingSpecies(symbol))
-    {
-        const Species *species = model->getSpecies(symbol);
-
-        assert(species);
-
-        Value *amt = mdbuilder.createInitFloatSpeciesAmtLoad(symbol, symbol + "_amt");
-
-        // now we have an amount, check to see if we need to convert to conc
-        if (species->getHasOnlySubstanceUnits())
-        {
-            return amt;
-        }
-        else
-        {
-            // expect a concentration, need to convert amt to conc,
-            // so we need to get the compartment its in, but these
-            // can vary also...
-            Value *comp = loadSymbolValue(species->getCompartment());
-            return builder.CreateFDiv(amt, comp, symbol + "_conc");
-        }
-    }
-
-
-    else if (modelDataSymbols.isIndependentInitBoundarySpecies(symbol))
-    {
-        const Species* species = model->getSpecies(symbol);
-
-        assert(species);
-
-        Value* amt = mdbuilder.createInitBoundarySpeciesAmtLoad(symbol, symbol + "_amt");
-
-        // now we have an amount, check to see if we need to convert to conc
-        if (species->getHasOnlySubstanceUnits())
-        {
-            return amt;
-        }
-        else
-        {
-            // expect a concentration, need to convert amt to conc,
-            // so we need to get the compartment its in, but these
-            // can vary also...
-            Value* comp = loadSymbolValue(species->getCompartment());
-            return builder.CreateFDiv(amt, comp, symbol + "_conc");
-        }
-    }
-
-
-    else if (modelDataSymbols.isIndependentInitCompartment(symbol))
-    {
-        if (symbolStack.size())
-        {
-            if (modelDataSymbols.isIndependentCompartment(symbol))
+            if (i != modelSymbols.getAssigmentRules().end())
             {
-                return mdbuilder.createCompLoad(symbol);
+                recursiveSymbolPush(symbol);
+                Value* result = ASTNodeCodeGen(builder, *this, modelGenContext, modelData).codeGenDouble(i->second);
+                recursiveSymbolPop();
+                return result;
+            }
+        }
+
+        if (modelDataSymbols.isIndependentInitFloatingSpecies(symbol))
+        {
+            const Species* species = model->getSpecies(symbol);
+
+            assert(species);
+
+            Value* amt = mdbuilder.createInitFloatSpeciesAmtLoad(symbol, symbol + "_amt");
+
+            // now we have an amount, check to see if we need to convert to conc
+            if (species->getHasOnlySubstanceUnits())
+            {
+                return amt;
             }
             else
             {
-                assert(modelDataSymbols.hasRateRule(symbol)
+                // expect a concentration, need to convert amt to conc,
+                // so we need to get the compartment its in, but these
+                // can vary also...
+                Value* comp = loadSymbolValue(species->getCompartment());
+                return builder.CreateFDiv(amt, comp, symbol + "_conc");
+            }
+        }
+
+
+        else if (modelDataSymbols.isIndependentInitBoundarySpecies(symbol))
+        {
+            const Species* species = model->getSpecies(symbol);
+
+            assert(species);
+
+            Value* amt = mdbuilder.createInitBoundarySpeciesAmtLoad(symbol, symbol + "_amt");
+
+            // now we have an amount, check to see if we need to convert to conc
+            if (species->getHasOnlySubstanceUnits())
+            {
+                return amt;
+            }
+            else
+            {
+                // expect a concentration, need to convert amt to conc,
+                // so we need to get the compartment its in, but these
+                // can vary also...
+                Value* comp = loadSymbolValue(species->getCompartment());
+                return builder.CreateFDiv(amt, comp, symbol + "_conc");
+            }
+        }
+
+
+        else if (modelDataSymbols.isIndependentInitCompartment(symbol))
+        {
+            if (symbolStack.size())
+            {
+                if (modelDataSymbols.isIndependentCompartment(symbol))
+                {
+                    return mdbuilder.createCompLoad(symbol);
+                }
+                else
+                {
+                    assert(modelDataSymbols.hasRateRule(symbol)
                         && "dependent compartment must have rate rule");
-                return mdbuilder.createRateRuleValueLoad(symbol);
-            }
-        }
-        else
-        {
-            return mdbuilder.createInitCompLoad(symbol);
-        }
-    }
-
-    // if we are in a rule, (symbolStack.size > 0), then we want to
-    // get the current values of compartments or symbols,
-    // so we can modify a parameters, and have any assigment rules
-    // used for init values pick up this value.
-    // if we're not in a rule, then the init resolver
-    // returns the init value.
-    else if (modelDataSymbols.isIndependentInitGlobalParameter(symbol))
-    {
-        if (symbolStack.size())
-        {
-            if (modelDataSymbols.isIndependentGlobalParameter(symbol))
-            {
-                return mdbuilder.createGlobalParamLoad(symbol);
+                    return mdbuilder.createRateRuleValueLoad(symbol);
+                }
             }
             else
             {
-                assert(modelDataSymbols.hasRateRule(symbol)
-                        && "dependent global param must have rate rule");
-                return mdbuilder.createRateRuleValueLoad(symbol);
+                return mdbuilder.createInitCompLoad(symbol);
             }
         }
-        else
-        {
-            return mdbuilder.createInitGlobalParamLoad(symbol);
-        }
-    }
 
-    /*************************************************************************/
-    /* Initial Value */
-    /*************************************************************************/
-    {
-        SymbolForest::ConstIterator i =
+        // if we are in a rule, (symbolStack.size > 0), then we want to
+        // get the current values of compartments or symbols,
+        // so we can modify a parameters, and have any assigment rules
+        // used for init values pick up this value.
+        // if we're not in a rule, then the init resolver
+        // returns the init value.
+        else if (modelDataSymbols.isIndependentInitGlobalParameter(symbol))
+        {
+            if (symbolStack.size())
+            {
+                if (modelDataSymbols.isIndependentGlobalParameter(symbol))
+                {
+                    return mdbuilder.createGlobalParamLoad(symbol);
+                }
+                else
+                {
+                    assert(modelDataSymbols.hasRateRule(symbol)
+                        && "dependent global param must have rate rule");
+                    return mdbuilder.createRateRuleValueLoad(symbol);
+                }
+            }
+            else
+            {
+                return mdbuilder.createInitGlobalParamLoad(symbol);
+            }
+        }
+
+        /*************************************************************************/
+        /* Initial Value */
+        /*************************************************************************/
+        {
+            SymbolForest::ConstIterator i =
                 modelSymbols.getInitialValues().find(symbol);
 
-        if (i != modelSymbols.getInitialValues().end())
-        {
-            return ASTNodeCodeGen(builder, *this, modelGenContext, modelData).codeGenDouble(i->second);
+            if (i != modelSymbols.getInitialValues().end())
+            {
+                return ASTNodeCodeGen(builder, *this, modelGenContext, modelData).codeGenDouble(i->second);
+            }
         }
+
+        /*************************************************************************/
+        /* Reaction Rate */
+        /*************************************************************************/
+        const Reaction* reaction = model->getReaction(symbol);
+        if (reaction)
+        {
+            return loadReactionRate(reaction);
+        }
+
+        std::string msg = "Could not find requested symbol \'";
+        msg += symbol;
+        msg += "\' in the model";
+        throw_llvm_exception(msg);
+
+        return 0;
     }
 
-    /*************************************************************************/
-    /* Reaction Rate */
-    /*************************************************************************/
-    const Reaction* reaction = model->getReaction(symbol);
-    if (reaction)
+
+    llvm::Value* ModelInitialValueStoreSymbolResolver::storeSymbolValue(
+        const std::string& symbol, llvm::Value* value)
     {
-        return loadReactionRate(reaction);
-    }
+        assert(value);
 
-    std::string msg = "Could not find requested symbol \'";
-    msg += symbol;
-    msg += "\' in the model";
-    throw_llvm_exception(msg);
-
-    return 0;
-}
-
-
-llvm::Value* ModelInitialValueStoreSymbolResolver::storeSymbolValue(
-        const std::string& symbol, llvm::Value *value)
-{
-    assert(value);
-
-    ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols,
+        ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols,
             builder);
 
 
-    if (modelDataSymbols.isIndependentInitFloatingSpecies(symbol))
-    {
-        const Species *species = model->getSpecies(symbol);
-        assert(species);
-
-        Value *amt = 0;
-        // only amounts are stored, convert to conc if required
-        if (species->getHasOnlySubstanceUnits())
+        if (modelDataSymbols.isIndependentInitFloatingSpecies(symbol))
         {
-            amt = value;
-        }
-        else
-        {
-            // have a conc, need to convert to amt
-            Value *comp = resolver.loadSymbolValue(species->getCompartment());
-            amt =  builder.CreateFMul(value, comp, symbol + "_amt");
-        }
+            const Species* species = model->getSpecies(symbol);
+            assert(species);
 
-        assert(amt);
+            Value* amt = 0;
+            // only amounts are stored, convert to conc if required
+            if (species->getHasOnlySubstanceUnits())
+            {
+                amt = value;
+            }
+            else
+            {
+                // have a conc, need to convert to amt
+                Value* comp = resolver.loadSymbolValue(species->getCompartment());
+                amt = builder.CreateFMul(value, comp, symbol + "_amt");
+            }
 
-        return mdbuilder.createInitFloatSpeciesAmtStore(symbol, amt);
-    }
+            assert(amt);
 
-    else if (modelDataSymbols.isIndependentInitBoundarySpecies(symbol))
-    {
-        const Species* species = model->getSpecies(symbol);
-        assert(species);
-
-        Value* amt = 0;
-        // only amounts are stored, convert to conc if required
-        if (species->getHasOnlySubstanceUnits())
-        {
-            amt = value;
-        }
-        else
-        {
-            // have a conc, need to convert to amt
-            Value* comp = resolver.loadSymbolValue(species->getCompartment());
-            amt = builder.CreateFMul(value, comp, symbol + "_amt");
+            return mdbuilder.createInitFloatSpeciesAmtStore(symbol, amt);
         }
 
-        assert(amt);
+        else if (modelDataSymbols.isIndependentInitBoundarySpecies(symbol))
+        {
+            const Species* species = model->getSpecies(symbol);
+            assert(species);
 
-        return mdbuilder.createInitBoundarySpeciesAmtStore(symbol, amt);
-    }
+            Value* amt = 0;
+            // only amounts are stored, convert to conc if required
+            if (species->getHasOnlySubstanceUnits())
+            {
+                amt = value;
+            }
+            else
+            {
+                // have a conc, need to convert to amt
+                Value* comp = resolver.loadSymbolValue(species->getCompartment());
+                amt = builder.CreateFMul(value, comp, symbol + "_amt");
+            }
 
-    else if (modelDataSymbols.isIndependentInitCompartment(symbol))
-    {
-        return mdbuilder.createInitCompStore(symbol, value);
-    }
+            assert(amt);
 
-    else if (modelDataSymbols.isIndependentInitGlobalParameter(symbol))
-    {
-        return mdbuilder.createInitGlobalParamStore(symbol, value);
-    }
+            return mdbuilder.createInitBoundarySpeciesAmtStore(symbol, amt);
+        }
+
+        else if (modelDataSymbols.isIndependentInitCompartment(symbol))
+        {
+            return mdbuilder.createInitCompStore(symbol, value);
+        }
+
+        else if (modelDataSymbols.isIndependentInitGlobalParameter(symbol))
+        {
+            return mdbuilder.createInitGlobalParamStore(symbol, value);
+        }
 
 
-    std::string msg = "The symbol \'";
-    msg += symbol;
-    msg += "\' is not physically stored in the ModelData structure, "
+        std::string msg = "The symbol \'";
+        msg += symbol;
+        msg += "\' is not physically stored in the ModelData structure, "
             "it either does not exists or is defined by an assigment rule (hence it "
             "is not a terminal symbol)";
 
-    throw_llvm_exception(msg);
-    return 0;
-}
+        throw_llvm_exception(msg);
+        return 0;
+    }
 
-
+    /** @endcond PRIVATE */
 } /* namespace rr */
 
 

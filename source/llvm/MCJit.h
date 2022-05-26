@@ -30,6 +30,7 @@ using namespace llvm;
 using namespace rr;
 
 namespace rrllvm {
+    /** @cond PRIVATE */
 
     class MCJit : public Jit {
     public:
@@ -104,6 +105,7 @@ namespace rrllvm {
         std::unique_ptr<std::string> errString;
 
     };
+    /** @endcond PRIVATE */
 
 }
 

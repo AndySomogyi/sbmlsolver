@@ -12,26 +12,26 @@
 namespace rr
 {
 
-using std::string;
-using std::fstream;
-using std::ios;
-using std::ios_base;
+    using std::string;
+    using std::fstream;
+    using std::ios;
+    using std::ios_base;
 
-const int MAX_LINE_BUFFER_SIZE = 2048;
-class IniKey;
-class IniSection;
+    const int MAX_LINE_BUFFER_SIZE = 2048;
+    class IniKey;
+    class IniSection;
 
-// IniFile typedefs
-typedef std::vector<IniKey*>             KeyList;
-typedef std::vector<std::string>             NonKeyList;
-typedef std::vector<IniSection*>          SectionList;
-typedef SectionList::iterator           SectionItor;
+    // IniFile typedefs
+    typedef std::vector<IniKey*>             KeyList;
+    typedef std::vector<std::string>             NonKeyList;
+    typedef std::vector<IniSection*>          SectionList;
+    typedef SectionList::iterator           SectionItor;
 
-/**
- * @internal
- */
-class RR_DECLSPEC IniFile
-{
+    /**
+     * @cond PRIVATE
+     */
+    class RR_DECLSPEC IniFile
+    {
     private:
         // When set, this define will cause SetValue() to create a new section, if
         // the requested section does not allready exist.
@@ -60,41 +60,41 @@ class RR_DECLSPEC IniFile
 
     public:
         int                 mFlags;        // Our settings flags.
-                            IniFile(const std::string& fName = "", bool autoLoad = false, bool autoSave = false);
+        IniFile(const std::string& fName = "", bool autoLoad = false, bool autoSave = false);
         virtual                ~IniFile();
 
-        size_t             GetNumberOfSections(){return mSections.size();}
-        IniSection*        GetSection(int i){return mSections[i];}
-        IniSection*        GetSection(size_t i) { return mSections[i]; }
+        size_t             GetNumberOfSections() { return mSections.size(); }
+        IniSection* GetSection(int i) { return mSections[i]; }
+        IniSection* GetSection(size_t i) { return mSections[i]; }
 
         // File handling methods
-        std::string             GetFilePath(){return mIniFileName.GetPath();}
-        std::string             GetFileName(){return mIniFileName;}
-        std::string             GetFullFileName(){return mIniFileName.GetPathAndFileName();}
+        std::string             GetFilePath() { return mIniFileName.GetPath(); }
+        std::string             GetFileName() { return mIniFileName; }
+        std::string             GetFullFileName() { return mIniFileName.GetPathAndFileName(); }
         bool               SetFilePath(const std::string& path);
         bool               Load(const std::string& fName = "");
-        IniSection*        LoadSection(const std::string& theSection);
-        bool               Save(ios_base::openmode openMode = std::ios::out|std::ios::trunc);
-        bool               UnLoad(){return Save();}
-        bool               WasItFound(){return mWasFound;} //!Boolean indicating if the last key was found in the ini file
+        IniSection* LoadSection(const std::string& theSection);
+        bool               Save(ios_base::openmode openMode = std::ios::out | std::ios::trunc);
+        bool               UnLoad() { return Save(); }
+        bool               WasItFound() { return mWasFound; } //!Boolean indicating if the last key was found in the ini file
         bool               SectionExists(const std::string& section);
 
         //Reading
         // ReadValue: Default access method. Returns the raw std::string value
         std::string                ReadValue(const std::string& Key, const std::string& Section = "");
-         std::string                ReadString(const std::string& Key, const std::string& Section = "", const std::string& def_val="");
+        std::string                ReadString(const std::string& Key, const std::string& Section = "", const std::string& def_val = "");
         double                ReadDouble(const std::string& Key, const std::string& Section = "", double def_value = 0);
-        float                ReadFloat(const std::string& Key, const std::string& Section = "", double def_value = 0){return (float) ReadDouble(Key, Section, def_value);}
+        float                ReadFloat(const std::string& Key, const std::string& Section = "", double def_value = 0) { return (float)ReadDouble(Key, Section, def_value); }
         int                    ReadInteger(const std::string& Key, const std::string& Section = "", int def_value = 0);
         bool                ReadBool(const std::string& Key, const std::string& Section = "", bool def_value = false);
 
-           //Writing
-         bool                WriteValue(const std::string& Key, const std::string& Value, const std::string& Comment = "", const std::string& Section = "");
+        //Writing
+        bool                WriteValue(const std::string& Key, const std::string& Value, const std::string& Comment = "", const std::string& Section = "");
         bool                WriteFloat(const std::string& Key, double value, const std::string& Comment = "", const std::string& Section = "");
         bool                WriteInteger(const std::string& Key, int nValue, const std::string& Comment = "", const std::string& Section = "");
         bool                WriteBool(const std::string& Key, bool bValue, const std::string& Comment = "", const std::string& Section = "");
-        bool                WriteString(const std::string& Key, const std::string& Value, const std::string& Comment = "", const std::string& Section = ""){return WriteValue(Key, Value, Comment, Section);}
-         bool                WriteNonKey(const std::string& nonKey, const std::string& Section = "");
+        bool                WriteString(const std::string& Key, const std::string& Value, const std::string& Comment = "", const std::string& Section = "") { return WriteValue(Key, Value, Comment, Section); }
+        bool                WriteNonKey(const std::string& nonKey, const std::string& Section = "");
 
         //KeyHandling
         bool                SetKeyComment(const std::string& Key, const std::string& Comment, const std::string& Section = "");
@@ -115,12 +115,13 @@ class RR_DECLSPEC IniFile
         void                Clear();
         void                SetFileName(const std::string& fName);
         std::string              CommentStr(std::string& Comment);
-        IniKey*             GetKey(const std::string& Key, const std::string& Section);
-        IniSection*         GetSection(const std::string& Section, bool create = false);
-        IniSection*         GetSection(const unsigned int secNr);
+        IniKey* GetKey(const std::string& Key, const std::string& Section);
+        IniSection* GetSection(const std::string& Section, bool create = false);
+        IniSection* GetSection(const unsigned int secNr);
         bool                ClearSection(const std::string& section);
-        bool                IsModified(){return mIsDirty;}
-};
+        bool                IsModified() { return mIsDirty; }
+    };
+    /** @endcond PRIVATE */
 
 }
 #endif

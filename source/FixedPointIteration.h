@@ -12,7 +12,9 @@
 
 namespace rr {
 
-
+    /** @class FixedPointIteration
+    * @brief Implementation of the fixed point iteration form of the kinsol steady state solver.
+    */
     class RR_DECLSPEC FixedPointIteration : public KinsolSteadyStateSolver {
 
     public:

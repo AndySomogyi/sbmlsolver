@@ -16,7 +16,7 @@ namespace rr
 {
 
 /**
- * @internal
+ * @cond PRIVATE
  * sparse storage compressed row format matrix.
  *
  * This should eventually get replaced when we use a numeric library
@@ -66,6 +66,7 @@ typedef struct csr_matrix_t
     unsigned* rowptr;
 
 } csr_matrix;
+/** @endcond PRIVATE */
 
 
 /**

@@ -10,6 +10,10 @@
 
 namespace rr {
 
+    /**
+     * @class Matrix
+     * A basic local matrix class, based on the libstruct version.
+     */
     template<typename T>
     class Matrix : public ls::Matrix<T> {
     public:
@@ -34,6 +38,10 @@ namespace rr {
          */
         explicit Matrix<T>(ls::Matrix<T> &matrix);
 
+        /**
+         * @brief Constructor for creating a Matrix<T> from a
+         * ls::Matrix<T>
+         */
         explicit Matrix<T>(ls::Matrix<T> *matrix);
 
         /**
@@ -89,7 +97,7 @@ namespace rr {
         void deleteRow(int which);
 
         /**
-         * @brief delete a row with the label @param which.
+         * @brief delete a row with the label @param which .
          * @details interally uses deleteRow(int) overload
          * after locating the index of the correct row to
          * remove.
@@ -111,7 +119,7 @@ namespace rr {
         void deleteCol(int which);
 
         /**
-         * @brief delete a col with the label @param which.
+         * @brief delete a col with the label @param which .
          * @details interally uses deleteCol(int) overload
          * after locating the index of the correct col to
          * remove.
@@ -184,6 +192,7 @@ namespace rr {
     /**
      * @brief Element-wise compareison between this Matrix<double> with another @param other
      * Matrix<double>
+     * @param tolerance the tolerance to use between the real and expected values.
      */
     template<typename T>
     bool Matrix<T>::almostEquals(Matrix<double> &other, const double &tolerance) {

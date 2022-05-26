@@ -12,20 +12,23 @@
 
 namespace rrllvm
 {
+    /** @class EventTriggerCodeGen
+    * The trigger of an SBML Event.
+    */
 
-typedef void (*EventTriggerCodeGen_FunctionPtr)(LLVMModelData*, size_t);
+    typedef void (*EventTriggerCodeGen_FunctionPtr)(LLVMModelData*, size_t);
 
-class EventTriggerCodeGen: public EventCodeGenBase<EventTriggerCodeGen>
-{
-public:
-    EventTriggerCodeGen(const ModelGeneratorContext &mgc);
-    ~EventTriggerCodeGen();
+    class EventTriggerCodeGen : public EventCodeGenBase<EventTriggerCodeGen>
+    {
+    public:
+        EventTriggerCodeGen(const ModelGeneratorContext& mgc);
+        ~EventTriggerCodeGen();
 
-    bool eventCodeGen(llvm::Value *modelData, llvm::Value *data,
+        bool eventCodeGen(llvm::Value* modelData, llvm::Value* data,
             const libsbml::Event* event);
 
-    static const char* FunctionName;
-};
+        static const char* FunctionName;
+    };
 
 } /* namespace rr */
 #endif /* EVENTTRIGGERCODEGEN_H_ */

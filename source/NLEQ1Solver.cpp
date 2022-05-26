@@ -5,6 +5,7 @@
 
 
 namespace rr {
+    /** @cond PRIVATE */
 
     NLEQ1Solver::NLEQ1Solver(ExecutableModel *_model) : NLEQSolver(_model) {
         NLEQ1Solver::resetSettings();
@@ -31,6 +32,7 @@ namespace rr {
     Solver *NLEQ1Solver::construct(ExecutableModel *executableModel) const {
         return new NLEQ1Solver(executableModel);
     }
+    /** @endcond PRIVATE */
 
 }    //end of namespace
 

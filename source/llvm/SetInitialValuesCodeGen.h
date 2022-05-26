@@ -18,116 +18,118 @@
 
 namespace rrllvm
 {
-class SetFloatingSpeciesInitConcentrationCodeGen: public
-    SetInitialValueCodeGenBase<SetFloatingSpeciesInitConcentrationCodeGen, false>
-{
-public:
-    SetFloatingSpeciesInitConcentrationCodeGen(const ModelGeneratorContext &mgc);
-    ~SetFloatingSpeciesInitConcentrationCodeGen() {};
+    /** @cond PRIVATE */
+    class SetFloatingSpeciesInitConcentrationCodeGen : public
+        SetInitialValueCodeGenBase<SetFloatingSpeciesInitConcentrationCodeGen, false>
+    {
+    public:
+        SetFloatingSpeciesInitConcentrationCodeGen(const ModelGeneratorContext& mgc);
+        ~SetFloatingSpeciesInitConcentrationCodeGen() {};
 
-    StringIntVector getIds();
+        StringIntVector getIds();
 
-    bool isInitialValue() {
-        return true;
-    }
+        bool isInitialValue() {
+            return true;
+        }
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
-
-
-
-class SetBoundarySpeciesInitConcentrationCodeGen : public
-    SetInitialValueCodeGenBase<SetBoundarySpeciesInitConcentrationCodeGen, false>
-{
-public:
-    SetBoundarySpeciesInitConcentrationCodeGen(const ModelGeneratorContext& mgc);
-    ~SetBoundarySpeciesInitConcentrationCodeGen() {};
-
-    StringIntVector getIds();
-
-    bool isInitialValue() {
-        return true;
-    }
-
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
 
 
-class SetFloatingSpeciesInitAmountCodeGen: public
-    SetInitialValueCodeGenBase<SetFloatingSpeciesInitAmountCodeGen, true>
-{
-public:
-    SetFloatingSpeciesInitAmountCodeGen(const ModelGeneratorContext &mgc);
-    ~SetFloatingSpeciesInitAmountCodeGen() {};
+    class SetBoundarySpeciesInitConcentrationCodeGen : public
+        SetInitialValueCodeGenBase<SetBoundarySpeciesInitConcentrationCodeGen, false>
+    {
+    public:
+        SetBoundarySpeciesInitConcentrationCodeGen(const ModelGeneratorContext& mgc);
+        ~SetBoundarySpeciesInitConcentrationCodeGen() {};
 
-    StringIntVector getIds();
+        StringIntVector getIds();
 
-    bool isInitialValue() {
-        return true;
-    }
+        bool isInitialValue() {
+            return true;
+        }
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
-
-
-
-class SetBoundarySpeciesInitAmountCodeGen : public
-    SetInitialValueCodeGenBase<SetBoundarySpeciesInitAmountCodeGen, true>
-{
-public:
-    SetBoundarySpeciesInitAmountCodeGen(const ModelGeneratorContext& mgc);
-    ~SetBoundarySpeciesInitAmountCodeGen() {};
-
-    StringIntVector getIds();
-
-    bool isInitialValue() {
-        return true;
-    }
-
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
 
 
-class SetCompartmentInitVolumeCodeGen: public
-    SetInitialValueCodeGenBase<SetCompartmentInitVolumeCodeGen, false>
-{
-public:
-    SetCompartmentInitVolumeCodeGen(const ModelGeneratorContext &mgc);
-    ~SetCompartmentInitVolumeCodeGen() {};
+    class SetFloatingSpeciesInitAmountCodeGen : public
+        SetInitialValueCodeGenBase<SetFloatingSpeciesInitAmountCodeGen, true>
+    {
+    public:
+        SetFloatingSpeciesInitAmountCodeGen(const ModelGeneratorContext& mgc);
+        ~SetFloatingSpeciesInitAmountCodeGen() {};
 
-    StringIntVector getIds();
+        StringIntVector getIds();
 
-    bool isInitialValue() {
-        return true;
-    }
+        bool isInitialValue() {
+            return true;
+        }
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-class SetGlobalParameterInitValueCodeGen: public
-    SetInitialValueCodeGenBase<SetGlobalParameterInitValueCodeGen, false>
-{
-public:
-    SetGlobalParameterInitValueCodeGen(const ModelGeneratorContext &mgc);
-    ~SetGlobalParameterInitValueCodeGen() {};
 
-    StringIntVector getIds();
 
-    bool isInitialValue() {
-        return true;
-    }
+    class SetBoundarySpeciesInitAmountCodeGen : public
+        SetInitialValueCodeGenBase<SetBoundarySpeciesInitAmountCodeGen, true>
+    {
+    public:
+        SetBoundarySpeciesInitAmountCodeGen(const ModelGeneratorContext& mgc);
+        ~SetBoundarySpeciesInitAmountCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        StringIntVector getIds();
 
+        bool isInitialValue() {
+            return true;
+        }
+
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
+
+
+
+    class SetCompartmentInitVolumeCodeGen : public
+        SetInitialValueCodeGenBase<SetCompartmentInitVolumeCodeGen, false>
+    {
+    public:
+        SetCompartmentInitVolumeCodeGen(const ModelGeneratorContext& mgc);
+        ~SetCompartmentInitVolumeCodeGen() {};
+
+        StringIntVector getIds();
+
+        bool isInitialValue() {
+            return true;
+        }
+
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
+
+    class SetGlobalParameterInitValueCodeGen : public
+        SetInitialValueCodeGenBase<SetGlobalParameterInitValueCodeGen, false>
+    {
+    public:
+        SetGlobalParameterInitValueCodeGen(const ModelGeneratorContext& mgc);
+        ~SetGlobalParameterInitValueCodeGen() {};
+
+        StringIntVector getIds();
+
+        bool isInitialValue() {
+            return true;
+        }
+
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
+
+    /** @endcond PRIVATE */
 
 } /* namespace rrllvm */
 #endif /* RRLLVMSETINITIALVALUESCODEGEN_H_ */

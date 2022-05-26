@@ -25,168 +25,180 @@
 namespace rrllvm
 {
 
-typedef double (*GetEventValueCodeGenBase_FunctionPtr)(LLVMModelData*, size_t);
+    typedef double (*GetEventValueCodeGenBase_FunctionPtr)(LLVMModelData*, size_t);
 
-template <typename Derived, typename
-    FunctionPtrType=GetEventValueCodeGenBase_FunctionPtr>
-class GetEventValueCodeGenBase :
+    /** @class GetEventValueCodeGenBase
+    * Base class for getting event values.
+    */
+    template <typename Derived, typename
+        FunctionPtrType = GetEventValueCodeGenBase_FunctionPtr>
+        class GetEventValueCodeGenBase :
         public CodeGenBase<FunctionPtrType>
-{
-public:
-    GetEventValueCodeGenBase(const ModelGeneratorContext &mgc) :
+    {
+    public:
+        GetEventValueCodeGenBase(const ModelGeneratorContext& mgc) :
             CodeGenBase<FunctionPtrType>(mgc)
-    {
-    };
+        {
+        };
 
-    virtual ~GetEventValueCodeGenBase() {};
+        virtual ~GetEventValueCodeGenBase() {};
 
-    llvm::Value *codeGen();
+        llvm::Value* codeGen();
 
-    typedef FunctionPtrType FunctionPtr;
+        typedef FunctionPtrType FunctionPtr;
 
-    /**
-     * default ret type is double, derived classes
-     * must override if using non-default func sic
-     */
-    llvm::Type *getRetType()
-    {
-        return llvm::Type::getDoubleTy(this->context);
-    }
+        /**
+         * default ret type is double, derived classes
+         * must override if using non-default func sic
+         */
+        llvm::Type* getRetType()
+        {
+            return llvm::Type::getDoubleTy(this->context);
+        }
 
-    /**
-     * create a return type, a zero value should return the default type
-     */
-    llvm::Value *createRet(llvm::Value* value)
-    {
-        return value ? value :
+        /**
+         * create a return type, a zero value should return the default type
+         */
+        llvm::Value* createRet(llvm::Value* value)
+        {
+            return value ? value :
                 llvm::ConstantFP::get(this->context, llvm::APFloat(123.456));
-    }
+        }
 
-};
-
-template <typename Derived, typename FunctionPtrType>
-llvm::Value *GetEventValueCodeGenBase<Derived, FunctionPtrType>::codeGen()
-{
-    // make the set init value function
-    llvm::Type *argTypes[] = {
-        llvm::PointerType::get(ModelDataIRBuilder::getStructType(this->module), 0),
-        llvm::Type::getInt32Ty(this->context)
     };
 
-    const char *argNames[] = {
-        "modelData", Derived::IndexArgName
-    };
+    template <typename Derived, typename FunctionPtrType>
+    llvm::Value* GetEventValueCodeGenBase<Derived, FunctionPtrType>::codeGen()
+    {
+        // make the set init value function
+        llvm::Type* argTypes[] = {
+            llvm::PointerType::get(ModelDataIRBuilder::getStructType(this->module), 0),
+            llvm::Type::getInt32Ty(this->context)
+        };
 
-    llvm::Value *args[] = {0, 0};
+        const char* argNames[] = {
+            "modelData", Derived::IndexArgName
+        };
 
-    llvm::Type *retType = static_cast<Derived*>(this)->getRetType();
+        llvm::Value* args[] = { 0, 0 };
 
-    llvm::BasicBlock *entry = this->codeGenHeader(Derived::FunctionName, retType,
+        llvm::Type* retType = static_cast<Derived*>(this)->getRetType();
+
+        llvm::BasicBlock* entry = this->codeGenHeader(Derived::FunctionName, retType,
             argTypes, argNames, args);
 
-    const libsbml::ListOfEvents *events = this->model->getListOfEvents();
+        const libsbml::ListOfEvents* events = this->model->getListOfEvents();
 
-    ModelDataLoadSymbolResolver resolver(args[0], this->modelGenContext);
+        ModelDataLoadSymbolResolver resolver(args[0], this->modelGenContext);
 
-    ASTNodeCodeGen astCodeGen(this->builder, resolver, this->modelGenContext, args[0]);
+        ASTNodeCodeGen astCodeGen(this->builder, resolver, this->modelGenContext, args[0]);
 
-    // default, return NaN
-    llvm::BasicBlock *def = llvm::BasicBlock::Create(this->context, "default", this->function);
-    this->builder.SetInsertPoint(def);
+        // default, return NaN
+        llvm::BasicBlock* def = llvm::BasicBlock::Create(this->context, "default", this->function);
+        this->builder.SetInsertPoint(def);
 
-    llvm::Value *defRet = static_cast<Derived*>(this)->createRet(0);
-    this->builder.CreateRet(defRet);
+        llvm::Value* defRet = static_cast<Derived*>(this)->createRet(0);
+        this->builder.CreateRet(defRet);
 
-    // write the switch at the func entry point, the switch is also the
-    // entry block terminator
-    this->builder.SetInsertPoint(entry);
+        // write the switch at the func entry point, the switch is also the
+        // entry block terminator
+        this->builder.SetInsertPoint(entry);
 
-    llvm::SwitchInst *s = this->builder.CreateSwitch(args[1], def, events->size());
+        llvm::SwitchInst* s = this->builder.CreateSwitch(args[1], def, events->size());
 
-    for (uint i = 0; i < events->size(); ++i)
-    {
-        char block_name[64];
-        std::sprintf(block_name, "event_%i_block", i);
-        llvm::BasicBlock *block = llvm::BasicBlock::Create(this->context, block_name, this->function);
-        this->builder.SetInsertPoint(block);
-        resolver.flushCache();
+        for (uint i = 0; i < events->size(); ++i)
+        {
+            char block_name[64];
+            std::sprintf(block_name, "event_%i_block", i);
+            llvm::BasicBlock* block = llvm::BasicBlock::Create(this->context, block_name, this->function);
+            this->builder.SetInsertPoint(block);
+            resolver.flushCache();
 
-        const libsbml::Event *event = events->get(i);
+            const libsbml::Event* event = events->get(i);
 
-        llvm::Value* value = static_cast<Derived*>(this)->getMath(event, astCodeGen);
+            llvm::Value* value = static_cast<Derived*>(this)->getMath(event, astCodeGen);
 
-        // convert type to return type
-        value = static_cast<Derived*>(this)->createRet(value);
+            // convert type to return type
+            value = static_cast<Derived*>(this)->createRet(value);
 
-        this->builder.CreateRet(value);
-        s->addCase(llvm::ConstantInt::get(llvm::Type::getInt32Ty(this->context), i), block);
+            this->builder.CreateRet(value);
+            s->addCase(llvm::ConstantInt::get(llvm::Type::getInt32Ty(this->context), i), block);
+        }
+
+        return this->verifyFunction();
     }
 
-    return this->verifyFunction();
-}
+    typedef unsigned char (*GetEventTriggerCodeGen_FunctionPtr)(LLVMModelData*, size_t);
 
-typedef unsigned char (*GetEventTriggerCodeGen_FunctionPtr)(LLVMModelData*, size_t);
-
-class GetEventTriggerCodeGen: public
-    GetEventValueCodeGenBase<GetEventTriggerCodeGen,
-    GetEventTriggerCodeGen_FunctionPtr>
-{
-public:
-    GetEventTriggerCodeGen(const ModelGeneratorContext &mgc);
-    ~GetEventTriggerCodeGen() {};
-
-    llvm::Value* getMath(const libsbml::Event *, ASTNodeCodeGen& astCodeGen);
-
-    static const char* FunctionName;
-    static const char* IndexArgName;
-
-    llvm::Type *getRetType();
-
-    llvm::Value *createRet(llvm::Value*);
-};
-
-class GetEventPriorityCodeGen: public
-    GetEventValueCodeGenBase<GetEventPriorityCodeGen>
-{
-public:
-    GetEventPriorityCodeGen(const ModelGeneratorContext &mgc);
-    ~GetEventPriorityCodeGen();
-
-    llvm::Value* getMath(const libsbml::Event*, ASTNodeCodeGen& astCodeGen);
-
-    static const char* FunctionName;
-    static const char* IndexArgName;
-
-private:
-    libsbml::ASTNode *node;
-};
-
-class GetEventDelayCodeGen: public
-    GetEventValueCodeGenBase<GetEventDelayCodeGen>
-{
-public:
-    GetEventDelayCodeGen(const ModelGeneratorContext &mgc);
-    ~GetEventDelayCodeGen();
-
-    llvm::Value* getMath(const libsbml::Event*, ASTNodeCodeGen& astCodeGen);
-
-    llvm::Value *createRet(llvm::Value* value)
+    /** @class GetEventTriggerCodeGen
+    * Get the trigger of an SBML Event.
+    */
+    class GetEventTriggerCodeGen : public
+        GetEventValueCodeGenBase<GetEventTriggerCodeGen,
+        GetEventTriggerCodeGen_FunctionPtr>
     {
-		// Return the value for the default label
-		if (!value)
-            return llvm::ConstantFP::get(this->context, llvm::APFloat(123.456));
-		// If the delay evaluates to a double then just return it
-		if (value->getType() == llvm::Type::getDoubleTy(context))
-			return value;
-		// Otherwise it's a boolean (i.e. an i1), so convert it to a double
-		return this->builder.CreateCast(llvm::Instruction::CastOps::UIToFP, value, llvm::Type::getDoubleTy(context));
-    }
+    public:
+        GetEventTriggerCodeGen(const ModelGeneratorContext& mgc);
+        ~GetEventTriggerCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-private:
-    libsbml::ASTNode *node;
-};
+        llvm::Value* getMath(const libsbml::Event*, ASTNodeCodeGen& astCodeGen);
+
+        static const char* FunctionName;
+        static const char* IndexArgName;
+
+        llvm::Type* getRetType();
+
+        llvm::Value* createRet(llvm::Value*);
+    };
+
+    /** @class GetEventPriorityCodeGen
+    * Get the priority of an SBML Event.
+    */
+    class GetEventPriorityCodeGen : public
+        GetEventValueCodeGenBase<GetEventPriorityCodeGen>
+    {
+    public:
+        GetEventPriorityCodeGen(const ModelGeneratorContext& mgc);
+        ~GetEventPriorityCodeGen();
+
+        llvm::Value* getMath(const libsbml::Event*, ASTNodeCodeGen& astCodeGen);
+
+        static const char* FunctionName;
+        static const char* IndexArgName;
+
+    private:
+        libsbml::ASTNode* node;
+    };
+
+    /** @class GetEventDelayCodeGen
+    * Get the delay of an SBML Event.
+    */
+    class GetEventDelayCodeGen : public
+        GetEventValueCodeGenBase<GetEventDelayCodeGen>
+    {
+    public:
+        GetEventDelayCodeGen(const ModelGeneratorContext& mgc);
+        ~GetEventDelayCodeGen();
+
+        llvm::Value* getMath(const libsbml::Event*, ASTNodeCodeGen& astCodeGen);
+
+        llvm::Value* createRet(llvm::Value* value)
+        {
+            // Return the value for the default label
+            if (!value)
+                return llvm::ConstantFP::get(this->context, llvm::APFloat(123.456));
+            // If the delay evaluates to a double then just return it
+            if (value->getType() == llvm::Type::getDoubleTy(context))
+                return value;
+            // Otherwise it's a boolean (i.e. an i1), so convert it to a double
+            return this->builder.CreateCast(llvm::Instruction::CastOps::UIToFP, value, llvm::Type::getDoubleTy(context));
+        }
+
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    private:
+        libsbml::ASTNode* node;
+    };
 
 
 } /* namespace rr */

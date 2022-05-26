@@ -6,6 +6,7 @@
 
 
 namespace rr {
+    /** @cond PRIVATE */
 
     std::string NLEQ2Solver::getName() const {
         return "nleq2";
@@ -27,6 +28,7 @@ namespace rr {
     Solver *NLEQ2Solver::construct(ExecutableModel *executableModel) const {
         return new NLEQ2Solver(executableModel);
     }
+    /** @endcond PRIVATE */
 
 }    //end of namespace
 

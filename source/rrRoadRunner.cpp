@@ -1001,6 +1001,7 @@ namespace rr {
         return impl->loadOpt.getConservedMoietyConversion();
     }
 
+    /** @cond PRIVATE */
     void RoadRunner::setTempDir(const std::string &folder) {
         impl->loadOpt.setItem("tempDir", Setting(folder));
     }
@@ -1024,6 +1025,7 @@ namespace rr {
         }
         return element;
     }
+    /** @endcond PRIVATE */
 
     size_t RoadRunner::createDefaultTimeCourseSelectionList() {
         std::vector<std::string> selections;

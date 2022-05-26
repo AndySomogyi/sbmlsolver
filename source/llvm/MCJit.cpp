@@ -37,6 +37,7 @@
 using namespace rr;
 
 namespace rrllvm {
+    /** @cond PRIVATE */
 
     /**
      * @brief cross platform mechanism for getting the target machine
@@ -330,5 +331,5 @@ namespace rrllvm {
         return s;
     };
 
-
+    /** @endcond PRIVATE */
 }

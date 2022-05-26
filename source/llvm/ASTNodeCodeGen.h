@@ -24,7 +24,7 @@ class ASTNode;
 
 namespace rrllvm
 {
-/**
+/** @class ASTNodeCodeGen
  * All of the LLVM IR generation is handled here.
  */
 class ASTNodeCodeGen
@@ -133,6 +133,10 @@ private:
 };
 
 std::string to_string(const libsbml::ASTNode *ast);
+
+/** @class ASTNodeCodeGenScalarTicket
+ *  Used in LoadSymbolResolverBase::loadReactionRate when resolving a kinetic law.
+ */
 
 class ASTNodeCodeGenScalarTicket {
     public:

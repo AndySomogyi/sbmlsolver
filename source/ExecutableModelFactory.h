@@ -27,7 +27,8 @@ public:
      * creates a NEW object which must be deleted by the caller.
      *
      * @param sbml: an sbml std::string
-     * @param dict: a dictionary of options, this is typcally a LoadSBMLOptions object,
+	 * @param md5: an md5 hash of the model string, used to check if we already created this model.
+	 * @param dict: a dictionary of options, this is typcally a LoadSBMLOptions object,
      * but it may be any dictionary.
      */
     static ExecutableModel *createModel(const libsbml::SBMLDocument* sbml, const std::string& md5, const Dictionary* dict = 0);
