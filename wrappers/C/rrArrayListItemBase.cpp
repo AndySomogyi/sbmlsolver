@@ -4,9 +4,10 @@
 
 namespace rrc
 {
+    /** @cond PRIVATE */
 
-ArrayListItemBase::~ArrayListItemBase()
-{}
+    ArrayListItemBase::~ArrayListItemBase()
+    {}
 
-
+    /** @endcond PRIVATE */
 }

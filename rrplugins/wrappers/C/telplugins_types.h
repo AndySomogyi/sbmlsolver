@@ -63,7 +63,7 @@ namespace tlpc
         typedef enum { jtLoadModel, jtSimulate }  RRJobType;
 
 
-        /*!@struct*/
+        /*!@struct RRInstanceList*/
         /*!@brief Structure for a set of RoadRunner handles */
         typedef struct RRInstanceList
         {
@@ -72,7 +72,7 @@ namespace tlpc
             void* RRList;                 /*!< Pointer to a RoadRunnerList instance */
         } *RRInstanceListPtr;                      /*!< Pointer to RRInstanceList */
 
-        /*!@struct*/
+        /*!@struct RRCCode*/
         /*!@brief Convenient structure for storing the header and main body source for the generate simulation C code */
         typedef struct RRCCode
         {

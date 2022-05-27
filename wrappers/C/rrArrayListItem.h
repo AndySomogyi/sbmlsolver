@@ -12,43 +12,43 @@
 namespace rrc
 {
 
-/**
- * @internal
- * a proprietaty collection class that is theoretically deprecated, but used extensively in rrc_api.cpp
- */
-template <class T>
-class ArrayListItem : public ArrayListItemBase
-{
+    /** @cond PRIVATE
+     * a proprietaty collection class that is theoretically deprecated, but used extensively in rrc_api.cpp
+     */
+        template <class T>
+    class ArrayListItem : public ArrayListItemBase
+    {
     private:
         T                           mItemValue;
 
     public:
-                                    ArrayListItem(const T& val);
+        ArrayListItem(const T& val);
 
-        virtual                    ~ArrayListItem(){}
-                                    operator T(){return mItemValue;}
-        virtual const char          operator[](const int& pos) const {return '\0';}     //Make sense for string types
-        ArrayListItem<T>&           operator=(const ArrayListItem<T>& rhs);
-};
+        virtual                    ~ArrayListItem() {}
+        operator T() { return mItemValue; }
+        virtual const char          operator[](const int& pos) const { return '\0'; }     //Make sense for string types
+        ArrayListItem<T>& operator=(const ArrayListItem<T>& rhs);
+    };
 
-template<class T>
-ArrayListItem<T>::ArrayListItem(const T& val)
-:
-mItemValue(val)
-{}
+    template<class T>
+    ArrayListItem<T>::ArrayListItem(const T& val)
+        :
+        mItemValue(val)
+    {}
 
-template<class T>
-ArrayListItem<T>& ArrayListItem<T>::operator=(const ArrayListItem<T>& rhs)
-{
-    if(this != &rhs)
+    template<class T>
+    ArrayListItem<T>& ArrayListItem<T>::operator=(const ArrayListItem<T>& rhs)
     {
-        mItemValue = rhs.mItemValue;
+        if (this != &rhs)
+        {
+            mItemValue = rhs.mItemValue;
+        }
+
+        return *this;
     }
 
-    return *this;
-}
-
-std::ostream& operator<<(std::ostream& stream, const ArrayListItemBase& item);
+    std::ostream& operator<<(std::ostream& stream, const ArrayListItemBase& item);
+    /** @endcond PRIVATE */
 
 }
 #endif

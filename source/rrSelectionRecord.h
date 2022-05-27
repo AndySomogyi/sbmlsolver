@@ -382,7 +382,7 @@ public:
     int index;
 
     /**
-     * For single argument selections, i.e. ee( S1 ), this is the argument, for
+     * For single argument selections, i.e. ec( S1 ), this is the argument, for
      * two arg selections, this is the first arg.
      */
     std::string p1;

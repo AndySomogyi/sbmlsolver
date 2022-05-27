@@ -17,21 +17,24 @@
 
 namespace rrllvm
 {
+    /** @class EvalConversionFactorCodeGen
+    * Evaluate conversion factors, which change the units of species objects in SBML.
+    */
 
-typedef void (*EvalConversionFactorCodeGen_FunctionPtr)(LLVMModelData*);
+    typedef void (*EvalConversionFactorCodeGen_FunctionPtr)(LLVMModelData*);
 
-class EvalConversionFactorCodeGen:
+    class EvalConversionFactorCodeGen :
         public CodeGenBase<EvalConversionFactorCodeGen_FunctionPtr>
-{
-public:
-    EvalConversionFactorCodeGen(const ModelGeneratorContext &mgc);
-    virtual ~EvalConversionFactorCodeGen();
+    {
+    public:
+        EvalConversionFactorCodeGen(const ModelGeneratorContext& mgc);
+        virtual ~EvalConversionFactorCodeGen();
 
-    llvm::Value *codeGen();
+        llvm::Value* codeGen();
 
-    static const char* FunctionName;
+        static const char* FunctionName;
 
-};
+    };
 
 } /* namespace rrllvm */
 #endif /* EVALCONVERSIONFACTORCODEGEN_H_ */

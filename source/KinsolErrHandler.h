@@ -13,7 +13,7 @@ namespace rr {
 
     /**
      * @brief Convert kinsol error codes into text.
-     * @param kinsolError the error code
+     * @param cvodeError the error code
      * @author CW
      * @details These error messages are taken directly
      * from the kinsol documentation. More information
@@ -31,7 +31,6 @@ namespace rr {
     * @param module: is the name of the kinsol module reporting the error.
     * @param function: is the name of the function in which the error occurred.
     * @param msg: is the error message.
-    * @param eh_data: is a pointer to user data, the same as the eh_data parameter
     * passed to CVodeSetErrHandlerFn.
     *
     * Notes:

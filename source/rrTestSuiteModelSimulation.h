@@ -11,7 +11,7 @@ namespace rr
 {
 
 /**
- * @internal
+ * @cond PRIVATE
  */
 class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
 {
@@ -42,7 +42,7 @@ class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
         bool                    LoadSettings(const std::filesystem::path& fName = "") override;
         virtual bool            LoadSettingsEx(const std::filesystem::path& settingsFName);
 };
-
+/** @endcond PRIVATE */
 }
 
 

@@ -12,6 +12,10 @@
 
 namespace rr {
 
+    /** @class NewtonIteration
+    * @brief Implementation of the newton iteration form of the kinsol steady state solver.
+    */
+
     class RR_DECLSPEC NewtonIteration : public KinsolSteadyStateSolver {
 
     public:

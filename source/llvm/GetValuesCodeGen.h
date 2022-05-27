@@ -19,101 +19,119 @@
 namespace rrllvm
 {
 
-class GetBoundarySpeciesAmountCodeGen: public
-    GetValueCodeGenBase<GetBoundarySpeciesAmountCodeGen, true>
-{
-public:
-    GetBoundarySpeciesAmountCodeGen(const ModelGeneratorContext &mgc);
-    ~GetBoundarySpeciesAmountCodeGen() {};
-
-    std::vector<std::string> getIds()
+    /** @class GetBoundarySpeciesAmountCodeGen
+    * Get the current amount of a boundary species.
+    */
+    class GetBoundarySpeciesAmountCodeGen : public
+        GetValueCodeGenBase<GetBoundarySpeciesAmountCodeGen, true>
     {
-        return dataSymbols.getBoundarySpeciesIds();
-    }
+    public:
+        GetBoundarySpeciesAmountCodeGen(const ModelGeneratorContext& mgc);
+        ~GetBoundarySpeciesAmountCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        std::vector<std::string> getIds()
+        {
+            return dataSymbols.getBoundarySpeciesIds();
+        }
 
-class GetFloatingSpeciesAmountCodeGen: public
-    GetValueCodeGenBase<GetFloatingSpeciesAmountCodeGen, true>
-{
-public:
-    GetFloatingSpeciesAmountCodeGen(const ModelGeneratorContext &mgc);
-    ~GetFloatingSpeciesAmountCodeGen() {};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-    std::vector<std::string> getIds()
+    /** @class GetFloatingSpeciesAmountCodeGen
+    * Get the current amount of a floating species.
+    */
+    class GetFloatingSpeciesAmountCodeGen : public
+        GetValueCodeGenBase<GetFloatingSpeciesAmountCodeGen, true>
     {
-        return dataSymbols.getFloatingSpeciesIds();
-    }
+    public:
+        GetFloatingSpeciesAmountCodeGen(const ModelGeneratorContext& mgc);
+        ~GetFloatingSpeciesAmountCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        std::vector<std::string> getIds()
+        {
+            return dataSymbols.getFloatingSpeciesIds();
+        }
 
-class GetBoundarySpeciesConcentrationCodeGen: public
-    GetValueCodeGenBase<GetBoundarySpeciesConcentrationCodeGen, false>
-{
-public:
-    GetBoundarySpeciesConcentrationCodeGen(const ModelGeneratorContext &mgc);
-    ~GetBoundarySpeciesConcentrationCodeGen() {};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-    std::vector<std::string> getIds()
+    /** @class GetBoundarySpeciesConcentrationCodeGen
+    * Get the current concentration of a boundary species.
+    */
+    class GetBoundarySpeciesConcentrationCodeGen : public
+        GetValueCodeGenBase<GetBoundarySpeciesConcentrationCodeGen, false>
     {
-        return dataSymbols.getBoundarySpeciesIds();
-    }
+    public:
+        GetBoundarySpeciesConcentrationCodeGen(const ModelGeneratorContext& mgc);
+        ~GetBoundarySpeciesConcentrationCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        std::vector<std::string> getIds()
+        {
+            return dataSymbols.getBoundarySpeciesIds();
+        }
 
-class GetFloatingSpeciesConcentrationCodeGen: public
-    GetValueCodeGenBase<GetFloatingSpeciesConcentrationCodeGen, false>
-{
-public:
-    GetFloatingSpeciesConcentrationCodeGen(const ModelGeneratorContext &mgc);
-    ~GetFloatingSpeciesConcentrationCodeGen() {};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-    std::vector<std::string> getIds()
+    /** @class GetFloatingSpeciesConcentrationCodeGen
+    * Get the current concentration of a floating species.
+    */
+    class GetFloatingSpeciesConcentrationCodeGen : public
+        GetValueCodeGenBase<GetFloatingSpeciesConcentrationCodeGen, false>
     {
-        return dataSymbols.getFloatingSpeciesIds();
-    }
+    public:
+        GetFloatingSpeciesConcentrationCodeGen(const ModelGeneratorContext& mgc);
+        ~GetFloatingSpeciesConcentrationCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        std::vector<std::string> getIds()
+        {
+            return dataSymbols.getFloatingSpeciesIds();
+        }
 
-class GetCompartmentVolumeCodeGen: public
-    GetValueCodeGenBase<GetCompartmentVolumeCodeGen, false>
-{
-public:
-    GetCompartmentVolumeCodeGen(const ModelGeneratorContext &mgc);
-    ~GetCompartmentVolumeCodeGen() {};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-    std::vector<std::string> getIds()
+    /** @class GetCompartmentVolumeCodeGen
+    * Get the current volume of a compartment.
+    */
+    class GetCompartmentVolumeCodeGen : public
+        GetValueCodeGenBase<GetCompartmentVolumeCodeGen, false>
     {
-        return dataSymbols.getCompartmentIds();
-    }
+    public:
+        GetCompartmentVolumeCodeGen(const ModelGeneratorContext& mgc);
+        ~GetCompartmentVolumeCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        std::vector<std::string> getIds()
+        {
+            return dataSymbols.getCompartmentIds();
+        }
 
-class GetGlobalParameterCodeGen: public
-    GetValueCodeGenBase<GetGlobalParameterCodeGen, false>
-{
-public:
-    GetGlobalParameterCodeGen(const ModelGeneratorContext &mgc);
-    ~GetGlobalParameterCodeGen() {};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-    std::vector<std::string> getIds()
+    /** @class GetGlobalParameterCodeGen
+    * Get the current value of a parameter.
+    */
+    class GetGlobalParameterCodeGen : public
+        GetValueCodeGenBase<GetGlobalParameterCodeGen, false>
     {
-        return dataSymbols.getGlobalParameterIds();
-    }
+    public:
+        GetGlobalParameterCodeGen(const ModelGeneratorContext& mgc);
+        ~GetGlobalParameterCodeGen() {};
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        std::vector<std::string> getIds()
+        {
+            return dataSymbols.getGlobalParameterIds();
+        }
+
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
 
 

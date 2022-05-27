@@ -859,28 +859,8 @@ RRDoubleMatrixPtr rrcCallConv getStoichiometryMatrix(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        ExecutableModel* model = rri->getModel();
-
-        if(model)
-        {
-            int rows = 0;
-            int cols = 0;
-
-            RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
-            DoubleMatrix full_stoich = rri->getFullStoichiometryMatrix();
-
-            matrix->RSize = full_stoich.numRows();
-            matrix->CSize = full_stoich.numCols();
-            matrix->Data =  new double[rows*cols];
-
-            memcpy(matrix->Data, full_stoich.GetPointer(), rows*cols*sizeof(double));
-
-            return matrix;
-        }
-		else
-        {
-            return 0;
-        }
+        DoubleMatrix tempMat = rri->getFullStoichiometryMatrix();
+        return createMatrix(&tempMat);
     catch_ptr_macro
 }
 
@@ -1033,6 +1013,22 @@ RRStringArrayPtr rrcCallConv getDependentFloatingSpeciesIds(RRHandle handle)
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
     StringList fNames = rri->getDependentFloatingSpeciesIds();
+
+    if (!fNames.Count())
+    {
+        return NULL;
+    }
+
+    return createList(fNames);
+    catch_ptr_macro
+}
+
+
+RRStringArrayPtr rrcCallConv getIndependentFloatingSpeciesIds(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    StringList fNames = rri->getIndependentFloatingSpeciesIds();
 
     if (!fNames.Count())
     {
@@ -1547,6 +1543,16 @@ RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle)
         ArrayList aList = sel_getElasticityCoefficientIds(rri);
         RRListPtr bList = createArrayList(aList);
         return bList;
+    catch_ptr_macro
+}
+
+RRListPtr rrcCallConv getUnscaledElasticityCoefficientIds(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    ArrayList aList = sel_getUnscaledElasticityCoefficientIds(rri);
+    RRListPtr bList = createArrayList(aList);
+    return bList;
     catch_ptr_macro
 }
 
@@ -3258,22 +3264,22 @@ ArrayList sel_getElasticityCoefficientIds(RoadRunner* rr)
 
         for(int j = 0; j < floatingSpeciesNames.size(); j++)
         {
-            oInner.add(format("ee({0},{1})", reac_name, floatingSpeciesNames[j]));
+            oInner.add(format("ec({0},{1})", reac_name, floatingSpeciesNames[j]));
         }
 
         for(int j = 0; j < boundarySpeciesNames.size(); j++)
         {
-            oInner.add(format("ee({0},{1})", reac_name, boundarySpeciesNames[j]));
+            oInner.add(format("ec({0},{1})", reac_name, boundarySpeciesNames[j]));
         }
 
         for(int j = 0; j < globalParameterNames.size(); j++)
         {
-            oInner.add(format("ee({0},{1})", reac_name, globalParameterNames[j]));
+            oInner.add(format("ec({0},{1})", reac_name, globalParameterNames[j]));
         }
 
         for(int j = 0; j < conservationNames.size(); j++)
         {
-            oInner.add(format("ee({0},{1})", reac_name, conservationNames[j]));
+            oInner.add(format("ec({0},{1})", reac_name, conservationNames[j]));
         }
 
         oCCReaction.Add(oInner);
@@ -3377,7 +3383,8 @@ vector<double> rr_getRatesOfChange(RoadRunner* rr)
     }
 
     mModel->computeAllRatesOfChange();
-    vector<double> result(mModel->getNumFloatingSpecies());
+    //vector<double> result(mModel->getNumFloatingSpecies());
+    vector<double> result(mModel->getNumIndFloatingSpecies());
     mModel->getFloatingSpeciesAmountRates(result.size(), 0, &result[0]);
     return result;
 }
@@ -3694,5 +3701,29 @@ RRStringArrayPtr rrcCallConv getListOfConfigKeys()
         return createList(sNames);
     catch_ptr_macro
 }
+
+bool rrcCallConv setTimeCourseSelectionListEx(RRHandle handle, int length, const char** list)
+{
+    vector<string> vlist;
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    for (int i = 0; i < length; i++)
+        vlist.push_back(list[i]);
+    rri->setSelections(vlist);
+    return true;
+    catch_bool_macro
+}
+bool rrcCallConv setSteadyStateSelectionListEx(RRHandle handle, int length, const char** list)
+{
+    vector<string> vlist;
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    for (int i = 0; i < length; i++)
+        vlist.push_back(list[i]);
+    rri->setSteadyStateSelections(vlist);
+    return true;
+    catch_bool_macro
+}
+
 
 }

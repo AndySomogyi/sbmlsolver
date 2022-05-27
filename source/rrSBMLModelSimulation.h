@@ -14,7 +14,7 @@ namespace rr
 class RoadRunner;
 
 /**
- * @internal
+ * @cond PRIVATE
  *
  * Read an sbml test suite, simulate and compare the results.
  */
@@ -71,7 +71,7 @@ class RR_DECLSPEC SBMLModelSimulation
         /// relative tolerance for residual comparison, does not affect integrator
         double mRelative;
 };
-
+/** @endcond PRIVATE */
 }
 
 

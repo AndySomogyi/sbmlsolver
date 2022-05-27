@@ -12,7 +12,7 @@ Windows
 
 Build CPython in debug mode:
 
-.. code-block:: powerhsell
+.. code-block:: powershell
 
     .\PCbuild\build.bat -e -d -p x64
 

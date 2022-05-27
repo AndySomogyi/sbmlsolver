@@ -175,23 +175,56 @@ namespace rr {
          * get the floating species amounts
          *
          * @param[in] len the length of the indx and values arrays.
-         * @param[in] indx an array of length len of boundary species to return.
+         * @param[in] indx an array of length len of floating species to return.
          * @param[out] values an array of at least length len which will store the
-         *                returned boundary species amounts.
+         *                returned floating species amounts.
          */
         virtual int getFloatingSpeciesAmounts(size_t len, int const *indx,
                                               double *values) = 0;
 
+        /*
+         * Set the floating species amounts.
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of floating species.
+         * @param[in] values an array of at least length len which store the
+         *                floating species amounts.
+         */
         virtual int setFloatingSpeciesAmounts(size_t len, int const *indx,
                                               const double *values) = 0;
 
+        /*
+         * Set the floating species amounts.
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of floating species.
+         * @param[in] values an array of at least length len which store the
+         *                floating species amounts.
+         * @param[in] strict whether to throw if the value cannot be set.
+         */
         virtual int setFloatingSpeciesAmounts(size_t len, int const* indx,
             const double* values, bool strict) = 0;
 
+        /**
+         * get the floating species amount rates
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of floating species to return.
+         * @param[out] values an array of at least length len which will store the
+         *                returned floating species amount rates.
+         */
         virtual int getFloatingSpeciesAmountRates(size_t len, int const *indx,
                                                   double *values) = 0;
 
 
+        /**
+         * get the floating species concentration rates
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of floating species to return.
+         * @param[out] values an array of at least length len which will store the
+         *                returned floating species concentration rates.
+         */
         virtual int getFloatingSpeciesConcentrationRates(size_t len, int const *indx,
                                                          double *values) = 0;
 
@@ -199,9 +232,9 @@ namespace rr {
          * get the floating species concentrations
          *
          * @param[in] len the length of the indx and values arrays.
-         * @param[in] indx an array of length len of boundary species to return.
+         * @param[in] indx an array of length len of floating species to return.
          * @param[out] values an array of at least length len which will store the
-         *                returned boundary species amounts.
+         *                returned floating species amounts.
          */
         virtual int getFloatingSpeciesConcentrations(size_t len, int const *indx,
                                                      double *values) = 0;
@@ -312,16 +345,25 @@ namespace rr {
                                                      double const *values) = 0;
 
         /*
-         * set the boundary species amounts
+         * Set the boundary species amounts.
          *
          * @param[in] len the length of the indx and values arrays.
-         * @param[in] indx an array of length len of boundary species to return.
-         * @param[in] values an array of at least length len which will store the
-         *                returned boundary species amounts.
+         * @param[in] indx an array of length len of boundary species.
+         * @param[in] values an array of at least length len which store the
+         *                boundary species amounts.
          */
         virtual int setBoundarySpeciesAmounts(size_t len, int const* indx,
             double const* values) = 0;
 
+        /*
+         * Set the boundary species amounts.
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of boundary species.
+         * @param[in] values an array of at least length len which store the
+         *                boundary species amounts.
+         * @param[in] strict whether to throw if the value cannot be set.
+         */
         virtual int setBoundarySpeciesAmounts(size_t len, int const* indx,
             double const* values, bool strict) = 0;
 
@@ -401,9 +443,26 @@ namespace rr {
         virtual int getGlobalParameterValues(size_t len, int const *indx,
                                              double *values) = 0;
 
+        /*
+         * Set the global parameter values.
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of parameters.
+         * @param[in] values an array of at least length len which store the
+         *                parameter values.
+         */
         virtual int setGlobalParameterValues(size_t len, int const *indx,
                                              const double *values) = 0;
 
+        /*
+         * Set the global parameter values.
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of parameters.
+         * @param[in] values an array of at least length len which store the
+         *                parameter values.
+         * @param[in] strict whether to throw if the value cannot be set.
+         */
         virtual int setGlobalParameterValues(size_t len, int const* indx,
             const double* values, bool strict) = 0;
 
@@ -454,9 +513,26 @@ namespace rr {
         virtual int getCompartmentVolumes(size_t len, int const *indx,
                                           double *values) = 0;
 
+        /*
+         * Set the compartment volumes.
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of compartments.
+         * @param[in] values an array of at least length len which store the
+         *                compartment values.
+         */
         virtual int setCompartmentVolumes(size_t len, int const *indx,
                                           const double *values) = 0;
 
+        /*
+         * Set the compartment volumes.
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of compartments.
+         * @param[in] values an array of at least length len which store the
+         *                compartment values.
+         * @param[in] strict whether to throw if the value cannot be set.
+         */
         virtual int setCompartmentVolumes(size_t len, int const* indx,
             const double* values, bool strict) = 0;
 
@@ -636,7 +712,7 @@ namespace rr {
         /**
          * sets the internal model state to the provided packed state std::vector.
          *
-         * @param[in] an array which holds the packed state std::vector, must be
+         * @param[in] stateVector an array which holds the packed state std::vector, must be
          *         at least the size returned by getStateVector.
          *
          * @return the number of items copied from the state std::vector, negative
@@ -712,9 +788,9 @@ namespace rr {
          * Simplest method is to return 1 for triggered, -1 for not-triggered, so long
          * as there is a zero crossing.
          *
-         * @param time[in] current time
-         * @param y[in] the state std::vector
-         * @param gdot[out] result event roots, this is of length numEvents.
+         * @param[in] time current time
+         * @param[in] y the state std::vector
+         * @param[out] gdot result event roots, this is of length numEvents.
          */
         virtual void getEventRoots(double time, const double *y, double *gdot) = 0;
 
@@ -829,7 +905,7 @@ namespace rr {
         void computeAllRatesOfChange() {};
 
         /*
-        * Writes "Not implemented for this model type" to out if not implemented for the underlying
+        * Writes "Saving state not implemented for this model type" to out if not implemented for the underlying
         * model type
         */
         virtual void saveState(std::ostream &out) {

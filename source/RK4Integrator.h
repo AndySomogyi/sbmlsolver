@@ -40,10 +40,6 @@ namespace rr
         *
         * The integrator will hold onto the ExecutableModel pointer, m, and when the
         * integrate method is called, will advance the model object forward in time.
-        *
-        * @param m: a borrowed reference to an existing ExecutableModel object.
-        * @param o: a reference to a SimulatOptions object where the configuration
-        * parameters will be read from.
         */
         RK4Integrator(ExecutableModel *m);
 

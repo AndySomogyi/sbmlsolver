@@ -27,101 +27,135 @@ namespace rr
 #ifdef _MSC_VER
 #pragma warning(disable: 4275)
 #endif
-    
-class RR_DECLSPEC Exception : public std::exception
-{
+
+    /** @class Exception
+    * The RoadRunner exception class.
+    */
+
+    class RR_DECLSPEC Exception : public std::exception
+    {
     protected:
         std::string mMessage;   //Exception message
 
     public:
         //std::string& Message;
-                                Exception(const std::string& desc);
+        Exception(const std::string& desc);
         virtual                ~Exception() throw();
-        virtual const char*     what() const throw();
+        virtual const char* what() const throw();
         std::string                  Message() const;
         std::string                  getMessage() const;
-};
+    };
 
 
-class RR_DECLSPEC CoreException : public Exception
-{
+    /** @class CoreException
+    * Generic exception class.
+    */
+    class RR_DECLSPEC CoreException : public Exception
+    {
     public:
         CoreException(const std::string& msg);
         CoreException(const std::string& msg1, const std::string& msg2);
-};
+    };
 
-class RR_DECLSPEC ScannerException : public Exception
-{
+    /** @class ScannerException
+    * Exception class for scanners.
+    */
+    class RR_DECLSPEC ScannerException : public Exception
+    {
     public:
         ScannerException(const std::string& msg);
-};
+    };
 
-class RR_DECLSPEC NLEQException : public Exception
-{
+    /** @class NLEQException
+    * Exception class for scanners.
+    */
+    class RR_DECLSPEC NLEQException : public Exception
+    {
     public:
         NLEQException(const std::string& msg);
-};
+    };
 
-class RR_DECLSPEC NOMException : public Exception
-{
+    /** @class NOMException
+    * Exception class for scanners.
+    */
+    class RR_DECLSPEC NOMException : public Exception
+    {
     public:
         NOMException(const std::string& msg);
-};
+    };
 
-class RR_DECLSPEC CVODEException : public Exception
-{
+    /** @class CVODEException
+    * Exception class for scanners.
+    */
+    class RR_DECLSPEC CVODEException : public Exception
+    {
     public:
         CVODEException(const std::string& msg);
-};
+    };
 
-class RR_DECLSPEC KinsolException : public Exception
-{
+    /** @class KinsolException
+    * Exception class for scanners.
+    */
+    class RR_DECLSPEC KinsolException : public Exception
+    {
     public:
         explicit KinsolException(const std::string& msg);
-};
+    };
 
-class RR_DECLSPEC DidNotConvergeException : public Exception
-{
+    /** @class DidNotConvergeException
+    * Exception class for scanners.
+    */
+    class RR_DECLSPEC DidNotConvergeException : public Exception
+    {
     public:
         explicit DidNotConvergeException(const std::string& msg);
-};
+    };
 
-class RR_DECLSPEC NullPointerException : public Exception
-{
+    /** @class NullPointerException
+    * Exception class for scanners.
+    */
+    class RR_DECLSPEC NullPointerException : public Exception
+    {
     public:
         explicit NullPointerException(const std::string& msg);
-};
+    };
 
-class RR_DECLSPEC NotImplementedException : public Exception
-{
+    /** @class NotImplementedException
+    * Exception class for scanners.
+    */
+    class RR_DECLSPEC NotImplementedException : public Exception
+    {
     public:
         NotImplementedException(const std::string& msg);
-};
+    };
 
-class RR_DECLSPEC InvalidKeyException : public Exception
-{
+    /** @class InvalidKeyException
+    * Exception class for scanners.
+    */
+    class RR_DECLSPEC InvalidKeyException : public Exception
+    {
     public:
         explicit InvalidKeyException(const std::string& msg);
-};
+    };
 
 
-/**
- * @author JKM
- * @brief Thrown whenever an uninitialized value is encountered,
- * see https://github.com/sys-bio/roadrunner/issues/180
- */
-class RR_DECLSPEC UninitializedValueException : public Exception
-{
+    /**
+     * @class UninitializedValueException
+     * @brief Thrown whenever an uninitialized value is encountered,
+     * see https://github.com/sys-bio/roadrunner/issues/180
+     */
+    class RR_DECLSPEC UninitializedValueException : public Exception
+    {
     public:
         UninitializedValueException(const std::string& msg);
-};
+    };
 
-/**
- * @author JKM
- * @brief Called whenever an uninitialized value is encountered,
- * throws @ref UninitializedValueException
- */
-void UninitializedValue(const std::string& msg);
+    /**
+     * @author JKM
+     * @brief Called whenever an uninitialized value is encountered,
+     * throws @ref UninitializedValueException
+     */
+    void UninitializedValue(const std::string& msg);
 
 }//namepsace rr
 #endif

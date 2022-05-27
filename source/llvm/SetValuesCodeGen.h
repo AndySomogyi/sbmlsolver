@@ -18,86 +18,87 @@
 
 namespace rrllvm
 {
+    /** @cond PRIVATE */
 
-class SetBoundarySpeciesAmountCodeGen: public
-    SetValueCodeGenBase<SetBoundarySpeciesAmountCodeGen, true>
-{
-public:
-    SetBoundarySpeciesAmountCodeGen(const ModelGeneratorContext &mgc);
-    ~SetBoundarySpeciesAmountCodeGen() {};
+    class SetBoundarySpeciesAmountCodeGen : public
+        SetValueCodeGenBase<SetBoundarySpeciesAmountCodeGen, true>
+    {
+    public:
+        SetBoundarySpeciesAmountCodeGen(const ModelGeneratorContext& mgc);
+        ~SetBoundarySpeciesAmountCodeGen() {};
 
-    StringIntVector getIds();
+        StringIntVector getIds();
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-class SetFloatingSpeciesAmountCodeGen: public
-    SetValueCodeGenBase<SetFloatingSpeciesAmountCodeGen, true>
-{
-public:
-    SetFloatingSpeciesAmountCodeGen(const ModelGeneratorContext &mgc);
-    ~SetFloatingSpeciesAmountCodeGen() {};
+    class SetFloatingSpeciesAmountCodeGen : public
+        SetValueCodeGenBase<SetFloatingSpeciesAmountCodeGen, true>
+    {
+    public:
+        SetFloatingSpeciesAmountCodeGen(const ModelGeneratorContext& mgc);
+        ~SetFloatingSpeciesAmountCodeGen() {};
 
-    StringIntVector getIds();
+        StringIntVector getIds();
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-class SetBoundarySpeciesConcentrationCodeGen: public
-    SetValueCodeGenBase<SetBoundarySpeciesConcentrationCodeGen, false>
-{
-public:
-    SetBoundarySpeciesConcentrationCodeGen(const ModelGeneratorContext &mgc);
-    ~SetBoundarySpeciesConcentrationCodeGen() {};
+    class SetBoundarySpeciesConcentrationCodeGen : public
+        SetValueCodeGenBase<SetBoundarySpeciesConcentrationCodeGen, false>
+    {
+    public:
+        SetBoundarySpeciesConcentrationCodeGen(const ModelGeneratorContext& mgc);
+        ~SetBoundarySpeciesConcentrationCodeGen() {};
 
-    StringIntVector getIds();
+        StringIntVector getIds();
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-class SetFloatingSpeciesConcentrationCodeGen: public
-    SetValueCodeGenBase<SetFloatingSpeciesConcentrationCodeGen, false>
-{
-public:
-    SetFloatingSpeciesConcentrationCodeGen(const ModelGeneratorContext &mgc);
-    ~SetFloatingSpeciesConcentrationCodeGen() {};
+    class SetFloatingSpeciesConcentrationCodeGen : public
+        SetValueCodeGenBase<SetFloatingSpeciesConcentrationCodeGen, false>
+    {
+    public:
+        SetFloatingSpeciesConcentrationCodeGen(const ModelGeneratorContext& mgc);
+        ~SetFloatingSpeciesConcentrationCodeGen() {};
 
-    StringIntVector getIds();
+        StringIntVector getIds();
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-class SetCompartmentVolumeCodeGen: public
-    SetValueCodeGenBase<SetCompartmentVolumeCodeGen, false>
-{
-public:
-    SetCompartmentVolumeCodeGen(const ModelGeneratorContext &mgc);
-    ~SetCompartmentVolumeCodeGen() {};
+    class SetCompartmentVolumeCodeGen : public
+        SetValueCodeGenBase<SetCompartmentVolumeCodeGen, false>
+    {
+    public:
+        SetCompartmentVolumeCodeGen(const ModelGeneratorContext& mgc);
+        ~SetCompartmentVolumeCodeGen() {};
 
-    StringIntVector getIds();
+        StringIntVector getIds();
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-class SetGlobalParameterCodeGen: public
-    SetValueCodeGenBase<SetGlobalParameterCodeGen, false>
-{
-public:
-    SetGlobalParameterCodeGen(const ModelGeneratorContext &mgc);
-    ~SetGlobalParameterCodeGen() {};
+    class SetGlobalParameterCodeGen : public
+        SetValueCodeGenBase<SetGlobalParameterCodeGen, false>
+    {
+    public:
+        SetGlobalParameterCodeGen(const ModelGeneratorContext& mgc);
+        ~SetGlobalParameterCodeGen() {};
 
-    StringIntVector getIds();
+        StringIntVector getIds();
 
-    static const char* FunctionName;
-    static const char* IndexArgName;
-};
+        static const char* FunctionName;
+        static const char* IndexArgName;
+    };
 
-
+    /** @endcond PRIVATE */
 
 } /* namespace rrllvm */
 #endif /* SETVALUESCODEGEN_H_ */

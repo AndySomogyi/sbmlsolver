@@ -8,6 +8,7 @@
 #include "SteadyStateSolverDecorator.h"
 
 namespace rr {
+    /** @cond PRIVATE */
 
     class ApproxSteadyStateDecorator : public SteadyStateSolverDecorator {
     public:
@@ -25,6 +26,7 @@ namespace rr {
         std::string decoratorName() const override;
 
     };
+    /** @endcond PRIVATE */
 }
 
 

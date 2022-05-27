@@ -24,6 +24,9 @@ namespace rrllvm
 
     typedef double (*GetInitialValueCodeGenBase_FunctionPtr)(LLVMModelData*, size_t);
 
+    /** @class GetInitialValueCodeGenBase
+    * Base class for getting the initial value of an element.  Automatically sets up both concentration and amount of species elements.
+    */
     template <typename Derived, bool substanceUnits>
     class GetInitialValueCodeGenBase :
         public CodeGenBase<GetInitialValueCodeGenBase_FunctionPtr>

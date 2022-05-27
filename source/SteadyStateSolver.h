@@ -30,10 +30,10 @@ namespace rr
 {
     class ExecutableModel;
 
-    /*-------------------------------------------------------------------------------------------
-        SteadyStateSolver is an abstract base class that provides an interface to specific steady-state solver
-        class implementations.
-    ---------------------------------------------------------------------------------------------*/
+    /** @class SteadyStateSolver 
+	* SteadyStateSolver is an abstract base class that provides an interface to specific steady-state solver
+    *  class implementations.
+	*/
     class RR_DECLSPEC SteadyStateSolver : public Solver
     {
     public:
