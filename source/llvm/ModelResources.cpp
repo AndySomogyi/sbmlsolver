@@ -27,6 +27,7 @@
 #pragma warning(disable: 4141)
 #pragma warning(disable: 4267)
 #pragma warning(disable: 4624)
+#pragma warning(disable: 4244)
 #endif
 
 #include "llvm/SBMLSupportFunctions.h"
@@ -44,6 +45,7 @@
 #pragma warning(default: 4141)
 #pragma warning(default: 4267)
 #pragma warning(default: 4624)
+#pragma warning(default: 4244)
 #endif
 
 using rr::Logger;

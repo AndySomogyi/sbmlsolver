@@ -22,7 +22,65 @@ public:
 };
 
 
-TEST_F(ModelAnalysisTests, issue986a) {
+TEST_F(ModelAnalysisTests, issue1020_full) {
+    //Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::LLJIT);
+    rr::RoadRunner rr((modelAnalysisModelsDir / "Jarrah2014.xml").string());
+
+    ls::DoubleMatrix ues = rr.getUnscaledElasticityMatrix();
+    ls::DoubleMatrix jacobian = rr.getFullJacobian();
+
+    rr = ((modelAnalysisModelsDir / "Jarrah2014_timevar.xml").string());
+    ls::DoubleMatrix ues_tv = rr.getUnscaledElasticityMatrix();
+    ls::DoubleMatrix jacobian_tv = rr.getFullJacobian();
+
+    ASSERT_EQ(ues.CSize(), ues_tv.CSize());
+    ASSERT_EQ(ues.RSize(), ues_tv.RSize());
+    for (unsigned int c = 0; c < ues.CSize(); c++)
+    {
+        for (unsigned int r = 0; r < ues.RSize(); r++)
+        {
+            EXPECT_NEAR(ues.Element(r, c), ues_tv.Element(r, c), 0.0001);
+        }
+    }
+
+    ASSERT_EQ(jacobian.CSize(), jacobian_tv.CSize());
+    ASSERT_EQ(jacobian.RSize(), jacobian_tv.RSize());
+    for (unsigned int c = 0; c < jacobian.CSize(); c++)
+    {
+        for (unsigned int r = 0; r < jacobian.RSize(); r++)
+        {
+            EXPECT_NEAR(jacobian.Element(r, c), jacobian_tv.Element(r, c), 0.0001);
+        }
+    }
+
+
+
+}
+
+
+TEST_F(ModelAnalysisTests, issue1020_reduced) {
+    //Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::LLJIT);
+    rr::RoadRunner rr((modelAnalysisModelsDir / "Jarrah2014.xml").string());
+
+    ls::DoubleMatrix jacobian = rr.getReducedJacobian();
+
+    rr = ((modelAnalysisModelsDir / "Jarrah2014_timevar.xml").string());
+    ls::DoubleMatrix jacobian_tv = rr.getReducedJacobian();
+
+    ASSERT_EQ(jacobian.CSize(), jacobian_tv.CSize());
+    ASSERT_EQ(jacobian.RSize(), jacobian_tv.RSize());
+    for (unsigned int c = 0; c < jacobian.CSize(); c++)
+    {
+        for (unsigned int r = 0; r < jacobian.RSize(); r++)
+        {
+            EXPECT_NEAR(jacobian.Element(r, c), jacobian_tv.Element(r, c), 0.0001);
+        }
+    }
+}
+
+
+TEST_F(ModelAnalysisTests, issue976a) {
+    //The only thing this test needs to do is not crash--copying MCJit models was having problems.
     //Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::LLJIT);
     rr::RoadRunner roadrunner((modelAnalysisModelsDir / "BIOMD0000000021.xml").string());
     double t_start = 0;
@@ -35,22 +93,15 @@ TEST_F(ModelAnalysisTests, issue986a) {
     roadrunnerB = roadrunner;
     std::stringstream* saved = roadrunnerB.saveStateS();
     roadrunner.oneStep(t_start, delta_time);
-    std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
+    //std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
 
-    //go back to checkpoint if FEM did not converged
-    std::stringstream* saved2 = roadrunnerB.saveStateS();
-    //roadrunner = roadrunnerB;
-    roadrunner.loadStateS(saved2);
-    roadrunner = roadrunnerB;
-
-    //rerun with smaller timestep
-    roadrunner.oneStep(t_start, (delta_time / 2));
-
-    std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
+    //go back to checkpoint
+    roadrunner.loadStateS(saved);
 }
 
 
-TEST_F(ModelAnalysisTests, issue986b) {
+TEST_F(ModelAnalysisTests, issue976b) {
+    //The only thing this test needs to do is not crash--copying MCJit models was having problems.
     rr::RoadRunner roadrunner((modelAnalysisModelsDir / "BIOMD0000000021.xml").string());
     double t_start = 0;
     double delta_time = 0.5;
@@ -59,7 +110,7 @@ TEST_F(ModelAnalysisTests, issue986b) {
     std::stringstream* roadrunner_state = roadrunner.saveStateS();
 
     roadrunner.oneStep(t_start, delta_time);
-    std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
+    //std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
 
     //go back to checkpoint if FEM did not converged
     roadrunner.loadStateS(roadrunner_state);
@@ -70,7 +121,7 @@ TEST_F(ModelAnalysisTests, issue986b) {
     //rerun with smaller timestep
     roadrunner.oneStep(t_start, (delta_time / 2));
 
-    std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
+    //std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
 
     //go back to checkpoint if FEM did not converged
     roadrunner.loadStateS(roadrunner_state2);
@@ -78,7 +129,7 @@ TEST_F(ModelAnalysisTests, issue986b) {
     //rerun with smaller timestep
     roadrunner.oneStep(t_start, (delta_time / 4));
 
-    std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
+    //std::cout << "P1: " << roadrunner.getValue("[P1]") << std::endl;
 }
 
 

@@ -2553,7 +2553,7 @@ int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(size_t len,
 
     dirty |= DIRTY_INIT_SPECIES;
 
-    // as a convienice to users, this resets the amounts and whatever depends
+    // as a convenience to users, this resets the amounts and whatever depends
     // on them.
     reset(SelectionRecord::TIME | SelectionRecord::FLOATING);
 
@@ -2613,7 +2613,7 @@ int LLVMExecutableModel::setFloatingSpeciesInitAmounts(size_t len, int const *in
 
     dirty |= DIRTY_INIT_SPECIES;
 
-    // as a convienice to users, this resets the amounts and whatever depends
+    // as a convenience to users, this resets the amounts and whatever depends
     // on them.
     reset(SelectionRecord::TIME | SelectionRecord::FLOATING);
     return result;

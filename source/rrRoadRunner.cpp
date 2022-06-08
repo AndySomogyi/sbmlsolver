@@ -3891,6 +3891,9 @@ namespace rr {
         double value;
         double origCurrentVal = 0;
         double result = std::numeric_limits<double>::quiet_NaN();
+        //Need to save the time, too, since calling setInitValuePtr will reset time to -inf.
+        //  We can't *not* call reset, either, as it's necessary for other things to work.
+        double origTime = self.model->getTime();
 
         // note setting init values auotmatically sets the current values to the
         // init values
@@ -3929,6 +3932,7 @@ namespace rr {
             // Now set init amounts to current amounts, restore them later.
             // have to do this as this is only way to set conserved moiety values
             (self.model.get()->*setInitValuePtr)(currentVals.size(), 0, &currentVals[0]);
+            self.model->setTime(origTime);
 
             // sanity check
             assert_similar(origCurrentVal, currentVals[speciesIndex]);
@@ -3947,22 +3951,26 @@ namespace rr {
 
             value = origCurrentVal + hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
+            self.model->setTime(origTime);
 
             double fi = 0;
             self.model->getReactionRates(1, &reactionId, &fi);
 
             value = origCurrentVal + 2 * hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
+            self.model->setTime(origTime);
             double fi2 = 0;
             self.model->getReactionRates(1, &reactionId, &fi2);
 
             value = origCurrentVal - hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
+            self.model->setTime(origTime);
             double fd = 0;
             self.model->getReactionRates(1, &reactionId, &fd);
 
             value = origCurrentVal - 2 * hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
+            self.model->setTime(origTime);
             double fd2 = 0;
             self.model->getReactionRates(1, &reactionId, &fd2);
 
@@ -3975,9 +3983,10 @@ namespace rr {
             result = 1 / (12 * hstep) * (f1 + f2);
         }
         catch (const std::exception &e) {
-            // Whatever happens, make sure we restore the species and volumes levels
+            // Whatever happens, make sure we restore the species and volumes levels, and time.
             (self.model.get()->*setInitVolumesPtr)(origInitVolumes.size(), 0, &origInitVolumes[0]);
             (self.model.get()->*setInitValuePtr)(origInitVal.size(), 0, &origInitVal[0]);
+            self.model->setTime(origTime);
 
             // only set the indep species, setting dep species is not permitted.
             (self.model.get()->*setValuePtr)(
@@ -3987,13 +3996,14 @@ namespace rr {
             throw e;
         }
 
-        // Whatever happens, make sure we restore the species and volumes levels
+        // Whatever happens, make sure we restore the species and volumes levels, and time.
         (self.model.get()->*setInitValuePtr)(
                 origInitVal.size(), 0, &origInitVal[0]);
 
         // only set the indep species, setting dep species is not permitted.
         (self.model.get()->*setValuePtr)(
                 self.model->getNumIndFloatingSpecies(), 0, &currentVals[0]);
+        self.model->setTime(origTime);
 
         return result;
     }
