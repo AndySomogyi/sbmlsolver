@@ -480,19 +480,19 @@ TEST_F(CAPICoreTest, CheckGetIndependentAndDependentFloatingSpecies) {
     RRHandle rrH = createRRInstance();
     EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
 
-    RRVector indep_conc = getIndependentFloatingSpeciesConcentrations(rrH);
+    RRVectorPtr indep_conc = getIndependentFloatingSpeciesConcentrations(rrH);
     EXPECT_EQ(indep_conc->Count, 1);
     EXPECT_EQ(indep_conc->Data[0], 10);
 
-    RRVector dep_conc = getDependentFloatingSpeciesAmounts(rrH);
+    RRVectorPtr dep_conc = getDependentFloatingSpeciesAmounts(rrH);
     EXPECT_EQ(dep_conc->Count, 1);
     EXPECT_EQ(dep_conc->Data[0], 0);
 
-    RRVector indep_amount = getIndependentFloatingSpeciesAmounts(rrH);
+    RRVectorPtr indep_amount = getIndependentFloatingSpeciesAmounts(rrH);
     EXPECT_EQ(indep_amount->Count, 1);
     EXPECT_EQ(indep_amount->Data[0], 10);
 
-    RRVector dep_amount = getDependentFloatingSpeciesAmounts(rrH);
+    RRVectorPtr dep_amount = getDependentFloatingSpeciesAmounts(rrH);
     EXPECT_EQ(dep_amount->Count, 1);
     EXPECT_EQ(dep_amount->Data[0], 0);
 
