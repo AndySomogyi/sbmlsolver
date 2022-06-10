@@ -2401,6 +2401,165 @@ namespace rr {
         return v;
     }
 
+    std::vector<double> RoadRunner::getIndependentFloatingSpeciesAmounts() {
+        check_model();
+
+        int num_ind = getLibStruct()->getNumIndSpecies();
+        int l = impl->model->getNumFloatingSpecies();
+        double* all_amounts = new double[l];
+
+        std::vector<double> ind_amounts(num_ind);
+
+        impl->model->getFloatingSpeciesAmounts(l, NULL, all_amounts);
+
+        // independent species are always first
+        for (int i = 0; i < num_ind; i++) {
+            ind_amounts[i] = all_amounts[i];
+        }
+        delete[] all_amounts;
+        return ind_amounts;
+    }
+
+    std::vector<double> RoadRunner::getDependentFloatingSpeciesAmounts() {
+        check_model();
+
+        int num_ind = getLibStruct()->getNumIndSpecies();
+        int l = impl->model->getNumFloatingSpecies();
+        double* all_amounts = new double[l];
+
+        std::vector<double> dep_amounts(l - num_ind);
+
+        impl->model->getFloatingSpeciesAmounts(l, NULL, all_amounts);
+
+        for (int i = num_ind; i < l; i++) {
+            dep_amounts[i - num_ind] = all_amounts[i];
+        }
+        delete[] all_amounts;
+        return dep_amounts;
+    }
+
+    std::vector<double> RoadRunner::getIndependentFloatingSpeciesConcentrations() {
+        check_model();
+
+        int num_ind = getLibStruct()->getNumIndSpecies();
+
+        int l = impl->model->getNumFloatingSpecies();
+        double* all_conc = new double[l];
+
+        std::vector<double> ind_conc(num_ind);
+
+        impl->model->getFloatingSpeciesConcentrations(l, NULL, all_conc);
+
+        for (int i = 0; i < num_ind; i++) {
+            ind_conc[i] = all_conc[i];
+        }
+        delete[] all_conc;
+        return ind_conc;
+    }
+
+    std::vector<double> RoadRunner::getDependentFloatingSpeciesConcentrations() {
+        check_model();
+
+        int num_ind = getLibStruct()->getNumIndSpecies();
+        int l = impl->model->getNumFloatingSpecies();
+        double* all_conc = new double[l];
+
+        std::vector<double> dep_conc(l - num_ind);
+
+        impl->model->getFloatingSpeciesConcentrations(l, NULL, all_conc);
+
+        for (int i = num_ind; i < l; i++) {
+            dep_conc[i - num_ind] = all_conc[i];
+        }
+        delete[] all_conc;
+        return dep_conc;
+    }
+
+    ls::DoubleMatrix RoadRunner::getIndependentFloatingSpeciesAmountsNamedArray() {
+        check_model();
+
+        int num_ind = getLibStruct()->getNumIndSpecies();
+        int l = impl->model->getNumFloatingSpecies();
+        double* all_amounts = new double[l];
+
+        LibStructural* ls = getLibStruct();
+        ls::DoubleMatrix v(1, num_ind);
+
+        impl->model->getFloatingSpeciesAmounts(l, NULL, all_amounts);
+
+        for (int i = 0; i < num_ind; i++) {
+            v(0, i) = all_amounts[i];
+        }
+
+        v.setColNames(getIndependentFloatingSpeciesIds());
+        delete[] all_amounts;
+        return v;
+    }
+
+    ls::DoubleMatrix RoadRunner::getDependentFloatingSpeciesAmountsNamedArray() {
+        check_model();
+
+        int num_ind = getLibStruct()->getNumIndSpecies();
+        int l = impl->model->getNumFloatingSpecies();
+        double* all_amounts = new double[l];
+
+        LibStructural* ls = getLibStruct();
+        ls::DoubleMatrix dep_amounts(1, l - num_ind);
+
+        impl->model->getFloatingSpeciesAmounts(l, NULL, all_amounts);
+
+        for (int i = num_ind; i < l; i++) {
+            dep_amounts(0, i - num_ind) = all_amounts[i];
+        }
+
+        dep_amounts.setColNames(getDependentFloatingSpeciesIds());
+        delete[] all_amounts;
+        return dep_amounts;
+    }
+
+    ls::DoubleMatrix RoadRunner::getIndependentFloatingSpeciesConcentrationsNamedArray() {
+        check_model();
+
+        int num_ind = getLibStruct()->getNumIndSpecies();
+        int l = impl->model->getNumFloatingSpecies();
+        double* all_conc = new double[l];
+
+        LibStructural* ls = getLibStruct();
+        ls::DoubleMatrix v(1, num_ind);
+
+        impl->model->getFloatingSpeciesConcentrations(l, NULL, all_conc);
+
+        for (int i = 0; i < num_ind; i++) {
+            v(0, i) = all_conc[i];
+        }
+
+        v.setColNames(getIndependentFloatingSpeciesIds());
+        delete[] all_conc;
+        return v;
+    }
+
+    ls::DoubleMatrix RoadRunner::getDependentFloatingSpeciesConcentrationsNamedArray() {
+        check_model();
+
+        int num_ind = getLibStruct()->getNumIndSpecies();
+        int l = impl->model->getNumFloatingSpecies();
+        double* all_conc = new double[l];
+
+        LibStructural* ls = getLibStruct();
+        ls::DoubleMatrix dep_conc(1, l - num_ind);
+
+        impl->model->getFloatingSpeciesConcentrations(l, NULL, all_conc);
+
+        for (int i = num_ind; i < l; i++) {
+            dep_conc(0, i - num_ind) = all_conc[i];
+        }
+
+        dep_conc.setColNames(getDependentFloatingSpeciesIds());
+        delete[] all_conc;
+        return dep_conc;
+    }
+
+
     std::vector<double> RoadRunner::getRatesOfChange() {
         check_model();
 

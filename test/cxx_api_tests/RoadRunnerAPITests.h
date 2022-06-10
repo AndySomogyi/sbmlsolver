@@ -650,6 +650,90 @@ public:
         delete testModel;
     }
 
+    void getIndependentFloatingSpeciesConcentrations() {
+        TestModel* testModel = TestModelFactory("SimpleFlux");
+        RoadRunner rr(testModel->str());
+        auto x = rr.getIndependentFloatingSpeciesConcentrations();
+        std::vector<double> expected({ 10 });
+        ASSERT_EQ(x, expected);
+        delete testModel;
+    }
+
+    void getIndependentFloatingSpeciesConcentrationsNamedArray() {
+        TestModel* testModel = TestModelFactory("SimpleFlux");
+        RoadRunner rr(testModel->str());
+        auto x = rr.getIndependentFloatingSpeciesConcentrationsNamedArray();
+        std::cout << x << std::endl;
+        ls::DoubleMatrix expected({
+                                          {10}
+            });
+        checkMatrixEqual(expected, x);
+        delete testModel;
+    }
+
+    void getDependentFloatingSpeciesConcentrations() {
+        TestModel* testModel = TestModelFactory("SimpleFlux");
+        RoadRunner rr(testModel->str());
+        auto x = rr.getDependentFloatingSpeciesConcentrations();
+        std::vector<double> expected({ 1 });
+        ASSERT_EQ(x, expected);
+        delete testModel;
+    }
+
+    void getDependentFloatingSpeciesConcentrationsNamedArray() {
+        TestModel* testModel = TestModelFactory("SimpleFlux");
+        RoadRunner rr(testModel->str());
+        auto x = rr.getDependentFloatingSpeciesConcentrationsNamedArray();
+        std::cout << x << std::endl;
+        ls::DoubleMatrix expected({
+                                          {1}
+            });
+        checkMatrixEqual(expected, x);
+        delete testModel;
+    }
+
+    void getIndependentFloatingSpeciesAmounts() {
+        TestModel* testModel = TestModelFactory("SimpleFlux");
+        RoadRunner rr(testModel->str());
+        auto x = rr.getIndependentFloatingSpeciesAmounts();
+        std::vector<double> expected({ 10 });
+        ASSERT_EQ(x, expected);
+        delete testModel;
+    }
+
+    void getIndependentFloatingSpeciesAmountsNamedArray() {
+        TestModel* testModel = TestModelFactory("SimpleFlux");
+        RoadRunner rr(testModel->str());
+        auto x = rr.getIndependentFloatingSpeciesAmountsNamedArray();
+        std::cout << x << std::endl;
+        ls::DoubleMatrix expected({
+                                          {10}
+            });
+        checkMatrixEqual(expected, x);
+        delete testModel;
+    }
+
+    void getDependentFloatingSpeciesAmounts() {
+        TestModel* testModel = TestModelFactory("SimpleFlux");
+        RoadRunner rr(testModel->str());
+        auto x = rr.getDependentFloatingSpeciesAmounts();
+        std::vector<double> expected({ 1 });
+        ASSERT_EQ(x, expected);
+        delete testModel;
+    }
+
+    void getDependentFloatingSpeciesAmountsNamedArray() {
+        TestModel* testModel = TestModelFactory("SimpleFlux");
+        RoadRunner rr(testModel->str());
+        auto x = rr.getDependentFloatingSpeciesAmountsNamedArray();
+        std::cout << x << std::endl;
+        ls::DoubleMatrix expected({
+                                          {1}
+            });
+        checkMatrixEqual(expected, x);
+        delete testModel;
+    }
+
     void getBoundarySpeciesAmountsNamedArray() {
         TestModel *testModel = TestModelFactory("SimpleFlux");
         RoadRunner rr(testModel->str());
