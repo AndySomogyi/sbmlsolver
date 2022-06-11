@@ -653,7 +653,7 @@ public:
     void getIndependentFloatingSpeciesConcentrations() {
         TestModel* testModel = TestModelFactory("SimpleFlux");
         RoadRunner rr(testModel->str());
-        auto x = rr.getIndependentFloatingSpeciesConcentrations();
+        auto x = rr.getIndependentFloatingSpeciesConcentrationsV();
         std::vector<double> expected({ 10 });
         ASSERT_EQ(x, expected);
         delete testModel;
@@ -674,9 +674,9 @@ public:
     void getDependentFloatingSpeciesConcentrations() {
         TestModel* testModel = TestModelFactory("SimpleFlux");
         RoadRunner rr(testModel->str());
-        auto x = rr.getDependentFloatingSpeciesConcentrations();
+        auto x = rr.getDependentFloatingSpeciesConcentrationsV();
         std::vector<double> expected({ 1 });
-        ASSERT_EQ(x, expected);
+        EXPECT_EQ(x, expected);
         delete testModel;
     }
 
@@ -695,9 +695,9 @@ public:
     void getIndependentFloatingSpeciesAmounts() {
         TestModel* testModel = TestModelFactory("SimpleFlux");
         RoadRunner rr(testModel->str());
-        auto x = rr.getIndependentFloatingSpeciesAmounts();
+        auto x = rr.getIndependentFloatingSpeciesAmountsV();
         std::vector<double> expected({ 10 });
-        ASSERT_EQ(x, expected);
+        EXPECT_EQ(x, expected);
         delete testModel;
     }
 
@@ -716,9 +716,9 @@ public:
     void getDependentFloatingSpeciesAmounts() {
         TestModel* testModel = TestModelFactory("SimpleFlux");
         RoadRunner rr(testModel->str());
-        auto x = rr.getDependentFloatingSpeciesAmounts();
+        auto x = rr.getDependentFloatingSpeciesAmountsV();
         std::vector<double> expected({ 1 });
-        ASSERT_EQ(x, expected);
+        EXPECT_EQ(x, expected);
         delete testModel;
     }
 

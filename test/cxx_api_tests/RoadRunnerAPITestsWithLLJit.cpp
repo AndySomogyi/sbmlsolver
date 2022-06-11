@@ -226,6 +226,22 @@ TEST_F(RoadRunnerAPITestsWithLLJit, getFloatingSpeciesConcentrationsNamedArray){
     getFloatingSpeciesConcentrationsNamedArray();
 }
 
+TEST_F(RoadRunnerAPITestsWithLLJit, getIndependentFloatingSpeciesConcentrations) {
+    getIndependentFloatingSpeciesConcentrations();
+}
+
+TEST_F(RoadRunnerAPITestsWithLLJit, getDependentFloatingSpeciesConcentrations) {
+    getDependentFloatingSpeciesConcentrations();
+}
+
+TEST_F(RoadRunnerAPITestsWithLLJit, getIndependentFloatingSpeciesAmounts) {
+    getIndependentFloatingSpeciesAmounts();
+}
+
+TEST_F(RoadRunnerAPITestsWithLLJit, getDependentFloatingSpeciesAmounts) {
+    getDependentFloatingSpeciesAmounts();
+}
+
 TEST_F(RoadRunnerAPITestsWithLLJit, getBoundarySpeciesAmountsNamedArray){
     getBoundarySpeciesAmountsNamedArray();
 }

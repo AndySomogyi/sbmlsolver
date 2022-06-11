@@ -656,28 +656,28 @@ namespace rr {
         ls::DoubleMatrix getBoundarySpeciesConcentrationsNamedArray();
 
         /**
-* @author Claire
-* @brief Returns the independent floating species amounts as an array
-*/
-        std::vector<double> getIndependentFloatingSpeciesAmounts();
+        * @author Claire
+        * @brief Returns the independent floating species amounts as an array
+        */
+        std::vector<double> getIndependentFloatingSpeciesAmountsV();
 
         /**
         * @author Claire
         * @brief Returns the dependent floating species amounts as an array
         */
-        std::vector<double> getDependentFloatingSpeciesAmounts();
+        std::vector<double> getDependentFloatingSpeciesAmountsV();
 
         /**
         * @author Claire
         * @brief Returns the independent floating species concentrations as an array
         */
-        std::vector<double> getIndependentFloatingSpeciesConcentrations();
+        std::vector<double> getIndependentFloatingSpeciesConcentrationsV();
 
         /**
         * @author Claire
         * @brief Returns the dependent floating species concentrations as an array
         */
-        std::vector<double> getDependentFloatingSpeciesConcentrations();
+        std::vector<double> getDependentFloatingSpeciesConcentrationsV();
 
         /**
         * @author Claire
