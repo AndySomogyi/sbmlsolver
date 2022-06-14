@@ -635,7 +635,7 @@ def checkNumberOfDependentSpecies(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
     value = int (readLine())
-    n = rrInstance.model.getNumDepFloatingSpecies()
+    n = rrInstance.getNumDepFloatingSpecies()
     if n != value:
         errorFlag = True
     print(passMsg (errorFlag))
@@ -645,7 +645,7 @@ def checkNumberOfIndependentSpecies(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
     value = int (readLine())
-    n = rrInstance.model.getNumIndFloatingSpecies()
+    n = rrInstance.getNumIndFloatingSpecies()
     if n != value:
         errorFlag = True
     print(passMsg (errorFlag))
