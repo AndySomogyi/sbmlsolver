@@ -576,6 +576,10 @@ public:
         auto x = rr.getIndependentFloatingSpeciesIds();
         std::vector<std::string> expected({"S1"});
         ASSERT_EQ(x, expected);
+
+        rr.setConservedMoietyAnalysis(true);
+        x = rr.getIndependentFloatingSpeciesIds();
+        ASSERT_EQ(x, expected);
         delete testModel;
     }
 
@@ -583,22 +587,16 @@ public:
         TestModel *testModel = TestModelFactory("SimpleFlux");
         RoadRunner rr(testModel->str());
         auto x = rr.getDependentFloatingSpeciesIds();
-        std::vector<std::string> expected({"S2"});
+        std::vector<std::string> expected = { "S2" };
+        ASSERT_EQ(x, expected);
+
+        rr.setConservedMoietyAnalysis(true);
+        x = rr.getDependentFloatingSpeciesIds();
         ASSERT_EQ(x, expected);
         delete testModel;
     }
 
-    void getFloatingSpeciesConcentrationIds() {
-        TestModel *testModel = TestModelFactory("SimpleFlux");
-        std::cout << testModel->str() << std::endl;
-        RoadRunner rr(testModel->str());
-        auto x = rr.getDependentFloatingSpeciesIds();
-        std::vector<std::string> expected({"S2"});
-        ASSERT_EQ(x, expected);
-        delete testModel;
-    }
-
-    void getFloatingSpeciesInitialConcentrationIds() {
+    void getFloatingSpeciesInitialConcentrations() {
         TestModel *testModel = TestModelFactory("SimpleFlux");
         RoadRunner rr(testModel->str());
         auto x = rr.getFloatingSpeciesInitialConcentrations();
@@ -650,32 +648,16 @@ public:
         delete testModel;
     }
 
-    void getIndependentFloatingSpeciesConcentrations() {
-        TestModel* testModel = TestModelFactory("SimpleFlux");
-        RoadRunner rr(testModel->str());
-        auto x = rr.getIndependentFloatingSpeciesConcentrationsV();
-        std::vector<double> expected({ 10 });
-        ASSERT_EQ(x, expected);
-        delete testModel;
-    }
-
-    void getIndependentFloatingSpeciesConcentrationsNamedArray() {
-        TestModel* testModel = TestModelFactory("SimpleFlux");
-        RoadRunner rr(testModel->str());
-        auto x = rr.getIndependentFloatingSpeciesConcentrationsNamedArray();
-        std::cout << x << std::endl;
-        ls::DoubleMatrix expected({
-                                          {10}
-            });
-        checkMatrixEqual(expected, x);
-        delete testModel;
-    }
-
     void getDependentFloatingSpeciesConcentrations() {
         TestModel* testModel = TestModelFactory("SimpleFlux");
         RoadRunner rr(testModel->str());
+        rr.setValue("default_compartment", 10.0);
         auto x = rr.getDependentFloatingSpeciesConcentrationsV();
-        std::vector<double> expected({ 1 });
+        std::vector<double> expected = { 0.1 };
+        EXPECT_EQ(x, expected);
+
+        rr.setConservedMoietyAnalysis(true);
+        x = rr.getDependentFloatingSpeciesConcentrationsV();
         EXPECT_EQ(x, expected);
         delete testModel;
     }
@@ -683,41 +665,28 @@ public:
     void getDependentFloatingSpeciesConcentrationsNamedArray() {
         TestModel* testModel = TestModelFactory("SimpleFlux");
         RoadRunner rr(testModel->str());
+        rr.setValue("default_compartment", 10.0);
         auto x = rr.getDependentFloatingSpeciesConcentrationsNamedArray();
-        std::cout << x << std::endl;
-        ls::DoubleMatrix expected({
-                                          {1}
-            });
-        checkMatrixEqual(expected, x);
-        delete testModel;
-    }
+        vector<string> expectedIds = { "S2" };
+        EXPECT_EQ(x.getColNames(), expectedIds);
 
-    void getIndependentFloatingSpeciesAmounts() {
-        TestModel* testModel = TestModelFactory("SimpleFlux");
-        RoadRunner rr(testModel->str());
-        auto x = rr.getIndependentFloatingSpeciesAmountsV();
-        std::vector<double> expected({ 10 });
-        EXPECT_EQ(x, expected);
-        delete testModel;
-    }
+        rr.setConservedMoietyAnalysis(true);
+        x = rr.getDependentFloatingSpeciesConcentrationsNamedArray();
+        EXPECT_EQ(x.getColNames(), expectedIds);
 
-    void getIndependentFloatingSpeciesAmountsNamedArray() {
-        TestModel* testModel = TestModelFactory("SimpleFlux");
-        RoadRunner rr(testModel->str());
-        auto x = rr.getIndependentFloatingSpeciesAmountsNamedArray();
-        std::cout << x << std::endl;
-        ls::DoubleMatrix expected({
-                                          {10}
-            });
-        checkMatrixEqual(expected, x);
         delete testModel;
     }
 
     void getDependentFloatingSpeciesAmounts() {
         TestModel* testModel = TestModelFactory("SimpleFlux");
         RoadRunner rr(testModel->str());
+        rr.setValue("default_compartment", 10.0);
         auto x = rr.getDependentFloatingSpeciesAmountsV();
-        std::vector<double> expected({ 1 });
+        std::vector<double> expected = { 1 };
+        EXPECT_EQ(x, expected);
+
+        rr.setConservedMoietyAnalysis(true);
+        x = rr.getDependentFloatingSpeciesAmountsV();
         EXPECT_EQ(x, expected);
         delete testModel;
     }
@@ -725,12 +694,73 @@ public:
     void getDependentFloatingSpeciesAmountsNamedArray() {
         TestModel* testModel = TestModelFactory("SimpleFlux");
         RoadRunner rr(testModel->str());
+        rr.setValue("default_compartment", 10.0);
         auto x = rr.getDependentFloatingSpeciesAmountsNamedArray();
-        std::cout << x << std::endl;
-        ls::DoubleMatrix expected({
-                                          {1}
-            });
-        checkMatrixEqual(expected, x);
+        vector<string> expectedIds = { "S2" };
+        EXPECT_EQ(x.getColNames(), expectedIds);
+
+        rr.setConservedMoietyAnalysis(true);
+        x = rr.getDependentFloatingSpeciesAmountsNamedArray();
+        EXPECT_EQ(x.getColNames(), expectedIds);
+
+        delete testModel;
+    }
+
+    void getIndependentFloatingSpeciesConcentrations() {
+        TestModel* testModel = TestModelFactory("SimpleFlux");
+        RoadRunner rr(testModel->str());
+        rr.setValue("default_compartment", 10.0);
+        auto x = rr.getIndependentFloatingSpeciesConcentrationsV();
+        std::vector<double> expected = { 1.0 };
+        EXPECT_EQ(x, expected);
+
+        rr.setConservedMoietyAnalysis(true);
+        x = rr.getIndependentFloatingSpeciesConcentrationsV();
+        EXPECT_EQ(x, expected);
+        delete testModel;
+    }
+
+    void getIndependentFloatingSpeciesConcentrationsNamedArray() {
+        TestModel* testModel = TestModelFactory("SimpleFlux");
+        RoadRunner rr(testModel->str());
+        rr.setValue("default_compartment", 10.0);
+        auto x = rr.getIndependentFloatingSpeciesConcentrationsNamedArray();
+        vector<string> expectedIds = { "S1" };
+        EXPECT_EQ(x.getColNames(), expectedIds);
+
+        rr.setConservedMoietyAnalysis(true);
+        x = rr.getIndependentFloatingSpeciesConcentrationsNamedArray();
+        EXPECT_EQ(x.getColNames(), expectedIds);
+
+        delete testModel;
+    }
+
+    void getIndependentFloatingSpeciesAmounts() {
+        TestModel* testModel = TestModelFactory("SimpleFlux");
+        RoadRunner rr(testModel->str());
+        rr.setValue("default_compartment", 10.0);
+        auto x = rr.getIndependentFloatingSpeciesAmountsV();
+        std::vector<double> expected = { 10.0};
+        EXPECT_EQ(x, expected);
+
+        rr.setConservedMoietyAnalysis(true);
+        x = rr.getIndependentFloatingSpeciesAmountsV();
+        EXPECT_EQ(x, expected);
+        delete testModel;
+    }
+
+    void getIndependentFloatingSpeciesAmountsNamedArray() {
+        TestModel* testModel = TestModelFactory("SimpleFlux");
+        RoadRunner rr(testModel->str());
+        rr.setValue("default_compartment", 10.0);
+        auto x = rr.getIndependentFloatingSpeciesAmountsNamedArray();
+        vector<string> expectedIds = { "S1"};
+        EXPECT_EQ(x.getColNames(), expectedIds);
+
+        rr.setConservedMoietyAnalysis(true);
+        x = rr.getIndependentFloatingSpeciesAmountsNamedArray();
+        EXPECT_EQ(x.getColNames(), expectedIds);
+
         delete testModel;
     }
 

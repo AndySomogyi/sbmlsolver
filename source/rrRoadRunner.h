@@ -1513,7 +1513,12 @@ namespace rr {
         /**
          * Alias for this function on the child model object.
          */
-        int getNumberOfIndependentSpecies();
+        int getNumberOfIndependentSpecies();  
+
+        /**
+         * Alias for this function on the child model object.
+         */
+        int getNumberOfDependentSpecies();
 
         /**
          * Alias for this function on the child model object.
@@ -1726,11 +1731,6 @@ namespace rr {
          * Updates the model based on all recent changes.
          */
         void evalModel();
-
-        /**
-         * Alias for this function on the child model object.
-         */
-        int getNumberOfDependentSpecies();
 
 
         /**
