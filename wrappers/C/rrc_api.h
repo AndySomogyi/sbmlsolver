@@ -2122,6 +2122,42 @@ C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesConcentrations(RRHandle ha
 */
 C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesAmounts(RRHandle handle);
 
+/*!
+ \brief Retrieve in a vector the concentrations of all the independent floating species
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns the vector of independent floating species concentrations or null if an error occurred
+ \ingroup floating
+*/
+C_DECL_SPEC RRVectorPtr rrcCallConv getIndependentFloatingSpeciesConcentrations(RRHandle handle);
+
+/*!
+ \brief Retrieve in a vector the concentrations of all the dependent floating species
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns the vector of dependent floating species concentrations or null if an error occurred
+ \ingroup floating
+*/
+C_DECL_SPEC RRVectorPtr rrcCallConv getDependentFloatingSpeciesConcentrations(RRHandle handle);
+
+/*!
+ \brief Retrieve in a vector the amounts of all the independent floating species
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns the vector of independent floating species amounts or null if an error occurred
+ \ingroup floating
+*/
+C_DECL_SPEC RRVectorPtr rrcCallConv getIndependentFloatingSpeciesAmounts(RRHandle handle);
+
+/*!
+ \brief Retrieve in a vector the amounts of all the dependent floating species
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns the vector of dependent floating species amounts or null if an error occurred
+ \ingroup floating
+*/
+C_DECL_SPEC RRVectorPtr rrcCallConv getDependentFloatingSpeciesAmounts(RRHandle handle);
+
 
 /*!
  \brief Retrieve the concentrations for all the boundary species in a vector

@@ -656,6 +656,54 @@ namespace rr {
         ls::DoubleMatrix getBoundarySpeciesConcentrationsNamedArray();
 
         /**
+        * @author Claire
+        * @brief Returns the independent floating species amounts as an array
+        */
+        std::vector<double> getIndependentFloatingSpeciesAmountsV();
+
+        /**
+        * @author Claire
+        * @brief Returns the dependent floating species amounts as an array
+        */
+        std::vector<double> getDependentFloatingSpeciesAmountsV();
+
+        /**
+        * @author Claire
+        * @brief Returns the independent floating species concentrations as an array
+        */
+        std::vector<double> getIndependentFloatingSpeciesConcentrationsV();
+
+        /**
+        * @author Claire
+        * @brief Returns the dependent floating species concentrations as an array
+        */
+        std::vector<double> getDependentFloatingSpeciesConcentrationsV();
+
+        /**
+        * @author Claire
+        * @brief Returns the independent floating species amounts as a named array
+        */
+        ls::DoubleMatrix getIndependentFloatingSpeciesAmountsNamedArray();
+
+        /**
+        * @author Claire
+        * @brief Returns the dependent floating species amounts as a named array
+        */
+        ls::DoubleMatrix getDependentFloatingSpeciesAmountsNamedArray();
+
+        /**
+        * @author Claire
+        * @brief Returns the independent floating concentrations amounts as a named array
+        */
+        ls::DoubleMatrix getIndependentFloatingSpeciesConcentrationsNamedArray();
+
+        /**
+        * @author Claire
+        * @brief Returns the dependent floating concentrations amounts as a named array
+        */
+        ls::DoubleMatrix getDependentFloatingSpeciesConcentrationsNamedArray();
+
+        /**
          * @author KC
          * @brief Returns the rate of change of the floating species as an array
          */
@@ -1465,7 +1513,12 @@ namespace rr {
         /**
          * Alias for this function on the child model object.
          */
-        int getNumberOfIndependentSpecies();
+        int getNumberOfIndependentSpecies();  
+
+        /**
+         * Alias for this function on the child model object.
+         */
+        int getNumberOfDependentSpecies();
 
         /**
          * Alias for this function on the child model object.
@@ -1678,11 +1731,6 @@ namespace rr {
          * Updates the model based on all recent changes.
          */
         void evalModel();
-
-        /**
-         * Alias for this function on the child model object.
-         */
-        int getNumberOfDependentSpecies();
 
 
         /**

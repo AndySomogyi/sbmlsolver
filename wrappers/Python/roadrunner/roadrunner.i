@@ -866,6 +866,9 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::Config::getBool;
 %ignore rr::Config::getDouble;
 
+%ignore rr::ExecutableModel::getNumIndFloatingSpecies;
+%ignore rr::ExecutableModel::getNumDepFloatingSpecies;
+
 %ignore *::setItem;
 %ignore *::getItem;
 %ignore *::hasKey;
@@ -2026,6 +2029,12 @@ namespace std { class ostream{}; }
             self.setSteadyStateThreshold(v)
 
         steadyStateThresh = property(_steadyStateThresh_getter, _steadyStateThresh_setter)
+
+        def getNumIndFloatingSpecies(self):
+            return self.getNumberOfIndependentSpecies()
+
+        def getNumDepFloatingSpecies(self):
+            return self.getNumberOfDependentSpecies()
     %}
 }
 

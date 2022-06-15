@@ -202,12 +202,8 @@ TEST_F(RoadRunnerAPITestsWithMCJit, getDependentFloatingSpeciesIds){
     getDependentFloatingSpeciesIds();
 }
 
-TEST_F(RoadRunnerAPITestsWithMCJit, getFloatingSpeciesConcentrationIds){
-    getFloatingSpeciesConcentrationIds();
-}
-
-TEST_F(RoadRunnerAPITestsWithMCJit, getFloatingSpeciesInitialConcentrationIds){
-    getFloatingSpeciesInitialConcentrationIds();
+TEST_F(RoadRunnerAPITestsWithMCJit, getFloatingSpeciesInitialConcentrations){
+    getFloatingSpeciesInitialConcentrations();
 }
 
 TEST_F(RoadRunnerAPITestsWithMCJit, DISABLED_getSupportedIdTypes){
@@ -224,6 +220,38 @@ TEST_F(RoadRunnerAPITestsWithMCJit, getFloatingSpeciesAmountsNamedArray){
 
 TEST_F(RoadRunnerAPITestsWithMCJit, getFloatingSpeciesConcentrationsNamedArray){
     getFloatingSpeciesConcentrationsNamedArray();
+}
+
+TEST_F(RoadRunnerAPITestsWithMCJit, getDependentFloatingSpeciesConcentrations) {
+    getDependentFloatingSpeciesConcentrations();
+}
+
+TEST_F(RoadRunnerAPITestsWithMCJit, getDependentFloatingSpeciesAmounts) {
+    getDependentFloatingSpeciesAmounts();
+}
+
+TEST_F(RoadRunnerAPITestsWithMCJit, getDependentFloatingSpeciesConcentrationsNamedArray) {
+    getDependentFloatingSpeciesConcentrationsNamedArray();
+}
+
+TEST_F(RoadRunnerAPITestsWithMCJit, getDependentFloatingSpeciesAmountsNamedArray) {
+    getDependentFloatingSpeciesAmountsNamedArray();
+}
+
+TEST_F(RoadRunnerAPITestsWithMCJit, getIndependentFloatingSpeciesConcentrations) {
+    getIndependentFloatingSpeciesConcentrations();
+}
+
+TEST_F(RoadRunnerAPITestsWithMCJit, getIndependentFloatingSpeciesAmounts) {
+    getIndependentFloatingSpeciesAmounts();
+}
+
+TEST_F(RoadRunnerAPITestsWithMCJit, getIndependentFloatingSpeciesConcentrationsNamedArray) {
+    getIndependentFloatingSpeciesConcentrationsNamedArray();
+}
+
+TEST_F(RoadRunnerAPITestsWithMCJit, getIndependentFloatingSpeciesAmountsNamedArray) {
+    getIndependentFloatingSpeciesAmountsNamedArray();
 }
 
 TEST_F(RoadRunnerAPITestsWithMCJit, getBoundarySpeciesAmountsNamedArray){
