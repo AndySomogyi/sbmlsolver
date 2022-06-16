@@ -52,7 +52,7 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
 
     target_link_libraries(${target} PUBLIC
             rr-libstruct::rr-libstruct-static
-            LibXml2::LibXml2
+            expat::expat
             Poco::XML
             )
     target_include_directories(${target}
