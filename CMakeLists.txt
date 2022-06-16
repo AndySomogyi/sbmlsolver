@@ -114,10 +114,6 @@ option(BUILD_LLVM "Build the LLVM back end" ON)
 # note I've tried using the C backend and it no longer compiles. Could be useful to keep though
 option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" OFF)
 
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX "../roadrunner-${CMAKE_GENERATOR_PLATFORM}-${CMAKE_BUILD_TYPE}" CACHE PATH "..." FORCE)
-endif()
-
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "Build the SWIG generated python wrapper" OFF)
 if (BUILD_PYTHON)
@@ -360,6 +356,11 @@ endif ()
 
 set(CMAKE_DEBUG_POSTFIX "d")
 
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "../roadrunner-${CMAKE_BUILD_TYPE}" CACHE PATH "..." FORCE)
+endif()
+
+
 ####################################################
 #   Dependencies
 
@@ -394,12 +395,19 @@ else ()
 endif (WIN32)
 
 
-find_package(Threads) # for libxml2, FindThreads.cmake is shipped with cmake
-find_package(LibLZMA) # for libxml2, LibLZMA.cmake is shipped with cmake
-find_package(zlib CONFIG REQUIRED)
-find_package(bzip2 CONFIG REQUIRED)
-find_package(iconv CONFIG REQUIRED)
-find_package(libxml2 CONFIG REQUIRED)
+#find_package(Threads) # for libxml2, FindThreads.cmake is shipped with cmake
+#find_package(LibLZMA) # for libxml2, LibLZMA.cmake is shipped with cmake
+#find_package(zlib CONFIG REQUIRED)
+#find_package(bzip2 CONFIG REQUIRED)
+#find_package(iconv CONFIG REQUIRED)
+
+find_package(expat CONFIG REQUIRED)
+
+#libsbml now needs to know that we found expat, so we set the relevant flags
+set(EXPAT_LIBRARY "expat::expat")
+get_target_property(EXPAT_INCLUDE_DIR expat::expat INTERFACE_INCLUDE_DIRECTORIES)
+# Somehow, they get unset later, but at 
+
 find_package(${SBML_TARGET_NAME} CONFIG REQUIRED)
 find_package(rr-libstruct CONFIG REQUIRED)
 find_package(clapack CONFIG REQUIRED)
