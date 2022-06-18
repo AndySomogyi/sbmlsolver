@@ -456,7 +456,7 @@ target_link_libraries(
         #These libraries libraries seem to be already linked in a different way.
         #libz2
         #LibXml2::LibXml2
-        #zlib::zlibstatic
+        zlib::zlibstatic
         nleq2::nleq2-static
         nleq1::nleq1-static
         clapack::lapack clapack::blas clapack::f2c
