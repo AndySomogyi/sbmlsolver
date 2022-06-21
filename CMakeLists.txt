@@ -403,11 +403,44 @@ find_package(zlib CONFIG REQUIRED)
 
 find_package(expat CONFIG REQUIRED)
 
+## https://stackoverflow.com/questions/32183975/how-to-print-all-the-properties-of-a-target-in-cmake/56738858#56738858
+## https://stackoverflow.com/a/56738858/3743145
+
+## Get all properties that cmake supports
+execute_process(COMMAND cmake --help-property-list OUTPUT_VARIABLE CMAKE_PROPERTY_LIST)
+## Convert command output into a CMake list
+STRING(REGEX REPLACE ";" "\\\\;" CMAKE_PROPERTY_LIST "${CMAKE_PROPERTY_LIST}")
+STRING(REGEX REPLACE "\n" ";" CMAKE_PROPERTY_LIST "${CMAKE_PROPERTY_LIST}")
+
+list(REMOVE_DUPLICATES CMAKE_PROPERTY_LIST)
+
+function(print_target_properties tgt)
+    if(NOT TARGET ${tgt})
+      message("There is no target named '${tgt}'")
+      return()
+    endif()
+
+    foreach (prop ${CMAKE_PROPERTY_LIST})
+        string(REPLACE "<CONFIG>" "${CMAKE_BUILD_TYPE}" prop ${prop})
+        get_target_property(propval ${tgt} ${prop})
+        if (propval)
+            message ("${tgt} ${prop} = ${propval}")
+        endif()
+    endforeach(prop)
+endfunction(print_target_properties)
+
+cmake_language(CALL print_target_properties zlib::zlib)
+cmake_language(CALL print_target_properties expat::expat)
+
 #libsbml now needs to know that we found expat, so we set the relevant flags
 set(EXPAT_LIBRARY "expat::expat")
 get_target_property(EXPAT_INCLUDE_DIR expat::expat INTERFACE_INCLUDE_DIRECTORIES)
-set(ZLIB_LIBRARY "zlib::zlib")
-get_target_property(ZLIB_INCLUDE_DIR zlib::zlib INTERFACE_INCLUDE_DIRECTORIES)
+message(STATUS "EXPAT_LIBRARY: ${EXPAT_LIBRARY}")
+set(ZLIB_LIBRARY "zlibstatic::zlibstatic")
+set(ZLIB_INCLUDE_DIR "${RR_DEPENDENCIES_INSTALL_PREFIX}/include/")
+
+message(STATUS "ZLIB_LIBRARY: ${ZLIB_LIBRARY}")
+message(STATUS "ZLIB_INCLUDE_DIR: ${ZLIB_INCLUDE_DIR}")
 
 find_package(${SBML_TARGET_NAME} CONFIG REQUIRED)
 find_package(rr-libstruct CONFIG REQUIRED)
