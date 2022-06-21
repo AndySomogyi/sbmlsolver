@@ -406,7 +406,8 @@ find_package(expat CONFIG REQUIRED)
 #libsbml now needs to know that we found expat, so we set the relevant flags
 set(EXPAT_LIBRARY "expat::expat")
 get_target_property(EXPAT_INCLUDE_DIR expat::expat INTERFACE_INCLUDE_DIRECTORIES)
-# Somehow, they get unset later, but at 
+set(ZLIB_LIBRARY "zlib::zlib")
+get_target_property(ZLIB_INCLUDE_DIR zlib::zlib INTERFACE_INCLUDE_DIRECTORIES)
 
 find_package(${SBML_TARGET_NAME} CONFIG REQUIRED)
 find_package(rr-libstruct CONFIG REQUIRED)
