@@ -142,7 +142,7 @@ stages:
               # - https://dev.azure.com/TheRoadrunnerProject/libroadrunner-deps/_build?definitionId=9
               pipeline: 9
               runVersion: 'latestFromBranch'
-              runBranch: 'refs/heads/new-libsbml'
+              runBranch: 'refs/heads/release'
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -276,7 +276,7 @@ stages:
               project: 'libroadrunner-deps'
               pipeline: 9
               runVersion: 'latestFromBranch'
-              runBranch: 'refs/heads/new-libsbml'
+              runBranch: 'refs/heads/release'
               artifact: libroadrunner-deps-$(Agent.OS)-Release
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -507,7 +507,7 @@ stages:
               project: 'libroadrunner-deps'
               pipeline: 9
               runVersion: 'latestFromBranch'
-              runBranch: 'refs/heads/new-libsbml'
+              runBranch: 'refs/heads/release'
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -636,7 +636,7 @@ stages:
               project: 'libroadrunner-deps'
               pipeline: 9
               runVersion: 'latestFromBranch'
-              runBranch: 'refs/heads/new-libsbml'
+              runBranch: 'refs/heads/release'
               artifact: libroadrunner-deps-$(Agent.OS)-Release
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -860,7 +860,7 @@ stages:
               project: 'libroadrunner-deps'
               pipeline: 9
               runVersion: 'latestFromBranch'
-              runBranch: 'refs/heads/new-libsbml'
+              runBranch: 'refs/heads/release'
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -968,7 +968,7 @@ stages:
               PythonName: py310
         pool:
           vmImage: 'ubuntu-18.04'
-        container: sysbiouw/roadrunner-manylinux2014-base:newlibsbml
+        container: sysbiouw/roadrunner-manylinux2014-base:latest
         variables:
           CCACHE_DIR: '$(Pipeline.Workspace)/ccache'
           BUILD_DIRECTORY: '$(System.DefaultWorkingDirectory)/build'
