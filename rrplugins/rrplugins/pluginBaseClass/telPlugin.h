@@ -173,10 +173,10 @@ class Plugin
         */
         virtual tlp::StringList          getPropertyNames();
 
-        /**
+        /*
             Retieves a plugin properties, as XML
         */
-        string                          getPluginPropertiesAsXML();
+        //string                          getPluginPropertiesAsXML();
 
         /**
             Retieves a specific property

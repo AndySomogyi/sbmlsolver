@@ -114,10 +114,6 @@ option(BUILD_LLVM "Build the LLVM back end" ON)
 # note I've tried using the C backend and it no longer compiles. Could be useful to keep though
 option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" OFF)
 
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX "../roadrunner-${CMAKE_GENERATOR_PLATFORM}-${CMAKE_BUILD_TYPE}" CACHE PATH "..." FORCE)
-endif()
-
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "Build the SWIG generated python wrapper" OFF)
 if (BUILD_PYTHON)
@@ -360,6 +356,11 @@ endif ()
 
 set(CMAKE_DEBUG_POSTFIX "d")
 
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "../install-${CMAKE_BUILD_TYPE}" CACHE PATH "..." FORCE)
+endif()
+
+
 ####################################################
 #   Dependencies
 
@@ -394,12 +395,55 @@ else ()
 endif (WIN32)
 
 
-find_package(Threads) # for libxml2, FindThreads.cmake is shipped with cmake
-find_package(LibLZMA) # for libxml2, LibLZMA.cmake is shipped with cmake
+#find_package(Threads) # for libxml2, FindThreads.cmake is shipped with cmake
+#find_package(LibLZMA) # for libxml2, LibLZMA.cmake is shipped with cmake
 find_package(zlib CONFIG REQUIRED)
-find_package(bzip2 CONFIG REQUIRED)
-find_package(iconv CONFIG REQUIRED)
-find_package(libxml2 CONFIG REQUIRED)
+#find_package(bzip2 CONFIG REQUIRED)
+#find_package(iconv CONFIG REQUIRED)
+
+find_package(expat CONFIG REQUIRED)
+
+## https://stackoverflow.com/questions/32183975/how-to-print-all-the-properties-of-a-target-in-cmake/56738858#56738858
+## https://stackoverflow.com/a/56738858/3743145
+
+## Get all properties that cmake supports
+execute_process(COMMAND cmake --help-property-list OUTPUT_VARIABLE CMAKE_PROPERTY_LIST)
+## Convert command output into a CMake list
+STRING(REGEX REPLACE ";" "\\\\;" CMAKE_PROPERTY_LIST "${CMAKE_PROPERTY_LIST}")
+STRING(REGEX REPLACE "\n" ";" CMAKE_PROPERTY_LIST "${CMAKE_PROPERTY_LIST}")
+
+list(REMOVE_DUPLICATES CMAKE_PROPERTY_LIST)
+
+function(print_target_properties tgt)
+    if(NOT TARGET ${tgt})
+      message("There is no target named '${tgt}'")
+      return()
+    endif()
+
+    foreach (prop ${CMAKE_PROPERTY_LIST})
+        string(REPLACE "<CONFIG>" "${CMAKE_BUILD_TYPE}" prop ${prop})
+        get_target_property(propval ${tgt} ${prop})
+        if (propval)
+            message ("${tgt} ${prop} = ${propval}")
+        endif()
+    endforeach(prop)
+endfunction(print_target_properties)
+
+cmake_language(CALL print_target_properties zlib::zlibstatic)
+cmake_language(CALL print_target_properties expat::expat)
+
+#libsbml now needs to know that we found expat, so we set the relevant flags
+set(EXPAT_LIBRARY "expat::expat")
+get_target_property(EXPAT_INCLUDE_DIR expat::expat INTERFACE_INCLUDE_DIRECTORIES)
+get_target_property(EXPAT_LIBRARY expat::expat LOCATION)
+message(STATUS "EXPAT_LIBRARY: ${EXPAT_LIBRARY}")
+set(ZLIB_LIBRARY "zlib::zlibstatic")
+get_target_property(ZLIB_LIBRARY zlib::zlibstatic LOCATION)
+set(ZLIB_INCLUDE_DIR "${RR_DEPENDENCIES_INSTALL_PREFIX}/include/")
+
+message(STATUS "ZLIB_LIBRARY: ${ZLIB_LIBRARY}")
+message(STATUS "ZLIB_INCLUDE_DIR: ${ZLIB_INCLUDE_DIR}")
+
 find_package(${SBML_TARGET_NAME} CONFIG REQUIRED)
 find_package(rr-libstruct CONFIG REQUIRED)
 find_package(clapack CONFIG REQUIRED)

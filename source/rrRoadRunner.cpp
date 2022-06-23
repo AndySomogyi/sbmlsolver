@@ -5947,7 +5947,9 @@ namespace rr {
 
         rrLog(Logger::LOG_DEBUG) << "Adding new reaction ..." << std::endl;
         libsbml::Reaction *newReaction = impl->document->getModel()->createReaction();
-        libsbml::XMLInputStream stream(sbmlRep.c_str(), false);
+        //libsbml's use of the expat parser requires you to declare the XML at the beginning of any string.
+        string input = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + sbmlRep;
+        libsbml::XMLInputStream stream(input.c_str(), false);
         newReaction->read(stream);
         // TODO: ERROR HANDLING
 

@@ -157,10 +157,10 @@ class COMMON_DECLSPEC Properties
         */
         bool                                clear();
 
-        /**
+        /*
         Get properties as XML
         */
-        string                              asXML();
+        //string                              asXML();
 
         /**
            Output the container to a output stream (ostream)

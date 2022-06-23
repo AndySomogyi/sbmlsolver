@@ -413,7 +413,7 @@ set(INCLUDE_DIRS "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
         # so in the plugins. This next item enables targets that
         # link to roadrunner-static to use
         # #include "libxml/tree.h", for instance in the plugin code.
-        "$<BUILD_INTERFACE:${DEPENDENCY_INCLUDE_DIR}/libxml2>"
+        "$<BUILD_INTERFACE:${DEPENDENCY_INCLUDE_DIR}/libexpat>"
         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>")
 if (NOT WIN32)
@@ -486,8 +486,8 @@ target_link_libraries(
         Poco::Foundation
         Poco::Net
         Poco::XML
-        iconv::libcharset iconv::libiconv-static
-
+        #iconv::libcharset iconv::libiconv-static
+        expat::expat
 )
 
 #get_target_property(v ${target}-static LINK_FLAGS)
