@@ -1,4 +1,4 @@
-# Starter pipeline 
+ Starter pipeline 
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
@@ -617,11 +617,12 @@ stages:
 
               echo "pip install requests:"
               $(PipExecutable) install requests
+              $(PipExecutable) install numpy
             displayName: "Setup conda"
 
           - script: |
               $(PythonExecutable) ./.azurepipelines/getLLVM.py $(LLVM_DOWNLOAD_LINK) $(LLVM_INSTALL_PREFIX)
-            displayName: "Get LLVM and NumPy"
+            displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
 
           - task: DownloadPipelineArtifact@2
