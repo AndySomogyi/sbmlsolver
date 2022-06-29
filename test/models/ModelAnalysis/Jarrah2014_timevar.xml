@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.13.0 with libSBML version 5.19.2. -->
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice" id="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice" name="Jarrah2014 - mathematical model of the immune response in muscle degeneration and subsequent regeneration in Duchenne muscular dystrophy in mdx mice" substanceUnits="substance" timeUnits="time_unit" volumeUnits="volume" areaUnits="area" lengthUnits="length" extentUnits="extent">
+    <annotation>
+      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+        <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice">
+          <bqmodel:is>
+            <rdf:Bag>
+              <rdf:li rdf:resource="http://identifiers.org/biomodels.db/MODEL2107200002"/>
+              <rdf:li rdf:resource="http://identifiers.org/biomodels.db/BIOMD0000001015"/>
+            </rdf:Bag>
+          </bqmodel:is>
+          <bqbiol:isDescribedBy>
+            <rdf:Bag>
+              <rdf:li rdf:resource="http://identifiers.org/pubmed/25013809"/>
+            </rdf:Bag>
+          </bqbiol:isDescribedBy>
+          <bqbiol:hasVersion>
+            <rdf:Bag>
+              <rdf:li rdf:resource="http://identifiers.org/omit/0018341"/>
+            </rdf:Bag>
+          </bqbiol:hasVersion>
+          <bqbiol:is>
+            <rdf:Bag>
+              <rdf:li rdf:resource="http://identifiers.org/mamo/MAMO_0000046"/>
+              <rdf:li rdf:resource="http://identifiers.org/ncit/C17930"/>
+            </rdf:Bag>
+          </bqbiol:is>
+          <bqbiol:occursIn>
+            <rdf:Bag>
+              <rdf:li rdf:resource="http://identifiers.org/ncit/C33558"/>
+            </rdf:Bag>
+          </bqbiol:occursIn>
+          <bqbiol:hasTaxon>
+            <rdf:Bag>
+              <rdf:li rdf:resource="http://identifiers.org/taxonomy/10090"/>
+            </rdf:Bag>
+          </bqbiol:hasTaxon>
+          <bqbiol:hasProperty>
+            <rdf:Bag>
+              <rdf:li rdf:resource="http://identifiers.org/ncit/C75482"/>
+              <rdf:li rdf:resource="http://identifiers.org/ncit/C120876"/>
+            </rdf:Bag>
+          </bqbiol:hasProperty>
+        </rdf:Description>
+      </rdf:RDF>
+    </annotation>
+    <listOfFunctionDefinitions>
+      <functionDefinition id="Rate_Law_for_reaction_4" name="Rate Law for reaction_4">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <lambda>
+            <bvar>
+              <ci> bm </ci>
+            </bvar>
+            <bvar>
+              <ci> k3 </ci>
+            </bvar>
+            <bvar>
+              <ci> D </ci>
+            </bvar>
+            <bvar>
+              <ci> M </ci>
+            </bvar>
+            <apply>
+              <plus/>
+              <ci> bm </ci>
+              <apply>
+                <times/>
+                <ci> k3 </ci>
+                <ci> D </ci>
+                <ci> M </ci>
+              </apply>
+            </apply>
+          </lambda>
+        </math>
+      </functionDefinition>
+      <functionDefinition id="Rate_Law_for_reaction" name="Rate Law for reaction">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <lambda>
+            <bvar>
+              <ci> bH </ci>
+            </bvar>
+            <bvar>
+              <ci> k1 </ci>
+            </bvar>
+            <bvar>
+              <ci> D </ci>
+            </bvar>
+            <bvar>
+              <ci> M </ci>
+            </bvar>
+            <apply>
+              <plus/>
+              <ci> bH </ci>
+              <apply>
+                <times/>
+                <ci> k1 </ci>
+                <ci> D </ci>
+                <ci> M </ci>
+              </apply>
+            </apply>
+          </lambda>
+        </math>
+      </functionDefinition>
+      <functionDefinition id="Rate_Law_for_reaction_6" name="Rate Law for reaction_6">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <lambda>
+            <bvar>
+              <ci> k5 </ci>
+            </bvar>
+            <bvar>
+              <ci> C </ci>
+            </bvar>
+            <bvar>
+              <ci> N </ci>
+            </bvar>
+            <bvar>
+              <ci> alpha </ci>
+            </bvar>
+            <apply>
+              <plus/>
+              <apply>
+                <times/>
+                <ci> k5 </ci>
+                <ci> C </ci>
+                <ci> N </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> alpha </ci>
+                <ci> N </ci>
+              </apply>
+            </apply>
+          </lambda>
+        </math>
+      </functionDefinition>
+    </listOfFunctionDefinitions>
+    <listOfUnitDefinitions>
+      <unitDefinition id="substance_per_volume">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+          <unit kind="litre" exponent="-1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="volume">
+        <listOfUnits>
+          <unit kind="litre" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="length">
+        <listOfUnits>
+          <unit kind="metre" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="area">
+        <listOfUnits>
+          <unit kind="metre" exponent="2" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="time_unit" name="time"/>
+      <unitDefinition id="substance">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="extent">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.compartment_" id="compartment_" name="Skeletal_muscle" spatialDimensions="3" size="1" units="volume" constant="true">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.compartment_">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ncit/C13050"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </compartment>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.H" id="H" name="CD4+_T_Helper_cells_(H)" compartment="compartment_" initialConcentration="0" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.H">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/cl/CL:0000492"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.D" id="D" name="Damaged_fibres_(D)" compartment="compartment_" initialConcentration="0" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.D">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/bto/BTO:0000888"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:hasProperty>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ncit/C61555"/>
+                </rdf:Bag>
+              </bqbiol:hasProperty>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.M" id="M" name="Macrophages_(M)" compartment="compartment_" initialConcentration="400" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.M">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/omit/0009339"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.C" id="C" name="CD8+_cytotoxic_T_lymphocytes_(C)" compartment="compartment_" initialConcentration="4" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.C">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/cl/CL:0000794"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.N" id="N" name="Normal_fibres_(N)" compartment="compartment_" initialConcentration="100" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.N">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/bto/BTO:0000888"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.R" id="R" name="Regenerative_fibres_(R)" compartment="compartment_" initialConcentration="0" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.R">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/bto/BTO:0000888"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:hasProperty>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ncit/C17083"/>
+                </rdf:Bag>
+              </bqbiol:hasProperty>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="bH" constant="false"/>
+      <parameter id="dH" value="1" constant="true"/>
+      <parameter id="H0" value="0" constant="true"/>
+      <parameter id="bC" constant="false"/>
+      <parameter id="dC" value="1.61511" constant="true"/>
+      <parameter id="C0" value="4" constant="true"/>
+      <parameter id="bM" constant="false"/>
+      <parameter id="dM" value="0.781155" constant="true"/>
+      <parameter id="M0" value="400" constant="true"/>
+      <parameter id="alpha" constant="false"/>
+      <parameter id="h" value="0.511657" constant="true"/>
+      <parameter id="time_var" value="0" constant="false"/>
+      <parameter id="sigma" value="2.2" constant="true"/>
+      <parameter id="m" value="4.22686" constant="true"/>
+      <parameter id="k1" value="0.0341" constant="true"/>
+      <parameter id="k2" value="0.115375" constant="true"/>
+      <parameter id="k3" value="0.766576" constant="true"/>
+      <parameter id="k5" value="0.00409948" constant="true"/>
+      <parameter id="k6" value="0.000323097" constant="true"/>
+      <parameter id="dD" value="1.34671" constant="true"/>
+      <parameter id="k4" value="0.123848" constant="true"/>
+    </listOfParameters>
+    <listOfRules>
+      <assignmentRule variable="alpha">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <apply>
+              <divide/>
+              <ci> h </ci>
+              <apply>
+                <times/>
+                <apply>
+                  <plus/>
+                  <ci> time_var </ci>
+                  <cn type="e-notation"> 1 <sep/> -11 </cn>
+                </apply>
+                <ci> sigma </ci>
+                <apply>
+                  <power/>
+                  <apply>
+                    <times/>
+                    <cn type="integer"> 2 </cn>
+                    <pi/>
+                  </apply>
+                  <cn> 0.5 </cn>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <exp/>
+              <apply>
+                <divide/>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <power/>
+                    <apply>
+                      <minus/>
+                      <apply>
+                        <ln/>
+                        <apply>
+                          <plus/>
+                          <ci> time_var </ci>
+                          <cn type="e-notation"> 1 <sep/> -11 </cn>
+                        </apply>
+                      </apply>
+                      <ci> m </ci>
+                    </apply>
+                    <cn type="integer"> 2 </cn>
+                  </apply>
+                </apply>
+                <apply>
+                  <times/>
+                  <cn type="integer"> 2 </cn>
+                  <apply>
+                    <power/>
+                    <ci> sigma </ci>
+                    <cn type="integer"> 2 </cn>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="bM">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> dM </ci>
+            <ci> M0 </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="bC">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> dC </ci>
+            <ci> C0 </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="bH">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> dH </ci>
+            <ci> H0 </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <rateRule variable="time_var">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <cn type="integer"> 1 </cn>
+        </math>
+      </rateRule>
+    </listOfRules>
+    <listOfReactions>
+      <reaction metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_" id="reaction_" name="T_helper_cells_creation" reversible="false" fast="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/cl/CL:0000492"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:hasProperty>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ncit/C42620"/>
+                </rdf:Bag>
+              </bqbiol:hasProperty>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfProducts>
+          <speciesReference species="H" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="D"/>
+          <modifierSpeciesReference species="M"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> compartment_ </ci>
+              <apply>
+                <ci> Rate_Law_for_reaction </ci>
+                <ci> bH </ci>
+                <ci> k1 </ci>
+                <ci> D </ci>
+                <ci> M </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_1" id="reaction_1" name="T_helper_cells_degradation" reversible="false" fast="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_1">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/cl/CL:0000492"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:hasProperty>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ncit/C61559"/>
+                </rdf:Bag>
+              </bqbiol:hasProperty>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="H" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> compartment_ </ci>
+              <ci> dH </ci>
+              <ci> H </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_2" id="reaction_2" name="T_lymphocytes_creation" reversible="false" fast="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_2">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/cl/CL:0000794"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:hasProperty>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ncit/C42620"/>
+                </rdf:Bag>
+              </bqbiol:hasProperty>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfProducts>
+          <speciesReference species="C" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="H"/>
+          <modifierSpeciesReference species="D"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> compartment_ </ci>
+              <apply>
+                <ci> Rate_Law_for_reaction </ci>
+                <ci> bC </ci>
+                <ci> k2 </ci>
+                <ci> D </ci>
+                <ci> H </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_3" id="reaction_3" name="T_lymphocytes_degradation" reversible="false" fast="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_3">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/cl/CL:0000794"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:hasProperty>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ncit/C61559"/>
+                </rdf:Bag>
+              </bqbiol:hasProperty>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="C" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> compartment_ </ci>
+              <ci> dC </ci>
+              <ci> C </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_4" id="reaction_4" name="Macrophage_creation" reversible="false" fast="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_4">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/omit/0009339"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:hasProperty>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ncit/C42620"/>
+                </rdf:Bag>
+              </bqbiol:hasProperty>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfProducts>
+          <speciesReference species="M" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="D"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> compartment_ </ci>
+              <apply>
+                <ci> Rate_Law_for_reaction_4 </ci>
+                <ci> bM </ci>
+                <ci> k3 </ci>
+                <ci> D </ci>
+                <ci> M </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_5" id="reaction_5" name="Macrophage_degradation" reversible="false" fast="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_5">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/omit/0009339"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:hasProperty>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ncit/C61559"/>
+                </rdf:Bag>
+              </bqbiol:hasProperty>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="M" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> compartment_ </ci>
+              <ci> dM </ci>
+              <ci> M </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_6" id="reaction_6" name="Fibre_damage" reversible="false" fast="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_6">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/bto/BTO:0000888"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:hasProperty>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ncit/C61555"/>
+                </rdf:Bag>
+              </bqbiol:hasProperty>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="N" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="D" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="C"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> compartment_ </ci>
+              <apply>
+                <ci> Rate_Law_for_reaction_6 </ci>
+                <ci> k5 </ci>
+                <ci> C </ci>
+                <ci> N </ci>
+                <ci> alpha </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_7" id="reaction_7" name="Fibre_regeneration" reversible="false" fast="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_7">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/bto/BTO:0000888"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:hasProperty>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ncit/C17083"/>
+                </rdf:Bag>
+              </bqbiol:hasProperty>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="D" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="R" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="M"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> compartment_ </ci>
+              <apply>
+                <ci> Rate_Law_for_reaction_6 </ci>
+                <ci> k6 </ci>
+                <ci> M </ci>
+                <ci> D </ci>
+                <ci> dD </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_8" id="reaction_8" name="Fibre_normalisation" reversible="false" fast="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#Jarrah2014___mathematical_model_of_the_immune_response_in_muscle_degeneration_and_subsequent_regeneration_in_Duchenne_muscular_dystrophy_in_mdx_mice.reaction_8">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/bto/BTO:0000888"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="R" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="N" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> compartment_ </ci>
+              <ci> k4 </ci>
+              <ci> R </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

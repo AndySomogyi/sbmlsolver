@@ -116,10 +116,10 @@ namespace tlp
         return true;
     }
 
-    string Plugin::getPluginPropertiesAsXML()
-    {
-        return mProperties.asXML();
-    }
+    //string Plugin::getPluginPropertiesAsXML()
+    //{
+    //    return mProperties.asXML();
+    //}
 
     pair<void*, void*> Plugin::getWorkStartedData()
     {

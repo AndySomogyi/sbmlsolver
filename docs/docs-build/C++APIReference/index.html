@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The LibRoadRunner C++ Library &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -128,16 +129,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="the-libroadrunner-c-library">
+  <section id="the-libroadrunner-c-library">
 <h1>The LibRoadRunner C++ Library<a class="headerlink" href="#the-libroadrunner-c-library" title="Permalink to this headline"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<div class="section" id="introduction">
+<section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
 <p>This document describes the application programming interface (wrappers) of RoadRunner,
 an open source (BSD) library for computing structural characteristics of cellular networks.</p>
-</div>
-<div class="section" id="creating-a-new-integrator">
+</section>
+<section id="creating-a-new-integrator">
 <h2>Creating a new Integrator<a class="headerlink" href="#creating-a-new-integrator" title="Permalink to this headline"></a></h2>
 <p>One of the key design goals of the LibRoadRunner library is extensibility. This means that the
 library is designed with the idea that most internal components are loosely coupled and that
@@ -159,8 +160,8 @@ done with the &lt;TT&gt;integrator&lt;/TT&gt; keyword, i.e.</p>
 </div>
 <p>To create a new integrator, one first needs to create an object that implments the Integrator interface,
 tell RoadRunner about it.</p>
-</div>
-<div class="section" id="implementing-the-integrator-interface">
+</section>
+<section id="implementing-the-integrator-interface">
 <h2>Implementing the Integrator interface<a class="headerlink" href="#implementing-the-integrator-interface" title="Permalink to this headline"></a></h2>
 <p>The IntegratorFactory is the ONLY object that creates integrators.</p>
 <p>Integrators are created when the IntegratorFactory::New method is called,
@@ -242,8 +243,8 @@ should have three key/value pairs.</p>
 </table>
 <p>When the Integrator::setSimulateOptions method is called, the integrator should read any
 parameters it expects out of the given dictionary.</p>
-</div>
-<div class="section" id="telling-roadrunner-about-the-new-integrator">
+</section>
+<section id="telling-roadrunner-about-the-new-integrator">
 <h2>Telling RoadRunner about the new Integrator<a class="headerlink" href="#telling-roadrunner-about-the-new-integrator" title="Permalink to this headline"></a></h2>
 <p>In order for the RoadRunner::simulate method use the new integrator, it needs to know about it.
 The IntegratorFactory is the only object that knows about all the integrators, and a few lines of
@@ -278,8 +279,8 @@ the dictionary that was created in the getIntegratorOptions method, e.g.</p>
 can be used by just adding the &lt;tt&gt;integrator=”myNewIntegrator”&lt;/tt&gt; argument whenever the
 RoadRunner.simulate method is called. The EulerIntegrator was created as an example of how to create and add
 a new integrator, have a look at it.</p>
-</div>
-<div class="section" id="a-complete-example-of-creating-an-integrator">
+</section>
+<section id="a-complete-example-of-creating-an-integrator">
 <h2>A complete example of creating an integrator<a class="headerlink" href="#a-complete-example-of-creating-an-integrator" title="Permalink to this headline"></a></h2>
 <p>This section includes the complete Euler integrator implemented in EulerIntegrator.h as an example of
 creating a new integrator.
@@ -296,8 +297,8 @@ would be:</p>
 <p>The EulerIntegrator.h file serves as a complete example of creating an new integrator.
 This example was written entierly in the header file for clarity, but a real integrator
 should separate the code and header files.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -310,7 +311,7 @@ should separate the code and header files.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

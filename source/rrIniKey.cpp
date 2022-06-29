@@ -4,73 +4,74 @@
 
 namespace rr
 {
-IniKey::IniKey(const std::string& key)
-{
-    SetupKey(key);
-}
-
-void IniKey::ReKey(const std::string& key)
-{
-    SetupKey(key);
-}
-
-std::ostream&  operator<<(std::ostream& stream, const IniKey& aKey)
-{
-    stream<<aKey.AsString();
-    return stream;
-}
-
-std::string IniKey::AsString() const
-{
-    std::string tmp = mKey;
-    tmp += " = ";
-    tmp += mValue;
-    return tmp;
-}
-
-int IniKey::AsBool() const
-{
-    return toBool(mValue);
-}
-
-int IniKey::AsInt() const
-{
-    return toInt(mValue);
-}
-
-double IniKey::AsFloat() const
-{
-    return toDouble(mValue);
-}
-
-complex<double> IniKey::AsComplex() const
-{
-    std::vector<std::string> vals = splitString(mValue,",");
-    if(vals.size() == 2)
+    /** @cond PRIVATE */
+    IniKey::IniKey(const std::string& key)
     {
-        return complex<double>(toDouble(vals[0]), toDouble(vals[1]));
+        SetupKey(key);
     }
-    return complex<double>(toDouble(mValue), 0 );
-}
 
-void IniKey::SetupKey(const std::string& key)
-{
-    if(key.size())
+    void IniKey::ReKey(const std::string& key)
     {
-        std::vector<std::string> recs = splitString(key, "=");
-        if(recs.size() > 0)
+        SetupKey(key);
+    }
+
+    std::ostream& operator<<(std::ostream& stream, const IniKey& aKey)
+    {
+        stream << aKey.AsString();
+        return stream;
+    }
+
+    std::string IniKey::AsString() const
+    {
+        std::string tmp = mKey;
+        tmp += " = ";
+        tmp += mValue;
+        return tmp;
+    }
+
+    int IniKey::AsBool() const
+    {
+        return toBool(mValue);
+    }
+
+    int IniKey::AsInt() const
+    {
+        return toInt(mValue);
+    }
+
+    double IniKey::AsFloat() const
+    {
+        return toDouble(mValue);
+    }
+
+    complex<double> IniKey::AsComplex() const
+    {
+        std::vector<std::string> vals = splitString(mValue, ",");
+        if (vals.size() == 2)
         {
-            mKey = recs[0];
-            mValue = recs[1];
-          }
-        mComment = "";
+            return complex<double>(toDouble(vals[0]), toDouble(vals[1]));
+        }
+        return complex<double>(toDouble(mValue), 0);
     }
-    else
-    {
-        mKey = "";
-        mValue = "";
-        mComment = "";
-    }
-}
 
+    void IniKey::SetupKey(const std::string& key)
+    {
+        if (key.size())
+        {
+            std::vector<std::string> recs = splitString(key, "=");
+            if (recs.size() > 0)
+            {
+                mKey = recs[0];
+                mValue = recs[1];
+            }
+            mComment = "";
+        }
+        else
+        {
+            mKey = "";
+            mValue = "";
+            mComment = "";
+        }
+    }
+    /** @endcond PRIVATE */
 }

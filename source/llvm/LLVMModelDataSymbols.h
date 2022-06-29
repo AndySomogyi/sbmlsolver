@@ -190,14 +190,20 @@ public:
     SymbolIndexType getSymbolIndex(const std::string& name, int& result) const;
 
     /**
-     * get the index of a floating species.
+     * Get the index of a floating species.
      *
+     * @param id the id of the species to retrieve.
      * @param requireIndependent if true, the float species must be independent --
      * not defined by a rule.
      */
-    int getFloatingSpeciesIndex(std::string const&, bool requireIndependent = true) const;
+    int getFloatingSpeciesIndex(std::string const& id, bool requireIndependent = true) const;
 
-    int getBoundarySpeciesIndex(std::string const&) const;
+    /**
+     * Get the index of a boundary species.
+     *
+     * @param id the id of the species to retrieve.
+     */
+    int getBoundarySpeciesIndex(std::string const& id) const;
 
     /**
      * number of boundary species not defined by rules.
@@ -730,9 +736,10 @@ private:
     /**
      * init the floating species symbols.
      *
+     * @param model the model to check.
      * @param conservedMoieties: are conserved moieties enabled?
      */
-    void initFloatingSpecies(const libsbml::Model *,
+    void initFloatingSpecies(const libsbml::Model *model,
             bool conservedMoieties);
 
     /**
@@ -744,6 +751,7 @@ private:
      * get the global parameters, need to reorder them to set the independent
      * ones first
      *
+     * @param model the model to check.
      * @param conservedMoieties: are conserved moieties enabled?
      */
     void initGlobalParameters(const libsbml::Model *model,

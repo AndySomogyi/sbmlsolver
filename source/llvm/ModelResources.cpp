@@ -27,6 +27,7 @@
 #pragma warning(disable: 4141)
 #pragma warning(disable: 4267)
 #pragma warning(disable: 4624)
+#pragma warning(disable: 4244)
 #endif
 
 #include "llvm/SBMLSupportFunctions.h"
@@ -44,6 +45,7 @@
 #pragma warning(default: 4141)
 #pragma warning(default: 4267)
 #pragma warning(default: 4624)
+#pragma warning(default: 4244)
 #endif
 
 using rr::Logger;
@@ -51,6 +53,7 @@ using rr::getLogger;
 using rr::LoadSBMLOptions;
 
 namespace rrllvm {
+    /** @cond PRIVATE */
 
     ModelResources::ModelResources() :
             symbols(nullptr), executionEngine(nullptr), context(nullptr), random(nullptr), errStr(nullptr) {
@@ -184,5 +187,5 @@ namespace rrllvm {
 
     }
 
-
+    /** @endcond PRIVATE */
 } /* namespace rrllvm */

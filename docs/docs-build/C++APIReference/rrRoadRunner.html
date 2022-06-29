@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rrRoadRunner &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -129,11 +130,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="rrroadrunner">
+  <section id="rrroadrunner">
 <h1>rrRoadRunner<a class="headerlink" href="#rrroadrunner" title="Permalink to this headline"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunnerE">
-<span id="_CPPv3N2rr10RoadRunnerE"></span><span id="_CPPv2N2rr10RoadRunnerE"></span><span id="rr::RoadRunner"></span><span class="target" id="classrr_1_1RoadRunner"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">RoadRunner</span></span></span><a class="headerlink" href="#_CPPv4N2rr10RoadRunnerE" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3N2rr10RoadRunnerE"></span><span id="_CPPv2N2rr10RoadRunnerE"></span><span id="rr::RoadRunner"></span><span class="target" id="classrr_1_1RoadRunner"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RoadRunner</span></span></span><a class="headerlink" href="#_CPPv4N2rr10RoadRunnerE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>The main <a class="reference internal" href="#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> class. </p>
 <p>The <a class="reference internal" href="#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> class is responsible for loading and simulating SBML models.</p>
 <p>MemoryManagment: Any pointer returned by a get… method is owned by the <a class="reference internal" href="#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> object and does NOT have to be deleted. </p>
@@ -456,12 +457,14 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <span class="n">const</span> <span class="n">DoubleMatrix</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">opt</span><span class="p">);</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt><strong>See</strong></dt><dd><p>IntegratorFactory, </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>SimulateOptions.</p>
-</dd>
-</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>IntegratorFactory, </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>SimulateOptions.</p>
+</div>
 </p>
 <p>Similarly, options specific to a particular integrator, such as the ‘seed’ option with the Gillespie integrator, this is set via the ‘setIntegrator’ “integrator” key, i.e. <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RoadRunner</span> <span class="n">r</span> <span class="o">=</span> <span class="n">RoadRunner</span><span class="p">(</span><span class="s2">&quot;someFile.xml&quot;</span><span class="p">);</span>
 <span class="n">r</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s2">&quot;gillespie&quot;</span><span class="p">);</span>
@@ -476,10 +479,10 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 </div>
 <p>Here, the “integrator” specifies the integrator to use. The “stiff” key is only used by the deterministic solvers, and it is safely ignored by the stochastic solvers. Also, the “seed” sets the random seed that the integrator uses. For more information about all of the available options for each integrator,</p>
 <p>If one wants to not store the result matrix in memory and instead write it to a file during simulation, one can set the output_file option. When output file is nonempty,</p>
-<a class="reference internal" href="#classrr_1_1RoadRunner_1a377834f22edadb7706779ecca7c1eb4e"><span class="std std-ref">simulate()</span></a> will write to its path once every Config::K_ROWS_PER_WRITE rows are generated and clear the matrix. So an empty result matrix is returned, and the last simulation results are not stored.<dl class="simple">
-<dt><strong>See</strong></dt><dd><p>IntegratorFactory::getIntegratorOptions”.</p>
-</dd>
-</dl>
+<a class="reference internal" href="#classrr_1_1RoadRunner_1a377834f22edadb7706779ecca7c1eb4e"><span class="std std-ref">simulate()</span></a> will write to its path once every Config::K_ROWS_PER_WRITE rows are generated and clear the matrix. So an empty result matrix is returned, and the last simulation results are not stored.<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>IntegratorFactory::getIntegratorOptions”.</p>
+</div>
 </p>
 <dl class="field-list simple">
 <dt class="field-odd">Throws</dt>
@@ -540,12 +543,14 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner9saveStateENSt6stringEc">
 <span id="_CPPv3N2rr10RoadRunner9saveStateENSt6stringEc"></span><span id="_CPPv2N2rr10RoadRunner9saveStateENSt6stringEc"></span><span id="rr::RoadRunner::saveState__ss.c"></span><span class="target" id="classrr_1_1RoadRunner_1ac982f0742233d5ad487064734c3b793c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">saveState</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">opt</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="sc"><span class="pre">'b'</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner9saveStateENSt6stringEc" title="Permalink to this definition"></a><br /></dt>
 <dd><p>similar to saveStateS but save data to file caled </p>
-<p><dl class="simple">
-<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#classrr_1_1RoadRunner_1a3f30bcb94eeb86ac029b123f51214c94"><span class="std std-ref">RoadRunner::saveStateS</span></a> </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#classrr_1_1RoadRunner_1a56030d98802a87d9aa960cbb7bb5f0c6"><span class="std std-ref">RoadRunner::loadState</span></a> </p>
-</dd>
-</dl>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#classrr_1_1RoadRunner_1a3f30bcb94eeb86ac029b123f51214c94"><span class="std std-ref">RoadRunner::saveStateS</span></a> </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#classrr_1_1RoadRunner_1a56030d98802a87d9aa960cbb7bb5f0c6"><span class="std std-ref">RoadRunner::loadState</span></a> </p>
+</div>
 </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -558,12 +563,14 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner10saveStateSEc">
 <span id="_CPPv3N2rr10RoadRunner10saveStateSEc"></span><span id="_CPPv2N2rr10RoadRunner10saveStateSEc"></span><span id="rr::RoadRunner::saveStateS__c"></span><span class="target" id="classrr_1_1RoadRunner_1a3f30bcb94eeb86ac029b123f51214c94"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">stringstream</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">saveStateS</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">opt</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="sc"><span class="pre">'b'</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner10saveStateSEc" title="Permalink to this definition"></a><br /></dt>
 <dd><p>save state as binary to a stringstream so it can be loaded again later. </p>
-<p><dl class="simple">
-<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#classrr_1_1RoadRunner_1a68f5a245b02936d4ed83dcfe9145bf83"><span class="std std-ref">RoadRunner::loadStateS</span></a> </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#classrr_1_1RoadRunner_1ac982f0742233d5ad487064734c3b793c"><span class="std std-ref">RoadRunner::saveState</span></a> </p>
-</dd>
-</dl>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#classrr_1_1RoadRunner_1a68f5a245b02936d4ed83dcfe9145bf83"><span class="std std-ref">RoadRunner::loadStateS</span></a> </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#classrr_1_1RoadRunner_1ac982f0742233d5ad487064734c3b793c"><span class="std std-ref">RoadRunner::saveState</span></a> </p>
+</div>
 </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -579,12 +586,14 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner9loadStateERKNSt6stringE">
 <span id="_CPPv3N2rr10RoadRunner9loadStateERKNSt6stringE"></span><span id="_CPPv2N2rr10RoadRunner9loadStateERKNSt6stringE"></span><span id="rr::RoadRunner::loadState__ssCR"></span><span class="target" id="classrr_1_1RoadRunner_1a56030d98802a87d9aa960cbb7bb5f0c6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">loadState</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner9loadStateERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Loads a roadrunner instance saved by saveState with the ‘b’ option. </p>
-<p><dl class="simple">
-<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#classrr_1_1RoadRunner_1a68f5a245b02936d4ed83dcfe9145bf83"><span class="std std-ref">RoadRunner::loadStateS</span></a> </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#classrr_1_1RoadRunner_1ac982f0742233d5ad487064734c3b793c"><span class="std std-ref">RoadRunner::saveState</span></a> </p>
-</dd>
-</dl>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#classrr_1_1RoadRunner_1a68f5a245b02936d4ed83dcfe9145bf83"><span class="std std-ref">RoadRunner::loadStateS</span></a> </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#classrr_1_1RoadRunner_1ac982f0742233d5ad487064734c3b793c"><span class="std std-ref">RoadRunner::saveState</span></a> </p>
+</div>
 </p>
 </dd></dl>
 
@@ -623,10 +632,10 @@ The stingstream pointer should be heap allocated and generated from <a class="re
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner10getOptionsEv">
 <span id="_CPPv3N2rr10RoadRunner10getOptionsEv"></span><span id="_CPPv2N2rr10RoadRunner10getOptionsEv"></span><span id="rr::RoadRunner::getOptions"></span><span class="target" id="classrr_1_1RoadRunner_1abca853c2d24000857a1c0971b99ec004"></span><span class="n"><span class="pre">RoadRunnerOptions</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getOptions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner10getOptionsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Get a reference to the options that determine how this class should behave. </p>
-<p>These are general options. For options specific for loading or simulationg, <dl class="simple">
-<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#classrr_1_1RoadRunner_1a1200e15aa2a3c0b8662e26f74f8320ae"><span class="std std-ref">getSimulateOptions</span></a>. </p>
-</dd>
-</dl>
+<p>These are general options. For options specific for loading or simulationg, <div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#classrr_1_1RoadRunner_1a1200e15aa2a3c0b8662e26f74f8320ae"><span class="std std-ref">getSimulateOptions</span></a>. </p>
+</div>
 </p>
 </dd></dl>
 
@@ -1533,10 +1542,10 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner11steadyStateEP10Dictionary">
 <span id="_CPPv3N2rr10RoadRunner11steadyStateEP10Dictionary"></span><span id="_CPPv2N2rr10RoadRunner11steadyStateEP10Dictionary"></span><span id="rr::RoadRunner::steadyState__DictionaryP"></span><span class="target" id="classrr_1_1RoadRunner_1af310e01ec241bc2b19a46629087024d0"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">steadyState</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Dictionary.html#_CPPv4N2rr10DictionaryE" title="rr::Dictionary"><span class="n"><span class="pre">Dictionary</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">dict</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner11steadyStateEP10Dictionary" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Compute the steady state of the model, returns the sum of squares of the solution. </p>
-<p>The steady state solver and whatever options it needs may be specified via the given dictionary. For a list of all available steady state solvers, <dl class="simple">
-<dt><strong>See</strong></dt><dd><p>SteadyStateSolverFactory.</p>
-</dd>
-</dl>
+<p>The steady state solver and whatever options it needs may be specified via the given dictionary. For a list of all available steady state solvers, <div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>SteadyStateSolverFactory.</p>
+</div>
 </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2177,7 +2186,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -2190,7 +2199,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -22,7 +22,7 @@ namespace rr {
      * Utility macro for checking for a variable for nullptr
      * @param x the pointer that is being checked for null
      * @param fcn the name of the function call that produced the null
-     * @param the return type for @param fcn
+     * @param type the return type for fcn
      */
 #define KinsolCheckForNull(x, fcn, type) \
     if (x == nullptr){                   \
@@ -72,23 +72,23 @@ namespace rr {
         void syncWithModel(ExecutableModel *m) override;
 
         /**
-         * @brief set all elements of the fscale variable to @param value.
+         * @brief set all elements of the fscale variable to @param value .
          */
         void setFScale(double value);
 
         /**
-         * @brief set elements of the fscale variable to @param value.
+         * @brief set elements of the fscale variable to @param value .
          * @param value should have the same size as the state std::vector
          */
         void setFScale(const std::vector<double> &value);
 
         /**
-         * @brief set all elements of the uscale variable to @param value.
+         * @brief set all elements of the uscale variable to @param value .
          */
         void setUScale(double value);
 
         /**
-         * @brief set elements of the uscale variable to @param value.
+         * @brief set elements of the uscale variable to value.
          * @param value should have the same size as the state std::vector
          */
         void setUScale(std::vector<double> value);

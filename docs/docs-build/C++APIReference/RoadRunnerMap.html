@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RoadRunnerMap &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -83,11 +84,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="roadrunnermap">
+  <section id="roadrunnermap">
 <h1>RoadRunnerMap<a class="headerlink" href="#roadrunnermap" title="Permalink to this headline"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMapE">
-<span id="_CPPv3N2rr13RoadRunnerMapE"></span><span id="_CPPv2N2rr13RoadRunnerMapE"></span><span id="rr::RoadRunnerMap"></span><span class="target" id="classrr_1_1RoadRunnerMap"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">RoadRunnerMap</span></span></span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMapE" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3N2rr13RoadRunnerMapE"></span><span id="_CPPv2N2rr13RoadRunnerMapE"></span><span id="rr::RoadRunnerMap"></span><span class="target" id="classrr_1_1RoadRunnerMap"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RoadRunnerMap</span></span></span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMapE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Hash table designed for storing <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> models. </p>
 <p>Expensive operations like building models are done in parallel.</p>
 <p>Loading <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> models requires expensive builds, which can be prohibitive when loading many models. <a class="reference internal" href="#classrr_1_1RoadRunnerMap"><span class="std std-ref">RoadRunnerMap</span></a> is a container for <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> objects which abstracts the process of loading or simulating in parallel. </p>
@@ -132,7 +133,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4NK2rr13RoadRunnerMap8getItemsEv">
 <span id="_CPPv3NK2rr13RoadRunnerMap8getItemsEv"></span><span id="_CPPv2NK2rr13RoadRunnerMap8getItemsEv"></span><span id="rr::RoadRunnerMap::getItemsC"></span><span class="target" id="classrr_1_1RoadRunnerMap_1ae59ca74069ba95baadeeedfbc48995e8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="rrRoadRunner.html#_CPPv4N2rr10RoadRunnerE" title="rr::RoadRunner"><span class="n"><span class="pre">RoadRunner</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getItems</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr13RoadRunnerMap8getItemsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get items of this map as vector of std::pair&lt;std::string, RoadRuner*&gt; types. </p>
-<p>pointers are owned by the <a class="reference internal" href="#classrr_1_1RoadRunnerMap"><span class="std std-ref">RoadRunnerMap</span></a>  so do not delete. O(N). </p>
+<p>pointers are owned by the <a class="reference internal" href="#classrr_1_1RoadRunnerMap"><span class="std std-ref">RoadRunnerMap</span></a> &amp;#8212; so do not delete. O(N). </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -140,16 +141,22 @@
 <span id="_CPPv3N2rr13RoadRunnerMap6insertENSt10unique_ptrI10RoadRunnerEE"></span><span id="_CPPv2N2rr13RoadRunnerMap6insertENSt10unique_ptrI10RoadRunnerEE"></span><span id="rr::RoadRunnerMap::insert__std::unique_ptr:RoadRunner:"></span><span class="target" id="classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">insert</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="rrRoadRunner.html#_CPPv4N2rr10RoadRunnerE" title="rr::RoadRunner"><span class="n"><span class="pre">RoadRunner</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">roadRunner</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap6insertENSt10unique_ptrI10RoadRunnerEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Insert a. </p>
 <p>
-The model must already be a unique pointer. The key for accessing the map will be the model name. Loading another model with the same name will overwrite the original. <dl class="simple">
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"><span class="std std-ref">insert(const std::string &amp;key, std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"><span class="std std-ref">insert(const std::string &amp;sbmlOrFile)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"><span class="std std-ref">insert(const std::string &amp;key, const std::string &amp;sbmlOrFile)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"><span class="std std-ref">insert(const std::vector&lt;std::string&gt; &amp;sbmlStringsOrFiles)</span></a>; </p>
-</dd>
-</dl>
+The model must already be a unique pointer. The key for accessing the map will be the model name. Loading another model with the same name will overwrite the original. <div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"><span class="std std-ref">insert(const std::string &amp;key, std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"><span class="std std-ref">insert(const std::string &amp;sbmlOrFile)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"><span class="std std-ref">insert(const std::string &amp;key, const std::string &amp;sbmlOrFile)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"><span class="std std-ref">insert(const std::vector&lt;std::string&gt; &amp;sbmlStringsOrFiles)</span></a>; </p>
+</div>
 </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -162,16 +169,22 @@ The model must already be a unique pointer. The key for accessing the map will b
 <dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap6insertERKNSt6stringENSt10unique_ptrI10RoadRunnerEE">
 <span id="_CPPv3N2rr13RoadRunnerMap6insertERKNSt6stringENSt10unique_ptrI10RoadRunnerEE"></span><span id="_CPPv2N2rr13RoadRunnerMap6insertERKNSt6stringENSt10unique_ptrI10RoadRunnerEE"></span><span id="rr::RoadRunnerMap::insert__ssCR.std::unique_ptr:RoadRunner:"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">insert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="rrRoadRunner.html#_CPPv4N2rr10RoadRunnerE" title="rr::RoadRunner"><span class="n"><span class="pre">RoadRunner</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">roadRunner</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap6insertERKNSt6stringENSt10unique_ptrI10RoadRunnerEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>The same as the std::unique_ptr&lt;RoadRunner&gt; overload but with a user provided key. </p>
-<p><dl class="simple">
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"><span class="std std-ref">insert(std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"><span class="std std-ref">insert(const std::string &amp;sbmlOrFile)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"><span class="std std-ref">insert(const std::string &amp;key, const std::string &amp;sbmlOrFile)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"><span class="std std-ref">insert(const std::vector&lt;std::string&gt; &amp;sbmlStringsOrFiles)</span></a>; </p>
-</dd>
-</dl>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"><span class="std std-ref">insert(std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"><span class="std std-ref">insert(const std::string &amp;sbmlOrFile)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"><span class="std std-ref">insert(const std::string &amp;key, const std::string &amp;sbmlOrFile)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"><span class="std std-ref">insert(const std::vector&lt;std::string&gt; &amp;sbmlStringsOrFiles)</span></a>; </p>
+</div>
 </p>
 </dd></dl>
 
@@ -179,16 +192,22 @@ The model must already be a unique pointer. The key for accessing the map will b
 <dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap6insertERKNSt6stringE">
 <span id="_CPPv3N2rr13RoadRunnerMap6insertERKNSt6stringE"></span><span id="_CPPv2N2rr13RoadRunnerMap6insertERKNSt6stringE"></span><span id="rr::RoadRunnerMap::insert__ssCR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">insert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sbmlOrFile</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap6insertERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>insert a roadrunner model into the map using the model name as key. </p>
-<p><dl class="simple">
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"><span class="std std-ref">insert(std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"><span class="std std-ref">insert(const std::string &amp;key, std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"><span class="std std-ref">insert(const std::string &amp;key, const std::string &amp;sbmlOrFile)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"><span class="std std-ref">insert(const std::vector&lt;std::string&gt; &amp;sbmlStringsOrFiles)</span></a>; </p>
-</dd>
-</dl>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"><span class="std std-ref">insert(std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"><span class="std std-ref">insert(const std::string &amp;key, std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"><span class="std std-ref">insert(const std::string &amp;key, const std::string &amp;sbmlOrFile)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"><span class="std std-ref">insert(const std::vector&lt;std::string&gt; &amp;sbmlStringsOrFiles)</span></a>; </p>
+</div>
 </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -201,16 +220,22 @@ The model must already be a unique pointer. The key for accessing the map will b
 <dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap6insertERKNSt6stringERKNSt6stringE">
 <span id="_CPPv3N2rr13RoadRunnerMap6insertERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N2rr13RoadRunnerMap6insertERKNSt6stringERKNSt6stringE"></span><span id="rr::RoadRunnerMap::insert__ssCR.ssCR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">insert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sbmlOrFile</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap6insertERKNSt6stringERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>insert a roadrunner model into the map using a user define key. </p>
-<p><dl class="simple">
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"><span class="std std-ref">insert(std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"><span class="std std-ref">insert(const std::string &amp;key, std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"><span class="std std-ref">insert(const std::string &amp;sbmlOrFile)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"><span class="std std-ref">insert(const std::vector&lt;std::string&gt; &amp;sbmlStringsOrFiles)</span></a>; </p>
-</dd>
-</dl>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"><span class="std std-ref">insert(std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"><span class="std std-ref">insert(const std::string &amp;key, std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"><span class="std std-ref">insert(const std::string &amp;sbmlOrFile)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"><span class="std std-ref">insert(const std::vector&lt;std::string&gt; &amp;sbmlStringsOrFiles)</span></a>; </p>
+</div>
 </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -226,16 +251,22 @@ The model must already be a unique pointer. The key for accessing the map will b
 <dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap6insertERKNSt6vectorINSt6stringEEE">
 <span id="_CPPv3N2rr13RoadRunnerMap6insertERKNSt6vectorINSt6stringEEE"></span><span id="_CPPv2N2rr13RoadRunnerMap6insertERKNSt6vectorINSt6stringEEE"></span><span id="rr::RoadRunnerMap::insert__std::vector:ss:CR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a36692f167efb2d98104b754f7709e0a0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">insert</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sbmlStringsOrFiles</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap6insertERKNSt6vectorINSt6stringEEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Like the “insert(const std::string &amp;sbmlOrFile);” overload, but pass in a vector of sbml file or sbml strings. </p>
-<p><dl class="simple">
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"><span class="std std-ref">insert(std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"><span class="std std-ref">insert(const std::string &amp;key, std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"><span class="std std-ref">insert(const std::string &amp;sbmlOrFile)</span></a>; </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"><span class="std std-ref">insert(const std::string &amp;key, const std::string &amp;sbmlOrFile)</span></a>; </p>
-</dd>
-</dl>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ae1caaf098019febfe65d00a7344e4131"><span class="std std-ref">insert(std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a88bf886a4722d8e694251b3fb45dd15b"><span class="std std-ref">insert(const std::string &amp;key, std::unique_ptr&lt;RoadRunner&gt; roadRunner)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a3ded8d8cf8b78f84eed1003a46482d9f"><span class="std std-ref">insert(const std::string &amp;sbmlOrFile)</span></a>; </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>void <a class="reference internal" href="#classrr_1_1RoadRunnerMap_1a34872331ef915fd2131474e784c8a5fa"><span class="std std-ref">insert(const std::string &amp;key, const std::string &amp;sbmlOrFile)</span></a>; </p>
+</div>
 </p>
 </dd></dl>
 
@@ -424,12 +455,14 @@ Because there can be only 1 element with a particular key in the map, the return
 <dt class="sig sig-object cpp" id="_CPPv4N2rr13RoadRunnerMap11numThreads_E">
 <span id="_CPPv3N2rr13RoadRunnerMap11numThreads_E"></span><span id="_CPPv2N2rr13RoadRunnerMap11numThreads_E"></span><span id="rr::RoadRunnerMap::numThreads___unsigned-i"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a9ebf87dbc6b81daafb55740453b02cc0"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">numThreads_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap11numThreads_E" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Variable to hold the number of threads int the pool. </p>
-<p><dl class="simple">
-<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ad81f2df7069d3e6cf9fe7d9f2246711c"><span class="std std-ref">RoadRunnerMap::setNumThreads</span></a> </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#classrr_1_1RoadRunnerMap_1aa35ab70a630780f570b4ac5574c18728"><span class="std std-ref">RoadRunnerMap::getNumThreads</span></a> </p>
-</dd>
-</dl>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#classrr_1_1RoadRunnerMap_1ad81f2df7069d3e6cf9fe7d9f2246711c"><span class="std std-ref">RoadRunnerMap::setNumThreads</span></a> </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#classrr_1_1RoadRunnerMap_1aa35ab70a630780f570b4ac5574c18728"><span class="std std-ref">RoadRunnerMap::getNumThreads</span></a> </p>
+</div>
 </p>
 </dd></dl>
 
@@ -448,7 +481,7 @@ Because there can be only 1 element with a particular key in the map, the return
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -458,7 +491,7 @@ Because there can be only 1 element with a particular key in the map, the return
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

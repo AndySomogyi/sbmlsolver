@@ -9,6 +9,10 @@
 
 namespace rr {
 
+    /**
+     * @class Matrix3D
+     * A basic local 3D version of the Matrix class, based on initializer_list.
+     */
     template<typename IndexType, typename DataType>
     class Matrix3D {
         using Matrix3DInitializer = std::initializer_list<std::initializer_list<std::initializer_list<DataType>>>;
@@ -121,8 +125,8 @@ namespace rr {
          * @brief 2D Matrix slicer.
          * @details Convert a 3D matrix to a 1D std::vector<DataType> by slicing the Z (depth)
          *  and then the y (height) direction using numerical indices.
-         * @param k indexes the number of sub matrices, k \in 0, 1, ..., zMax.
-         * @param j indexes the number of row vectors in submatrix k for j \in 0, 1, ..., yMax
+         * @param k indexes the number of sub matrices, k in 0, 1, ..., zMax.
+         * @param j indexes the number of row vectors in submatrix k for j in 0, 1, ..., yMax
          * @return A single 1D std::vector<DataType> object at index k, j of this Matrix3D<DataType>
          *  with dimensions (xMax) (width). This is a row vector at submatrix k, row j of this rr::Matrix3D<DataType>
          */
@@ -148,8 +152,8 @@ namespace rr {
          * @details Convert a 3D matrix to a scalar DataType by slicing the (k, j, i) (depth, height, width)
          *  direction using numerical indices.
          * @param k corresponds to the number of sub matrices, indexed by k in the set 0, 1, ..., zMax.
-         * @param j indexes the number of row vectors in submatrix k for j \in 0, 1, ..., yMax
-         * @param i indexes the number of elements in each row vector j; i \in 0, 1, ..., xMax
+         * @param j indexes the number of row vectors in submatrix k for j in 0, 1, ..., yMax
+         * @param i indexes the number of elements in each row vector j; i in 0, 1, ..., xMax
          * @return A scalar DataType object at index k, j, i of this Matrix3D<DataType>.
          */
         DataType slice(int k, int j, int i) {

@@ -167,6 +167,10 @@ std::ostream& operator <<(std::ostream& os, const Event& event)
     return os;
 }
 
+/** @struct EventPredicate
+ * Struct to check the event ID number of an event ID.
+ */
+
 struct EventPredicate
 {
     EventPredicate(uint eventId) : eventId(eventId) {};

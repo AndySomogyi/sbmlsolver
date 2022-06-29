@@ -219,7 +219,7 @@ namespace rr
         /**
         * is there a key matching this name.
         *
-        * @retruns true if this key exists, false otherwise.
+        * @return true if this key exists, false otherwise.
         */
         bool hasKey(const std::string& key) const override;
 

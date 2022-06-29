@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rrExecutableModel &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -129,11 +130,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="rrexecutablemodel">
+  <section id="rrexecutablemodel">
 <h1>rrExecutableModel<a class="headerlink" href="#rrexecutablemodel" title="Permalink to this headline"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModelE">
-<span id="_CPPv3N2rr15ExecutableModelE"></span><span id="_CPPv2N2rr15ExecutableModelE"></span><span id="rr::ExecutableModel"></span><span class="target" id="classrr_1_1ExecutableModel"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">ExecutableModel</span></span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModelE" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3N2rr15ExecutableModelE"></span><span id="_CPPv2N2rr15ExecutableModelE"></span><span id="rr::ExecutableModel"></span><span class="target" id="classrr_1_1ExecutableModel"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ExecutableModel</span></span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModelE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Base class for all code generation systems; allows compiling and evaluating the model. </p>
 <p>The <a class="reference internal" href="#classrr_1_1ExecutableModel"><span class="std std-ref">ExecutableModel</span></a> interface provides a way to access an sbml model that was compiled, JIT’d or interpreted as executable (runnable) module.</p>
 <p>An <a class="reference internal" href="#classrr_1_1ExecutableModel"><span class="std std-ref">ExecutableModel</span></a> holds a ModelData structure, all the simulation values are stored in the ModelData struct, i.e. the dynamic state of the model is fully contained in the ModelData structure.</p>
@@ -786,7 +787,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel13getEventRootsEdPKdPd">
 <span id="_CPPv3N2rr15ExecutableModel13getEventRootsEdPKdPd"></span><span id="_CPPv2N2rr15ExecutableModel13getEventRootsEdPKdPd"></span><span id="rr::ExecutableModel::getEventRoots__double.doubleCP.doubleP"></span><span class="target" id="classrr_1_1ExecutableModel_1a2c4d631f32873d4d98d613add078d9b3"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getEventRoots</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">y</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">gdot</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel13getEventRootsEdPKdPd" title="Permalink to this definition"></a><br /></dt>
-<dd><p>evaluate the event ‘roots’  when events transition form triggered - non-triggered or triggered to non-triggered state. </p>
+<dd><p>evaluate the event ‘roots’ &amp;#8212; when events transition form triggered - non-triggered or triggered to non-triggered state. </p>
 <p>Simplest method is to return 1 for triggered, -1 for not-triggered, so long as there is a zero crossing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -961,7 +962,7 @@
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -974,7 +975,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

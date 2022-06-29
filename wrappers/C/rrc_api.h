@@ -448,11 +448,12 @@ C_DECL_SPEC char* rrcCallConv getSBML(RRHandle handle);
  \param[in] sid ID of the species to be added
  \param[in] compartment Compartment of the species to be added
  \param[in] initialAmount Initial amount of the species to be added
- \param[in] substanceUnit Substance unit of the species to be added
+ \param[in] hasOnlySubstanceUnits Boolean value indicating whether the species is always considered to be in amounts when used in other formulas.
+ \param[in] boundaryCondition Boolean value indicating whether the species is a boundary species.
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
-C_DECL_SPEC bool rrcCallConv addSpeciesAmount  (RRHandle handle, const char* sid, const char* compartment, double initialAmount,        bool hasOnlySubstanceUnits, bool boundaryCondition);
+C_DECL_SPEC bool rrcCallConv addSpeciesAmount  (RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition);
 
 /*!
  \brief Add a species to the current model
@@ -460,7 +461,8 @@ C_DECL_SPEC bool rrcCallConv addSpeciesAmount  (RRHandle handle, const char* sid
  \param[in] sid ID of the species to be added
  \param[in] compartment Compartment of the species to be added
  \param[in] initialConcentration Initial concentration of the species to be added
- \param[in] substanceUnit Substance unit of the species to be added
+ \param[in] hasOnlySubstanceUnits Boolean value indicating whether the species is always considered to be in amounts when used in other formulas.
+ \param[in] boundaryCondition Boolean value indicating whether the species is a boundary species.
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -473,7 +475,8 @@ C_DECL_SPEC bool rrcCallConv addSpeciesConcentration (RRHandle handle, const cha
  \param[in] sid ID of the species to be added
  \param[in] compartment Compartment of the species to be added
  \param[in] initialConcentration Initial concentration of the species to be added
- \param[in] substanceUnit Substance unit of the species to be added
+ \param[in] hasOnlySubstanceUnits Boolean value indicating whether the species is always considered to be in amounts when used in other formulas.
+ \param[in] boundaryCondition Boolean value indicating whether the species is a boundary species.
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -487,7 +490,8 @@ C_DECL_SPEC bool rrcCallConv addSpeciesConcentrationNoRegen(RRHandle handle, con
  \param[in] sid ID of the species to be added
  \param[in] compartment Compartment of the species to be added
  \param[in] initialAmount Initial amount of the species to be added
- \param[in] substanceUnit Substance unit of the species to be added
+ \param[in] hasOnlySubstanceUnits Boolean value indicating whether the species is always considered to be in amounts when used in other formulas.
+ \param[in] boundaryCondition Boolean value indicating whether the species is a boundary species.
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -830,9 +834,10 @@ C_DECL_SPEC bool rrcCallConv removeCompartmentNoRegen(RRHandle handle, const cha
 
 /*!
 \brief Add an initial assignment to an exsiting symbol of the current model
-\param vid : ID of symbol
-\param formula : the math formula of the initial assignment
-\param forceRegenerate : a boolean value to indicate if the model is regenerated
+\param[in] handle Handle to a RoadRunner instance
+\param[in] vid : ID of symbol
+\param[in] formula : the math formula of the initial assignment
+\param[in] forceRegenerate : a boolean value to indicate if the model is regenerated
 after this function call default value is true to regenerate model after each call
 of editing function to save time for editing for multiple times, one could
 set this flag to true only in the last call of editing
@@ -952,7 +957,7 @@ C_DECL_SPEC bool rrcCallConv addTriggerNoRegen(RRHandle handle, const char* eid,
  \brief Set the persistent attribute of the trigger of given event
  \param[in] handle Handle to a RoadRunner instance
  \param[in] eid ID of the event of the trigger
- \param[in] reversible Reversible attribute to be set
+ \param[in] persistent Persistent attribute to be set
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -963,7 +968,7 @@ C_DECL_SPEC bool rrcCallConv setPersistent(RRHandle handle, const char* eid, boo
 		The last modification must regenerate for the modifications to take effect
  \param[in] handle Handle to a RoadRunner instance
  \param[in] eid ID of the event of the trigger
- \param[in] reversible Reversible attribute to be set
+ \param[in] persistent Persistent attribute to be set
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -1020,7 +1025,7 @@ C_DECL_SPEC bool rrcCallConv addPriorityNoRegen(RRHandle handle, const char* eid
 		If the given event already has a delay object, the given delay will replace the old delay in the model
  \param[in] handle Handle to a RoadRunner instance
  \param[in] eid ID of the event to add delay
- \param[in] priority the math formula of event priority
+ \param[in] delay the math formula of event delay
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -1043,7 +1048,7 @@ C_DECL_SPEC bool rrcCallConv addDelayNoRegen(RRHandle handle, const char* eid, c
  \param[in] handle Handle to a RoadRunner instance
  \param[in] eid ID of the event to add assignment
  \param[in] vid the ID of the variable to assign formula
- \param[in] fomula the math formula to assign
+ \param[in] formula the math formula to assign
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -1055,7 +1060,7 @@ C_DECL_SPEC bool rrcCallConv addEventAssignment(RRHandle handle, const char* eid
  \param[in] handle Handle to a RoadRunner instance
  \param[in] eid ID of the event to add assignment
  \param[in] vid the ID of the variable to assign formula
- \param[in] fomula the math formula to assign
+ \param[in] formula the math formula to assign
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
@@ -1217,7 +1222,7 @@ C_DECL_SPEC char* rrcCallConv getRegisteredIntegratorDescription (int n);
 
 /*!
 \brief Get the number of instantiated integrators.
-\description To instantiate an integrator, use @ref setCurrentIntegrator.
+To instantiate an integrator, use @ref setCurrentIntegrator.
 \param[in] handle Handle to a RoadRunner instance.
 \return Returns an integer that corresponds to the number of currently registered integrators.
 \ingroup simopts
@@ -1226,7 +1231,7 @@ C_DECL_SPEC int rrcCallConv getNumInstantiatedIntegrators (RRHandle handle);
 
 /*!
 \brief Specify the current integrator to be used for simulation.
-\description This method instantiates a new integrator of the given type (e.g. cvode, gillespie) if
+This method instantiates a new integrator of the given type (e.g. cvode, gillespie) if
 one does not currently exist. Otherwise, the existing integrator of this type is used.
 \param[in] handle Handle to a RoadRunner instance.
 \param[in] nameOfIntegrator Name of the integrator to be used.
@@ -1493,9 +1498,8 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorVectorConcentrationTolerance(RRH
 /*!
 \brief Set the double array value for a specific integrator setting. Should only used for absoluate tolerace.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] parameterName Name of the integrator setting.
+\param[in] sid id of the tolerance.
 \param[in] value The double array value for the integrator setting.
-\param[in] len The length of given soubld array.
 \return Returns True if successful.
 \ingroup simopts
 */
@@ -1538,7 +1542,7 @@ C_DECL_SPEC char* rrcCallConv getRegisteredSteadyStateSolverDescription (int n);
 
 /*!
 \brief Specify the current steady state solver to be used for simulation.
-\description This method instantiates a new steady state solver of the given type (e.g. cvode, gillespie) if
+This method instantiates a new steady state solver of the given type (e.g. cvode, gillespie) if
 one does not currently exist. Otherwise, the existing steady state solver of this type is used.
 \param[in] handle Handle to a RoadRunner instance.
 \param[in] nameOfSteadyStateSolver Name of the steady state solver to be used.
@@ -1629,7 +1633,7 @@ C_DECL_SPEC int rrcCallConv resetCurrentSteadyStateSolverParameters (RRHandle ha
 
 /*!
 \brief Get a string description of the type [STATIC MEMORY - DO NOT FREE]
-\description Can call on return value of e.g. @ref getCurrentSteadyStateSolverNthParameterType
+Can call on return value of e.g. @ref getCurrentSteadyStateSolverNthParameterType
 to retrieve human-readable string representation.
 \param[in] code Type code for the parameter
 \ingroup simopts
@@ -1957,12 +1961,12 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulateTimes(RRHandle handle, const double* 
 /*!
  \brief Carry out a one step integration of the model
 
- Example: \code status = OneStep (rrHandle, currentTime, stepSize, newTime); \endcode
+ Example: \code status = OneStep (rrHandle, currentTime, stepSize, value); \endcode
 
  \param[in] handle Handle to a RoadRunner instance
  \param[in] currentTime The current time in the simulation
  \param[in] stepSize The step size to use in the integration
- \param[in] newTime The new time (currentTime + stepSize)
+ \param[in] value The new time (currentTime + stepSize)
 
  \return Returns true if successful
  \ingroup simulation
@@ -2107,7 +2111,52 @@ C_DECL_SPEC bool rrcCallConv setValue(RRHandle handle, const char* symbolId, con
 */
 C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle);
 
+/*!
+ \brief Retrieve in a vector the amounts for all the floating species
+
+ Example: \code RRVectorPtr values = getFloatingSpeciesAmounts (void); \endcode
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns the vector of floating species amounts or null if an error occurred
+ \ingroup floating
+*/
 C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesAmounts(RRHandle handle);
+
+/*!
+ \brief Retrieve in a vector the concentrations of all the independent floating species
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns the vector of independent floating species concentrations or null if an error occurred
+ \ingroup floating
+*/
+C_DECL_SPEC RRVectorPtr rrcCallConv getIndependentFloatingSpeciesConcentrations(RRHandle handle);
+
+/*!
+ \brief Retrieve in a vector the concentrations of all the dependent floating species
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns the vector of dependent floating species concentrations or null if an error occurred
+ \ingroup floating
+*/
+C_DECL_SPEC RRVectorPtr rrcCallConv getDependentFloatingSpeciesConcentrations(RRHandle handle);
+
+/*!
+ \brief Retrieve in a vector the amounts of all the independent floating species
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns the vector of independent floating species amounts or null if an error occurred
+ \ingroup floating
+*/
+C_DECL_SPEC RRVectorPtr rrcCallConv getIndependentFloatingSpeciesAmounts(RRHandle handle);
+
+/*!
+ \brief Retrieve in a vector the amounts of all the dependent floating species
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns the vector of dependent floating species amounts or null if an error occurred
+ \ingroup floating
+*/
+C_DECL_SPEC RRVectorPtr rrcCallConv getDependentFloatingSpeciesAmounts(RRHandle handle);
 
 
 /*!
@@ -2121,6 +2170,15 @@ C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesAmounts(RRHandle handle);
 */
 C_DECL_SPEC RRVectorPtr rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle);
 
+/*!
+ \brief Retrieve the amounts for all the boundary species in a vector
+
+ Example: \code RRVectorPtr values = getBoundarySpeciesAmounts (void); \endcode
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns the vector of boundary species amounts or null if an error occurred
+ \ingroup boundary
+*/
 C_DECL_SPEC RRVectorPtr rrcCallConv getBoundarySpeciesAmounts(RRHandle handle);
 
 // --------------------------------------------------------------------------------
@@ -2612,9 +2670,22 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getBoundarySpeciesConcentrationIds(RRHa
 */
 C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesIds(RRHandle handle);
 
-
-
+/*!
+ \brief Obtain the list of dependent floating species Id
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns null if it fails, if successful it returns a pointer to a RRStringArrayPtr struct
+ \ingroup floating
+*/
 C_DECL_SPEC RRStringArrayPtr rrcCallConv getDependentFloatingSpeciesIds(RRHandle handle);
+
+/*!
+ \brief Obtain the list of independent floating species Id
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns null if it fails, if successful it returns a pointer to a RRStringArrayPtr struct
+ \ingroup floating
+*/
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getIndependentFloatingSpeciesIds(RRHandle handle);
 
 
 /*!
@@ -2686,6 +2757,15 @@ C_DECL_SPEC RRListPtr rrcCallConv getAvailableSteadyStateSymbols(RRHandle handle
  \ingroup mca
 */
 C_DECL_SPEC RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle);
+
+/*!
+ \brief Obtain the list of unscaled elasticity coefficient Ids
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns null if it fails, if successful it returns a list
+ \ingroup mca
+*/
+C_DECL_SPEC RRListPtr rrcCallConv getUnscaledElasticityCoefficientIds(RRHandle handle);
 
 /*!
  \brief Obtain the list of unscaled flux control coefficient Ids
@@ -3043,7 +3123,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int nu
  \param[in] handle Handle to a RoadRunner instance
  \param[in] timeStart Time start
  \param[in] timeEnd Time end
- \param[in] numberOfPoints Fixed number of points to generate
+ \param[in] numberOfSteps Fixed number of steps to generate
  \param[in] numberOfSimulations Number of simulations to perform
  \return Returns an array (RRCDataPtr) of columns containing the average of the
  results of the simulation including string labels for the individual columns. The
@@ -3189,6 +3269,38 @@ C_DECL_SPEC double rrcCallConv getConfigDouble(const char* key);
 */
 C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfConfigKeys();
 
+/*!
+ \brief Set the selection list for output from simulate(void) or simulateEx(void)
+ Use setTimeCourseSelectionListEx(handle, length, list) to set the the simulate selection list.
+ Compared to setTimeCourseSelectionList, setTimeCourseSelectionListEx, expects a list of char* strings
+ otherwise it has identical functionality.
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] length Number of elements in the list
+ \param[in] list A list of char* strings of Ids
+ \return Returns true if successful
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrcCallConv setTimeCourseSelectionListEx(RRHandle handle, int length, const char** list);
+
+/*!
+ \brief Set the selection list for the steady-state analysis
+ Use setSteadyStateSelectionListEx(handle, length, list) to set the steady-state selection list.
+ Compared to setSteadyStateSelectionList, setSteadyStateSelectionList, expects
+a list of char* strings otherwise it has identical functionality.
+ Example:
+ \code
+ setSteadyStateSelectionListEx (handle, 3, list)
+ \endcode
+ \param[in] handle to roadrunner instance
+ \param[in] length Number of elements in the list
+ \param[in] list The list of symbols.
+ \return Returns true if successful
+ \ingroup steadystate
+*/
+C_DECL_SPEC bool rrcCallConv setSteadyStateSelectionListEx(RRHandle handle, int length, const char** list);
+
+
+
 #if defined( __cplusplus)
 }
 }//namespace
@@ -3196,7 +3308,7 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfConfigKeys();
 #endif
 
 #endif
-/*! \mainpage RoadRunner C wrappers Library
+/*! \subpage RoadRunner C wrappers Library
  *
  * \section intro_sec Introduction
  *
@@ -3306,6 +3418,16 @@ Notice: Creating C based model generator using ..\compilers\tcc\tcc.exe compiler
  8.888889        1.566864        1.219950        1.105718        1.370199
 10.000000        0.269437        0.678127        1.199353        1.868247
 
+\endcode
+ * Note that if you are using a C++ compiler, you'll need to change the #include lines of both above programs to:
+\code
+#include <stdio.h>
+#include <stdlib.h>
+#include "rrc_api.h"
+#include "rrc_types.h"
+#include "rrc_utilities.h"
+
+using namespace rrc;
 \endcode
  * \section install_sec Installation
  *

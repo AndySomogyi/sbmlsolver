@@ -13,28 +13,31 @@
 
 namespace rrllvm
 {
+    /** @class KineticLawParameterResolver
+    * Sorts out local parameters in a kinetic law.
+    */
 
-class KineticLawParameterResolver: public LoadSymbolResolver
-{
-public:
-    KineticLawParameterResolver(LoadSymbolResolver& parentResolver,
-            const libsbml::KineticLaw &kineticLaw, llvm::IRBuilder<> &builder);
+    class KineticLawParameterResolver : public LoadSymbolResolver
+    {
+    public:
+        KineticLawParameterResolver(LoadSymbolResolver& parentResolver,
+            const libsbml::KineticLaw& kineticLaw, llvm::IRBuilder<>& builder);
 
-    virtual ~KineticLawParameterResolver() {};
+        virtual ~KineticLawParameterResolver() {};
 
-    virtual llvm::Value *loadSymbolValue(const std::string& symbol,
+        virtual llvm::Value* loadSymbolValue(const std::string& symbol,
             const llvm::ArrayRef<llvm::Value*>& args =
-                    llvm::ArrayRef<llvm::Value*>());
+            llvm::ArrayRef<llvm::Value*>());
 
-    virtual void recursiveSymbolPush(const std::string& symbol);
+        virtual void recursiveSymbolPush(const std::string& symbol);
 
-    virtual void recursiveSymbolPop();
+        virtual void recursiveSymbolPop();
 
-private:
-    LoadSymbolResolver& parentResolver;
-    const libsbml::KineticLaw &kineticLaw;
-    llvm::IRBuilder<> &builder;
-};
+    private:
+        LoadSymbolResolver& parentResolver;
+        const libsbml::KineticLaw& kineticLaw;
+        llvm::IRBuilder<>& builder;
+    };
 
 } /* namespace rr */
 #endif /* KineticLawParameterResolver_H_ */

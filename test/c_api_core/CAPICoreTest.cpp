@@ -98,10 +98,10 @@ TEST_F(CAPICoreTest, ReloadingModelModelRecompilation) {
     std::cout << testModelFilePath << std::endl;
     EXPECT_TRUE(std::filesystem::exists(testModelFilePath));
 
-    EXPECT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath.string().c_str(), true));
+    ASSERT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath.string().c_str(), true));
 
     //Load the same model again, but do not recompile the model DLL..
-    EXPECT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath.string().c_str(), true));
+    ASSERT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath.string().c_str(), true));
     freeRRInstance(aRR);
 }
 
@@ -109,10 +109,10 @@ TEST_F(CAPICoreTest, ReloadingModelNoModelRecompilation) {
     RRHandle aRR = createRRInstance();
     EXPECT_TRUE(std::filesystem::exists(testModelFilePath));
 
-    EXPECT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath.string().c_str(), true));
+    ASSERT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath.string().c_str(), true));
 
     //Load the same model again, but do not recompile the model DLL..
-    EXPECT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath.string().c_str(), false));
+    ASSERT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath.string().c_str(), false));
     freeRRInstance(aRR);
 }
 
@@ -120,12 +120,12 @@ TEST_F(CAPICoreTest, LoadingModelMultipleInstances) {
     RRHandle aRR1 = createRRInstance();
     RRHandle aRR2 = createRRInstance();
 
-    EXPECT_TRUE(loadSBMLFromFileE(aRR1, testModelFilePath.string().c_str(), true));
-    EXPECT_TRUE(loadSBMLFromFileE(aRR2, testModelFilePath.string().c_str(), true));
+    ASSERT_TRUE(loadSBMLFromFileE(aRR1, testModelFilePath.string().c_str(), true));
+    ASSERT_TRUE(loadSBMLFromFileE(aRR2, testModelFilePath.string().c_str(), true));
 
     //Load the same model again, but do not recompile the model DLL..
-    EXPECT_TRUE(loadSBMLFromFileE(aRR1, testModelFilePath.string().c_str(), false));
-    EXPECT_TRUE(loadSBMLFromFileE(aRR2, testModelFilePath.string().c_str(), false));
+    ASSERT_TRUE(loadSBMLFromFileE(aRR1, testModelFilePath.string().c_str(), false));
+    ASSERT_TRUE(loadSBMLFromFileE(aRR2, testModelFilePath.string().c_str(), false));
 
     freeRRInstance(aRR1);
     freeRRInstance(aRR2);
@@ -149,12 +149,12 @@ TEST_F(CAPICoreTest, LoadModelFromString) {
     string xml = getFileContent((testModelFilePath.string()));
     RRHandle aRR1 = createRRInstance();
     RRHandle aRR2 = createRRInstance();
-    EXPECT_TRUE(loadSBML(aRR1, xml.c_str()));
-    EXPECT_TRUE(loadSBMLEx(aRR2, xml.c_str(), true));
+    ASSERT_TRUE(loadSBML(aRR1, xml.c_str()));
+    ASSERT_TRUE(loadSBMLEx(aRR2, xml.c_str(), true));
 
     //Load the same model again, but do not recompile the model DLL..
-    EXPECT_TRUE(loadSBMLEx(aRR1, xml.c_str(), false));
-    EXPECT_TRUE(loadSBMLEx(aRR2, xml.c_str(), false));
+    ASSERT_TRUE(loadSBMLEx(aRR1, xml.c_str(), false));
+    ASSERT_TRUE(loadSBMLEx(aRR2, xml.c_str(), false));
     freeRRInstance(aRR1);
     freeRRInstance(aRR2);
 }
@@ -162,7 +162,7 @@ TEST_F(CAPICoreTest, LoadModelFromString) {
 TEST_F(CAPICoreTest, SimulateTimes) {
     string xml = getFileContent((testModelFilePath.string()));
     RRHandle aRR1 = createRRInstance();
-    EXPECT_TRUE(loadSBML(aRR1, xml.c_str()));
+    ASSERT_TRUE(loadSBML(aRR1, xml.c_str()));
     double times[4] = {0, 1, 5, 10};
     RRCDataPtr results = simulateTimes(aRR1, times, 4);
     EXPECT_EQ(results->RSize, 4);
@@ -274,7 +274,7 @@ TEST_F(CAPICoreTest, CheckRK4WorksFromC) {
 TEST_F(CAPICoreTest, SetAndGetMDiffStepSize) {
     string xml = getFileContent((testModelFilePath.string()));
     RRHandle rr = createRRInstance();
-    EXPECT_TRUE(loadSBML(rr, xml.c_str()));
+    ASSERT_TRUE(loadSBML(rr, xml.c_str()));
 
     double mDiffStepSize;
     EXPECT_TRUE(getDiffStepSize(rr, &mDiffStepSize));
@@ -291,7 +291,7 @@ TEST_F(CAPICoreTest, SetAndGetMDiffStepSize) {
 TEST_F(CAPICoreTest, CheckGetCC) {
     
     RRHandle rrH = createRRInstance();
-    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+    ASSERT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
 
     double K = 0.8;
     double ss_val;
@@ -325,4 +325,209 @@ TEST_F(CAPICoreTest, CheckGetCC) {
 
     delete rrH;
 
+}
+
+TEST_F(CAPICoreTest, CheckGetEC) {
+
+    RRHandle rrH = createRRInstance();
+    ASSERT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    RRListPtr actual = getElasticityCoefficientIds(rrH);
+    std::vector<std::string> expectedRxns(
+        { "_J0", "_J1" });
+    std::vector<std::string> expectedIds(
+        { "ec(_J0,A)", "ec(_J0,AP)", "ec(_J0,K)", "ec(_J0,Vm1)", "ec(_J0,Km1)", "ec(_J1,A)", "ec(_J1,AP)", "ec(_J1,K)", "ec(_J1,Vm1)", "ec(_J1,Km1)"});
+
+    for (int r = 0; r < actual->Count; r++) {
+        RRListItem* element = actual->Items[r];
+        RRList* sublist = element->data.lValue;
+        char* id = sublist->Items[0]->data.sValue;
+        EXPECT_STREQ(id, expectedRxns[r].c_str());
+        RRList* subsublist = sublist->Items[1]->data.lValue;
+        for (int sr=0; sr < subsublist->Count; sr++) {
+            char* id = subsublist->Items[sr]->data.sValue;
+            EXPECT_STREQ(id, expectedIds[r*subsublist->Count + sr].c_str());
+        }
+    }
+
+    delete actual;
+    delete rrH;
+}
+
+TEST_F(CAPICoreTest, CheckGetUEC) {
+
+    RRHandle rrH = createRRInstance();
+    ASSERT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    RRListPtr actual = getUnscaledElasticityCoefficientIds(rrH);
+    std::vector<std::string> expectedRxns(
+        { "_J0", "_J1" });
+    std::vector<std::string> expectedIds(
+        { "uec(_J0,A)", "uec(_J0,AP)", "uec(_J0,K)", "uec(_J0,Vm1)", "uec(_J0,Km1)", "uec(_J1,A)", "uec(_J1,AP)", "uec(_J1,K)", "uec(_J1,Vm1)", "uec(_J1,Km1)"});
+
+    for (int r = 0; r < actual->Count; r++) {
+        RRListItem* element = actual->Items[r];
+        RRList* sublist = element->data.lValue;
+        char* id = sublist->Items[0]->data.sValue;
+        EXPECT_STREQ(id, expectedRxns[r].c_str());
+        RRList* subsublist = sublist->Items[1]->data.lValue;
+        for (int sr=0; sr < subsublist->Count; sr++) {
+            char* id = subsublist->Items[sr]->data.sValue;
+            EXPECT_STREQ(id, expectedIds[r*subsublist->Count + sr].c_str());
+        }
+    }
+
+    delete actual;
+    delete rrH;
+}
+
+TEST_F(CAPICoreTest, CheckSetTimeCourseSelectionListEx) {
+
+    RRHandle rrH = createRRInstance();
+    ASSERT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    char* sel_list[] = { "time", "uec(_J0, A)", "ec(_J1, K)" };
+
+    setTimeCourseSelectionListEx(rrH, 3, (const char**)sel_list);
+    RRStringArrayPtr sel_rt = getTimeCourseSelectionList(rrH);
+    ASSERT_EQ(sel_rt->Count, 3);
+    for (int i = 0; i < 3; i++) {
+        EXPECT_STREQ(sel_list[i], sel_rt->String[i]);
+    }
+    RRCDataPtr res = simulate(rrH);
+    char** rescols = res->ColumnHeaders;
+    for (int i = 0; i < 3; i++) {
+        EXPECT_STREQ(sel_list[i], rescols[i]);
+    }
+
+    delete rrH;
+}
+
+TEST_F(CAPICoreTest, CheckSetSteadyStateSelectionListEx) {
+
+    RRHandle rrH = createRRInstance();
+    ASSERT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    char* sel_list[] = { "A", "uec(_J0, A)", "ec(_J1, K)" };
+
+    setSteadyStateSelectionListEx(rrH, 3, (const char**)sel_list);
+    RRStringArrayPtr sel_rt = getSteadyStateSelectionList(rrH);
+    ASSERT_EQ(sel_rt->Count, 3);
+    for (int i = 0; i < 3; i++) {
+        EXPECT_STREQ(sel_list[i], sel_rt->String[i]);
+    }
+    RRVectorPtr res = computeSteadyStateValues(rrH);
+    ASSERT_EQ(res->Count, 3);
+    double* values = res->Data;
+    for (int i = 0; i < 3; i++) {
+        double modelval;
+        bool check = getValue(rrH, sel_list[i], &modelval);
+        ASSERT_TRUE(check);
+        EXPECT_EQ(values[i], modelval);
+    }
+
+
+    delete rrH;
+}
+
+TEST_F(CAPICoreTest, CheckGetStoichiometryMatrix) {
+
+    RRHandle rrH = createRRInstance();
+    ASSERT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    RRDoubleMatrixPtr stoichs = getStoichiometryMatrix(rrH);
+    ASSERT_EQ(stoichs->CSize, 2);
+    ASSERT_EQ(stoichs->RSize, 2);
+    stoichs->Data;
+    EXPECT_EQ(stoichs->Data[0], -1.0);
+    EXPECT_EQ(stoichs->Data[1], 1.0);
+    EXPECT_EQ(stoichs->Data[2], 1.0);
+    EXPECT_EQ(stoichs->Data[3], -1.0);
+
+    delete rrH;
+}
+
+TEST_F(CAPICoreTest, CheckRatesOfChangeFunctions) {
+
+    RRHandle rrH = createRRInstance();
+    ASSERT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+    bool ret = setComputeAndAssignConservationLaws(rrH, true);
+
+    RRVectorPtr roc = getRatesOfChange(rrH);
+    ASSERT_EQ(roc->Count, 1);
+    EXPECT_NEAR(roc->Data[0], -0.496, 0.001);
+    delete roc;
+
+    RRStringArrayPtr roc_ids = getRatesOfChangeIds(rrH);
+    ASSERT_EQ(roc_ids->Count, 1);
+    EXPECT_STREQ(roc_ids->String[0], "A'");
+    delete roc_ids;
+
+    roc_ids = getIndependentFloatingSpeciesIds(rrH);
+    ASSERT_EQ(roc_ids->Count, 1);
+    EXPECT_STREQ(roc_ids->String[0], "A");
+    delete roc_ids;
+
+    roc_ids = getDependentFloatingSpeciesIds(rrH);
+    ASSERT_EQ(roc_ids->Count, 1);
+    EXPECT_STREQ(roc_ids->String[0], "AP");
+    delete roc_ids;
+
+    delete rrH;
+}
+
+TEST_F(CAPICoreTest, CheckGetIndependentAndDependentFloatingSpecies_conserved) {
+    RRHandle rrH = createRRInstance();
+    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+    setComputeAndAssignConservationLaws(rrH, true);
+
+    setValue(rrH, "default_compartment", 10.0);
+    setValue(rrH, "AP", 50.0);
+
+    RRVectorPtr indep_conc = getIndependentFloatingSpeciesConcentrations(rrH);
+    ASSERT_EQ(indep_conc->Count, 1);
+    EXPECT_EQ(indep_conc->Data[0], 1);
+
+    RRVectorPtr dep_conc = getDependentFloatingSpeciesConcentrations(rrH);
+    ASSERT_EQ(dep_conc->Count, 1);
+    EXPECT_EQ(dep_conc->Data[0], 5);
+
+    RRVectorPtr indep_amount = getIndependentFloatingSpeciesAmounts(rrH);
+    ASSERT_EQ(indep_amount->Count, 1);
+    EXPECT_EQ(indep_amount->Data[0], 10);
+
+    RRVectorPtr dep_amount = getDependentFloatingSpeciesAmounts(rrH);
+    ASSERT_EQ(dep_amount->Count, 1);
+    EXPECT_EQ(dep_amount->Data[0], 50);
+
+    delete rrH;
+}
+
+TEST_F(CAPICoreTest, CheckGetIndependentAndDependentFloatingSpecies_nonconserved) {
+    RRHandle rrH = createRRInstance();
+    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    setValue(rrH, "default_compartment", 10.0);
+    setValue(rrH, "AP", 50.0);
+
+    setValue(rrH, "default_compartment", 10.0);
+    setValue(rrH, "AP", 50.0);
+
+    RRVectorPtr indep_conc = getIndependentFloatingSpeciesConcentrations(rrH);
+    ASSERT_EQ(indep_conc->Count, 1);
+    EXPECT_EQ(indep_conc->Data[0], 1);
+
+    RRVectorPtr dep_conc = getDependentFloatingSpeciesConcentrations(rrH);
+    ASSERT_EQ(dep_conc->Count, 1);
+    EXPECT_EQ(dep_conc->Data[0], 5);
+
+    RRVectorPtr indep_amount = getIndependentFloatingSpeciesAmounts(rrH);
+    ASSERT_EQ(indep_amount->Count, 1);
+    EXPECT_EQ(indep_amount->Data[0], 10);
+
+    RRVectorPtr dep_amount = getDependentFloatingSpeciesAmounts(rrH);
+    ASSERT_EQ(dep_amount->Count, 1);
+    EXPECT_EQ(dep_amount->Data[0], 50);
+
+    delete rrH;
 }

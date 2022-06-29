@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jit Engines &mdash; libRoadRunner 1.1.16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -104,7 +105,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="jit-engines">
+  <section id="jit-engines">
 <h1>Jit Engines<a class="headerlink" href="#jit-engines" title="Permalink to this headline"></a></h1>
 <p>Jit stands for just-in-time and a Jit compiler compiles code on-the-fly
 into machine code, ready for execution within a single session. RoadRunner
@@ -120,7 +121,7 @@ this is akin to the “-O3” optimization flag.</p>
 Jit engine, at least until LLJit has been battle tested. In a future release, however
 LLJit will become the default Jit engine while MCJit will be deprecated and then
 removed.</p>
-<div class="section" id="switching-jit-engines">
+<section id="switching-jit-engines">
 <h2>Switching Jit Engines<a class="headerlink" href="#switching-jit-engines" title="Permalink to this headline"></a></h2>
 <p>Switching backends is remarkably simple. All we need to do is use the <cite>Config.setValue</cite>
 function to globally configure the <cite>LLVM_BACKEND</cite> variable.</p>
@@ -135,8 +136,8 @@ function to globally configure the <cite>LLVM_BACKEND</cite> variable.</p>
 </div>
 <p>Currently, these are our only two options. But it is foreseeable
 that other options will be available in the future.</p>
-</div>
-<div class="section" id="modifying-lljit-compile-time-optimization">
+</section>
+<section id="modifying-lljit-compile-time-optimization">
 <h2>Modifying LLJit Compile-Time Optimization<a class="headerlink" href="#modifying-lljit-compile-time-optimization" title="Permalink to this headline"></a></h2>
 <p>There are four optimization levels that you can choose from: <cite>NONE</cite>,
 <cite>LESS</cite>, <cite>DEFAULT</cite> and <cite>AGGRESSIVE</cite>. No optimization means faster
@@ -151,8 +152,8 @@ is <cite>DEFAULT</cite>.</p>
 <span class="linenos">4</span><span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">LLJIT_OPTIMIZATION_LEVEL</span><span class="p">,</span> <span class="n">Config</span><span class="o">.</span><span class="n">AGGRESSIVE</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -165,7 +166,7 @@ is <cite>DEFAULT</cite>.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

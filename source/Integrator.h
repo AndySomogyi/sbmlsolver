@@ -32,9 +32,9 @@ namespace rr {
 
     class ExecutableModel;
 
-    /*-------------------------------------------------------------------------------------------
-        IntegratorListener listens for integrator events.
-    ---------------------------------------------------------------------------------------------*/
+    /** @class IntegratorListener
+     * IntegratorListener listens for integrator events.
+     */
     class IntegratorListener {
     public:
 
@@ -53,10 +53,10 @@ namespace rr {
 
     typedef cxx11_ns::shared_ptr<IntegratorListener> IntegratorListenerPtr;
 
-    /*-------------------------------------------------------------------------------------------
-        Integrator is an abstract base class that provides an interface to specific integrator
-        class implementations.
-    ---------------------------------------------------------------------------------------------*/
+    /** @class Integrator 
+     * Integrator is an abstract base class that provides an interface to specific integrator
+     * class implementations.
+    */
     class RR_DECLSPEC Integrator : public Solver {
     public:
 
@@ -150,7 +150,9 @@ namespace rr {
 
     };
 
-
+    /** @class IntegratorException
+    * The exception class thrown by the Integrator.
+    */
     class IntegratorException : public std::runtime_error {
     public:
         explicit IntegratorException(const std::string &what) :

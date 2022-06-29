@@ -21,7 +21,7 @@ using namespace llvm;
 
 namespace rrllvm
 {
-
+    /** @cond PRIVATE */
 /**
  * Filter list of elements which are assignable -- do not have assignment rules.
  *
@@ -30,113 +30,113 @@ namespace rrllvm
  * C++ 11 has the copy_if template, but for the time being, we need to be
  * compatible with older C++, so use our own filtering here.
  */
-static StringIntVector independentElements(const LLVMModelDataSymbols &dataSymbols,
+    static StringIntVector independentElements(const LLVMModelDataSymbols& dataSymbols,
         const std::vector<std::string> elements)
-{
-    StringIntVector result;
-
-    for(std::vector<std::string>::const_iterator i = elements.begin();
-            i != elements.end(); ++i)
     {
-        if (!dataSymbols.hasAssignmentRule(*i))
+        StringIntVector result;
+
+        for (std::vector<std::string>::const_iterator i = elements.begin();
+            i != elements.end(); ++i)
         {
-            result.push_back(make_pair(*i, distance(elements.begin(), i)));
+            if (!dataSymbols.hasAssignmentRule(*i))
+            {
+                result.push_back(make_pair(*i, distance(elements.begin(), i)));
+            }
         }
+
+        return result;
     }
 
-    return result;
-}
 
 
+    const char* SetBoundarySpeciesAmountCodeGen::FunctionName = "setBoundarySpeciesAmount";
+    const char* SetBoundarySpeciesAmountCodeGen::IndexArgName = "boundarySpeciesIndex";
 
-const char* SetBoundarySpeciesAmountCodeGen::FunctionName = "setBoundarySpeciesAmount";
-const char* SetBoundarySpeciesAmountCodeGen::IndexArgName = "boundarySpeciesIndex";
-
-SetBoundarySpeciesAmountCodeGen::SetBoundarySpeciesAmountCodeGen(
-        const ModelGeneratorContext &mgc) :
+    SetBoundarySpeciesAmountCodeGen::SetBoundarySpeciesAmountCodeGen(
+        const ModelGeneratorContext& mgc) :
         SetValueCodeGenBase<SetBoundarySpeciesAmountCodeGen, true>(mgc)
-{
-}
+    {
+    }
 
-StringIntVector SetBoundarySpeciesAmountCodeGen::getIds()
-{
-    return independentElements(dataSymbols, dataSymbols.getBoundarySpeciesIds());
-}
+    StringIntVector SetBoundarySpeciesAmountCodeGen::getIds()
+    {
+        return independentElements(dataSymbols, dataSymbols.getBoundarySpeciesIds());
+    }
 
 
-const char* SetFloatingSpeciesAmountCodeGen::FunctionName = "setFloatingSpeciesAmount";
-const char* SetFloatingSpeciesAmountCodeGen::IndexArgName = "floatingSpeciesIndex";
+    const char* SetFloatingSpeciesAmountCodeGen::FunctionName = "setFloatingSpeciesAmount";
+    const char* SetFloatingSpeciesAmountCodeGen::IndexArgName = "floatingSpeciesIndex";
 
-SetFloatingSpeciesAmountCodeGen::SetFloatingSpeciesAmountCodeGen(
-        const ModelGeneratorContext &mgc) :
+    SetFloatingSpeciesAmountCodeGen::SetFloatingSpeciesAmountCodeGen(
+        const ModelGeneratorContext& mgc) :
         SetValueCodeGenBase<SetFloatingSpeciesAmountCodeGen, true>(mgc)
-{
-}
+    {
+    }
 
-StringIntVector SetFloatingSpeciesAmountCodeGen::getIds()
-{
-    return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds());
-}
+    StringIntVector SetFloatingSpeciesAmountCodeGen::getIds()
+    {
+        return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds());
+    }
 
 
-const char* SetBoundarySpeciesConcentrationCodeGen::FunctionName = "setBoundarySpeciesConcentration";
-const char* SetBoundarySpeciesConcentrationCodeGen::IndexArgName = "boundarySpeciesIndex";
+    const char* SetBoundarySpeciesConcentrationCodeGen::FunctionName = "setBoundarySpeciesConcentration";
+    const char* SetBoundarySpeciesConcentrationCodeGen::IndexArgName = "boundarySpeciesIndex";
 
-SetBoundarySpeciesConcentrationCodeGen::SetBoundarySpeciesConcentrationCodeGen(
-        const ModelGeneratorContext &mgc) :
+    SetBoundarySpeciesConcentrationCodeGen::SetBoundarySpeciesConcentrationCodeGen(
+        const ModelGeneratorContext& mgc) :
         SetValueCodeGenBase<SetBoundarySpeciesConcentrationCodeGen, false>(mgc)
-{
-}
+    {
+    }
 
-StringIntVector SetBoundarySpeciesConcentrationCodeGen::getIds()
-{
-    return independentElements(dataSymbols, dataSymbols.getBoundarySpeciesIds());
-}
+    StringIntVector SetBoundarySpeciesConcentrationCodeGen::getIds()
+    {
+        return independentElements(dataSymbols, dataSymbols.getBoundarySpeciesIds());
+    }
 
 
-const char* SetFloatingSpeciesConcentrationCodeGen::FunctionName = "setFloatingSpeciesConcentration";
-const char* SetFloatingSpeciesConcentrationCodeGen::IndexArgName = "floatingSpeciesIndex";
+    const char* SetFloatingSpeciesConcentrationCodeGen::FunctionName = "setFloatingSpeciesConcentration";
+    const char* SetFloatingSpeciesConcentrationCodeGen::IndexArgName = "floatingSpeciesIndex";
 
-SetFloatingSpeciesConcentrationCodeGen::SetFloatingSpeciesConcentrationCodeGen(
-        const ModelGeneratorContext &mgc) :
+    SetFloatingSpeciesConcentrationCodeGen::SetFloatingSpeciesConcentrationCodeGen(
+        const ModelGeneratorContext& mgc) :
         SetValueCodeGenBase<SetFloatingSpeciesConcentrationCodeGen, false>(mgc)
-{
-}
+    {
+    }
 
-StringIntVector SetFloatingSpeciesConcentrationCodeGen::getIds()
-{
-    return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds());
-}
+    StringIntVector SetFloatingSpeciesConcentrationCodeGen::getIds()
+    {
+        return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds());
+    }
 
 
-const char* SetCompartmentVolumeCodeGen::FunctionName = "setCompartmentVolume";
-const char* SetCompartmentVolumeCodeGen::IndexArgName = "compartmentIndex";
+    const char* SetCompartmentVolumeCodeGen::FunctionName = "setCompartmentVolume";
+    const char* SetCompartmentVolumeCodeGen::IndexArgName = "compartmentIndex";
 
-SetCompartmentVolumeCodeGen::SetCompartmentVolumeCodeGen(
-        const ModelGeneratorContext &mgc) :
+    SetCompartmentVolumeCodeGen::SetCompartmentVolumeCodeGen(
+        const ModelGeneratorContext& mgc) :
         SetValueCodeGenBase<SetCompartmentVolumeCodeGen, false>(mgc)
-{
-}
+    {
+    }
 
-StringIntVector SetCompartmentVolumeCodeGen::getIds()
-{
-    return independentElements(dataSymbols, dataSymbols.getCompartmentIds());
-}
+    StringIntVector SetCompartmentVolumeCodeGen::getIds()
+    {
+        return independentElements(dataSymbols, dataSymbols.getCompartmentIds());
+    }
 
 
-const char* SetGlobalParameterCodeGen::FunctionName = "setGlobalParameter";
-const char* SetGlobalParameterCodeGen::IndexArgName = "globalParameterIndex";
+    const char* SetGlobalParameterCodeGen::FunctionName = "setGlobalParameter";
+    const char* SetGlobalParameterCodeGen::IndexArgName = "globalParameterIndex";
 
-SetGlobalParameterCodeGen::SetGlobalParameterCodeGen(
-        const ModelGeneratorContext &mgc) :
+    SetGlobalParameterCodeGen::SetGlobalParameterCodeGen(
+        const ModelGeneratorContext& mgc) :
         SetValueCodeGenBase<SetGlobalParameterCodeGen, false>(mgc)
-{
-}
+    {
+    }
 
-StringIntVector SetGlobalParameterCodeGen::getIds()
-{
-    return independentElements(dataSymbols, dataSymbols.getGlobalParameterIds());
-}
-
+    StringIntVector SetGlobalParameterCodeGen::getIds()
+    {
+        return independentElements(dataSymbols, dataSymbols.getGlobalParameterIds());
+    }
+    /** @endcond PRIVATE */
 } /* namespace rr */
 

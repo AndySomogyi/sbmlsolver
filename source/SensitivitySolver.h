@@ -28,7 +28,7 @@ namespace rr {
         /**
          * @brief get current values of sensitivities of model variables
          * to parameters.
-         * @param kth derivative of the sensitivities.
+         * @param k the kth derivative of the sensitivities.
          */
         virtual rr::Matrix<double> getSensitivityMatrix(int k = 0) = 0;
 
@@ -67,7 +67,7 @@ namespace rr {
          * @param params vector of parameters that you want sensitivity for. When empty (default), compute
          * sensitivities for all parameters vs all variables.
          * @param species vector of species to include in the results.
-         * Note that unlike for @param params, reducing the number of
+         * Note that unlike for params, reducing the number of
          * species does not solve faster because the matrix slicing only
          * occurs at the end. When empty (default) all species are returned.
          * @param k (default 0) return the kth other derivative of the sensitivity data.

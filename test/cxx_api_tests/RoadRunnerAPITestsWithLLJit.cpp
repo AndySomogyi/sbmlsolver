@@ -202,12 +202,8 @@ TEST_F(RoadRunnerAPITestsWithLLJit, getDependentFloatingSpeciesIds){
     getDependentFloatingSpeciesIds();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, getFloatingSpeciesConcentrationIds){
-    getFloatingSpeciesConcentrationIds();
-}
-
-TEST_F(RoadRunnerAPITestsWithLLJit, getFloatingSpeciesInitialConcentrationIds){
-    getFloatingSpeciesInitialConcentrationIds();
+TEST_F(RoadRunnerAPITestsWithLLJit, getFloatingSpeciesInitialConcentrations){
+    getFloatingSpeciesInitialConcentrations();
 }
 
 TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_getSupportedIdTypes){
@@ -226,7 +222,39 @@ TEST_F(RoadRunnerAPITestsWithLLJit, getFloatingSpeciesConcentrationsNamedArray){
     getFloatingSpeciesConcentrationsNamedArray();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, getBoundarySpeciesAmountsNamedArray){
+TEST_F(RoadRunnerAPITestsWithLLJit, getDependentFloatingSpeciesConcentrations) {
+    getDependentFloatingSpeciesConcentrations();
+}
+
+TEST_F(RoadRunnerAPITestsWithLLJit, getDependentFloatingSpeciesAmounts) {
+    getDependentFloatingSpeciesAmounts();
+}
+
+TEST_F(RoadRunnerAPITestsWithLLJit, getDependentFloatingSpeciesConcentrationsNamedArray) {
+    getDependentFloatingSpeciesConcentrationsNamedArray();
+}
+
+TEST_F(RoadRunnerAPITestsWithLLJit, getDependentFloatingSpeciesAmountsNamedArray) {
+    getDependentFloatingSpeciesAmountsNamedArray();
+}
+
+TEST_F(RoadRunnerAPITestsWithLLJit, getIndependentFloatingSpeciesConcentrations) {
+    getIndependentFloatingSpeciesConcentrations();
+}
+
+TEST_F(RoadRunnerAPITestsWithLLJit, getIndependentFloatingSpeciesAmounts) {
+    getIndependentFloatingSpeciesAmounts();
+}
+
+TEST_F(RoadRunnerAPITestsWithLLJit, getIndependentFloatingSpeciesConcentrationsNamedArray) {
+    getIndependentFloatingSpeciesConcentrationsNamedArray();
+}
+
+TEST_F(RoadRunnerAPITestsWithLLJit, getIndependentFloatingSpeciesAmountsNamedArray) {
+    getIndependentFloatingSpeciesAmountsNamedArray();
+}
+
+TEST_F(RoadRunnerAPITestsWithLLJit, getBoundarySpeciesAmountsNamedArray) {
     getBoundarySpeciesAmountsNamedArray();
 }
 

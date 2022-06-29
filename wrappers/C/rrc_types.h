@@ -52,7 +52,7 @@ typedef void* RRHandle; /*! Void pointer to a RoadRunner instance */
 
 // ===================================== C TYPES =====================================
 
-/*!@struct*/
+/*!@struct RRVector*/
 /*!@brief Structure for a simple vector of doubles */
 typedef struct RRVector
 {
@@ -60,7 +60,7 @@ typedef struct RRVector
     double*         Data;                   /*!< Points to an array of double items */
 } *RRVectorPtr;                             /*!< Pointer to RRVectorHandle struct */
 
-/*!@struct*/
+/*!@struct RRStringArray*/
 /*!@brief Structure for a simple vector of strings */
 typedef struct RRStringArray
 {
@@ -68,7 +68,7 @@ typedef struct RRStringArray
     char**          String;                    /*!< Points to an array of string items */
 } *RRStringArrayPtr;                        /*!< Pointer to RRStringListHandle struct */
 
-/*!@struct*/
+/*!@struct RRDoubleMatrix*/
 /*!@brief Structure for a simple double Matrix type */
 typedef struct RRDoubleMatrix
 {
@@ -78,7 +78,7 @@ typedef struct RRDoubleMatrix
                                                             where i,j represent the row and column numberof the element. Indexing is from zero */
 } *RRDoubleMatrixPtr;                       /*!< Pointer to RRDoubleMatrixPtr struct */
 
-/*!@struct*/
+/*!@struct RRComplex*/
 /*!@brief Structure for a complex number */
 typedef struct RRComplex
 {
@@ -86,7 +86,7 @@ typedef struct RRComplex
     double          imag;                   /*!< imag part of complex number */
 } *RRComplexPtr;                            /*!< Pointer to a RRComplex number */
 
-/*!@struct*/
+/*!@struct RRComplexVector*/
 /*!@brief Structure for a simple complex Vector type */
 typedef struct RRComplexVector
 {
@@ -95,7 +95,7 @@ typedef struct RRComplexVector
                                                 i represents the index of the element. Indexing is from zero */
 } *RRComplexVectorPtr;                      /*!< Pointer to RRVectorHandle struct */
 
-/*!@struct*/
+/*!@struct RRComplexMatrix*/
 /*!@brief Structure for a simple complex Matrix type */
 typedef struct RRComplexMatrix
 {
@@ -105,7 +105,7 @@ typedef struct RRComplexMatrix
                                                   where i,j represent the row and column numberof the element. Indexing is from zero */
 } *RRComplexMatrixPtr;                      /*!< Pointer to RRDoubleMatrixPtr struct */
 
-/*!@struct*/
+/*!@struct RRCData*/
 /*!@brief Structure for the result type from the simulate calls. The client is responsible for freeing the RRCDataPtr. */
 typedef struct RRCData
 {
@@ -116,18 +116,18 @@ typedef struct RRCData
     char**          ColumnHeaders;          /*!< Pointer to an array of column header strings */
 } *RRCDataPtr;                              /*!< Pointer to RRCDataPtr struct */
 
-/*!@enum*/
+/*!@enum ListItemType*/
 /*!@brief The list type supports strings, integers, double and lists */
 enum ListItemType {litString, litInteger, litDouble, litList};
 
-/*!@enum*/
+/*!@enum RRParameterType*/
 /*!@brief A parameters type can be string, bool, integer, double, vector or a matrix */
 enum RRParameterType {ptString, ptBool, ptInteger, ptDouble, ptVector, ptMatrix};
 
 // The above enums correspond to the currently supported types in a RRArrayList
 struct RRList;    //Forward declaration for RRListItem, needed for RRListItem
 
-/*!@struct*/
+/*!@struct RRListItem*/
 /*!@brief A single list element type */
 typedef struct RRListItem
 {
@@ -142,7 +142,7 @@ typedef struct RRListItem
 } *RRListItemPtr;                           /*!< Pointer to cRRArrayListItemHandle struct */
 
 
-/*!@struct*/
+/*!@struct RRList*/
 /*!@brief A list type, stores int, double, strings and lists */
 typedef struct RRList
 {

@@ -175,7 +175,7 @@ struct LLVMModelData
 
 
     /**
-     * \conservation
+     * conservation
      *
      * length numIndFloatingSpecies
 	 *
