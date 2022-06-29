@@ -457,7 +457,7 @@ find_package(LLVM REQUIRED)
 find_package(SUNDIALS CONFIG REQUIRED)
 
 # not for windows. So not required, but we throw error if not win and not found.
-#find_package(Curses)
+find_package(Curses)
 
 if (NOT WIN32 AND NOT ${CURSES_FOUND})
     message(FATAL_ERROR "ncurses library not found. Please install it with your native package manager")
