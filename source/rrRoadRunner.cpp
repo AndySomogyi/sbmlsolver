@@ -4341,15 +4341,20 @@ namespace rr {
 
             if (ufcc.RSize() > 0) {
                 for (int i = 0; i < ufcc.RSize(); i++) {
+                    double irate = 0;
+                    impl->model->getReactionRates(1, &i, &irate);
+                    if (irate == 0) {
+                        rrLog(rr::Logger::LOG_WARNING) << "Unable to properly scale values for reaction '";
+                        rrLog(rr::Logger::LOG_WARNING) << impl->model->getReactionId(i);
+                        rrLog(rr::Logger::LOG_WARNING) << "': its value is zero, so we cannot divide by it.  Setting the scaled coefficients to zero instead.";
+                    }
                     for (int j = 0; j < ufcc.CSize(); j++) {
-                        double irate = 0;
-                        impl->model->getReactionRates(1, &i, &irate);
                         if (irate != 0) {
                             double jrate = 0;
                             impl->model->getReactionRates(1, &j, &jrate);
                             ufcc[i][j] = ufcc[i][j] * jrate / irate;
                         } else {
-                            throw (Exception("Dividing with zero"));
+                            ufcc[i][j] = 0;
                         }
                     }
                 }
