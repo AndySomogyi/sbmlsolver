@@ -22,6 +22,24 @@ public:
 };
 
 
+TEST_F(ModelAnalysisTests, issue1031) {
+    //Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::LLJIT);
+    rr::RoadRunner rr((modelAnalysisModelsDir / "zero_rate_at_steady_state.xml").string());
+
+    rr.steadyState();
+    ls::DoubleMatrix sfcc = rr.getScaledFluxControlCoefficientMatrix();
+
+    int AKnum = 14;
+    ASSERT_STREQ("AK", rr.getReactionIds()[AKnum].c_str());
+
+    for (unsigned int rxn = 0; rxn < sfcc.CSize(); rxn++)
+    {
+        EXPECT_EQ(sfcc.Element(AKnum, rxn), 0.0);
+    }
+
+}
+
+
 TEST_F(ModelAnalysisTests, issue1020_full) {
     //Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::LLJIT);
     rr::RoadRunner rr((modelAnalysisModelsDir / "Jarrah2014.xml").string());
