@@ -89,7 +89,7 @@ Contributors are more than welcome to submit pull requests, following the [contr
 RoadRunner is licensed for free as an open source programmatic library for use in other 
 applications and as a standalone command line driven application. Its C++ API, C API, and 
 Python APIs have comprehensive documentation. On Windows, OS X, and Linux binary files can be 
-downloaded from the [Releases](https://github.com/sys-bio/roadrunner/releases) page, and the Python bindings can additionall be downloaded via pip. 
+downloaded from the [Releases](https://github.com/sys-bio/roadrunner/releases) page, and the Python bindings can additionally be downloaded via pip. 
 
 
 ## Docker images
