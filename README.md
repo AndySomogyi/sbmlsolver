@@ -41,6 +41,8 @@ Experimental front end:
 
 # Documentation
 
+[Full Documentation](https://libroadrunner.readthedocs.io)
+
 [Python API Documentation](http://sys-bio.github.io/roadrunner/)
 
 [C API Documention](https://sys-bio.github.io/roadrunner/OriginalDoxygenStyleDocs/html/index.html)
@@ -55,7 +57,7 @@ E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</su
 2. Dune Scientific, 10522 Lake City Way NE, #302 Seattle WA
 3. Department of Bioengineering, University of Washington, Seattle, WA, 98195
 
-The current (2021) developers are Lucian Smith and Ciaran Welsh.
+The current (2022) developer is Lucian Smith.
 
 ## Introduction
 
@@ -63,7 +65,7 @@ libRoadRunner is a high-performance and portable simulation engine for systems a
 
 ## Contributing
 
-**IMPORTANT!** Contributors **must** follow the [contribution guidelines](https://github.com/sys-bio/roadrunner/wiki). Contibuters are responsible for complying with the guidelines, including (but not limited to) making commits to the correct branch. Maintainers are not responsible for changes made to the wrong branch. Contributors take full responsibility for ensuring that their changes get merged into the develop branch.
+Contributors are more than welcome to submit pull requests, following the [contribution guidelines](https://github.com/sys-bio/roadrunner/wiki).  Bug requess and feature suggestions are also more than welcome on the [issues page](https://github.com/sys-bio/roadrunner/issues).
 
 ## libRoadRunner supports the following features:
 
@@ -87,26 +89,17 @@ libRoadRunner is a high-performance and portable simulation engine for systems a
 RoadRunner is licensed for free as an open source programmatic library for use in other 
 applications and as a standalone command line driven application. Its C++ API, C API, and 
 Python APIs have comprehensive documentation. On Windows, OS X, and Linux binary files can be 
+downloaded from the [Releases](https://github.com/sys-bio/roadrunner/releases) page, and the Python bindings can additionall be downloaded via pip. 
 
-downloaded from http://sourceforge.net/projects/libroadrunner/files and can be installed 
-ready for use.
 
 ## Docker images
-Currently we have a manylinux2014 [build](https://hub.docker.com/repository/docker/ciaranwelsh/roadrunner-manylinux2014-base) docker image. The 
+Currently we have a manylinux2014 [build](https://hub.docker.com/repository/docker/sysbiouw/roadrunner-manylinux2014-base) docker image. The 
 base provides the environment you need to be able to build roadrunner 
 yourself on manylinux2014 (centos 8).  
 
-There are two docker tags associated with roadrunner depending on which 
-version of llvm you want to build with. The options are llvm-13.x for newer 
-roadrunner versions (> v2.2.0) and llvm-6.x for older.
-
 To get the base image: 
 
-`docker pull ciaranwelsh/roadrunner-manylinux2014-base:llvm-13.x`
-
-and the build image:
-
-`docker pull ciaranwelsh/roadrunner-manylinux2014-build:llvm-13.x`
+`docker pull sysbiouw/roadrunner-manylinux2014-base:llvm-13.x`
 
 Docker build scripts can be found under the `docker` directory from the roadrunner
 root directory. 
