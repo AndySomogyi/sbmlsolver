@@ -34,7 +34,7 @@ We provide C/C++, Python and Julia bindings.
 
 # Installation
 
-[Binaries](https://github.com/sys-bio/roadrunner/releases) for Windows, MacOS, and Linux
+[Binaries](https://github.com/sys-bio/roadrunner/releases) for Windows, MacOS (including universal binaries for the M1 processor), and Linux
 
 Python wheels are available at the above binaries link, and can also be installed via pip:
 
