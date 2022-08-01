@@ -20,36 +20,34 @@
 
 # Summary
 
-libroadrunner is a C/C++ library that supports simulation of SBML based models. It uses LLVM to generate extremely high performace code and is the fastest SBML based simulator currently avaialable. Its main purpose is for use as a resuable library that can be hosted by other applications, particularly on large compute clusters for doing parameter optimization where performance is critical. 
+libRoadRunner is a C/C++ library that supports simulation of SBML based models. It uses LLVM to generate extremely high performace code and is the fastest SBML based simulator currently avaialable. Its main purpose is for use as a resuable library that can be hosted by other applications, particularly on large compute clusters for doing parameter optimization where performance is critical. 
 
 We provide C/C++, Python and Julia bindings.
-
-Sometimes the link to the C API docs goes bad in the readthedocs. If this happens, here is a permanent link that should remain whatever happens:
-
-# Installation
-Python front end (stable):
-
-`pip install libroadrunner`
-
-Binaries:
-
-Head over to the [Releases](https://github.com/sys-bio/roadrunner/releases) page to download binaries. 
-
-Experimental front end: 
-
-`pip install libroadrunner-experimental`
 
 # Documentation
 
 [Full Documentation](https://libroadrunner.readthedocs.io)
 
-[Python API Documentation](http://sys-bio.github.io/roadrunner/)
+[Local Documentation](http://sys-bio.github.io/roadrunner/)  (May be used if above link is failing.)
 
 [C API Documention](https://sys-bio.github.io/roadrunner/OriginalDoxygenStyleDocs/html/index.html)
 
+# Installation
+
+[Binaries](https://github.com/sys-bio/roadrunner/releases) for Windows, MacOS, and Linux
+
+Python wheels are available at the above binaries link, and can also be installed via pip:
+
+`pip install libroadrunner`
+
+# Dependencies
+
+The dependencies may be downloaded *en masse* from the '[libroadrunner-deps](https://github.com/sys-bio/libroadrunner-deps)' repository, may be obtained directly from their [respective sources](https://github.com/sys-bio/libroadrunner-deps/tree/release/third_party), or the libraries may be installed directly on your operating system.
+
+
 # Copyright
 
-Copyright 2013-2021
+Copyright 2013-2022
 
 E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</sup>, M. Swat <sup>1</sup>, M. Galdzicki <sup>3</sup>, K. Choi <sup>3</sup>, W. Copeland <sup>3</sup>, L. Smith <sup>3</sup>, C. Welsh <sup>3</sup> and H. M. Sauro <sup>3</sup>
 
@@ -59,13 +57,9 @@ E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</su
 
 The current (2022) developer is Lucian Smith.
 
-## Introduction
-
-libRoadRunner is a high-performance and portable simulation engine for systems and synthetic biology.
-
 ## Contributing
 
-Contributors are more than welcome to submit pull requests, following the [contribution guidelines](https://github.com/sys-bio/roadrunner/wiki).  Bug requess and feature suggestions are also more than welcome on the [issues page](https://github.com/sys-bio/roadrunner/issues).
+Contributors may submit pull requests at any time, and are asked to follow some general [contribution guidelines](https://github.com/sys-bio/roadrunner/wiki).  Bug requests and feature suggestions are also welcomed on the [issues page](https://github.com/sys-bio/roadrunner/issues).
 
 ## libRoadRunner supports the following features:
 
@@ -89,13 +83,13 @@ Contributors are more than welcome to submit pull requests, following the [contr
 RoadRunner is licensed for free as an open source programmatic library for use in other 
 applications and as a standalone command line driven application. Its C++ API, C API, and 
 Python APIs have comprehensive documentation. On Windows, OS X, and Linux binary files can be 
-downloaded from the [Releases](https://github.com/sys-bio/roadrunner/releases) page, and the Python bindings can additionally be downloaded via pip. 
+downloaded from the [Releases](https://github.com/sys-bio/roadrunner/releases) page, and the 
+Python bindings can additionally be downloaded via pip. 
 
 
 ## Docker images
 Currently we have a manylinux2014 [build](https://hub.docker.com/repository/docker/sysbiouw/roadrunner-manylinux2014-base) docker image. The 
-base provides the environment you need to be able to build roadrunner 
-yourself on manylinux2014 (centos 8).  
+base provides the environment you need to be able to build roadrunner yourself on manylinux2014 (centos 8).  
 
 To get the base image: 
 
@@ -110,7 +104,7 @@ We can also build roadrunner in alternative docker environments (ubuntu etc.) on
 
 This work is funded by NIGMS grant: GM081070
 
-Licence
+## Licence
 
 Licensed under the Apache License, Version 2.0 (the License); you may not use this 
 file except in compliance with the License. You may obtain a copy of the License at
@@ -118,7 +112,7 @@ file except in compliance with the License. You may obtain a copy of the License
 http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software distributed 
-under the License is distributed on an ÎAS IS BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+under the License is distributed on an AS-IS BASIS, WITHOUT WARRANTIES OR CONDITIONS 
 OF ANY KIND, either express or implied. See the License for the specific language 
 governing permissions and limitations under the License.
 
