@@ -15,6 +15,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -108,14 +109,14 @@
            <div itemprop="articleBody">
              
   <section id="what-is-libroadrunner">
-<h1>What is libRoadRunner<a class="headerlink" href="#what-is-libroadrunner" title="Permalink to this headline"></a></h1>
+<h1>What is libRoadRunner<a class="headerlink" href="#what-is-libroadrunner" title="Permalink to this heading"></a></h1>
 <p>RoadRunner is a package for loading, simulating and
 analyzing SBML based systems biology models utilzing JIT compilation.</p>
 <p>RoadRunner 1.4.3</p>
 <p>Up to date documentation can be found on <a class="reference external" href="http://libroadrunner.org/">http://libroadrunner.org/</a>.</p>
 <p>Also <a class="reference external" href="../index.html">documentation home page</a> provides an introduction.</p>
 <section id="licence-and-copyright">
-<h2>Licence and Copyright<a class="headerlink" href="#licence-and-copyright" title="Permalink to this headline"></a></h2>
+<h2>Licence and Copyright<a class="headerlink" href="#licence-and-copyright" title="Permalink to this heading"></a></h2>
 <p>libRoadRunner is free and open source. Licensing and Distribution
 Terms can be found in the LICENCE.txt file in the root directory
 of the distribution.</p>
@@ -124,7 +125,7 @@ of the distribution.</p>
 <p><a class="reference external" href="http://libroadrunner.org/">http://libroadrunner.org/</a></p>
 </section>
 <section id="fundamental-objects">
-<h2>Fundamental Objects<a class="headerlink" href="#fundamental-objects" title="Permalink to this headline"></a></h2>
+<h2>Fundamental Objects<a class="headerlink" href="#fundamental-objects" title="Permalink to this heading"></a></h2>
 <p>The libRoadRunner package uses two fundametal objects e.g. <code class="docutils literal notranslate"><span class="pre">rr</span></code> of
 class <code class="docutils literal notranslate"><span class="pre">RoadRunner</span></code> and e.g. <code class="docutils literal notranslate"><span class="pre">rr.model</span></code> of class <code class="docutils literal notranslate"><span class="pre">ExecutableModel</span></code>.</p>
 <dl class="simple">
@@ -138,7 +139,7 @@ JIT compilation, integration and output.</p></li>
 <dt><strong>ExecutableModel</strong></dt><dd><ul class="simple">
 <li><p>Represents a compiled sbml model</p></li>
 <li><p>Properties to get and set any state variables.</p></li>
-<li><p>Initialized when SBML is loaded <code class="docutils literal notranslate"><span class="pre">r.load('mymodel.xml')</span></code></p></li>
+<li><p>Initialized when SBML is loaded <code class="docutils literal notranslate"><span class="pre">rr.load('mymodel.xml')</span></code></p></li>
 </ul>
 </dd>
 </dl>
@@ -146,7 +147,7 @@ JIT compilation, integration and output.</p></li>
 All the returned types are structured <cite>Numpy</cite> arrays.</p>
 </section>
 <section id="example-of-libroadrunner-in-use">
-<h2>Example of libRoadRunner in Use<a class="headerlink" href="#example-of-libroadrunner-in-use" title="Permalink to this headline"></a></h2>
+<h2>Example of libRoadRunner in Use<a class="headerlink" href="#example-of-libroadrunner-in-use" title="Permalink to this heading"></a></h2>
 <p>Transcript from an Python session to demonstrate libRoadRunner use on this interactive Python console.</p>
 <p><strong>Import</strong> roardrunner and numpy:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">roadrunner</span>
@@ -212,12 +213,12 @@ the rest are whatever is selected. The easies way to plot is to use <code class=
 </div>
 <p>Using libRoadRunner in <a class="reference external" href="http://ipython.org/">IPython</a> you can <strong>get documentation</strong>
 easily using a <code class="docutils literal notranslate"><span class="pre">?</span></code> after the object or method:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;  r.plot?
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;  rr.plot?
 
 Type:        instancemethod
 String form: &lt;bound method RoadRunner.plot of &lt;roadrunner.RoadRunner() { this = 0x101c70a00 }&gt;&gt;
 File:        /Users/andy/Library/Python/2.7/lib/python/site-packages/roadrunner/roadrunner.py
-Definition:  r.plot(self, show=True)
+Definition:  rr.plot(self, show=True)
 Docstring:
 RoadRunner.plot([show])
 
@@ -233,7 +234,7 @@ show() method is called.
 </div>
 </section>
 <section id="technical-footnotes">
-<h2>Technical Footnotes<a class="headerlink" href="#technical-footnotes" title="Permalink to this headline"></a></h2>
+<h2>Technical Footnotes<a class="headerlink" href="#technical-footnotes" title="Permalink to this heading"></a></h2>
 <p><strong>Numpy arrays</strong></p>
 <p>Most of the time, Numpy array holds a pointer to a block of data owned
 by RoadRunner. For example, the array returned by <cite>rr.simulate()</cite> has a pointer

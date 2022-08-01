@@ -3,7 +3,7 @@ __________________________________
 
 All of the SBML model variables are accessed via the ``RoadRunner.model`` object. This is an instance of
 the ExecutableModel class described here. One always access the model object that belongs to the top
-RoadRunner object, i.e. ``r.model``, where ``r`` is an instance of the ``RoadRunner`` class.
+RoadRunner object, i.e. ``rr.model``, where ``rr`` is an instance of the ``RoadRunner`` class.
 
 The ExecutableModel class also implements the Python dictionary protocol, so that it can be used as
 a dictionary. The dictionary keys are all of the symbols specified in the original model as well as
@@ -15,7 +15,7 @@ a number of selection strings described in the Selections section.
    Get a list of all the keys that this model has. This is a very good way of looking at all the
    available symbols and selection strings:
 
-   >>> r.model.keys()
+   >>> rr.model.keys()
    [ 'S1', 'S2', '[S1]', '[S2]', 'compartment', 'k1', 'cm0',
      'reaction1',  'init([S1])',  'init([S2])', 'init(S1)',
      'init(S2)',  "S1'"]
@@ -26,7 +26,7 @@ a number of selection strings described in the Selections section.
 
    Get a list of key / value pairs of all the selections / values in the model.
 
-   >>> r.model.items()
+   >>> rr.model.items()
    [('S1', 0.5), ('S2', 9.99954570660308), ('[S1]', 0.5), ('[S2]', 9.99954570660308),
    ('default_compartment', 1.0), ('k1', 1.0), ('init(k1)', 1.0), ('_J0', 0.5), ('init([S1])', 10.0),
    ('init([S2])', 0.0), ('init(S1)', 10.0), ('init(S2)', 0.0), ("S1'", -0.5), ("S2'", 0.5)]
@@ -37,12 +37,12 @@ a number of selection strings described in the Selections section.
 
    Implements the python ``[]`` indexing operator, so the model values can be accessed like::
 
-     >>> r.model["S1"]
+     >>> rr.model["S1"]
      0.0
 
    Following notation is also accepted::
 
-     >>> r.S1
+     >>> rr.S1
      0.0
 
 
@@ -51,15 +51,15 @@ a number of selection strings described in the Selections section.
 
    Implements the python ``[]`` indexing operator for setting values::
 
-	   >>> r.model["S1]
+	   >>> rr.model["S1]
 	   0.0
-	   >>> r.model["S1"] = 1.3
-	   >>> r.model["S1"]
+	   >>> rr.model["S1"] = 1.3
+	   >>> rr.model["S1"]
 	   1.3
 
    Following notation is also accepted::
 
-   >>> r.S1 = 1.0
+   >>> rr.S1 = 1.0
 
    Note, some keys are read only such as values defined by rules, or calculated values such as
    reaction rates. If one attempts to set the value of a read-only symbol,
@@ -75,7 +75,7 @@ Floating Species
 
    Return a list of all floating species SBML ids.
 
-   >>> r.getFloatingSpeciesIds()
+   >>> rr.getFloatingSpeciesIds()
    ['S1', 'S2', 'S3', 'S4']
 
 
@@ -84,7 +84,7 @@ Floating Species
 
    Return a list of dependent floating species SBML ids.
 
-   >>> r.getDependentFloatingSpeciesIds()
+   >>> rr.getDependentFloatingSpeciesIds()
    ['S4']
 
 
@@ -93,7 +93,7 @@ Floating Species
 
    Return a list of independent floating species SBML ids.
 
-   >>> r.getIndependentFloatingSpeciesIds()
+   >>> rr.getIndependentFloatingSpeciesIds()
    ['S1', 'S2', 'S3']
 
 
@@ -102,7 +102,7 @@ Floating Species
 
    Return a list of all floating species concentration ids.
 
-   >>> r.getFloatingSpeciesConcentrationIds()
+   >>> rr.getFloatingSpeciesConcentrationIds()
    ['[S1]', '[S2]', '[S3]', '[S4]']
    
 
@@ -111,7 +111,7 @@ Floating Species
 
    Return the number of floating species in the model.
 
-   >>> r.getNumFloatingSpecies()
+   >>> rr.getNumFloatingSpecies()
    2
 
 
@@ -127,12 +127,12 @@ Floating Species
 
    To get all the amounts::
 
-     >>> r.model.getFloatingSpeciesAmounts()
+     >>> rr.model.getFloatingSpeciesAmounts()
      array([ 0.97390578,  1.56331018,  1.15301155,  1.22717548])
 
    To get amounts from index 0 and 1::
 
-     >>> r.model.getFloatingSpeciesAmounts([0,1])
+     >>> rr.model.getFloatingSpeciesAmounts([0,1])
      array([ 0.97390578,  1.56331018])
 
 
@@ -144,10 +144,10 @@ Floating Species
 
    :param numpy.ndarray values: the values to set.
 
-   >>> r.model.getFloatingSpeciesAmounts([0,1])
+   >>> rr.model.getFloatingSpeciesAmounts([0,1])
    array([ 0.97390578,  1.56331018])
-   >>> r.model.setFloatingSpeciesAmounts([1.0, 1.5])
-   >>> r.model.getFloatingSpeciesAmounts([0,1])
+   >>> rr.model.setFloatingSpeciesAmounts([1.0, 1.5])
+   >>> rr.model.getFloatingSpeciesAmounts([0,1])
    array([ 1. ,  1.5])
 
 
@@ -161,7 +161,7 @@ Floating Species
    :returns: an array of floating species concentrations.
    :rtype: numpy.ndarray
 
-   >>> r.model.getFloatingSpeciesConcentrations()
+   >>> rr.model.getFloatingSpeciesConcentrations()
    array([  4.54293397e-04,   9.99954571e+00])
 
 
@@ -177,10 +177,10 @@ Floating Species
                                array of all the  values to set.
    :param numpy.ndarray values: the values to set.
 
-   >>> r.model.getFloatingSpeciesConcentrations()
+   >>> rr.model.getFloatingSpeciesConcentrations()
    array([  4.54293397e-04,   9.99954571e+00])
-   >>> r.model.setFloatingSpeciesConcentrations([0],[0.5])
-   >>> r.model.getFloatingSpeciesConcentrations()
+   >>> rr.model.setFloatingSpeciesConcentrations([0],[0.5])
+   >>> rr.model.getFloatingSpeciesConcentrations()
    array([ 0.5       ,  9.99954571])
 
    
@@ -199,7 +199,7 @@ The following methods allow access to the floating species initial condition val
 
    Return a list of the floating species amount initial amount selection symbols.
 
-   >>> r.model.getFloatingSpeciesInitAmountIds()
+   >>> rr.model.getFloatingSpeciesInitAmountIds()
    ['init(S1)', 'init(S2)']
 
 
@@ -208,7 +208,7 @@ The following methods allow access to the floating species initial condition val
 
    Return a list of the floating species amount initial concentration selection symbols.
 
-   >>> r.model.getFloatingSpeciesInitConcentrationIds()
+   >>> rr.model.getFloatingSpeciesInitConcentrationIds()
    ['init([S1])', 'init([S2])']
 
 
@@ -223,7 +223,7 @@ The following methods allow access to the floating species initial condition val
    :rtype: numpy.ndarray
 
 
-   >>> r.model.getFloatingSpeciesInitConcentrations()
+   >>> rr.model.getFloatingSpeciesInitConcentrations()
    array([ 10.,   0.])
 
 
@@ -236,8 +236,8 @@ The following methods allow access to the floating species initial condition val
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
 
 
-   >>> r.model.setFloatingSpeciesInitConcentrations([0], [1])
-   >>> r.model.getFloatingSpeciesInitConcentrations()
+   >>> rr.model.setFloatingSpeciesInitConcentrations([0], [1])
+   >>> rr.model.getFloatingSpeciesInitConcentrations()
    array([ 1.,  0.])
 
 
@@ -252,7 +252,7 @@ The following methods allow access to the floating species initial condition val
    :rtype: numpy.ndarray
 
 
-   >>> r.model.getFloatingSpeciesInitAmounts()
+   >>> rr.model.getFloatingSpeciesInitAmounts()
    array([ 10.,   0.])
 
 
@@ -265,8 +265,8 @@ The following methods allow access to the floating species initial condition val
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
 
 
-   >>> r.model.setFloatingSpeciesInitAmounts([0], [0.1])
-   >>> r.model.getFloatingSpeciesInitAmounts()
+   >>> rr.model.setFloatingSpeciesInitAmounts([0], [0.1])
+   >>> rr.model.getFloatingSpeciesInitAmounts()
    array([ 0.1,  0. ])
 
 
@@ -283,7 +283,7 @@ Boundary Species
    :returns: an array of the boundary species amounts.
    :rtype: numpy.ndarray
 
-   >>> r.model.getBoundarySpeciesAmounts()
+   >>> rr.model.getBoundarySpeciesAmounts()
    array([ 15.,   0.])
 
 
@@ -297,7 +297,7 @@ Boundary Species
    :returns: an array of the boundary species concentrations.
    :rtype: numpy.ndarray
 
-   >>> r.getBoundarySpeciesConcentrations()
+   >>> rr.getBoundarySpeciesConcentrations()
    array([ 0.5,   0.])
 
 
@@ -310,7 +310,7 @@ Boundary Species
    :returns: a list of boundary species ids.
 
 
-   >>> r.getBoundarySpeciesIds()
+   >>> rr.getBoundarySpeciesIds()
    ['X0', 'X1']
 
 
@@ -323,7 +323,7 @@ Boundary Species
    :returns: a list of boundary species concentration ids.
 
 
-   >>> r.getBoundarySpeciesConcentrationIds()
+   >>> rr.getBoundarySpeciesConcentrationIds()
    ['[X0]', '[X1]']   
    
    
@@ -333,7 +333,7 @@ Boundary Species
    Return the number of boundary species in the model.
 
 
-   >>> r.getNumBoundarySpecies()
+   >>> rr.getNumBoundarySpecies()
    2
 
 
@@ -350,8 +350,8 @@ Boundary Species
    :param numpy.ndarray values: the values to set.
 
 
-   >>> r.model.setBoundarySpeciesConcentrations([0], [1])
-   >>> r.getBoundarySpeciesConcentrations()
+   >>> rr.model.setBoundarySpeciesConcentrations([0], [1])
+   >>> rr.getBoundarySpeciesConcentrations()
    array([ 1.,  0.])
 
 
@@ -368,7 +368,7 @@ Compartments
    :returns: a list of compartment ids.
 
 
-   >>> r.getCompartmentIds()
+   >>> rr.getCompartmentIds()
    ['compartment1']
 
 
@@ -383,7 +383,7 @@ Compartments
    :rtype: numpy.ndarray.
 
 
-   >>> r.getCompartmentVolumes()
+   >>> rr.getCompartmentVolumes()
    array([ 1.])
 
 
@@ -395,7 +395,7 @@ Compartments
    :rtype: int
 
 
-   >>> r.getNumCompartments()
+   >>> rr.getNumCompartments()
    1
 
 
@@ -415,8 +415,8 @@ Compartments
    :param numpy.ndarray values: the values to set.
 
 
-   >>> r.model.setCompartmentVolumes([0], [2.5])
-   >>> r.getCompartmentVolumes()
+   >>> rr.model.setCompartmentVolumes([0], [2.5])
+   >>> rr.getCompartmentVolumes()
    array([ 2.5])
 
 
@@ -443,7 +443,7 @@ Global Parameters
    :rtype: numpy.ndarray.
 
 
-   >>> r.getGlobalParameterValues()
+   >>> rr.getGlobalParameterValues()
    array([ 10. ,  10. ,  10. ,   2.5,   0.5])
 
 
@@ -453,7 +453,7 @@ Global Parameters
 
    Returns the number of global parameters in the model.
 
-   >>> r.getNumGlobalParameters()
+   >>> rr.getNumGlobalParameters()
    5
 
 
@@ -470,8 +470,8 @@ Global Parameters
    :param numpy.ndarray values: the values to set.
 
 
-   >>> r.model.setGlobalParameterValues([0], [1.5])
-   >>> r.getGlobalParameterValues()
+   >>> rr.model.setGlobalParameterValues([0], [1.5])
+   >>> rr.getGlobalParameterValues()
    array([  1.5,  10. ,  10. ,   2.5,   0.5])
 
 
@@ -484,7 +484,7 @@ Reactions
    Return the number of reactions in the model.
 
 
-   >>> r.getNumReactions()
+   >>> rr.getNumReactions()
    5
 
 
@@ -497,7 +497,7 @@ Reactions
    :returns: a list of reaction ids.
 
 
-   >>> r.getReactionIds()
+   >>> rr.getReactionIds()
    ['J0', 'J1', 'J2', 'J3', 'J4']
 
 
@@ -512,7 +512,7 @@ Reactions
    :rtype: numpy.ndarray
 
 
-   >>> r.getReactionRates()
+   >>> rr.getReactionRates()
    array([ 0.14979613,  2.37711263,  2.68498886,  2.41265507,  1.89417737])
 
 Events
@@ -523,7 +523,7 @@ Events
 
    Returns the number of events.
 
-   >>> r.getNumEvents()
+   >>> rr.getNumEvents()
    1
 
 
@@ -535,7 +535,7 @@ Rate Rules
 
    Returns the number of rate rules.
 
-   >>> r.getNumRateRules()
+   >>> rr.getNumRateRules()
    1
 
    
@@ -546,7 +546,7 @@ Rate Rules
 
    :returns: a list of event ids.
    
-   >>> r.model.getEventIds()
+   >>> rr.model.getEventIds()
    ['E1']
    
    
@@ -567,7 +567,7 @@ Stoichiometry
    :param reactionIndex: a reaction index from :meth:`getReactionIds`
 
 
-   >>> r.model.getStoichiometry(1, 3)
+   >>> rr.model.getStoichiometry(1, 3)
    1.0
 
 
@@ -584,7 +584,7 @@ Refer to :attr:`RoadRunner.conservedMoietyAnalysis` and :attr:`Config.LOADSBMLOP
    :rtype: int
 
 
-   >>> r.getNumConservedMoieties()
+   >>> rr.getNumConservedMoieties()
    1
 
 
@@ -598,7 +598,7 @@ Refer to :attr:`RoadRunner.conservedMoietyAnalysis` and :attr:`Config.LOADSBMLOP
    :returns: a list of compartment ids.
 
 
-   >>> r.getConservedMoietyIds()
+   >>> rr.getConservedMoietyIds()
    ['_CSUM0']
 
 
@@ -613,7 +613,7 @@ Refer to :attr:`RoadRunner.conservedMoietyAnalysis` and :attr:`Config.LOADSBMLOP
    :rtype: numpy.ndarray.
 
 
-   >>> r.getConservedMoietyValues()
+   >>> rr.getConservedMoietyValues()
    array([ 2.])
 
 
@@ -635,8 +635,8 @@ Refer to :attr:`RoadRunner.conservedMoietyAnalysis` and :attr:`Config.LOADSBMLOP
    :param numpy.ndarray values: the values to set.
 
 
-   >>> r.model.setConservedMoietyValues([0], [5])
-   >>> r.getConservedMoietyValues()
+   >>> rr.model.setConservedMoietyValues([0], [5])
+   >>> rr.getConservedMoietyValues()
    array([ 5.])
 
 
@@ -652,7 +652,7 @@ Misc
 
    :returns: a list of all component ids widely used in time course selections.
 
-        >>> r.model.getAllTimeCourseComponentIds()
+        >>> rr.model.getAllTimeCourseComponentIds()
         ['time', 'S1', 'S2', 'S3', 'k1', 'k2', 'default_compartment', '_J0', '_J1']
 
 
@@ -663,7 +663,7 @@ Misc
    Get various info about the model.
 
 
-   >>> print(r.getInfo())
+   >>> print(rr.getInfo())
    <roadrunner.RoadRunner() {
    'this' : 13DEF5F8
    'modelLoaded' : true
@@ -706,7 +706,7 @@ Misc
    Get the model name specified in the SBML.
 
 
-   >>> r.model.getModelName()
+   >>> rr.model.getModelName()
    'feedback'
 
 
@@ -717,7 +717,7 @@ Misc
    integrator. So, if one ran a simulation from time = 0 to time = 10, the model will then have it's
    time = 10.
 
-   >>> r.model.getTime()
+   >>> rr.model.getTime()
    40.0
 
 

@@ -15,6 +15,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -107,16 +108,16 @@
            <div itemprop="articleBody">
              
   <section id="installing-roadrunner">
-<h1>Installing RoadRunner<a class="headerlink" href="#installing-roadrunner" title="Permalink to this headline"></a></h1>
+<h1>Installing RoadRunner<a class="headerlink" href="#installing-roadrunner" title="Permalink to this heading"></a></h1>
 <section id="python-front-end">
-<h2>Python Front End<a class="headerlink" href="#python-front-end" title="Permalink to this headline"></a></h2>
+<h2>Python Front End<a class="headerlink" href="#python-front-end" title="Permalink to this heading"></a></h2>
 <p>The recommended way to use roadrunner is by installing the Python front end and writing Python scripts.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install libroadrunner
 </pre></div>
 </div>
 </section>
 <section id="building-roadrunner-from-source">
-<h2>Building Roadrunner from Source<a class="headerlink" href="#building-roadrunner-from-source" title="Permalink to this headline"></a></h2>
+<h2>Building Roadrunner from Source<a class="headerlink" href="#building-roadrunner-from-source" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="windows_warning.html">A warning for windows users</a></li>
@@ -144,7 +145,7 @@ page and then if the problem is not resolved, submit a github issue and we’ll 
 <p>Failure to use the “X64 Native Tools Command Prompt for VS 2019” shell may result in 32-bit binaries.</p>
 </div>
 <section id="where-to-put-everything">
-<h3>1) Where to put Everything<a class="headerlink" href="#where-to-put-everything" title="Permalink to this headline"></a></h3>
+<h3>1) Where to put Everything<a class="headerlink" href="#where-to-put-everything" title="Permalink to this heading"></a></h3>
 <p>On Windows it is recommended that you place all the files as close to a root on a drive as possible. This is because Windows has a 260 char limit on the length of a path which can be easily exceeded if you have a deep folder structure. One possibility is this. If for example you have a D drive (works equally well with the C drive), create a folder:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> d:/
 mkdir buildroadrunner  <span class="c1"># You can call this whatever you like</span>
@@ -154,7 +155,7 @@ mkdir buildroadrunner  <span class="c1"># You can call this whatever you like</s
 <p>Everything we need will go into buildroadrunner.</p>
 </section>
 <section id="install-llvm">
-<h3>2) Install LLVM<a class="headerlink" href="#install-llvm" title="Permalink to this headline"></a></h3>
+<h3>2) Install LLVM<a class="headerlink" href="#install-llvm" title="Permalink to this heading"></a></h3>
 <p>Install the <a class="reference internal" href="llvm_dependency.html#llvm-13-x-dependency"><span class="std std-ref">llvm-13.x dependency</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -165,7 +166,7 @@ like llvm-13.x-msvc2022-x64-release or llvm-13.x-msvc2022-x64-debug.</p>
 <p>Place this folder (which contains all the LLVM code) into your top level directory we crated in step 1) called buildroadrunner.</p>
 </section>
 <section id="install-the-roadrunner-dependency-package">
-<h3>3) Install the Roadrunner Dependency Package<a class="headerlink" href="#install-the-roadrunner-dependency-package" title="Permalink to this headline"></a></h3>
+<h3>3) Install the Roadrunner Dependency Package<a class="headerlink" href="#install-the-roadrunner-dependency-package" title="Permalink to this heading"></a></h3>
 <p>Install the <a class="reference external" href="https://github.com/sys-bio/libroadrunner-deps">roadrunner dependency package</a></p>
 <p>See below for the script to use.</p>
 <div class="admonition note">
@@ -200,7 +201,7 @@ at least two folders, one for the LLVM binaries (two of these if you downloaded 
 |  — libroadrunner-deps</p>
 </section>
 <section id="install-roadrunner">
-<h3>4) Install Roadrunner<a class="headerlink" href="#install-roadrunner" title="Permalink to this headline"></a></h3>
+<h3>4) Install Roadrunner<a class="headerlink" href="#install-roadrunner" title="Permalink to this heading"></a></h3>
 <p>Install roadrunner using the following commands from a windows/linux/mac shell.</p>
 <p>If you have not done so already, <a class="reference internal" href="llvm_dependency.html#llvm-13-x-dependency"><span class="std std-ref">download or build llvm-13.x</span></a>. The folder containing llvm’s <cite>bin</cite>, <cite>include</cite> and <cite>lib</cite> directories is the argument to <cite>LLVM_INSTALL_PREFIX</cite> below.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.. note::
@@ -225,7 +226,7 @@ cmake --build . --target install --config Release
 </section>
 </section>
 <section id="roadrunner-optional-features">
-<h2>Roadrunner Optional Features<a class="headerlink" href="#roadrunner-optional-features" title="Permalink to this headline"></a></h2>
+<h2>Roadrunner Optional Features<a class="headerlink" href="#roadrunner-optional-features" title="Permalink to this heading"></a></h2>
 <p>These are controlled by turning on or off desired options in cmake.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -233,7 +234,7 @@ cmake --build . --target install --config Release
 is the best way to get a good oversight of the available options.</p>
 </div>
 <section id="build-the-python-bindings">
-<h3>Build the Python Bindings<a class="headerlink" href="#build-the-python-bindings" title="Permalink to this headline"></a></h3>
+<h3>Build the Python Bindings<a class="headerlink" href="#build-the-python-bindings" title="Permalink to this heading"></a></h3>
 <blockquote>
 <div><ol class="arabic simple">
 <li><p>Download <a class="reference external" href="https://sourceforge.net/projects/swig/files/">SWIG version 3.0.0</a> for linux, macos or windows. It is just a zip file - decompress it and put it where you want it. SWIG is now installed and the swig executable is under the top level swig directory.</p></li>
@@ -258,7 +259,7 @@ cmake --build . --target install --config Release
 </div>
 </section>
 <section id="building-the-roadrunner-plugins">
-<h3>Building the Roadrunner Plugins<a class="headerlink" href="#building-the-roadrunner-plugins" title="Permalink to this headline"></a></h3>
+<h3>Building the Roadrunner Plugins<a class="headerlink" href="#building-the-roadrunner-plugins" title="Permalink to this heading"></a></h3>
 <p>To build the plugins use the <cite>-DBUILD_RR_PLUGINS=ON</cite>. When set to on, the <cite>BUILD_RR_PLUGINS</cite>
 option automatically turns on a set of variables. These include:</p>
 <blockquote>
@@ -284,7 +285,7 @@ $ cmake --build . --target install --config Release
 </div>
 </section>
 <section id="building-roadrunner-tests">
-<h3>Building roadrunner tests<a class="headerlink" href="#building-roadrunner-tests" title="Permalink to this headline"></a></h3>
+<h3>Building roadrunner tests<a class="headerlink" href="#building-roadrunner-tests" title="Permalink to this heading"></a></h3>
 <p>I you want the tests compiled you need to add an extra option to the cmake command that was used in step 4 but is repeated here for convenience.</p>
 <p>Use the <cite>-DBUILD_TESTS=ON</cite> option. Remember that in the following script to change Release to Debug is you are creating the debug version.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../install-Release&quot;</span> <span class="se">\</span>
@@ -313,7 +314,7 @@ command, which you may also run manually.</p>
 </div>
 </section>
 <section id="packaging-roadrunner">
-<h3>Packaging Roadrunner<a class="headerlink" href="#packaging-roadrunner" title="Permalink to this headline"></a></h3>
+<h3>Packaging Roadrunner<a class="headerlink" href="#packaging-roadrunner" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>Windows: produces a zip file.</p></li>
 <li><p>Linux: produces tar.gz and a debian package.</p></li>
