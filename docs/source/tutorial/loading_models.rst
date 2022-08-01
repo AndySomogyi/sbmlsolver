@@ -38,6 +38,6 @@ Additionally, there are a couple models **included with libRoadRunner**. The mod
 and ``Test_1.xml`` are available in the ``roadrunner.testing`` module. To access these use::
 
    import roadrunner.testing as test
-   r = test.getRoadRunner('feedback.xml')
+   rr = test.getRoadRunner('feedback.xml')
 
 There are a few additional models in the ``models/`` directory of the distribution, where you installed libRoadRunner.

@@ -21,19 +21,19 @@ NCORES = cpu_count()
 NSIMS = 10000
 
 
-def simulate_worker(r: RoadRunner):
-    r.resetAll()
-    r.simulate(0, 10000, 10000)
+def simulate_worker(rr: RoadRunner):
+    rr.resetAll()
+    rr.simulate(0, 10000, 10000)
 
 
-def parallel(r: RoadRunner, N: int):
+def parallel(rr: RoadRunner, N: int):
     p = Pool(processes=cpu_count())
-    p.map(simulate_worker, [r for i in range(N)])
+    p.map(simulate_worker, [rr for i in range(N)])
 
 
-def serial(r: RoadRunner, N: int):
+def serial(rr: RoadRunner, N: int):
     for i in range(N):
-        r.simulate(0, 10000, 10000)
+        rr.simulate(0, 10000, 10000)
 
 
 if __name__ == '__main__':
@@ -45,10 +45,10 @@ if __name__ == '__main__':
     for i in nsimsVec:
         start = time.time()
 
-        r = RoadRunner(tmf.SimpleFlux().str())
-        # r = RoadRunner(tmf.Brown2004().str())
-        serial(r, N=i)
-        # parallel(r, N=i)
+        rr = RoadRunner(tmf.SimpleFlux().str())
+        # rr = RoadRunner(tmf.Brown2004().str())
+        serial(rr, N=i)
+        # parallel(rr, N=i)
 
         duration = time.time() - start
 

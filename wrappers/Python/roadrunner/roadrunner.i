@@ -1578,7 +1578,7 @@ namespace std { class ostream{}; }
                 if end is not None and "time" in selections_lower:
                     lastresult_time = result[len(result)-1][selections_lower.index("time")]
                     if end - lastresult_time > end/10000:
-                        warnings.warn("Simulation requested end time point (" + str(end) + ") not reached, because the maximum number of steps reached.  Possible solutions include:\n  * Setting an explicit number of points (i.e. r.simulate(" + str(start) + ", " + str(end) + ", 1001)\n  * Setting r.integrator.variable_step_size to 'False'\n  * Setting r.integrator.max_output_rows to a larger number ")
+                        warnings.warn("Simulation requested end time point (" + str(end) + ") not reached, because the maximum number of steps reached.  Possible solutions include:\n  * Setting an explicit number of points (i.e. rr.simulate(" + str(start) + ", " + str(end) + ", 1001)\n  * Setting rr.integrator.variable_step_size to 'False'\n  * Setting rr.integrator.max_output_rows to a larger number ")
 
             return result
 

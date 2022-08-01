@@ -409,7 +409,7 @@ public:
  *      print(m.getGlobalParameterIds())
  *      print(m.getGlobalParameterValues())
  *      return m
- *  r = ss("""
+ *  rr = ss("""
  *  model x
  *      S1 = 10;
  *      S20 = 1;

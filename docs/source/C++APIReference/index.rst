@@ -70,7 +70,7 @@ done with the <TT>integrator</TT> keyword, i.e.
 
 .. code-block: python
 
-    r.simulate(0, 10, 100, integrator="MyIntegratorName")
+    rr.simulate(0, 10, 100, integrator="MyIntegratorName")
 
 Or, in C++:
 
@@ -78,7 +78,7 @@ Or, in C++:
 
     BasicDictionary d;
     d.setItem("integrator", "MyIntegratorName")
-    r.simulate(&d);
+    rr.simulate(&d);
 
 To create a new integrator, one first needs to create an object that implments the Integrator interface,
 tell RoadRunner about it.
@@ -222,8 +222,8 @@ RoadRunner::simulate method in C++. In Python, this would be:
 
 .. code-block:: python
 
-    r.simulate(integrator='euler', exampleParameter1=123456, exampleParameter2='some value');
-    print(r.integrator)
+    rr.simulate(integrator='euler', exampleParameter1=123456, exampleParameter2='some value');
+    print(rr.integrator)
 
 .. code-block:
     :caption: Output:
@@ -240,13 +240,13 @@ would be:
 
 .. code:block: C++
 
-    SimulateOptions& opt = r.getSimulateOptions();
+    SimulateOptions& opt = rr.getSimulateOptions();
     opt.setItem("integrator", "euler")
     opt.setItem("exampleParameter1", 123456);
     opt.setItem("exampleParameter2", "some value");
-    r.simulate();
+    rr.simulate();
 
-    cout << r.getIntegrator()->toString() << endl;
+    cout << rr.getIntegrator()->toString() << endl;
 
 The EulerIntegrator.h file serves as a complete example of creating an new integrator.
 This example was written entierly in the header file for clarity, but a real integrator
