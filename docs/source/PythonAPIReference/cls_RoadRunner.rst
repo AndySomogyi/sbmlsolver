@@ -38,26 +38,26 @@ _________________________
 
    Some examples of loading files on Mac or Linux::
    
-       >>> r.load("myfile.xml")                               # load a file from the current directory
-       >>> r.load("/Users/Fred/myfile.xml")                   # absolute path
-       >>> r.load("http://sbml.org/example_system.xml")       # remote file
+       >>> rr.load("myfile.xml")                               # load a file from the current directory
+       >>> rr.load("/Users/Fred/myfile.xml")                   # absolute path
+       >>> rr.load("http://sbml.org/example_system.xml")       # remote file
 
 
    Or on Windows:
 
-       >>> r.load("myfile.xml")                                  # load a file from the current directory
-       >>> r.load("file://localhost/c:/Users/Fred/myfile.xml")   # using a URI
+       >>> rr.load("myfile.xml")                                  # load a file from the current directory
+       >>> rr.load("file://localhost/c:/Users/Fred/myfile.xml")   # using a URI
 
    One may also load the contents of a document::
 
        >>> myfile = open("myfile.xml, "r")
        >>> contents = file.read()
-       >>> r.load(contents)
+       >>> rr.load(contents)
        
    Loading in a raw SBML string is also possible:
 
        >>> sbmlstr = rr.getCurrentSBML()         # Or any other properly formatted SBML string block
-       >>> r.load(sbmlstr)
+       >>> rr.load(sbmlstr)
 
    In future version, we will also support loading directly from a libSBML Document object. 
 
@@ -77,18 +77,18 @@ _________________________
    
    Some examples of saving binary files on Mac or Linux::
    
-       >>> r.saveState("current_state.txt")                        # save the state to a file from the current directory
-       >>> r.saveState("/Users/Fred/current_state.txt")            # absolute path
+       >>> rr.saveState("current_state.txt")                        # save the state to a file from the current directory
+       >>> rr.saveState("/Users/Fred/current_state.txt")            # absolute path
 
 
    Or on Windows:
 
-       >>> r.saveState("current_state.txt")                        # save the state to a file from the current directory
-       >>> r.saveState("file://localhost/c:/Users/Fred/current_state.txt")   # using a URI
+       >>> rr.saveState("current_state.txt")                        # save the state to a file from the current directory
+       >>> rr.saveState("file://localhost/c:/Users/Fred/current_state.txt")   # using a URI
 
    One may also save in a human-readable format:
 
-       >>> r.saveState("current_state.txt", 'r')
+       >>> rr.saveState("current_state.txt", 'r')
        
 
    :param document: The file path where the current state will be stored
@@ -110,14 +110,14 @@ _________________________
    
    Some examples of reloading binary files on Mac or Linux::
    
-       >>> r.loadState("current_state.txt")                        # load the state from a file from the current directory
-       >>> r.loadState("/Users/Fred/current_state.txt")            # absolute path
+       >>> rr.loadState("current_state.txt")                        # load the state from a file from the current directory
+       >>> rr.loadState("/Users/Fred/current_state.txt")            # absolute path
 
 
    Or on Windows:
 
-       >>> r.loadState("current_state.txt")                        # load the state from a file from the current directory
-       >>> r.loadState("file://localhost/c:/Users/Fred/current_state.txt")   # using a URI
+       >>> rr.loadState("current_state.txt")                        # load the state from a file from the current directory
+       >>> rr.loadState("file://localhost/c:/Users/Fred/current_state.txt")   # using a URI
 
    :param document: The file path where the state of simulation will be loaded from
    :type name: str
@@ -332,10 +332,10 @@ Model Access
    Clears the currently loaded model and all associated memory.
    Returns True if memory was freed, False if no model was loaded in the first place.
    
-   >>> r.isModelLoaded()
+   >>> rr.isModelLoaded()
    True
-   >>> r.clearModel()
-   >>> r.isModelLoaded()
+   >>> rr.clearModel()
+   >>> rr.isModelLoaded()
    False
    
    
@@ -366,7 +366,7 @@ Model Access
 
    Resets time, all floating species, and rates to their CURRENT initial values.
    Also resets all global parameters back to the values they had when the model was first loaded.
-   "Current" initial values are set by using ``r.setValue('init(S1)', 5)`` which sets a species 
+   "Current" initial values are set by using ``rr.setValue('init(S1)', 5)`` which sets a species 
    named S1 to have current initial value of 5. Note it is NOT the initial values of when the model was first loaded in.
 
 .. method:: RoadRunner.resetParameter()
@@ -403,7 +403,7 @@ Model Access
    
    To enable, type:
    
-   >>> r.conservedMoietyAnalysis = True
+   >>> rr.conservedMoietyAnalysis = True
    
    
 Model Editing
@@ -427,8 +427,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addSpeciesConcentration("s1", "compartment", 0.1, False) # it will not regenerate the model, nothing actually happened
-   >>> r.addSpeciesConcentration("s2", "compartment", 0.1, True)  # new model is generated and saved
+   >>> rr.addSpeciesConcentration("s1", "compartment", 0.1, False) # it will not regenerate the model, nothing actually happened
+   >>> rr.addSpeciesConcentration("s2", "compartment", 0.1, True)  # new model is generated and saved
   
    :param str sid: the ID of the species to be added
    :param str compartment: the compartment of the species to be added
@@ -463,8 +463,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.removeSpecies("s1", false) # it will not regenerate the model, nothing actually happened
-   >>> r.removeSpecies("s2", true)  # new model is generated and saved
+   >>> rr.removeSpecies("s1", false) # it will not regenerate the model, nothing actually happened
+   >>> rr.removeSpecies("s2", true)  # new model is generated and saved
 
    :param str sid: the ID of the species to be removed
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
@@ -484,8 +484,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addReaction("r1", ["s1"], ["s2"], "s1 * k1", False) # it will not regenerate the model, nothing actually happened
-   >>> r.addReaction("r2", ["s2"], ["s1"], "s2 * k1", True)  # new model is generated and saved
+   >>> rr.addReaction("r1", ["s1"], ["s2"], "s1 * k1", False) # it will not regenerate the model, nothing actually happened
+   >>> rr.addReaction("r2", ["s2"], ["s1"], "s2 * k1", True)  # new model is generated and saved
   
   
    :param str rid: the ID of the reaction to be added
@@ -525,8 +525,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.removeReaction("r1", False) # it will not regenerate the model, nothing actually happened
-   >>> r.removeReaction("r2", True)  # new model is generated and saved
+   >>> rr.removeReaction("r1", False) # it will not regenerate the model, nothing actually happened
+   >>> rr.removeReaction("r2", True)  # new model is generated and saved
 
    :param str rid: the ID of the reaction to be removed
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
@@ -546,8 +546,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addParameter("p1", 0.1, False) # it will not regenerate the model, nothing actually happened
-   >>> r.addParameter("p2", 0.1, True)  # new model is generated and saved
+   >>> rr.addParameter("p1", 0.1, False) # it will not regenerate the model, nothing actually happened
+   >>> rr.addParameter("p2", 0.1, True)  # new model is generated and saved
   
    :param str pid: the ID of the parameter to be added
    :param double value: the initial value of the parameter to be added
@@ -579,8 +579,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.removeParameter("p1", False) # it will not regenerate the model, nothing actually happened
-   >>> r.removeParameter("p2", True)  # new model is generated and saved
+   >>> rr.removeParameter("p1", False) # it will not regenerate the model, nothing actually happened
+   >>> rr.removeParameter("p2", True)  # new model is generated and saved
 
    :param str pid: the ID of the parameter to be removed
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
@@ -601,8 +601,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addCompartment("c1", 0.1, False) # it will not regenerate the model, nothing actually happened
-   >>> r.addCompartment("c2", 0.1, True)  # new model is generated and saved
+   >>> rr.addCompartment("c1", 0.1, False) # it will not regenerate the model, nothing actually happened
+   >>> rr.addCompartment("c2", 0.1, True)  # new model is generated and saved
   
    :param str cid: the ID of the compartment to be added
    :param double initVolume: the initial volume of the compartment to be added
@@ -634,8 +634,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.removeCompartment("c1", False) # it will not regenerate the model, nothing actually happened
-   >>> r.removeCompartment("c2", True)  # new model is generated and saved
+   >>> rr.removeCompartment("c1", False) # it will not regenerate the model, nothing actually happened
+   >>> rr.removeCompartment("c2", True)  # new model is generated and saved
 
    :param str cid: the ID of the compartment to be removed
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
@@ -655,8 +655,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.setKineticLaw("r1", "s1 * k1", False) # it will not regenerate the model, nothing actually happened
-   >>> r.setKineticLaw("r2", "s2 * k1", True)  # new model is generated and saved
+   >>> rr.setKineticLaw("r1", "s1 * k1", False) # it will not regenerate the model, nothing actually happened
+   >>> rr.setKineticLaw("r2", "s2 * k1", True)  # new model is generated and saved
   
   
    :param str rid: the ID of the reaction to be modified
@@ -677,8 +677,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addAssignmentRule("s1", "s1 * k1", False) # it will not regenerate the model, nothing actually happened
-   >>> r.addAssignmentRule("s2", "s2 * k1", True)  # new model is generated and saved
+   >>> rr.addAssignmentRule("s1", "s1 * k1", False) # it will not regenerate the model, nothing actually happened
+   >>> rr.addAssignmentRule("s2", "s2 * k1", True)  # new model is generated and saved
   
   
    :param str vid: the ID of the variable that the new rule assigns formula to
@@ -699,8 +699,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addRateRule("s1", "k1", False) # it will not regenerate the model, nothing actually happened
-   >>> r.addRateRule("s2", "k1", True)  # new model is generated and saved
+   >>> rr.addRateRule("s1", "k1", False) # it will not regenerate the model, nothing actually happened
+   >>> rr.addRateRule("s2", "k1", True)  # new model is generated and saved
   
   
    :param str vid: the ID of the variable that the new rule assigns formula to
@@ -725,8 +725,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.removeRules("s1", False) # it will not regenerate the model, nothing actually happened
-   >>> r.removeRules("s2", True)  # new model is generated and saved
+   >>> rr.removeRules("s1", False) # it will not regenerate the model, nothing actually happened
+   >>> rr.removeRules("s2", True)  # new model is generated and saved
 
    :param str vid: the ID of the variables that rules assign formula to
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
@@ -746,8 +746,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addEvent("e1", False, "s1 > 0", False) # it will not regenerate the model, nothing actually happened
-   >>> r.addEvent("e2", False, "s2 == s1", True)  # new model is generated and saved
+   >>> rr.addEvent("e1", False, "s1 > 0", False) # it will not regenerate the model, nothing actually happened
+   >>> rr.addEvent("e2", False, "s2 == s1", True)  # new model is generated and saved
   
   
    :param str eid: the ID of the event to be added
@@ -771,8 +771,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addTrigger("e1", "s1 > 0", False) # it will not regenerate the model, nothing actually happened
-   >>> r.addTrigger("e2", "s2 == s1", True)  # new model is generated and saved
+   >>> rr.addTrigger("e1", "s1 > 0", False) # it will not regenerate the model, nothing actually happened
+   >>> rr.addTrigger("e2", "s2 == s1", True)  # new model is generated and saved
   
   
    :param str eid: the ID of the event to add the trigger to
@@ -832,8 +832,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
     For example,
    
-   >>> r.addEventAssignment("e1", "s1", "k1", False) # it will not regenerate the model, nothing actually happened
-   >>> r.addEventAssignment("e2", "s2", "s1", True)  # new model is generated and saved
+   >>> rr.addEventAssignment("e1", "s1", "k1", False) # it will not regenerate the model, nothing actually happened
+   >>> rr.addEventAssignment("e2", "s2", "s1", True)  # new model is generated and saved
    
   
    :param str eid: the ID of the event to add the event assignment to
@@ -857,8 +857,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
     For example,
    
-   >>> r.removeEventAssignment("e1", "s1", False) # it will not regenerate the model, nothing actually happened
-   >>> r.removeEventAssignment("e2", "s2", True)  # new model is generated and saved
+   >>> rr.removeEventAssignment("e1", "s1", False) # it will not regenerate the model, nothing actually happened
+   >>> rr.removeEventAssignment("e2", "s2", True)  # new model is generated and saved
    
   
    :param str eid: the ID of the event 
@@ -882,8 +882,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
     For example,
    
-   >>> r.removeEvent("e1", False) # it will not regenerate the model, nothing actually happened
-   >>> r.removeEvent("e2", True)  # new model is generated and saved
+   >>> rr.removeEvent("e1", False) # it will not regenerate the model, nothing actually happened
+   >>> rr.removeEvent("e2", True)  # new model is generated and saved
    
   
    :param str eid: the ID of the event to be removed
@@ -896,13 +896,13 @@ Easy edit to the model without modifying and reloading sbml files.
 
    For example:
 
-   >>>> r.addCompartment ('c1', 0.1)
-   >>>> r.addSpeciesConcentration ('s1', 'c1', 1.5, False, False)
-   >>>> r.addSpeciesConcentration ('s2', 'c1', 0.0, False, False)
-   >>>> r.addParameter('k1', 0.2)
-   >>>> r.addReaction ('r1', ['s1'], ['s2'], 's1*k1')
-   >>>> r.regenerateModel()
-   >>>> r.simulate()
+   >>>> rr.addCompartment ('c1', 0.1)
+   >>>> rr.addSpeciesConcentration ('s1', 'c1', 1.5, False, False)
+   >>>> rr.addSpeciesConcentration ('s2', 'c1', 0.0, False, False)
+   >>>> rr.addParameter('k1', 0.2)
+   >>>> rr.addReaction ('r1', ['s1'], ['s2'], 's1*k1')
+   >>>> rr.regenerateModel()
+   >>>> rr.simulate()
 
 Simulation
 ----------
@@ -933,7 +933,7 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
         5: output file path. The file to which simulation results will be written. If this is specified and
         nonempty, simulation output will be written to output_file every Config::K_ROWS_PER_WRITE generated.
         Note that simulate() will not return the result matrix if it is writing to output_file.
-        It will also not keep any simulation data, so in that case one should not call ``r.plot()``
+        It will also not keep any simulation data, so in that case one should not call ``rr.plot()``
         without arguments. This should be specified when one cannot, or does not want to, keep the 
         entire result matrix in memory.
 
@@ -981,19 +981,19 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
 
    Simulate from time zero to 40 time units 
    
-   >>> result = r.gillespie (0, 40)
+   >>> result = rr.gillespie (0, 40)
 
    Simulate on a grid with 10 points from start 0 to end time 40 
    
-   >>> result = r.gillespie (0, 40, 10)
+   >>> result = rr.gillespie (0, 40, 10)
 
    Simulate from time zero to 40 time units using the given selection list 
    
-   >>> result = r.gillespie (0, 40, [‘time’, ‘S1’])
+   >>> result = rr.gillespie (0, 40, [‘time’, ‘S1’])
 
    Simulate from time zero to 40 time units, on a grid with 20 points using the given selection list 
    
-   >>> result = r.gillespie (0, 40, 20, [‘time’, ‘S1’])
+   >>> result = rr.gillespie (0, 40, 20, [‘time’, ‘S1’])
    
 
 .. py:function:: RoadRunner.plot(result=None, loc='upper left', show=True)
@@ -1003,7 +1003,7 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
   
    To plot data currently held by roadrunner that was generated in the last simulation, use:
    
-   >>> r.plot() 
+   >>> rr.plot() 
    
    If you are using Tellurium, see `tellurium.ExtendedRoadRunner.plot <https://tellurium.readthedocs.io/en/latest/tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.plot>`_ which supports extra arguements.
    
@@ -1035,8 +1035,8 @@ Steady State
    a steady state calculation. This list may be set by assigning a list
    of valid selection symbols::
 
-     >>> r.steadyStateSelections = ['S1', '[S2]', 'P1']
-     >>> r.steadyStateSelections
+     >>> rr.steadyStateSelections = ['S1', '[S2]', 'P1']
+     >>> rr.steadyStateSelections
      ['S1', '[S2]', 'P1']
 
 
@@ -1411,17 +1411,17 @@ Analysis
      import roadrunner
      from matplotlib import pyplot as plt
 
-     r = te.loada("""
-         $Xo -> x1; k1*Xo - k2*x1;
-          x1 -> x2; k2*x1 - k3*x2;
-          x2 ->; k3*x2;
+     rr = te.loada("""
+          $Xo -> x1; k1*Xo - k2*x1;
+           x1 -> x2; k2*x1 - k3*x2;
+           x2 ->; k3*x2;
 
-          k1 = 0.5; k2 = 0.23; k3 = 0.4;  Xo = 5;
+           k1 = 0.5; k2 = 0.23; k3 = 0.4;  Xo = 5;
      """)
 
-     r.steadyState()
+     rr.steadyState()
 
-     m = r.getFrequencyResponse(0.001, 5, 1000, 'Xo', 'x2', True, False)
+     m = rr.getFrequencyResponse(0.001, 5, 1000, 'Xo', 'x2', True, False)
 
      fig = plt.figure(figsize=(10,4))
 
@@ -1446,7 +1446,7 @@ Analysis
    :returns: a named array of floating species rates of change.
    :rtype: numpy.ndarray
 
-   >>> r.getRatesOfChange()
+   >>> rr.getRatesOfChange()
              MKKK,       MKKK_P,      MKK,      MKK_P,    MKK_PP,     MAPK,   MAPK_P,  MAPK_PP
    [[ 0.000503289, -0.000503289, 0.537508, -0.0994839, -0.438024, 0.061993, 0.108417, -0.17041]]
    
@@ -1460,7 +1460,7 @@ Analysis
    :returns: a named array of independent floating species rates of change.
    :rtype: numpy.ndarray
 
-   >>> r.getIndependentRatesOfChange()
+   >>> rr.getIndependentRatesOfChange()
            MKK_P,   MAPK_P,        MKKK,      MKK,     MAPK
    [[ -0.0994839, 0.108417, 0.000503289, 0.537508, 0.061993]]
 
@@ -1474,7 +1474,7 @@ Analysis
    :returns: a named array of dependent floating species rates of change.
    :rtype: numpy.ndarray
 
-   >>> r.getDependentRatesOfChange()
+   >>> rr.getDependentRatesOfChange()
          MKK_PP,       MKKK_P,  MAPK_PP
    [[ -0.438024, -0.000503289, -0.17041]]
      

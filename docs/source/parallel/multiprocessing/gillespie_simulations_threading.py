@@ -21,10 +21,10 @@ class SimulationWorkerThread(Thread):
         self.results_queue = results_queue
 
     def run(self) -> None:
-        for r in iter(self.input_queue.get, "STOP"):
-            assert isinstance(r, RoadRunner)
-            r.resetAll()
-            self.results_queue.put(r.simulate(0, 10, NSTEPS))
+        for rr in iter(self.input_queue.get, "STOP"):
+            assert isinstance(rr, RoadRunner)
+            rr.resetAll()
+            self.results_queue.put(rr.simulate(0, 10, NSTEPS))
 
 if __name__ == '__main__':
     # setup timing
@@ -34,13 +34,13 @@ if __name__ == '__main__':
     sbml = tmf.BatchImmigrationDeath03().str()
 
     # create our roadrunner instance
-    r = RoadRunner(sbml)
+    rr = RoadRunner(sbml)
 
     # set up a stochastic simulation
-    r.setIntegrator('gillespie')
+    rr.setIntegrator('gillespie')
 
     # set the seed for reproducuble example
-    gillespie_integrator = r.getIntegrator()
+    gillespie_integrator = rr.getIntegrator()
     gillespie_integrator.seed = 1234
 
     input_queue = Queue()
@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
     # populate input queue
     for i in range(NSIMS):
-        input_queue.put(r)
+        input_queue.put(rr)
 
     # create threads
     for _ in range(NTHREADS):

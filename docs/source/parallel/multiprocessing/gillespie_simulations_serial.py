@@ -26,13 +26,13 @@ if __name__ == '__main__':
     sbml = tmf.BatchImmigrationDeath03().str()
 
     # create our roadrunner instance
-    r = RoadRunner(sbml)
+    rr = RoadRunner(sbml)
 
     # set up a stochastic simulation
-    r.setIntegrator('gillespie')
+    rr.setIntegrator('gillespie')
 
     # set the seed for reproducible example
-    gillespie_integrator = r.getIntegrator()
+    gillespie_integrator = rr.getIntegrator()
     gillespie_integrator.seed = 1234
 
     start_time = 0
@@ -42,8 +42,8 @@ if __name__ == '__main__':
     # preallocate for efficiency
     data = np.ndarray((NSIMS, num_points, 2))
     for simulation_number in range(NSIMS):
-        r.resetAll()
-        data[simulation_number] = r.simulate(start_time, end_time, num_points)
+        rr.resetAll()
+        data[simulation_number] = rr.simulate(start_time, end_time, num_points)
 
     print(data)
     print(data.shape)
