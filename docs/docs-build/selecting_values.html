@@ -15,6 +15,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -95,7 +96,7 @@
            <div itemprop="articleBody">
              
   <section id="selecting-values">
-<span id="id1"></span><h1>Selecting Values<a class="headerlink" href="#selecting-values" title="Permalink to this headline"></a></h1>
+<span id="id1"></span><h1>Selecting Values<a class="headerlink" href="#selecting-values" title="Permalink to this heading"></a></h1>
 <p>RoadRunner supports wide range of options for selecting SBML and derivative values. Selections can
 be used to either retrieve or store values. We define SBML values as any element
 specified in the original SBML document, whereas derivative values are a function of one or more
@@ -103,7 +104,7 @@ SBML values. As these functions typically have no inverse, these are read only s
 <p>Selections are used a number of RoadRunner methods. They are used to determine what columns are
 selected in a simulation result and can also be used to directly select model values.</p>
 <section id="selection-syntax">
-<h2>Selection syntax<a class="headerlink" href="#selection-syntax" title="Permalink to this headline"></a></h2>
+<h2>Selection syntax<a class="headerlink" href="#selection-syntax" title="Permalink to this heading"></a></h2>
 <p>The selection syntax is case sensitive (SBML elements are case sensitive), however it ignores all
 white space.</p>
 <p>Selection Types:</p>
@@ -157,7 +158,7 @@ which resets all current and initial values to the values specified in the SBML 
 </dd>
 </dl>
 <section id="getting-setting-the-amount-concentration-of-a-species">
-<h3>Getting/Setting the Amount/Concentration of a Species<a class="headerlink" href="#getting-setting-the-amount-concentration-of-a-species" title="Permalink to this headline"></a></h3>
+<h3>Getting/Setting the Amount/Concentration of a Species<a class="headerlink" href="#getting-setting-the-amount-concentration-of-a-species" title="Permalink to this heading"></a></h3>
 <p>To retrieve the <em>amount</em> of a species “S1”, one may do any one of:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">S1_amt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">]</span>
@@ -181,7 +182,7 @@ which resets all current and initial values to the values specified in the SBML 
 </div>
 </section>
 <section id="experimenting-with-selections">
-<h3>Experimenting With Selections<a class="headerlink" href="#experimenting-with-selections" title="Permalink to this headline"></a></h3>
+<h3>Experimenting With Selections<a class="headerlink" href="#experimenting-with-selections" title="Permalink to this heading"></a></h3>
 <p>One might try individual selection string using the <a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner8getValueERKNSt6stringE" title="rr::RoadRunner::getValue"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::RoadRunner::getValue()</span></code></a> method. This
 takes a selection string, determines if it is valid, and returns the value it selects. For example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="s2">&quot;cc(S1, J4_KS4)&quot;</span><span class="p">)</span>
@@ -215,7 +216,7 @@ selection objects. So, elements that are inserted or appended to this list must 
 created by <a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner15createSelectionERKNSt6stringE" title="rr::RoadRunner::createSelection"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::RoadRunner::createSelection()</span></code></a>.</p>
 </section>
 <section id="selecting-simulation-results">
-<h3>Selecting Simulation Results<a class="headerlink" href="#selecting-simulation-results" title="Permalink to this headline"></a></h3>
+<h3>Selecting Simulation Results<a class="headerlink" href="#selecting-simulation-results" title="Permalink to this heading"></a></h3>
 <p>The columns of the RoadRunner simulation results are determined by the <a class="reference internal" href="PythonAPIReference/cls_RoadRunner.html#RoadRunner.RoadRunner.timeCourseSelections" title="RoadRunner.RoadRunner.timeCourseSelections"><code class="xref py py-attr docutils literal notranslate"><span class="pre">timeCourseSelections</span></code></a>
 property. This is a list of what values will be displayed in the result, and can be set simply by:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">timeCourseSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;[S1]&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s2">&quot;S1&#39;&quot;</span><span class="p">]</span>

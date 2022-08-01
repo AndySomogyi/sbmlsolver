@@ -15,6 +15,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -102,15 +103,15 @@
            <div itemprop="articleBody">
              
   <section id="changing-initial-conditions">
-<h1>Changing Initial Conditions<a class="headerlink" href="#changing-initial-conditions" title="Permalink to this headline"></a></h1>
+<h1>Changing Initial Conditions<a class="headerlink" href="#changing-initial-conditions" title="Permalink to this heading"></a></h1>
 <p>There are a number of methods to get and set the initial conditions of a loaded model. In order to
 specify a given initial conditions we use the notation, <code class="docutils literal notranslate"><span class="pre">init()</span></code>.  The values stored in the
 initial conditions are applied to the model whenever it is reset. The list of all initial condition
 symbols can be obtained by the methods, <code class="xref py py-meth docutils literal notranslate"><span class="pre">getFloatingSpeciesInitAmountIds()</span></code>
-and <code class="xref py py-meth docutils literal notranslate"><span class="pre">getFloatingSpeciesInitConcentrationIds()</span></code> assuming <code class="docutils literal notranslate"><span class="pre">r</span></code> is a RoadRunner
+and <code class="xref py py-meth docutils literal notranslate"><span class="pre">getFloatingSpeciesInitConcentrationIds()</span></code> assuming <code class="docutils literal notranslate"><span class="pre">rr</span></code> is a RoadRunner
 instance. As with all other selection symbols, the <code class="xref py py-meth docutils literal notranslate"><span class="pre">keys()</span></code> returns all
 available selection symbols:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 <span class="go">[ &#39;S1&#39;, &#39;S2&#39;, &#39;[S1]&#39;, &#39;[S2]&#39;, &#39;compartment&#39;, &#39;k1&#39;, &#39;_CSUM0&#39;,</span>
 <span class="go">  &#39;reaction1&#39;,  &#39;init([S1])&#39;,  &#39;init([S2])&#39;, &#39;init(S1)&#39;,</span>
 <span class="go">  &#39;init(S2)&#39;,  &quot;S1&#39;&quot;]</span>
@@ -118,41 +119,41 @@ available selection symbols:</p>
 </div>
 <p>Symbols for selecting initial values specifically for amounts and concentrations can be obtained
 via:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesInitAmountIds</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesInitAmountIds</span><span class="p">()</span>
 <span class="go">[&#39;init(S1)&#39;, &#39;init(S2)&#39;]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesInitConcentrationIds</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesInitConcentrationIds</span><span class="p">()</span>
 <span class="go">[&#39;init([S1])&#39;, &#39;init([S2])&#39;]</span>
 </pre></div>
 </div>
 <p>Getting or setting initial values is easily accomplished using the array operator and the selection
 symbols:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;init(S1)&quot;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;init(S1)&quot;</span><span class="p">]</span>
 <span class="go">0.00015</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;init([S1])&quot;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;init([S1])&quot;</span><span class="p">]</span>
 <span class="go">2.9999999999999997e-05</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;init([S1])&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;init([S1])&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;init(S1)&quot;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;init(S1)&quot;</span><span class="p">]</span>
 <span class="go">10.0</span>
 </pre></div>
 </div>
 <p>The values for the initial conditions for all floating species can be obtained using the calls:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesInitConcentrations</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesInitConcentrations</span><span class="p">()</span>
 <span class="go">array([ 0.7,  5.6])</span>
 </pre></div>
 </div>
 <p>Initial conditions can be set using the two methods for all species in one call:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setFloatingSpeciesInitAmounts</span> <span class="p">([</span><span class="mf">3.4</span><span class="p">,</span> <span class="mf">5.6</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setFloatingSpeciesInitAmounts</span> <span class="p">([</span><span class="mf">3.4</span><span class="p">,</span> <span class="mf">5.6</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setFloatingSpeciesInitConcentrations</span> <span class="p">([</span><span class="mf">6.7</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setFloatingSpeciesInitConcentrations</span> <span class="p">([</span><span class="mf">6.7</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
 </pre></div>
 </div>
 </section>

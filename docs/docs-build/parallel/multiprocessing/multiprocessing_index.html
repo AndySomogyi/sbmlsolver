@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -97,13 +98,13 @@
            <div itemprop="articleBody">
              
   <section id="roadrunner-with-multiprocessing">
-<h1>RoadRunner with Multiprocessing<a class="headerlink" href="#roadrunner-with-multiprocessing" title="Permalink to this headline"></a></h1>
+<h1>RoadRunner with Multiprocessing<a class="headerlink" href="#roadrunner-with-multiprocessing" title="Permalink to this heading"></a></h1>
 <p>For these simulations we use a simple model that we can access easily from one of RoadRunners
 test suites. Its called <code class="docutils literal notranslate"><span class="pre">BatchImmigrationDeath03</span></code> and is model number <code class="docutils literal notranslate"><span class="pre">00039</span></code> from the
 stochastic sbml test suite.</p>
 <p>In each of the following sections we use RoadRunner to generate 1e6 stochastic simulations.</p>
 <section id="serial-code">
-<h2>Serial code<a class="headerlink" href="#serial-code" title="Permalink to this headline"></a></h2>
+<h2>Serial code<a class="headerlink" href="#serial-code" title="Permalink to this heading"></a></h2>
 <p>Performing the simulations in serial gives us a way to measure the performance enhancements
 of using parallel code.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">sys</span>
@@ -134,13 +135,13 @@ of using parallel code.</p>
 <span class="linenos">26</span>    <span class="n">sbml</span> <span class="o">=</span> <span class="n">tmf</span><span class="o">.</span><span class="n">BatchImmigrationDeath03</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="p">()</span>
 <span class="linenos">27</span>
 <span class="linenos">28</span>    <span class="c1"># create our roadrunner instance</span>
-<span class="linenos">29</span>    <span class="n">r</span> <span class="o">=</span> <span class="n">RoadRunner</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
+<span class="linenos">29</span>    <span class="n">rr</span> <span class="o">=</span> <span class="n">RoadRunner</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
 <span class="linenos">30</span>
 <span class="linenos">31</span>    <span class="c1"># set up a stochastic simulation</span>
-<span class="linenos">32</span>    <span class="n">r</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
+<span class="linenos">32</span>    <span class="n">rr</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
 <span class="linenos">33</span>
 <span class="linenos">34</span>    <span class="c1"># set the seed for reproducible example</span>
-<span class="linenos">35</span>    <span class="n">gillespie_integrator</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span>
+<span class="linenos">35</span>    <span class="n">gillespie_integrator</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span>
 <span class="linenos">36</span>    <span class="n">gillespie_integrator</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">1234</span>
 <span class="linenos">37</span>
 <span class="linenos">38</span>    <span class="n">start_time</span> <span class="o">=</span> <span class="mi">0</span>
@@ -150,8 +151,8 @@ of using parallel code.</p>
 <span class="linenos">42</span>    <span class="c1"># preallocate for efficiency</span>
 <span class="linenos">43</span>    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NSIMS</span><span class="p">,</span> <span class="n">num_points</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="linenos">44</span>    <span class="k">for</span> <span class="n">simulation_number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NSIMS</span><span class="p">):</span>
-<span class="linenos">45</span>        <span class="n">r</span><span class="o">.</span><span class="n">resetAll</span><span class="p">()</span>
-<span class="linenos">46</span>        <span class="n">data</span><span class="p">[</span><span class="n">simulation_number</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">num_points</span><span class="p">)</span>
+<span class="linenos">45</span>        <span class="n">rr</span><span class="o">.</span><span class="n">resetAll</span><span class="p">()</span>
+<span class="linenos">46</span>        <span class="n">data</span><span class="p">[</span><span class="n">simulation_number</span><span class="p">]</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">num_points</span><span class="p">)</span>
 <span class="linenos">47</span>
 <span class="linenos">48</span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="linenos">49</span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -174,7 +175,7 @@ of using parallel code.</p>
 </div>
 </section>
 <section id="multiprocessing-library">
-<h2>Multiprocessing library<a class="headerlink" href="#multiprocessing-library" title="Permalink to this headline"></a></h2>
+<h2>Multiprocessing library<a class="headerlink" href="#multiprocessing-library" title="Permalink to this heading"></a></h2>
 <p>The simplest way in Python to use multiple cores simultaneously for running RoadRunner simulations
 is to use the <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html">multiprocessing</a> library.
 Further, the simplest multiprocessing tool that one can use is a <cite>multiprocessing.Pool</cite>. This leads
@@ -189,9 +190,9 @@ to about a x3 speed up for this example.</p>
 <span class="linenos"> 8</span><span class="n">NCORES</span> <span class="o">=</span> <span class="n">cpu_count</span><span class="p">()</span>
 <span class="linenos"> 9</span><span class="n">NSIMS</span> <span class="o">=</span> <span class="mi">1000000</span>
 <span class="linenos">10</span>
-<span class="linenos">11</span><span class="k">def</span> <span class="nf">simulate_worker</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">RoadRunner</span><span class="p">):</span>
-<span class="linenos">12</span>    <span class="n">r</span><span class="o">.</span><span class="n">resetAll</span><span class="p">()</span>
-<span class="linenos">13</span>    <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="linenos">11</span><span class="k">def</span> <span class="nf">simulate_worker</span><span class="p">(</span><span class="n">rr</span><span class="p">:</span> <span class="n">RoadRunner</span><span class="p">):</span>
+<span class="linenos">12</span>    <span class="n">rr</span><span class="o">.</span><span class="n">resetAll</span><span class="p">()</span>
+<span class="linenos">13</span>    <span class="k">return</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
 <span class="linenos">14</span>
 <span class="linenos">15</span>
 <span class="linenos">16</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
@@ -202,20 +203,20 @@ to about a x3 speed up for this example.</p>
 <span class="linenos">21</span>    <span class="n">sbml</span> <span class="o">=</span> <span class="n">tmf</span><span class="o">.</span><span class="n">BatchImmigrationDeath03</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="p">()</span>
 <span class="linenos">22</span>
 <span class="linenos">23</span>    <span class="c1"># create our roadrunner instance</span>
-<span class="linenos">24</span>    <span class="n">r</span> <span class="o">=</span> <span class="n">RoadRunner</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
+<span class="linenos">24</span>    <span class="n">rr</span> <span class="o">=</span> <span class="n">RoadRunner</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
 <span class="linenos">25</span>
 <span class="linenos">26</span>    <span class="c1"># set up a stochastic simulation</span>
-<span class="linenos">27</span>    <span class="n">r</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
+<span class="linenos">27</span>    <span class="n">rr</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
 <span class="linenos">28</span>
 <span class="linenos">29</span>    <span class="c1"># set the seed for reproducuble example</span>
-<span class="linenos">30</span>    <span class="n">gillespie_integrator</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span>
+<span class="linenos">30</span>    <span class="n">gillespie_integrator</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span>
 <span class="linenos">31</span>    <span class="n">gillespie_integrator</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">1234</span>
 <span class="linenos">32</span>
 <span class="linenos">33</span>    <span class="c1"># create a processing pool</span>
 <span class="linenos">34</span>    <span class="n">p</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">NCORES</span><span class="p">)</span>
 <span class="linenos">35</span>
 <span class="linenos">36</span>    <span class="c1"># perform the simulations</span>
-<span class="linenos">37</span>    <span class="n">arrays</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">simulate_worker</span><span class="p">,</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NSIMS</span><span class="p">)])</span>
+<span class="linenos">37</span>    <span class="n">arrays</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">simulate_worker</span><span class="p">,</span> <span class="p">[</span><span class="n">rr</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NSIMS</span><span class="p">)])</span>
 <span class="linenos">38</span>
 <span class="linenos">39</span>    <span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
 <span class="linenos">40</span>
@@ -244,7 +245,7 @@ to about a x3 speed up for this example.</p>
 </div>
 </section>
 <section id="ray-library">
-<h2>Ray library<a class="headerlink" href="#ray-library" title="Permalink to this headline"></a></h2>
+<h2>Ray library<a class="headerlink" href="#ray-library" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="n">RoadRunner</span>
@@ -265,15 +266,15 @@ to about a x3 speed up for this example.</p>
 <span class="linenos">18</span><span class="k">class</span> <span class="nc">SimulatorActorPath</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="linenos">19</span>    <span class="sd">&quot;&quot;&quot;Ray actor to execute simulations.&quot;&quot;&quot;</span>
 <span class="linenos">20</span>
-<span class="linenos">21</span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">RoadRunner</span><span class="p">):</span>
-<span class="linenos">22</span>        <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">:</span> <span class="n">RoadRunner</span> <span class="o">=</span> <span class="n">r</span>
+<span class="linenos">21</span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rr</span><span class="p">:</span> <span class="n">RoadRunner</span><span class="p">):</span>
+<span class="linenos">22</span>        <span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="p">:</span> <span class="n">RoadRunner</span> <span class="o">=</span> <span class="n">rr</span>
 <span class="linenos">23</span>
 <span class="linenos">24</span>    <span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="linenos">25</span>        <span class="n">num_points</span> <span class="o">=</span> <span class="mi">101</span>
 <span class="linenos">26</span>        <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">size</span><span class="p">,</span> <span class="n">num_points</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1"># 2 for 1 model species and time</span>
 <span class="linenos">27</span>        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
-<span class="linenos">28</span>            <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">resetAll</span><span class="p">()</span>
-<span class="linenos">29</span>            <span class="n">results</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">num_points</span><span class="p">)</span>
+<span class="linenos">28</span>            <span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="o">.</span><span class="n">resetAll</span><span class="p">()</span>
+<span class="linenos">29</span>            <span class="n">results</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">num_points</span><span class="p">)</span>
 <span class="linenos">30</span>        <span class="k">return</span> <span class="n">results</span>
 <span class="linenos">31</span>
 <span class="linenos">32</span>
@@ -285,16 +286,16 @@ to about a x3 speed up for this example.</p>
 <span class="linenos">38</span>    <span class="n">sbml</span> <span class="o">=</span> <span class="n">tmf</span><span class="o">.</span><span class="n">BatchImmigrationDeath03</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="p">()</span>
 <span class="linenos">39</span>
 <span class="linenos">40</span>    <span class="c1"># create our roadrunner instance</span>
-<span class="linenos">41</span>    <span class="n">r</span> <span class="o">=</span> <span class="n">RoadRunner</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
+<span class="linenos">41</span>    <span class="n">rr</span> <span class="o">=</span> <span class="n">RoadRunner</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
 <span class="linenos">42</span>
 <span class="linenos">43</span>    <span class="c1"># set up a stochastic simulation</span>
-<span class="linenos">44</span>    <span class="n">r</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
+<span class="linenos">44</span>    <span class="n">rr</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
 <span class="linenos">45</span>
 <span class="linenos">46</span>    <span class="c1"># set the seed for reproducuble example</span>
-<span class="linenos">47</span>    <span class="n">gillespie_integrator</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span>
+<span class="linenos">47</span>    <span class="n">gillespie_integrator</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span>
 <span class="linenos">48</span>    <span class="n">gillespie_integrator</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">1234</span>
 <span class="linenos">49</span>
-<span class="linenos">50</span>    <span class="n">simulators</span> <span class="o">=</span> <span class="p">[</span><span class="n">SimulatorActorPath</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NCORES</span><span class="p">)]</span>
+<span class="linenos">50</span>    <span class="n">simulators</span> <span class="o">=</span> <span class="p">[</span><span class="n">SimulatorActorPath</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NCORES</span><span class="p">)]</span>
 <span class="linenos">51</span>
 <span class="linenos">52</span>    <span class="c1"># run simulations</span>
 <span class="linenos">53</span>    <span class="n">tc_ids</span> <span class="o">=</span> <span class="p">[]</span>

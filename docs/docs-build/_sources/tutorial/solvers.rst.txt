@@ -8,14 +8,14 @@ By default, RoadRunner uses CVODE, a real differential equation solver from the
 SUNDIALS suite. Internally, CVODE features an adaptive timestep. However, unless `variableStep`
 is specified in the call to :meth:`~RoadRunner.simulate()`, the output will contain evenly spaced intervals.
 
-  >>>  r.simulate(0, 10, 10)
+  >>>  rr.simulate(0, 10, 10)
   # Output will contain evenly spaced intervals
-  >>>  r.simulate(variableStep=True)
+  >>>  rr.simulate(variableStep=True)
   # Intervals will vary according to CVODE step size
 
 To use basic 4th-order Runge-Kutta integrator ('rk4'), call :meth:`~RoadRunner.setIntegrator()`:
 
-  >>>  r.setIntegrator('rk4')
+  >>>  rr.setIntegrator('rk4')
 
 Runge-Kutta always uses a fixed step size, and does not support events.
 RoadRunner supports Runge-Kutta-Fehlberg Method ('rkf45') as well as a stochastic integrator based on Gillespie algorithm ('gilliespie'). To get a list of all available integrators, run:
@@ -26,7 +26,7 @@ RoadRunner supports Runge-Kutta-Fehlberg Method ('rkf45') as well as a stochasti
 Some integrators, such as CVODE, have parameters which can be set by the user.
 To see a list of these settings, use :meth:`~roadrunner.Solver.getSettings()` on an integrator instance:
 
-  >>>  r.getIntegrator().getSettings()
+  >>>  rr.getIntegrator().getSettings()
   ('relative_tolerance',
   'absolute_tolerance',
   'stiff',
@@ -41,41 +41,41 @@ To see a list of these settings, use :meth:`~roadrunner.Solver.getSettings()` on
 
 To set a parameter, you can use both methods described below:
 
-  >>>  r.getIntegrator().relative_tolerance = 1e-10
-  >>>  r.getIntegrator().setValue('relative_tolerance', 1e-10)
+  >>>  rr.getIntegrator().relative_tolerance = 1e-10
+  >>>  rr.getIntegrator().setValue('relative_tolerance', 1e-10)
 
 Be sure to set the parameter to the correct type, which can be obtained from
 the parameter's hint or description:
 
-  >>>  r.getIntegrator().getHint('relative_tolerance')
+  >>>  rr.getIntegrator().getHint('relative_tolerance')
   'Specifies the scalar relative tolerance (double).'
-  >>>  r.getIntegrator().getDescription('relative_tolerance')
+  >>>  rr.getIntegrator().getDescription('relative_tolerance')
   '(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.'
 
 Parameters also have a display name:
 
-  >>>  r.getIntegrator().getDisplayName('relative_tolerance')
+  >>>  rr.getIntegrator().getDisplayName('relative_tolerance')
   'Relative Tolerance'
 
 If you prefer to change settings on integrators without switching the current integrator,
 you can use :meth:`~RoadRunner.getIntegratorByName()` as follows:
 
-  >>>  r.getIntegratorByName('gillespie').seed = 12345
+  >>>  rr.getIntegratorByName('gillespie').seed = 12345
 
 Also, if you find yourself switching back and forth between integrators a lot, you can use
 :meth:`~RoadRunner.setIntegratorSetting()`.
 
-  >>>  r.setIntegratorSetting('gillespie', 'seed', 12345)
+  >>>  rr.setIntegratorSetting('gillespie', 'seed', 12345)
 
 The other type of solver is a steady-state solver, which works in essentially the same way:
 
-  >>>  r.getSteadyStateSolver().getSettings()
+  >>>  rr.getSteadyStateSolver().getSettings()
   ('maximum_iterations',
   'minimum_damping',
   'relative_tolerance')
-  >>>  r.getSteadyStateSolver().getHint('maximum_iterations')
+  >>>  rr.getSteadyStateSolver().getHint('maximum_iterations')
   'The maximum number of iterations the solver is allowed to use (int)'
-  >>>  r.getSteadyStateSolver().getDescription('maximum_iterations')
+  >>>  rr.getSteadyStateSolver().getDescription('maximum_iterations')
   '(int) Iteration caps off at the maximum, regardless of whether a solution has been reached'
 
 The steady state solver is invoked by a call to :meth:`~RoadRunner.steadyState()`.

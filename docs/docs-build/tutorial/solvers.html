@@ -15,6 +15,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -102,20 +103,20 @@
            <div itemprop="articleBody">
              
   <section id="roadrunner-solvers">
-<h1>Roadrunner Solvers<a class="headerlink" href="#roadrunner-solvers" title="Permalink to this headline"></a></h1>
+<h1>Roadrunner Solvers<a class="headerlink" href="#roadrunner-solvers" title="Permalink to this heading"></a></h1>
 <p>RoadRunner has multiple types of solvers including integrators and steady-state solvers.
 Integrators control numerical timecourse integration via the <code class="xref py py-meth docutils literal notranslate"><span class="pre">simulate()</span></code> method.
 By default, RoadRunner uses CVODE, a real differential equation solver from the
 SUNDIALS suite. Internally, CVODE features an adaptive timestep. However, unless <cite>variableStep</cite>
 is specified in the call to <code class="xref py py-meth docutils literal notranslate"><span class="pre">simulate()</span></code>, the output will contain evenly spaced intervals.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="go"># Output will contain evenly spaced intervals</span>
-<span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">variableStep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">variableStep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go"># Intervals will vary according to CVODE step size</span>
 </pre></div>
 </div>
 <p>To use basic 4th-order Runge-Kutta integrator (‘rk4’), call <code class="xref py py-meth docutils literal notranslate"><span class="pre">setIntegrator()</span></code>:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;rk4&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;rk4&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Runge-Kutta always uses a fixed step size, and does not support events.
@@ -126,7 +127,7 @@ RoadRunner supports Runge-Kutta-Fehlberg Method (‘rkf45’) as well as a stoch
 </div>
 <p>Some integrators, such as CVODE, have parameters which can be set by the user.
 To see a list of these settings, use <code class="xref py py-meth docutils literal notranslate"><span class="pre">getSettings()</span></code> on an integrator instance:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span>
 <span class="go">(&#39;relative_tolerance&#39;,</span>
 <span class="go">&#39;absolute_tolerance&#39;,</span>
 <span class="go">&#39;stiff&#39;,</span>
@@ -141,41 +142,41 @@ To see a list of these settings, use <code class="xref py py-meth docutils liter
 </pre></div>
 </div>
 <p>To set a parameter, you can use both methods described below:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">relative_tolerance</span> <span class="o">=</span> <span class="mf">1e-10</span>
-<span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s1">&#39;relative_tolerance&#39;</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">relative_tolerance</span> <span class="o">=</span> <span class="mf">1e-10</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s1">&#39;relative_tolerance&#39;</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Be sure to set the parameter to the correct type, which can be obtained from
 the parameter’s hint or description:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">getHint</span><span class="p">(</span><span class="s1">&#39;relative_tolerance&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">getHint</span><span class="p">(</span><span class="s1">&#39;relative_tolerance&#39;</span><span class="p">)</span>
 <span class="go">&#39;Specifies the scalar relative tolerance (double).&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">getDescription</span><span class="p">(</span><span class="s1">&#39;relative_tolerance&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">getDescription</span><span class="p">(</span><span class="s1">&#39;relative_tolerance&#39;</span><span class="p">)</span>
 <span class="go">&#39;(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.&#39;</span>
 </pre></div>
 </div>
 <p>Parameters also have a display name:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">getDisplayName</span><span class="p">(</span><span class="s1">&#39;relative_tolerance&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">getDisplayName</span><span class="p">(</span><span class="s1">&#39;relative_tolerance&#39;</span><span class="p">)</span>
 <span class="go">&#39;Relative Tolerance&#39;</span>
 </pre></div>
 </div>
 <p>If you prefer to change settings on integrators without switching the current integrator,
 you can use <code class="xref py py-meth docutils literal notranslate"><span class="pre">getIntegratorByName()</span></code> as follows:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegratorByName</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">12345</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">getIntegratorByName</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">12345</span>
 </pre></div>
 </div>
 <p>Also, if you find yourself switching back and forth between integrators a lot, you can use
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">setIntegratorSetting()</span></code>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">setIntegratorSetting</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">,</span> <span class="s1">&#39;seed&#39;</span><span class="p">,</span> <span class="mi">12345</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">setIntegratorSetting</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">,</span> <span class="s1">&#39;seed&#39;</span><span class="p">,</span> <span class="mi">12345</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The other type of solver is a steady-state solver, which works in essentially the same way:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getSteadyStateSolver</span><span class="p">()</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">getSteadyStateSolver</span><span class="p">()</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span>
 <span class="go">(&#39;maximum_iterations&#39;,</span>
 <span class="go">&#39;minimum_damping&#39;,</span>
 <span class="go">&#39;relative_tolerance&#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getSteadyStateSolver</span><span class="p">()</span><span class="o">.</span><span class="n">getHint</span><span class="p">(</span><span class="s1">&#39;maximum_iterations&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">getSteadyStateSolver</span><span class="p">()</span><span class="o">.</span><span class="n">getHint</span><span class="p">(</span><span class="s1">&#39;maximum_iterations&#39;</span><span class="p">)</span>
 <span class="go">&#39;The maximum number of iterations the solver is allowed to use (int)&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getSteadyStateSolver</span><span class="p">()</span><span class="o">.</span><span class="n">getDescription</span><span class="p">(</span><span class="s1">&#39;maximum_iterations&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">getSteadyStateSolver</span><span class="p">()</span><span class="o">.</span><span class="n">getDescription</span><span class="p">(</span><span class="s1">&#39;maximum_iterations&#39;</span><span class="p">)</span>
 <span class="go">&#39;(int) Iteration caps off at the maximum, regardless of whether a solution has been reached&#39;</span>
 </pre></div>
 </div>
