@@ -42,7 +42,9 @@ Python wheels are available at the above binaries link, and can also be installe
 
 # Dependencies
 
-The dependencies may be downloaded *en masse* from the '[libroadrunner-deps](https://github.com/sys-bio/libroadrunner-deps)' repository, may be obtained directly from their [respective sources](https://github.com/sys-bio/libroadrunner-deps/tree/release/third_party), or the libraries may be installed directly on your operating system.
+All libRoadRunner binaries are self-contained, and should include all libraries it depends on.  When building libRoadRunner from source, its dependencies may either be downloaded *en masse* from the [libroadrunner-deps](https://github.com/sys-bio/libroadrunner-deps) repository, may be obtained directly from their [respective sources](https://github.com/sys-bio/libroadrunner-deps/tree/release/third_party), or the libraries may be installed directly on your operating system.
+
+The one exception to the above is that libRoadRunner depends on the 'ncurses' library on linux.
 
 
 # Copyright
