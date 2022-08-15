@@ -2985,8 +2985,8 @@ def plotTimeSeriesSens(time:np.array, sens:np.array,
     if ncol == 1 or nrow == 1:
         l = []
 
-        # when ncol == 1, subplots returns a 1D np.array.
-        # so we linearize the rows/cols with an array
+        // when ncol == 1, subplots returns a 1D np.array.
+        // so we linearize the rows/cols with an array
         for j, species in enumerate(colnames):
             for i, param in enumerate(rownames):
                 l.append((species, param))
