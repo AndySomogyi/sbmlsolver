@@ -2401,6 +2401,117 @@ namespace rr {
         return v;
     }
 
+    std::vector<double> RoadRunner::getIndependentFloatingSpeciesAmountsV() {
+        check_model();
+
+        std::vector<double> result(getNumberOfIndependentSpecies(), 0);
+        //The independent species are at the beginning of the vector
+        if (result.size()) {
+            impl->model->getFloatingSpeciesAmounts(result.size(), 0, &result[0]);
+        }
+        return result;
+    }
+
+    std::vector<double> RoadRunner::getDependentFloatingSpeciesAmountsV() {
+        check_model();
+
+        std::vector<double> result(getNumberOfDependentSpecies(), 0);
+        //The dependent species are after the independent ones
+        if (result.size()) {
+            int indfloats = getNumberOfIndependentSpecies();
+            impl->model->getFloatingSpeciesAmounts(result.size(), &indfloats, &result[0]);
+        }
+        return result;
+    }
+
+    std::vector<double> RoadRunner::getIndependentFloatingSpeciesConcentrationsV() {
+        check_model();
+
+        std::vector<double> result(getNumberOfIndependentSpecies(), 0);
+        //The independent species are at the beginning of the vector
+        if (result.size()) {
+            impl->model->getFloatingSpeciesConcentrations(result.size(), 0, &result[0]);
+        }
+        return result;
+    }
+
+    std::vector<double> RoadRunner::getDependentFloatingSpeciesConcentrationsV() {
+        check_model();
+
+        std::vector<double> result(getNumberOfDependentSpecies(), 0);
+        //The dependent species are after the independent ones
+        if (result.size()) {
+            int indfloats = getNumberOfIndependentSpecies();
+            impl->model->getFloatingSpeciesConcentrations(result.size(), &indfloats, &result[0]);
+        }
+        return result;
+    }
+
+    ls::DoubleMatrix RoadRunner::getIndependentFloatingSpeciesAmountsNamedArray() {
+        check_model();
+
+        size_t num_ind = getNumberOfIndependentSpecies();
+        ls::DoubleMatrix result(1, num_ind);
+
+        std::vector<double> vals = getIndependentFloatingSpeciesAmountsV();
+
+        for (int i = 0; i < num_ind; i++) {
+            result(0, i) = vals[i];
+        }
+
+        result.setColNames(getIndependentFloatingSpeciesIds());
+        return result;
+    }
+
+    ls::DoubleMatrix RoadRunner::getDependentFloatingSpeciesAmountsNamedArray() {
+        check_model();
+
+        size_t num_dep = getNumberOfDependentSpecies();
+        ls::DoubleMatrix result(1, num_dep);
+
+        std::vector<double> vals = getDependentFloatingSpeciesAmountsV();
+
+        for (int i = 0; i < num_dep; i++) {
+            result(0, i) = vals[i];
+        }
+
+        result.setColNames(getDependentFloatingSpeciesIds());
+        return result;
+    }
+
+    ls::DoubleMatrix RoadRunner::getIndependentFloatingSpeciesConcentrationsNamedArray() {
+        check_model();
+
+        size_t num_ind = getNumberOfIndependentSpecies();
+        ls::DoubleMatrix result(1, num_ind);
+
+        std::vector<double> vals = getIndependentFloatingSpeciesConcentrationsV();
+
+        for (int i = 0; i < num_ind; i++) {
+            result(0, i) = vals[i];
+        }
+
+        result.setColNames(getIndependentFloatingSpeciesIds());
+        return result;
+    }
+
+    ls::DoubleMatrix RoadRunner::getDependentFloatingSpeciesConcentrationsNamedArray() {
+        check_model();
+
+        size_t num_dep = getNumberOfDependentSpecies();
+        ls::DoubleMatrix result(1, num_dep);
+
+        std::vector<double> vals = getDependentFloatingSpeciesConcentrationsV();
+
+        for (int i = 0; i < num_dep; i++) {
+            result(0, i) = vals[i];
+        }
+
+        result.setColNames(getDependentFloatingSpeciesIds());
+        return result;
+    }
+
+
     std::vector<double> RoadRunner::getRatesOfChange() {
         check_model();
 
@@ -2491,21 +2602,15 @@ namespace rr {
     ls::DoubleMatrix RoadRunner::getIndependentRatesOfChangeNamedArray() {
         check_model();
 
-        std::vector<std::string> idfsId = getIndependentFloatingSpeciesIds();
-        std::vector<std::string> fsId = getFloatingSpeciesIds();
-        unsigned int nindep = static_cast<unsigned int>(idfsId.size());
+        vector<double> vals = getIndependentRatesOfChange();
+        int nindep = vals.size();
         ls::DoubleMatrix v(1, nindep);
 
-        ls::DoubleMatrix rate = getRatesOfChangeNamedArray();
-
         for (int i = 0; i < nindep; ++i) {
-            std::vector<std::string>::iterator it = find(fsId.begin(), fsId.end(), idfsId[i]);
-            size_t index = distance(fsId.begin(), it);
-
-            v(0, i) = rate[0][index];
+            v(0, i) = vals[i];
         }
 
-        v.setColNames(idfsId);
+        v.setColNames(getIndependentFloatingSpeciesIds());
 
         return v;
     }
@@ -2533,21 +2638,15 @@ namespace rr {
     ls::DoubleMatrix RoadRunner::getDependentRatesOfChangeNamedArray() {
         check_model();
 
-        std::vector<std::string> dfsId = getDependentFloatingSpeciesIds();
-        std::vector<std::string> fsId = getFloatingSpeciesIds();
-        unsigned int ndep = static_cast<unsigned int>(dfsId.size());
+        vector<double> vals = getDependentRatesOfChange();
+        int ndep = vals.size();
         ls::DoubleMatrix v(1, ndep);
 
-        ls::DoubleMatrix rate = getRatesOfChangeNamedArray();
-
         for (int i = 0; i < ndep; ++i) {
-            std::vector<std::string>::iterator it = find(fsId.begin(), fsId.end(), dfsId[i]);
-            size_t index = distance(fsId.begin(), it);
-
-            v(0, i) = rate[0][index];
+            v(0, i) = vals[i];
         }
 
-        v.setColNames(dfsId);
+        v.setColNames(getDependentFloatingSpeciesIds());
 
         return v;
     }
@@ -2609,11 +2708,15 @@ namespace rr {
                     // this causes a reset, so need to save the current amounts to set them back
                     // as init conditions.
                     std::vector<double> conc(self.model->getNumFloatingSpecies());
-                    (self.model.get()->*getValuePtr)(conc.size(), 0, &conc[0]);
+                    if (conc.size()) {
+                        (self.model.get()->*getValuePtr)(conc.size(), 0, &conc[0]);
+                    }
 
                     // save the original init values
                     std::vector<double> initConc(self.model->getNumFloatingSpecies());
-                    (self.model.get()->*getInitValuePtr)(initConc.size(), 0, &initConc[0]);
+                    if (initConc.size()) {
+                        (self.model.get()->*getInitValuePtr)(initConc.size(), 0, &initConc[0]);
+                    }
 
                     // get the original value
                     (self.model.get()->*getValuePtr)(1, &j, &originalConc);
@@ -2622,7 +2725,9 @@ namespace rr {
                     try {
                         // set init amounts to current amounts, restore them later.
                         // have to do this as this is only way to set conserved moiety values
-                        (self.model.get()->*setInitValuePtr)(conc.size(), 0, &conc[0]);
+                        if (conc.size()) {
+                            (self.model.get()->*setInitValuePtr)(conc.size(), 0, &conc[0]);
+                        }
 
                         // sanity check
                         assert_similar(originalConc, conc[j]);
@@ -2668,21 +2773,27 @@ namespace rr {
                     }
                     catch (const std::exception &) {
                         // What ever happens, make sure we restore the species level
-                        (self.model.get()->*setInitValuePtr)(initConc.size(), 0, &initConc[0]);
-
+                        if (initConc.size()) {
+                            (self.model.get()->*setInitValuePtr)(initConc.size(), 0, &initConc[0]);
+                        }
                         // only set the indep species, setting dep species is not permitted.
-                        (self.model.get()->*setValuePtr)(self.model->getNumFloatingSpecies(), 0, &conc[0]);
+                        if (conc.size()) {
+                            (self.model.get()->*setValuePtr)(self.model->getNumFloatingSpecies(), 0, &conc[0]);
+                        }
 
                         // re-throw the exception.
                         throw;
                     }
 
                     // What ever happens, make sure we restore the species level
-                    (self.model.get()->*setInitValuePtr)(initConc.size(), 0, &initConc[0]);
+                    if (initConc.size()) {
+                        (self.model.get()->*setInitValuePtr)(initConc.size(), 0, &initConc[0]);
+                    }
 
                     // only set the indep species, setting dep species is not permitted.
-                    (self.model.get()->*setValuePtr)(self.model->getNumFloatingSpecies(), 0, &conc[0]);
-
+                    if (conc.size()) {
+                        (self.model.get()->*setValuePtr)(self.model->getNumFloatingSpecies(), 0, &conc[0]);
+                    }
                     jac[i][j] = result;
                 }
             }
@@ -3495,7 +3606,9 @@ namespace rr {
 
 
         std::vector<double> result(impl->model->getNumFloatingSpecies(), 0);
-        impl->model->getFloatingSpeciesConcentrations(result.size(), 0, &result[0]);
+        if (result.size()) {
+            impl->model->getFloatingSpeciesConcentrations(result.size(), 0, &result[0]);
+        }
         return result;
     }
 
@@ -3507,7 +3620,9 @@ namespace rr {
 
 
         std::vector<double> result(impl->model->getNumFloatingSpecies(), 0);
-        impl->model->getFloatingSpeciesAmounts(result.size(), 0, &result[0]);
+        if (result.size()) {
+            impl->model->getFloatingSpeciesAmounts(result.size(), 0, &result[0]);
+        }
         return result;
     }
 
@@ -3517,7 +3632,9 @@ namespace rr {
             throw CoreException(gEmptyModelMessage);
         }
         std::vector<double> initYs(impl->model->getNumFloatingSpecies());
-        impl->model->getFloatingSpeciesInitConcentrations(initYs.size(), 0, &initYs[0]);
+        if (initYs.size()) {
+            impl->model->getFloatingSpeciesInitConcentrations(initYs.size(), 0, &initYs[0]);
+        }
         return initYs;
     }
 
@@ -3527,19 +3644,22 @@ namespace rr {
             throw CoreException(gEmptyModelMessage);
         }
 
-        impl->model->setFloatingSpeciesConcentrations(values.size(), 0, &values[0]);
-        impl->model->setFloatingSpeciesInitConcentrations(values.size(), 0, &values[0]);
-
+        if (values.size()) {
+            impl->model->setFloatingSpeciesConcentrations(values.size(), 0, &values[0]);
+            impl->model->setFloatingSpeciesInitConcentrations(values.size(), 0, &values[0]);
+        }
         reset();
     }
 
 // Help("Set the concentrations for all floating species in the model")
-    void RoadRunner::setFloatingSpeciesConcentrations(const std::vector<double> &values) {
+    void RoadRunner::setFloatingSpeciesConcentrations(const std::vector<double>& values) {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
 
-        impl->model->setFloatingSpeciesConcentrations(values.size(), 0, &values[0]);
+        if (values.size()) {
+            impl->model->setFloatingSpeciesConcentrations(values.size(), 0, &values[0]);
+        }
     }
 
     std::vector<double> RoadRunner::getBoundarySpeciesConcentrationsV() {
@@ -3549,7 +3669,9 @@ namespace rr {
 
 
         std::vector<double> result(impl->model->getNumBoundarySpecies(), 0);
-        impl->model->getBoundarySpeciesConcentrations(result.size(), 0, &result[0]);
+        if (result.size()) {
+            impl->model->getBoundarySpeciesConcentrations(result.size(), 0, &result[0]);
+        }
         return result;
     }
 
@@ -3560,28 +3682,34 @@ namespace rr {
 
 
         std::vector<double> result(impl->model->getNumBoundarySpecies(), 0);
-        impl->model->getBoundarySpeciesAmounts(result.size(), 0, &result[0]);
+        if (result.size()) {
+            impl->model->getBoundarySpeciesAmounts(result.size(), 0, &result[0]);
+        }
         return result;
     }
 
 
 // Help("Set the concentrations for all boundary species in the model")
-    void RoadRunner::setBoundarySpeciesConcentrations(const std::vector<double> &values) {
+    void RoadRunner::setBoundarySpeciesConcentrations(const std::vector<double>& values) {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
 
-        impl->model->setBoundarySpeciesConcentrations(values.size(), 0, &values[0]);
+        if (values.size()) {
+            impl->model->setBoundarySpeciesConcentrations(values.size(), 0, &values[0]);
+        }
     }
 
 
 // Help("Set the amounts for all boundary species in the model")
-    void RoadRunner::setBoundarySpeciesAmounts(const std::vector<double> &values) {
+    void RoadRunner::setBoundarySpeciesAmounts(const std::vector<double>& values) {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
 
-        impl->model->setBoundarySpeciesAmounts(values.size(), 0, &values[0]);
+        if (values.size()) {
+            impl->model->setBoundarySpeciesAmounts(values.size(), 0, &values[0]);
+        }
     }
 
 
@@ -3676,18 +3804,21 @@ namespace rr {
             std::vector<double> result(impl->model->getNumGlobalParameters() +
                                        impl->model->getNumDepFloatingSpecies());
 
-            impl->model->getGlobalParameterValues(
+            if (result.size()) {
+                impl->model->getGlobalParameterValues(
                     impl->model->getNumGlobalParameters(), 0, &result[0]);
 
-            impl->model->getConservedMoietyValues(
+                impl->model->getConservedMoietyValues(
                     impl->model->getNumDepFloatingSpecies(), 0,
                     &result[impl->model->getNumGlobalParameters()]);
-
+            }
             return result;
         }
 
         std::vector<double> result(impl->model->getNumGlobalParameters());
-        impl->model->getGlobalParameterValues(result.size(), 0, &result[0]);
+        if (result.size()) {
+            impl->model->getGlobalParameterValues(result.size(), 0, &result[0]);
+        }
         return result;
     }
 
@@ -3891,6 +4022,9 @@ namespace rr {
         double value;
         double origCurrentVal = 0;
         double result = std::numeric_limits<double>::quiet_NaN();
+        //Need to save the time, too, since calling setInitValuePtr will reset time to -inf.
+        //  We can't *not* call reset, either, as it's necessary for other things to work.
+        double origTime = self.model->getTime();
 
         // note setting init values auotmatically sets the current values to the
         // init values
@@ -3898,14 +4032,20 @@ namespace rr {
         // this causes a reset, so need to save the current amounts to set them back
         // as init conditions.
         std::vector<double> currentVals(self.model->getNumFloatingSpecies());
-        (self.model.get()->*getValuePtr)(currentVals.size(), 0, &currentVals[0]);
+        if (currentVals.size()) {
+            (self.model.get()->*getValuePtr)(currentVals.size(), 0, &currentVals[0]);
+        }
 
         //If the initial volumes have changed, we have to set them, but we'll need to reset them later.
         std::vector<double> origInitVolumes(self.model->getNumCompartments());
-        (self.model.get()->*getInitVolumesPtr)(origInitVolumes.size(), 0, &origInitVolumes[0]);
+        if (origInitVolumes.size()) {
+            (self.model.get()->*getInitVolumesPtr)(origInitVolumes.size(), 0, &origInitVolumes[0]);
+        }
 
         std::vector<double> currentVolumes(self.model->getNumCompartments());
-        (self.model.get()->*getCurrentVolumesPtr)(currentVolumes.size(), 0, &currentVolumes[0]);
+        if (currentVolumes.size()) {
+            (self.model.get()->*getCurrentVolumesPtr)(currentVolumes.size(), 0, &currentVolumes[0]);
+        }
 
         // Don't try to compute any elasticities if there a numerically suspicious values
         for (int i = 0; i < currentVals.size() - 1; i++)
@@ -3916,7 +4056,9 @@ namespace rr {
 
         // save the original init values
         std::vector<double> origInitVal(self.model->getNumFloatingSpecies());
-        (self.model.get()->*getInitValuePtr)(origInitVal.size(), 0, &origInitVal[0]);
+        if (origInitVal.size()) {
+            (self.model.get()->*getInitValuePtr)(origInitVal.size(), 0, &origInitVal[0]);
+        }
 
         // get the original value
         (self.model.get()->*getValuePtr)(1, &speciesIndex, &origCurrentVal);
@@ -3924,11 +4066,16 @@ namespace rr {
         // now we start changing things
         try {
             //First set the initial volumes so everything else matches.
-            (self.model.get()->*setInitVolumesPtr)(currentVolumes.size(), 0, &currentVolumes[0]);
+            if (currentVolumes.size()) {
+                (self.model.get()->*setInitVolumesPtr)(currentVolumes.size(), 0, &currentVolumes[0]);
+            }
 
             // Now set init amounts to current amounts, restore them later.
             // have to do this as this is only way to set conserved moiety values
-            (self.model.get()->*setInitValuePtr)(currentVals.size(), 0, &currentVals[0]);
+            if (currentVals.size()) {
+                (self.model.get()->*setInitValuePtr)(currentVals.size(), 0, &currentVals[0]);
+            }
+            self.model->setTime(origTime);
 
             // sanity check
             assert_similar(origCurrentVal, currentVals[speciesIndex]);
@@ -3947,22 +4094,26 @@ namespace rr {
 
             value = origCurrentVal + hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
+            self.model->setTime(origTime);
 
             double fi = 0;
             self.model->getReactionRates(1, &reactionId, &fi);
 
             value = origCurrentVal + 2 * hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
+            self.model->setTime(origTime);
             double fi2 = 0;
             self.model->getReactionRates(1, &reactionId, &fi2);
 
             value = origCurrentVal - hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
+            self.model->setTime(origTime);
             double fd = 0;
             self.model->getReactionRates(1, &reactionId, &fd);
 
             value = origCurrentVal - 2 * hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
+            self.model->setTime(origTime);
             double fd2 = 0;
             self.model->getReactionRates(1, &reactionId, &fd2);
 
@@ -3975,25 +4126,36 @@ namespace rr {
             result = 1 / (12 * hstep) * (f1 + f2);
         }
         catch (const std::exception &e) {
-            // Whatever happens, make sure we restore the species and volumes levels
-            (self.model.get()->*setInitVolumesPtr)(origInitVolumes.size(), 0, &origInitVolumes[0]);
-            (self.model.get()->*setInitValuePtr)(origInitVal.size(), 0, &origInitVal[0]);
+            // Whatever happens, make sure we restore the species and volumes levels, and time.
+            if (origInitVolumes.size()) {
+                (self.model.get()->*setInitVolumesPtr)(origInitVolumes.size(), 0, &origInitVolumes[0]);
+            }
+            if (origInitVal.size()) {
+                (self.model.get()->*setInitValuePtr)(origInitVal.size(), 0, &origInitVal[0]);
+            }
+            self.model->setTime(origTime);
 
             // only set the indep species, setting dep species is not permitted.
-            (self.model.get()->*setValuePtr)(
+            if (currentVals.size()) {
+                (self.model.get()->*setValuePtr)(
                     self.model->getNumIndFloatingSpecies(), 0, &currentVals[0]);
-
+            }
             // re-throw the exception.
             throw e;
         }
 
-        // Whatever happens, make sure we restore the species and volumes levels
-        (self.model.get()->*setInitValuePtr)(
+        // Whatever happens, make sure we restore the species and volumes levels, and time.
+        if (origInitVal.size()) {
+            (self.model.get()->*setInitValuePtr)(
                 origInitVal.size(), 0, &origInitVal[0]);
+        }
 
         // only set the indep species, setting dep species is not permitted.
-        (self.model.get()->*setValuePtr)(
+        if (currentVals.size()) {
+            (self.model.get()->*setValuePtr)(
                 self.model->getNumIndFloatingSpecies(), 0, &currentVals[0]);
+        }
+        self.model->setTime(origTime);
 
         return result;
     }
@@ -4030,7 +4192,9 @@ namespace rr {
         result.setRowNames(uelast.getRowNames());
 
         std::vector<double> rates(self.model->getNumReactions());
-        self.model->getReactionRates(rates.size(), 0, &rates[0]);
+        if (rates.size()) {
+            self.model->getReactionRates(rates.size(), 0, &rates[0]);
+        }
 
         if (uelast.RSize() != rates.size()) {
             // this should NEVER happen
@@ -4177,15 +4341,20 @@ namespace rr {
 
             if (ufcc.RSize() > 0) {
                 for (int i = 0; i < ufcc.RSize(); i++) {
+                    double irate = 0;
+                    impl->model->getReactionRates(1, &i, &irate);
+                    if (irate == 0) {
+                        rrLog(rr::Logger::LOG_WARNING) << "Unable to properly scale values for reaction '";
+                        rrLog(rr::Logger::LOG_WARNING) << impl->model->getReactionId(i);
+                        rrLog(rr::Logger::LOG_WARNING) << "': its value is zero, so we cannot divide by it.  Setting the scaled coefficients to zero instead.";
+                    }
                     for (int j = 0; j < ufcc.CSize(); j++) {
-                        double irate = 0;
-                        impl->model->getReactionRates(1, &i, &irate);
                         if (irate != 0) {
                             double jrate = 0;
                             impl->model->getReactionRates(1, &j, &jrate);
                             ufcc[i][j] = ufcc[i][j] * jrate / irate;
                         } else {
-                            throw (Exception("Dividing with zero"));
+                            ufcc[i][j] = 0;
                         }
                     }
                 }
@@ -4320,13 +4489,15 @@ namespace rr {
         return stream.str();
     }
 
-    void RoadRunner::changeInitialConditions(const std::vector<double> &ic) {
+    void RoadRunner::changeInitialConditions(const std::vector<double>& ic) {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
 
-        impl->model->setFloatingSpeciesConcentrations(ic.size(), 0, &ic[0]);
-        impl->model->setFloatingSpeciesInitConcentrations(ic.size(), 0, &ic[0]);
+        if (ic.size()) {
+            impl->model->setFloatingSpeciesConcentrations(ic.size(), 0, &ic[0]);
+            impl->model->setFloatingSpeciesInitConcentrations(ic.size(), 0, &ic[0]);
+        }
     }
 
 // Help("Returns the current std::vector of reactions rates")
@@ -4336,7 +4507,9 @@ namespace rr {
         }
 
         std::vector<double> rates(impl->model->getNumReactions());
-        impl->model->getReactionRates(rates.size(), 0, &rates[0]);
+        if (rates.size()) {
+            impl->model->getReactionRates(rates.size(), 0, &rates[0]);
+        }
         return rates;
     }
 
@@ -5779,7 +5952,9 @@ namespace rr {
 
         rrLog(Logger::LOG_DEBUG) << "Adding new reaction ..." << std::endl;
         libsbml::Reaction *newReaction = impl->document->getModel()->createReaction();
-        libsbml::XMLInputStream stream(sbmlRep.c_str(), false);
+        //libsbml's use of the expat parser requires you to declare the XML at the beginning of any string.
+        string input = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + sbmlRep;
+        libsbml::XMLInputStream stream(input.c_str(), false);
         newReaction->read(stream);
         // TODO: ERROR HANDLING
 

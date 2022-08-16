@@ -15,6 +15,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -106,7 +107,7 @@
            <div itemprop="articleBody">
              
   <section id="jit-engines">
-<h1>Jit Engines<a class="headerlink" href="#jit-engines" title="Permalink to this headline"></a></h1>
+<h1>Jit Engines<a class="headerlink" href="#jit-engines" title="Permalink to this heading"></a></h1>
 <p>Jit stands for just-in-time and a Jit compiler compiles code on-the-fly
 into machine code, ready for execution within a single session. RoadRunner
 compiles SBML models into machine code for fast evaluation of model rate
@@ -122,7 +123,7 @@ Jit engine, at least until LLJit has been battle tested. In a future release, ho
 LLJit will become the default Jit engine while MCJit will be deprecated and then
 removed.</p>
 <section id="switching-jit-engines">
-<h2>Switching Jit Engines<a class="headerlink" href="#switching-jit-engines" title="Permalink to this headline"></a></h2>
+<h2>Switching Jit Engines<a class="headerlink" href="#switching-jit-engines" title="Permalink to this heading"></a></h2>
 <p>Switching backends is remarkably simple. All we need to do is use the <cite>Config.setValue</cite>
 function to globally configure the <cite>LLVM_BACKEND</cite> variable.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="n">Config</span>
@@ -138,7 +139,7 @@ function to globally configure the <cite>LLVM_BACKEND</cite> variable.</p>
 that other options will be available in the future.</p>
 </section>
 <section id="modifying-lljit-compile-time-optimization">
-<h2>Modifying LLJit Compile-Time Optimization<a class="headerlink" href="#modifying-lljit-compile-time-optimization" title="Permalink to this headline"></a></h2>
+<h2>Modifying LLJit Compile-Time Optimization<a class="headerlink" href="#modifying-lljit-compile-time-optimization" title="Permalink to this heading"></a></h2>
 <p>There are four optimization levels that you can choose from: <cite>NONE</cite>,
 <cite>LESS</cite>, <cite>DEFAULT</cite> and <cite>AGGRESSIVE</cite>. No optimization means faster
 model compiles but slower compiled code, since all compiler optimizations

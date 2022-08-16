@@ -15,6 +15,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -95,14 +96,14 @@
            <div itemprop="articleBody">
              
   <section id="time-series-sensitivities">
-<h1>Time Series Sensitivities<a class="headerlink" href="#time-series-sensitivities" title="Permalink to this headline"></a></h1>
+<h1>Time Series Sensitivities<a class="headerlink" href="#time-series-sensitivities" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>For these demonstrations we use a toy
 sbml model prepackaged with roadrunner</p>
 </div>
 <section id="using-time-series-sensitivities">
-<h2>Using time series sensitivities<a class="headerlink" href="#using-time-series-sensitivities" title="Permalink to this headline"></a></h2>
+<h2>Using time series sensitivities<a class="headerlink" href="#using-time-series-sensitivities" title="Permalink to this heading"></a></h2>
 <p>In this example we show you how to use roadrunners time series sensitivities
 feature. Roadrunner will integrate the model and compute sensitivities at
 each time step.</p>
@@ -140,7 +141,7 @@ accross the columns. The third and forth elements are row and column names respe
 </div>
 </section>
 <section id="selecting-parameters">
-<h2>Selecting parameters<a class="headerlink" href="#selecting-parameters" title="Permalink to this headline"></a></h2>
+<h2>Selecting parameters<a class="headerlink" href="#selecting-parameters" title="Permalink to this heading"></a></h2>
 <p>By default, all model parameters are automatically selected.
 You can be more selective about which parameters to compute sensitivities for.
 This will have a performance advantage, because sensitivities are only computed
@@ -169,7 +170,7 @@ for the parameters specified here.</p>
 </div>
 </section>
 <section id="selecting-species">
-<h2>Selecting Species<a class="headerlink" href="#selecting-species" title="Permalink to this headline"></a></h2>
+<h2>Selecting Species<a class="headerlink" href="#selecting-species" title="Permalink to this heading"></a></h2>
 <p>By default, all model species are returned in the results matrix. We can
 be more selective by using the species argument. This does not have
 any additional performance advantage and in fact cost additional resources
@@ -197,7 +198,7 @@ because the full results matrix is sliced to select the selected columns.</p>
 </div>
 </section>
 <section id="sensitivity-method">
-<h2>Sensitivity Method<a class="headerlink" href="#sensitivity-method" title="Permalink to this headline"></a></h2>
+<h2>Sensitivity Method<a class="headerlink" href="#sensitivity-method" title="Permalink to this heading"></a></h2>
 <p>RoadRunner time series sensitivities uses cvodes under the hood. By default,
 we use the “simultaneous” method, whereby sensitivity equations are solved at the same
 time as the variables in the ODE’s. This can be changed so that the variables
@@ -228,7 +229,7 @@ are solved first followed by the sensitivity equations; aka in a staggered appro
 </div>
 </section>
 <section id="sensitivity-difference-quotient-method">
-<h2>Sensitivity Difference Quotient Method<a class="headerlink" href="#sensitivity-difference-quotient-method" title="Permalink to this headline"></a></h2>
+<h2>Sensitivity Difference Quotient Method<a class="headerlink" href="#sensitivity-difference-quotient-method" title="Permalink to this heading"></a></h2>
 <p>RoadRunner via cvodes uses finite differences for approximating gradients.
 By default we use the “centered” method, while the alternative is the “forward” method
 Both methods are implemented in cvodes and automatically figure out the best value of delta
@@ -263,7 +264,7 @@ that makes it unlikely that users should need to modify this setting.</p>
 </div>
 </section>
 <section id="sensitivity-solver-type">
-<h2>Sensitivity Solver Type<a class="headerlink" href="#sensitivity-solver-type" title="Permalink to this headline"></a></h2>
+<h2>Sensitivity Solver Type<a class="headerlink" href="#sensitivity-solver-type" title="Permalink to this heading"></a></h2>
 <p>By default, RoadRunner uses the sundials “newton” nonlinear solver.
 This can be changed to the “fixed_point” nonlinear solver</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="n">RoadRunner</span>

@@ -866,6 +866,9 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::Config::getBool;
 %ignore rr::Config::getDouble;
 
+%ignore rr::ExecutableModel::getNumIndFloatingSpecies;
+%ignore rr::ExecutableModel::getNumDepFloatingSpecies;
+
 %ignore *::setItem;
 %ignore *::getItem;
 %ignore *::hasKey;
@@ -1575,7 +1578,7 @@ namespace std { class ostream{}; }
                 if end is not None and "time" in selections_lower:
                     lastresult_time = result[len(result)-1][selections_lower.index("time")]
                     if end - lastresult_time > end/10000:
-                        warnings.warn("Simulation requested end time point (" + str(end) + ") not reached, because the maximum number of steps reached.  Possible solutions include:\n  * Setting an explicit number of points (i.e. r.simulate(" + str(start) + ", " + str(end) + ", 1001)\n  * Setting r.integrator.variable_step_size to 'False'\n  * Setting r.integrator.max_output_rows to a larger number ")
+                        warnings.warn("Simulation requested end time point (" + str(end) + ") not reached, because the maximum number of steps reached.  Possible solutions include:\n  * Setting an explicit number of points (i.e. rr.simulate(" + str(start) + ", " + str(end) + ", 1001)\n  * Setting rr.integrator.variable_step_size to 'False'\n  * Setting rr.integrator.max_output_rows to a larger number ")
 
             return result
 
@@ -2026,6 +2029,12 @@ namespace std { class ostream{}; }
             self.setSteadyStateThreshold(v)
 
         steadyStateThresh = property(_steadyStateThresh_getter, _steadyStateThresh_setter)
+
+        def getNumIndFloatingSpecies(self):
+            return self.getNumberOfIndependentSpecies()
+
+        def getNumDepFloatingSpecies(self):
+            return self.getNumberOfDependentSpecies()
     %}
 }
 
@@ -2971,26 +2980,52 @@ def plotTimeSeriesSens(time:np.array, sens:np.array,
     df.index.names = ["time", "param"]
     df.columns.names = ["species"]
     df = df.unstack()
-    print(df)
     fig, ax = plt.subplots(nrows=nrow, ncols=ncol)
 
-    for j, species in enumerate(colnames):
-        for i, param in enumerate(rownames):
-            ax[i, j].plot(time, df[(species, param)].to_numpy(), label=f"{species}:{param}")
-            sns.despine(ax=ax[i, j], top=True, right=True)
-            ax[i, j].set_title(f"{species}:{param}")
+    if ncol == 1 or nrow == 1:
+        l = []
+        for j, species in enumerate(colnames):
+            for i, param in enumerate(rownames):
+                l.append((species, param))
+        for i in range(len(l)):
+            species = l[i][0]
+            param = l[i][1]
+            ax[i].plot(time, df[(species, param)].to_numpy(), label=f"{species}:{param}")
+            sns.despine(ax=ax[i], top=True, right=True)
+            ax[i].set_title(f"{species}:{param}")
 
-            if j == 0:
-                ax[i, j].set_ylabel(f"Sensitivities")
+            if ncol == 1:
+                if i == total//2:
+                    ax[i].set_ylabel(f"Sensitivities")
+                if i == total-1:
+                    ax[i].set_xlabel(f"Time")
+            elif nrow == 1:
+                if i == 0:
+                    ax[i].set_ylabel(f"Sensitivities")
+                if i == total // 2:
+                    ax[i].set_xlabel(f"Time")
 
-            if i == nrow-1:
-                ax[i, j].set_xlabel(f"Time")
+    else:
+        for j, species in enumerate(colnames):
+            for i, param in enumerate(rownames):
+                print("i", i, "species", species, "j", j, "param", param)
+                print("ax: ", type(ax), ax, ax.shape)
+                ax[i, j].plot(time, df[(species, param)].to_numpy(), label=f"{species}:{param}")
+                sns.despine(ax=ax[i, j], top=True, right=True)
+                ax[i, j].set_title(f"{species}:{param}")
+
+                if j == 0:
+                    ax[i, j].set_ylabel(f"Sensitivities")
+
+                if i == nrow-1:
+                    ax[i, j].set_xlabel(f"Time")
 
     fig.tight_layout()
     if fname is None:
         plt.show()
     else:
         fig.savefig(fname, dpi=300, bbox_inches='tight')
+
 }
 
 

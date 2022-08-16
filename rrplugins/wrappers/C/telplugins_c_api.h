@@ -412,7 +412,7 @@ TLP_C_DS bool tlp_cc tpAssignOnFinishedEvent(TELHandle handle, PluginEvent cb, v
  \return Returns available properties in the plugin, as a pointer to a string, NULL otherwise
  \ingroup plugins
 */
-TLP_C_DS char* tlp_cc tpGetPluginPropertiesAsXML(TELHandle handle);
+//TLP_C_DS char* tlp_cc tpGetPluginPropertiesAsXML(TELHandle handle);
 
 /*!
  \brief Get a handle to a plugins properties

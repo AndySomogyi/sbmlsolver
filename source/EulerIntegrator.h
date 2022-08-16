@@ -41,9 +41,9 @@ namespace rr {
     * the parameters as keyword arguments is
     *
     * @code
-    * r.simulate(integrator='euler', exampleParameter1=123456, exampleParameter2='some value');
+    * rr.simulate(integrator='euler', exampleParameter1=123456, exampleParameter2='some value');
     *
-    * print(r.integrator)
+    * print(rr.integrator)
     * < roadrunner.EulerIntegrator()
     * { 'this' : 0x101f28350
     * 'exampleParameter1' : 123456

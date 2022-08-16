@@ -475,3 +475,59 @@ TEST_F(CAPICoreTest, CheckRatesOfChangeFunctions) {
 
     delete rrH;
 }
+
+TEST_F(CAPICoreTest, CheckGetIndependentAndDependentFloatingSpecies_conserved) {
+    RRHandle rrH = createRRInstance();
+    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+    setComputeAndAssignConservationLaws(rrH, true);
+
+    setValue(rrH, "default_compartment", 10.0);
+    setValue(rrH, "AP", 50.0);
+
+    RRVectorPtr indep_conc = getIndependentFloatingSpeciesConcentrations(rrH);
+    ASSERT_EQ(indep_conc->Count, 1);
+    EXPECT_EQ(indep_conc->Data[0], 1);
+
+    RRVectorPtr dep_conc = getDependentFloatingSpeciesConcentrations(rrH);
+    ASSERT_EQ(dep_conc->Count, 1);
+    EXPECT_EQ(dep_conc->Data[0], 5);
+
+    RRVectorPtr indep_amount = getIndependentFloatingSpeciesAmounts(rrH);
+    ASSERT_EQ(indep_amount->Count, 1);
+    EXPECT_EQ(indep_amount->Data[0], 10);
+
+    RRVectorPtr dep_amount = getDependentFloatingSpeciesAmounts(rrH);
+    ASSERT_EQ(dep_amount->Count, 1);
+    EXPECT_EQ(dep_amount->Data[0], 50);
+
+    delete rrH;
+}
+
+TEST_F(CAPICoreTest, CheckGetIndependentAndDependentFloatingSpecies_nonconserved) {
+    RRHandle rrH = createRRInstance();
+    EXPECT_TRUE(loadSBMLFromFileE(rrH, (cAPICoreModelsDir / path("steadystate.xml")).string().c_str(), true));
+
+    setValue(rrH, "default_compartment", 10.0);
+    setValue(rrH, "AP", 50.0);
+
+    setValue(rrH, "default_compartment", 10.0);
+    setValue(rrH, "AP", 50.0);
+
+    RRVectorPtr indep_conc = getIndependentFloatingSpeciesConcentrations(rrH);
+    ASSERT_EQ(indep_conc->Count, 1);
+    EXPECT_EQ(indep_conc->Data[0], 1);
+
+    RRVectorPtr dep_conc = getDependentFloatingSpeciesConcentrations(rrH);
+    ASSERT_EQ(dep_conc->Count, 1);
+    EXPECT_EQ(dep_conc->Data[0], 5);
+
+    RRVectorPtr indep_amount = getIndependentFloatingSpeciesAmounts(rrH);
+    ASSERT_EQ(indep_amount->Count, 1);
+    EXPECT_EQ(indep_amount->Data[0], 10);
+
+    RRVectorPtr dep_amount = getDependentFloatingSpeciesAmounts(rrH);
+    ASSERT_EQ(dep_amount->Count, 1);
+    EXPECT_EQ(dep_amount->Data[0], 50);
+
+    delete rrH;
+}

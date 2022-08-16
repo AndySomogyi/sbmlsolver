@@ -463,13 +463,13 @@ bool tlp_cc tpFreeText(char* text)
     return tlp::freeText(text);
 }
 
-char* tlp_cc tpGetPluginPropertiesAsXML(TELHandle handle)
-{
-    start_try
-        Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
-        return createText(aPlugin->getPluginPropertiesAsXML().c_str());
-    tel_catch_ptr_macro
-}
+//char* tlp_cc tpGetPluginPropertiesAsXML(TELHandle handle)
+//{
+//    start_try
+//        Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);
+//        return createText(aPlugin->getPluginPropertiesAsXML().c_str());
+//    tel_catch_ptr_macro
+//}
 
 TELHandle tlp_cc tpRegisterHandle(TELHandle handle, const char* name)
 {

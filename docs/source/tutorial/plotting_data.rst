@@ -25,7 +25,7 @@ Below is a simplified version of the :meth:`~RoadRunner.plot()` method. You may 
 customized version and even attach it to the RoadRunner object. The first argument is a RoadRunner
 object instance, and the second is a flag which tells the method to show the plot or not::
 
-  def plot(r, show=True):
+  def plot(rr, show=True):
 
       import pylab as p
 
@@ -36,7 +36,7 @@ object instance, and the second is a flag which tells the method to show the plo
 
       # assume result is a standard numpy array
 
-      selections = r.timeCourseSelections
+      selections = rr.timeCourseSelections
 
       if len(result.shape) != 2 or result.shape[1] != len(selections):
           raise Exception("simulation result columns not equal to number of selections,"
@@ -58,7 +58,7 @@ object instance, and the second is a flag which tells the method to show the plo
 You can attach your plotting function to the RoadRunner object by simply setting the plot
 method::
 
-  def my_plot(r, show):
+  def my_plot(rr, show):
       pass
 
   import roadrunner

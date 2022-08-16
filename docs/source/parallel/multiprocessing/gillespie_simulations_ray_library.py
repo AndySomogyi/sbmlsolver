@@ -18,15 +18,15 @@ ray.init(ignore_reinit_error=True)
 class SimulatorActorPath(object):
     """Ray actor to execute simulations."""
 
-    def __init__(self, r: RoadRunner):
-        self.r: RoadRunner = r
+    def __init__(self, rr: RoadRunner):
+        self.rr: RoadRunner = rr
 
     def simulate(self, size=1):
         num_points = 101
         results = np.ndarray((size, num_points, 2))  # 2 for 1 model species and time
         for k in range(size):
-            self.r.resetAll()
-            results[k] = self.r.simulate(0, 100, num_points)
+            self.rr.resetAll()
+            results[k] = self.rr.simulate(0, 100, num_points)
         return results
 
 
@@ -38,16 +38,16 @@ if __name__ == '__main__':
     sbml = tmf.BatchImmigrationDeath03().str()
 
     # create our roadrunner instance
-    r = RoadRunner(sbml)
+    rr = RoadRunner(sbml)
 
     # set up a stochastic simulation
-    r.setIntegrator('gillespie')
+    rr.setIntegrator('gillespie')
 
     # set the seed for reproducuble example
-    gillespie_integrator = r.getIntegrator()
+    gillespie_integrator = rr.getIntegrator()
     gillespie_integrator.seed = 1234
 
-    simulators = [SimulatorActorPath.remote(r) for _ in range(NCORES)]
+    simulators = [SimulatorActorPath.remote(rr) for _ in range(NCORES)]
 
     # run simulations
     tc_ids = []

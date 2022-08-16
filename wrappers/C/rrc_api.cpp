@@ -1113,6 +1113,46 @@ RRVectorPtr rrcCallConv getFloatingSpeciesAmounts(RRHandle handle)
     catch_ptr_macro
 }
 
+RRVectorPtr rrCallConv getIndependentFloatingSpeciesConcentrations(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    vector<double> vec = rri->getIndependentFloatingSpeciesConcentrationsV();
+    RRVector* cVec = rrc::createVector(vec);
+    return cVec;
+    catch_ptr_macro
+}
+
+RRVectorPtr rrCallConv getDependentFloatingSpeciesConcentrations(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    vector<double> vec = rri->getDependentFloatingSpeciesConcentrationsV();
+    RRVector* cVec = rrc::createVector(vec);
+    return cVec;
+    catch_ptr_macro
+}
+
+RRVectorPtr rrCallConv getIndependentFloatingSpeciesAmounts(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    vector<double> vec = rri->getIndependentFloatingSpeciesAmountsV();
+    RRVector* aVec = rrc::createVector(vec);
+    return aVec;
+    catch_ptr_macro
+}
+
+RRVectorPtr rrCallConv getDependentFloatingSpeciesAmounts(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+    vector<double> vec = rri->getDependentFloatingSpeciesAmountsV();
+    RRVector* aVec = rrc::createVector(vec);
+    return aVec;
+    catch_ptr_macro
+}
+
 RRVectorPtr rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle)
 {
     start_try

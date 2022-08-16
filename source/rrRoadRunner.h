@@ -327,27 +327,27 @@ namespace rr {
          * For example, to perform a simulation from time 0 to 10 with 1000 steps, using a
          * stiff integtator, you would:
          * @code
-         * RoadRunner r = RoadRunner("someFile.xml");
-         * SimulateOptions opt = r.getSimulateOptions();
+         * RoadRunner rr = RoadRunner("someFile.xml");
+         * SimulateOptions opt = rr.getSimulateOptions();
          * opt.start = 0;
          * opt.duration = 10;
          * opt.steps = 1000;
-         * const DoubleMatrix *result = r.simulate(&opt);
+         * const DoubleMatrix *result = rr.simulate(&opt);
          * @endcode
          *
          * Similarly, options specific to a particular integrator, such as the 'seed' option
          * with the Gillespie
          * integrator, this is set via the 'setIntegrator' "integrator" key, i.e.
          * @code
-         * RoadRunner r = RoadRunner("someFile.xml");
-         * r.setIntegrator("gillespie");
+         * RoadRunner rr = RoadRunner("someFile.xml");
+         * rr.setIntegrator("gillespie");
          * SimulateOptions opt;
          * opt.start = 0;
          * opt.duration = 10;
          * opt.steps = 1000;
          * opt.setItem("stiff", true);
          * opt.setItem("seed", 12345);
-         * const DoubleMatrix *result = r.simulate(&opt);
+         * const DoubleMatrix *result = rr.simulate(&opt);
          * @endcode
          * Here, the "integrator" specifies the integrator to use. The "stiff" key
          * is only used by the deterministic solvers, and it is safely ignored by the
@@ -510,7 +510,7 @@ namespace rr {
          *
          * For example, to reset the floating species, time and rate rule values:
          * @code
-         * r.reset(SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING);
+         * rr.reset(SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING);
          * @endcode
          *
          * @param options a bitmask made from the SelectionRecord::SelectionTypes values.
@@ -654,6 +654,54 @@ namespace rr {
         * @brief Returns the boundary species concentrations as a named array
         */
         ls::DoubleMatrix getBoundarySpeciesConcentrationsNamedArray();
+
+        /**
+        * @author Claire
+        * @brief Returns the independent floating species amounts as an array
+        */
+        std::vector<double> getIndependentFloatingSpeciesAmountsV();
+
+        /**
+        * @author Claire
+        * @brief Returns the dependent floating species amounts as an array
+        */
+        std::vector<double> getDependentFloatingSpeciesAmountsV();
+
+        /**
+        * @author Claire
+        * @brief Returns the independent floating species concentrations as an array
+        */
+        std::vector<double> getIndependentFloatingSpeciesConcentrationsV();
+
+        /**
+        * @author Claire
+        * @brief Returns the dependent floating species concentrations as an array
+        */
+        std::vector<double> getDependentFloatingSpeciesConcentrationsV();
+
+        /**
+        * @author Claire
+        * @brief Returns the independent floating species amounts as a named array
+        */
+        ls::DoubleMatrix getIndependentFloatingSpeciesAmountsNamedArray();
+
+        /**
+        * @author Claire
+        * @brief Returns the dependent floating species amounts as a named array
+        */
+        ls::DoubleMatrix getDependentFloatingSpeciesAmountsNamedArray();
+
+        /**
+        * @author Claire
+        * @brief Returns the independent floating concentrations amounts as a named array
+        */
+        ls::DoubleMatrix getIndependentFloatingSpeciesConcentrationsNamedArray();
+
+        /**
+        * @author Claire
+        * @brief Returns the dependent floating concentrations amounts as a named array
+        */
+        ls::DoubleMatrix getDependentFloatingSpeciesConcentrationsNamedArray();
 
         /**
          * @author KC
@@ -1465,7 +1513,12 @@ namespace rr {
         /**
          * Alias for this function on the child model object.
          */
-        int getNumberOfIndependentSpecies();
+        int getNumberOfIndependentSpecies();  
+
+        /**
+         * Alias for this function on the child model object.
+         */
+        int getNumberOfDependentSpecies();
 
         /**
          * Alias for this function on the child model object.
@@ -1678,11 +1731,6 @@ namespace rr {
          * Updates the model based on all recent changes.
          */
         void evalModel();
-
-        /**
-         * Alias for this function on the child model object.
-         */
-        int getNumberOfDependentSpecies();
 
 
         /**

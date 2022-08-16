@@ -15,6 +15,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -102,7 +103,7 @@
            <div itemprop="articleBody">
              
   <section id="a-warning-for-windows-users">
-<h1>A warning for windows users<a class="headerlink" href="#a-warning-for-windows-users" title="Permalink to this headline"></a></h1>
+<h1>A warning for windows users<a class="headerlink" href="#a-warning-for-windows-users" title="Permalink to this heading"></a></h1>
 <p>The easiest way to build roadrunner and its dependencies on windows is to 1) use the cmake-gui to select build options and 2) use the visual studio GUI to build the cmake generated solution files. You can also just use the command line but you need to be careful that you are using the correct architecture (x86 or x64) and the correct build type (Release vs Debug).</p>
 <p>To ensure you are using the correct architecture, use the “x64 Native Tools Command Prompt for VS2019” shell for x64 bit builds.</p>
 <p>To reliably pick the build type, you must explicitly specify the build type twice, once at configure time and again at build time. During configure time ensure you have provided an argument to <cite>CMAKE_BUILD_TYPE</cite>, i.e.:</p>

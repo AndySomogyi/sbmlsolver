@@ -15,6 +15,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -112,7 +113,7 @@
            <div itemprop="articleBody">
              
   <section id="the-main-roadrunner-class">
-<h1>The Main RoadRunner Class<a class="headerlink" href="#the-main-roadrunner-class" title="Permalink to this headline"></a></h1>
+<h1>The Main RoadRunner Class<a class="headerlink" href="#the-main-roadrunner-class" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="RoadRunner">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RoadRunner</span></span><a class="headerlink" href="#RoadRunner" title="Permalink to this definition"></a></dt>
@@ -148,25 +149,25 @@ SBML document should be loaded</p></li>
 to the Mac version, plan on enabling HTTP loading of SBML documents on Windows and Linux
 shortly.</p>
 <p>Some examples of loading files on Mac or Linux:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;myfile.xml&quot;</span><span class="p">)</span>                               <span class="c1"># load a file from the current directory</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/Users/Fred/myfile.xml&quot;</span><span class="p">)</span>                   <span class="c1"># absolute path</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;http://sbml.org/example_system.xml&quot;</span><span class="p">)</span>       <span class="c1"># remote file</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;myfile.xml&quot;</span><span class="p">)</span>                               <span class="c1"># load a file from the current directory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/Users/Fred/myfile.xml&quot;</span><span class="p">)</span>                   <span class="c1"># absolute path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;http://sbml.org/example_system.xml&quot;</span><span class="p">)</span>       <span class="c1"># remote file</span>
 </pre></div>
 </div>
 <p>Or on Windows:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;myfile.xml&quot;</span><span class="p">)</span>                                  <span class="c1"># load a file from the current directory</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;file://localhost/c:/Users/Fred/myfile.xml&quot;</span><span class="p">)</span>   <span class="c1"># using a URI</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;myfile.xml&quot;</span><span class="p">)</span>                                  <span class="c1"># load a file from the current directory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;file://localhost/c:/Users/Fred/myfile.xml&quot;</span><span class="p">)</span>   <span class="c1"># using a URI</span>
 </pre></div>
 </div>
 <p>One may also load the contents of a document:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">myfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;myfile.xml, &quot;</span><span class="sa">r</span><span class="s2">&quot;)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">contents</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Loading in a raw SBML string is also possible:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sbmlstr</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getCurrentSBML</span><span class="p">()</span>         <span class="c1"># Or any other properly formatted SBML string block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">sbmlstr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">sbmlstr</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In future version, we will also support loading directly from a libSBML Document object.</p>
@@ -187,17 +188,17 @@ can be quickly reloaded for later simulation. This binary format is platform spe
 It the option is ‘r’, the state will be stored in a human-readable format which can be used
 for debugging, but cannot be reloaded later.</p>
 <p>Some examples of saving binary files on Mac or Linux:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">saveState</span><span class="p">(</span><span class="s2">&quot;current_state.txt&quot;</span><span class="p">)</span>                        <span class="c1"># save the state to a file from the current directory</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">saveState</span><span class="p">(</span><span class="s2">&quot;/Users/Fred/current_state.txt&quot;</span><span class="p">)</span>            <span class="c1"># absolute path</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">saveState</span><span class="p">(</span><span class="s2">&quot;current_state.txt&quot;</span><span class="p">)</span>                        <span class="c1"># save the state to a file from the current directory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">saveState</span><span class="p">(</span><span class="s2">&quot;/Users/Fred/current_state.txt&quot;</span><span class="p">)</span>            <span class="c1"># absolute path</span>
 </pre></div>
 </div>
 <p>Or on Windows:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">saveState</span><span class="p">(</span><span class="s2">&quot;current_state.txt&quot;</span><span class="p">)</span>                        <span class="c1"># save the state to a file from the current directory</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">saveState</span><span class="p">(</span><span class="s2">&quot;file://localhost/c:/Users/Fred/current_state.txt&quot;</span><span class="p">)</span>   <span class="c1"># using a URI</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">saveState</span><span class="p">(</span><span class="s2">&quot;current_state.txt&quot;</span><span class="p">)</span>                        <span class="c1"># save the state to a file from the current directory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">saveState</span><span class="p">(</span><span class="s2">&quot;file://localhost/c:/Users/Fred/current_state.txt&quot;</span><span class="p">)</span>   <span class="c1"># using a URI</span>
 </pre></div>
 </div>
 <p>One may also save in a human-readable format:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">saveState</span><span class="p">(</span><span class="s2">&quot;current_state.txt&quot;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">saveState</span><span class="p">(</span><span class="s2">&quot;current_state.txt&quot;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -219,13 +220,13 @@ for debugging, but cannot be reloaded later.</p>
 given a string for file path.
 All simulation calls after this function will start from the resumed state.</p>
 <p>Some examples of reloading binary files on Mac or Linux:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">loadState</span><span class="p">(</span><span class="s2">&quot;current_state.txt&quot;</span><span class="p">)</span>                        <span class="c1"># load the state from a file from the current directory</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">loadState</span><span class="p">(</span><span class="s2">&quot;/Users/Fred/current_state.txt&quot;</span><span class="p">)</span>            <span class="c1"># absolute path</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">loadState</span><span class="p">(</span><span class="s2">&quot;current_state.txt&quot;</span><span class="p">)</span>                        <span class="c1"># load the state from a file from the current directory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">loadState</span><span class="p">(</span><span class="s2">&quot;/Users/Fred/current_state.txt&quot;</span><span class="p">)</span>            <span class="c1"># absolute path</span>
 </pre></div>
 </div>
 <p>Or on Windows:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">loadState</span><span class="p">(</span><span class="s2">&quot;current_state.txt&quot;</span><span class="p">)</span>                        <span class="c1"># load the state from a file from the current directory</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">loadState</span><span class="p">(</span><span class="s2">&quot;file://localhost/c:/Users/Fred/current_state.txt&quot;</span><span class="p">)</span>   <span class="c1"># using a URI</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">loadState</span><span class="p">(</span><span class="s2">&quot;current_state.txt&quot;</span><span class="p">)</span>                        <span class="c1"># load the state from a file from the current directory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">loadState</span><span class="p">(</span><span class="s2">&quot;file://localhost/c:/Users/Fred/current_state.txt&quot;</span><span class="p">)</span>   <span class="c1"># using a URI</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -381,7 +382,7 @@ For more information on the possible settings, see <a class="reference internal"
 </dd></dl>
 
 <section id="selections">
-<h2>Selections<a class="headerlink" href="#selections" title="Permalink to this headline"></a></h2>
+<h2>Selections<a class="headerlink" href="#selections" title="Permalink to this heading"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.getIds">
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getIds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.getIds" title="Permalink to this definition"></a></dt>
@@ -448,7 +449,7 @@ For more information on accepted selection types, see <a class="reference intern
 
 </section>
 <section id="model-access">
-<h2>Model Access<a class="headerlink" href="#model-access" title="Permalink to this headline"></a></h2>
+<h2>Model Access<a class="headerlink" href="#model-access" title="Permalink to this heading"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.isModelLoaded">
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">isModelLoaded</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.isModelLoaded" title="Permalink to this definition"></a></dt>
@@ -472,10 +473,10 @@ For more information on accepted selection types, see <a class="reference intern
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">clearModel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.clearModel" title="Permalink to this definition"></a></dt>
 <dd><p>Clears the currently loaded model and all associated memory.
 Returns True if memory was freed, False if no model was loaded in the first place.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">isModelLoaded</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">isModelLoaded</span><span class="p">()</span>
 <span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">clearModel</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">isModelLoaded</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">clearModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">isModelLoaded</span><span class="p">()</span>
 <span class="go">False</span>
 </pre></div>
 </div>
@@ -511,7 +512,7 @@ Does NOT reset changed global parameters.</p>
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">resetAll</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.resetAll" title="Permalink to this definition"></a></dt>
 <dd><p>Resets time, all floating species, and rates to their CURRENT initial values.
 Also resets all global parameters back to the values they had when the model was first loaded.
-“Current” initial values are set by using <code class="docutils literal notranslate"><span class="pre">r.setValue('init(S1)',</span> <span class="pre">5)</span></code> which sets a species
+“Current” initial values are set by using <code class="docutils literal notranslate"><span class="pre">rr.setValue('init(S1)',</span> <span class="pre">5)</span></code> which sets a species
 named S1 to have current initial value of 5. Note it is NOT the initial values of when the model was first loaded in.</p>
 </dd></dl>
 
@@ -550,14 +551,14 @@ is converted using the ConservedMoietyConverter. All of the linearly dependent
 species are replaced with assignment rules and a new set of conserved moiety
 parameters are introduced.</p>
 <p>To enable, type:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">conservedMoietyAnalysis</span> <span class="o">=</span> <span class="kc">True</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">conservedMoietyAnalysis</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 </div>
 </dd></dl>
 
 </section>
 <section id="model-editing">
-<h2>Model Editing<a class="headerlink" href="#model-editing" title="Permalink to this headline"></a></h2>
+<h2>Model Editing<a class="headerlink" href="#model-editing" title="Permalink to this heading"></a></h2>
 <p>Easy edit to the model without modifying and reloading sbml files.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.addSpeciesConcentration">
@@ -571,8 +572,8 @@ default value is true, which means to regenerate model every time after this fun
 Note that regenerating model is time-consuming. To save time for editing model for multiple times,
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addSpeciesConcentration</span><span class="p">(</span><span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="s2">&quot;compartment&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addSpeciesConcentration</span><span class="p">(</span><span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="s2">&quot;compartment&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addSpeciesConcentration</span><span class="p">(</span><span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="s2">&quot;compartment&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addSpeciesConcentration</span><span class="p">(</span><span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="s2">&quot;compartment&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -609,8 +610,8 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeSpecies</span><span class="p">(</span><span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="n">false</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeSpecies</span><span class="p">(</span><span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="n">true</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeSpecies</span><span class="p">(</span><span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="n">false</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeSpecies</span><span class="p">(</span><span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="n">true</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -634,8 +635,8 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addReaction</span><span class="p">(</span><span class="s2">&quot;r1&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;s1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;s2&quot;</span><span class="p">],</span> <span class="s2">&quot;s1 * k1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addReaction</span><span class="p">(</span><span class="s2">&quot;r2&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;s2&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;s1&quot;</span><span class="p">],</span> <span class="s2">&quot;s2 * k1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addReaction</span><span class="p">(</span><span class="s2">&quot;r1&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;s1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;s2&quot;</span><span class="p">],</span> <span class="s2">&quot;s1 * k1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addReaction</span><span class="p">(</span><span class="s2">&quot;r2&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;s2&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;s1&quot;</span><span class="p">],</span> <span class="s2">&quot;s2 * k1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -682,8 +683,8 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeReaction</span><span class="p">(</span><span class="s2">&quot;r1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeReaction</span><span class="p">(</span><span class="s2">&quot;r2&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeReaction</span><span class="p">(</span><span class="s2">&quot;r1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeReaction</span><span class="p">(</span><span class="s2">&quot;r2&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -707,8 +708,8 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s2">&quot;p1&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s2">&quot;p2&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s2">&quot;p1&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s2">&quot;p2&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -742,8 +743,8 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeParameter</span><span class="p">(</span><span class="s2">&quot;p1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeParameter</span><span class="p">(</span><span class="s2">&quot;p2&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeParameter</span><span class="p">(</span><span class="s2">&quot;p1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeParameter</span><span class="p">(</span><span class="s2">&quot;p2&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -767,8 +768,8 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addCompartment</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addCompartment</span><span class="p">(</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addCompartment</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addCompartment</span><span class="p">(</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -802,8 +803,8 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeCompartment</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeCompartment</span><span class="p">(</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeCompartment</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeCompartment</span><span class="p">(</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -827,8 +828,8 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">setKineticLaw</span><span class="p">(</span><span class="s2">&quot;r1&quot;</span><span class="p">,</span> <span class="s2">&quot;s1 * k1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">setKineticLaw</span><span class="p">(</span><span class="s2">&quot;r2&quot;</span><span class="p">,</span> <span class="s2">&quot;s2 * k1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">setKineticLaw</span><span class="p">(</span><span class="s2">&quot;r1&quot;</span><span class="p">,</span> <span class="s2">&quot;s1 * k1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">setKineticLaw</span><span class="p">(</span><span class="s2">&quot;r2&quot;</span><span class="p">,</span> <span class="s2">&quot;s2 * k1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -852,8 +853,8 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addAssignmentRule</span><span class="p">(</span><span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="s2">&quot;s1 * k1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addAssignmentRule</span><span class="p">(</span><span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="s2">&quot;s2 * k1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addAssignmentRule</span><span class="p">(</span><span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="s2">&quot;s1 * k1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addAssignmentRule</span><span class="p">(</span><span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="s2">&quot;s2 * k1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -877,8 +878,8 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addRateRule</span><span class="p">(</span><span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="s2">&quot;k1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addRateRule</span><span class="p">(</span><span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="s2">&quot;k1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addRateRule</span><span class="p">(</span><span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="s2">&quot;k1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addRateRule</span><span class="p">(</span><span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="s2">&quot;k1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -905,8 +906,8 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeRules</span><span class="p">(</span><span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeRules</span><span class="p">(</span><span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeRules</span><span class="p">(</span><span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeRules</span><span class="p">(</span><span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -930,8 +931,8 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addEvent</span><span class="p">(</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;s1 &gt; 0&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addEvent</span><span class="p">(</span><span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;s2 == s1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addEvent</span><span class="p">(</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;s1 &gt; 0&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addEvent</span><span class="p">(</span><span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;s2 == s1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -958,8 +959,8 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <p>For example,</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addTrigger</span><span class="p">(</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="s2">&quot;s1 &gt; 0&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addTrigger</span><span class="p">(</span><span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="s2">&quot;s2 == s1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addTrigger</span><span class="p">(</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="s2">&quot;s1 &gt; 0&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addTrigger</span><span class="p">(</span><span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="s2">&quot;s2 == s1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -1030,8 +1031,8 @@ the model once after all editings are completed.</p>
 <blockquote>
 <div><p>For example,</p>
 </div></blockquote>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addEventAssignment</span><span class="p">(</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="s2">&quot;k1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">addEventAssignment</span><span class="p">(</span><span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addEventAssignment</span><span class="p">(</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="s2">&quot;k1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">addEventAssignment</span><span class="p">(</span><span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -1060,8 +1061,8 @@ the model once after all editings are completed.</p>
 <blockquote>
 <div><p>For example,</p>
 </div></blockquote>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeEventAssignment</span><span class="p">(</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeEventAssignment</span><span class="p">(</span><span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeEventAssignment</span><span class="p">(</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="s2">&quot;s1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeEventAssignment</span><span class="p">(</span><span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -1092,8 +1093,8 @@ the model once after all editings are completed.</p>
 <blockquote>
 <div><p>For example,</p>
 </div></blockquote>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeEvent</span><span class="p">(</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">removeEvent</span><span class="p">(</span><span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeEvent</span><span class="p">(</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># it will not regenerate the model, nothing actually happened</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">removeEvent</span><span class="p">(</span><span class="s2">&quot;e2&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># new model is generated and saved</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -1112,20 +1113,20 @@ the model once after all editings are completed.</p>
 <span class="sig-name descname"><span class="pre">:module</span> <span class="pre">RoadRunner</span></span></dt>
 <dd><p>Call this method to jit compile any model you’ve constructed using the modeling editing API. This will make the model ready for simulation.</p>
 <p>For example:</p>
-<p>&gt;&gt;&gt;&gt; r.addCompartment (‘c1’, 0.1)
-&gt;&gt;&gt;&gt; r.addSpeciesConcentration (‘s1’, ‘c1’, 1.5, False, False)
-&gt;&gt;&gt;&gt; r.addSpeciesConcentration (‘s2’, ‘c1’, 0.0, False, False)
-&gt;&gt;&gt;&gt; r.addParameter(‘k1’, 0.2)
-&gt;&gt;&gt;&gt; r.addReaction (‘r1’, [‘s1’], [‘s2’], ‘s1*k1’)
-&gt;&gt;&gt;&gt; r.regenerateModel()
-&gt;&gt;&gt;&gt; r.simulate()</p>
+<p>&gt;&gt;&gt;&gt; rr.addCompartment (‘c1’, 0.1)
+&gt;&gt;&gt;&gt; rr.addSpeciesConcentration (‘s1’, ‘c1’, 1.5, False, False)
+&gt;&gt;&gt;&gt; rr.addSpeciesConcentration (‘s2’, ‘c1’, 0.0, False, False)
+&gt;&gt;&gt;&gt; rr.addParameter(‘k1’, 0.2)
+&gt;&gt;&gt;&gt; rr.addReaction (‘r1’, [‘s1’], [‘s2’], ‘s1*k1’)
+&gt;&gt;&gt;&gt; rr.regenerateModel()
+&gt;&gt;&gt;&gt; rr.simulate()</p>
 </dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="simulation">
-<h2>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline"></a></h2>
+<h2>Simulation<a class="headerlink" href="#simulation" title="Permalink to this heading"></a></h2>
 <p>Fast and easy time series simulations is one of the main objectives of the RoadRunner project.</p>
 <p>All simulation related tasks can be accomplished with the single <code class="docutils literal notranslate"><span class="pre">simulate</span></code> method.</p>
 <dl class="py method">
@@ -1143,7 +1144,7 @@ the model once after all editings are completed.</p>
 <p>5: output file path. The file to which simulation results will be written. If this is specified and
 nonempty, simulation output will be written to output_file every Config::K_ROWS_PER_WRITE generated.
 Note that simulate() will not return the result matrix if it is writing to output_file.
-It will also not keep any simulation data, so in that case one should not call <code class="docutils literal notranslate"><span class="pre">r.plot()</span></code>
+It will also not keep any simulation data, so in that case one should not call <code class="docutils literal notranslate"><span class="pre">rr.plot()</span></code>
 without arguments. This should be specified when one cannot, or does not want to, keep the
 entire result matrix in memory.</p>
 </div></blockquote>
@@ -1196,19 +1197,19 @@ column vector, and the 0’th column is the simulation time.</p>
 </dl>
 <p>Examples:</p>
 <p>Simulate from time zero to 40 time units</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Simulate on a grid with 10 points from start 0 to end time 40</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Simulate from time zero to 40 time units using the given selection list</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; result = r.gillespie (0, 40, [‘time’, ‘S1’])
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; result = rr.gillespie (0, 40, [‘time’, ‘S1’])
 </pre></div>
 </div>
 <p>Simulate from time zero to 40 time units, on a grid with 20 points using the given selection list</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; result = r.gillespie (0, 40, 20, [‘time’, ‘S1’])
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; result = rr.gillespie (0, 40, 20, [‘time’, ‘S1’])
 </pre></div>
 </div>
 </dd></dl>
@@ -1218,7 +1219,7 @@ column vector, and the 0’th column is the simulation time.</p>
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'upper</span> <span class="pre">left'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.plot" title="Permalink to this definition"></a></dt>
 <dd><p>Plot results from a simulation carried out by the simulate or gillespie functions.</p>
 <p>To plot data currently held by roadrunner that was generated in the last simulation, use:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>If you are using Tellurium, see <a class="reference external" href="https://tellurium.readthedocs.io/en/latest/tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.plot">tellurium.ExtendedRoadRunner.plot</a> which supports extra arguements.</p>
@@ -1241,7 +1242,7 @@ the function will return an empty array.</p>
 
 </section>
 <section id="steady-state">
-<h2>Steady State<a class="headerlink" href="#steady-state" title="Permalink to this headline"></a></h2>
+<h2>Steady State<a class="headerlink" href="#steady-state" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.SteadyStateSolver">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">SteadyStateSolver</span></span><a class="headerlink" href="#RoadRunner.RoadRunner.SteadyStateSolver" title="Permalink to this definition"></a></dt>
@@ -1254,8 +1255,8 @@ the function will return an empty array.</p>
 <dd><p>A list of SelectionRecords which determine what values are used for
 a steady state calculation. This list may be set by assigning a list
 of valid selection symbols:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">steadyStateSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;[S2]&#39;</span><span class="p">,</span> <span class="s1">&#39;P1&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">steadyStateSelections</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">steadyStateSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;[S2]&#39;</span><span class="p">,</span> <span class="s1">&#39;P1&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">steadyStateSelections</span>
 <span class="go">[&#39;S1&#39;, &#39;[S2]&#39;, &#39;P1&#39;]</span>
 </pre></div>
 </div>
@@ -1330,7 +1331,7 @@ the steady state selections with all necessary labels.</p>
 
 </section>
 <section id="metabolic-control-analysis">
-<h2>Metabolic control analysis<a class="headerlink" href="#metabolic-control-analysis" title="Permalink to this headline"></a></h2>
+<h2>Metabolic control analysis<a class="headerlink" href="#metabolic-control-analysis" title="Permalink to this heading"></a></h2>
 <p>In the special case when an SBML model is a purely reaction kinetics model – no rate rules, no
 assignment rules for chemical species, and time invariant stoichiometry, specialized analysis methods
 related to metabolic control analysis are applicable. These methods are described in this section.</p>
@@ -1604,7 +1605,7 @@ named parameter</p>
 
 </section>
 <section id="stoichiometric-analysis">
-<h2>Stoichiometric Analysis<a class="headerlink" href="#stoichiometric-analysis" title="Permalink to this headline"></a></h2>
+<h2>Stoichiometric Analysis<a class="headerlink" href="#stoichiometric-analysis" title="Permalink to this heading"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.getFullStoichiometryMatrix">
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getFullStoichiometryMatrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getFullStoichiometryMatrix" title="Permalink to this definition"></a></dt>
@@ -1678,7 +1679,7 @@ The K matrix has the structure, <span class="math">[I K0]'</span></p>
 
 </section>
 <section id="analysis">
-<h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline"></a></h2>
+<h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this heading"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner.RoadRunner.getFrequencyResponse">
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getFrequencyResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">startFrequency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numberOfDecades</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numberOfPoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameterName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variableName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">useDB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">useHz</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getFrequencyResponse" title="Permalink to this definition"></a></dt>
@@ -1703,17 +1704,17 @@ second column the amplitude, and the third column the phase.</p>
 <span class="kn">import</span> <span class="nn">roadrunner</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    $Xo -&gt; x1; k1*Xo - k2*x1;</span>
-<span class="s2">     x1 -&gt; x2; k2*x1 - k3*x2;</span>
-<span class="s2">     x2 -&gt;; k3*x2;</span>
+<span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">     $Xo -&gt; x1; k1*Xo - k2*x1;</span>
+<span class="s2">      x1 -&gt; x2; k2*x1 - k3*x2;</span>
+<span class="s2">      x2 -&gt;; k3*x2;</span>
 
-<span class="s2">     k1 = 0.5; k2 = 0.23; k3 = 0.4;  Xo = 5;</span>
+<span class="s2">      k1 = 0.5; k2 = 0.23; k3 = 0.4;  Xo = 5;</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 
-<span class="n">r</span><span class="o">.</span><span class="n">steadyState</span><span class="p">()</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">steadyState</span><span class="p">()</span>
 
-<span class="n">m</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getFrequencyResponse</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="s1">&#39;Xo&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getFrequencyResponse</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="s1">&#39;Xo&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 
@@ -1744,7 +1745,7 @@ given by the order of Ids returned by getFloatingSpeciesIds()</p>
 <dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">getRatesOfChange</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">getRatesOfChange</span><span class="p">()</span>
 <span class="go">          MKKK,       MKKK_P,      MKK,      MKK_P,    MKK_PP,     MAPK,   MAPK_P,  MAPK_PP</span>
 <span class="go">[[ 0.000503289, -0.000503289, 0.537508, -0.0994839, -0.438024, 0.061993, 0.108417, -0.17041]]</span>
 </pre></div>
@@ -1764,7 +1765,7 @@ given by the order of Ids returned by getIndependentFloatingSpeciesIds()</p>
 <dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">getIndependentRatesOfChange</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">getIndependentRatesOfChange</span><span class="p">()</span>
 <span class="go">        MKK_P,   MAPK_P,        MKKK,      MKK,     MAPK</span>
 <span class="go">[[ -0.0994839, 0.108417, 0.000503289, 0.537508, 0.061993]]</span>
 </pre></div>
@@ -1784,7 +1785,7 @@ given by the order of Ids returned by getDependentFloatingSpeciesIds()</p>
 <dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">getDependentRatesOfChange</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">getDependentRatesOfChange</span><span class="p">()</span>
 <span class="go">      MKK_PP,       MKKK_P,  MAPK_PP</span>
 <span class="go">[[ -0.438024, -0.000503289, -0.17041]]</span>
 </pre></div>
