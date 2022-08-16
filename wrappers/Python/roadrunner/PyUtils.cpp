@@ -45,7 +45,7 @@
 #define NO_IMPORT_ARRAY
 #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
 //Still using some of deprecated wrappers
-//#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 
 #include <stdexcept>
 #include <string>
@@ -490,9 +490,9 @@ namespace rr {
 
             if (pyres) {
 
-                assert(PyArray_NBYTES(pyres) == rows * cols * sizeof(double) && "invalid array size");
+                assert(PyArray_NBYTES((PyArrayObject*) pyres) == rows * cols * sizeof(double) && "invalid array size");
 
-                double *data = (double *) PyArray_BYTES(pyres);
+                double *data = (double *) PyArray_BYTES((PyArrayObject*)pyres);
 
                 memcpy(data, mData, sizeof(double) * rows * cols);
             }
@@ -535,10 +535,10 @@ namespace rr {
                     pArray = NamedArray_New(nd, dims, nullptr, 0, mat);
                 }
 
-                VERIFY_PYARRAY(pArray);
+                VERIFY_PYARRAY((PyArrayObject*)pArray);
 
                 // copy our data into the numpy array
-                double *data = static_cast<double *>(PyArray_DATA(pArray));
+                double *data = static_cast<double *>(PyArray_DATA((PyArrayObject*)pArray));
                 memcpy(data, mat->getArray(), sizeof(double) * rows * cols);
 
             } else {
@@ -559,7 +559,7 @@ namespace rr {
                                             NPY_ARRAY_CARRAY, mat);
                 }
 
-                VERIFY_PYARRAY(pArray);
+                VERIFY_PYARRAY((PyArrayObject*)pArray);
 
             }
             rrLogDebug << "Done" << std::endl;
@@ -656,7 +656,7 @@ namespace rr {
  */
     static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op) {
         binaryfunc PyArray_subscript = PyArray_Type.tp_as_mapping->mp_subscript;
-        int dim = PyArray_NDIM(self);
+        int dim = PyArray_NDIM((PyArrayObject*)self);
 
 # if PY_MAJOR_VERSION == 3
         if (dim == 2 && PyUnicode_Check(op)) {
@@ -673,16 +673,16 @@ namespace rr {
 
                 if (strcmp(keyName, itemStr) == 0) {
 
-                    npy_intp rows = PyArray_DIM(self, 0);
-                    npy_intp cols = PyArray_DIM(self, 1);
+                    npy_intp rows = PyArray_DIM((PyArrayObject*)self, 0);
+                    npy_intp cols = PyArray_DIM((PyArrayObject*)self, 1);
 
                     npy_intp dims[1] = {rows};
                     PyObject *result = PyArray_New(&PyArray_Type, 1, dims, NPY_DOUBLE, NULL, NULL, 0,
                                                    NPY_ARRAY_CARRAY, NULL);
 
                     // copy data to result array
-                    double *data = (double *) PyArray_DATA(self);
-                    double *newData = (double *) PyArray_DATA(result);
+                    double *data = (double *) PyArray_DATA((PyArrayObject*)self);
+                    double *newData = (double *) PyArray_DATA((PyArrayObject*)result);
 
                     for (int i = 0; i < rows; ++i) {
                         newData[i] = data[(i * cols) + col];
@@ -709,16 +709,16 @@ namespace rr {
 
                 if (strcmp(keyName, itemStr) == 0) {
 
-                    npy_intp rows = PyArray_DIM(self, 0);
-                    npy_intp cols = PyArray_DIM(self, 1);
+                    npy_intp rows = PyArray_DIM((PyArrayObject*)self, 0);
+                    npy_intp cols = PyArray_DIM((PyArrayObject*)self, 1);
 
                     npy_intp dims[1] = {cols};
                     PyObject *result = PyArray_New(&PyArray_Type, 1, dims, NPY_DOUBLE, NULL, NULL, 0,
                                                    NPY_ARRAY_CARRAY, NULL);
 
                     // copy data to result array
-                    double *data = (double *) PyArray_DATA(self);
-                    double *newData = (double *) PyArray_DATA(result);
+                    double *data = (double *) PyArray_DATA((PyArrayObject*)self);
+                    double *newData = (double *) PyArray_DATA((PyArrayObject*)result);
 
                     for (int i = 0; i < cols; ++i) {
                         newData[i] = data[(row * cols) + i];
@@ -830,7 +830,7 @@ namespace rr {
             return nullptr;
         }
         // number of dimensions
-        int nDims = PyArray_NDIM(self);
+        int nDims = PyArray_NDIM((PyArrayObject*)self);
         std::int64_t dim1 = 0;
         std::int64_t dim2 = 0;
 
@@ -1445,9 +1445,9 @@ namespace rr {
         unsigned selfNdim = PyArray_NDIM(&self->array);
         npy_intp selfNRows = selfNdim > 0 ? PyArray_DIM(&self->array, 0) : -1;
         npy_intp selfNCols = selfNdim > 1 ? PyArray_DIM(&self->array, 1) : -1;
-        unsigned rhsfNdim = PyArray_NDIM(rhs);
-        npy_intp rhsNRows = rhsfNdim > 0 ? PyArray_DIM(rhs, 0) : -1;
-        npy_intp rhsNCols = rhsfNdim > 1 ? PyArray_DIM(rhs, 1) : -1;
+        unsigned rhsfNdim = PyArray_NDIM((PyArrayObject*)rhs);
+        npy_intp rhsNRows = rhsfNdim > 0 ? PyArray_DIM((PyArrayObject*)rhs, 0) : -1;
+        npy_intp rhsNCols = rhsfNdim > 1 ? PyArray_DIM((PyArrayObject*)rhs, 1) : -1;
 
         rrLogDebug << "Self address: " << self << " rhs addr : " << rhs;
         rrLogDebug << "selfNdim: " << selfNdim;
