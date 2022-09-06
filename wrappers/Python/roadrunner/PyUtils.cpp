@@ -490,7 +490,7 @@ namespace rr {
 
             if (PyArray_Check(pyres)) {
 
-                assert(PyArray_NBYTES(pyres) == rows * cols * sizeof(double) && "invalid array size");
+                assert(PyArray_NBYTES((PyArrayObject*)pyres) == rows * cols * sizeof(double) && "invalid array size");
                 double *data = (double *) PyArray_BYTES((PyArrayObject*)pyres);
 
                 memcpy(data, mData, sizeof(double) * rows * cols);
@@ -534,7 +534,7 @@ namespace rr {
                     pArray = NamedArray_New(nd, dims, nullptr, 0, mat);
                 }
 
-                VERIFY_PYARRAY(pArray);
+                VERIFY_PYARRAY((PyArrayObject*)pArray);
 
                 // copy our data into the numpy array
                 double *data = static_cast<double *>(PyArray_DATA((PyArrayObject*)pArray));
@@ -558,7 +558,7 @@ namespace rr {
                                             NPY_ARRAY_CARRAY, mat);
                 }
 
-                VERIFY_PYARRAY(pArray);
+                VERIFY_PYARRAY((PyArrayObject*)pArray);
 
             }
             rrLogDebug << "Done" << std::endl;
