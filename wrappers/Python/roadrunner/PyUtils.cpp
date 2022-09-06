@@ -491,6 +491,7 @@ namespace rr {
             if (PyArray_Check(pyres)) {
 
                 assert(PyArray_NBYTES((PyArrayObject*)pyres) == rows * cols * sizeof(double) && "invalid array size");
+
                 double *data = (double *) PyArray_BYTES((PyArrayObject*)pyres);
 
                 memcpy(data, mData, sizeof(double) * rows * cols);
@@ -1343,7 +1344,6 @@ namespace rr {
             return nullptr;
         }
         namedArrayObject->rowNames = PyList_New(0);
-        Py_IncRef(namedArrayObject->rowNames);
         namedArrayObject->colNames = PyList_New(0);
         PyObject *obj = PyObject_Init((PyObject *) namedArrayObject, type);
         if (!obj) {
@@ -1587,7 +1587,7 @@ namespace rr {
             return nullptr;
         }
         rrLogDebug << "finalizing object self: " << self << "; args " << rhs;
-        //        rrLogDebug << "rhs->ob_type->ob_base.ob_base.ob_type: " << rhs->;
+        //rrLogDebug << "rhs->ob_type->ob_base.ob_base.ob_type: " << rhs->;
 
         // when NamedArray instantiated with constructor
         //   >>> n = NamedArray((3, 4)) # 1
