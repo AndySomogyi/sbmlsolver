@@ -434,7 +434,6 @@ namespace rr {
     PyObject *doublematrix_to_py(const ls::DoubleMatrix *m, bool structured_result, bool copy_result) {
         rrLogDebug << __FUNC__;
         ls::DoubleMatrix *mat = const_cast<ls::DoubleMatrix *>(m);
-        std::cout << "DM2p" << endl;
 
         // a valid array descriptor:
         // In [87]: b = array(array([0,1,2,3]),
@@ -445,14 +444,13 @@ namespace rr {
         if (structured_result) {
             rrLogDebug << "Structured result path";
 
-            std::cout << "DM2p structured" << endl;
             std::vector<string> names = mat->getColNames();
 
             unsigned int rows = mat->numRows();
             unsigned int cols = mat->numCols();
 
-            std::cout << "num rows: " << rows;
-            std::cout << "num cols: " << cols;
+            //std::cout << "num rows: " << rows;
+            //std::cout << "num cols: " << cols;
 
             if (cols == 0) {
                 rrLogDebug << "No columns, returning None";
@@ -493,7 +491,6 @@ namespace rr {
             if (PyArray_Check(pyres)) {
 
                 assert(PyArray_NBYTES(pyres) == rows * cols * sizeof(double) && "invalid array size");
-                std::cout << "Use #1" << endl;
                 double *data = (double *) PyArray_BYTES((PyArrayObject*)pyres);
 
                 memcpy(data, mData, sizeof(double) * rows * cols);
@@ -504,7 +501,6 @@ namespace rr {
             // standard array result.
             // this version just wraps the roadrunner owned data.
         else {
-            std::cout << "DM2p 0" << endl;
             int rows = mat->numRows();
             int cols = mat->numCols();
             PyObject *pArray = NULL;
@@ -535,15 +531,12 @@ namespace rr {
                     rrLogDebug << "2D array";
                     int nd = 2;
                     npy_intp dims[2] = {rows, cols};
-                    std::cout << "DM2p 01" << endl;
                     pArray = NamedArray_New(nd, dims, nullptr, 0, mat);
-                    std::cout << "DM2p 02" << endl;
                 }
 
                 VERIFY_PYARRAY(pArray);
 
                 // copy our data into the numpy array
-                std::cout << "Use #2" << endl;
                 double *data = static_cast<double *>(PyArray_DATA((PyArrayObject*)pArray));
                 memcpy(data, mat->getArray(), sizeof(double) * rows * cols);
 
@@ -662,7 +655,6 @@ namespace rr {
  */
     static PyObject *NammedArray_subscript(NamedArrayObject *self, PyObject *op) {
         binaryfunc PyArray_subscript = PyArray_Type.tp_as_mapping->mp_subscript;
-        std::cout << "Use #3" << endl;
         int dim = PyArray_NDIM((PyArrayObject*)self);
 
 # if PY_MAJOR_VERSION == 3
@@ -680,9 +672,7 @@ namespace rr {
 
                 if (strcmp(keyName, itemStr) == 0) {
 
-                    std::cout << "Use #4" << endl;
                     npy_intp rows = PyArray_DIM((PyArrayObject*)self, 0);
-                    std::cout << "Use #5" << endl;
                     npy_intp cols = PyArray_DIM((PyArrayObject*)self, 1);
 
                     npy_intp dims[1] = {rows};
@@ -690,9 +680,7 @@ namespace rr {
                                                    NPY_ARRAY_CARRAY, NULL);
 
                     // copy data to result array
-                    std::cout << "Use #6" << endl;
                     double *data = (double *) PyArray_DATA((PyArrayObject*)self);
-                    std::cout << "Use #7" << endl;
                     double *newData = (double *) PyArray_DATA((PyArrayObject*)result);
 
                     for (int i = 0; i < rows; ++i) {
@@ -720,9 +708,7 @@ namespace rr {
 
                 if (strcmp(keyName, itemStr) == 0) {
 
-                    std::cout << "Use #8" << endl;
                     npy_intp rows = PyArray_DIM((PyArrayObject*)self, 0);
-                    std::cout << "Use #9" << endl;
                     npy_intp cols = PyArray_DIM((PyArrayObject*)self, 1);
 
                     npy_intp dims[1] = {cols};
@@ -730,9 +716,7 @@ namespace rr {
                                                    NPY_ARRAY_CARRAY, NULL);
 
                     // copy data to result array
-                    std::cout << "Use #10" << endl;
                     double *data = (double *) PyArray_DATA((PyArrayObject*)self);
-                    std::cout << "Use #11" << endl;
                     double *newData = (double *) PyArray_DATA((PyArrayObject*)result);
 
                     for (int i = 0; i < cols; ++i) {
@@ -845,7 +829,6 @@ namespace rr {
             return nullptr;
         }
         // number of dimensions
-        std::cout << "Use #12" << endl;
         int nDims = PyArray_NDIM((PyArrayObject*)self);
         std::int64_t dim1 = 0;
         std::int64_t dim2 = 0;
@@ -1135,7 +1118,6 @@ namespace rr {
         // and this is the implementation that we are using, but note
         // its harder to trace the memory footprint and may contain bugs.
         self->rowNames = getItemFromDictWithErrChecking(state, "rownames");
-        std::cout << "rownames new ref from dict " << self->rowNames << endl;
         Py_IncRef(self->rowNames);
         for (int i = 0; i < PyList_Size(self->rowNames); i++)
             Py_IncRef(PyList_GetItem(self->rowNames, i));
@@ -1210,7 +1192,6 @@ namespace rr {
              */
             // PyArray_New calls finalizeObject twice, once for the pyarray and
             // again for the subtype
-            std::cout << "NA_N 0" << endl;
             NamedArrayObject *array = (NamedArrayObject *) PyArray_New(
                     &NamedArray_Type,   // PyTypeObject* subtype,
                     nd,                 // int nd
@@ -1222,7 +1203,6 @@ namespace rr {
                     pyFlags,            // int flags,
                     nullptr             // PyObject* obj
             );
-            std::cout << "NA_N 01" << endl;
             if (array == NULL) {
                 const char *error = rrGetPyErrMessage();
                 rrLog(Logger::LOG_CRITICAL) << error;
@@ -1230,26 +1210,17 @@ namespace rr {
                 return NULL;
             }
 
-            std::cout << "NA_N 02" << endl;
-            std::cout << "array:" << endl;
-            std::cout << array << endl;
-            std::cout << "rowNames:" << array->rowNames << endl;
             if (!array->rowNames || PyList_Size(array->rowNames) != 0) {
-                std::cout << "NA_N err 02" << endl;
                 PyErr_SetString(PyExc_ValueError, "Expecting empty initialized list for array->rowNames.");
                 return nullptr;
             }
 
-            std::cout << "NA_N 03" << endl;
             if (PyList_Size(array->colNames) != 0) {
                 PyErr_SetString(PyExc_ValueError, "Expecting empty initialized list for array->colNames.");
                 return nullptr;
             }
-            std::cout << "NA_N 04" << endl;
             array->rowNames = stringvector_to_py(mat->getRowNames());
-            std::cout << "NA_N 05" << endl;
             array->colNames = stringvector_to_py(mat->getColNames());
-            std::cout << "NA_N 06" << endl;
 
             return (PyObject *) array;
 
@@ -1372,9 +1343,6 @@ namespace rr {
             return nullptr;
         }
         namedArrayObject->rowNames = PyList_New(0);
-        std::cout << "rownames new ref " << namedArrayObject->rowNames << endl;
-        std::cout << "rownames added to object " << namedArrayObject << endl;
-        std::cout << "rownames size " << PyList_Size(namedArrayObject->rowNames) << endl;
         Py_IncRef(namedArrayObject->rowNames);
         namedArrayObject->colNames = PyList_New(0);
         PyObject *obj = PyObject_Init((PyObject *) namedArrayObject, type);
@@ -1382,8 +1350,6 @@ namespace rr {
             PyErr_SetString(PyExc_MemoryError, "Could not initialize object of type 'NamedArray'");
             return nullptr;
         }
-        std::cout << "rownames ref " << ((NamedArrayObject*)obj)->rowNames << endl;
-        std::cout << "rownames size " << PyList_Size(((NamedArrayObject*) obj)->rowNames) << endl;
         rrLogDebug << "namedArrayObject allocated:  " << namedArrayObject;
         rrLogDebug << "namedArrayObject returned obj:  " << obj;
         rrLogDebug << "Done" << std::endl;
@@ -1397,8 +1363,6 @@ namespace rr {
     PyObject *NamedArrayObject_Finalize_FromConstructor(NamedArrayObject *self) {
         rrLogDebug << __FUNC__;
 
-        std::cout << "rownames ref " << self->rowNames << endl;
-        //std::cout << "At start: rownames size " << PyList_Size(self->rowNames) << endl;
         if (!self->rowNames) {
             rrLogDebug << "No rownames in self, using empty list instead";
             PyObject *rows = PyList_New(0);
@@ -1407,7 +1371,6 @@ namespace rr {
                 Py_RETURN_NONE;
             }
             self->rowNames = rows;
-            std::cout << "rownames new ref " << self->rowNames << endl;
         }
         if (!self->colNames) {
             rrLogDebug << "No colnames in self, using empty list instead";
@@ -1420,8 +1383,6 @@ namespace rr {
         }
         // Note it seems that we do not need to increment the ref count
         // for these new lists.
-        std::cout << "rownames ref " << self->rowNames << endl;
-        //std::cout << "rownames size " << PyList_Size(self->rowNames) << endl;
 
         // and assign
         rrLogDebug << "Done" << std::endl;
@@ -1485,7 +1446,6 @@ namespace rr {
         unsigned selfNdim = PyArray_NDIM(&self->array);
         npy_intp selfNRows = selfNdim > 0 ? PyArray_DIM(&self->array, 0) : -1;
         npy_intp selfNCols = selfNdim > 1 ? PyArray_DIM(&self->array, 1) : -1;
-        std::cout << "Use #13" << endl;
         unsigned rhsfNdim = PyArray_NDIM((PyArrayObject*)rhs);
         npy_intp rhsNRows = rhsfNdim > 0 ? PyArray_DIM((PyArrayObject*)rhs, 0) : -1;
         npy_intp rhsNCols = rhsfNdim > 1 ? PyArray_DIM((PyArrayObject*)rhs, 1) : -1;
@@ -1620,7 +1580,6 @@ namespace rr {
         // Some docs on why this is needed: https://numpy.org/devdocs/user/basics.subclassing.html
         // when self is passed, the ref count of array goes up.
         rrLogDebug << __FUNC__;
-        std::cout << "rownames ref " << self->rowNames << endl;
 
         PyObject *rhs;
         if (PyArg_ParseTuple(args, "O", &rhs) < 0) {
@@ -1628,8 +1587,6 @@ namespace rr {
             return nullptr;
         }
         rrLogDebug << "finalizing object self: " << self << "; args " << rhs;
-        std::cout << "rownames ref " << self->rowNames << endl;
-        //std::cout << "rownames size " << PyList_Size(self->rowNames) << endl;
         //        rrLogDebug << "rhs->ob_type->ob_base.ob_base.ob_type: " << rhs->;
 
         // when NamedArray instantiated with constructor
@@ -1643,7 +1600,6 @@ namespace rr {
         // the isSubclass part was added to patch issue 873
         // It may not be ideal, but it does fix the problem.
         if (rhs == Py_None || isSubclassOfPyArray(rhs)) {
-            //std::cout << "rownames size almost exiting " << PyList_Size(self->rowNames) << endl;
             rrLogDebug << "NamedArrayObject initialized from constructor. 'None' path taken";
             return NamedArrayObject_Finalize_FromConstructor(self);
         } else if (rhs->ob_type == &PyArray_Type) {
@@ -1659,11 +1615,8 @@ namespace rr {
                             "Unexpected type passed to NamedArrayObject_Finalize for the args parameter");
         }
         // decrement the refcount as we're done with this scope
-        std::cout << "rownames size " << PyList_Size(self->rowNames) << endl;
         Py_DecRef((PyObject *) &self->array);
         rrLogDebug << "Done" << std::endl;
-        std::cout << "rownames ref " << self->rowNames << endl;
-        std::cout << "rownames size " << PyList_Size(self->rowNames) << endl;
         Py_RETURN_NONE;
     }
 
