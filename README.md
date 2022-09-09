@@ -40,11 +40,25 @@ Python wheels are available at the above binaries link, and can also be installe
 
 `pip install libroadrunner`
 
+# Example Python usage
+
+Once installed in Python (using pip or using the wheels directly), the following simple example script should demonstrate the basics of a roadrunner simulation:
+
+```python
+import roadrunner
+rr = roadrunner.RoadRunner("https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000010.2?filename=BIOMD0000000010_url.xml")
+results = rr.simulate(0, 2000, 200)
+rr.plot()
+print(results)
+```
+
+This simple script downloads [BioModels 10](https://www.ebi.ac.uk/biomodels/BIOMD0000000010) (the Kholodenko model of MAPK oscillation) and runs a simulation for 2000 seconds, storing the results in `results`.  If your system is set up to display figures, it will display a plot of the simulation, then print the numerical values obtained.
+
 # Dependencies
 
 All libRoadRunner binaries are self-contained, and should include all libraries it depends on.  When building libRoadRunner from source, its dependencies may either be downloaded *en masse* from the [libroadrunner-deps](https://github.com/sys-bio/libroadrunner-deps) repository, may be obtained directly from their [respective sources](https://github.com/sys-bio/libroadrunner-deps/tree/release/third_party), or the libraries may be installed directly on your operating system.
 
-The one exception to the above is that libRoadRunner depends on the 'ncurses' library on linux.
+The one exception to the above is that the libRoadRunner binaries depend on the 'ncurses' library on linux.
 
 
 # Copyright
@@ -57,7 +71,7 @@ E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</su
 2. Dune Scientific, 10522 Lake City Way NE, #302 Seattle WA
 3. Department of Bioengineering, University of Washington, Seattle, WA, 98195
 
-The current (2022) developer is Lucian Smith.
+The current (2021-present) developer is Lucian Smith.
 
 ## Contributing
 
