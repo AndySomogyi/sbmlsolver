@@ -13,7 +13,7 @@ Currently only Gaussian noise is implemented.
 
 :sup:`1` From Contemporary Communication Systems USING MATLAB(R), by John G. Proakis and Masoud Salehi, published by PWS Publishing Company, 1998, pp 49-50.
 
-Plugin Parameters
+Plugin Properties
 =================
 
 1. InputData: Data on which noise will be applied to.
@@ -75,7 +75,7 @@ The python script below shows how to acquire simulation data from RoadRunner and
        noisePlugin.InputData.plot() 
  
    except Exception as e: 
-       print('Problem: ' + e)
+       print('Problem: ' + `e`)
        
 .. image:: AddNoise.png
 

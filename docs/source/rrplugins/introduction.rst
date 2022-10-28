@@ -2,7 +2,6 @@
 rrPlugins
 *********
 
-
 .. toctree::
     :maxdepth: 1
     :hidden:
@@ -10,6 +9,13 @@ rrPlugins
     rrplugins_architecture
     rrplugins_documentation
     rrplugins_add_noise_plugin
+    rrplugins_auto_plugin
+    rrplugins_chisquare_plugin
+    rrplugins_LM_plugin
+    rrplugins_monte_carlo_plugin
+    rrplugins_NM_plugin
+    rrplugins_testmodel_plugin
+    
 
 Introduction
 ============
