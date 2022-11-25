@@ -1282,7 +1282,6 @@ def plotBifurcationData(data, colHeaders, bfPoints, bfLabels, legend=True, cmap=
                         xlabel=None, ylabel=None, selections=None):
     nrCols = data.shape[1]
     nrRows = data.shape[0]
-    from tellurium import plot, show
     from tellurium.plotting import plot_text
 
     if colHeaders == None or len(colHeaders) < 1:
@@ -1341,18 +1340,18 @@ def plotBifurcationData(data, colHeaders, bfPoints, bfLabels, legend=True, cmap=
             ySegment = ySeries[xIndx:xPtn]
             if label == 'EP':
                 if xIndx == 0 :
-                    plot(xSegment, ySegment, name=colHeaders[serie + 1], tag=colHeaders[serie + 1], show=False, **plotargs)
+                    te.plot(xSegment, ySegment, name=colHeaders[serie + 1], tag=colHeaders[serie + 1], show=False, **plotargs)
                 else:
-                    plot(xSegment, ySegment, name=colHeaders[serie + 1], tag=colHeaders[serie + 1], show=False, **plotargs)
+                    te.plot(xSegment, ySegment, name=colHeaders[serie + 1], tag=colHeaders[serie + 1], show=False, **plotargs)
             elif label == 'LP':
                 #Check Previous label
                 if previousLbl == 'LP':
-                    plot(xSegment, ySegment, dash=['dash'], color=['black'], alpha=[0.5], showlegend=False, show=False, **plotargs)
+                    te.plot(xSegment, ySegment, dash=['dash'], color=['black'], alpha=[0.5], showlegend=False, show=False, **plotargs)
                 else:
-                    plot(xSegment, ySegment, name=colHeaders[serie + 1], tag=colHeaders[serie + 1], show=False, **plotargs)
+                    te.plot(xSegment, ySegment, name=colHeaders[serie + 1], tag=colHeaders[serie + 1], show=False, **plotargs)
             elif label == 'HB':
                 #print('plot {} vs {}'.format(xSegment,ySegment))
-                plot(xSegment, ySegment, name=colHeaders[serie + 1], tag=colHeaders[serie + 1], show=False, **plotargs)
+                te.plot(xSegment, ySegment, name=colHeaders[serie + 1], tag=colHeaders[serie + 1], show=False, **plotargs)
 
             xIndx = xPtn
             labelNr = labelNr + 1
@@ -1373,7 +1372,7 @@ def plotBifurcationData(data, colHeaders, bfPoints, bfLabels, legend=True, cmap=
                 plot_text(xCoord, yCoord, text=label, show=False)
             labelNr = labelNr + 1
 
-    show()
+    te.show()
 
 
 ## \brief Get column header in tellurium data
