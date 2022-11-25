@@ -3,6 +3,7 @@
 import os
 import sys
 import numpy as np
+import tellurium as te
 import tempfile
 import ctypes
 from ctypes import CDLL, POINTER, CFUNCTYPE, cast, byref
