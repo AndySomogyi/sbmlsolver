@@ -699,10 +699,10 @@ def getNamesFromPropertyList(propertyHandle):
 ## \param pluginHandle Handle to a plugin
 ## \return Returns a string on success, None otherwise
 ## \ingroup plugin_properties
-rrpLib.tpGetPluginPropertiesAsXML.restype = c_char_p
-rrpLib.tpGetPluginPropertiesAsXML.argtypes = [c_void_p]
-def getPluginPropertiesAsXML(pluginHandle):
-    return decodeIfBytes(rrpLib.tpGetPluginPropertiesAsXML(pluginHandle))
+#rrpLib.tpGetPluginPropertiesAsXML.restype = c_char_p
+#rrpLib.tpGetPluginPropertiesAsXML.argtypes = [c_void_p]
+#def getPluginPropertiesAsXML(pluginHandle):
+#    return decodeIfBytes(rrpLib.tpGetPluginPropertiesAsXML(pluginHandle))
 
 ## \brief Get the 'first' property handle to a property in a list of properties
 ## \param paraListHandle Handle to a propertyList
