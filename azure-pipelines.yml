@@ -33,7 +33,7 @@ stages:
         displayName: MacBuildRoadrunnerCpp
         continueOnError: "false"
         pool:
-          vmImage: 'macOS-10.16'
+          vmImage: 'macOS-10.17'
         strategy:
           matrix:
             64-bit Mac Release:
@@ -182,7 +182,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-MacOS10.16-$(BuildType)
+            artifact: roadrunner-MacOS10.17-$(BuildType)
             displayName: Publish
 
   - stage: MacBuildRoadrunnerPython
@@ -193,7 +193,7 @@ stages:
         displayName: MacBuildRoadrunnerPython
         continueOnError: "false"
         pool:
-          vmImage: 'macOS-10.16'
+          vmImage: 'macOS-10.17'
         strategy:
           matrix:
             py38:
@@ -376,7 +376,7 @@ stages:
           - task: CopyFiles@2
             inputs:
               contents: '$(INSTALL_DIR)/**'
-              targetFolder: $(Build.ArtifactStagingDirectory)/roadrunner-MacOS10.16-$(PythonName)
+              targetFolder: $(Build.ArtifactStagingDirectory)/roadrunner-MacOS10.17-$(PythonName)
             displayName: Copy Install Tree to Staging Area
           - task: CopyFiles@2
             inputs:
@@ -384,7 +384,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-MacOS10.16-$(PythonName)
+            artifact: roadrunner-MacOS10.17-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
 ########################################################################
@@ -758,7 +758,7 @@ stages:
         displayName: UbuntuBuildRoadrunnerCpp
         continueOnError: "false"
         pool:
-          vmImage: 'Ubuntu-19.04'
+          vmImage: 'Ubuntu-20.04'
         strategy:
           matrix:
             64-bit Linux Release:
@@ -962,7 +962,7 @@ stages:
               PythonVersion: 3.10
               PythonName: py310
         pool:
-          vmImage: 'ubuntu-19.04'
+          vmImage: 'ubuntu-20.04'
         container: sysbiouw/roadrunner-manylinux2014-base:latest
         variables:
           CCACHE_DIR: '$(Pipeline.Workspace)/ccache'
