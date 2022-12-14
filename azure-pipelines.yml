@@ -114,7 +114,7 @@ stages:
               cd $(MinicondaRoot)
               echo "ls"
               ls
-              $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
+              $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion) -c conda-forge
             displayName: InstallCondaEnv
 
           - script: |
@@ -240,7 +240,7 @@ stages:
               cd $(MinicondaRoot)
               echo "ls"
               ls
-              $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
+              $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion) -c conda-forge
               echo "running: $(PipExecutable) install -r $(SOURCE_DIR)/test-requirements.txt"
               $(PipExecutable) install -r $(SOURCE_DIR)/test-requirements.txt
             displayName: InstallCondaEnv
@@ -617,7 +617,7 @@ stages:
               cacheHitVar: LLVM_CACHE
           - script: |
               echo "Creating new conda environment"
-              conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
+              conda create --quiet --yes --name $(PythonName) python=$(PythonVersion) -c conda-forge
               echo "pip help:"
               $(PipExecutable) install --help
 
