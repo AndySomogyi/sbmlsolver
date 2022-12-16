@@ -594,7 +594,7 @@ stages:
           - powershell: |
               where.exe conda
               where.exe python
-              conda update conda -y
+              conda update conda -y -c conda-forge
               conda install numpy
               conda --version
               echo "PythonVersion $(PythonVersion)"
