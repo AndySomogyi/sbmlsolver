@@ -596,6 +596,7 @@ stages:
               where.exe python
               conda update conda -y -c conda-forge
               conda install numpy
+              conda install python=3.11 -c conda-forge
               conda --version
               echo "PythonVersion $(PythonVersion)"
               echo "PythonName $(PythonName)"
