@@ -703,7 +703,7 @@ stages:
               echo "ls"
               ls
               echo "Creating new conda environment"
-              conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
+              conda create --quiet --yes --name $(PythonName) python=$(PythonVersion) -c conda-forge
               echo "pip help:"
               $(PipExecutable) install --help
               echo "$(PipExecutable) install -q -r $(SOURCE_DIR)/test-requirements.txt and requirements.txt"
