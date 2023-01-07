@@ -120,7 +120,7 @@ We can also build roadrunner in alternative docker environments (ubuntu etc.) on
 
 If you use RoadRunner in your research, we would appreciate following citations in any works you publish:
 
-Ciaran Welsh, Jin Xu, Lucian Smith, Matthias König, Kiri Choi, Herbert M Sauro, libRoadRunner 2.0: a high performance SBML simulation and analysis library, *Bioinformatics*, 2022;, btac770, https://doi.org/10.1093/bioinformatics/btac770
+Ciaran Welsh, Jin Xu, Lucian Smith, Matthias König, Kiri Choi, Herbert M Sauro, libRoadRunner 2.0: a high performance SBML simulation and analysis library, *Bioinformatics*, Volume 39, Issue 1, January 2023, btac770, https://doi.org/10.1093/bioinformatics/btac770
 
 Endre T. Somogyi, Jean-Marie Bouteiller, James A. Glazier, Matthias König, J. Kyle Medley, Maciej H. Swat, Herbert M. Sauro, libRoadRunner: a high performance SBML simulation and analysis library, *Bioinformatics*, Volume 31, Issue 20, 15 October 2015, Pages 3315–3321, https://doi.org/10.1093/bioinformatics/btv363
 
