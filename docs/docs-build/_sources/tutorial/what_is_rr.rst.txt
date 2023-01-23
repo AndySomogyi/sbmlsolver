@@ -36,7 +36,7 @@ class ``RoadRunner`` and e.g. ``rr.model`` of class ``ExecutableModel``.
 **ExecutableModel**
  - Represents a compiled sbml model
  - Properties to get and set any state variables.
- - Initialized when SBML is loaded ``r.load('mymodel.xml')``
+ - Initialized when SBML is loaded ``rr.load('mymodel.xml')``
 
 The Python API is a very clean simple interface that uses all native Python objects. 
 All the returned types are structured `Numpy` arrays. 
@@ -110,12 +110,12 @@ the rest are whatever is selected. The easies way to plot is to use :meth:`RoadR
 Using libRoadRunner in `IPython <http://ipython.org/>`_ you can **get documentation** 
 easily using a ``?`` after the object or method::
 
-  >>>  r.plot?
+  >>>  rr.plot?
 
   Type:        instancemethod
   String form: <bound method RoadRunner.plot of <roadrunner.RoadRunner() { this = 0x101c70a00 }>>
   File:        /Users/andy/Library/Python/2.7/lib/python/site-packages/roadrunner/roadrunner.py
-  Definition:  r.plot(self, show=True)
+  Definition:  rr.plot(self, show=True)
   Docstring:
   RoadRunner.plot([show])
   

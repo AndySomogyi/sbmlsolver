@@ -19,7 +19,7 @@ On the **Mac or Linux** we might use::
 
 RoadRunner can also load models directly from a URL via::
 
-   rr = roadrunner.RoadRunner("http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010")
+   rr = roadrunner.RoadRunner("https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000010.2?filename=BIOMD0000000010_url.xml")
 
 If the model was loaded successfully, the RoadRunner object is now ready to use,  otherwise an exception will
 be raised that contains extended information detailing exactly what failed. If any warnings are
@@ -38,6 +38,6 @@ Additionally, there are a couple models **included with libRoadRunner**. The mod
 and ``Test_1.xml`` are available in the ``roadrunner.testing`` module. To access these use::
 
    import roadrunner.testing as test
-   r = test.getRoadRunner('feedback.xml')
+   rr = test.getRoadRunner('feedback.xml')
 
 There are a few additional models in the ``models/`` directory of the distribution, where you installed libRoadRunner.

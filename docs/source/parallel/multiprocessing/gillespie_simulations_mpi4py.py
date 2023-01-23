@@ -29,13 +29,13 @@ if __name__ == '__main__':
     sbml = tmf.BatchImmigrationDeath03().str()
 
     # create our roadrunner instance
-    r = RoadRunner(sbml)
+    rr = RoadRunner(sbml)
 
     # set up a stochastic simulation
-    r.setIntegrator('gillespie')
+    rr.setIntegrator('gillespie')
 
     # set the seed for reproducuble example
-    gillespie_integrator = r.getIntegrator()
+    gillespie_integrator = rr.getIntegrator()
     gillespie_integrator.seed = 1234
 
     # the time it took in serial

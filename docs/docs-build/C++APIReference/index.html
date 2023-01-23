@@ -15,7 +15,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -56,7 +58,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/introduction.html">rrPlugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">The LibRoadRunner C++ Library</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="llvm/index.html">LLVM Docs</a></li>
@@ -118,8 +120,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>The LibRoadRunner C++ Library</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">The LibRoadRunner C++ Library</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/C++APIReference/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -130,16 +132,16 @@
            <div itemprop="articleBody">
              
   <section id="the-libroadrunner-c-library">
-<h1>The LibRoadRunner C++ Library<a class="headerlink" href="#the-libroadrunner-c-library" title="Permalink to this headline"></a></h1>
+<h1>The LibRoadRunner C++ Library<a class="headerlink" href="#the-libroadrunner-c-library" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
 <p>This document describes the application programming interface (wrappers) of RoadRunner,
 an open source (BSD) library for computing structural characteristics of cellular networks.</p>
 </section>
 <section id="creating-a-new-integrator">
-<h2>Creating a new Integrator<a class="headerlink" href="#creating-a-new-integrator" title="Permalink to this headline"></a></h2>
+<h2>Creating a new Integrator<a class="headerlink" href="#creating-a-new-integrator" title="Permalink to this heading"></a></h2>
 <p>One of the key design goals of the LibRoadRunner library is extensibility. This means that the
 library is designed with the idea that most internal components are loosely coupled and that
 it is simple to add new solvers such as new steady state solvers or integrators. This section
@@ -153,16 +155,16 @@ are automatically available to any code (including any Python code) that needs t
 the RoadRunner::simulate method is called, a different integrator may be specified. In Python, this is
 done with the &lt;TT&gt;integrator&lt;/TT&gt; keyword, i.e.</p>
 <p>Or, in C++:</p>
-<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="n">BasicDictionary</span><span class="w"> </span><span class="n">d</span><span class="p">;</span><span class="w"></span>
-<span class="n">d</span><span class="p">.</span><span class="n">setItem</span><span class="p">(</span><span class="s">&quot;integrator&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MyIntegratorName&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">r</span><span class="p">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d</span><span class="p">);</span><span class="w"></span>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="n">BasicDictionary</span><span class="w"> </span><span class="n">d</span><span class="p">;</span>
+<span class="n">d</span><span class="p">.</span><span class="n">setItem</span><span class="p">(</span><span class="s">&quot;integrator&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MyIntegratorName&quot;</span><span class="p">)</span>
+<span class="n">rr</span><span class="p">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>To create a new integrator, one first needs to create an object that implments the Integrator interface,
 tell RoadRunner about it.</p>
 </section>
 <section id="implementing-the-integrator-interface">
-<h2>Implementing the Integrator interface<a class="headerlink" href="#implementing-the-integrator-interface" title="Permalink to this headline"></a></h2>
+<h2>Implementing the Integrator interface<a class="headerlink" href="#implementing-the-integrator-interface" title="Permalink to this heading"></a></h2>
 <p>The IntegratorFactory is the ONLY object that creates integrators.</p>
 <p>Integrators are created when the IntegratorFactory::New method is called,
 typically by the top level RoadRunner object. New Integrators are given a pointer to an
@@ -245,7 +247,7 @@ should have three key/value pairs.</p>
 parameters it expects out of the given dictionary.</p>
 </section>
 <section id="telling-roadrunner-about-the-new-integrator">
-<h2>Telling RoadRunner about the new Integrator<a class="headerlink" href="#telling-roadrunner-about-the-new-integrator" title="Permalink to this headline"></a></h2>
+<h2>Telling RoadRunner about the new Integrator<a class="headerlink" href="#telling-roadrunner-about-the-new-integrator" title="Permalink to this heading"></a></h2>
 <p>In order for the RoadRunner::simulate method use the new integrator, it needs to know about it.
 The IntegratorFactory is the only object that knows about all the integrators, and a few lines of
 code need to be added in the implementation of this object so that it can construct one.</p>
@@ -281,14 +283,14 @@ RoadRunner.simulate method is called. The EulerIntegrator was created as an exam
 a new integrator, have a look at it.</p>
 </section>
 <section id="a-complete-example-of-creating-an-integrator">
-<h2>A complete example of creating an integrator<a class="headerlink" href="#a-complete-example-of-creating-an-integrator" title="Permalink to this headline"></a></h2>
+<h2>A complete example of creating an integrator<a class="headerlink" href="#a-complete-example-of-creating-an-integrator" title="Permalink to this heading"></a></h2>
 <p>This section includes the complete Euler integrator implemented in EulerIntegrator.h as an example of
 creating a new integrator.
 This class has two demo paramters which may be set via the keyword arguments to RoadRunner.simulate
 in Python, or set via the Dictionary::setItem method on the dictionary that is given to the
 RoadRunner::simulate method in C++. In Python, this would be:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">integrator</span><span class="o">=</span><span class="s1">&#39;euler&#39;</span><span class="p">,</span> <span class="n">exampleParameter1</span><span class="o">=</span><span class="mi">123456</span><span class="p">,</span> <span class="n">exampleParameter2</span><span class="o">=</span><span class="s1">&#39;some value&#39;</span><span class="p">);</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">integrator</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">integrator</span><span class="o">=</span><span class="s1">&#39;euler&#39;</span><span class="p">,</span> <span class="n">exampleParameter1</span><span class="o">=</span><span class="mi">123456</span><span class="p">,</span> <span class="n">exampleParameter2</span><span class="o">=</span><span class="s1">&#39;some value&#39;</span><span class="p">);</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">integrator</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In Python, all the keyword arguments to the simulate method are packaged up and added to the

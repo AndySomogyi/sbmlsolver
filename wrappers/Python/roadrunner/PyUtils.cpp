@@ -474,7 +474,7 @@ namespace rr {
                 Py_DECREF(type);
 
                 // list takes ownership of tuple
-                void PyList_SET_ITEM(list, i, tup);
+                PyList_SET_ITEM(list, i, tup);
             }
 
             PyArray_Descr *descr = nullptr;
@@ -1174,7 +1174,6 @@ namespace rr {
     }
 
 
-/*
 /* PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                                      NPY_CARRAY | NPY_OWNDATA, NULL);
  */

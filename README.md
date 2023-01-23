@@ -20,34 +20,50 @@
 
 # Summary
 
-libroadrunner is a C/C++ library that supports simulation of SBML based models. It uses LLVM to generate extremely high performace code and is the fastest SBML based simulator currently avaialable. Its main purpose is for use as a resuable library that can be hosted by other applications, particularly on large compute clusters for doing parameter optimization where performance is critical. 
+libRoadRunner is a C/C++ library that supports simulation of SBML based models. It uses LLVM) to generate extremely high performance code and is the fastest SBML-based simulator currently available (ref). Its main purpose is for use as a reusable library that can be hosted by other applications, particularly on large compute clusters for doing parameter optimization where performance is critical. It also has a set of python bindings that allow it to be easily used from python. 
 
 We provide C/C++, Python and Julia bindings.
 
-Sometimes the link to the C API docs goes bad in the readthedocs. If this happens, here is a permanent link that should remain whatever happens:
-
-# Installation
-Python front end (stable):
-
-`pip install libroadrunner`
-
-Binaries:
-
-Head over to the [Releases](https://github.com/sys-bio/roadrunner/releases) page to download binaries. 
-
-Experimental front end: 
-
-`pip install libroadrunner-experimental`
-
 # Documentation
 
-[Python API Documentation](http://sys-bio.github.io/roadrunner/)
+[Full Documentation](https://libroadrunner.readthedocs.io)
+
+[Local Documentation](http://sys-bio.github.io/roadrunner/)  (May be used if above link is failing.)
 
 [C API Documention](https://sys-bio.github.io/roadrunner/OriginalDoxygenStyleDocs/html/index.html)
 
+# Installation
+
+[Binaries](https://github.com/sys-bio/roadrunner/releases) for Windows, MacOS (including universal binaries for the M1 processor), and Linux
+
+Python wheels are available at the above binaries link, and can also be installed via pip:
+
+`pip install libroadrunner`
+
+# Example Python usage
+
+Once installed in Python (using pip or using the wheels directly), the following simple example script should demonstrate the basics of a roadrunner simulation:
+
+```python
+import roadrunner
+rr = roadrunner.RoadRunner("https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000010.2?filename=BIOMD0000000010_url.xml")
+results = rr.simulate(0, 2000, 200)
+rr.plot()
+print(results)
+```
+
+This simple script downloads [BioModels 10](https://www.ebi.ac.uk/biomodels/BIOMD0000000010) (the Kholodenko model of MAPK oscillation) and runs a simulation for 2000 seconds, storing the results in `results`.  If your system is set up to display figures, it will display a plot of the simulation, then print the numerical values obtained.
+
+# Dependencies
+
+All libRoadRunner binaries are self-contained, and should include all libraries it depends on.  When building libRoadRunner from source, its dependencies may either be downloaded *en masse* from the [libroadrunner-deps](https://github.com/sys-bio/libroadrunner-deps) repository, may be obtained directly from their [respective sources](https://github.com/sys-bio/libroadrunner-deps/tree/release/third_party), or the libraries may be installed directly on your operating system.  Compilation requires a C++17 compiler.
+
+The one exception to the above is that the libRoadRunner binaries depend on the 'ncurses' library on linux.
+
+
 # Copyright
 
-Copyright 2013-2021
+Copyright 2013-2022
 
 E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</sup>, M. Swat <sup>1</sup>, M. Galdzicki <sup>3</sup>, K. Choi <sup>3</sup>, W. Copeland <sup>3</sup>, L. Smith <sup>3</sup>, C. Welsh <sup>3</sup> and H. M. Sauro <sup>3</sup>
 
@@ -55,15 +71,11 @@ E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</su
 2. Dune Scientific, 10522 Lake City Way NE, #302 Seattle WA
 3. Department of Bioengineering, University of Washington, Seattle, WA, 98195
 
-The current (2021) developers are Lucian Smith and Ciaran Welsh.
-
-## Introduction
-
-libRoadRunner is a high-performance and portable simulation engine for systems and synthetic biology.
+The current (2021-present) developer is Lucian Smith.
 
 ## Contributing
 
-**IMPORTANT!** Contributors **must** follow the [contribution guidelines](https://github.com/sys-bio/roadrunner/wiki). Contibuters are responsible for complying with the guidelines, including (but not limited to) making commits to the correct branch. Maintainers are not responsible for changes made to the wrong branch. Contributors take full responsibility for ensuring that their changes get merged into the develop branch.
+Contributors may submit pull requests at any time, and are asked to follow some general [contribution guidelines](https://github.com/sys-bio/roadrunner/wiki).  Bug requests and feature suggestions are also welcomed on the [issues page](https://github.com/sys-bio/roadrunner/issues).
 
 ## libRoadRunner supports the following features:
 
@@ -87,37 +99,36 @@ libRoadRunner is a high-performance and portable simulation engine for systems a
 RoadRunner is licensed for free as an open source programmatic library for use in other 
 applications and as a standalone command line driven application. Its C++ API, C API, and 
 Python APIs have comprehensive documentation. On Windows, OS X, and Linux binary files can be 
+downloaded from the [Releases](https://github.com/sys-bio/roadrunner/releases) page, and the 
+Python bindings can additionally be downloaded via pip. 
 
-downloaded from http://sourceforge.net/projects/libroadrunner/files and can be installed 
-ready for use.
 
 ## Docker images
-Currently we have a manylinux2014 [build](https://hub.docker.com/repository/docker/ciaranwelsh/roadrunner-manylinux2014-base) docker image. The 
-base provides the environment you need to be able to build roadrunner 
-yourself on manylinux2014 (centos 8).  
-
-There are two docker tags associated with roadrunner depending on which 
-version of llvm you want to build with. The options are llvm-13.x for newer 
-roadrunner versions (> v2.2.0) and llvm-6.x for older.
+Currently we have a manylinux2014 [build](https://hub.docker.com/repository/docker/sysbiouw/roadrunner-manylinux2014-base) docker image. The 
+base provides the environment you need to be able to build roadrunner yourself on manylinux2014 (centos 8).  
 
 To get the base image: 
 
-`docker pull ciaranwelsh/roadrunner-manylinux2014-base:llvm-13.x`
-
-and the build image:
-
-`docker pull ciaranwelsh/roadrunner-manylinux2014-build:llvm-13.x`
+`docker pull sysbiouw/roadrunner-manylinux2014-base:llvm-13.x`
 
 Docker build scripts can be found under the `docker` directory from the roadrunner
 root directory. 
 
 We can also build roadrunner in alternative docker environments (ubuntu etc.) on request. 
 
+## Citing
+
+If you use RoadRunner in your research, we would appreciate following citations in any works you publish:
+
+Ciaran Welsh, Jin Xu, Lucian Smith, Matthias König, Kiri Choi, Herbert M Sauro, libRoadRunner 2.0: a high performance SBML simulation and analysis library, *Bioinformatics*, Volume 39, Issue 1, January 2023, btac770, https://doi.org/10.1093/bioinformatics/btac770
+
+Endre T. Somogyi, Jean-Marie Bouteiller, James A. Glazier, Matthias König, J. Kyle Medley, Maciej H. Swat, Herbert M. Sauro, libRoadRunner: a high performance SBML simulation and analysis library, *Bioinformatics*, Volume 31, Issue 20, 15 October 2015, Pages 3315–3321, https://doi.org/10.1093/bioinformatics/btv363
+
 ## Acknowledgements
 
 This work is funded by NIGMS grant: GM081070
 
-Licence
+## Licence
 
 Licensed under the Apache License, Version 2.0 (the License); you may not use this 
 file except in compliance with the License. You may obtain a copy of the License at
@@ -125,7 +136,7 @@ file except in compliance with the License. You may obtain a copy of the License
 http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software distributed 
-under the License is distributed on an ÎAS IS BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+under the License is distributed on an AS-IS BASIS, WITHOUT WARRANTIES OR CONDITIONS 
 OF ANY KIND, either express or implied. See the License for the specific language 
 governing permissions and limitations under the License.
 

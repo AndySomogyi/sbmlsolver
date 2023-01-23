@@ -15,7 +15,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -70,7 +72,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/introduction.html">rrPlugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../developers_docs/index.html">Developers Documentation</a></li>
@@ -89,9 +91,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="tutorial.html">Tutorial</a> &raquo;</li>
-      <li>Loading Models</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="tutorial.html">Tutorial</a></li>
+      <li class="breadcrumb-item active">Loading Models</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/tutorial/loading_models.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -102,7 +104,7 @@
            <div itemprop="articleBody">
              
   <section id="loading-models">
-<h1>Loading Models<a class="headerlink" href="#loading-models" title="Permalink to this headline"></a></h1>
+<h1>Loading Models<a class="headerlink" href="#loading-models" title="Permalink to this heading"></a></h1>
 <p>RoadRunner reads models using the SBML format. If you have a SBML model stored on your hard drive, it is
 possible to load that model either by giving he document contents or path to the Roadrunner
 constructor, or later by using the method, <code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code>. Let’s assume you have a model called
@@ -119,7 +121,7 @@ these must be typed twice, i.e. <code class="docutils literal notranslate"><span
 </pre></div>
 </div>
 <p>RoadRunner can also load models directly from a URL via:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s2">&quot;http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s2">&quot;https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000010.2?filename=BIOMD0000000010_url.xml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If the model was loaded successfully, the RoadRunner object is now ready to use,  otherwise an exception will
@@ -137,7 +139,7 @@ rrnew = roadrunner.RoadRunner (sbmlStr)</p>
 <p>Additionally, there are a couple models <strong>included with libRoadRunner</strong>. The models  <code class="docutils literal notranslate"><span class="pre">feedback.xml</span></code>
 and <code class="docutils literal notranslate"><span class="pre">Test_1.xml</span></code> are available in the <code class="docutils literal notranslate"><span class="pre">roadrunner.testing</span></code> module. To access these use:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">roadrunner.testing</span> <span class="k">as</span> <span class="nn">test</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">getRoadRunner</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+<span class="n">rr</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">getRoadRunner</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>There are a few additional models in the <code class="docutils literal notranslate"><span class="pre">models/</span></code> directory of the distribution, where you installed libRoadRunner.</p>

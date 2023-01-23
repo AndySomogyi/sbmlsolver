@@ -135,7 +135,7 @@ else ()
     message(STATIC "system not supported")
 endif ()
 
-add_dependencies(roadrunner_python TestModelFactory)
+#add_dependencies(roadrunner_python TestModelFactory)
 
 install(
         TARGETS roadrunner_python

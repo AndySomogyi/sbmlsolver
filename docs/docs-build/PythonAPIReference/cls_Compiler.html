@@ -15,7 +15,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -56,7 +58,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/introduction.html">rrPlugins</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api_reference.html">Python RoadRunner API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="cls_Config.html">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cls_RoadRunner.html">The Main RoadRunner Class</a></li>
@@ -67,7 +69,22 @@
 <li class="toctree-l2"><a class="reference internal" href="cls_LoadSBMLOptions.html">SBML Compile Options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cls_ExecutableModel.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cls_Logger.html">Logging</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">JIT Compilation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">JIT Compilation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#RoadRunner.Compiler"><code class="docutils literal notranslate"><span class="pre">Compiler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#RoadRunner.Compiler.getCompiler"><code class="docutils literal notranslate"><span class="pre">Compiler.getCompiler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RoadRunner.Compiler.getDefaultTargetTriple"><code class="docutils literal notranslate"><span class="pre">Compiler.getDefaultTargetTriple()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RoadRunner.Compiler.getProcessTriple"><code class="docutils literal notranslate"><span class="pre">Compiler.getProcessTriple()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RoadRunner.Compiler.getHostCPUName"><code class="docutils literal notranslate"><span class="pre">Compiler.getHostCPUName()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RoadRunner.Compiler.setCompiler"><code class="docutils literal notranslate"><span class="pre">Compiler.setCompiler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RoadRunner.Compiler.getCompilerLocation"><code class="docutils literal notranslate"><span class="pre">Compiler.getCompilerLocation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RoadRunner.Compiler.setCompilerLocation"><code class="docutils literal notranslate"><span class="pre">Compiler.setCompilerLocation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RoadRunner.Compiler.getSupportCodeFolder"><code class="docutils literal notranslate"><span class="pre">Compiler.getSupportCodeFolder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RoadRunner.Compiler.setSupportCodeFolder"><code class="docutils literal notranslate"><span class="pre">Compiler.setSupportCodeFolder()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#RoadRunner-.Compiler.getVersion"><code class="docutils literal notranslate"><span class="pre">Compiler.getVersion()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="cls_Misc.html">Miscellaneous Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cls_PyConservedMoietyConverter.html">Conserved Moiety Conversion</a></li>
 </ul>
@@ -89,9 +106,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="api_reference.html">Python RoadRunner API Reference</a> &raquo;</li>
-      <li>JIT Compilation</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="api_reference.html">Python RoadRunner API Reference</a></li>
+      <li class="breadcrumb-item active">JIT Compilation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/PythonAPIReference/cls_Compiler.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -102,7 +119,7 @@
            <div itemprop="articleBody">
              
   <section id="jit-compilation">
-<h1>JIT Compilation<a class="headerlink" href="#jit-compilation" title="Permalink to this headline"></a></h1>
+<h1>JIT Compilation<a class="headerlink" href="#jit-compilation" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="RoadRunner.Compiler">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">Compiler</span></span><a class="headerlink" href="#RoadRunner.Compiler" title="Permalink to this definition"></a></dt>
@@ -124,7 +141,7 @@ LLVM JIT compiler.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RoadRunner-.Compiler.getVersion">
-<span id="RoadRunner:.Compiler.getVersion"></span><span class="sig-prename descclassname"><span class="pre">Compiler.</span></span><span class="sig-name descname"><span class="pre">getVersion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner-.Compiler.getVersion" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">Compiler.</span></span><span class="sig-name descname"><span class="pre">getVersion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner-.Compiler.getVersion" title="Permalink to this definition"></a></dt>
 <dd><p>get the version of the JIT compiler.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>

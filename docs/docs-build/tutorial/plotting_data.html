@@ -15,7 +15,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -70,7 +72,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/introduction.html">rrPlugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../developers_docs/index.html">Developers Documentation</a></li>
@@ -89,9 +91,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="tutorial.html">Tutorial</a> &raquo;</li>
-      <li>Plotting Data</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="tutorial.html">Tutorial</a></li>
+      <li class="breadcrumb-item active">Plotting Data</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/tutorial/plotting_data.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -102,7 +104,7 @@
            <div itemprop="articleBody">
              
   <section id="plotting-data">
-<h1>Plotting Data<a class="headerlink" href="#plotting-data" title="Permalink to this headline"></a></h1>
+<h1>Plotting Data<a class="headerlink" href="#plotting-data" title="Permalink to this heading"></a></h1>
 <p>RoadRunner has a built in <code class="xref py py-meth docutils literal notranslate"><span class="pre">plot()</span></code> method which can perform basic plotting.
 Simply call:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
@@ -125,7 +127,7 @@ remaining columns the y axis, we type:</p>
 <p>Below is a simplified version of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">plot()</span></code> method. You may copy and write a
 customized version and even attach it to the RoadRunner object. The first argument is a RoadRunner
 object instance, and the second is a flag which tells the method to show the plot or not:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 
     <span class="kn">import</span> <span class="nn">pylab</span> <span class="k">as</span> <span class="nn">p</span>
 
@@ -136,7 +138,7 @@ object instance, and the second is a flag which tells the method to show the plo
 
     <span class="c1"># assume result is a standard numpy array</span>
 
-    <span class="n">selections</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">timeCourseSelections</span>
+    <span class="n">selections</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">timeCourseSelections</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">selections</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;simulation result columns not equal to number of selections,&quot;</span>
@@ -157,7 +159,7 @@ object instance, and the second is a flag which tells the method to show the plo
 </div>
 <p>You can attach your plotting function to the RoadRunner object by simply setting the plot
 method:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_plot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">show</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_plot</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">show</span><span class="p">):</span>
     <span class="k">pass</span>
 
 <span class="kn">import</span> <span class="nn">roadrunner</span>

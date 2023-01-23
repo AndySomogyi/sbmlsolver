@@ -8,9 +8,9 @@ import cpuinfo # pip install py-cpuinfo
 NCORES = cpu_count()
 NSIMS = 1000000
 
-def simulate_worker(r: RoadRunner):
-    r.resetAll()
-    return r.simulate(0, 10, 11)
+def simulate_worker(rr: RoadRunner):
+    rr.resetAll()
+    return rr.simulate(0, 10, 11)
 
 
 if __name__ == '__main__':
@@ -21,20 +21,20 @@ if __name__ == '__main__':
     sbml = tmf.BatchImmigrationDeath03().str()
 
     # create our roadrunner instance
-    r = RoadRunner(sbml)
+    rr = RoadRunner(sbml)
 
     # set up a stochastic simulation
-    r.setIntegrator('gillespie')
+    rr.setIntegrator('gillespie')
 
     # set the seed for reproducuble example
-    gillespie_integrator = r.getIntegrator()
+    gillespie_integrator = rr.getIntegrator()
     gillespie_integrator.seed = 1234
 
     # create a processing pool
     p = Pool(processes=NCORES)
 
     # perform the simulations
-    arrays = p.map(simulate_worker, [r for i in range(NSIMS)])
+    arrays = p.map(simulate_worker, [rr for i in range(NSIMS)])
 
     duration = time.time() - start
 
