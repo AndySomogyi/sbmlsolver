@@ -20,7 +20,7 @@
 
 # Summary
 
-libRoadRunner is a C/C++ library that supports simulation of SBML based models. It uses LLVM to generate extremely high performace code and is the fastest SBML based simulator currently avaialable. Its main purpose is for use as a resuable library that can be hosted by other applications, particularly on large compute clusters for doing parameter optimization where performance is critical. 
+libRoadRunner is a C/C++ library that supports simulation of SBML based models. It uses LLVM) to generate extremely high performance code and is the fastest SBML-based simulator currently available (ref). Its main purpose is for use as a reusable library that can be hosted by other applications, particularly on large compute clusters for doing parameter optimization where performance is critical. It also has a set of python bindings that allow it to be easily used from python. 
 
 We provide C/C++, Python and Julia bindings.
 
@@ -40,11 +40,25 @@ Python wheels are available at the above binaries link, and can also be installe
 
 `pip install libroadrunner`
 
+# Example Python usage
+
+Once installed in Python (using pip or using the wheels directly), the following simple example script should demonstrate the basics of a roadrunner simulation:
+
+```python
+import roadrunner
+rr = roadrunner.RoadRunner("https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000010.2?filename=BIOMD0000000010_url.xml")
+results = rr.simulate(0, 2000, 200)
+rr.plot()
+print(results)
+```
+
+This simple script downloads [BioModels 10](https://www.ebi.ac.uk/biomodels/BIOMD0000000010) (the Kholodenko model of MAPK oscillation) and runs a simulation for 2000 seconds, storing the results in `results`.  If your system is set up to display figures, it will display a plot of the simulation, then print the numerical values obtained.
+
 # Dependencies
 
-All libRoadRunner binaries are self-contained, and should include all libraries it depends on.  When building libRoadRunner from source, its dependencies may either be downloaded *en masse* from the [libroadrunner-deps](https://github.com/sys-bio/libroadrunner-deps) repository, may be obtained directly from their [respective sources](https://github.com/sys-bio/libroadrunner-deps/tree/release/third_party), or the libraries may be installed directly on your operating system.
+All libRoadRunner binaries are self-contained, and should include all libraries it depends on.  When building libRoadRunner from source, its dependencies may either be downloaded *en masse* from the [libroadrunner-deps](https://github.com/sys-bio/libroadrunner-deps) repository, may be obtained directly from their [respective sources](https://github.com/sys-bio/libroadrunner-deps/tree/release/third_party), or the libraries may be installed directly on your operating system.  Compilation requires a C++17 compiler.
 
-The one exception to the above is that libRoadRunner depends on the 'ncurses' library on linux.
+The one exception to the above is that the libRoadRunner binaries depend on the 'ncurses' library on linux.
 
 
 # Copyright
@@ -57,7 +71,7 @@ E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</su
 2. Dune Scientific, 10522 Lake City Way NE, #302 Seattle WA
 3. Department of Bioengineering, University of Washington, Seattle, WA, 98195
 
-The current (2022) developer is Lucian Smith.
+The current (2021-present) developer is Lucian Smith.
 
 ## Contributing
 
@@ -101,6 +115,14 @@ Docker build scripts can be found under the `docker` directory from the roadrunn
 root directory. 
 
 We can also build roadrunner in alternative docker environments (ubuntu etc.) on request. 
+
+## Citing
+
+If you use RoadRunner in your research, we would appreciate following citations in any works you publish:
+
+Ciaran Welsh, Jin Xu, Lucian Smith, Matthias König, Kiri Choi, Herbert M Sauro, libRoadRunner 2.0: a high performance SBML simulation and analysis library, *Bioinformatics*, Volume 39, Issue 1, January 2023, btac770, https://doi.org/10.1093/bioinformatics/btac770
+
+Endre T. Somogyi, Jean-Marie Bouteiller, James A. Glazier, Matthias König, J. Kyle Medley, Maciej H. Swat, Herbert M. Sauro, libRoadRunner: a high performance SBML simulation and analysis library, *Bioinformatics*, Volume 31, Issue 20, 15 October 2015, Pages 3315–3321, https://doi.org/10.1093/bioinformatics/btv363
 
 ## Acknowledgements
 
