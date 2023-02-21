@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ModelDataIRBuilder &mdash; libRoadRunner 1.1.16 documentation</title>
@@ -30,11 +30,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> libRoadRunner
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            libRoadRunner
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -158,7 +162,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">The LibRoadRunner C++ Library</a></li>
           <li class="breadcrumb-item"><a href="index.html">LLVM Docs</a></li>
       <li class="breadcrumb-item active">ModelDataIRBuilder</li>
@@ -204,7 +208,7 @@
 <span id="_CPPv3N6rrllvm18ModelDataIRBuilder9createGEPE15ModelDataFieldsRKN4llvm5TwineE"></span><span id="_CPPv2N6rrllvm18ModelDataIRBuilder9createGEPE15ModelDataFieldsRKN4llvm5TwineE"></span><span id="rrllvm::ModelDataIRBuilder::createGEP__ModelDataFields.llvm::TwineCR"></span><span class="target" id="classrrllvm_1_1ModelDataIRBuilder_1a8770029b07689ce56645b6a14d8572d3"></span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Value</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">createGEP</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">ModelDataFields</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">field</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Twine</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm18ModelDataIRBuilder9createGEPE15ModelDataFieldsRKN4llvm5TwineE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>create a GEP for a ModelData structure field. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>md</strong> – value for a ModelData pointer type. </p>
 </dd>
 </dl>
@@ -551,10 +555,10 @@
 <span id="_CPPv3N6rrllvm18ModelDataIRBuilder9getModuleERN4llvm9IRBuilderIEEPKc"></span><span id="_CPPv2N6rrllvm18ModelDataIRBuilder9getModuleERN4llvm9IRBuilderIEEPKc"></span><span id="rrllvm::ModelDataIRBuilder::getModule__llvm::IRBuilder::R.cCP"></span><span class="target" id="classrrllvm_1_1ModelDataIRBuilder_1ad512312ee6b7b77e00e0231a56fb135f"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Module</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">getModule</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">llvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">IRBuilder</span></span><span class="p"><span class="pre">&lt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&amp;</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">func</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm18ModelDataIRBuilder9getModuleERN4llvm9IRBuilderIEEPKc" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get the module, only valid whilst a BasicBlock is begin filled. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fname</strong> – name of the calling function, used for generating exception on failure.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a module on success, throws exeption on failure. </p>
 </dd>
 </dl>

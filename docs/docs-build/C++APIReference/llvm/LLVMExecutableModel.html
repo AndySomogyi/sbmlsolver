@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LLVMExecutableModel &mdash; libRoadRunner 1.1.16 documentation</title>
@@ -30,11 +30,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> libRoadRunner
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            libRoadRunner
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -158,7 +162,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">The LibRoadRunner C++ Library</a></li>
           <li class="breadcrumb-item"><a href="index.html">LLVM Docs</a></li>
       <li class="breadcrumb-item active">LLVMExecutableModel</li>
@@ -305,7 +309,7 @@ Interface to LLVM executable model. <dl class="simple">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel24getGlobalParameterValuesE6size_tPKiPd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel24getGlobalParameterValuesE6size_tPKiPd"></span><span id="rrllvm::LLVMExecutableModel::getGlobalParameterValues__s.iCP.doubleP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1a7326ff8b52c44cc6ebe88bad8495f175"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getGlobalParameterValues</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel24getGlobalParameterValuesE6size_tPKiPd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get the global parameter values </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
 <li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of boundary species to return. </p></li>
@@ -331,7 +335,7 @@ Interface to LLVM executable model. <dl class="simple">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel16getReactionRatesE6size_tPKiPd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel16getReactionRatesE6size_tPKiPd"></span><span id="rrllvm::LLVMExecutableModel::getReactionRates__s.iCP.doubleP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1abdd14f103eb20ad8a4b5d5c89750f85b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getReactionRates</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel16getReactionRatesE6size_tPKiPd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get the std::vector of reaction rates. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – the length of the supplied buffer, must be &gt;= reaction rates size. </p></li>
 <li><p><strong>indx</strong> – pointer to index array. If NULL, then it is ignored and the reaction rates are copied directly into the supplied buffer. </p></li>
@@ -346,7 +350,7 @@ Interface to LLVM executable model. <dl class="simple">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel21getCompartmentVolumesE6size_tPKiPd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel21getCompartmentVolumesE6size_tPKiPd"></span><span id="rrllvm::LLVMExecutableModel::getCompartmentVolumes__s.iCP.doubleP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1ae93515327eae8af56a12b24bd545df33"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getCompartmentVolumes</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel21getCompartmentVolumesE6size_tPKiPd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get the compartment volumes </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
 <li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of boundary species to return. </p></li>
@@ -391,10 +395,10 @@ Interface to LLVM executable model. <dl class="simple">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel14getStateVectorEPd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel14getStateVectorEPd"></span><span id="rrllvm::LLVMExecutableModel::getStateVector__doubleP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1a1bab14a8a11c8fe0e23521e107105447"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getStateVector</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">stateVector</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel14getStateVectorEPd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>copies the internal model state std::vector into the provided buffer. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>stateVector</strong> – <strong>[out]</strong> a buffer to copy the state std::vector into, if NULL, return the size required.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the number of items coppied into the provided buffer, if stateVector is NULL, returns the length of the state std::vector. </p>
 </dd>
 </dl>
@@ -405,10 +409,10 @@ Interface to LLVM executable model. <dl class="simple">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel14setStateVectorEPKd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel14setStateVectorEPKd"></span><span id="rrllvm::LLVMExecutableModel::setStateVector__doubleCP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1a8ab1d594d85c537534ee12fa8eafee2c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setStateVector</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">stateVector</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel14setStateVectorEPKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>sets the internal model state to the provided packed state std::vector. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>an</strong> – <strong>[in]</strong> array which holds the packed state std::vector, must be at least the size returned by getStateVector.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the number of items copied from the state std::vector, negative on failure. </p>
 </dd>
 </dl>
@@ -421,7 +425,7 @@ Interface to LLVM executable model. <dl class="simple">
 <p>the state std::vector y is the rate rule values and floating species concentrations concatenated. y is of length numFloatingSpecies + numRateRules.</p>
 <p>The state std::vector is packed such that the first n raterule elements are the values of the rate rules, and the last n floatingspecies are the floating species values.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>time</strong> – <strong>[in]</strong> current simulator time </p></li>
 <li><p><strong>y</strong> – <strong>[in]</strong> state std::vector, must be of size returned by getStateVector </p></li>
@@ -466,7 +470,7 @@ Interface to LLVM executable model. <dl class="simple">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel25getFloatingSpeciesAmountsE6size_tPKiPd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel25getFloatingSpeciesAmountsE6size_tPKiPd"></span><span id="rrllvm::LLVMExecutableModel::getFloatingSpeciesAmounts__s.iCP.doubleP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1ab7af45309d8f1c09fbca57365328cdc9"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getFloatingSpeciesAmounts</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel25getFloatingSpeciesAmountsE6size_tPKiPd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get the floating species amounts </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
 <li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of boundary species to return. </p></li>
@@ -491,7 +495,7 @@ Interface to LLVM executable model. <dl class="simple">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel32getFloatingSpeciesConcentrationsE6size_tPKiPd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel32getFloatingSpeciesConcentrationsE6size_tPKiPd"></span><span id="rrllvm::LLVMExecutableModel::getFloatingSpeciesConcentrations__s.iCP.doubleP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1a8c5aff102586a6b652ac912d7a674a32"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getFloatingSpeciesConcentrations</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel32getFloatingSpeciesConcentrationsE6size_tPKiPd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get the floating species concentrations </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
 <li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of boundary species to return. </p></li>
@@ -506,7 +510,7 @@ Interface to LLVM executable model. <dl class="simple">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel32setFloatingSpeciesConcentrationsE6size_tPKiPKd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel32setFloatingSpeciesConcentrationsE6size_tPKiPKd"></span><span id="rrllvm::LLVMExecutableModel::setFloatingSpeciesConcentrations__s.iCP.doubleCP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1a7056709cd89a33fba3d78ebe24463522"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setFloatingSpeciesConcentrations</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel32setFloatingSpeciesConcentrationsE6size_tPKiPKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>set the floating species concentrations </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
 <li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of boundary species to return. </p></li>
@@ -526,7 +530,7 @@ Interface to LLVM executable model. <dl class="simple">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel25getBoundarySpeciesAmountsE6size_tPKiPd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel25getBoundarySpeciesAmountsE6size_tPKiPd"></span><span id="rrllvm::LLVMExecutableModel::getBoundarySpeciesAmounts__s.iCP.doubleP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1ac7547346f83f0407259f9aa83fba2f2a"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getBoundarySpeciesAmounts</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel25getBoundarySpeciesAmountsE6size_tPKiPd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get the boundary species amounts </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
 <li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of boundary species to return. </p></li>
@@ -541,7 +545,7 @@ Interface to LLVM executable model. <dl class="simple">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel32getBoundarySpeciesConcentrationsE6size_tPKiPd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel32getBoundarySpeciesConcentrationsE6size_tPKiPd"></span><span id="rrllvm::LLVMExecutableModel::getBoundarySpeciesConcentrations__s.iCP.doubleP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1af242105f0b29c521b8bc7a438d09b43b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getBoundarySpeciesConcentrations</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel32getBoundarySpeciesConcentrationsE6size_tPKiPd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get the boundary species concentrations </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
 <li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of boundary species to return. </p></li>
@@ -556,7 +560,7 @@ Interface to LLVM executable model. <dl class="simple">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel32setBoundarySpeciesConcentrationsE6size_tPKiPKd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel32setBoundarySpeciesConcentrationsE6size_tPKiPKd"></span><span id="rrllvm::LLVMExecutableModel::setBoundarySpeciesConcentrations__s.iCP.doubleCP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1aaa538c4229baa2ffb0173c43c58674b2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setBoundarySpeciesConcentrations</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel32setBoundarySpeciesConcentrationsE6size_tPKiPKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get the boundary species concentrations </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
 <li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of boundary species to return. </p></li>
@@ -571,7 +575,7 @@ Interface to LLVM executable model. <dl class="simple">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel25setBoundarySpeciesAmountsE6size_tPKiPKd"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel25setBoundarySpeciesAmountsE6size_tPKiPKd"></span><span id="rrllvm::LLVMExecutableModel::setBoundarySpeciesAmounts__s.iCP.doubleCP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1a2b9157cb5bc361364d33f70b2361800b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setBoundarySpeciesAmounts</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel25setBoundarySpeciesAmountsE6size_tPKiPKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get the boundary species amounts </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
 <li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of boundary species to return. </p></li>
@@ -608,7 +612,7 @@ Interface to LLVM executable model. <dl class="simple">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel16getReactionIndexERKNSt6stringE"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel16getReactionIndexERKNSt6stringE"></span><span id="rrllvm::LLVMExecutableModel::getReactionIndex__ssCR"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1a979920ccd4f05575fe872a50dc4b368c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getReactionIndex</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&amp;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel16getReactionIndexERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get the index of a named reaction </p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>&gt;= 0 on success, &lt; 0 on failure. </p>
 </dd>
 </dl>
@@ -668,7 +672,7 @@ Interface to LLVM executable model. <dl class="simple">
 <dd><p>allocate a block of memory and copy the stochiometric values into it, and return it. </p>
 <p>The caller is responsible for freeing the memory that is referenced by data.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rows</strong> – <strong>[out]</strong> will hold the number of rows in the matrix. </p></li>
 <li><p><strong>cols</strong> – <strong>[out]</strong> will hold the number of columns in the matrix. </p></li>
@@ -822,7 +826,7 @@ When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState t
 </dl>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – <strong>[in]</strong> The length of indx </p></li>
 <li><p><strong>indx</strong> – <strong>[in]</strong> An index into eventState </p></li>
@@ -844,7 +848,7 @@ When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState t
 <dd><p>evaluate the event ‘roots’ &amp;#8212; when events transition form triggered - non-triggered or triggered to non-triggered state. </p>
 <p>Simplest method is to return 1 for triggered, -1 for not-triggered, so long as there is a zero crossing.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>time[in]</strong> – current time </p></li>
 <li><p><strong>y[in]</strong> – the state std::vector </p></li>
@@ -969,7 +973,7 @@ When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState t
 <p>TODO: This should be merged with getFloatingSpeciesAmountRates, but that will break inteface, will do in next point release.</p>
 <p>TODO: If the conversion factor changes in between getting the reaction rates std::vector via getReactionRates</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>index</strong> – index of the desired floating speceis rate. </p></li>
 <li><p><strong>reactionRates</strong> – pointer to buffer of reaction rates. </p></li>
