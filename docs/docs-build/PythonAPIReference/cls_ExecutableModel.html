@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Accessing the SBML Model Variables &mdash; libRoadRunner 1.1.16 documentation</title>
@@ -30,11 +30,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> libRoadRunner
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            libRoadRunner
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -178,7 +182,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="api_reference.html">Python RoadRunner API Reference</a></li>
       <li class="breadcrumb-item active">Accessing the SBML Model Variables</li>
       <li class="wy-breadcrumbs-aside">
@@ -316,13 +320,13 @@ an exception is raised indicating the error, and no harm done.</p>
 <dd><p>Get the list of floating species amounts. If no arguments are given, this
 returns all floating species amounts.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an optional array of desired floating species indices.</p>
 </dd>
-<dt class="field-even">Retuns</dt>
+<dt class="field-even">Retuns<span class="colon">:</span></dt>
 <dd class="field-even"><p>an array of floating species amounts.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -344,7 +348,7 @@ returns all floating species amounts.</p>
 <dd><p>Use this to set the entire set of floating species amounts in one call.
 The order of species is given by the order of Ids returned by getFloatingSpeciesIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>values</strong> (<em>numpy.ndarray</em>) – the values to set.</p>
 </dd>
 </dl>
@@ -363,13 +367,13 @@ The order of species is given by the order of Ids returned by getFloatingSpecies
 <dd><p>Return a vector of floating species concentrations. The order of species is
 given by the order of Ids returned by getFloatingSpeciesIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>an array of floating species concentrations.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -385,7 +389,7 @@ given by the order of Ids returned by getFloatingSpeciesIds()</p>
 <dd><p>Use this to set the entire set of floating species concentrations in one call.
 The order of species is given by the order of Ids returned by getFloatingSpeciesIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to set,
 or if no index array is given, the first param should be an
@@ -437,13 +441,13 @@ what has changed the initial conditions use the <code class="xref py py-meth doc
 <dd><p>Return a vector of floating species initial concentrations. The order of species is
 given by the order of Ids returned by getFloatingSpeciesInitialConcentrationIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>an array of floating species initial concentrations.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -459,7 +463,7 @@ given by the order of Ids returned by getFloatingSpeciesInitialConcentrationIds(
 <dd><p>Set a vector of floating species initial concentrations. The order of species is
 given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
 </dl>
@@ -476,13 +480,13 @@ given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()</p>
 <dd><p>Return a vector of floating species initial amounts. The order of species is
 given by the order of Ids returned by getFloatingSpeciesInitialConcentrationIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>an array of floating species initial amounts.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -498,7 +502,7 @@ given by the order of Ids returned by getFloatingSpeciesInitialConcentrationIds(
 <dd><p>Set a vector of floating species initial amounts. The order of species is
 given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
 </dl>
@@ -518,13 +522,13 @@ given by the order of Ids returned by getFloatingSpeciesInitialAmountIds()</p>
 <dd><p>Return a vector of boundary species amounts. The order of species is
 given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>an array of the boundary species amounts.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -540,13 +544,13 @@ given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <dd><p>Return a vector of boundary species concentrations. The order of species is
 given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>an array of the boundary species concentrations.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -561,10 +565,10 @@ given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <span class="sig-prename descclassname"><span class="pre">ExecutableModel.</span></span><span class="sig-name descname"><span class="pre">getBoundarySpeciesIds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.ExecutableModel.getBoundarySpeciesIds" title="Permalink to this definition"></a></dt>
 <dd><p>Return a vector of boundary species Ids.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a list of boundary species ids.</p>
 </dd>
 </dl>
@@ -579,10 +583,10 @@ given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <span class="sig-prename descclassname"><span class="pre">ExecutableModel.</span></span><span class="sig-name descname"><span class="pre">getBoundarySpeciesConcentrationIds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.ExecutableModel.getBoundarySpeciesConcentrationIds" title="Permalink to this definition"></a></dt>
 <dd><p>Return a vector of boundary species concentration Ids.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a list of boundary species concentration ids.</p>
 </dd>
 </dl>
@@ -608,7 +612,7 @@ given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <dd><p>Use this to set the entire set of boundary species concentrations in one call.
 The order of species is given by the order of boundary species returned by getBoundarySpeciesIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to set,
 or if no index array is given, the first param should be an
@@ -632,10 +636,10 @@ array of all the  values to set.</p></li>
 <span class="sig-prename descclassname"><span class="pre">ExecutableModel.</span></span><span class="sig-name descname"><span class="pre">getCompartmentIds</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.ExecutableModel.getCompartmentIds" title="Permalink to this definition"></a></dt>
 <dd><p>Return a vector of compartment identifier symbols.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>None</em><em> or </em><em>numpy.ndarray</em>) – A array of compartment indices indicating which compartment ids to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a list of compartment ids.</p>
 </dd>
 </dl>
@@ -651,13 +655,13 @@ array of all the  values to set.</p></li>
 <dd><p>Return a vector of compartment volumes. The order of volumes is
 given by the order of Ids returned by getCompartmentIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>an array of compartment volumes.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray.</p>
 </dd>
 </dl>
@@ -672,7 +676,7 @@ given by the order of Ids returned by getCompartmentIds()</p>
 <span class="sig-prename descclassname"><span class="pre">ExecutableModel.</span></span><span class="sig-name descname"><span class="pre">getNumCompartments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.ExecutableModel.getNumCompartments" title="Permalink to this definition"></a></dt>
 <dd><p>Return the number of compartments in the model.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -690,7 +694,7 @@ given by the order of Ids returned by getCompartmentIds()</p>
 compartment volumes to set. If index is given, then  values should have the same
 length as index.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to set,
 or if no index array is given, the first param should be an
@@ -714,7 +718,7 @@ array of all the  values to set.</p></li>
 <span class="sig-prename descclassname"><span class="pre">ExecutableModel.</span></span><span class="sig-name descname"><span class="pre">getGlobalParameterIds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.ExecutableModel.getGlobalParameterIds" title="Permalink to this definition"></a></dt>
 <dd><p>Return a list of global parameter ids.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a list of global parameter ids.</p>
 </dd>
 </dl>
@@ -726,13 +730,13 @@ array of all the  values to set.</p></li>
 <dd><p>Returns a vector of global parameter values. The order of species is
 given by the order of Ids returned by getGlobalParameterIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>an array of global parameter values.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray.</p>
 </dd>
 </dl>
@@ -758,7 +762,7 @@ given by the order of Ids returned by getGlobalParameterIds()</p>
 <dd><p>Sets the entire set of global parameters.
 The order of parameters is given by the order of Ids returned by getGlobalParameterIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to set,
 or if no index array is given, the first param should be an
@@ -792,10 +796,10 @@ array of all the values to set.</p></li>
 <span class="sig-prename descclassname"><span class="pre">ExecutableModel.</span></span><span class="sig-name descname"><span class="pre">getReactionIds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.ExecutableModel.getReactionIds" title="Permalink to this definition"></a></dt>
 <dd><p>Return a vector of reaction Ids.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a list of reaction ids.</p>
 </dd>
 </dl>
@@ -811,13 +815,13 @@ array of all the values to set.</p></li>
 <dd><p>Return a vector of reaction rates (reaction velocity) for the current state of the model. The
 order of reaction rates is given by the order of Ids returned by getReactionIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>an array of reaction rates.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -858,7 +862,7 @@ order of reaction rates is given by the order of Ids returned by getReactionIds(
 <span class="sig-prename descclassname"><span class="pre">ExecutableModel.</span></span><span class="sig-name descname"><span class="pre">getEventIds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.ExecutableModel.getEventIds" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of event ids.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a list of event ids.</p>
 </dd>
 </dl>
@@ -878,7 +882,7 @@ order of reaction rates is given by the order of Ids returned by getReactionIds(
 <p>Frequently one does not need the full stochiometrix matrix, particularly if the system is
 large and only a single coefficient is needed.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>speciesIndex</strong> – a floating species index from <a class="reference internal" href="#RoadRunner.ExecutableModel.getFloatingSpeciesIds" title="RoadRunner.ExecutableModel.getFloatingSpeciesIds"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getFloatingSpeciesIds()</span></code></a></p></li>
 <li><p><strong>reactionIndex</strong> – a reaction index from <a class="reference internal" href="#RoadRunner.ExecutableModel.getReactionIds" title="RoadRunner.ExecutableModel.getReactionIds"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getReactionIds()</span></code></a></p></li>
@@ -900,7 +904,7 @@ large and only a single coefficient is needed.</p>
 <span class="sig-prename descclassname"><span class="pre">ExecutableModel.</span></span><span class="sig-name descname"><span class="pre">getNumConservedMoieties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.ExecutableModel.getNumConservedMoieties" title="Permalink to this definition"></a></dt>
 <dd><p>Return the number of conserved moieties in the model.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -915,10 +919,10 @@ large and only a single coefficient is needed.</p>
 <span class="sig-prename descclassname"><span class="pre">ExecutableModel.</span></span><span class="sig-name descname"><span class="pre">getConservedMoietyIds</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.ExecutableModel.getConservedMoietyIds" title="Permalink to this definition"></a></dt>
 <dd><p>Return a vector of conserved moiety identifier symbols.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>None</em><em> or </em><em>numpy.ndarray</em>) – A array of compartment indices indicating which compartment ids to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a list of compartment ids.</p>
 </dd>
 </dl>
@@ -934,13 +938,13 @@ large and only a single coefficient is needed.</p>
 <dd><p>Return a vector of conserved moiety volumes. The order of values is
 given by the order of Ids returned by getConservedMoietyIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to return.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>an array of conserved moiety values.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray.</p>
 </dd>
 </dl>
@@ -960,7 +964,7 @@ not update the initial species condition from which the values were calculated.<
 values to set. If index is given, then  values should have the same
 length as index.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>index</strong> (<em>numpy.ndarray</em>) – (optional) an index array indicating which items to set,
 or if no index array is given, the first param should be an
@@ -986,7 +990,7 @@ array of all the  values to set.</p></li>
 floating species, boundary species, global parameters, compartments, and reactions,
 as well as <cite>time</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p>a list of all component ids widely used in time course selections.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getAllTimeCourseComponentIds</span><span class="p">()</span>
 <span class="go">[&#39;time&#39;, &#39;S1&#39;, &#39;S2&#39;, &#39;S3&#39;, &#39;k1&#39;, &#39;k2&#39;, &#39;default_compartment&#39;, &#39;_J0&#39;, &#39;_J1&#39;]</span>
@@ -1067,7 +1071,7 @@ time = 10.</p>
 <span class="sig-prename descclassname"><span class="pre">ExecutableModel.</span></span><span class="sig-name descname"><span class="pre">setTime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.ExecutableModel.setTime" title="Permalink to this definition"></a></dt>
 <dd><p>Set the model time variable.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>time</strong> – time the time value to set.</p>
 </dd>
 </dl>
