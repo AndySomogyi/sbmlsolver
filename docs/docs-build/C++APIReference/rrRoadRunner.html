@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rrRoadRunner &mdash; libRoadRunner 1.1.16 documentation</title>
@@ -30,11 +30,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> libRoadRunner
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            libRoadRunner
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -120,7 +124,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">The LibRoadRunner C++ Library</a></li>
       <li class="breadcrumb-item active">rrRoadRunner</li>
       <li class="wy-breadcrumbs-aside">
@@ -155,7 +159,7 @@
 <p>same arguments as load.</p>
 <p>If options is not null, then the RoadRunner::computeAndAssignConservationLaws flag is set to whatever value is specified in the options struct.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>uriOrSBML</strong> – a URI, local path or sbml document contents. </p></li>
 <li><p><strong>options</strong> – an options struct, if null, default values are used. </p></li>
@@ -169,7 +173,7 @@
 <span id="_CPPv3N2rr10RoadRunner10RoadRunnerERKNSt6stringERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N2rr10RoadRunner10RoadRunnerERKNSt6stringERKNSt6stringERKNSt6stringE"></span><span id="rr::RoadRunner::RoadRunner__ssCR.ssCR.ssCR"></span><span class="target" id="classrr_1_1RoadRunner_1a3e326546550b3f4533dd7d6b3f2f4250"></span><span class="sig-name descname"><span class="n"><span class="pre">RoadRunner</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">compiler</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">tempDir</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">supportCodeDir</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner10RoadRunnerERKNSt6stringERKNSt6stringERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>All three of the <a class="reference internal" href="#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> options default to the empty std::string, in this case, the default values are used. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>compiler</strong> – If LLVM build is enabled, the compiler defaults to LLVM. </p></li>
 <li><p><strong>tempDir</strong> – If the old external C compiler is used, this is the where the C files are written to. </p></li>
@@ -306,7 +310,7 @@
 <span id="_CPPv3N2rr10RoadRunner13setIntegratorERKNSt6stringE"></span><span id="_CPPv2N2rr10RoadRunner13setIntegratorERKNSt6stringE"></span><span id="rr::RoadRunner::setIntegrator__ssCR"></span><span class="target" id="classrr_1_1RoadRunner_1a1400fd93277e9c4b85be1685a4c6ebb7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setIntegrator</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner13setIntegratorERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>set the current <a class="reference internal" href="Integrator.html#classrr_1_1Integrator"><span class="std std-ref">Integrator</span></a> to </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name;</strong> – </p>
 </dd>
 </dl>
@@ -319,7 +323,7 @@
 <p>
 use getRegisteredSteadyStateSolverNames to get a list of available names </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name;</strong> – </p>
 </dd>
 </dl>
@@ -332,7 +336,7 @@ use getRegisteredSteadyStateSolverNames to get a list of available names </p>
 <p>
 use getRegisteredSensitivitySolverNames to get a list of available sensitivity solver names </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name;</strong> – </p>
 </dd>
 </dl>
@@ -345,7 +349,7 @@ use getRegisteredSensitivitySolverNames to get a list of available sensitivity s
 <p>
 Use getRegisteredIntegratorNames to get a list of available integrator solver names. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> – exists.</p>
 </dd>
 </dl>
@@ -356,7 +360,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <span id="_CPPv3N2rr10RoadRunner23steadyStateSolverExistsERKNSt6stringE"></span><span id="_CPPv2N2rr10RoadRunner23steadyStateSolverExistsERKNSt6stringE"></span><span id="rr::RoadRunner::steadyStateSolverExists__ssCR"></span><span class="target" id="classrr_1_1RoadRunner_1a079cff347871871d192c2db5c02cbdf5"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">steadyStateSolverExists</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner23steadyStateSolverExistsERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>returns true if <a class="reference internal" href="rrSteadyStateSolver.html#classrr_1_1SteadyStateSolver"><span class="std std-ref">SteadyStateSolver</span></a> </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> – exists. </p>
 </dd>
 </dl>
@@ -367,7 +371,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <span id="_CPPv3N2rr10RoadRunner23sensitivitySolverExistsERKNSt6stringE"></span><span id="_CPPv2N2rr10RoadRunner23sensitivitySolverExistsERKNSt6stringE"></span><span id="rr::RoadRunner::sensitivitySolverExists__ssCR"></span><span class="target" id="classrr_1_1RoadRunner_1ae645693f2c3652b951e106be544a09cd"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensitivitySolverExists</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner23sensitivitySolverExistsERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>returns true if SensitivitySolver </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> – exists. </p>
 </dd>
 </dl>
@@ -408,7 +412,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <dd><p>Clears the currently loaded model and all associated memory. </p>
 <p>Deletes jitted code and libStruct data </p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True if memory was freed, false if no model was loaded in the first place </p>
 </dd>
 </dl>
@@ -419,7 +423,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <span id="_CPPv3N2rr10RoadRunner7oneStepEddb"></span><span id="_CPPv2N2rr10RoadRunner7oneStepEddb"></span><span id="rr::RoadRunner::oneStep__double.double.b"></span><span class="target" id="classrr_1_1RoadRunner_1a27aedd28b2a2d5453200ca4a4a2bf4c0"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">oneStep</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">currentTime</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stepSize</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">reset</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner7oneStepEddb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Carry out a single integration step using a stepsize as indicated in the method call. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>t0</strong> – starting time </p></li>
 <li><p><strong>tf</strong> – final time </p></li>
@@ -434,7 +438,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <span id="_CPPv3N2rr10RoadRunner15internalOneStepEddb"></span><span id="_CPPv2N2rr10RoadRunner15internalOneStepEddb"></span><span id="rr::RoadRunner::internalOneStep__double.double.b"></span><span class="target" id="classrr_1_1RoadRunner_1a2d4f3df674f8f6500d87a584b4f365cd"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">internalOneStep</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">currentTime</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stepSize</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">reset</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner15internalOneStepEddb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Carry out a single internal solver integration step. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>t0</strong> – starting time </p></li>
 <li><p><strong>tf</strong> – final time </p></li>
@@ -487,10 +491,10 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Throws</dt>
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">an</span></span></span> – std::exception if any options are invalid. </p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a borrowed reference to a DoubleMatrix object if successful. The matrix will be empty if output_file is specified and nonempty. </p>
 </dd>
 </dl>
@@ -501,7 +505,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <span id="_CPPv3N2rr10RoadRunner8simulateEddi"></span><span id="_CPPv2N2rr10RoadRunner8simulateEddi"></span><span id="rr::RoadRunner::simulate__double.double.i"></span><span class="target" id="classrr_1_1RoadRunner_1ad3701c04d6317e96c2d2bb235b99d60b"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">ls</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">DoubleMatrix</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">simulate</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">start</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stop</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">points</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner8simulateEddi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>simulate the model using currently set integrator </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>start</strong> – starting time to simulate </p></li>
 <li><p><strong>stop</strong> – what time point does the simulation end? </p></li>
@@ -516,7 +520,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <span id="_CPPv3N2rr10RoadRunner8simulateERKNSt6vectorIdEE"></span><span id="_CPPv2N2rr10RoadRunner8simulateERKNSt6vectorIdEE"></span><span id="rr::RoadRunner::simulate__std::vector:double:CR"></span><span class="target" id="classrr_1_1RoadRunner_1a3148beddf65c37bcdce6cfd2726c48ef"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">ls</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">DoubleMatrix</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">simulate</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">times</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner8simulateERKNSt6vectorIdEE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>simulate the model using currently set integrator </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>times</strong> – a vector of all the time outputs desired. </p>
 </dd>
 </dl>
@@ -528,7 +532,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <dd><p>simulate a timeseries with sensitivities from start to step with num data points. </p>
 <p>Matrix3D indexed by time. Each element of the 3D matrix is a Matrix&lt;double&gt; with rows and columns parameters and model variables respectively. The parameter k determines the kth order derivative of the sensitivity information that will be returned </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>start</strong> – starting time for time series simulation </p></li>
 <li><p><strong>stop</strong> – last time point for time series simulation </p></li>
@@ -555,7 +559,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filename.</strong> – </p>
 </dd>
 </dl>
@@ -575,10 +579,10 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>opt, either</strong> – ‘b’ (default) or ‘r’. The latter is used for debugging. </p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>new reference to a stringstream - the caller is responsible for reclaiming memory Importantly, if the stream is read into a new <a class="reference internal" href="#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> instance via <a class="reference internal" href="#classrr_1_1RoadRunner_1a68f5a245b02936d4ed83dcfe9145bf83"><span class="std std-ref">RoadRunner::loadStateS</span></a> then the user no longer needs to handle the reference manually because <a class="reference internal" href="#classrr_1_1RoadRunner_1a68f5a245b02936d4ed83dcfe9145bf83"><span class="std std-ref">RoadRunner::loadStateS</span></a> does it after loading the state. </p>
 </dd>
 </dl>
@@ -606,7 +610,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <p>
 The stingstream pointer should be heap allocated and generated from <a class="reference internal" href="#classrr_1_1RoadRunner_1a3f30bcb94eeb86ac029b123f51214c94"><span class="std std-ref">RoadRunner::saveStateS</span></a>. It is an error to use a stringstream that was generated in any other way. The memory associated with the stringstream is automatically cleaned up after loading the state. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>stringstream</strong> – that was produced by <a class="reference internal" href="#classrr_1_1RoadRunner_1a3f30bcb94eeb86ac029b123f51214c94"><span class="std std-ref">RoadRunner::saveStateS</span></a>.</p>
 </dd>
 </dl>
@@ -680,7 +684,7 @@ The stingstream pointer should be heap allocated and generated from <a class="re
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>options</strong> – a bitmask made from the SelectionRecord::SelectionTypes values. </p>
 </dd>
 </dl>
@@ -710,7 +714,7 @@ The stingstream pointer should be heap allocated and generated from <a class="re
 <p>If options is not null, then the RoadRunner::computeAndAssignConservationLaws flag is set to whatever value is specified in the options struct.</p>
 <p>WARNING, will no longer return a value in next version.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>uriOrSBML</strong> – a URI, local path or sbml document contents. </p></li>
 <li><p><strong>options</strong> – an options struct, if null, default values are used. </p></li>
@@ -946,7 +950,7 @@ See <a class="reference internal" href="#classrr_1_1RoadRunner_1a5008edbb3df7cd7
 <span id="_CPPv3N2rr10RoadRunner18getReducedJacobianEd"></span><span id="_CPPv2N2rr10RoadRunner18getReducedJacobianEd"></span><span id="rr::RoadRunner::getReducedJacobian__double"></span><span class="target" id="classrr_1_1RoadRunner_1a63002e13888d647221cec2fc5de559ab"></span><span class="n"><span class="pre">ls</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">DoubleMatrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getReducedJacobian</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">h</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1.0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner18getReducedJacobianEd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Compute the reduced Jacobian at the current operating point. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>h</strong> – The step sized used for central difference method. If negative, the default value from the config file is used. </p>
 </dd>
 </dl>
@@ -1195,7 +1199,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner23addSpeciesConcentrationERKNSt6stringERKNSt6stringEdbbRKNSt6stringEb"></span><span id="_CPPv2N2rr10RoadRunner23addSpeciesConcentrationERKNSt6stringERKNSt6stringEdbbRKNSt6stringEb"></span><span id="rr::RoadRunner::addSpeciesConcentration__ssCR.ssCR.double.b.b.ssCR.b"></span><span class="target" id="classrr_1_1RoadRunner_1a6930962f454f983b35c2a147c1092347"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addSpeciesConcentration</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sid</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">compartment</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">initConcentration</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">hasOnlySubstanceUnits</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">boundaryCondition</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">substanceUnits</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forceRegenerate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner23addSpeciesConcentrationERKNSt6stringERKNSt6stringEdbbRKNSt6stringEb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add a species to the current model and set its concentration. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sid</strong> – the ID of the species to be added </p></li>
 <li><p><strong>compartment</strong> – the compartment of the species to be added </p></li>
@@ -1212,7 +1216,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner16addSpeciesAmountERKNSt6stringERKNSt6stringEdbbRKNSt6stringEb"></span><span id="_CPPv2N2rr10RoadRunner16addSpeciesAmountERKNSt6stringERKNSt6stringEdbbRKNSt6stringEb"></span><span id="rr::RoadRunner::addSpeciesAmount__ssCR.ssCR.double.b.b.ssCR.b"></span><span class="target" id="classrr_1_1RoadRunner_1a3af3fb5238087c26851a244ee0dcff8f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addSpeciesAmount</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sid</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">compartment</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">initAmount</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">hasOnlySubstanceUnits</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">boundaryCondition</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">substanceUnits</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forceRegenerate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner16addSpeciesAmountERKNSt6stringERKNSt6stringEdbbRKNSt6stringEb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add a species to the current model. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sid</strong> – the ID of the species to be added </p></li>
 <li><p><strong>compartment</strong> – the compartment of the species to be added </p></li>
@@ -1235,7 +1239,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <dd><p>Set the boundary condition of an existing species. </p>
 <p>By default, the boundary condition for a species is false. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sid</strong> – the ID of the species </p></li>
 <li><p><strong>boundaryCondition</strong> – boundary condition to be set </p></li>
@@ -1250,7 +1254,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner24setHasOnlySubstanceUnitsERKNSt6stringEbb"></span><span id="_CPPv2N2rr10RoadRunner24setHasOnlySubstanceUnitsERKNSt6stringEbb"></span><span id="rr::RoadRunner::setHasOnlySubstanceUnits__ssCR.b.b"></span><span class="target" id="classrr_1_1RoadRunner_1af0c85ad9ef78812bfbf31636683b4ddb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setHasOnlySubstanceUnits</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sid</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">hasOnlySubstanceUnits</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forceRegenerate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner24setHasOnlySubstanceUnitsERKNSt6stringEbb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the hasOnlySubstanceUnits attribute for an existing species. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sid</strong> – the ID of a species </p></li>
 <li><p><strong>hasOnlySubstanceUnits</strong> – the value of hasOnlySubstanceUnits attribute to be set </p></li>
@@ -1265,7 +1269,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner24getHasOnlySubstanceUnitsERKNSt6stringE"></span><span id="_CPPv2N2rr10RoadRunner24getHasOnlySubstanceUnitsERKNSt6stringE"></span><span id="rr::RoadRunner::getHasOnlySubstanceUnits__ssCR"></span><span class="target" id="classrr_1_1RoadRunner_1a3e87e92d78163d57e36fd49c09676589"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getHasOnlySubstanceUnits</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner24getHasOnlySubstanceUnitsERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Get the hasOnlySubstanceUnits attribute for an existing species. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>sid</strong> – the ID of a species </p>
 </dd>
 </dl>
@@ -1277,7 +1281,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <dd><p>Set initial amount for an existing species. </p>
 <p>Initial amount/concentration set before will be unset. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sid</strong> – the ID of a species </p></li>
 <li><p><strong>initAmount</strong> – the initial amount to be set </p></li>
@@ -1293,7 +1297,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <dd><p>Set initial concentration for an existing species. </p>
 <p>Initial amount/concentration set before will be unset. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sid</strong> – the ID of a species </p></li>
 <li><p><strong>initConcentration</strong> – the initial concentration to be set </p></li>
@@ -1308,7 +1312,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner11setConstantERKNSt6stringEbb"></span><span id="_CPPv2N2rr10RoadRunner11setConstantERKNSt6stringEbb"></span><span id="rr::RoadRunner::setConstant__ssCR.b.b"></span><span class="target" id="classrr_1_1RoadRunner_1aa4eff2424c186a5ba3a3d35cf91dce2f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setConstant</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sid</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">constant</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forceRegenerate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner11setConstantERKNSt6stringEbb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the constant attribute for an existing species/ parameter/ compartment By default, the constant attribute is false. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sid</strong> – the ID of a species/ parameter/ compartment </p></li>
 <li><p><strong>constant</strong> – the constant attribute to be set </p></li>
@@ -1333,7 +1337,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner14removeReactionERKNSt6stringEbb"></span><span id="_CPPv2N2rr10RoadRunner14removeReactionERKNSt6stringEbb"></span><span id="rr::RoadRunner::removeReaction__ssCR.b.b"></span><span class="target" id="classrr_1_1RoadRunner_1a0d0a6d74578a9017244bae5a74b253e9"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">removeReaction</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rid</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">deleteUnusedParameters</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forceRegenerate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner14removeReactionERKNSt6stringEbb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Remove a reaction from the current model. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rid</strong> – the ID of the reaction to be removed </p></li>
 <li><p><strong>forceRegenerate</strong> – a boolean value to indicate if the model is regenerated after this function call default value is true to regenerate model after each call of editing function to save time for editing for multiple times, one could set this flag to true only in the last call of editing </p></li>
@@ -1357,7 +1361,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner13getKineticLawERKNSt6stringE"></span><span id="_CPPv2N2rr10RoadRunner13getKineticLawERKNSt6stringE"></span><span id="rr::RoadRunner::getKineticLaw__ssCR"></span><span class="target" id="classrr_1_1RoadRunner_1a3e0b8f15b7ab0042dcfd85c14fa207ca"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getKineticLaw</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner13getKineticLawERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Get the kinetic law of an existing reaction in the current model. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>rid</strong> – the ID of reaction to be modified </p>
 </dd>
 </dl>
@@ -1368,7 +1372,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner12addParameterERKNSt6stringEdb"></span><span id="_CPPv2N2rr10RoadRunner12addParameterERKNSt6stringEdb"></span><span id="rr::RoadRunner::addParameter__ssCR.double.b"></span><span class="target" id="classrr_1_1RoadRunner_1a68e98a5de63e4dc8418738290d4c762b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addParameter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pid</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forceRegenerate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner12addParameterERKNSt6stringEdb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add a parameter to the current model. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pid</strong> – the ID of the parameter to be added </p></li>
 <li><p><strong>value</strong> – the value of the parameter to be added </p></li>
@@ -1383,7 +1387,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner15removeParameterERKNSt6stringEb"></span><span id="_CPPv2N2rr10RoadRunner15removeParameterERKNSt6stringEb"></span><span id="rr::RoadRunner::removeParameter__ssCR.b"></span><span class="target" id="classrr_1_1RoadRunner_1aa22a0401fda4aa17a3118a833fdde286"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">removeParameter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pid</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forceRegenerate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner15removeParameterERKNSt6stringEb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Remove a parameter from the current model. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pid</strong> – the ID of the parameter to be removed </p></li>
 <li><p><strong>forceRegenerate</strong> – a boolean value to indicate if the model is regenerated after this function call default value is true to regenerate model after each call of editing function to save time for editing for multiple times, one could set this flag to true only in the last call of editing </p></li>
@@ -1397,7 +1401,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner14addCompartmentERKNSt6stringEdb"></span><span id="_CPPv2N2rr10RoadRunner14addCompartmentERKNSt6stringEdb"></span><span id="rr::RoadRunner::addCompartment__ssCR.double.b"></span><span class="target" id="classrr_1_1RoadRunner_1a7e475483794fc8b59d3b1b423607b2f5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addCompartment</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cid</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">initVolume</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forceRegenerate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner14addCompartmentERKNSt6stringEdb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Add a compartment to the current model. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cid</strong> – the ID of the compartment to be added </p></li>
 <li><p><strong>initVolume</strong> – the initial volume of the compartment to be added </p></li>
@@ -1412,7 +1416,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner17removeCompartmentERKNSt6stringEb"></span><span id="_CPPv2N2rr10RoadRunner17removeCompartmentERKNSt6stringEb"></span><span id="rr::RoadRunner::removeCompartment__ssCR.b"></span><span class="target" id="classrr_1_1RoadRunner_1ad3f2043bc6e645f5319119df37a9eadb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">removeCompartment</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cid</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forceRegenerate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner17removeCompartmentERKNSt6stringEb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Remove a compartment from the current model. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cid</strong> – the ID of the compartment to be removed </p></li>
 <li><p><strong>forceRegenerate</strong> – a boolean value to indicate if the model is regenerated after this function call default value is true to regenerate model after each call of editing function to save time for editing for multiple times, one could set this flag to true only in the last call of editing </p></li>
@@ -1436,7 +1440,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner11removeRulesERKNSt6stringEbb"></span><span id="_CPPv2N2rr10RoadRunner11removeRulesERKNSt6stringEbb"></span><span id="rr::RoadRunner::removeRules__ssCR.b.b"></span><span class="target" id="classrr_1_1RoadRunner_1adc65f44da5821758e912bd109fadfa1e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">removeRules</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vid</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">useInitialValue</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forceRegenerate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner11removeRulesERKNSt6stringEbb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Remove rules related to given variable from the current model. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>vid</strong> – ID of variable that rules assign formula to </p></li>
 <li><p><strong>useInitialValue</strong> – a boolean value to indicate whether using initial value as current value when the assignment rule of a variable is removed otherwise, it will keep the value of assignment rule as current value </p></li>
@@ -1456,7 +1460,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner23removeInitialAssignmentERKNSt6stringEb"></span><span id="_CPPv2N2rr10RoadRunner23removeInitialAssignmentERKNSt6stringEb"></span><span id="rr::RoadRunner::removeInitialAssignment__ssCR.b"></span><span class="target" id="classrr_1_1RoadRunner_1a4a47d78c63af139f9cbe5aedab5e7b3b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">removeInitialAssignment</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vid</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forceRegenerate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner23removeInitialAssignmentERKNSt6stringEb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Remove initial assignment for a symbol from the current model. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>vid</strong> – ID of the symbol </p></li>
 <li><p><strong>forceRegenerate</strong> – a boolean value to indicate if the model is regenerated after this function call default value is true to regenerate model after each call of editing function to save time for editing for multiple times, one could set this flag to true only in the last call of editing </p></li>
@@ -1505,7 +1509,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner22removeEventAssignmentsERKNSt6stringERKNSt6stringEb"></span><span id="_CPPv2N2rr10RoadRunner22removeEventAssignmentsERKNSt6stringERKNSt6stringEb"></span><span id="rr::RoadRunner::removeEventAssignments__ssCR.ssCR.b"></span><span class="target" id="classrr_1_1RoadRunner_1a6f5bbcfeff4758a5e91c15e16c880641"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">removeEventAssignments</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">eid</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vid</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forceRegenerate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner22removeEventAssignmentsERKNSt6stringERKNSt6stringEb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Remove event assignments for given variable from an existing event. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>eid</strong> – the ID of the event </p></li>
 <li><p><strong>eid</strong> – the ID of the vairable of the event assignments </p></li>
@@ -1520,7 +1524,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner11removeEventERKNSt6stringEb"></span><span id="_CPPv2N2rr10RoadRunner11removeEventERKNSt6stringEb"></span><span id="rr::RoadRunner::removeEvent__ssCR.b"></span><span class="target" id="classrr_1_1RoadRunner_1ad5e6fc77db2c058d9d165a37c56ce700"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">removeEvent</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">eid</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forceRegenerate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner11removeEventERKNSt6stringEb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Remove an event from the current model. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>eid</strong> – the ID of the event to be removed </p></li>
 <li><p><strong>forceRegenerate</strong> – a boolean value to indicate if the model is regenerated after this function call default value is true to regenerate model after each call of editing function to save time for editing for multiple times, one could set this flag to true only in the last call of editing </p></li>
@@ -1550,7 +1554,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>dict</strong> – a pointer to a dictionary which has the steady state options. May be NULL, in this case the existing options are used. </p>
 </dd>
 </dl>
@@ -1678,7 +1682,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 </dl>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>param</strong> – to</p></li>
 <li><p><strong>value</strong> – </p></li>
@@ -1697,7 +1701,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 </dl>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>value</strong> – of global parameter with id</p></li>
 <li><p><strong>param</strong> – </p></li>
