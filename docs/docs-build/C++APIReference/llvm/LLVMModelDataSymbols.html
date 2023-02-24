@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LLVMModelDataSymbols &mdash; libRoadRunner 1.1.16 documentation</title>
@@ -30,11 +30,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> libRoadRunner
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            libRoadRunner
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -158,7 +162,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">The LibRoadRunner C++ Library</a></li>
           <li class="breadcrumb-item"><a href="index.html">LLVM Docs</a></li>
       <li class="breadcrumb-item active">LLVMModelDataSymbols</li>
@@ -317,13 +321,13 @@
 <span id="_CPPv3NK6rrllvm20LLVMModelDataSymbols14getSymbolIndexERKNSt6stringERi"></span><span id="_CPPv2NK6rrllvm20LLVMModelDataSymbols14getSymbolIndexERKNSt6stringERi"></span><span id="rrllvm::LLVMModelDataSymbols::getSymbolIndex__ssCR.iRC"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1a2e17c59cadacce94bb68f93bcb7431bb"></span><a class="reference internal" href="#_CPPv4N6rrllvm20LLVMModelDataSymbols15SymbolIndexTypeE" title="rrllvm::LLVMModelDataSymbols::SymbolIndexType"><span class="n"><span class="pre">SymbolIndexType</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getSymbolIndex</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">result</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm20LLVMModelDataSymbols14getSymbolIndexERKNSt6stringERi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>checks to see if we have the given symbol in the sbml. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> – the name of the sbml symbol to look up. </p></li>
 <li><p><strong>result</strong> – if successfull, this is set to the index </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the type of symbol, if no symbol is found, then INVALID_SYMBOL is returned. </p>
 </dd>
 </dl>
@@ -334,7 +338,7 @@
 <span id="_CPPv3NK6rrllvm20LLVMModelDataSymbols23getFloatingSpeciesIndexERKNSt6stringEb"></span><span id="_CPPv2NK6rrllvm20LLVMModelDataSymbols23getFloatingSpeciesIndexERKNSt6stringEb"></span><span id="rrllvm::LLVMModelDataSymbols::getFloatingSpeciesIndex__ssCR.bC"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1a4686047d567ae2d05491afc81514c4e1"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getFloatingSpeciesIndex</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="p"><span class="pre">&amp;</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">requireIndependent</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm20LLVMModelDataSymbols23getFloatingSpeciesIndexERKNSt6stringEb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get the index of a floating species. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>requireIndependent</strong> – if true, the float species must be independent &amp;#8212; not defined by a rule. </p>
 </dd>
 </dl>
@@ -363,7 +367,7 @@
 <span id="_CPPv3NK6rrllvm20LLVMModelDataSymbols23getGlobalParameterIndexERKNSt6stringE"></span><span id="_CPPv2NK6rrllvm20LLVMModelDataSymbols23getGlobalParameterIndexERKNSt6stringE"></span><span id="rrllvm::LLVMModelDataSymbols::getGlobalParameterIndex__ssCRC"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1a76465828770aec3ce22b2de0e7e569f2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getGlobalParameterIndex</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="p"><span class="pre">&amp;</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm20LLVMModelDataSymbols23getGlobalParameterIndexERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>index of a global param given its name. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Throws</dt>
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">exception</span></span></span> – if invalid name. </p>
 </dd>
 </dl>
@@ -571,13 +575,13 @@
 <span id="_CPPv3NK6rrllvm20LLVMModelDataSymbols24isConservedMoietySpeciesE4uintR4uint"></span><span id="_CPPv2NK6rrllvm20LLVMModelDataSymbols24isConservedMoietySpeciesE4uintR4uint"></span><span id="rrllvm::LLVMModelDataSymbols::isConservedMoietySpecies__uint.uintRC"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1ae43de59bdc21713da5ce118e627a3146"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">isConservedMoietySpecies</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span>, <span class="n"><span class="pre">uint</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">result</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm20LLVMModelDataSymbols24isConservedMoietySpeciesE4uintR4uint" title="Permalink to this definition"></a><br /></dt>
 <dd><p>checks if the given floating species id corresponds to to a conserved moiety species. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> – index of floating species </p></li>
 <li><p><strong>result</strong> – <strong>[out]</strong> the index of the conserved moiety if this is a conserved moiety species. </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>true or false if this is a cm species or not. </p>
 </dd>
 </dl>
@@ -818,7 +822,7 @@
 <span id="_CPPv3N6rrllvm20LLVMModelDataSymbols19initFloatingSpeciesEPKN7libsbml5ModelEb"></span><span id="_CPPv2N6rrllvm20LLVMModelDataSymbols19initFloatingSpeciesEPKN7libsbml5ModelEb"></span><span id="rrllvm::LLVMModelDataSymbols::initFloatingSpecies__libsbml::ModelCP.b"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1a77529f0aa2b1316c84e94b68d68fc0e4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initFloatingSpecies</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Model</span></span><span class="p"><span class="pre">*</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">conservedMoieties</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm20LLVMModelDataSymbols19initFloatingSpeciesEPKN7libsbml5ModelEb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>init the floating species symbols. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>conservedMoieties</strong> – are conserved moieties enabled? </p>
 </dd>
 </dl>
@@ -834,7 +838,7 @@
 <span id="_CPPv3N6rrllvm20LLVMModelDataSymbols20initGlobalParametersEPKN7libsbml5ModelEb"></span><span id="_CPPv2N6rrllvm20LLVMModelDataSymbols20initGlobalParametersEPKN7libsbml5ModelEb"></span><span id="rrllvm::LLVMModelDataSymbols::initGlobalParameters__libsbml::ModelCP.b"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1aa051ce8fa18d9cb45009e548aa15b61f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initGlobalParameters</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Model</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">model</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">conservedMoieties</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm20LLVMModelDataSymbols20initGlobalParametersEPKN7libsbml5ModelEb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>get the global parameters, need to reorder them to set the independent ones first </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>conservedMoieties</strong> – are conserved moieties enabled? </p>
 </dd>
 </dl>

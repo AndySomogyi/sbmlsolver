@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Main RoadRunner Class &mdash; libRoadRunner 1.1.16 documentation</title>
@@ -30,11 +30,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> libRoadRunner
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            libRoadRunner
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -222,7 +226,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="api_reference.html">Python RoadRunner API Reference</a></li>
       <li class="breadcrumb-item active">The Main RoadRunner Class</li>
       <li class="wy-breadcrumbs-aside">
@@ -253,7 +257,7 @@ or a formatted URI specifying the path or location of a SBML document.</p>
 <p>If no arguments are given, a document may be loaded at any future time
 using the load method.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>uriOrSBML</strong> – a URI, local path or SBML document contents.</p></li>
 <li><p><strong>options</strong> – (LoadSBMLOptions) an options object specifying how the
@@ -294,7 +298,7 @@ shortly.</p>
 </div>
 <p>In future version, we will also support loading directly from a libSBML Document object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>uriOrDocument</strong> – A string which may be a local path, URI or contents of an SBML document.</p>
 </dd>
 </dl>
@@ -324,7 +328,7 @@ for debugging, but cannot be reloaded later.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>document</strong> – The file path where the current state will be stored</p></li>
 <li><p><strong>option</strong> – an option object specifying how the state should be saved
@@ -352,7 +356,7 @@ All simulation calls after this function will start from the resumed state.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>document</strong> – The file path where the state of simulation will be loaded from</p>
 </dd>
 </dl>
@@ -385,7 +389,7 @@ into a single xml document which is returned as a string.</p>
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getInfo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getInfo" title="Permalink to this definition"></a></dt>
 <dd><p>Returns info about the current state of the object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -416,7 +420,7 @@ For more information on the possible settings, see <a class="reference internal"
 <dd><p>Returns the solver instance by given name. See <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::roadrunner::Solver</span></code>.
 For more information on the possible settings, see <a class="reference internal" href="cls_Solver.html#solver-class"><span class="std std-ref">Solver Class</span></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the integrator</p>
 </dd>
 </dl>
@@ -440,10 +444,10 @@ For more information on the possible settings, see <a class="reference internal"
 <dd><p>Takes an SBML document (in textual form) and changes all of the local parameters
 to be global parameters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>SBML</strong> (<em>str</em>) – the contents of an SBML document</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
@@ -457,7 +461,7 @@ This is different than <a class="reference internal" href="#RoadRunner.RoadRunne
 This may optionally up or down-convert the document to a different version, if the level and version arguments are non-zero.
 If both arguments are zero, then the document is left alone and the original version is returned.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -470,7 +474,7 @@ If both arguments are zero, then the document is left alone and the original ver
 If the model is edited by methods in editing section, it will return the most updated model with
 the initial model parameters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -481,7 +485,7 @@ the initial model parameters.</p>
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">setIntegrator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.setIntegrator" title="Permalink to this definition"></a></dt>
 <dd><p>Sets specific integrator. For more information on the possible settings, see <a class="reference internal" href="cls_Solver.html#solver-class"><span class="std std-ref">Solver Class</span></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name of the integrator.</p>
 </dd>
 </dl>
@@ -493,7 +497,7 @@ the initial model parameters.</p>
 <dd><p>Sets settings for a specific integrator. See <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">roadrunner::Solver</span></code>.
 For more information on the possible settings, see <a class="reference internal" href="cls_Solver.html#solver-class"><span class="std std-ref">Solver Class</span></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>str</em>) – name of the integrator.</p></li>
 <li><p><strong>key</strong> (<em>str</em>) – name of the setting.</p></li>
@@ -510,7 +514,7 @@ For more information on the possible settings, see <a class="reference internal"
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getIds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.getIds" title="Permalink to this definition"></a></dt>
 <dd><p>Return a list of selection ids that this object can select on.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
@@ -522,7 +526,7 @@ For more information on the possible settings, see <a class="reference internal"
 <dd><p>Returns the value for a given selection. For more information on accepted selection types
 see <a class="reference internal" href="../selecting_values.html#selecting-values"><span class="std std-ref">Selecting Values</span></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>sel</strong> (<em>str</em><em> or </em><a class="reference internal" href="cls_SelectionRecord.html#roadrunner.SelectionRecord" title="roadrunner.SelectionRecord"><em>SelectionRecord</em></a>) – a selection that is either a string or a SelectionRecord that was
 obtained from createSelection</p>
 </dd>
@@ -534,7 +538,7 @@ obtained from createSelection</p>
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getSelectedValues</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getSelectedValues" title="Permalink to this definition"></a></dt>
 <dd><p>returns the values of the current timecourse selections for the current state of the model</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -557,7 +561,7 @@ For more information on accepted selection types, see <a class="reference intern
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">createSelection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.createSelection" title="Permalink to this definition"></a></dt>
 <dd><p>Create a new selection based on a selection string</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="cls_SelectionRecord.html#roadrunner.SelectionRecord" title="roadrunner.SelectionRecord">roadrunner.SelectionRecord</a></p>
 </dd>
 </dl>
@@ -658,7 +662,7 @@ The scope of this reset includes all initial values and parameters (everything).
 this method recurses though all the child configurable elements and sets their
 configuration to the values specified in the document.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>xml</strong> (<em>str</em>) – the contents of an xml document.</p>
 </dd>
 </dl>
@@ -699,7 +703,7 @@ one could set this flag to false excepting for the last call, so that Roadrunner
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sid</strong> (<em>str</em>) – the ID of the species to be added</p></li>
 <li><p><strong>compartment</strong> (<em>str</em>) – the compartment of the species to be added</p></li>
@@ -737,7 +741,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sid</strong> (<em>str</em>) – the ID of the species to be removed</p></li>
 <li><p><strong>forceRegenerate</strong> (<em>bool</em>) – indicate whether the new model is regenerated after this function call</p></li>
@@ -762,7 +766,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rid</strong> (<em>str</em>) – the ID of the reaction to be added</p></li>
 <li><p><strong>reactants</strong> (<em>list</em>) – the list of reactants ID of reaction to be added</p></li>
@@ -785,7 +789,7 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sbmlRep</strong> (<em>str</em>) – the SBML representation (i.e. a reaction tag) describing the reaction to be added</p></li>
 <li><p><strong>forceRegenerate</strong> (<em>bool</em>) – indicate whether the new model is regenerated after this function call</p></li>
@@ -810,7 +814,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rid</strong> (<em>str</em>) – the ID of the reaction to be removed</p></li>
 <li><p><strong>forceRegenerate</strong> (<em>bool</em>) – indicate whether the new model is regenerated after this function call</p></li>
@@ -835,7 +839,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pid</strong> (<em>str</em>) – the ID of the parameter to be added</p></li>
 <li><p><strong>value</strong> (<em>double</em>) – the initial value of the parameter to be added</p></li>
@@ -870,7 +874,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pid</strong> (<em>str</em>) – the ID of the parameter to be removed</p></li>
 <li><p><strong>forceRegenerate</strong> (<em>bool</em>) – indicate whether the new model is regenerated after this function call</p></li>
@@ -895,7 +899,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cid</strong> (<em>str</em>) – the ID of the compartment to be added</p></li>
 <li><p><strong>initVolume</strong> (<em>double</em>) – the initial volume of the compartment to be added</p></li>
@@ -930,7 +934,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cid</strong> (<em>str</em>) – the ID of the compartment to be removed</p></li>
 <li><p><strong>forceRegenerate</strong> (<em>bool</em>) – indicate whether the new model is regenerated after this function call</p></li>
@@ -955,7 +959,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rid</strong> (<em>str</em>) – the ID of the reaction to be modified</p></li>
 <li><p><strong>kineticLaw</strong> (<em>str</em>) – the kinetic formular of reaction to be set</p></li>
@@ -980,7 +984,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>vid</strong> (<em>str</em>) – the ID of the variable that the new rule assigns formula to</p></li>
 <li><p><strong>formula</strong> (<em>str</em>) – the math formula of assignment rule to be added</p></li>
@@ -1005,7 +1009,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>vid</strong> (<em>str</em>) – the ID of the variable that the new rule assigns formula to</p></li>
 <li><p><strong>formula</strong> (<em>str</em>) – the math formula of rate rule to be added</p></li>
@@ -1033,7 +1037,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>vid</strong> (<em>str</em>) – the ID of the variables that rules assign formula to</p></li>
 <li><p><strong>forceRegenerate</strong> (<em>bool</em>) – indicate whether the new model is regenerated after this function call</p></li>
@@ -1058,7 +1062,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>eid</strong> (<em>str</em>) – the ID of the event to be added</p></li>
 <li><p><strong>useValuesFromTriggerTime</strong> (<em>bool</em>) – indicate the moment at which the event’s assignments are to be evaluated</p></li>
@@ -1086,7 +1090,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>eid</strong> (<em>str</em>) – the ID of the event to add the trigger to</p></li>
 <li><p><strong>trigger</strong> (<em>str</em>) – the math formula of event trigger</p></li>
@@ -1108,7 +1112,7 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>eid</strong> (<em>str</em>) – the ID of the event to add the priority to</p></li>
 <li><p><strong>priority</strong> (<em>str</em>) – the math formula of event priority</p></li>
@@ -1130,7 +1134,7 @@ Note that regenerating model is time-consuming. To save time for editing model f
 one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate
 the model once after all editings are completed.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>eid</strong> (<em>str</em>) – the ID of the event to add the delay to</p></li>
 <li><p><strong>delay</strong> (<em>str</em>) – the math formula of event delay</p></li>
@@ -1158,7 +1162,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>eid</strong> (<em>str</em>) – the ID of the event to add the event assignment to</p></li>
 <li><p><strong>vid</strong> (<em>str</em>) – the ID of the variables that assignment assigns formula to</p></li>
@@ -1188,7 +1192,7 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>eid</strong> (<em>str</em>) – the ID of the event</p></li>
 <li><p><strong>vid</strong> (<em>str</em>) – the ID of the variables of the event assignments to be removed</p></li>
@@ -1220,10 +1224,10 @@ the model once after all editings are completed.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">param str eid</dt>
+<dt class="field-odd">param str eid<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the ID of the event to be removed</p>
 </dd>
-<dt class="field-even">param bool forceRegenerate</dt>
+<dt class="field-even">param bool forceRegenerate<span class="colon">:</span></dt>
 <dd class="field-even"><p>indicate whether the new model is regenerated after this function call</p>
 </dd>
 </dl>
@@ -1285,12 +1289,12 @@ then a default set of values is used. The default set of values are (start = 0, 
 <p>steps (Optional) Number of steps at which the output is sampled where the samples are evenly spaced. Steps = points-1. Steps and points may not both be specified.</p>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a numpy array with each selected output time series being a
 column vector, and the 0’th column is the simulation time; or
 if output_file is specified and nonempty, a message string</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1302,18 +1306,18 @@ if output_file is specified and nonempty, a message string</p>
 <dd><p>Run a Gillespie stochastic simulation.</p>
 <p>Use <a class="reference internal" href="#RoadRunner.RoadRunner.reset" title="RoadRunner.RoadRunner.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RoadRunner.reset()</span></code></a> to reset the model each time.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>start</strong> – start time</p></li>
 <li><p><strong>end</strong> – end time</p></li>
 <li><p><strong>steps</strong> – number of steps</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a numpy array with each selected output time series being a
 column vector, and the 0’th column is the simulation time.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1346,7 +1350,7 @@ column vector, and the 0’th column is the simulation time.</p>
 </div>
 <p>If you are using Tellurium, see <a class="reference external" href="https://tellurium.readthedocs.io/en/latest/tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.plot">tellurium.ExtendedRoadRunner.plot</a> which supports extra arguements.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>result</strong> (<em>numpy.ndarray</em>) – Data returned from a simulate or gillespie call</p></li>
 <li><p><strong>loc</strong> (<em>str</em>) – string representing the location of legend i.e. “upper right”</p></li>
@@ -1393,10 +1397,10 @@ The smaller the value the better. Values less than 1E-6 usually indicate a
 steady state has been found. If necessary the method can be called a
 second time to improve the solution.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the sum of squares of the steady state solution.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>double</p>
 </dd>
 </dl>
@@ -1409,10 +1413,10 @@ second time to improve the solution.</p>
 state), then calculates and returns the set of values specified by
 the steady state selections.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a numpy array corresponding to the values specified by steadyStateSelections</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1425,10 +1429,10 @@ the steady state selections.</p>
 state), then calculates and returns the set of values specified by
 the steady state selections with all necessary labels.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a NamedArray corresponding to the values specified by steadyStateSelections</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>NamedArray</p>
 </dd>
 </dl>
@@ -1445,7 +1449,7 @@ the steady state selections with all necessary labels.</p>
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">steadyStateSolverExists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.steadyStateSolverExists" title="Permalink to this definition"></a></dt>
 <dd><p>Checks whether a steady state solver exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name of a steady state solver</p>
 </dd>
 </dl>
@@ -1470,7 +1474,7 @@ related to metabolic control analysis are applicable. These methods are describe
 <p>The first returns a flux control coefficient with respect to flux J1. The second and third
 return concentration control coefficients with respect to species S1 and S2.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>variable</strong> – The id of a dependent variable of the coefficient, for example a
 reaction or species concentration.</p></li>
@@ -1478,10 +1482,10 @@ reaction or species concentration.</p></li>
 or boundary species</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the value of the scaled control coefficient.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>double</p>
 </dd>
 </dl>
@@ -1492,7 +1496,7 @@ or boundary species</p></li>
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getuCC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variableId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameterId</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getuCC" title="Permalink to this definition"></a></dt>
 <dd><p>Get unscaled control coefficient with respect to a global parameter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>variableId</strong> – The id of a dependent variable of the coefficient, for example a
 reaction or species concentration.</p></li>
@@ -1500,10 +1504,10 @@ reaction or species concentration.</p></li>
 or boundary species</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the value of the unscaled control coefficient.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>double</p>
 </dd>
 </dl>
@@ -1519,7 +1523,7 @@ or boundary species</p></li>
 </div>
 <p>calculates elasticity coefficient of reaction ‘J1’ with restpect to parameter ‘Vmax’.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>variable</strong> (<em>str</em>) – A reaction Id</p></li>
 <li><p><strong>parameter</strong> (<em>str</em>) – The independent parameter, for example a kinetic constant, floating or boundary species</p></li>
@@ -1550,7 +1554,7 @@ column imaginary part.</p>
 <p>Note, only valid for pure reaction kinetics models (no rate rules, no floating species rules and
 time invariant stoichiometry).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1565,7 +1569,7 @@ column imaginary part.</p>
 <p>Note, only valid for pure reaction kinetics models (no rate rules, no floating species rules and
 time invariant stoichiometry).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1584,7 +1588,7 @@ time invariant stoichiometry).</p>
 <dd><p>Returns the <em>reduced</em> Jacobian for the independent species. This matrix will be non-singular
 for models that include moiety-conserved cycles.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1596,7 +1600,7 @@ for models that include moiety-conserved cycles.</p>
 <dd><p>Returns the m by n matrix of scaled concentration control coefficients where m is the number
 of floating species and n the number of reactions.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1607,13 +1611,13 @@ of floating species and n the number of reactions.</p>
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getScaledFloatingSpeciesElasticity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reactionId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speciesId</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getScaledFloatingSpeciesElasticity" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the scaled elasticity for a given reaction and given species.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>reactionId</strong> (<em>str</em>) – the SBML id of a reaction.</p></li>
 <li><p><strong>speciesId</strong> (<em>str</em>) – the SBML id of a species.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>double</p>
 </dd>
 </dl>
@@ -1625,13 +1629,13 @@ of floating species and n the number of reactions.</p>
 <dd><p>Returns the unscaled elasticity for a named reaction with respect to a
 named parameter</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>reactionId</strong> (<em>str</em>) – the SBML id of a reaction.</p></li>
 <li><p><strong>parameterId</strong> (<em>str</em>) – the SBML id of a parameter.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>double</p>
 </dd>
 </dl>
@@ -1660,7 +1664,7 @@ named parameter</p>
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getUnscaledSpeciesElasticity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reactionIndx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speciesIndx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getUnscaledSpeciesElasticity" title="Permalink to this definition"></a></dt>
 <dd><p>Get a single species elasticity value.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>reactionIndx</strong> (<em>int</em>) – index of reaction</p></li>
 <li><p><strong>speciesIndx</strong> (<em>int</em>) – index of species.</p></li>
@@ -1674,7 +1678,7 @@ named parameter</p>
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getScaledFluxControlCoefficientMatrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getScaledFluxControlCoefficientMatrix" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the n by n matrix of scaled flux control coefficients where n is the number of reactions.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1685,7 +1689,7 @@ named parameter</p>
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">getScaledElasticityMatrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getScaledElasticityMatrix" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the scaled elasticity matrix at the current operating point.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1702,7 +1706,7 @@ named parameter</p>
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">setDiffStepSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.setDiffStepSize" title="Permalink to this definition"></a></dt>
 <dd><p>Sets the differential step size used in routines such as <a class="reference internal" href="#RoadRunner.RoadRunner.getCC" title="RoadRunner.RoadRunner.getCC"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getCC()</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>val</strong> – differential step size</p>
 </dd>
 </dl>
@@ -1719,7 +1723,7 @@ named parameter</p>
 <span class="sig-prename descclassname"><span class="pre">RoadRunner.</span></span><span class="sig-name descname"><span class="pre">setSteadyStateThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.setSteadyStateThreshold" title="Permalink to this definition"></a></dt>
 <dd><p>Sets the threshold used in steady state solver in routines such as <a class="reference internal" href="#RoadRunner.RoadRunner.getCC" title="RoadRunner.RoadRunner.getCC"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getCC()</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>val</strong> – threshold value</p>
 </dd>
 </dl>
@@ -1757,7 +1761,7 @@ where <span class="math">c</span> is the number of conservation laws and <span c
 the dependent reaction rates in terms of the independent rates. m is the number of floating species
 and r is the rank of the stoichiometry matrix.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1769,7 +1773,7 @@ and r is the rank of the stoichiometry matrix.</p>
 <dd><p>Returns the full link matrix, L for the current model. The Link matrix is an m by r matrix where m
 is the number of floating species and r the rank of the stoichiometric matrix, N.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1781,7 +1785,7 @@ is the number of floating species and r the rank of the stoichiometric matrix, N
 <dd><p>Returns the reduced stoichiometry matrix, <span class="math">N_R</span>, which will have only r rows where r is the rank of
 the full stoichiometry matrix. The matrix will be reordered such that the rows of <span class="math">N_R</span> are independent.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1793,7 +1797,7 @@ the full stoichiometry matrix. The matrix will be reordered such that the rows o
 <dd><p>Returns the K matrix, <span class="math">ker(N_R)</span>, (right nullspace of Nr)
 The K matrix has the structure, <span class="math">[I K0]'</span></p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1809,7 +1813,7 @@ The K matrix has the structure, <span class="math">[I K0]'</span></p>
 Returns a numpy array with three columns. First column is the frequency,
 second column the amplitude, and the third column the phase.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>startFrequency</strong> – Start frequency for the first column in the output</p></li>
 <li><p><strong>numberOfDecades</strong> (<em>int</em>) – Number of decades for the frequency range, eg 4 means the frequency span 10,000</p></li>
@@ -1860,10 +1864,10 @@ second column the amplitude, and the third column the phase.</p>
 <dd><p>Returns the rates of change of all floating species. The order of species is
 given by the order of Ids returned by getFloatingSpeciesIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a named array of floating species rates of change.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1880,10 +1884,10 @@ given by the order of Ids returned by getFloatingSpeciesIds()</p>
 <dd><p>Returns the rates of change of all independent floating species. The order of species is
 given by the order of Ids returned by getIndependentFloatingSpeciesIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a named array of independent floating species rates of change.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -1900,10 +1904,10 @@ given by the order of Ids returned by getIndependentFloatingSpeciesIds()</p>
 <dd><p>Returns the rates of change of all dependent floating species. The order of species is
 given by the order of Ids returned by getDependentFloatingSpeciesIds()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a named array of dependent floating species rates of change.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>

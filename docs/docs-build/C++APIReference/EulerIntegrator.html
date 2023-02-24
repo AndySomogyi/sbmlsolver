@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EulerIntegrator &mdash; libRoadRunner 1.1.16 documentation</title>
@@ -30,11 +30,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> libRoadRunner
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            libRoadRunner
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -120,7 +124,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">The LibRoadRunner C++ Library</a></li>
       <li class="breadcrumb-item active">EulerIntegrator</li>
       <li class="wy-breadcrumbs-aside">
@@ -163,7 +167,7 @@
 <p>Integrators are created when the IntegratorFactory::New method is called, typically by the top level <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> object.</p>
 <p>The integrator will hold onto the <a class="reference internal" href="rrExecutableModel.html#classrr_1_1ExecutableModel"><span class="std std-ref">ExecutableModel</span></a> pointer, m, and when the integrate method is called, will advance the model object forward in time.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>m</strong> – a borrowed reference to an existing <a class="reference internal" href="rrExecutableModel.html#classrr_1_1ExecutableModel"><span class="std std-ref">ExecutableModel</span></a> object. </p></li>
 <li><p><strong>o</strong> – a reference to a SimulatOptions object where the configuration parameters will be read from. </p></li>
@@ -184,7 +188,7 @@
 <dd><p>integrates the model from t0 to t0 + hstep </p>
 <p>In this implementation, this performs a basic forward Euler step. This method also demonstrates how to notify the listener that a timestep has completed.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the end time. </p>
 </dd>
 </dl>

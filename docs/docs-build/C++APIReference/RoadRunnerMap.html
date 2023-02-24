@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RoadRunnerMap &mdash; libRoadRunner 1.1.16 documentation</title>
@@ -28,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> libRoadRunner
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            libRoadRunner
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -75,7 +79,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">RoadRunnerMap</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/C++APIReference/RoadRunnerMap.rst.txt" rel="nofollow"> View page source</a>
@@ -108,7 +112,7 @@
 <span id="_CPPv3N2rr13RoadRunnerMap13RoadRunnerMapERKNSt6vectorINSt6stringEEEj"></span><span id="_CPPv2N2rr13RoadRunnerMap13RoadRunnerMapERKNSt6vectorINSt6stringEEEj"></span><span id="rr::RoadRunnerMap::RoadRunnerMap__std::vector:ss:CR.unsigned-i"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a573a1b64126cd3250e8719c9cb5e766c"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RoadRunnerMap</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sbmlStringsOrFiles</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">numThreads</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap13RoadRunnerMapERKNSt6vectorINSt6stringEEEj" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Instantiate a <a class="reference internal" href="#classrr_1_1RoadRunnerMap"><span class="std std-ref">RoadRunnerMap</span></a> from a. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sbmlStringsOrFiles</strong> – vector of sbml files, sbml strings or a mix thereof. </p></li>
 <li><p><strong>numThreads</strong> – How many threads to use, if 1, the overhead of setting up multithreading pool is avoided. </p></li>
@@ -161,7 +165,7 @@ The model must already be a unique pointer. The key for accessing the map will b
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>roadRunner</strong> – roadrunner model into the map.</p>
 </dd>
 </dl>
@@ -212,7 +216,7 @@ The model must already be a unique pointer. The key for accessing the map will b
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>sbmlOrFile</strong> – either a sbml string or a valid file path to a sbml file. </p>
 </dd>
 </dl>
@@ -240,7 +244,7 @@ The model must already be a unique pointer. The key for accessing the map will b
 </div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>key</strong> – The string to use for the key to the roadrunner model you are inserting. </p></li>
 <li><p><strong>sbmlOrFile</strong> – either a sbml string or a valid file path to a sbml file. </p></li>
@@ -277,7 +281,7 @@ The model must already be a unique pointer. The key for accessing the map will b
 <span id="_CPPv3N2rr13RoadRunnerMap5eraseERKNSt6stringE"></span><span id="_CPPv2N2rr13RoadRunnerMap5eraseERKNSt6stringE"></span><span id="rr::RoadRunnerMap::erase__ssCR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a6d384b01fbf98397a0d475838ac5fd75"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">erase</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap5eraseERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>remove an element with </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>key</strong> – from the map </p>
 </dd>
 </dl>
@@ -329,10 +333,10 @@ The model must already be a unique pointer. The key for accessing the map will b
 <span id="_CPPv3N2rr13RoadRunnerMap4findERKNSt6stringE"></span><span id="_CPPv2N2rr13RoadRunnerMap4findERKNSt6stringE"></span><span id="rr::RoadRunnerMap::find__ssCR"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a1de37edd3f1822e61c98c200b1b4832a"></span><span class="n"><span class="pre">ThreadSafeUnorderedMap</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">iterator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">find</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RoadRunnerMap4findERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>find item with key equal to </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>key.</strong> – </p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>iterator to item if found or end if not found </p>
 </dd>
 </dl>
@@ -343,10 +347,10 @@ The model must already be a unique pointer. The key for accessing the map will b
 <span id="_CPPv3NK2rr13RoadRunnerMap4findERKNSt6stringE"></span><span id="_CPPv2NK2rr13RoadRunnerMap4findERKNSt6stringE"></span><span id="rr::RoadRunnerMap::find__ssCRC"></span><span class="target" id="classrr_1_1RoadRunnerMap_1a02f78458e7f08a5b5607f41271bbf488"></span><span class="n"><span class="pre">ThreadSafeUnorderedMap</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">const_iterator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">find</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr13RoadRunnerMap4findERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>find item with key equal to </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>key.</strong> – Const version. </p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>iterator to item if found or end if not found </p>
 </dd>
 </dl>
@@ -384,7 +388,7 @@ The model must already be a unique pointer. The key for accessing the map will b
 <p>
 returned pointer is owned by the <a class="reference internal" href="#classrr_1_1RoadRunnerMap"><span class="std std-ref">RoadRunnerMap</span></a> object. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>key.</strong> – </p>
 </dd>
 </dl>
@@ -408,7 +412,7 @@ returned pointer is owned by the <a class="reference internal" href="#classrr_1_
 <p>
 Because there can be only 1 element with a particular key in the map, the return value of count is guarenteed to be either 0 for not found, or 1 for found. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>key.</strong> – </p>
 </dd>
 </dl>
