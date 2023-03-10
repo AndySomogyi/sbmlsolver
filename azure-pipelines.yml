@@ -218,7 +218,7 @@ stages:
           SWIG_CACHE: 'false'
           MINICONDA_CACHE: 'false'
           LLVM_CACHE: 'false'
-          LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-clang13-universal-binaries-rel.zip'
+          LLVM_DOWNLOAD_LINK: 'https://github.com/sys-bio/llvm-13.x/releases/download/llvmorg-13.0.0/llvm-13.x-macosx_11_7_x86_64.zip'
         steps:
           - checkout: self
             submodules: recursive
