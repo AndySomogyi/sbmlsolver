@@ -318,7 +318,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
         set(PyTestTests ${PyTestTests} ${TestName})
     endmacro()
 
-
+    #For some reason, the new build of llvm makes importing TestModelFactory fail on MacOS (and causes Python to crash entirely!)
     if (NOT APPLE)
         add_pytest_to_ctest(python_tests_AutomaticMoietyConservationAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_automaticMoietyConservationAnalysis.py")
         add_pytest_to_ctest(python_tests_ForwardSensitivitySolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/test_forwardSensitivitySolver.py")
