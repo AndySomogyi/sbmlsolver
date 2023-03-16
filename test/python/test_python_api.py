@@ -44,7 +44,7 @@ except ImportError:
 #  So we import TestModelFactory as an alias.
 
 import platform
-if platform.system() != "darwin":
+if platform.system() != "Darwin":
 
     import roadrunner.tests.TestModelFactory as tmf
     

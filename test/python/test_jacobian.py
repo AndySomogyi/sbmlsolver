@@ -20,7 +20,7 @@ except ImportError:
     )
 
 import platform
-if platform.system() != "darwin":
+if platform.system() != "Darwin":
 
     try:
         from roadrunner.tests import TestModelFactory as tmf

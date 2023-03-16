@@ -8,7 +8,7 @@ import os
 import copy
 
 import platform
-if platform.system() != "darwin":
+if platform.system() != "Darwin":
 
     try:
         import ray

@@ -11,7 +11,7 @@ sys.path += [
 ]
 from roadrunner.roadrunner import RoadRunner, ForwardSensitivitySolver
 import platform
-if platform.system() != "darwin":
+if platform.system() != "Darwin":
 
     import roadrunner.tests.TestModelFactory as tmf
     

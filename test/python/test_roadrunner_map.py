@@ -15,7 +15,7 @@ import roadrunner as rr
 from roadrunner import RoadRunnerMap, RoadRunner
 
 import platform
-if platform.system() != "darwin":
+if platform.system() != "Darwin":
 
     import roadrunner.tests.TestModelFactory as tmf
     
