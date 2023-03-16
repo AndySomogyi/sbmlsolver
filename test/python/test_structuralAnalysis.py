@@ -25,7 +25,7 @@ except ImportError:
     import roadrunner
 
 import platform
-if platform.system() != "Darwin":
+if platform.system() != "darwin":
 
     try:
         from roadrunner.tests import TestModelFactory as tmf

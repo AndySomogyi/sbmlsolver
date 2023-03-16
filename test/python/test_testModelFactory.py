@@ -20,7 +20,7 @@ sys.path += [
 import roadrunner
 
 import platform
-if platform.system() != "Darwin":
+if platform.system() != "darwin":
 
     import roadrunner.tests.TestModelFactory as tmf
     

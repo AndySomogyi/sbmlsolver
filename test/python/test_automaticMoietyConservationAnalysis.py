@@ -10,7 +10,7 @@ sys.path += [
 from roadrunner.roadrunner import RoadRunner, BasicNewtonIteration
 
 import platform
-if platform.system() != "Darwin":
+if platform.system() != "darwin":
 
     from roadrunner.tests.TestModelFactory import TestModelFactory
     
