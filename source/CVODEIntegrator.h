@@ -144,20 +144,20 @@ namespace rr {
          */
         void setIndividualTolerance(std::string sid, double value) override;
 
-        /**
-         * @author FY
-         * @brief Sets tolerance based on concentration of species
-         * @details First converts the concentration tolerances to amount tolerances
-         * by multiplying the compartment volume of species. Whichever is smaller
-         * will be stored as absolute_tolerance and used in the integration process.
-         */
-        void setConcentrationTolerance(Setting value) override;
+        ///**
+        // * @author FY
+        // * @brief Sets tolerance based on concentration of species
+        // * @details First converts the concentration tolerances to amount tolerances
+        // * by multiplying the compartment volume of species. Whichever is smaller
+        // * will be stored as absolute_tolerance and used in the integration process.
+        // */
+        //void setConcentrationTolerance(Setting value) override;
 
-        /**
-         * @author FY
-         * @brief Gets tolerance based on concentration of species
-         */
-        std::vector<double> getConcentrationTolerance() override;
+        ///**
+        // * @author FY
+        // * @brief Gets tolerance based on concentration of species
+        // */
+        //std::vector<double> getConcentrationTolerance() override;
 
         /**
         * @author JKM
@@ -278,6 +278,8 @@ namespace rr {
         bool haveVariables() const;
 
         void assignResultsToModel() const;
+
+        std::vector<double> getAbsoluteToleranceVector();
 
         /**
          * @author WBC, ETS, JKM
