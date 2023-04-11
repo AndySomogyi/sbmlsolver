@@ -317,13 +317,13 @@ namespace rr {
         // the tolerance std::vector that will be stored
         // [0, numIndFloatingSpecies) stores tolerances for independent floating species
         // [numIndFloatingSpecies, numIndFloatingSpecies+numRateRule) stores tolerances for variables that have rate rule
-        std::vector<double> v;
+        std::vector<double> v = getAbsoluteToleranceVector();
 
         int speciesIndex = mModel->getFloatingSpeciesIndex(sid);
         std::ptrdiff_t index;
         if (speciesIndex > -1 && speciesIndex < mModel->getNumIndFloatingSpecies()) {
             // sid is an independent floating species
-            index = speciesIndex;
+            v[speciesIndex] = value;
         } else {
             // sid might has a rate rule
             std::vector<std::string> symbols = mModel->getRateRuleSymbols();
@@ -331,45 +331,11 @@ namespace rr {
             if (it != symbols.end()) {
                 // found it
                 index = mModel->getNumIndFloatingSpecies() + std::distance(symbols.begin(), it);
-
+                v[index] = value;
             } else {
                 throw std::invalid_argument("CVODEIntegrator::setIndividualTolerance failed, given sid " + sid +
                                             " is neither a floating species nor has a rate rule.");
             }
-        }
-
-        switch (getType("absolute_tolerance")) {
-
-            // all cases below could be convert to a double type
-            case Setting::INT32:
-            case Setting::INT64:
-            case Setting::UINT32:
-            case Setting::UINT64:
-            case Setting::FLOAT:
-            case Setting::DOUBLE: {
-                // scalar tolerance
-                // need to be converted to std::vector tolerance since tolerance of individual variables is set
-
-                double abstol = (double) CVODEIntegrator::getValue("absolute_tolerance");
-                for (int i = 0; i < mModel->getNumFloatingSpecies(); i++)
-                    v.push_back(i == index ? value : abstol);
-            }
-
-            case Setting::DOUBLEVECTOR: {
-                // std::vector tolerance
-                Setting absTolSetting = CVODEIntegrator::getValue("absolute_tolerance");
-                if (auto vec = absTolSetting.get_if<std::vector<double>>()) {
-                    v = *vec;
-                }
-                // only need to update the corresponding index
-                v[index] = value;
-                break;
-            }
-
-            default:
-                throw std::runtime_error(
-                        "CVODEIntegrator::setIndividualTolerance failed, double or double std::vector expected");
-                break;
         }
 
         // update the tolerance
@@ -840,10 +806,6 @@ namespace rr {
         int rrs = mModel->getNumRateRules();
         vector<double> amount_tolerances;
 
-        uint ncomp = mModel->getNumCompartments();
-        double* volumes = (double*)calloc(ncomp, sizeof(double));
-        mModel->getCompartmentVolumes(ncomp, 0, volumes);
-
         switch (getType("absolute_tolerance")) {
 
             // all cases below could be convert to a double type
@@ -863,45 +825,56 @@ namespace rr {
             }
             case Setting::DOUBLEVECTOR: {
                 // std::vector tolerance
-                amount_tolerances = getValue("absolute_tolerance").get<std::vector<double>>();
-                break;
+                return getValue("absolute_tolerance").get<std::vector<double>>();
             }
 
             default:
                 handleCVODEError(CV_ILL_INPUT);
         }
-        vector<double> csizes;
+        uint ncomp = mModel->getNumCompartments();
+        double* volumes = (double*)calloc(ncomp, sizeof(double));
+        mModel->getCompartmentVolumes(ncomp, 0, volumes);
+
+        double* initSpecies = (double*)calloc(species, sizeof(double));
+        mModel->getFloatingSpeciesAmounts(species, 0, initSpecies);
+
+        double* initRRs = (double*)calloc(rrs, sizeof(double));
+        mModel->getRateRuleValues(initRRs);
+
         for (int s = 0; s < species; s++) {
-            int comp = mModel->getCompartmentIndexForFloatingSpecies(s);
-            double csize = volumes[comp];
-            if (csize == 0) {
-                csize = 1;
-            }
-            csizes.push_back(pow(10, round(log(abs(csize)))));
-        }
-        std::vector<std::string> symbols = mModel->getRateRuleSymbols();
-        for (int i = 0; i < rrs; i++) {
-            std::string symbol = symbols[i];
-            int speciesIndex = mModel->getFloatingSpeciesIndex(symbol);
-            if (speciesIndex > -1) {
-                // the symbol defined by the rate rule is a species
-                int comp = mModel->getCompartmentIndexForFloatingSpecies(i);
-                double csize = volumes[comp];
-                if (csize == 0) {
-                    csize = 1;
+            if (initSpecies[s] == 0) {
+                int comp = mModel->getCompartmentIndexForFloatingSpecies(s);
+                if (volumes[comp] != 0.0) {
+                    amount_tolerances[s] = amount_tolerances[s] * abs(volumes[comp]);
                 }
-                csizes.push_back(pow(10, round(log(abs(csize)))));
             }
             else {
-                csizes.push_back(1.0);
+                amount_tolerances[s] = amount_tolerances[s] * abs(initSpecies[s]);
             }
         }
-        //Need to *not* adjust species that are amount-only. LS TODO
-        assert(csizes.size() == amount_tolerances.size());
-        for (size_t mAt = 0; mAt < amount_tolerances.size(); mAt++) {
-            amount_tolerances[mAt] = amount_tolerances[mAt] * csizes[mAt];
+
+        std::vector<std::string> symbols = mModel->getRateRuleSymbols();
+        for (int rr = 0; rr < rrs; rr++) {
+            if (initRRs[rr] == 0.0) {
+                std::string symbol = symbols[rr];
+                int speciesIndex = mModel->getFloatingSpeciesIndex(symbol);
+                if (speciesIndex > -1) {
+                    // the symbol defined by the rate rule is a species
+                    int comp = mModel->getCompartmentIndexForFloatingSpecies(speciesIndex);
+                    if (volumes[comp] != 0.0) {
+                        amount_tolerances[species + rr] = amount_tolerances[species + rr] * abs(volumes[comp]);
+                    }
+                }
+                //Otherwise just leave amount_tolerances as it is.
+            }
+            else {
+                amount_tolerances[species + rr] = amount_tolerances[species + rr] * abs(initRRs[rr]);
+            }
         }
+
         free(volumes);
+        free(initSpecies);
+        free(initRRs);
         return amount_tolerances;
     }
 
@@ -910,12 +883,17 @@ namespace rr {
             return;
         }
 
+        vector<double> amount_tolerances = getAbsoluteToleranceVector();
+        if (amount_tolerances.size() == 0) {
+            amount_tolerances.push_back(1.0);
+        }
+
         // If we have a model with only events, cvode still needs a state std::vector of length 1 to integrate.
         if (!haveVariables() && mModel->getNumEvents() > 0) {
             SetVector(mStateVector, 0, 1.0);
         }
 
-        vector<double> amount_tolerances = getAbsoluteToleranceVector();
+
 
         int err;
         N_Vector nv = N_VMake_Serial(static_cast<long>(amount_tolerances.size()), amount_tolerances.data());
