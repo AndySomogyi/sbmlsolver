@@ -842,7 +842,7 @@ stages:
               echo "g++ $(g++ --version)"
               sudo add-apt-repository ppa:ubuntu-toolchain-r/test
               sudo apt-get update
-              sudo apt-get install -y gcc-10 g++-10 doxygen dvipng texlive texlive-font-utils textlive-latex-extra
+              sudo apt-get install -y gcc-10 g++-10 doxygen dvipng texlive texlive-font-utils texlive-latex-extra
               sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
             displayName: Install g++10 and doxygen
           - script: |
