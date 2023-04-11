@@ -825,7 +825,16 @@ namespace rr {
             }
             case Setting::DOUBLEVECTOR: {
                 // std::vector tolerance
-                return getValue("absolute_tolerance").get<std::vector<double>>();
+                amount_tolerances = getValue("absolute_tolerance").get<std::vector<double>>();
+                if (amount_tolerances.size() == species + rrs) {
+                    return amount_tolerances;
+                }
+                //Otherwise, something might have happened, and the amount tolerances vector is the wrong size.  This can happen when the model is being resized, among other situations.
+                amount_tolerances.clear();
+                for (int n = 0; n < species + rrs; n++) {
+                    amount_tolerances.push_back(Config::CVODE_MIN_ABSOLUTE);
+                }
+                break;
             }
 
             default:
