@@ -311,7 +311,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
         # run pytest with -rP to always capture stdout regardless of pass/fail
         add_test(
                 NAME ${TestName}
-                COMMAND Python::Interpreter -m pytest -rP ${TestSourceFile}
+                COMMAND Python::Interpreter -m pytest -rPs ${TestSourceFile}
                 WORKING_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
         )
         set_tests_properties(${TestName} PROPERTIES ENVIRONMENT "PYTHONPATH=${PYTHON_PACKAGE_SITE_DIR_BUILD_TREE}:$PYTHONPATH")
