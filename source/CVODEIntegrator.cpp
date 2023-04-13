@@ -915,6 +915,7 @@ namespace rr {
             rrLog(Logger::LOG_INFORMATION) << amount_tolerances[i];
         }
         rrLog(Logger::LOG_INFORMATION) << "]; rel=" << (double)getValue("relative_tolerance") << std::endl;
+        N_VDestroy_Serial(nv);
 
         if (err != CV_SUCCESS) {
             handleCVODEError(err);
