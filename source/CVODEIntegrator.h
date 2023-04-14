@@ -241,7 +241,7 @@ namespace rr {
         /**
          * @brief Get the absolute tolerance vector for the solver.
          * 
-         * The absolute tolerance vector is either set directly by the user as a vector, or is generated from the single absolute tolerance value (either default or set by the user) multiplied by the initial value of every element in the state vector (independent floating species, and elements controlled by rate rules).  If the initial value is zero, the corresponding element of the absolute tolerance vector is the single value multiplied by the compartment volume for species, or by one for all other values.
+         * The absolute tolerance vector is either set directly by the user as a vector, or is generated from the single absolute tolerance value (either default or set by the user) multiplied by the initial value of every element in the state vector (independent floating species, and elements controlled by rate rules).  If that initial value is zero, the corresponding element of the absolute tolerance vector is the single value multiplied by the compartment volume for species, or by one for all other values.
          */
         virtual std::vector<double> getAbsoluteToleranceVector();
 
