@@ -46,7 +46,7 @@ libroadrunner can be used entirely in a browser using [Google Colab](https://col
 1. run a cell with ```!apt-get install libncurses5```
 2. run a cell with ```!pip install libroadrunner```
 3. (Vert important) Restart the runtime (From the menu: 'Runtime / Restart runtime')
-4. Test by runnin ```import roadrunner```.
+4. Test by running ```import roadrunner```
   
 The Python version behind Colab is reasonably stable but can change. This issue to changes in how colab handles packages. we try to keep abreast of changes at colab.
 
