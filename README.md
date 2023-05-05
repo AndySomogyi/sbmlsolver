@@ -44,6 +44,16 @@ Python wheels are available at the above binaries link, and can also be installe
 
 Once installed in Python (using pip or using the wheels directly), the following simple example script should demonstrate the basics of a roadrunner simulation:
 
+### Google Colab
+libroadrunner can be used entirely in a browser using [Google Colab](https://colab.research.google.com/).  Ideally, it will work with the following steps (updated May 2023)
+  
+1. run a cell with ```!apt-get install libncurses5```
+2. run a cell with ```!pip install libroadrunner```
+3. (Vert important) Restart the runtime (From the menu: 'Runtime / Restart runtime')
+4. Test by runnin ```import roadrunner```.
+  
+The Python version behind Colab is reasonably stable but can change. This issue to changes in how colab handles packages. we try to keep abreast of changes at colab.
+
 ```python
 import roadrunner
 rr = roadrunner.RoadRunner("https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000010.2?filename=BIOMD0000000010_url.xml")
