@@ -1,7 +1,7 @@
-SolverRegistration
+SolverFactory
 =======================================================
 
-.. doxygenclass:: rr::SolverRegistrationMgr
+.. doxygenclass:: rr::SteadyStateSolverFactory
     :members:
     :protected-members:
     :private-members:
