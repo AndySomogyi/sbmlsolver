@@ -1,5 +1,5 @@
 breathe
 sphinx
-sphinx-rtd-theme
+sphinx-rtd-theme == 1.2.0
 sphinx-execute-code
 sphinx-tabs
