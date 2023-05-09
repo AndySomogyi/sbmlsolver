@@ -200,7 +200,7 @@ RK45
 
     The Runge-Kutte-Fehlberg algorithm (RK45) is a variant of the Runge-Kutta method that estimates the values using a fourth-order method, and estimtes the error using a fifth-order method, allowing adaptive step sizes to be calculated automaticaly.  It can be chosen with:
 
-    >>> rr.setIntegrator('rk4')
+    >>> rr.setIntegrator('rk45')
 
 
 .. attribute:: Integrator.epsilon
