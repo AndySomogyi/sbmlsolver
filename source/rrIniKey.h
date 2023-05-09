@@ -35,7 +35,7 @@ public:
     int                              AsInt() const;
     double                           AsFloat() const;
     std::complex<double>             AsComplex() const;
-    friend RR_DECLSPEC std::ostream& operator<<(std::ostream& stream, const IniKey& aKey);
+    friend std::ostream& operator<<(std::ostream& stream, const IniKey& aKey);
 };
 /** @endcond PRIVATE */
 }
