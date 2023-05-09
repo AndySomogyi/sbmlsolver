@@ -198,7 +198,9 @@ RK4
 RK45
 ----
 
-    RoadRunner's implementation of the standard Gillespie Direct Method SSA. The granularity of this simulator is individual molecules and kinetic processes are stochastic. Results will, in general, be different in each run, but a sufficiently large ensemble of runs should be statistically correct.
+    The Runge-Kutte-Fehlberg algorithm (RK45) is a variant of the Runge-Kutta method that estimates the values using a fourth-order method, and estimtes the error using a fifth-order method, allowing adaptive step sizes to be calculated automaticaly.  It can be chosen with:
+
+    >>> rr.setIntegrator('rk45')
 
 
 .. attribute:: Integrator.epsilon
