@@ -1,13 +1,7 @@
 # libRoadRunner
 [![GitHub version](https://badge.fury.io/gh/sys-bio%2Froadrunner.svg)](http://badge.fury.io/gh/sys-bio%2Froadrunner)
 [![Build Status](https://dev.azure.com/TheRoadrunnerProject/roadrunner/_apis/build/status/sys-bio.roadrunner?branchName=develop)](https://dev.azure.com/TheRoadrunnerProject/roadrunner/_build/latest?definitionId=8&branchName=develop)
-
-<table style="width:100%">
-  <tr>
-    <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/roadrunner"></td>
-    <td><a href="https://badge.fury.io/gh/sys-bio%2Froadrunner"><img src="https://badge.fury.io/gh/sys-bio%2Froadrunner.svg" alt="GitHub version" height="18"></a></td>
-  </tr>
-</table> 
+[![Documentation Status](https://readthedocs.org/projects/libroadrunner/badge/?version=latest)](https://libroadrunner.readthedocs.io/en/latest/?badge=latest)
 
  <table style="width:100%">
   <tr>
