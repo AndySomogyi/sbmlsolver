@@ -925,6 +925,7 @@ stages:
               rm -r -f docs-build doxygen-output
               make roadrunner-docs-doxygen
             displayName: Remove roadrunner docs before re-building
+            condition: eq(variables.BuildType, 'Release')
           - script: |
               echo "pip install dependencies"
               $(PipExecutable) install -r $(SOURCE_DIR)/docs/requirements.txt
@@ -933,6 +934,7 @@ stages:
               make roadrunner-docs-doxygen
               make roadrunner-docs-sphinx
             displayName: Build roadrunner docs
+            condition: eq(variables.BuildType, 'Release')
           - script: |
               echo "move docs to installation"
               mkdir $(INSTALL_DIR)/docs
