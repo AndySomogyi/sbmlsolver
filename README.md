@@ -2,14 +2,14 @@
 [![GitHub version](https://badge.fury.io/gh/sys-bio%2Froadrunner.svg)](http://badge.fury.io/gh/sys-bio%2Froadrunner)
 [![Build Status](https://dev.azure.com/TheRoadrunnerProject/roadrunner/_apis/build/status/sys-bio.roadrunner?branchName=develop)](https://dev.azure.com/TheRoadrunnerProject/roadrunner/_build/latest?definitionId=8&branchName=develop)
 [![Documentation Status](https://readthedocs.org/projects/libroadrunner/badge/?version=latest)](https://libroadrunner.readthedocs.io/en/latest/?badge=latest)
+[![PyPI version](https://badge.fury.io/py/libroadrunner.svg)](https://badge.fury.io/py/libroadrunner)
 
  <table style="width:100%">
   <tr>
     <td><img alt="Licence", src="https://img.shields.io/badge/License-Apache%202.0-yellowgreen"</td>
-    <td><img alt="PyPI - Downloads", src="https://img.shields.io/pypi/dm/roadrunner"></td>
+    <td><img alt="PyPI - Downloads", src="[![PyPI version](https://badge.fury.io/py/libroadrunner.svg)](https://badge.fury.io/py/libroadrunner)"></td>
     <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIH%20(GM123032)-blue"></td>
     <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIBIB%20(EB028887)-blue"></td>    
-    <td><a href="https://badge.fury.io/py/tellurium"><img src="https://badge.fury.io/py/roadrunner.svg" alt="PyPI version" height="18"></a> </td>
    </tr>
 </table> 
 
