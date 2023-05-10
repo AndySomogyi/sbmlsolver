@@ -64,8 +64,9 @@ CVODE
 
    CVODE is a deterministic ODE solver from the SUNDIALS suite of timecourse integrators. It implements an Adams-Moulton solver for non-stiff problems and a backward differentiation formula (BDF) solver for stiff problems.
 
+.. currentmodule:: CVODE
 
-.. autoattribute:: Integrator.absolute_tolerance
+.. attribute:: Integrator.absolute_tolerance
 
     Specifies the scalar or vector absolute tolerance. As of roadrunner version 2.4.0, if a scalar absolute tolerance is used, it is multiplied by the value of every element in the state vector before being used.  If an element of the state vector is zero, the scalar is multiplied by 1.0 for non-species values, and by the size of the species compartment for species values (i.e. the amount of species present if its concentration was 1.0).
 
@@ -80,58 +81,58 @@ CVODE
     >>> rr.integrator.getAbsoluteToleranceVector()   //Gets the absolute tolerance vector, as derived from the scalar value, or as set by the user directly.
     
 
-.. autoattribute:: Integrator.initial_time_step
+.. attribute:: Integrator.initial_time_step
 
     Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step. Default value is 0.0
 
     >>> rr.integrator.initial_time_step = 1
     >>> rr.integrator.initial_time_step
 
-.. autoattribute:: Integrator.maximum_adams_order
+.. attribute:: Integrator.maximum_adams_order
 
     Specifies the maximum order for Adams-Moulton intergration. This integration method is used for non-stiff problems. Default value is 12.
 
     >>> rr.integrator.maximum_adams_order = 20
     >>> rr.integrator."maximum_adams_order
 
-.. autoattribute:: Integrator.maximum_bdf_order
+.. attribute:: Integrator.maximum_bdf_order
 
     Specifies the maximum order for Backward Differentiation Formula integration. This integration method is used for stiff problems. Default value is 5.
 
 
-.. autoattribute:: Integrator.maximum_num_steps
+.. attribute:: Integrator.maximum_num_steps
 
     Specifies the maximum number of steps to be taken by the CVODE solver in its attempt to reach tout. Default value is 20000.
 
 
-.. autoattribute:: Integrator.maximum_time_step
+.. attribute:: Integrator.maximum_time_step
 
     Specifies the maximum absolute value of step size allowed. If inappropriate, CVODE will attempt to estimate a better maximum time step. Default value is 0.0.
 
 
-.. autoattribute:: Integrator.minimum_time_step
+.. attribute:: Integrator.minimum_time_step
 
     Specifies the minimum absolute value of step size allowed. If inappropriate, CVODE will attempt to estimate a better maximum time step. Default value is 0.0.
 
 
-.. autoattribute:: Integrator.multiple_steps
+.. attribute:: Integrator.multiple_steps
 
     Perform a multiple time step simulation. Default value is false.
 
     >>> rr.integrator.multiple_steps = True
     >>> rr.integrator.multiple_steps
 
-.. autoattribute:: Integrator.relative_tolerance
+.. attribute:: Integrator.relative_tolerance
 
     Specifies the scalar relative tolerance. CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value. Default value is Config::CVODE_MIN_RELATIVE.
 
 
-.. autoattribute:: Integrator.stiff
+.. attribute:: Integrator.stiff
 
     Specifies whether the integrator attempts to solve stiff equations. Ensure the integrator can solver stiff differential equations by setting this value to true. Default value is true.
 
 
-.. autoattribute:: Integrator.variable_step_size
+.. attribute:: Integrator.variable_step_size
 
     Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is false.
 
@@ -143,7 +144,8 @@ Gillespie
 
     Can be used with the `rr.gillespie function <https://libroadrunner.readthedocs.io/en/latest/PythonAPIReference/cls_RoadRunner.html#RoadRunner.RoadRunner.gillespie>`_ or by setting integrator to gillespie (see below)
 
-.. autoattribute:: Integrator.initial_time_step
+.. currentmodule:: Gillespie
+.. attribute:: Integrator.initial_time_step
 
     Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step. Default value is 0.0
 
@@ -151,31 +153,31 @@ Gillespie
     >>> rr.integrator.setValue("initial_time_step", 2)
 
 
-.. autoattribute:: Integrator.maximum_time_step
+.. attribute:: Integrator.maximum_time_step
 
     Specifies the maximum absolute value of step size allowed. If inappropriate, CVODE will attempt to estimate a better maximum time step. Default value is 0.0.
 
 
-.. autoattribute:: Integrator.minimum_time_step
+.. attribute:: Integrator.minimum_time_step
 
     Specifies the minimum absolute value of step size allowed. If inappropriate, CVODE will attempt to estimate a better maximum time step. Default value is 0.0.
 
 
-.. autoattribute:: Integrator.nonnegative
+.. attribute:: Integrator.nonnegative
 
     Prevents species amounts from going negative during a simulation. Default value is false.
 
 
-.. autoattribute:: Integrator.seed
+.. attribute:: Integrator.seed
 
    Set the seed into the random engine.  By default, this value is set by the system clock in microseconds.
 
 
-.. autoattribute:: Integrator.variable_step_size
+.. attribute:: Integrator.variable_step_size
 
     Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is true.
 
-.. autoattribute:: Integrator.max_output_rows
+.. attribute:: Integrator.max_output_rows
 
     Sets the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents massive output for simulations where the variable step size ends up decreasing too much.  This setting is ignored when the variable_step_size is false, and is also ignored when the output is being written directly to a file.  Default value is 100,000.
 
@@ -203,24 +205,25 @@ RK45
     >>> rr.setIntegrator('rk45')
 
 
-.. autoattribute:: Integrator.epsilon
+.. currentmodule:: Euler-and-Runge-Kutta
+.. attribute:: Integrator.epsilon
 
     Specifies the maximum error tolerance allowed. Default value is 1e-12.
 
     >>> rr.setIntegrator('rk45') # set integrator first
     >>> rr.integrator.setValue("epsilon", 1e-10)
 
-.. autoattribute:: Integrator.maximum_time_step
+.. attribute:: Integrator.maximum_time_step
 
     Specifies the maximum absolute value of step size allowed. If inappropriate, CVODE will attempt to estimate a better maximum time step. Default value is 0.0.
 
 
-.. autoattribute:: Integrator.minimum_time_step
+.. attribute:: Integrator.minimum_time_step
 
     Specifies the minimum absolute value of step size allowed. If inappropriate, CVODE will attempt to estimate a better maximum time step. Default value is 0.0.
 
 
-.. autoattribute:: Integrator.variable_step_size
+.. attribute:: Integrator.variable_step_size
 
     Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is false.
 
