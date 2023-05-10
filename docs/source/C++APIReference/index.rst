@@ -42,6 +42,7 @@ The LibRoadRunner C++ Library
     rrSelectionRecord.rst
     rrSparse.rst
     rrSteadyStateSolver.rst
+    RoadRunnerMap.rst
 
 
 Introduction
