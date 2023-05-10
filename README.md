@@ -7,7 +7,7 @@
  <table style="width:100%">
   <tr>
     <td><img alt="Licence", src="https://img.shields.io/badge/License-Apache%202.0-yellowgreen"</td>
-    <td><img alt="PyPI - Downloads", src="[![PyPI version](https://badge.fury.io/py/libroadrunner.svg)](https://badge.fury.io/py/libroadrunner)"></td>
+    <td><img alt="PyPI - Downloads", src="https://img.shields.io/pypi/dm/roadrunner"></td>
     <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIH%20(GM123032)-blue"></td>
     <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIBIB%20(EB028887)-blue"></td>    
    </tr>
