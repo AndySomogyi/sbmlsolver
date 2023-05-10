@@ -43,7 +43,7 @@ ________________
 
     Sets the integrator listener.
 
-    :param listener: Swig Object of type 'rr::PyIntegratorListenerPtr *'
+    :param listener: Swig Object of type 'rr::PyIntegratorListenerPtr* '
 
 
 .. method:: Integrator.tweakTolerances()
@@ -73,10 +73,10 @@ CVODE
 
     In Sundials, the CVODE algorithm calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the absolute tolerance should not become smaller than this value. Default value is Config::CVODE_MIN_ABSOLUTE (a scalar).
     
-    >>> rr.integrator.setValue("absolute_tolerance", 1e-10)
-    >>> rr.integrator.setValue("absolute_tolerance", [1, 0.1, 0.01, 0.001] // setting various tolerances for each species.
+    >>> rr.integrator.absolute_tolerance = 1e-10
+    >>> rr.integrator.absolute_tolerance = [1, 0.1, 0.01, 0.001] // setting various tolerances for each species.
 
-    >>> rr.integrator.getValue("absolute_tolerance") //Gets the scalar or vector absolute tolerance, as set by the user or the default value.
+    >>> rr.integrator.absolute_tolerance //Gets the scalar or vector absolute tolerance, as set by the user or the default value.
     >>> rr.integrator.getAbsoluteToleranceVector()   //Gets the absolute tolerance vector, as derived from the scalar value, or as set by the user directly.
     
 
@@ -84,15 +84,15 @@ CVODE
 
     Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step. Default value is 0.0
 
-    >>> rr.integrator.setValue("initial_time_step", 1)
-    >>> rr.integrator.getValue("initial_time_step")
+    >>> rr.integrator.initial_time_step = 1
+    >>> rr.integrator.initial_time_step
 
 .. attribute:: Integrator.maximum_adams_order
 
     Specifies the maximum order for Adams-Moulton intergration. This integration method is used for non-stiff problems. Default value is 12.
 
-    >>> rr.integrator.setValue("maximum_adams_order", 20)
-    >>> rr.integrator.getValue("maximum_adams_order")
+    >>> rr.integrator.maximum_adams_order = 20
+    >>> rr.integrator."maximum_adams_order
 
 .. attribute:: Integrator.maximum_bdf_order
 
@@ -118,8 +118,8 @@ CVODE
 
     Perform a multiple time step simulation. Default value is false.
 
-    >>> rr.integrator.setValue("multiple_steps", True)
-    >>> rr.integrator.getValue("multiple_steps")
+    >>> rr.integrator.multiple_steps = True
+    >>> rr.integrator.multiple_steps
 
 .. attribute:: Integrator.relative_tolerance
 
