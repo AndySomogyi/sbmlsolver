@@ -922,18 +922,21 @@ stages:
           - script: |
               echo "cd to docs dir"
               cd $(SOURCE_DIR)/docs/
+              rm -r -f docs-build doxygen-output
+              make roadrunner-docs-doxygen
+            displayName: Remove roadrunner docs before re-building
+          - script: |
               echo "pip install dependencies"
-              $(PipExecutable) install -r requirements.txt
-              export SPHINXBUILD=$(SphinxExecutable)
-              echo "make html"
-              make html
-              echo "list build/html"
-              ls build/html
+              $(PipExecutable) install -r $(SOURCE_DIR)/docs/requirements.txt
+              echo "cd to build dir"
+              cd $(BUILD_DIR)
+              make roadrunner-docs-doxygen
+              make roadrunner-docs-sphinx
+            displayName: Build roadrunner docs
+          - script: |
               echo "move docs to installation"
-              cd
-              pwd
               mkdir $(INSTALL_DIR)/docs
-              mv $(SOURCE_DIR)/docs/build/html '$(INSTALL_DIR)/docs/docs-build'
+              mv $(SOURCE_DIR)/docs/docs-build '$(INSTALL_DIR)/docs/docs-build'
               mv $(SOURCE_DIR)/docs/doxygen-output '$(INSTALL_DIR)/docs/doxygen-output'
               ls '$(INSTALL_DIR)/docs'
             displayName: Make Docs
