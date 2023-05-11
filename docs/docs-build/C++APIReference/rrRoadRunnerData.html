@@ -140,7 +140,8 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr14RoadRunnerDataE">
 <span id="_CPPv3N2rr14RoadRunnerDataE"></span><span id="_CPPv2N2rr14RoadRunnerDataE"></span><span id="rr::RoadRunnerData"></span><span class="target" id="classrr_1_1RoadRunnerData"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RoadRunnerData</span></span></span><a class="headerlink" href="#_CPPv4N2rr14RoadRunnerDataE" title="Permalink to this definition"></a><br /></dt>
-<dd><div class="breathe-sectiondef docutils container">
+<dd><p>The <a class="reference internal" href="#classrr_1_1RoadRunnerData"><span class="std std-ref">RoadRunnerData</span></a> class is used for simulation output, and provides a wrapper around 2D matrix data.. </p>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr14RoadRunnerData14RoadRunnerDataERKiRKi">
@@ -342,6 +343,19 @@
 
 </div>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr14RoadRunnerData13writeOnlyDataERNSt7ostreamERK14RoadRunnerData">
+<span id="_CPPv3N2rr14RoadRunnerData13writeOnlyDataERNSt7ostreamERK14RoadRunnerData"></span><span id="_CPPv2N2rr14RoadRunnerData13writeOnlyDataERNSt7ostreamERK14RoadRunnerData"></span><span id="rr::RoadRunnerData::writeOnlyData__osR.RoadRunnerDataCR"></span><span class="target" id="classrr_1_1RoadRunnerData_1a8f5ed9327fcc3ba68c0efb8ad24db6fc"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">writeOnlyData</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ss</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N2rr14RoadRunnerDataE" title="rr::RoadRunnerData"><span class="n"><span class="pre">RoadRunnerData</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr14RoadRunnerData13writeOnlyDataERNSt7ostreamERK14RoadRunnerData" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr14RoadRunnerData12writeWeightsERNSt7ostreamERK14RoadRunnerData">
+<span id="_CPPv3N2rr14RoadRunnerData12writeWeightsERNSt7ostreamERK14RoadRunnerData"></span><span id="_CPPv2N2rr14RoadRunnerData12writeWeightsERNSt7ostreamERK14RoadRunnerData"></span><span id="rr::RoadRunnerData::writeWeights__osR.RoadRunnerDataCR"></span><span class="target" id="classrr_1_1RoadRunnerData_1a0c7342fdbfc41ad5eef799c9e64a63c7"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">writeWeights</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ss</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N2rr14RoadRunnerDataE" title="rr::RoadRunnerData"><span class="n"><span class="pre">RoadRunnerData</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr14RoadRunnerData12writeWeightsERNSt7ostreamERK14RoadRunnerData" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr14RoadRunnerData12mColumnNamesE">
@@ -391,12 +405,12 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-friends">Friends</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp">
-<span class="target" id="classrr_1_1RoadRunnerData_1aa4f13c676e080924aa3680cb9a41aa1a"></span><span class="sig-name descname"><span class="pre">friend</span> <span class="pre">RR_DECLSPEC</span> <span class="pre">friend</span> <span class="pre">std::ostream</span> <span class="pre">&amp;</span> <span class="pre">operator&lt;&lt;</span> <span class="pre">(std::ostream</span> <span class="pre">&amp;ss,</span> <span class="pre">const</span> <span class="pre">RoadRunnerData</span> <span class="pre">&amp;data)</span></span></dt>
+<span class="target" id="classrr_1_1RoadRunnerData_1a86bcd0a6b613c0776ba6ddc658345116"></span><span class="sig-name descname"><span class="pre">friend</span> <span class="pre">RR_DECLSPEC</span> <span class="pre">friend</span> <span class="pre">std::ostream</span> <span class="pre">&amp;</span> <span class="pre">operator&lt;&lt;</span> <span class="pre">(std::ostream</span> <span class="pre">&amp;ss,</span> <span class="pre">const</span> <span class="pre">RoadRunnerData</span> <span class="pre">&amp;data)</span></span></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp">
-<span class="target" id="classrr_1_1RoadRunnerData_1a6e64031908178f830df254cf4d1915f3"></span><span class="sig-name descname"><span class="pre">friend</span> <span class="pre">RR_DECLSPEC</span> <span class="pre">friend</span> <span class="pre">std::istream</span> <span class="pre">&amp;</span> <span class="pre">operator&gt;&gt;</span> <span class="pre">(std::istream</span> <span class="pre">&amp;ss,</span> <span class="pre">RoadRunnerData</span> <span class="pre">&amp;data)</span></span></dt>
+<span class="target" id="classrr_1_1RoadRunnerData_1af18f4e6f8e1559b84f469054eff433a6"></span><span class="sig-name descname"><span class="pre">friend</span> <span class="pre">RR_DECLSPEC</span> <span class="pre">friend</span> <span class="pre">std::istream</span> <span class="pre">&amp;</span> <span class="pre">operator&gt;&gt;</span> <span class="pre">(std::istream</span> <span class="pre">&amp;ss,</span> <span class="pre">RoadRunnerData</span> <span class="pre">&amp;data)</span></span></dt>
 <dd></dd></dl>
 
 </div>

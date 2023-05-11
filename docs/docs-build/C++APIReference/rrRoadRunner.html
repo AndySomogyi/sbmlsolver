@@ -185,7 +185,13 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner10RoadRunnerERK10RoadRunner">
 <span id="_CPPv3N2rr10RoadRunner10RoadRunnerERK10RoadRunner"></span><span id="_CPPv2N2rr10RoadRunner10RoadRunnerERK10RoadRunner"></span><span id="rr::RoadRunner::RoadRunner__RoadRunnerCR"></span><span class="target" id="classrr_1_1RoadRunner_1aa6518611d8ac7cd908dbf5704d129020"></span><span class="sig-name descname"><span class="n"><span class="pre">RoadRunner</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N2rr10RoadRunner10RoadRunnerERK10RoadRunner" title="rr::RoadRunner::RoadRunner"><span class="n"><span class="pre">RoadRunner</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner10RoadRunnerERK10RoadRunner" title="Permalink to this definition"></a><br /></dt>
-<dd><p><a class="reference internal" href="#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> copy constructor Explicitly defined because of Python. </p>
+<dd><p><a class="reference internal" href="#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> copy constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunneraSERK10RoadRunner">
+<span id="_CPPv3N2rr10RoadRunneraSERK10RoadRunner"></span><span id="_CPPv2N2rr10RoadRunneraSERK10RoadRunner"></span><span id="rr::RoadRunner::assign-operator__RoadRunnerCR"></span><span class="target" id="classrr_1_1RoadRunner_1aa12fab77f4edec82aa83d28c36045afe"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N2rr10RoadRunnerE" title="rr::RoadRunner"><span class="n"><span class="pre">RoadRunner</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunneraSERK10RoadRunner" title="Permalink to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> copy constructor. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -424,9 +430,9 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>t0</strong> – starting time </p></li>
-<li><p><strong>tf</strong> – final time </p></li>
-<li><p><strong>options</strong> – override current options. </p></li>
+<li><p><strong>currentTime</strong> – current time </p></li>
+<li><p><strong>stepSize</strong> – the step size </p></li>
+<li><p><strong>reset</strong> – whether to reset the model (defaults to true). </p></li>
 </ul>
 </dd>
 </dl>
@@ -439,9 +445,9 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>t0</strong> – starting time </p></li>
-<li><p><strong>tf</strong> – final time </p></li>
-<li><p><strong>options</strong> – override current options. </p></li>
+<li><p><strong>currentTime</strong> – current time </p></li>
+<li><p><strong>stepSize</strong> – the step size </p></li>
+<li><p><strong>reset</strong> – whether to reset the model (defaults to true). </p></li>
 </ul>
 </dd>
 </dl>
@@ -454,12 +460,12 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <p>If options is null, then the current simulation settings (start time, end time, n steps) are used. If options is not null, then the current simulation settings are set to the values specified by options and they are used.</p>
 <p>The options <a class="reference internal" href="Dictionary.html#classrr_1_1Dictionary"><span class="std std-ref">Dictionary</span></a><p>may contain a large number of options, for a complete list of all available options for each integrator type,</p>
 <p>For example, to perform a simulation from time 0 to 10 with 1000 steps, using a stiff integtator, you would:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RoadRunner</span> <span class="n">r</span> <span class="o">=</span> <span class="n">RoadRunner</span><span class="p">(</span><span class="s2">&quot;someFile.xml&quot;</span><span class="p">);</span>
-<span class="n">SimulateOptions</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getSimulateOptions</span><span class="p">();</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RoadRunner</span> <span class="n">rr</span> <span class="o">=</span> <span class="n">RoadRunner</span><span class="p">(</span><span class="s2">&quot;someFile.xml&quot;</span><span class="p">);</span>
+<span class="n">SimulateOptions</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getSimulateOptions</span><span class="p">();</span>
 <span class="n">opt</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="n">opt</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
 <span class="n">opt</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
-<span class="n">const</span> <span class="n">DoubleMatrix</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">opt</span><span class="p">);</span>
+<span class="n">const</span> <span class="n">DoubleMatrix</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">opt</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="admonition seealso">
@@ -471,15 +477,15 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <p>SimulateOptions.</p>
 </div>
 </p>
-<p>Similarly, options specific to a particular integrator, such as the ‘seed’ option with the Gillespie integrator, this is set via the ‘setIntegrator’ “integrator” key, i.e. <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RoadRunner</span> <span class="n">r</span> <span class="o">=</span> <span class="n">RoadRunner</span><span class="p">(</span><span class="s2">&quot;someFile.xml&quot;</span><span class="p">);</span>
-<span class="n">r</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s2">&quot;gillespie&quot;</span><span class="p">);</span>
+<p>Similarly, options specific to a particular integrator, such as the ‘seed’ option with the Gillespie integrator, this is set via the ‘setIntegrator’ “integrator” key, i.e. <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RoadRunner</span> <span class="n">rr</span> <span class="o">=</span> <span class="n">RoadRunner</span><span class="p">(</span><span class="s2">&quot;someFile.xml&quot;</span><span class="p">);</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s2">&quot;gillespie&quot;</span><span class="p">);</span>
 <span class="n">SimulateOptions</span> <span class="n">opt</span><span class="p">;</span>
 <span class="n">opt</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="n">opt</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
 <span class="n">opt</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
 <span class="n">opt</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="s2">&quot;stiff&quot;</span><span class="p">,</span> <span class="n">true</span><span class="p">);</span>
 <span class="n">opt</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="s2">&quot;seed&quot;</span><span class="p">,</span> <span class="mi">12345</span><span class="p">);</span>
-<span class="n">const</span> <span class="n">DoubleMatrix</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">opt</span><span class="p">);</span>
+<span class="n">const</span> <span class="n">DoubleMatrix</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">opt</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Here, the “integrator” specifies the integrator to use. The “stiff” key is only used by the deterministic solvers, and it is safely ignored by the stochastic solvers. Also, the “seed” sets the random seed that the integrator uses. For more information about all of the available options for each integrator,</p>
@@ -547,7 +553,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner9saveStateENSt6stringEc">
 <span id="_CPPv3N2rr10RoadRunner9saveStateENSt6stringEc"></span><span id="_CPPv2N2rr10RoadRunner9saveStateENSt6stringEc"></span><span id="rr::RoadRunner::saveState__ss.c"></span><span class="target" id="classrr_1_1RoadRunner_1ac982f0742233d5ad487064734c3b793c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">saveState</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">opt</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="sc"><span class="pre">'b'</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner9saveStateENSt6stringEc" title="Permalink to this definition"></a><br /></dt>
-<dd><p>similar to saveStateS but save data to file caled </p>
+<dd><p>similar to saveStateS but save data to file </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="#classrr_1_1RoadRunner_1a3f30bcb94eeb86ac029b123f51214c94"><span class="std std-ref">RoadRunner::saveStateS</span></a></p>
@@ -559,7 +565,10 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>filename.</strong> – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – the filename to save the data to. </p></li>
+<li><p><strong>opt</strong> – either ‘b’ (default) or ‘r’. The latter is used for debugging. </p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -579,7 +588,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>opt, either</strong> – ‘b’ (default) or ‘r’. The latter is used for debugging. </p>
+<dd class="field-odd"><p><strong>opt</strong> – either ‘b’ (default) or ‘r’. The latter is used for debugging. </p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>new reference to a stringstream - the caller is responsible for reclaiming memory Importantly, if the stream is read into a new <a class="reference internal" href="#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> instance via <a class="reference internal" href="#classrr_1_1RoadRunner_1a68f5a245b02936d4ed83dcfe9145bf83"><span class="std std-ref">RoadRunner::loadStateS</span></a> then the user no longer needs to handle the reference manually because <a class="reference internal" href="#classrr_1_1RoadRunner_1a68f5a245b02936d4ed83dcfe9145bf83"><span class="std std-ref">RoadRunner::loadStateS</span></a> does it after loading the state. </p>
@@ -610,7 +619,7 @@ Use getRegisteredIntegratorNames to get a list of available integrator solver na
 The stingstream pointer should be heap allocated and generated from <a class="reference internal" href="#classrr_1_1RoadRunner_1a3f30bcb94eeb86ac029b123f51214c94"><span class="std std-ref">RoadRunner::saveStateS</span></a>. It is an error to use a stringstream that was generated in any other way. The memory associated with the stringstream is automatically cleaned up after loading the state. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>stringstream</strong> – that was produced by <a class="reference internal" href="#classrr_1_1RoadRunner_1a3f30bcb94eeb86ac029b123f51214c94"><span class="std std-ref">RoadRunner::saveStateS</span></a>.</p>
+<dd class="field-odd"><p><strong>state</strong> – stringstream that was produced by <a class="reference internal" href="#classrr_1_1RoadRunner_1a3f30bcb94eeb86ac029b123f51214c94"><span class="std std-ref">RoadRunner::saveStateS</span></a>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -678,7 +687,7 @@ The stingstream pointer should be heap allocated and generated from <a class="re
 <span id="_CPPv3N2rr10RoadRunner5resetEi"></span><span id="_CPPv2N2rr10RoadRunner5resetEi"></span><span id="rr::RoadRunner::reset__i"></span><span class="target" id="classrr_1_1RoadRunner_1a807cbac5ca760b0f3ff033851cf5276b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner5resetEi" title="Permalink to this definition"></a><br /></dt>
 <dd><p>reset the model accordign to a bitfield specified by the <a class="reference internal" href="rrSelectionRecord.html#classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394"><span class="std std-ref">SelectionRecord::SelectionType</span></a> values. </p>
 <p>Note, this would make more sense as an unsigned, however SWIG has issues mapping an enum to an unsigned, but seems to std::map enums just fine to an int.</p>
-<p>For example, to reset the floating species, time and rate rule values: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">SelectionRecord</span><span class="p">::</span><span class="n">TIME</span> <span class="o">|</span> <span class="n">SelectionRecord</span><span class="p">::</span><span class="n">RATE</span> <span class="o">|</span> <span class="n">SelectionRecord</span><span class="p">::</span><span class="n">FLOATING</span><span class="p">);</span>
+<p>For example, to reset the floating species, time and rate rule values: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rr</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">SelectionRecord</span><span class="p">::</span><span class="n">TIME</span> <span class="o">|</span> <span class="n">SelectionRecord</span><span class="p">::</span><span class="n">RATE</span> <span class="o">|</span> <span class="n">SelectionRecord</span><span class="p">::</span><span class="n">FLOATING</span><span class="p">);</span>
 </pre></div>
 </div>
 </p>
@@ -698,7 +707,9 @@ The stingstream pointer should be heap allocated and generated from <a class="re
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner23changeInitialConditionsERKNSt6vectorIdEE">
 <span id="_CPPv3N2rr10RoadRunner23changeInitialConditionsERKNSt6vectorIdEE"></span><span id="_CPPv2N2rr10RoadRunner23changeInitialConditionsERKNSt6vectorIdEE"></span><span id="rr::RoadRunner::changeInitialConditions__std::vector:double:CR"></span><span class="target" id="classrr_1_1RoadRunner_1a57f1463dafcc61a90c3122a8fb37b08d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">changeInitialConditions</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ic</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner23changeInitialConditionsERKNSt6vectorIdEE" title="Permalink to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>set the floating species initial concentrations. </p>
+<p>equivalent to <a class="reference internal" href="rrExecutableModel.html#classrr_1_1ExecutableModel_1a217c61819d9b029c5928ace53b805e89"><span class="std std-ref">ExecutableModel::reset</span></a>, then <a class="reference internal" href="rrExecutableModel.html#classrr_1_1ExecutableModel_1aecd3bdfe291bd3791fe7e4e75a71ac3f"><span class="std std-ref">ExecutableModel::setFloatingSpeciesConcentrations</span></a></p>
+</dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner8getModelEv">
@@ -862,6 +873,94 @@ See <a class="reference internal" href="#classrr_1_1RoadRunner_1a5008edbb3df7cd7
 <dd><p>Returns the boundary species concentrations as a named array. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>KC </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner37getIndependentFloatingSpeciesAmountsVEv">
+<span id="_CPPv3N2rr10RoadRunner37getIndependentFloatingSpeciesAmountsVEv"></span><span id="_CPPv2N2rr10RoadRunner37getIndependentFloatingSpeciesAmountsVEv"></span><span id="rr::RoadRunner::getIndependentFloatingSpeciesAmountsV"></span><span class="target" id="classrr_1_1RoadRunner_1aeef546a1279f26025bd97e6f574a5a38"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getIndependentFloatingSpeciesAmountsV</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner37getIndependentFloatingSpeciesAmountsVEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the independent floating species amounts as an array. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>Claire </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner35getDependentFloatingSpeciesAmountsVEv">
+<span id="_CPPv3N2rr10RoadRunner35getDependentFloatingSpeciesAmountsVEv"></span><span id="_CPPv2N2rr10RoadRunner35getDependentFloatingSpeciesAmountsVEv"></span><span id="rr::RoadRunner::getDependentFloatingSpeciesAmountsV"></span><span class="target" id="classrr_1_1RoadRunner_1ac61b6d42fa24571e256af51f4b5f3859"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDependentFloatingSpeciesAmountsV</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner35getDependentFloatingSpeciesAmountsVEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the dependent floating species amounts as an array. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>Claire </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner44getIndependentFloatingSpeciesConcentrationsVEv">
+<span id="_CPPv3N2rr10RoadRunner44getIndependentFloatingSpeciesConcentrationsVEv"></span><span id="_CPPv2N2rr10RoadRunner44getIndependentFloatingSpeciesConcentrationsVEv"></span><span id="rr::RoadRunner::getIndependentFloatingSpeciesConcentrationsV"></span><span class="target" id="classrr_1_1RoadRunner_1a8664db2797f10dd0505898532c17d357"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getIndependentFloatingSpeciesConcentrationsV</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner44getIndependentFloatingSpeciesConcentrationsVEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the independent floating species concentrations as an array. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>Claire </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner42getDependentFloatingSpeciesConcentrationsVEv">
+<span id="_CPPv3N2rr10RoadRunner42getDependentFloatingSpeciesConcentrationsVEv"></span><span id="_CPPv2N2rr10RoadRunner42getDependentFloatingSpeciesConcentrationsVEv"></span><span id="rr::RoadRunner::getDependentFloatingSpeciesConcentrationsV"></span><span class="target" id="classrr_1_1RoadRunner_1a56c4c2dbf8dc303904b0b4b23ed81096"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDependentFloatingSpeciesConcentrationsV</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner42getDependentFloatingSpeciesConcentrationsVEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the dependent floating species concentrations as an array. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>Claire </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner46getIndependentFloatingSpeciesAmountsNamedArrayEv">
+<span id="_CPPv3N2rr10RoadRunner46getIndependentFloatingSpeciesAmountsNamedArrayEv"></span><span id="_CPPv2N2rr10RoadRunner46getIndependentFloatingSpeciesAmountsNamedArrayEv"></span><span id="rr::RoadRunner::getIndependentFloatingSpeciesAmountsNamedArray"></span><span class="target" id="classrr_1_1RoadRunner_1a1379bc409a52fd7d43dc78abbdda77eb"></span><span class="n"><span class="pre">ls</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">DoubleMatrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getIndependentFloatingSpeciesAmountsNamedArray</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner46getIndependentFloatingSpeciesAmountsNamedArrayEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the independent floating species amounts as a named array. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>Claire </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner44getDependentFloatingSpeciesAmountsNamedArrayEv">
+<span id="_CPPv3N2rr10RoadRunner44getDependentFloatingSpeciesAmountsNamedArrayEv"></span><span id="_CPPv2N2rr10RoadRunner44getDependentFloatingSpeciesAmountsNamedArrayEv"></span><span id="rr::RoadRunner::getDependentFloatingSpeciesAmountsNamedArray"></span><span class="target" id="classrr_1_1RoadRunner_1a698b6a158299d3ba4a76f78a647f32a8"></span><span class="n"><span class="pre">ls</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">DoubleMatrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDependentFloatingSpeciesAmountsNamedArray</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner44getDependentFloatingSpeciesAmountsNamedArrayEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the dependent floating species amounts as a named array. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>Claire </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner53getIndependentFloatingSpeciesConcentrationsNamedArrayEv">
+<span id="_CPPv3N2rr10RoadRunner53getIndependentFloatingSpeciesConcentrationsNamedArrayEv"></span><span id="_CPPv2N2rr10RoadRunner53getIndependentFloatingSpeciesConcentrationsNamedArrayEv"></span><span id="rr::RoadRunner::getIndependentFloatingSpeciesConcentrationsNamedArray"></span><span class="target" id="classrr_1_1RoadRunner_1adb87f31990fb15986ae6f97ffc261933"></span><span class="n"><span class="pre">ls</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">DoubleMatrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getIndependentFloatingSpeciesConcentrationsNamedArray</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner53getIndependentFloatingSpeciesConcentrationsNamedArrayEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the independent floating concentrations amounts as a named array. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>Claire </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner51getDependentFloatingSpeciesConcentrationsNamedArrayEv">
+<span id="_CPPv3N2rr10RoadRunner51getDependentFloatingSpeciesConcentrationsNamedArrayEv"></span><span id="_CPPv2N2rr10RoadRunner51getDependentFloatingSpeciesConcentrationsNamedArrayEv"></span><span id="rr::RoadRunner::getDependentFloatingSpeciesConcentrationsNamedArray"></span><span class="target" id="classrr_1_1RoadRunner_1a5e941874b927f84ae9364a309f9ea74b"></span><span class="n"><span class="pre">ls</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">DoubleMatrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDependentFloatingSpeciesConcentrationsNamedArray</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner51getDependentFloatingSpeciesConcentrationsNamedArrayEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the dependent floating concentrations amounts as a named array. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>Claire </p>
 </dd>
 </dl>
 </p>
@@ -1203,6 +1302,8 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <li><p><strong>sid</strong> – the ID of the species to be added </p></li>
 <li><p><strong>compartment</strong> – the compartment of the species to be added </p></li>
 <li><p><strong>initConcentration</strong> – the initial concentration of the species to be added </p></li>
+<li><p><strong>hasOnlySubstanceUnits</strong> – the boolean value of the hasOnlySubstanceUnits attribute, indicating whether the species is to be used as an amount when encountered in formulas elsewhere in the model. </p></li>
+<li><p><strong>boundaryCondition</strong> – the boolean value of the boundaryCondition attribute, indicating whether the species is a boundary species. </p></li>
 <li><p><strong>substanceUnits</strong> – the substance unit of the species to be added </p></li>
 <li><p><strong>forceRegenerate</strong> – a boolean value to indicate if the model is regenerated after this function call default value is true to regenerate model after each call of editing function to save time for editing for multiple times, one could set this flag to true only in the last call of editing </p></li>
 </ul>
@@ -1220,6 +1321,8 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <li><p><strong>sid</strong> – the ID of the species to be added </p></li>
 <li><p><strong>compartment</strong> – the compartment of the species to be added </p></li>
 <li><p><strong>initAmount</strong> – the initial amount of the species to be added </p></li>
+<li><p><strong>hasOnlySubstanceUnits</strong> – the boolean value of the hasOnlySubstanceUnits attribute, indicating whether the species is to be used as an amount when encountered in formulas elsewhere in the model. </p></li>
+<li><p><strong>boundaryCondition</strong> – the boolean value of the boundaryCondition attribute, indicating whether the species is a boundary species. </p></li>
 <li><p><strong>substanceUnits</strong> – the substance unit of the species to be added </p></li>
 <li><p><strong>forceRegenerate</strong> – a boolean value to indicate if the model is regenerated after this function call default value is true to regenerate model after each call of editing function to save time for editing for multiple times, one could set this flag to true only in the last call of editing </p></li>
 </ul>
@@ -1339,6 +1442,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rid</strong> – the ID of the reaction to be removed </p></li>
+<li><p><strong>deleteUnusedParameters;</strong> – a boolean value to indicate whether to remove unused parameters from the model as well. </p></li>
 <li><p><strong>forceRegenerate</strong> – a boolean value to indicate if the model is regenerated after this function call default value is true to regenerate model after each call of editing function to save time for editing for multiple times, one could set this flag to true only in the last call of editing </p></li>
 </ul>
 </dd>
@@ -1511,7 +1615,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>eid</strong> – the ID of the event </p></li>
-<li><p><strong>eid</strong> – the ID of the vairable of the event assignments </p></li>
+<li><p><strong>vid</strong> – the ID of the vairable of the event assignments </p></li>
 <li><p><strong>forceRegenerate</strong> – a boolean value to indicate if the model is regenerated after this function call default value is true to regenerate model after each call of editing function to save time for editing for multiple times, one could set this flag to true only in the last call of editing </p></li>
 </ul>
 </dd>
@@ -1622,6 +1726,12 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner27getNumberOfDependentSpeciesEv">
+<span id="_CPPv3N2rr10RoadRunner27getNumberOfDependentSpeciesEv"></span><span id="_CPPv2N2rr10RoadRunner27getNumberOfDependentSpeciesEv"></span><span id="rr::RoadRunner::getNumberOfDependentSpecies"></span><span class="target" id="classrr_1_1RoadRunner_1a78708a8b3088ada0b5d7b2630a24904e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumberOfDependentSpecies</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner27getNumberOfDependentSpeciesEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Alias for this function on the child model object. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner21getGlobalParameterIdsEv">
 <span id="_CPPv3N2rr10RoadRunner21getGlobalParameterIdsEv"></span><span id="_CPPv2N2rr10RoadRunner21getGlobalParameterIdsEv"></span><span id="rr::RoadRunner::getGlobalParameterIds"></span><span class="target" id="classrr_1_1RoadRunner_1a744ddb0d6ee6b750e11d752685a29797"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getGlobalParameterIds</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner21getGlobalParameterIdsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Alias for this function on the child model object. </p>
@@ -1693,7 +1803,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner24getGlobalParameterByNameERKNSt6stringE">
 <span id="_CPPv3N2rr10RoadRunner24getGlobalParameterByNameERKNSt6stringE"></span><span id="_CPPv2N2rr10RoadRunner24getGlobalParameterByNameERKNSt6stringE"></span><span id="rr::RoadRunner::getGlobalParameterByName__ssCR"></span><span class="target" id="classrr_1_1RoadRunner_1af376e9fce37cc7b50cea8e8642eafb00"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getGlobalParameterByName</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner24getGlobalParameterByNameERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>get the </p>
+<dd><p>get the value of global parameter with id </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>ciaran welsh </p>
 </dd>
@@ -1701,10 +1811,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>value</strong> – of global parameter with id</p></li>
-<li><p><strong>param</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><strong>param</strong> – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -1891,12 +1998,7 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner9evalModelEv">
 <span id="_CPPv3N2rr10RoadRunner9evalModelEv"></span><span id="_CPPv2N2rr10RoadRunner9evalModelEv"></span><span id="rr::RoadRunner::evalModel"></span><span class="target" id="classrr_1_1RoadRunner_1ad3f4b6ef217424cb9b12c798dfd1129c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">evalModel</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner9evalModelEv" title="Permalink to this definition"></a><br /></dt>
-<dd></dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner27getNumberOfDependentSpeciesEv">
-<span id="_CPPv3N2rr10RoadRunner27getNumberOfDependentSpeciesEv"></span><span id="_CPPv2N2rr10RoadRunner27getNumberOfDependentSpeciesEv"></span><span id="rr::RoadRunner::getNumberOfDependentSpecies"></span><span class="target" id="classrr_1_1RoadRunner_1a78708a8b3088ada0b5d7b2630a24904e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumberOfDependentSpecies</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner27getNumberOfDependentSpeciesEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Alias for this function on the child model object. </p>
+<dd><p>Updates the model based on all recent changes. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -1912,16 +2014,6 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <dd><p>Alias for this function on the child model object. </p>
 <p>returns a list of reaction ids obtained from <a class="reference internal" href="rrExecutableModel.html#classrr_1_1ExecutableModel_1aeb911dc90408981370c78149680d9027"><span class="std std-ref">ExecutableModel::getReactionId</span></a></p>
 </dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner10setTempDirERKNSt6stringE">
-<span id="_CPPv3N2rr10RoadRunner10setTempDirERKNSt6stringE"></span><span id="_CPPv2N2rr10RoadRunner10setTempDirERKNSt6stringE"></span><span id="rr::RoadRunner::setTempDir__ssCR"></span><span class="target" id="classrr_1_1RoadRunner_1a03d8db00d714b31251af8427e4bbac55"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setTempDir</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">folder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner10setTempDirERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
-<dd></dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner10getTempDirEv">
-<span id="_CPPv3N2rr10RoadRunner10getTempDirEv"></span><span id="_CPPv2N2rr10RoadRunner10getTempDirEv"></span><span id="rr::RoadRunner::getTempDir"></span><span class="target" id="classrr_1_1RoadRunner_1a0fde5be334c5dfd9cc8738210839978d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getTempDir</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner10getTempDirEv" title="Permalink to this definition"></a><br /></dt>
-<dd></dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
@@ -1961,11 +2053,6 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <span id="_CPPv3N2rr10RoadRunner22getExtendedVersionInfoEv"></span><span id="_CPPv2N2rr10RoadRunner22getExtendedVersionInfoEv"></span><span id="rr::RoadRunner::getExtendedVersionInfo"></span><span class="target" id="classrr_1_1RoadRunner_1a99dbe4b81831a8b7d5b53077027f465a"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getExtendedVersionInfo</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner22getExtendedVersionInfoEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>getVersion plus info about dependent libs versions. </p>
 </dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner33getElementWithMathematicalMeaningEPKN7libsbml5ModelERKNSt6stringE">
-<span id="_CPPv3N2rr10RoadRunner33getElementWithMathematicalMeaningEPKN7libsbml5ModelERKNSt6stringE"></span><span id="_CPPv2N2rr10RoadRunner33getElementWithMathematicalMeaningEPKN7libsbml5ModelERKNSt6stringE"></span><span id="rr::RoadRunner::getElementWithMathematicalMeaning__libsbml::ModelCP.ssCR"></span><span class="target" id="classrr_1_1RoadRunner_1adbcf65d0a1a411988f9e5f07308da05c"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">SBase</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">getElementWithMathematicalMeaning</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Model</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">model</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner33getElementWithMathematicalMeaningEPKN7libsbml5ModelERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
-<dd></dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
@@ -2024,7 +2111,8 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner36createDefaultTimeCourseSelectionListEv">
 <span id="_CPPv3N2rr10RoadRunner36createDefaultTimeCourseSelectionListEv"></span><span id="_CPPv2N2rr10RoadRunner36createDefaultTimeCourseSelectionListEv"></span><span id="rr::RoadRunner::createDefaultTimeCourseSelectionList"></span><span class="target" id="classrr_1_1RoadRunner_1a51c4d5d1cfd6e8c8177d2bc0d6356cf4"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">createDefaultTimeCourseSelectionList</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner36createDefaultTimeCourseSelectionListEv" title="Permalink to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>PRIVATE. </p>
+</dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner17getSelectedValuesERN2ls12DoubleMatrixEid">
@@ -2179,8 +2267,8 @@ In the MCA routines, <a class="reference internal" href="#classrr_1_1RoadRunner"
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10RoadRunner15llvmInitializedE">
 <span id="_CPPv3N2rr10RoadRunner15llvmInitializedE"></span><span id="_CPPv2N2rr10RoadRunner15llvmInitializedE"></span><span id="rr::RoadRunner::llvmInitialized__b"></span><span class="target" id="classrr_1_1RoadRunner_1a3c3d5f6711f1c17c495627e970378f7d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">llvmInitialized</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N2rr10RoadRunner15llvmInitializedE" title="Permalink to this definition"></a><br /></dt>
-<dd><p>True once the llvm initialization routines have been run. </p>
-<p>This is necessary because they are not threadsafe. </p>
+<dd><p>PRIVATE. </p>
+<p>True once the llvm initialization routines have been run. This is necessary because they are not threadsafe. </p>
 </dd></dl>
 
 <dl class="cpp var">
