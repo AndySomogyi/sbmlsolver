@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ModelGeneratorContext &mdash; libRoadRunner 1.1.16 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ModelInitialValueSymbolResolver" href="ModelInitialValueSymbolResolver.html" />
+    <link rel="prev" title="ModelDataSymbolResolver" href="ModelDataSymbolResolver.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            libRoadRunner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">RoadRunner Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../selecting_values.html">Selecting Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stochastic.html">Stochastic Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../metabolic.html">Metabolic Control Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stability.html">Stability Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stoichiometric.html">Stoichiometric Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bifurcation.html">Bifurcation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel/parallel_index.html">Parallel RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utility_functions.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rrplugins/introduction.html">rrPlugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">The LibRoadRunner C++ Library</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">LLVM Docs</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ASTNodeCodeGen.html">ASTNodeCodeGen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ASTNodeFactory.html">ASTNodeFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AssignmentRuleEvaluator.html">AssignmentRuleEvaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CodeGen.html">CodeGen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CodeGenBase.html">CodeGenBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EvalConversionFactorCodeGen.html">EvalConversionFactorCodeGen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EvalInitialConditionsCodeGen.html">EvalInitialConditionsCodeGen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EvalRateRuleRatesCodeGen.html">EvalRateRuleRatesCodeGen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EvalReactionRatesCodeGen.html">EvalReactionRatesCodeGen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EvalVolatileStoichCodeGen.html">EvalVolatileStoichCodeGen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EventAssignCodeGen.html">EventAssignCodeGen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EventCodeGenBase.html">EventCodeGenBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EventQueue.html">EventQueue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EventTriggerCodeGen.html">EventTriggerCodeGen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FunctionResolver.html">FunctionResolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="KineticLawParameterResolver.html">KineticLawParameterResolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LLVMCompiler.html">LLVMCompiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LLVMException.html">LLVMException</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LLVMExecutableModel.html">LLVMExecutableModel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LLVMModelData.html">LLVMModelData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LLVMModelDataSymbols.html">LLVMModelDataSymbols</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LLVMModelGenerator.html">LLVMModelGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LLVMModelSymbols.html">LLVMModelSymbols</a></li>
+<li class="toctree-l3"><a class="reference internal" href="LoadSymbolResolverBase.html">LoadSymbolResolverBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelDataIRBuilder.html">ModelDataIRBuilder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelDataSymbolResolver.html">ModelDataSymbolResolver</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ModelGeneratorContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelInitialValueSymbolResolver.html">ModelInitialValueSymbolResolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelResources.html">ModelResources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Random.html">Random</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SBMLInitialValueSymbolResolver.html">SBMLInitialValueSymbolResolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SetInitialValueCodeGenBase.html">SetInitialValueCodeGenBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SetInitialValuesCodeGen.html">SetInitialValuesCodeGen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SetValueCodeGenBase.html">SetValueCodeGenBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SetValuesCodeGen.html">SetValuesCodeGen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SymbolForest.html">SymbolForest</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../CVODEIntegrator.html">CVODEIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dictionary.html">Dictionary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../EulerIntegrator.html">EulerIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ExecutableModelFactory.html">ExecutableModelFactory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../GillespieIntegrator.html">GillespieIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Integrator.html">Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../IntegratorFactory.html">IntegratorFactory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../NLEQ1Solver.html">NLEQ1Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../NLEQ2Solver.html">NLEQ2Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RK45Integrator.html">RK45Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RK4Integrator.html">RK4Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../SBMLValidator.html">SBMLValidator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Solver.html">Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../SolverFactory.html">SolverFactory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../SteadyStateSolver.html">SteadyStateSolver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Variant.html">Variant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrCompiler.html">rrCompiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrConfig.html">rrConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrException.html">rrException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrExecutableModel.html">rrExecutableModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrFileName.html">rrFileName</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrIniFile.html">rrIniFile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrIniKey.html">rrIniKey</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrIniSection.html">rrIniSection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrLogger.html">rrLogger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrNLEQ1Interface.html">rrNLEQ1Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrNLEQ2Interface.html">rrNLEQ2Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrRoadRunner.html">rrRoadRunner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrRoadRunnerData.html">rrRoadRunnerData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrRoadRunnerOptions.html">rrRoadRunnerOptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrSBMLModelSimulation.html">rrSBMLModelSimulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrSBMLReader.html">rrSBMLReader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrSelectionRecord.html">rrSelectionRecord</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rrSparse.html">rrSparse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RoadRunnerMap.html">RoadRunnerMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#creating-a-new-integrator">Creating a new Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#implementing-the-integrator-interface">Implementing the Integrator interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#telling-roadrunner-about-the-new-integrator">Telling RoadRunner about the new Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#a-complete-example-of-creating-an-integrator">A complete example of creating an integrator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../developers_docs/index.html">Developers Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">libRoadRunner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">The LibRoadRunner C++ Library</a></li>
+          <li class="breadcrumb-item"><a href="index.html">LLVM Docs</a></li>
+      <li class="breadcrumb-item active">ModelGeneratorContext</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/C++APIReference/llvm/ModelGeneratorContext.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="modelgeneratorcontext">
+<h1>ModelGeneratorContext<a class="headerlink" href="#modelgeneratorcontext" title="Permalink to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContextE">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContextE"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContextE"></span><span id="rrllvm::ModelGeneratorContext"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModelGeneratorContext</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContextE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>All LLVM code generating objects basically need at a minimum three things to operate: </p>
+<p>1: sbml Model - what to process 2: llvm Context - all llvm functions need this, manages llvm memory 3: llvm Module - where the generated code will go</p>
+<p>Code generators also need to know the symbols that are in the sbml doc. These <em>could</em> be re-determined in each code gen, but wastefull. The symbols can be thought of as the first pass of the compiler, so all symbols are determined ahead of time before any code generation.</p>
+<p>They also make use of an llvm IRBuilder, one of these <em>could</em> be allocated in each code gen object, but that would be wasteful, so we use a single one per sbml compilation, and each code gen just resets the builder insert point, that is what is was designed to do.</p>
+<p>So, that leaves us with 5 object that are needed by code generators. Should all code gens have all 5 args passed to thier ctors? There is much talk about how context objects are evil, however this one is NOT inteneded to grow, only store the absolute minimun information that all code generators need.</p>
+<p>This class basically functions as a set of ivars if all code generators were methods on a single code gen class.</p>
+<p>TODO doc wise discuss the problems with context objects, and why this one address all the concerns.</p>
+<p>TODO document memory managment, engine owns model, … </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContext21ModelGeneratorContextEPKN7libsbml12SBMLDocumentEjNSt10unique_ptrI3JitEE">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContext21ModelGeneratorContextEPKN7libsbml12SBMLDocumentEjNSt10unique_ptrI3JitEE"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContext21ModelGeneratorContextEPKN7libsbml12SBMLDocumentEjNSt10unique_ptrI3JitEE"></span><span id="rrllvm::ModelGeneratorContext::ModelGeneratorContext__libsbml::SBMLDocumentCP.unsigned.std::unique_ptr:Jit:"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1ac2301d4bd4fbecfd65912e4f90cb74df"></span><span class="sig-name descname"><span class="n"><span class="pre">ModelGeneratorContext</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">SBMLDocument</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">_doc</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">options</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">Jit</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">jitEngine</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContext21ModelGeneratorContextEPKN7libsbml12SBMLDocumentEjNSt10unique_ptrI3JitEE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>attach to an existing sbml document, we borrow a reference to this doc and DO NOT take ownership of it. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContext21ModelGeneratorContextEv">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContext21ModelGeneratorContextEv"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContext21ModelGeneratorContextEv"></span><span id="rrllvm::ModelGeneratorContext::ModelGeneratorContext"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1a619188b61652e3b93638b53fc5d015d7"></span><span class="sig-name descname"><span class="n"><span class="pre">ModelGeneratorContext</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContext21ModelGeneratorContextEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>does not attach to any sbml doc, </p>
+<p>useful for testing out LLVM functionality. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContextD0Ev">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContextD0Ev"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContextD0Ev"></span><span id="rrllvm::ModelGeneratorContext::~ModelGeneratorContext"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1a7356327de6cf3c9dc3952e4c1f810bea"></span><span class="sig-name descname"><span class="n"><span class="pre">~ModelGeneratorContext</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContextD0Ev" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm21ModelGeneratorContext19getModelDataSymbolsEv">
+<span id="_CPPv3NK6rrllvm21ModelGeneratorContext19getModelDataSymbolsEv"></span><span id="_CPPv2NK6rrllvm21ModelGeneratorContext19getModelDataSymbolsEv"></span><span id="rrllvm::ModelGeneratorContext::getModelDataSymbolsC"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1ade1c196f4f3eab85227a4d95f74cbd3e"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="LLVMModelDataSymbols.html#_CPPv4N6rrllvm20LLVMModelDataSymbolsE" title="rrllvm::LLVMModelDataSymbols"><span class="n"><span class="pre">LLVMModelDataSymbols</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getModelDataSymbols</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm21ModelGeneratorContext19getModelDataSymbolsEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm21ModelGeneratorContext15getModelSymbolsEv">
+<span id="_CPPv3NK6rrllvm21ModelGeneratorContext15getModelSymbolsEv"></span><span id="_CPPv2NK6rrllvm21ModelGeneratorContext15getModelSymbolsEv"></span><span id="rrllvm::ModelGeneratorContext::getModelSymbolsC"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1a9b693f85b018fd86bc45e482357ad6ff"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="LLVMModelSymbols.html#_CPPv4N6rrllvm16LLVMModelSymbolsE" title="rrllvm::LLVMModelSymbols"><span class="n"><span class="pre">LLVMModelSymbols</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getModelSymbols</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm21ModelGeneratorContext15getModelSymbolsEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm21ModelGeneratorContext11getDocumentEv">
+<span id="_CPPv3NK6rrllvm21ModelGeneratorContext11getDocumentEv"></span><span id="_CPPv2NK6rrllvm21ModelGeneratorContext11getDocumentEv"></span><span id="rrllvm::ModelGeneratorContext::getDocumentC"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1adf1aa9873d0ea45bcc1483269c304266"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">SBMLDocument</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">getDocument</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm21ModelGeneratorContext11getDocumentEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm21ModelGeneratorContext8getModelEv">
+<span id="_CPPv3NK6rrllvm21ModelGeneratorContext8getModelEv"></span><span id="_CPPv2NK6rrllvm21ModelGeneratorContext8getModelEv"></span><span id="rrllvm::ModelGeneratorContext::getModelC"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1a385227b7e5141abc5e3f4f37941f37df"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Model</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">getModel</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm21ModelGeneratorContext8getModelEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm21ModelGeneratorContext15getJitNonOwningEv">
+<span id="_CPPv3NK6rrllvm21ModelGeneratorContext15getJitNonOwningEv"></span><span id="_CPPv2NK6rrllvm21ModelGeneratorContext15getJitNonOwningEv"></span><span id="rrllvm::ModelGeneratorContext::getJitNonOwningC"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1ac6715881f01e813cb1346ca66dc55a51"></span><span class="n"><span class="pre">Jit</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">getJitNonOwning</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm21ModelGeneratorContext15getJitNonOwningEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContext26transferObjectsToResourcesENSt10shared_ptrIN6rrllvm14ModelResourcesEEE">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContext26transferObjectsToResourcesENSt10shared_ptrIN6rrllvm14ModelResourcesEEE"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContext26transferObjectsToResourcesENSt10shared_ptrIN6rrllvm14ModelResourcesEEE"></span><span id="rrllvm::ModelGeneratorContext::transferObjectsToResources__std::shared_ptr:rrllvm::ModelResources:"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1af63938c6a114a8c859110da2d3649189"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">transferObjectsToResources</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">rrllvm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ModelResources</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">modelResources</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContext26transferObjectsToResourcesENSt10shared_ptrIN6rrllvm14ModelResourcesEEE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>nearly all llvm functions expect a pointer to module, so we define this as a pointer type instead of reference, even though we gaurantee this to be non-null </p>
+<p>if optimization is enabled, this gets the function pass manager loaded with all the requested optimizers. NULL if no optimization is specified.</p>
+<p>
+However, when a model is successfully generated, we need a way to give it the exec engine, and whatever other bits it requires.</p>
+<p>So, this method exists so that the generated model can steal all the objects it needs from us, these object are transfered to the model, and our pointers to them are cleared. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a borrowed reference that is owned by <a class="reference internal" href="#classrrllvm_1_1ModelGeneratorContext"><span class="std std-ref">ModelGeneratorContext</span></a> A lot can go wrong in the process of generating a model from an sbml doc. This class is intended to be stack allocated, so when any exception is thrown in the course of model generation, this class will clean up all the contexts and execution engines and so forth.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm21ModelGeneratorContext26getConservedMoietyAnalysisEv">
+<span id="_CPPv3NK6rrllvm21ModelGeneratorContext26getConservedMoietyAnalysisEv"></span><span id="_CPPv2NK6rrllvm21ModelGeneratorContext26getConservedMoietyAnalysisEv"></span><span id="rrllvm::ModelGeneratorContext::getConservedMoietyAnalysisC"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1ab2e5c1ec8f1a4232f2f2858dcfa3f1d9"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getConservedMoietyAnalysis</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm21ModelGeneratorContext26getConservedMoietyAnalysisEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm21ModelGeneratorContext14useSymbolCacheEv">
+<span id="_CPPv3NK6rrllvm21ModelGeneratorContext14useSymbolCacheEv"></span><span id="_CPPv2NK6rrllvm21ModelGeneratorContext14useSymbolCacheEv"></span><span id="rrllvm::ModelGeneratorContext::useSymbolCacheC"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1a9384a0ecb86c66472154484f656629d6"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">useSymbolCache</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm21ModelGeneratorContext14useSymbolCacheEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm21ModelGeneratorContext10getOptionsEv">
+<span id="_CPPv3NK6rrllvm21ModelGeneratorContext10getOptionsEv"></span><span id="_CPPv2NK6rrllvm21ModelGeneratorContext10getOptionsEv"></span><span id="rrllvm::ModelGeneratorContext::getOptionsC"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1a4bdacf7f4a2e177b6045f4105c315841"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getOptions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm21ModelGeneratorContext10getOptionsEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm21ModelGeneratorContext9getRandomEv">
+<span id="_CPPv3NK6rrllvm21ModelGeneratorContext9getRandomEv"></span><span id="_CPPv2NK6rrllvm21ModelGeneratorContext9getRandomEv"></span><span id="rrllvm::ModelGeneratorContext::getRandomC"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1aae03d74871964f0ee688a5531d713c1b"></span><a class="reference internal" href="Random.html#_CPPv4N6rrllvm6RandomE" title="rrllvm::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">getRandom</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm21ModelGeneratorContext9getRandomEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>get a pointer to the random object. </p>
+<p>The random object exists if the document has the distrib package, is null otherwise. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContext7cleanupEv">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContext7cleanupEv"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContext7cleanupEv"></span><span id="rrllvm::ModelGeneratorContext::cleanup"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1ad47a63d8c765ee58914470cac11a4b86"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cleanup</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContext7cleanupEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>free any memory this class allocated. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContext8ownedDocE">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContext8ownedDocE"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContext8ownedDocE"></span><span id="rrllvm::ModelGeneratorContext::ownedDoc__libsbml::SBMLDocumentP"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1ac4a67dfb625826b58fdc9c3d1cbea809"></span><span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">SBMLDocument</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ownedDoc</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContext8ownedDocE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>these point to the same location, ownedDoc is set if we create the doc, otherwise its nullptr, meaning we’re borrowing the the doc. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContext3docE">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContext3docE"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContext3docE"></span><span id="rrllvm::ModelGeneratorContext::doc__libsbml::SBMLDocumentCP"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1ab54772fc1ab69c585080acc8e1dd538a"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">SBMLDocument</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">doc</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContext3docE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>always references the sbml doc. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContext7symbolsE">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContext7symbolsE"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContext7symbolsE"></span><span id="rrllvm::ModelGeneratorContext::symbols__LLVMModelDataSymbolsCP"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1a677b151c591ed8d27ef0fcae894847d2"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="LLVMModelDataSymbols.html#_CPPv4N6rrllvm20LLVMModelDataSymbolsE" title="rrllvm::LLVMModelDataSymbols"><span class="n"><span class="pre">LLVMModelDataSymbols</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">symbols</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContext7symbolsE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContext12modelSymbolsE">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContext12modelSymbolsE"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContext12modelSymbolsE"></span><span id="rrllvm::ModelGeneratorContext::modelSymbols__std::unique_ptr:LLVMModelSymbols:"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1a02b5b609fb8acc5194eb7d522179636f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="LLVMModelSymbols.html#_CPPv4N6rrllvm16LLVMModelSymbolsE" title="rrllvm::LLVMModelSymbols"><span class="n"><span class="pre">LLVMModelSymbols</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">modelSymbols</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContext12modelSymbolsE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>make sure this is listed AFTER the doc and model, so it get initialized after the previous two are initialized. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContext5modelE">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContext5modelE"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContext5modelE"></span><span id="rrllvm::ModelGeneratorContext::model__libsbml::ModelCP"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1a6cd9fd9c574296602629e33366cbfb21"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Model</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">model</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContext5modelE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContext6randomE">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContext6randomE"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContext6randomE"></span><span id="rrllvm::ModelGeneratorContext::random__RandomP"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1ac9a203e7e67c559b1bae24a7b2ba4665"></span><a class="reference internal" href="Random.html#_CPPv4N6rrllvm6RandomE" title="rrllvm::Random"><span class="n"><span class="pre">Random</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">random</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContext6randomE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>As the model is being generated, various distributions may be created which are added to the random object. </p>
+<p>Ownership of the random object is then transfered to the ExecutableModel which owns up untill the ExecutableModel is destroyed.</p>
+<p>The logic here is that many distributions used the normal_distribution object which maintains a state and has an expensive startup cost. So, the distributions are created whilst the model is being generated, and then the distribution calls just end up calling an existing distribution object inside this class.</p>
+<p>A pointer to this object is stored in the ModelData struct, and when the generated sbml code calls a stochastic dist function, it passes in a pionter to this object so the func can look up the distribution.</p>
+<p>The alternative to this approach would have been to simply have global distributions and a global RNG. This however would use more memory and would not be thread safe, and the RNG would have to be shared amoungst multiple models, and would not be be able to create a repeatable stream of random numbers. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContext7optionsE">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContext7optionsE"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContext7optionsE"></span><span id="rrllvm::ModelGeneratorContext::options__unsigned"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1a9ab39a53632926c0e8aa2c920f36eec0"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">options</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContext7optionsE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContext3jitE">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContext3jitE"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContext3jitE"></span><span id="rrllvm::ModelGeneratorContext::jit__std::unique_ptr:Jit:"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1a683f8a153639b4d1366a4ef7bfb5d696"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">Jit</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">jit</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContext3jitE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Jit dependency injection to support multiple different compilation strategies. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6rrllvm21ModelGeneratorContext15moietyConverterE">
+<span id="_CPPv3N6rrllvm21ModelGeneratorContext15moietyConverterE"></span><span id="_CPPv2N6rrllvm21ModelGeneratorContext15moietyConverterE"></span><span id="rrllvm::ModelGeneratorContext::moietyConverter__std::unique_ptr:rr::conservation::ConservedMoietyConverter:"></span><span class="target" id="classrrllvm_1_1ModelGeneratorContext_1abb32621250c770f7a23d88926d67b8be"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">conservation</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ConservedMoietyConverter</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">moietyConverter</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm21ModelGeneratorContext15moietyConverterE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>the moiety converter, for the time being owns the converted document. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ModelDataSymbolResolver.html" class="btn btn-neutral float-left" title="ModelDataSymbolResolver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ModelInitialValueSymbolResolver.html" class="btn btn-neutral float-right" title="ModelInitialValueSymbolResolver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
