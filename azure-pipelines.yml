@@ -844,7 +844,7 @@ stages:
               echo "g++ $(g++ --version)"
               sudo add-apt-repository ppa:ubuntu-toolchain-r/test
               sudo apt-get update
-              sudo apt-get install -y gcc-10 g++-10 doxygen dvipng texlive texlive-font-utils texlive-latex-extra
+              sudo apt-get install -y gcc-10 g++-10 doxygen dvipng texlive texlive-font-utils texlive-latex-extra graphviz
               sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
             displayName: Install g++10 and doxygen
           - script: |
@@ -888,7 +888,7 @@ stages:
               mkdir $(BUILD_DIR)
               echo "CD to build dir: $(BUILD_DIR)"
               cd $(BUILD_DIR)
-              echo "cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_DOCS=${BuildDocs} .."
+              echo "cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DBUILD_DOCS=$(BuildDocs) -DCMAKE_BUILD_TYPE=$(BuildType) .."
               cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DBUILD_DOCS=$(BuildDocs) -DCMAKE_BUILD_TYPE=$(BuildType) ..
             displayName: Run CMake Configure Command
           - script: |
