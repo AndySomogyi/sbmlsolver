@@ -889,6 +889,21 @@ stages:
               cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_DOCS=${BuildDocs} ..
             displayName: Run CMake Configure Command
           - script: |
+              echo "cd to docs dir"
+              cd $(SOURCE_DIR)/docs/
+              rm -r -f docs-build doxygen-output
+            displayName: Remove roadrunner docs before re-building
+            condition: eq(variables.BuildType, 'Release')
+          - script: |
+              echo "pip install dependencies"
+              $(PipExecutable) install -r $(SOURCE_DIR)/docs/requirements.txt
+              echo "cd to build dir"
+              cd $(BUILD_DIR)
+              make roadrunner-docs-doxygen
+              make roadrunner-docs-sphinx
+            displayName: Build roadrunner docs
+            condition: eq(variables.BuildType, 'Release')
+          - script: |
               export CC=/usr/bin/gcc-10
               export CXX=/usr/bin/g++-10
               export C=/usr/bin/gcc-10
@@ -918,22 +933,6 @@ stages:
           - script: |
               rm -r $(Build.ArtifactStagingDirectory)/*
             displayName: Clear staging area
-            condition: eq(variables.BuildType, 'Release')
-          - script: |
-              echo "cd to docs dir"
-              cd $(SOURCE_DIR)/docs/
-              rm -r -f docs-build doxygen-output
-              make roadrunner-docs-doxygen
-            displayName: Remove roadrunner docs before re-building
-            condition: eq(variables.BuildType, 'Release')
-          - script: |
-              echo "pip install dependencies"
-              $(PipExecutable) install -r $(SOURCE_DIR)/docs/requirements.txt
-              echo "cd to build dir"
-              cd $(BUILD_DIR)
-              make roadrunner-docs-doxygen
-              make roadrunner-docs-sphinx
-            displayName: Build roadrunner docs
             condition: eq(variables.BuildType, 'Release')
           - script: |
               echo "move docs to installation"
