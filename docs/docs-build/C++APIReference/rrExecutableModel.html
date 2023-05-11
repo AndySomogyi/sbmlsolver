@@ -246,8 +246,8 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
-<li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of boundary species to return. </p></li>
-<li><p><strong>values</strong> – <strong>[out]</strong> an array of at least length len which will store the returned boundary species amounts. </p></li>
+<li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of floating species to return. </p></li>
+<li><p><strong>values</strong> – <strong>[out]</strong> an array of at least length len which will store the returned floating species amounts. </p></li>
 </ul>
 </dd>
 </dl>
@@ -259,14 +259,39 @@
 <dd></dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel25setFloatingSpeciesAmountsE6size_tPKiPKdb">
+<span id="_CPPv3N2rr15ExecutableModel25setFloatingSpeciesAmountsE6size_tPKiPKdb"></span><span id="_CPPv2N2rr15ExecutableModel25setFloatingSpeciesAmountsE6size_tPKiPKdb"></span><span id="rr::ExecutableModel::setFloatingSpeciesAmounts__s.iCP.doubleCP.b"></span><span class="target" id="classrr_1_1ExecutableModel_1ae7c638cb8aa1ea0e68b4f78ddf0565db"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setFloatingSpeciesAmounts</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">strict</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel25setFloatingSpeciesAmountsE6size_tPKiPKdb" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel29getFloatingSpeciesAmountRatesE6size_tPKiPd">
 <span id="_CPPv3N2rr15ExecutableModel29getFloatingSpeciesAmountRatesE6size_tPKiPd"></span><span id="_CPPv2N2rr15ExecutableModel29getFloatingSpeciesAmountRatesE6size_tPKiPd"></span><span id="rr::ExecutableModel::getFloatingSpeciesAmountRates__s.iCP.doubleP"></span><span class="target" id="classrr_1_1ExecutableModel_1ae1e4374bedf764a353165d7f3acc31c0"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getFloatingSpeciesAmountRates</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel29getFloatingSpeciesAmountRatesE6size_tPKiPd" title="Permalink to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>get the floating species amount rates </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
+<li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of floating species to return. </p></li>
+<li><p><strong>values</strong> – <strong>[out]</strong> an array of at least length len which will store the returned floating species amount rates. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel36getFloatingSpeciesConcentrationRatesE6size_tPKiPd">
 <span id="_CPPv3N2rr15ExecutableModel36getFloatingSpeciesConcentrationRatesE6size_tPKiPd"></span><span id="_CPPv2N2rr15ExecutableModel36getFloatingSpeciesConcentrationRatesE6size_tPKiPd"></span><span id="rr::ExecutableModel::getFloatingSpeciesConcentrationRates__s.iCP.doubleP"></span><span class="target" id="classrr_1_1ExecutableModel_1aae51da13c4dbe4e0ae21f12f3a23cdb8"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getFloatingSpeciesConcentrationRates</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel36getFloatingSpeciesConcentrationRatesE6size_tPKiPd" title="Permalink to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>get the floating species concentration rates </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
+<li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of floating species to return. </p></li>
+<li><p><strong>values</strong> – <strong>[out]</strong> an array of at least length len which will store the returned floating species concentration rates. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel32getFloatingSpeciesConcentrationsE6size_tPKiPd">
@@ -276,8 +301,8 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
-<li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of boundary species to return. </p></li>
-<li><p><strong>values</strong> – <strong>[out]</strong> an array of at least length len which will store the returned boundary species amounts. </p></li>
+<li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of floating species to return. </p></li>
+<li><p><strong>values</strong> – <strong>[out]</strong> an array of at least length len which will store the returned floating species amounts. </p></li>
 </ul>
 </dd>
 </dl>
@@ -393,6 +418,11 @@
 <dd></dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel25setBoundarySpeciesAmountsE6size_tPKiPKdb">
+<span id="_CPPv3N2rr15ExecutableModel25setBoundarySpeciesAmountsE6size_tPKiPKdb"></span><span id="_CPPv2N2rr15ExecutableModel25setBoundarySpeciesAmountsE6size_tPKiPKdb"></span><span id="rr::ExecutableModel::setBoundarySpeciesAmounts__s.iCP.doubleCP.b"></span><span class="target" id="classrr_1_1ExecutableModel_1a531189a79829cf0683870ffaf33206da"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setBoundarySpeciesAmounts</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">strict</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel25setBoundarySpeciesAmountsE6size_tPKiPKdb" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel36setBoundarySpeciesInitConcentrationsE6size_tPKiPKd">
 <span id="_CPPv3N2rr15ExecutableModel36setBoundarySpeciesInitConcentrationsE6size_tPKiPKd"></span><span id="_CPPv2N2rr15ExecutableModel36setBoundarySpeciesInitConcentrationsE6size_tPKiPKd"></span><span id="rr::ExecutableModel::setBoundarySpeciesInitConcentrations__s.iCP.doubleCP"></span><span class="target" id="classrr_1_1ExecutableModel_1a2e7799db0c63278059cef7de4ad18396"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setBoundarySpeciesInitConcentrations</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel36setBoundarySpeciesInitConcentrationsE6size_tPKiPKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the initial concentrations of the boundary species. </p>
@@ -459,6 +489,11 @@
 <dd></dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel24setGlobalParameterValuesE6size_tPKiPKdb">
+<span id="_CPPv3N2rr15ExecutableModel24setGlobalParameterValuesE6size_tPKiPKdb"></span><span id="_CPPv2N2rr15ExecutableModel24setGlobalParameterValuesE6size_tPKiPKdb"></span><span id="rr::ExecutableModel::setGlobalParameterValues__s.iCP.doubleCP.b"></span><span class="target" id="classrr_1_1ExecutableModel_1a7d862dfd706980b4860a8ce10531ddac"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setGlobalParameterValues</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">strict</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel24setGlobalParameterValuesE6size_tPKiPKdb" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel28setGlobalParameterInitValuesE6size_tPKiPKd">
 <span id="_CPPv3N2rr15ExecutableModel28setGlobalParameterInitValuesE6size_tPKiPKd"></span><span id="_CPPv2N2rr15ExecutableModel28setGlobalParameterInitValuesE6size_tPKiPKd"></span><span id="rr::ExecutableModel::setGlobalParameterInitValues__s.iCP.doubleCP"></span><span class="target" id="classrr_1_1ExecutableModel_1a71d62fc8b558dfb4da4de4dbd3845665"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setGlobalParameterInitValues</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel28setGlobalParameterInitValuesE6size_tPKiPKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Set the initial value of the global parameter. </p>
@@ -514,6 +549,11 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel21setCompartmentVolumesE6size_tPKiPKd">
 <span id="_CPPv3N2rr15ExecutableModel21setCompartmentVolumesE6size_tPKiPKd"></span><span id="_CPPv2N2rr15ExecutableModel21setCompartmentVolumesE6size_tPKiPKd"></span><span id="rr::ExecutableModel::setCompartmentVolumes__s.iCP.doubleCP"></span><span class="target" id="classrr_1_1ExecutableModel_1a81a08dad23cb196914961e41d1f2f491"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setCompartmentVolumes</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel21setCompartmentVolumesE6size_tPKiPKd" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel21setCompartmentVolumesE6size_tPKiPKdb">
+<span id="_CPPv3N2rr15ExecutableModel21setCompartmentVolumesE6size_tPKiPKdb"></span><span id="_CPPv2N2rr15ExecutableModel21setCompartmentVolumesE6size_tPKiPKdb"></span><span id="rr::ExecutableModel::setCompartmentVolumes__s.iCP.doubleCP.b"></span><span class="target" id="classrr_1_1ExecutableModel_1a1fcc439522d0bfd44db50f487f459017"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setCompartmentVolumes</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">strict</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel21setCompartmentVolumesE6size_tPKiPKdb" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
@@ -618,7 +658,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK2rr15ExecutableModel18getRateRuleSymbolsEv">
-<span id="_CPPv3NK2rr15ExecutableModel18getRateRuleSymbolsEv"></span><span id="_CPPv2NK2rr15ExecutableModel18getRateRuleSymbolsEv"></span><span id="rr::ExecutableModel::getRateRuleSymbolsC"></span><span class="target" id="classrr_1_1ExecutableModel_1aaa7f485ab09875d5914a784d3190c8be"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRateRuleSymbols</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK2rr15ExecutableModel18getRateRuleSymbolsEv" title="Permalink to this definition"></a><br /></dt>
+<span id="_CPPv3NK2rr15ExecutableModel18getRateRuleSymbolsEv"></span><span id="_CPPv2NK2rr15ExecutableModel18getRateRuleSymbolsEv"></span><span id="rr::ExecutableModel::getRateRuleSymbolsC"></span><span class="target" id="classrr_1_1ExecutableModel_1aa1d89fd7d5690de7add613f5ce75b631"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRateRuleSymbols</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK2rr15ExecutableModel18getRateRuleSymbolsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets the symbols defined by rate rules, i.e. returns all x such that x’ = f(x) is a rule which defines parameter x. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>JKM </p>
@@ -719,7 +759,7 @@
 <dd><p>sets the internal model state to the provided packed state std::vector. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>an</strong> – <strong>[in]</strong> array which holds the packed state std::vector, must be at least the size returned by getStateVector.</p>
+<dd class="field-odd"><p><strong>stateVector</strong> – <strong>[in]</strong> an array which holds the packed state std::vector, must be at least the size returned by getStateVector.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the number of items copied from the state std::vector, negative on failure. </p>
@@ -797,9 +837,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>time[in]</strong> – current time </p></li>
-<li><p><strong>y[in]</strong> – the state std::vector </p></li>
-<li><p><strong>gdot[out]</strong> – result event roots, this is of length numEvents. </p></li>
+<li><p><strong>time</strong> – <strong>[in]</strong> current time </p></li>
+<li><p><strong>y</strong> – <strong>[in]</strong> the state std::vector </p></li>
+<li><p><strong>gdot</strong> – <strong>[out]</strong> result event roots, this is of length numEvents. </p></li>
 </ul>
 </dd>
 </dl>

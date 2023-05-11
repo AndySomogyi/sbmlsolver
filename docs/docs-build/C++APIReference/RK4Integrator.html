@@ -151,15 +151,7 @@
 <dd><p>Creates a new <a class="reference internal" href="#classrr_1_1RK4Integrator"><span class="std std-ref">RK4Integrator</span></a>. </p>
 <p>The <a class="reference internal" href="IntegratorFactory.html#classrr_1_1IntegratorFactory"><span class="std std-ref">IntegratorFactory</span></a> is the ONLY object that creates integrators.</p>
 <p>Integrators are created when the IntegratorFactory::New method is called, typically by the top level <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> object.</p>
-<p>The integrator will hold onto the <a class="reference internal" href="rrExecutableModel.html#classrr_1_1ExecutableModel"><span class="std std-ref">ExecutableModel</span></a> pointer, m, and when the integrate method is called, will advance the model object forward in time.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>m</strong> – a borrowed reference to an existing <a class="reference internal" href="rrExecutableModel.html#classrr_1_1ExecutableModel"><span class="std std-ref">ExecutableModel</span></a> object. </p></li>
-<li><p><strong>o</strong> – a reference to a SimulatOptions object where the configuration parameters will be read from. </p></li>
-</ul>
-</dd>
-</dl>
+<p>The integrator will hold onto the <a class="reference internal" href="rrExecutableModel.html#classrr_1_1ExecutableModel"><span class="std std-ref">ExecutableModel</span></a> pointer, m, and when the integrate method is called, will advance the model object forward in time. </p>
 </dd></dl>
 
 <dl class="cpp function">

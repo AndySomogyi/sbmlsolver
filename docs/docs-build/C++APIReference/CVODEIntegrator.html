@@ -296,29 +296,6 @@ Provides a wrapper around CVODE from the SUNDIALS suite. CVODE has two main solv
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator25setConcentrationToleranceE7Setting">
-<span id="_CPPv3N2rr15CVODEIntegrator25setConcentrationToleranceE7Setting"></span><span id="_CPPv2N2rr15CVODEIntegrator25setConcentrationToleranceE7Setting"></span><span id="rr::CVODEIntegrator::setConcentrationTolerance__Setting"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a386a755bab0c72a5d93a7e09ba95fafe"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setConcentrationTolerance</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">Setting</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator25setConcentrationToleranceE7Setting" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Sets tolerance based on concentration of species. </p>
-<p>
-First converts the concentration tolerances to amount tolerances by multiplying the compartment volume of species. Whichever is smaller will be stored as absolute_tolerance and used in the integration process. <dl class="simple">
-<dt><strong>Author</strong></dt><dd><p>FY</p>
-</dd>
-</dl>
-</p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator25getConcentrationToleranceEv">
-<span id="_CPPv3N2rr15CVODEIntegrator25getConcentrationToleranceEv"></span><span id="_CPPv2N2rr15CVODEIntegrator25getConcentrationToleranceEv"></span><span id="rr::CVODEIntegrator::getConcentrationTolerance"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a7f68228148cf04688881f636a34deb48"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getConcentrationTolerance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator25getConcentrationToleranceEv" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Gets tolerance based on concentration of species. </p>
-<p><dl class="simple">
-<dt><strong>Author</strong></dt><dd><p>FY </p>
-</dd>
-</dl>
-</p>
-</dd></dl>
-
-<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator13resetSettingsEv">
 <span id="_CPPv3N2rr15CVODEIntegrator13resetSettingsEv"></span><span id="_CPPv2N2rr15CVODEIntegrator13resetSettingsEv"></span><span id="rr::CVODEIntegrator::resetSettings"></span><span class="target" id="classrr_1_1CVODEIntegrator_1ac18581f5c000940449032e166ef48e79"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">resetSettings</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator13resetSettingsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Reset all integrator settings to their respective default values. </p>
@@ -457,6 +434,13 @@ Applies events which occur before time zero. Reinitializes CVODE and the executa
 <dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator14getCvodeMemoryEv">
 <span id="_CPPv3NK2rr15CVODEIntegrator14getCvodeMemoryEv"></span><span id="_CPPv2NK2rr15CVODEIntegrator14getCvodeMemoryEv"></span><span id="rr::CVODEIntegrator::getCvodeMemoryC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1ad3ad4d2d9d49bce33f8d34d177ff703a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">getCvodeMemory</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator14getCvodeMemoryEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>getter for the internal CVode memory buffer </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator26getAbsoluteToleranceVectorEv">
+<span id="_CPPv3N2rr15CVODEIntegrator26getAbsoluteToleranceVectorEv"></span><span id="_CPPv2N2rr15CVODEIntegrator26getAbsoluteToleranceVectorEv"></span><span id="rr::CVODEIntegrator::getAbsoluteToleranceVector"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a623435278b083018cc05780ace8922f1"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getAbsoluteToleranceVector</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator26getAbsoluteToleranceVectorEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Get the absolute tolerance vector for the solver. </p>
+<p>The absolute tolerance vector is either set directly by the user as a vector, or is generated from the single absolute tolerance value (either default or set by the user) multiplied by the initial value of every element in the state vector (independent floating species, and elements controlled by rate rules). If that initial value is zero, the corresponding element of the absolute tolerance vector is the single value multiplied by the compartment volume for species, or by one for all other values. </p>
 </dd></dl>
 
 <dl class="cpp function">
