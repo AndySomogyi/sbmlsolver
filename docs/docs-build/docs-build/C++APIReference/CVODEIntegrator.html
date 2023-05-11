@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CVODEIntegrator &mdash; libRoadRunner 1.1.16 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Dictionary" href="Dictionary.html" />
+    <link rel="prev" title="SymbolForest" href="llvm/SymbolForest.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            libRoadRunner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic.html">Stochastic Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../metabolic.html">Metabolic Control Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stability.html">Stability Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensitivities/sensitivities_index.html">Time Series Sensitivities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/parallel_index.html">Parallel RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UsingRoadRunnerFromCxx/using_roadrunner_from_cxx.html">Using RoadRunner from C++</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/introduction.html">rrPlugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The LibRoadRunner C++ Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="llvm/index.html">LLVM Docs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CVODEIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Dictionary.html">Dictionary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="EulerIntegrator.html">EulerIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ExecutableModelFactory.html">ExecutableModelFactory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GillespieIntegrator.html">GillespieIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Integrator.html">Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IntegratorFactory.html">IntegratorFactory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="NLEQ1Solver.html">NLEQ1Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="NLEQ2Solver.html">NLEQ2Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RK45Integrator.html">RK45Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RK4Integrator.html">RK4Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SBMLValidator.html">SBMLValidator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Solver.html">Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SolverFactory.html">SolverFactory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SteadyStateSolver.html">SteadyStateSolver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Variant.html">Variant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrCompiler.html">rrCompiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrConfig.html">rrConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrException.html">rrException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrExecutableModel.html">rrExecutableModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrFileName.html">rrFileName</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrIniFile.html">rrIniFile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrIniKey.html">rrIniKey</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrIniSection.html">rrIniSection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrLogger.html">rrLogger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrNLEQ1Interface.html">rrNLEQ1Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrNLEQ2Interface.html">rrNLEQ2Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrRoadRunner.html">rrRoadRunner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrRoadRunnerData.html">rrRoadRunnerData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrRoadRunnerOptions.html">rrRoadRunnerOptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSBMLModelSimulation.html">rrSBMLModelSimulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSBMLReader.html">rrSBMLReader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSelectionRecord.html">rrSelectionRecord</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSparse.html">rrSparse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RoadRunnerMap.html">RoadRunnerMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#creating-a-new-integrator">Creating a new Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementing-the-integrator-interface">Implementing the Integrator interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#telling-roadrunner-about-the-new-integrator">Telling RoadRunner about the new Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#a-complete-example-of-creating-an-integrator">A complete example of creating an integrator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developers_docs/index.html">Developers Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libRoadRunner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">The LibRoadRunner C++ Library</a></li>
+      <li class="breadcrumb-item active">CVODEIntegrator</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/C++APIReference/CVODEIntegrator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cvodeintegrator">
+<h1>CVODEIntegrator<a class="headerlink" href="#cvodeintegrator" title="Permalink to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegratorE">
+<span id="_CPPv3N2rr15CVODEIntegratorE"></span><span id="_CPPv2N2rr15CVODEIntegratorE"></span><span id="rr::CVODEIntegrator"></span><span class="target" id="classrr_1_1CVODEIntegrator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CVODEIntegrator</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Integrator.html#_CPPv4N2rr10IntegratorE" title="rr::Integrator"><span class="n"><span class="pre">Integrator</span></span></a><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegratorE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>A <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> integrator based on CVODE; serves as <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a>’s main integrator for ODEs. </p>
+<p>
+Provides a wrapper around CVODE from the SUNDIALS suite. CVODE has two main solvers: an Adams-Moulton solver for non-stiff problems, and a backward differentiation formula (BDF) solver for stiff problems. See: <a class="reference external" href="https://computation.llnl.gov/casc/sundials/documentation/toms_sundials.pdf">https://computation.llnl.gov/casc/sundials/documentation/toms_sundials.pdf</a> <dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC, ETS, MTK</p>
+</dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator15CVODEIntegratorEP15ExecutableModel">
+<span id="_CPPv3N2rr15CVODEIntegrator15CVODEIntegratorEP15ExecutableModel"></span><span id="_CPPv2N2rr15CVODEIntegrator15CVODEIntegratorEP15ExecutableModel"></span><span id="rr::CVODEIntegrator::CVODEIntegrator__ExecutableModelP"></span><span class="target" id="classrr_1_1CVODEIntegrator_1ad83f14144a59c66b5feac18d37a22060"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CVODEIntegrator</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">oModel</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator15CVODEIntegratorEP15ExecutableModel" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Constructor: takes an executable model, does not own the pointer. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC, ETS, MTK </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegratorD0Ev">
+<span id="_CPPv3N2rr15CVODEIntegratorD0Ev"></span><span id="_CPPv2N2rr15CVODEIntegratorD0Ev"></span><span id="rr::CVODEIntegrator::~CVODEIntegrator"></span><span class="target" id="classrr_1_1CVODEIntegrator_1ad60746a373a8de7a5163d56475bfd55c"></span><span class="sig-name descname"><span class="n"><span class="pre">~CVODEIntegrator</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegratorD0Ev" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Destructor. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC, ETS, MTK </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator13syncWithModelEP15ExecutableModel">
+<span id="_CPPv3N2rr15CVODEIntegrator13syncWithModelEP15ExecutableModel"></span><span id="_CPPv2N2rr15CVODEIntegrator13syncWithModelEP15ExecutableModel"></span><span id="rr::CVODEIntegrator::syncWithModel__ExecutableModelP"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a6ffad2eceae5fda58900a1bbaa738eff"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">syncWithModel</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">m</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator13syncWithModelEP15ExecutableModel" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Called whenever a new model is loaded to allow integrator to reset internal state. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>JKM </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator18loadConfigSettingsEv">
+<span id="_CPPv3N2rr15CVODEIntegrator18loadConfigSettingsEv"></span><span id="_CPPv2N2rr15CVODEIntegrator18loadConfigSettingsEv"></span><span id="rr::CVODEIntegrator::loadConfigSettings"></span><span class="target" id="classrr_1_1CVODEIntegrator_1ac43da51656919e15d30f450e81b3887b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">loadConfigSettings</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator18loadConfigSettingsEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>It looks like this method only get used inside resetSettings. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator16loadSBMLSettingsERKNSt6stringE">
+<span id="_CPPv3N2rr15CVODEIntegrator16loadSBMLSettingsERKNSt6stringE"></span><span id="_CPPv2N2rr15CVODEIntegrator16loadSBMLSettingsERKNSt6stringE"></span><span id="rr::CVODEIntegrator::loadSBMLSettings__ssCR"></span><span class="target" id="classrr_1_1CVODEIntegrator_1acaa6878fb0d972aa96dba554a7bc65a4"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">loadSBMLSettings</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">filename</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator16loadSBMLSettingsERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Load an SBML settings file and apply the configuration options. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC </p>
+</dd>
+</dl>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Can assign relative and absolute tolerances </p>
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator7getNameEv">
+<span id="_CPPv3NK2rr15CVODEIntegrator7getNameEv"></span><span id="_CPPv2NK2rr15CVODEIntegrator7getNameEv"></span><span id="rr::CVODEIntegrator::getNameC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1aa889b08549036792918c41e88e2097f4"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getName</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator7getNameEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Get the name for this integrator. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC </p>
+</dd>
+</dl>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Delegates to <a class="reference internal" href="#classrr_1_1CVODEIntegrator_1aa889b08549036792918c41e88e2097f4"><span class="std std-ref">getName</span></a></p>
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator14getDescriptionEv">
+<span id="_CPPv3NK2rr15CVODEIntegrator14getDescriptionEv"></span><span id="_CPPv2NK2rr15CVODEIntegrator14getDescriptionEv"></span><span id="rr::CVODEIntegrator::getDescriptionC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a1c6a393504cc85f2dc236abd0cb5577a"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDescription</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator14getDescriptionEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Get the description for this integrator. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC </p>
+</dd>
+</dl>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Delegates to <a class="reference internal" href="#classrr_1_1CVODEIntegrator_1a1c6a393504cc85f2dc236abd0cb5577a"><span class="std std-ref">getDescription</span></a></p>
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator7getHintEv">
+<span id="_CPPv3NK2rr15CVODEIntegrator7getHintEv"></span><span id="_CPPv2NK2rr15CVODEIntegrator7getHintEv"></span><span id="rr::CVODEIntegrator::getHintC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1addde67b3639fe1347efc2a37bbfdd60e"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getHint</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator7getHintEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Get the hint for this integrator. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC </p>
+</dd>
+</dl>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Delegates to <a class="reference internal" href="#classrr_1_1CVODEIntegrator_1addde67b3639fe1347efc2a37bbfdd60e"><span class="std std-ref">getHint</span></a></p>
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator9constructEP15ExecutableModel">
+<span id="_CPPv3NK2rr15CVODEIntegrator9constructEP15ExecutableModel"></span><span id="_CPPv2NK2rr15CVODEIntegrator9constructEP15ExecutableModel"></span><span id="rr::CVODEIntegrator::construct__ExecutableModelPC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1aa255a6f4cd2091304851a2f699f4a9fc"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="Solver.html#_CPPv4N2rr6SolverE" title="rr::Solver"><span class="n"><span class="pre">Solver</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">construct</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">executableModel</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator9constructEP15ExecutableModel" title="Permalink to this definition"></a><br /></dt>
+<dd><p>construct an instance of type <a class="reference internal" href="#classrr_1_1CVODEIntegrator"><span class="std std-ref">CVODEIntegrator</span></a>. </p>
+<p>implements the Registrar interface. Used in factory creation of Integrators. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator20getIntegrationMethodEv">
+<span id="_CPPv3NK2rr15CVODEIntegrator20getIntegrationMethodEv"></span><span id="_CPPv2NK2rr15CVODEIntegrator20getIntegrationMethodEv"></span><span id="rr::CVODEIntegrator::getIntegrationMethodC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a7cc1f774e58f179fb2e69c515c9f2a1f"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">IntegrationMethod</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getIntegrationMethod</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator20getIntegrationMethodEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Always deterministic for CVODE. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC, ETS, MTK </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator8setValueERKNSt6stringE7Setting">
+<span id="_CPPv3N2rr15CVODEIntegrator8setValueERKNSt6stringE7Setting"></span><span id="_CPPv2N2rr15CVODEIntegrator8setValueERKNSt6stringE7Setting"></span><span id="rr::CVODEIntegrator::setValue__ssCR.Setting"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a2ba8be5c51129d05dd8ab5315dc12edc"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setValue</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">setting</span></span>, <span class="n"><span class="pre">Setting</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator8setValueERKNSt6stringE7Setting" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the value of an integrator setting (e.g. absolute_tolerance) </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC, ETS, MTK </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator11setMaxOrderEi">
+<span id="_CPPv3N2rr15CVODEIntegrator11setMaxOrderEi"></span><span id="_CPPv2N2rr15CVODEIntegrator11setMaxOrderEi"></span><span id="rr::CVODEIntegrator::setMaxOrder__i"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a6b9189a5d39d8c33541ea82ad9a382a4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setMaxOrder</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">newValue</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator11setMaxOrderEi" title="Permalink to this definition"></a><br /></dt>
+<dd><p>sets the value of maximum order, which defaults to 12 for Adams (non-stiff) and 5 for BDF (Stiff). </p>
+<p>Once a <a class="reference internal" href="#classrr_1_1CVODEIntegrator"><span class="std std-ref">CVODEIntegrator</span></a> has been created, increasing the order value beyond the original value is not possible (because the underlying sundials objects require more memory). Attempts to do so will simply be ignored. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator22setIndividualToleranceENSt6stringEd">
+<span id="_CPPv3N2rr15CVODEIntegrator22setIndividualToleranceENSt6stringEd"></span><span id="_CPPv2N2rr15CVODEIntegrator22setIndividualToleranceENSt6stringEd"></span><span id="rr::CVODEIntegrator::setIndividualTolerance__ss.double"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a57e9e604b2c2ba388a3fe219e87c326c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setIndividualTolerance</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sid</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator22setIndividualToleranceENSt6stringEd" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets tolerance for individual species. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>FY </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator13resetSettingsEv">
+<span id="_CPPv3N2rr15CVODEIntegrator13resetSettingsEv"></span><span id="_CPPv2N2rr15CVODEIntegrator13resetSettingsEv"></span><span id="rr::CVODEIntegrator::resetSettings"></span><span class="target" id="classrr_1_1CVODEIntegrator_1ac18581f5c000940449032e166ef48e79"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">resetSettings</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator13resetSettingsEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Reset all integrator settings to their respective default values. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>JKM </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator15tweakTolerancesEv">
+<span id="_CPPv3N2rr15CVODEIntegrator15tweakTolerancesEv"></span><span id="_CPPv2N2rr15CVODEIntegrator15tweakTolerancesEv"></span><span id="rr::CVODEIntegrator::tweakTolerances"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a137ada502a737819ca3ad78d0573c35d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tweakTolerances</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator15tweakTolerancesEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Fix tolerances for SBML tests. </p>
+<p>
+In order to ensure that the results of the SBML test suite remain valid, this method enforces a lower bound on tolerance values. Sets minimum absolute and relative tolerances to <a class="reference internal" href="rrConfig.html#classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053a0c3075c04786354a026c56410edb47be"><span class="std std-ref">Config::CVODE_MIN_ABSOLUTE</span></a> and <a class="reference internal" href="rrConfig.html#classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053a4fba6c43b4d137bab9f42ee9c4cb1e6b"><span class="std std-ref">Config::CVODE_MIN_RELATIVE</span></a> resp. <dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>JKM, WBC, ETS, MTK</p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator9integrateEdd">
+<span id="_CPPv3N2rr15CVODEIntegrator9integrateEdd"></span><span id="_CPPv2N2rr15CVODEIntegrator9integrateEdd"></span><span id="rr::CVODEIntegrator::integrate__double.double"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a1e29429af0ec90aa2f47be15bbe8856c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">integrate</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t0</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">hstep</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator9integrateEdd" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Main integration routine. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC, ETS, MTK </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator7restartEd">
+<span id="_CPPv3N2rr15CVODEIntegrator7restartEd"></span><span id="_CPPv2N2rr15CVODEIntegrator7restartEd"></span><span id="rr::CVODEIntegrator::restart__double"></span><span class="target" id="classrr_1_1CVODEIntegrator_1acde5e92ec049c105b7d22b0f125d94a9"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">restart</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timeStart</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator7restartEd" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Reset time to zero and reinitialize model. </p>
+<p>
+Applies events which occur before time zero. Reinitializes CVODE and the executable model. <dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC, ETS, MTK</p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator11getListenerEv">
+<span id="_CPPv3N2rr15CVODEIntegrator11getListenerEv"></span><span id="_CPPv2N2rr15CVODEIntegrator11getListenerEv"></span><span id="rr::CVODEIntegrator::getListener"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a480b8dad2e4dabcdb8fec1439ab7c5f7"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">IntegratorListenerPtr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getListener</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator11getListenerEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the integrator listener. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC, ETS </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator11setListenerE21IntegratorListenerPtr">
+<span id="_CPPv3N2rr15CVODEIntegrator11setListenerE21IntegratorListenerPtr"></span><span id="_CPPv2N2rr15CVODEIntegrator11setListenerE21IntegratorListenerPtr"></span><span id="rr::CVODEIntegrator::setListener__IntegratorListenerPtr"></span><span class="target" id="classrr_1_1CVODEIntegrator_1aca2901ed7b5a503e054fd18e8f0392ad"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setListener</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">IntegratorListenerPtr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator11setListenerE21IntegratorListenerPtr" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the integrator listener. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC, ETS </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator9checkTypeEv">
+<span id="_CPPv3NK2rr15CVODEIntegrator9checkTypeEv"></span><span id="_CPPv2NK2rr15CVODEIntegrator9checkTypeEv"></span><span id="rr::CVODEIntegrator::checkTypeC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a7f67f51344e7a63ac6a84f67046dfbc5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">checkType</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator9checkTypeEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Does a RT type check which throws if it fails, EVEN IF RTTI IS DISABLED. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>JKM </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator15checkVectorSizeEi6size_t">
+<span id="_CPPv3NK2rr15CVODEIntegrator15checkVectorSizeEi6size_t"></span><span id="_CPPv2NK2rr15CVODEIntegrator15checkVectorSizeEi6size_t"></span><span id="rr::CVODEIntegrator::checkVectorSize__i.sC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1afdbcc5be9fb361ffdedf2364118b87f3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">checkVectorSize</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">expected</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">real</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator15checkVectorSizeEi6size_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Does a size check which throws if it fails. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>FY </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator10checkIndexEii">
+<span id="_CPPv3NK2rr15CVODEIntegrator10checkIndexEii"></span><span id="_CPPv2NK2rr15CVODEIntegrator10checkIndexEii"></span><span id="rr::CVODEIntegrator::checkIndex__i.iC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a8f2a01ce70a6aa67e652b9d9dde9be08"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">checkIndex</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator10checkIndexEii" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Does a index check which throws if it is out of bound. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>FY </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator8ToStringEi">
+<span id="_CPPv3NK2rr15CVODEIntegrator8ToStringEi"></span><span id="_CPPv2NK2rr15CVODEIntegrator8ToStringEi"></span><span id="rr::CVODEIntegrator::ToString__iC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a38290b6c0c66556fed4a9e673c6ddd69"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ToString</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">val</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator8ToStringEi" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Converts integer to std::string for error print. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>FY </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator8ToStringE6size_t">
+<span id="_CPPv3NK2rr15CVODEIntegrator8ToStringE6size_t"></span><span id="_CPPv2NK2rr15CVODEIntegrator8ToStringE6size_t"></span><span id="rr::CVODEIntegrator::ToString__sC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a5f7253ee990e699dbc5affe54097fe5a"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ToString</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">val</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator8ToStringE6size_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Converts size_t to std::string for error print. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>LPS </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator14getStateVectorEv">
+<span id="_CPPv3NK2rr15CVODEIntegrator14getStateVectorEv"></span><span id="_CPPv2NK2rr15CVODEIntegrator14getStateVectorEv"></span><span id="rr::CVODEIntegrator::getStateVectorC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a20f0ef30d096122a556f8690b81d7ef0"></span><span class="n"><span class="pre">N_Vector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getStateVector</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator14getStateVectorEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>getter for the internal state std::vector </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator9getSolverEv">
+<span id="_CPPv3NK2rr15CVODEIntegrator9getSolverEv"></span><span id="_CPPv2NK2rr15CVODEIntegrator9getSolverEv"></span><span id="rr::CVODEIntegrator::getSolverC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a72452ef342616919777874ba32dcd1c3"></span><span class="n"><span class="pre">SUNNonlinearSolver</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getSolver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator9getSolverEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>getter for the internal Sundials linear solver object </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator14getCvodeMemoryEv">
+<span id="_CPPv3NK2rr15CVODEIntegrator14getCvodeMemoryEv"></span><span id="_CPPv2NK2rr15CVODEIntegrator14getCvodeMemoryEv"></span><span id="rr::CVODEIntegrator::getCvodeMemoryC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1ad3ad4d2d9d49bce33f8d34d177ff703a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">getCvodeMemory</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator14getCvodeMemoryEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>getter for the internal CVode memory buffer </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator26getAbsoluteToleranceVectorEv">
+<span id="_CPPv3N2rr15CVODEIntegrator26getAbsoluteToleranceVectorEv"></span><span id="_CPPv2N2rr15CVODEIntegrator26getAbsoluteToleranceVectorEv"></span><span id="rr::CVODEIntegrator::getAbsoluteToleranceVector"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a623435278b083018cc05780ace8922f1"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getAbsoluteToleranceVector</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator26getAbsoluteToleranceVectorEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Get the absolute tolerance vector for the solver. </p>
+<p>The absolute tolerance vector is either set directly by the user as a vector, or is generated from the single absolute tolerance value (either default or set by the user) multiplied by the initial value of every element in the state vector (independent floating species, and elements controlled by rate rules). If that initial value is zero, the corresponding element of the absolute tolerance vector is the single value multiplied by the compartment volume for species, or by one for all other values. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator10IntegratorEP15ExecutableModel">
+<span id="_CPPv3N2rr15CVODEIntegrator10IntegratorEP15ExecutableModel"></span><span id="_CPPv2N2rr15CVODEIntegrator10IntegratorEP15ExecutableModel"></span><span id="rr::CVODEIntegrator::Integrator__ExecutableModelP"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a8a79e9633a25767a1683a0334fd1d917"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Integrator</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">model</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator10IntegratorEP15ExecutableModel" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator10IntegratorEv">
+<span id="_CPPv3N2rr15CVODEIntegrator10IntegratorEv"></span><span id="_CPPv2N2rr15CVODEIntegrator10IntegratorEv"></span><span id="rr::CVODEIntegrator::Integrator"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a661048f976364d39626d24e4745aa416"></span><span class="sig-name descname"><span class="n"><span class="pre">Integrator</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator10IntegratorEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator22testRootsAtInitialTimeEv">
+<span id="_CPPv3N2rr15CVODEIntegrator22testRootsAtInitialTimeEv"></span><span id="_CPPv2N2rr15CVODEIntegrator22testRootsAtInitialTimeEv"></span><span id="rr::CVODEIntegrator::testRootsAtInitialTime"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a26dbe3d01224a2f2ebf0264d0f754ac4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">testRootsAtInitialTime</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator22testRootsAtInitialTimeEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator13haveVariablesEv">
+<span id="_CPPv3NK2rr15CVODEIntegrator13haveVariablesEv"></span><span id="_CPPv2NK2rr15CVODEIntegrator13haveVariablesEv"></span><span id="rr::CVODEIntegrator::haveVariablesC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a967747f26f15a184a0258a06b2d54048"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">haveVariables</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator13haveVariablesEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr15CVODEIntegrator20assignResultsToModelEv">
+<span id="_CPPv3NK2rr15CVODEIntegrator20assignResultsToModelEv"></span><span id="_CPPv2NK2rr15CVODEIntegrator20assignResultsToModelEv"></span><span id="rr::CVODEIntegrator::assignResultsToModelC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a97bd5d99beb0d80b16ea0aded9f5f896"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">assignResultsToModel</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr15CVODEIntegrator20assignResultsToModelEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator18setCVODETolerancesEv">
+<span id="_CPPv3N2rr15CVODEIntegrator18setCVODETolerancesEv"></span><span id="_CPPv2N2rr15CVODEIntegrator18setCVODETolerancesEv"></span><span id="rr::CVODEIntegrator::setCVODETolerances"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a2fef2a09f880bd81756c7f340ff6f59b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setCVODETolerances</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator18setCVODETolerancesEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Propagates changes in the “absolute_tolerance” and “relative_tolerance” settings to the CVODE library. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC, ETS, JKM </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator6reInitEd">
+<span id="_CPPv3N2rr15CVODEIntegrator6reInitEd"></span><span id="_CPPv2N2rr15CVODEIntegrator6reInitEd"></span><span id="rr::CVODEIntegrator::reInit__double"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a080f29643479a2bc2c2754afae933e38"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reInit</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator6reInitEd" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Reinitialize sundials objects. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator11updateCVODEEv">
+<span id="_CPPv3N2rr15CVODEIntegrator11updateCVODEEv"></span><span id="_CPPv2N2rr15CVODEIntegrator11updateCVODEEv"></span><span id="rr::CVODEIntegrator::updateCVODE"></span><span class="target" id="classrr_1_1CVODEIntegrator_1ab2441240687226249eeeeb145ea77cfb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">updateCVODE</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator11updateCVODEEv" title="Permalink to this definition"></a><br /></dt>
+<dd><p><p>Propagates changes in the following settings to CVODE:</p>
+<p>.</p>
+</p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>WBC, ETS, JKM<ul class="simple">
+<li><p>initial_time_step </p></li>
+<li><p>minimum_time_step </p></li>
+<li><p>maximum_time_step </p></li>
+<li><p>maximum_num_steps </p></li>
+<li><p>absolute_tolerance (via setCVODETolerances) </p></li>
+<li><p>relative_tolerance (via setCVODETolerances) </p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator18applyPendingEventsEd">
+<span id="_CPPv3N2rr15CVODEIntegrator18applyPendingEventsEd"></span><span id="_CPPv2N2rr15CVODEIntegrator18applyPendingEventsEd"></span><span id="rr::CVODEIntegrator::applyPendingEvents__double"></span><span class="target" id="classrr_1_1CVODEIntegrator_1aa6d5984e94ec3fda3f6e49fd5df699ce"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">applyPendingEvents</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timeEnd</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator18applyPendingEventsEd" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator11applyEventsEdRNSt6vectorIhEE">
+<span id="_CPPv3N2rr15CVODEIntegrator11applyEventsEdRNSt6vectorIhEE"></span><span id="_CPPv2N2rr15CVODEIntegrator11applyEventsEdRNSt6vectorIhEE"></span><span id="rr::CVODEIntegrator::applyEvents__double.std::vector:unsigned-c:R"></span><span class="target" id="classrr_1_1CVODEIntegrator_1ace9ddb81bda2240ae00cfb94a7422a60"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">applyEvents</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timeEnd</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">previousEventStatus</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator11applyEventsEdRNSt6vectorIhEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator30applyVariableStepPendingEventsEv">
+<span id="_CPPv3N2rr15CVODEIntegrator30applyVariableStepPendingEventsEv"></span><span id="_CPPv2N2rr15CVODEIntegrator30applyVariableStepPendingEventsEv"></span><span id="rr::CVODEIntegrator::applyVariableStepPendingEvents"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a99a45c90764259a71f81dd78c596cda9"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">applyVariableStepPendingEvents</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator30applyVariableStepPendingEventsEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator6createEv">
+<span id="_CPPv3N2rr15CVODEIntegrator6createEv"></span><span id="_CPPv2N2rr15CVODEIntegrator6createEv"></span><span id="rr::CVODEIntegrator::create"></span><span class="target" id="classrr_1_1CVODEIntegrator_1aaa4182b9d6e4bee97541d22d0f9959fc"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">create</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator6createEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator18freeSundialsMemoryEv">
+<span id="_CPPv3N2rr15CVODEIntegrator18freeSundialsMemoryEv"></span><span id="_CPPv2N2rr15CVODEIntegrator18freeSundialsMemoryEv"></span><span id="rr::CVODEIntegrator::freeSundialsMemory"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a6a5e67c06e7be1b8af7bd5bbec9825c9"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">freeSundialsMemory</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator18freeSundialsMemoryEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator13mCVODE_MemoryE">
+<span id="_CPPv3N2rr15CVODEIntegrator13mCVODE_MemoryE"></span><span id="_CPPv2N2rr15CVODEIntegrator13mCVODE_MemoryE"></span><span id="rr::CVODEIntegrator::mCVODE_Memory__voidP"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a1d6c4cc0e30531429666f2f95b765779"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">mCVODE_Memory</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator13mCVODE_MemoryE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator12mStateVectorE">
+<span id="_CPPv3N2rr15CVODEIntegrator12mStateVectorE"></span><span id="_CPPv2N2rr15CVODEIntegrator12mStateVectorE"></span><span id="rr::CVODEIntegrator::mStateVector__N_Vector"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a4f3d2d70093be98ab5835afd8ccba80c"></span><span class="n"><span class="pre">N_Vector</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mStateVector</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator12mStateVectorE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator3jacE">
+<span id="_CPPv3N2rr15CVODEIntegrator3jacE"></span><span id="_CPPv2N2rr15CVODEIntegrator3jacE"></span><span id="rr::CVODEIntegrator::jac__SUNMatrix"></span><span class="target" id="classrr_1_1CVODEIntegrator_1ab7cd7e9346284872234cd6f4a351e9d0"></span><span class="n"><span class="pre">SUNMatrix</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">jac</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator3jacE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator12nonLinSolverE">
+<span id="_CPPv3N2rr15CVODEIntegrator12nonLinSolverE"></span><span id="_CPPv2N2rr15CVODEIntegrator12nonLinSolverE"></span><span id="rr::CVODEIntegrator::nonLinSolver__SUNNonlinearSolver"></span><span class="target" id="classrr_1_1CVODEIntegrator_1aa4049dfcb3f5086f84e439ee1c37d883"></span><span class="n"><span class="pre">SUNNonlinearSolver</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nonLinSolver</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator12nonLinSolverE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator9linSolverE">
+<span id="_CPPv3N2rr15CVODEIntegrator9linSolverE"></span><span id="_CPPv2N2rr15CVODEIntegrator9linSolverE"></span><span id="rr::CVODEIntegrator::linSolver__SUNLinearSolver"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a6674ab1e9dfc6c4627e820eb5c1e8852"></span><span class="n"><span class="pre">SUNLinearSolver</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">linSolver</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator9linSolverE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator8listenerE">
+<span id="_CPPv3N2rr15CVODEIntegrator8listenerE"></span><span id="_CPPv2N2rr15CVODEIntegrator8listenerE"></span><span id="rr::CVODEIntegrator::listener__IntegratorListenerPtr"></span><span class="target" id="classrr_1_1CVODEIntegrator_1ad0df731f78f1abae32e8d3043ab2db70"></span><span class="n"><span class="pre">IntegratorListenerPtr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">listener</span></span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator8listenerE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator14mLastEventTimeE">
+<span id="_CPPv3N2rr15CVODEIntegrator14mLastEventTimeE"></span><span id="_CPPv2N2rr15CVODEIntegrator14mLastEventTimeE"></span><span id="rr::CVODEIntegrator::mLastEventTime__double"></span><span class="target" id="classrr_1_1CVODEIntegrator_1ab5bf8441f20d1b47b88d6433f6e4bd8f"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mLastEventTime</span></span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator14mLastEventTimeE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator24variableStepPendingEventE">
+<span id="_CPPv3N2rr15CVODEIntegrator24variableStepPendingEventE"></span><span id="_CPPv2N2rr15CVODEIntegrator24variableStepPendingEventE"></span><span id="rr::CVODEIntegrator::variableStepPendingEvent__b"></span><span class="target" id="classrr_1_1CVODEIntegrator_1ac19023ee4585263faebe4bb4e0198616"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">variableStepPendingEvent</span></span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator24variableStepPendingEventE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator24variableStepTimeEndEventE">
+<span id="_CPPv3N2rr15CVODEIntegrator24variableStepTimeEndEventE"></span><span id="_CPPv2N2rr15CVODEIntegrator24variableStepTimeEndEventE"></span><span id="rr::CVODEIntegrator::variableStepTimeEndEvent__b"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a12e09d64dccc0997fda74582da507f76"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">variableStepTimeEndEvent</span></span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator24variableStepTimeEndEventE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator26variableStepPostEventStateE">
+<span id="_CPPv3N2rr15CVODEIntegrator26variableStepPostEventStateE"></span><span id="_CPPv2N2rr15CVODEIntegrator26variableStepPostEventStateE"></span><span id="rr::CVODEIntegrator::variableStepPostEventState__std::vector:double:"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a3dfccc67478b9e66206c104c20b03c7f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">variableStepPostEventState</span></span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator26variableStepPostEventStateE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator11eventStatusE">
+<span id="_CPPv3N2rr15CVODEIntegrator11eventStatusE"></span><span id="_CPPv2N2rr15CVODEIntegrator11eventStatusE"></span><span id="rr::CVODEIntegrator::eventStatus__std::vector:unsigned-c:"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a52f7d8566aba9f20884934472f281722"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">eventStatus</span></span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator11eventStatusE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator20stateVectorVariablesE">
+<span id="_CPPv3N2rr15CVODEIntegrator20stateVectorVariablesE"></span><span id="_CPPv2N2rr15CVODEIntegrator20stateVectorVariablesE"></span><span id="rr::CVODEIntegrator::stateVectorVariables__b"></span><span class="target" id="classrr_1_1CVODEIntegrator_1aa8c803132331206f8b9e6cc6d54394d1"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stateVectorVariables</span></span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator20stateVectorVariablesE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator9typecode_E">
+<span id="_CPPv3N2rr15CVODEIntegrator9typecode_E"></span><span id="_CPPv2N2rr15CVODEIntegrator9typecode_E"></span><span id="rr::CVODEIntegrator::typecode___unsigned-l"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a8fd248801ecbd71ea19611e9927f6d36"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">typecode_</span></span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator9typecode_E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-static-attributes">Private Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator19mDefaultMaxNumStepsE">
+<span id="_CPPv3N2rr15CVODEIntegrator19mDefaultMaxNumStepsE"></span><span id="_CPPv2N2rr15CVODEIntegrator19mDefaultMaxNumStepsE"></span><span id="rr::CVODEIntegrator::mDefaultMaxNumSteps__iC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a9b649330aaa115f88ec6fd751dd154b9"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mDefaultMaxNumSteps</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">20000</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator19mDefaultMaxNumStepsE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator21mDefaultMaxAdamsOrderE">
+<span id="_CPPv3N2rr15CVODEIntegrator21mDefaultMaxAdamsOrderE"></span><span id="_CPPv2N2rr15CVODEIntegrator21mDefaultMaxAdamsOrderE"></span><span id="rr::CVODEIntegrator::mDefaultMaxAdamsOrder__iC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a9cd24b548b466a5ff1bd04891a5bdf45"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mDefaultMaxAdamsOrder</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">12</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator21mDefaultMaxAdamsOrderE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator19mDefaultMaxBDFOrderE">
+<span id="_CPPv3N2rr15CVODEIntegrator19mDefaultMaxBDFOrderE"></span><span id="_CPPv2N2rr15CVODEIntegrator19mDefaultMaxBDFOrderE"></span><span id="rr::CVODEIntegrator::mDefaultMaxBDFOrder__iC"></span><span class="target" id="classrr_1_1CVODEIntegrator_1aa00ed2d3b97fca9c31eae4f74bb992c7"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mDefaultMaxBDFOrder</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">5</span></span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator19mDefaultMaxBDFOrderE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-friends">Friends</p>
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">ForwardSensitivitySolver</span></dt>
+</dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator12cvodeDyDtFcnEd8N_Vector8N_VectorPv">
+<span id="_CPPv3N2rr15CVODEIntegrator12cvodeDyDtFcnEd8N_Vector8N_VectorPv"></span><span id="_CPPv2N2rr15CVODEIntegrator12cvodeDyDtFcnEd8N_Vector8N_VectorPv"></span><span id="rr::CVODEIntegrator::cvodeDyDtFcn__double.N_Vector.N_Vector.voidP"></span><span class="target" id="classrr_1_1CVODEIntegrator_1af47c8797c6cb49cdd45add5f5f63c993"></span><span class="k"><span class="pre">friend</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cvodeDyDtFcn</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t</span></span>, <span class="n"><span class="pre">N_Vector</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cv_y</span></span>, <span class="n"><span class="pre">N_Vector</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cv_ydot</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">f_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator12cvodeDyDtFcnEd8N_Vector8N_VectorPv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr15CVODEIntegrator12cvodeRootFcnEd8N_VectorPdPv">
+<span id="_CPPv3N2rr15CVODEIntegrator12cvodeRootFcnEd8N_VectorPdPv"></span><span id="_CPPv2N2rr15CVODEIntegrator12cvodeRootFcnEd8N_VectorPdPv"></span><span id="rr::CVODEIntegrator::cvodeRootFcn__double.N_Vector.doubleP.voidP"></span><span class="target" id="classrr_1_1CVODEIntegrator_1a00e587898c84d96c26d10292fd820975"></span><span class="k"><span class="pre">friend</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cvodeRootFcn</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t</span></span>, <span class="n"><span class="pre">N_Vector</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">y</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">gout</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">g_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15CVODEIntegrator12cvodeRootFcnEd8N_VectorPdPv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="llvm/SymbolForest.html" class="btn btn-neutral float-left" title="SymbolForest" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Dictionary.html" class="btn btn-neutral float-right" title="Dictionary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2013-2021, Andy Somogyi, J Kyle Medley, Kiri Choi, Ciaran Welsh, Lucian Smith, Herbert Sauro.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
