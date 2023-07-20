@@ -1897,11 +1897,6 @@ namespace rr {
         void getSpeciesIdsFromAST(const libsbml::ASTNode *node, std::vector<std::string> &species,
                                   std::vector<std::string> &speciesNames);
 
-        /*
-        * check and remove all parameter without any assignments
-        */
-        void checkGlobalParameters();
-
         void saveSelectionVector(std::ostream &, std::vector<SelectionRecord> &);
 
         void loadSelectionVector(std::istream &, std::vector<SelectionRecord> &);
