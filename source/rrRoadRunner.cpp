@@ -6412,7 +6412,6 @@ namespace rr {
         }
         rrLog(Logger::LOG_DEBUG) << "Removing rule for variable" << vid << "..." << std::endl;
         delete toDelete;
-        checkGlobalParameters();
 
         regenerateModel(forceRegenerate);
         // grab the initial initial value from sbml model
@@ -6563,7 +6562,6 @@ namespace rr {
         }
         rrLog(Logger::LOG_DEBUG) << "Removing initial assignment for variable" << vid << "..." << std::endl;
         delete toDelete;
-        checkGlobalParameters();
 
         regenerateModel(forceRegenerate);
 
@@ -7116,8 +7114,6 @@ namespace rr {
             // not remove this event
             index++;
         }
-
-        checkGlobalParameters();
     }
 
     void RoadRunner::getAllVariables(const libsbml::ASTNode *node, std::set<std::string> &ids) {
@@ -7170,31 +7166,6 @@ namespace rr {
         }
     }
 
-
-    void RoadRunner::checkGlobalParameters() {
-        // check for global parameters
-        // if we delete all initial assignments and rules for global parameters,
-        // we need to delete that global parameter as well
-        using namespace libsbml;
-        Model *sbmlModel = impl->document->getModel();
-
-        int index = 0;
-        while (index < sbmlModel->getNumParameters()) {
-            const Parameter *param = sbmlModel->getParameter(index);
-            const std::string &id = param->getId();
-
-            if (!param->isSetValue() && sbmlModel->getInitialAssignment(id) == NULL &&
-                sbmlModel->getAssignmentRule(id) == NULL) {
-                // check if we have an initial assignment for this param.
-                removeParameter(id, false);
-                // go back and check the first parameter;
-                index = 0;
-            } else {
-                index++;
-            }
-
-        }
-    }
 
     void writeDoubleVectorListToStream(std::ostream &out, const DoubleVectorList &results) {
         for (const std::vector<double> &row: results) {
