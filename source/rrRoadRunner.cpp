@@ -4437,9 +4437,11 @@ namespace rr {
 
         std::stringstream stream;
         libsbml::SBMLDocument doc(*impl->document);
-        libsbml::Model *model = 0;
+        libsbml::Model *model = doc.getModel();
 
-        model = doc.getModel();
+        while (model->getNumInitialAssignments() > 0) {
+            model->removeInitialAssignment(0);
+        }
 
         std::vector<std::string> array = getFloatingSpeciesIds();
         for (int i = 0; i < array.size(); i++) {

@@ -591,6 +591,29 @@ TEST_F(ModelEditingTests, REMOVE_INITIAL_ASSIGNMENT) {
 }
 
 
+TEST_F(ModelEditingTests, GET_CURRENT_SBML_NO_INITIAL_ASSIGNMENTS) {
+    RoadRunner rri;
+    //Logger::setLevel(Logger::LOG_DEBUG);
+    rri.addParameter("k1", 0.5, false);
+    rri.addCompartment("compartment", 3.5, false);
+    rri.addSpeciesAmount("S1", "compartment", 10.3, true, false, "", false);
+    rri.addInitialAssignment("k1", "5/3", false);
+    rri.addInitialAssignment("compartment", "k1*3", false);
+    rri.addInitialAssignment("S1", "k1/5", true);
+
+    string doc = rri.getCurrentSBML();
+    EXPECT_EQ(string::npos, doc.find("initialAssignment"));
+
+    rri.setValue("k1", 1.1);
+    rri.setValue("S1", 2.2);
+    rri.setValue("compartment", 3.3);
+    doc = rri.getCurrentSBML();
+    RoadRunner rri2(doc);
+    EXPECT_EQ(rri2.getValue("k1"), 1.1);
+    EXPECT_EQ(rri2.getValue("S1"), 2.2);
+    EXPECT_EQ(rri2.getValue("compartment"), 3.3);
+}
+
 TEST_F(ModelEditingTests, SET_BOUNDARY_INIT) {
     RoadRunner rri;
     //Logger::setLevel(Logger::LOG_DEBUG);
