@@ -502,6 +502,46 @@ void ModelEditingTests::removeAndReaddAllCompartments(RoadRunner *rri, libsbml::
 }
 
 
+TEST_F(ModelEditingTests, SET_INITIAL_ASSIGNMENT_INIT) {
+    RoadRunner rri;
+    //Logger::setLevel(Logger::LOG_DEBUG);
+    rri.addParameter("k1", 0.5, false);
+    rri.addCompartment("compartment", 3.5, false);
+    rri.addSpeciesAmount("S1", "compartment", 10.3, true, false, "", false);
+    rri.addInitialAssignment("k1", "5/3", false);
+    rri.addInitialAssignment("compartment", "k1*3", false);
+    rri.addInitialAssignment("S1", "k1/5", true);
+
+    //Parameter:
+    double x = rri.getValue("init(k1)");
+    EXPECT_EQ(x, 5.0 / 3.0);
+
+    //Now set the initial amount to something new:
+    rri.setValue("init(k1)", 5.0);
+    x = rri.getValue("init(k1)");
+    EXPECT_EQ(x, 5.0);
+
+    //Compartment:
+    x = rri.getValue("init(compartment)");
+    //We've reset k1 to 5, so init(compartment) is now 5*3:
+    EXPECT_EQ(x, 15.0);
+
+    //Now set the initial amount to something new:
+    rri.setValue("init(compartment)", 15.0);
+    x = rri.getValue("init(compartment)");
+    EXPECT_EQ(x, 15.0);
+
+    //Species:
+    x = rri.getValue("init(S1)");
+    EXPECT_EQ(x, 1.0);
+
+    //Now set the initial amount to something new:
+    rri.setValue("init(S1)", 25.0);
+    x = rri.getValue("init(S1)");
+    EXPECT_EQ(x, 25.0);
+}
+
+
 TEST_F(ModelEditingTests, SET_BOUNDARY_INIT) {
     RoadRunner rri;
     //Logger::setLevel(Logger::LOG_DEBUG);
