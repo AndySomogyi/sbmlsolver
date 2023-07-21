@@ -156,10 +156,6 @@ int LLVMExecutableModel::setValues(bool (*funcPtr)(LLVMModelData*, int, double),
             {
                 s << ", as it is defined by an assignment rule, and can not be set independently.";
             }
-            else if (symbols->hasInitialAssignmentRule(id))
-            {
-                s << ", as it is defined by an initial assignment rule and can not be set independently.";
-            }
 
             throw_llvm_exception(s.str());
         }

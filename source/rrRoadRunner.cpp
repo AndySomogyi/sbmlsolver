@@ -4517,9 +4517,14 @@ namespace rr {
     void RoadRunner::setValue(const std::string &sId, double dValue) {
         check_model();
 
-        impl->model->setValue(sId, dValue);
-
         SelectionRecord sel(sId);
+
+        if (sel.selectionType & SelectionRecord::INITIAL) {
+            //Don't worry if it doesn't exist.
+            removeInitialAssignment(sel.p1, true, false);
+        }
+        
+        impl->model->setValue(sId, dValue);
 
         if (sel.selectionType & SelectionRecord::INITIAL) {
             reset(
@@ -6550,15 +6555,19 @@ namespace rr {
         regenerateModel(forceRegenerate, true);
     }
 
-    void RoadRunner::removeInitialAssignment(const std::string &vid, bool forceRegenerate) {
+    void RoadRunner::removeInitialAssignment(const std::string &vid, bool forceRegenerate, bool errIfNotExist) {
         using namespace libsbml;
         Model *sbmlModel = impl->document->getModel();
 
         InitialAssignment *toDelete = sbmlModel->removeInitialAssignment(vid);
         if (toDelete == NULL) {
-            throw std::invalid_argument(
+            if (errIfNotExist) {
+                throw std::invalid_argument(
                     "Roadrunner::removeInitialAssignment failed, no initial assignment for symbol " + vid +
                     " existed in the model");
+            }
+            // Otherwise, we don't need to do anything.
+            return;
         }
         rrLog(Logger::LOG_DEBUG) << "Removing initial assignment for variable" << vid << "..." << std::endl;
         delete toDelete;
