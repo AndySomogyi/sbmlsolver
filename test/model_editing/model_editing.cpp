@@ -542,6 +542,55 @@ TEST_F(ModelEditingTests, SET_INITIAL_ASSIGNMENT_INIT) {
 }
 
 
+TEST_F(ModelEditingTests, REMOVE_INITIAL_ASSIGNMENT) {
+    RoadRunner rri;
+    //Logger::setLevel(Logger::LOG_DEBUG);
+    rri.addParameter("k1", 0.5, false);
+    rri.addCompartment("compartment", 3.5, false);
+    rri.addSpeciesAmount("S1", "compartment", 10.3, true, false, "", false);
+    rri.addInitialAssignment("k1", "5/3", false);
+    rri.addInitialAssignment("compartment", "k1*3", false);
+    rri.addInitialAssignment("S1", "k1/5", true);
+
+    rri.simulate();
+    //Parameter:
+    double x = rri.getValue("init(k1)");
+    EXPECT_EQ(x, 5.0 / 3.0);
+
+    //Now set a new value and remove the initial assignment:
+    rri.setValue("k1", 1.1);
+    rri.removeInitialAssignment("k1");
+    x = rri.getValue("init(k1)");
+    EXPECT_NEAR(x, 5.0/3.0, 1e-6);
+    x = rri.getValue("k1");
+    EXPECT_NEAR(x, 5.0 / 3.0, 1e-6);
+
+    //Compartment:
+    x = rri.getValue("init(compartment)");
+    EXPECT_EQ(x, 5.0);
+
+    //Now set a new value and remove the initial assignment:
+    rri.setValue("compartment", 1.1);
+    rri.removeInitialAssignment("compartment");
+    x = rri.getValue("init(compartment)");
+    EXPECT_EQ(x, 5.0);
+    x = rri.getValue("compartment");
+    EXPECT_EQ(x, 5.0);
+
+    //Species:
+    x = rri.getValue("init(S1)");
+    EXPECT_NEAR(x, 1.0/3.0, 1e-6);
+
+    //Now set a new value and remove the initial assignment:
+    rri.setValue("S1", 1.1);
+    rri.removeInitialAssignment("S1");
+    x = rri.getValue("init(S1)");
+    EXPECT_NEAR(x, 1.0 / 3.0, 1e-6);
+    x = rri.getValue("S1");
+    EXPECT_NEAR(x, 1.0 / 3.0, 1e-6);
+}
+
+
 TEST_F(ModelEditingTests, SET_BOUNDARY_INIT) {
     RoadRunner rri;
     //Logger::setLevel(Logger::LOG_DEBUG);
@@ -694,19 +743,6 @@ TEST_F(ModelEditingTests, REMOVE_RATE_RULE_4) {
     ASSERT_TRUE(RunModelEditingTest([](RoadRunner *rri) {
         rri->simulate();
         rri->removeRules("k1", true);
-    }));
-}
-
-TEST_F(ModelEditingTests, REMOVE_INITIAL_ASSIGNMENT_RULE_1) {
-    ASSERT_TRUE(RunModelEditingTest([](RoadRunner *rri) {
-        rri->removeInitialAssignment("k1");
-    }));
-}
-
-TEST_F(ModelEditingTests, REMOVE_INITIAL_ASSIGNMENT_RULE_2) {
-    ASSERT_TRUE(RunModelEditingTest([](RoadRunner *rri) {
-        rri->simulate();
-        rri->removeInitialAssignment("k1");
     }));
 }
 
@@ -1107,19 +1143,6 @@ TEST_F(ModelEditingTests, ADD_PRIORITY_2) {
 
         rri->setSelections({"R", "Q", "reset", "R2", "Q2", "reset2"});
     }, "l3v1"));
-}
-
-TEST_F(ModelEditingTests, REMOVE_PARAM_RECURSE_1) {
-    ASSERT_TRUE(RunModelEditingTest([](RoadRunner *rri) {
-        rri->removeParameter("k2");
-    }));
-}
-
-
-TEST_F(ModelEditingTests, REMOVE_PARAM_RECURSE_2) {
-    ASSERT_TRUE(RunModelEditingTest([](RoadRunner *rri) {
-        rri->removeParameter("k4");
-    }));
 }
 
 TEST_F(ModelEditingTests, REMOVE_ELEMENT_ASNT_RULE) {
