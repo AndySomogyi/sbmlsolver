@@ -1729,6 +1729,9 @@ void LLVMExecutableModel::setValue(const std::string& id, double value)
     case SelectionRecord::INITIAL_GLOBAL_PARAMETER:
         setGlobalParameterInitValues(1, &index, &value);
         break;
+    case SelectionRecord::STOICHIOMETRY:
+        setStoichiometries(1, &index, &value);
+        break;
     default:
         throw LLVMException("Invalid selection '" + sel.to_string() + "' for setting value");
         break;
@@ -2295,6 +2298,39 @@ int LLVMExecutableModel::setCompartmentVolumes(size_t len, const int* indx,
                 &LLVMExecutableModel::getCompartmentId, len, indx, values, strict);
     }
     return result;
+}
+
+int LLVMExecutableModel::setStoichiometries(size_t len, const int* indx,
+                                               const double* values)
+{
+    return setStoichiometries(len, indx, values, true);
+}
+
+int LLVMExecutableModel::setStoichiometries(size_t len, const int* indx,
+                                               const double* values, bool strict)
+{
+    if (len == 1) {
+        int index = *indx;
+        double value = *values;
+        return setStoichiometry(index, value);
+    }
+
+    return -1;
+}
+
+int LLVMExecutableModel::setStoichiometry(int index, double value)
+{
+    std::list<LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = symbols->getStoichiometryIndx();
+    std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::const_iterator stoichiometry = stoichiometryIndx.begin();
+    for (int i = 0; i < index; i++)
+        ++stoichiometry;
+    return setStoichiometry(stoichiometry->row, stoichiometry->column, value);
+}
+
+int LLVMExecutableModel::setStoichiometry(int speciesIndex, int reactionIndex, double value)
+{
+    double result = csr_matrix_set_nz(modelData->stoichiometry, speciesIndex, reactionIndex, value);
+    return isnan(result) ? 0 : result;
 }
 
 double LLVMExecutableModel::getStoichiometry(int index)

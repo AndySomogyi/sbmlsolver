@@ -340,13 +340,21 @@ public:
     virtual int setConservedMoietyValues(size_t len, int const *indx,
             const double *values);
 
-
     virtual int setCompartmentVolumes(size_t len, int const* indx,
         const double* values);
 
     virtual int setCompartmentVolumes(size_t len, int const* indx,
         const double* values, bool strict);
 
+    virtual int setStoichiometries(size_t len, int const* indx,
+                                      const double* values);
+
+    virtual int setStoichiometries(size_t len, int const* indx,
+                                      const double* values, bool strict);
+
+    virtual int setStoichiometry(int index, double value);
+
+    virtual int setStoichiometry(int speciesIndex, int reactionIndex, double value);
 
     virtual double getStoichiometry(int index);
 

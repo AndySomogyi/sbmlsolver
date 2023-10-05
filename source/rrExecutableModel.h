@@ -597,6 +597,46 @@ namespace rr {
         /***********************************************************************/
         /******************************************************************************/
 
+        /*
+         * Set stoichiometries.
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of stoichiometries.
+         * @param[in] values an array of at least length len which store the
+         *                stoichiometries.
+         */
+        virtual int setStoichiometries(size_t len, int const *indx,
+                                          const double *values) = 0;
+
+        /*
+         * Set the stoichiometries.
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of stoichiometries.
+         * @param[in] values an array of at least length len which store the
+         *                stoichiometries.
+         * @param[in] strict whether to throw if the value cannot be set.
+         */
+        virtual int setStoichiometries(size_t len, int const* indx,
+                                          const double* values, bool strict) = 0;
+
+        /*
+         * Set the setStoichiometry.
+         *
+         * @param[in] index the index of the stoichiometry.
+         * @param[in] value of stoichiometry to be set.
+         */
+        virtual int setStoichiometry(int index, double value) = 0;
+
+        /*
+         * Set the setStoichiometry.
+         *
+         * @param[in] the speciesIndex of stoichiometry.
+         * @param[in] the reactionIndex of stoichiometry.
+         * @param[in] value of stoichiometry to be set.
+         */
+        virtual int setStoichiometry(int speciesIndex, int reactionIndex, double value) = 0;
+
         /**
          * allocate a block of memory and copy the stochiometric values into it,
          * and return it.
@@ -610,7 +650,7 @@ namespace rr {
         virtual int getStoichiometryMatrix(int *rows, int *cols, double **data) = 0;
 
         /**
-         * Get the current stiochiometry value for the given stoichiometry index
+         * Get the current stoichiometry value for the given stoichiometry index
          *
          * If either are not valid, NaN is returned.
          */
