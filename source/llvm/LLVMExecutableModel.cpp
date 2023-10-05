@@ -2297,7 +2297,14 @@ int LLVMExecutableModel::setCompartmentVolumes(size_t len, const int* indx,
     return result;
 }
 
-
+double LLVMExecutableModel::getStoichiometry(int index)
+{
+    std::list<LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = symbols->getStoichiometryIndx();
+    std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::const_iterator stoichiometry = stoichiometryIndx.begin();
+    for (int i = 0; i < index; i++)
+        ++stoichiometry;
+    return getStoichiometry(stoichiometry->row, stoichiometry->column);
+}
 
 double LLVMExecutableModel::getStoichiometry(int speciesIndex, int reactionIndex)
 {

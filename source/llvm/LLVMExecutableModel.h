@@ -348,6 +348,8 @@ public:
         const double* values, bool strict);
 
 
+    virtual double getStoichiometry(int index);
+
     virtual double getStoichiometry(int speciesIndex, int reactionIndex);
 
     /**

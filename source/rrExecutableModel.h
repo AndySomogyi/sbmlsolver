@@ -610,6 +610,13 @@ namespace rr {
         virtual int getStoichiometryMatrix(int *rows, int *cols, double **data) = 0;
 
         /**
+         * Get the current stiochiometry value for the given stoichiometry index
+         *
+         * If either are not valid, NaN is returned.
+         */
+        virtual double getStoichiometry(int index) = 0;
+
+        /**
          * Get the current stiochiometry value for the given species / reaction.
          *
          * If either are not valid, NaN is returned.
@@ -676,27 +683,6 @@ namespace rr {
          */
         virtual int getReactionRates(size_t len, int const *indx,
                                      double *values) = 0;
-
-        /**
-         * get the stoichiometry value
-         *
-         * @param[in] len the length of the indx and values arrays.
-         * @param[in] indx an array of length len of stoichiometry to return.
-         * @param[out] values an array of at least length len which will store the
-         *                returned stoichiometry values.
-         */
-        virtual int getStoichiometryValues(size_t len, int const *indx,
-                                     double *values) = 0;
-
-
-        /**
-         * get the compartment volumes
-         *
-         * @param[in] len the length of the indx and values arrays.
-         * @param[in] indx an array of length len of boundary species to return.
-         * @param[out] values an array of at least length len which will store the
-         *                returned boundary species amounts.
-         */
 
         /**
          * get the 'values' i.e. the what the rate rule integrates to, and

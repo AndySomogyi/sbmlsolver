@@ -1363,8 +1363,7 @@ namespace rr {
                     return impl->model->getStoichiometry(speciesIndex, reactionIndex);
 
                 // in case it is entered in the form of a stoichiometry parameter
-                return 5.0;
-                //impl->model->getStoichiometryValues(1, &record.index, &dResult);
+                return impl->model->getStoichiometry(impl->model->getStoichiometryIndex(record.p1));
             }
                 break;
 
