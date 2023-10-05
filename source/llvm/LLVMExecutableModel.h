@@ -328,6 +328,8 @@ public:
     virtual std::string getCompartmentId(size_t);
     virtual int getReactionIndex(const std::string&);
     virtual std::string getReactionId(size_t);
+    virtual int getStoichiometryIndex(const std::string&);
+    virtual std::string getStoichiometryId(size_t);
 
     virtual void print(std::ostream &stream);
 

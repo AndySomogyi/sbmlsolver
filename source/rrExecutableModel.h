@@ -656,6 +656,17 @@ namespace rr {
         virtual std::string getReactionId(size_t index) = 0;
 
         /**
+         * get the index of a named stoichiometry
+         * @returns >= 0 on success, < 0 on failure.
+         */
+        virtual int getStoichiometryIndex(const std::string&) = 0;
+
+        /**
+         * get the name of the specified stoichiometry
+         */
+        virtual std::string getStoichiometryId(size_t index) = 0 ;
+
+        /**
          * get the std::vector of reaction rates.
          *
          * @param len: the length of the supplied buffer, must be >= reaction rates size.
@@ -665,6 +676,27 @@ namespace rr {
          */
         virtual int getReactionRates(size_t len, int const *indx,
                                      double *values) = 0;
+
+        /**
+         * get the stoichiometry value
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of stoichiometry to return.
+         * @param[out] values an array of at least length len which will store the
+         *                returned stoichiometry values.
+         */
+        virtual int getStoichiometryValues(size_t len, int const *indx,
+                                     double *values) = 0;
+
+
+        /**
+         * get the compartment volumes
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of boundary species to return.
+         * @param[out] values an array of at least length len which will store the
+         *                returned boundary species amounts.
+         */
 
         /**
          * get the 'values' i.e. the what the rate rule integrates to, and

@@ -686,6 +686,25 @@ std::string LLVMExecutableModel::getReactionId(size_t id)
     }
 }
 
+int LLVMExecutableModel::getStoichiometryIndex(const std::string& id)
+{
+    return symbols->getStoichiometryIndex(id);
+}
+
+std::string LLVMExecutableModel::getStoichiometryId(size_t id)
+{
+    std::vector<std::string> ids = symbols->getStoichiometryIds();
+    if (id < ids.size())
+    {
+        return ids[id];
+    }
+    else
+    {
+        throw_llvm_exception("index out of range");
+        return "";
+    }
+}
+
 void LLVMExecutableModel::evalInitialConditions(uint32_t flags)
 {
     evalInitialConditionsPtr(modelData, flags);
