@@ -244,6 +244,10 @@ public:
     std::vector<std::string> getReactionIds() const;
     size_t getReactionSize() const;
 
+    int getStoichiometryIndex(std::string const&) const;
+    std::vector<std::string> getStoichiometryIds() const;
+    size_t getStoichiometrySize() const;
+
 
     std::vector<std::string> getGlobalParameterIds() const;
 

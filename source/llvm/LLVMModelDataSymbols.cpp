@@ -405,6 +405,31 @@ size_t LLVMModelDataSymbols::getReactionSize() const
     return reactionsMap.size();
 }
 
+int LLVMModelDataSymbols::getStoichiometryIndex(const std::string& id) const
+{
+    std::list<SpeciesReferenceInfo> stoichiometryIndx = getStoichiometryIndx();
+
+    int index = 0;
+    for (std::list<SpeciesReferenceInfo>::const_iterator i = stoichiometryIndx.begin(); i != stoichiometryIndx.end(); ++i)
+    {
+        if (i->id == id)
+            return index;
+        index++;
+    }
+
+    return -1;
+}
+
+std::vector<std::string> LLVMModelDataSymbols::getStoichiometryIds() const
+{
+    return stoichIds;
+}
+
+size_t LLVMModelDataSymbols::getStoichiometrySize() const
+{
+    return getStoichiometryIndx().size();
+}
+
 size_t  LLVMModelDataSymbols::getFloatingSpeciesSize() const
 {
     return floatingSpeciesMap.size();
