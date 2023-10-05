@@ -1356,9 +1356,15 @@ namespace rr {
             }
                 break;
             case SelectionRecord::STOICHIOMETRY: {
+                // in case it is entered in the form of stoich(SpeciesId, ReactionId)
                 int speciesIndex = impl->model->getFloatingSpeciesIndex(record.p1);
                 int reactionIndex = impl->model->getReactionIndex(record.p2);
-                return impl->model->getStoichiometry(speciesIndex, reactionIndex);
+                if (speciesIndex != -1 && reactionIndex != -1)
+                    return impl->model->getStoichiometry(speciesIndex, reactionIndex);
+
+                // in case it is entered in the form of a stoichiometry parameter
+                return 5.0;
+                //impl->model->getStoichiometryValues(1, &record.index, &dResult);
             }
                 break;
 
@@ -4606,6 +4612,9 @@ namespace rr {
                 } else if ((sel.index = impl->model->getReactionIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::REACTION_RATE;
                     break;
+                } else if ((sel.index = impl->model->getStoichiometryIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::STOICHIOMETRY;
+                    break;
                 } else if (sel.selectionType == SelectionRecord::TIME) {
                     //Need to put this here in case there's an actual SBML variable called 'time'
                     break;
@@ -4710,7 +4719,6 @@ namespace rr {
                 } else {
                     throw Exception("first argument to stoich '" + sel.p1 + "' is not a floating species id.");
                 }
-                break;
             case SelectionRecord::INITIAL_CONCENTRATION:
                 if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::INITIAL_FLOATING_CONCENTRATION;
