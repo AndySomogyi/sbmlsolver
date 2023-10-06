@@ -416,14 +416,10 @@ size_t LLVMModelDataSymbols::getReactionSize() const
 
 int LLVMModelDataSymbols::getStoichiometryIndex(const std::string& id) const
 {
-    std::list<SpeciesReferenceInfo> stoichiometryIndx = getStoichiometryIndx();
-
-    int index = 0;
-    for (std::list<SpeciesReferenceInfo>::const_iterator i = stoichiometryIndx.begin(); i != stoichiometryIndx.end(); ++i)
+    for (int i = 0; i < stoichIds.size(); ++i)
     {
-        if (i->id == id)
-            return index;
-        index++;
+        if (stoichIds.at(i) == id)
+            return i;
     }
 
     return -1;
