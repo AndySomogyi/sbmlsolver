@@ -151,6 +151,7 @@ public:
         GLOBAL_PARAMETER,
         REACTION,
         EVENT,
+        STOICHIOMETRY,
         INVALID_SYMBOL
     };
 
