@@ -1541,6 +1541,10 @@ const rr::SelectionRecord& LLVMExecutableModel::getSelection(const std::string& 
                 sel.selectionType = SelectionRecord::EVENT;
                 sel.index = index;
                 break;
+            case LLVMModelDataSymbols::STOICHIOMETRY:
+                sel.selectionType = SelectionRecord::STOICHIOMETRY;
+                sel.index = index;
+                break;
             default:
                 throw LLVMException("No sbml element exists for symbol '" + str + "'");
                 break;
@@ -1622,11 +1626,7 @@ const rr::SelectionRecord& LLVMExecutableModel::getSelection(const std::string& 
                 throw LLVMException("Invalid id '" + str + "' for inital floating species concentration");
                 break;
             }
-            break;
-        case SelectionRecord::STOICHIOMETRY:
-            sel.selectionType = SelectionRecord::STOICHIOMETRY;
-            sel.index = getStoichiometryIndex(str);
-            break;
+            break:
 
         default:
             rrLog(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
