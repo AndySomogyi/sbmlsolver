@@ -329,6 +329,7 @@ public:
     virtual int getReactionIndex(const std::string&);
     virtual std::string getReactionId(size_t);
     virtual int getStoichiometryIndex(const std::string&);
+    virtual int getStoichiometryIndex(const std::string& speciesId, const std::string& reactionId);
     virtual std::string getStoichiometryId(size_t);
 
     virtual void print(std::ostream &stream);

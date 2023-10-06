@@ -246,6 +246,7 @@ public:
     size_t getReactionSize() const;
 
     int getStoichiometryIndex(std::string const&) const;
+    int getStoichiometryIndex(const std::string&, const std::string&) const;
     std::vector<std::string> getStoichiometryIds() const;
     size_t getStoichiometrySize() const;
 

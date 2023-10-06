@@ -691,6 +691,11 @@ int LLVMExecutableModel::getStoichiometryIndex(const std::string& id)
     return symbols->getStoichiometryIndex(id);
 }
 
+int LLVMExecutableModel::getStoichiometryIndex(const std::string& speciesId, const std::string& reactionId)
+{
+    return symbols->getStoichiometryIndex(speciesId, reactionId);
+}
+
 std::string LLVMExecutableModel::getStoichiometryId(size_t id)
 {
     std::vector<std::string> ids = symbols->getStoichiometryIds();
@@ -1626,6 +1631,9 @@ const rr::SelectionRecord& LLVMExecutableModel::getSelection(const std::string& 
                 throw LLVMException("Invalid id '" + str + "' for inital floating species concentration");
                 break;
             }
+            break;
+        case SelectionRecord::STOICHIOMETRY:
+            sel.index = getStoichiometryIndex(sel.p1, sel.p2);
             break;
 
         default:
