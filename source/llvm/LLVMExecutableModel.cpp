@@ -1623,6 +1623,10 @@ const rr::SelectionRecord& LLVMExecutableModel::getSelection(const std::string& 
                 break;
             }
             break;
+        case SelectionRecord::STOICHIOMETRY:
+            sel.selectionType = SelectionRecord::STOICHIOMETRY;
+            sel.index = getStoichiometryIndex(str);
+            break;
 
         default:
             rrLog(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
