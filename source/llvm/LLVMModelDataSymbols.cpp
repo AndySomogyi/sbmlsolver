@@ -266,6 +266,15 @@ LLVMModelDataSymbols::SymbolIndexType LLVMModelDataSymbols::getSymbolIndex(
         result = i->second;
         return EVENT;
     }
+    else
+    {
+        for (int stoichIndex = 0 ; stoichIndex < stoichIds.size(); ++stoichIndex) {
+            if (stoichIds.at(stoichIndex) == name) {
+                result = stoichIndex;
+                return STOICHIOMETRY;
+            }
+        }
+    }
 
     result = -1;
     return INVALID_SYMBOL;
