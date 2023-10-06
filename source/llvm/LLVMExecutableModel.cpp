@@ -1626,7 +1626,7 @@ const rr::SelectionRecord& LLVMExecutableModel::getSelection(const std::string& 
                 throw LLVMException("Invalid id '" + str + "' for inital floating species concentration");
                 break;
             }
-            break:
+            break;
 
         default:
             rrLog(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
