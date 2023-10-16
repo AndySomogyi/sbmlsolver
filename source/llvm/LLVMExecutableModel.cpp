@@ -2332,11 +2332,20 @@ int LLVMExecutableModel::setStoichiometries(size_t len, const int* indx,
 
 int LLVMExecutableModel::setStoichiometry(int index, double value)
 {
-    std::list<LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = symbols->getStoichiometryIndx();
-    std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::const_iterator stoichiometry = stoichiometryIndx.begin();
-    for (int i = 0; i < index; i++)
-        ++stoichiometry;
-    return setStoichiometry(stoichiometry->row, stoichiometry->column, value);
+    if (!std::signbit(value)) {
+        std::list <LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = symbols->getStoichiometryIndx();
+        std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::const_iterator stoichiometry = stoichiometryIndx.begin();
+        for (int i = 0; i < index; i++)
+            ++stoichiometry;
+        if (!std::signbit(getStoichiometry(index)))
+            return setStoichiometry(stoichiometry->row, stoichiometry->column, std::abs(value));
+        else
+            return setStoichiometry(stoichiometry->row, stoichiometry->column, -1 * std::abs(value));
+    }
+    else
+        throw LLVMException("Invalid stoichiometry value");
+
+    return -1;
 }
 
 int LLVMExecutableModel::setStoichiometry(int speciesIndex, int reactionIndex, double value)
@@ -2351,7 +2360,8 @@ double LLVMExecutableModel::getStoichiometry(int index)
     std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::const_iterator stoichiometry = stoichiometryIndx.begin();
     for (int i = 0; i < index; i++)
         ++stoichiometry;
-    return getStoichiometry(stoichiometry->row, stoichiometry->column);
+    // returns the unsigned form of the stoichiometry
+    return std::abs(getStoichiometry(stoichiometry->row, stoichiometry->column));
 }
 
 double LLVMExecutableModel::getStoichiometry(int speciesIndex, int reactionIndex)
