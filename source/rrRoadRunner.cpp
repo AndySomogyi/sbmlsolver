@@ -3250,21 +3250,37 @@ namespace rr {
     }
 
     size_t RoadRunner::createDefaultSteadyStateSelectionList() {
-        impl->mSteadyStateSelection.clear();
-        // default should be independent floating species only ...
         std::vector<std::string> floatingSpecies = getFloatingSpeciesIds();
         size_t numFloatingSpecies = floatingSpecies.size();
+        // default should be independent floating species only ...
         //int numIndSpecies = getNumberOfIndependentSpecies();
-        //impl->mSteadyStateSelection.resize(numIndSpecies);
-        impl->mSteadyStateSelection.resize(numFloatingSpecies);
-        //for (int i = 0; i < numIndSpecies; i++)
+        int numberOfMatchedFloatingSpecies = 0;
         for (int i = 0; i < numFloatingSpecies; i++) {
-            SelectionRecord aRec;
-            aRec.selectionType = SelectionRecord::FLOATING_CONCENTRATION;
-            aRec.p1 = floatingSpecies[i];
-            aRec.index = i;
-            impl->mSteadyStateSelection[i] = aRec;
+            for (int j = 0; j < impl->mSteadyStateSelection.size(); j++) {
+                if (floatingSpecies[i] == impl->mSteadyStateSelection[j].p1) {
+                    numberOfMatchedFloatingSpecies++;
+                    break;
+                }
+            }
         }
+
+        // only creates the list if floating species are changed since the previous list was created
+        if (numberOfMatchedFloatingSpecies != numFloatingSpecies ||
+            numberOfMatchedFloatingSpecies != impl->mSteadyStateSelection.size()) {
+            impl->mSteadyStateSelection.clear();
+            // default should be independent floating species only ...
+            //impl->mSteadyStateSelection.resize(numIndSpecies);
+            impl->mSteadyStateSelection.resize(numFloatingSpecies);
+            //for (int i = 0; i < numIndSpecies; i++)
+            for (int i = 0; i < numFloatingSpecies; i++) {
+                SelectionRecord aRec;
+                aRec.selectionType = SelectionRecord::FLOATING_CONCENTRATION;
+                aRec.p1 = floatingSpecies[i];
+                aRec.index = i;
+                impl->mSteadyStateSelection[i] = aRec;
+            }
+        }
+
         return impl->mSteadyStateSelection.size();
     }
 
