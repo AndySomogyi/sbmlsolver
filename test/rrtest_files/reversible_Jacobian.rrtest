@@ -168,7 +168,7 @@ J3 = 0.397696
 J4 = 0.397696
 
 [Get Steady State Selection List]
-"[Node1] [Node3] [Node4] [Node2]"
+"[Node1] [Node2] [Node3] [Node4]"
 
 [Reduced Jacobian]
  -0.73  0        0     0.41
