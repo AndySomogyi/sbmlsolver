@@ -772,7 +772,7 @@ stages:
               BuildDocs: OFF
         variables:
           MinicondaRoot : '/usr/share/miniconda'
-          PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
+          PythonRoot: '$(MinicondaRoot)/'
           PythonLibDir: '$(PythonRoot)/lib'
           PythonExecutable: '$(PythonRoot)/bin/python'
           PipExecutable: '$(PythonRoot)/bin/pip'
