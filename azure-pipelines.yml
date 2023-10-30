@@ -137,8 +137,7 @@ stages:
               # for example, it looks like this:
               # - https://dev.azure.com/TheRoadrunnerProject/libroadrunner-deps/_build?definitionId=9
               pipeline: 9
-              runVersion: 'latestFromBranch'
-              runBranch: 'refs/heads/release'
+              runVersion: 'latest'
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -272,8 +271,7 @@ stages:
               source: 'specific'
               project: 'libroadrunner-deps'
               pipeline: 9
-              runVersion: 'latestFromBranch'
-              runBranch: 'refs/heads/release'
+              runVersion: 'latest'
               artifact: libroadrunner-deps-$(Agent.OS)-Release
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -503,8 +501,7 @@ stages:
               source: 'specific'
               project: 'libroadrunner-deps'
               pipeline: 9
-              runVersion: 'latestFromBranch'
-              runBranch: 'refs/heads/release'
+              runVersion: 'latest'
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -594,7 +591,7 @@ stages:
           - powershell: |
               where.exe conda
               where.exe python
-              conda update conda -y -c conda-forge
+              # conda update conda -y -c conda-forge
               conda install numpy
               conda install python=3.11 -c conda-forge
               conda --version
@@ -637,8 +634,7 @@ stages:
               source: 'specific'
               project: 'libroadrunner-deps'
               pipeline: 9
-              runVersion: 'latestFromBranch'
-              runBranch: 'refs/heads/release'
+              runVersion: 'latest'
               artifact: libroadrunner-deps-$(Agent.OS)-Release
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
@@ -867,8 +863,7 @@ stages:
               source: 'specific'
               project: 'libroadrunner-deps'
               pipeline: 9
-              runVersion: 'latestFromBranch'
-              runBranch: 'refs/heads/release'
+              runVersion: 'latest'
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
