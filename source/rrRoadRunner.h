@@ -1299,7 +1299,7 @@ namespace rr {
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void removeInitialAssignment(const std::string &vid, bool forceRegenerate = true);
+        void removeInitialAssignment(const std::string &vid, bool forceRegenerate = true, bool errIfNotExist = true);
 
 
         /*
@@ -1896,11 +1896,6 @@ namespace rr {
 
         void getSpeciesIdsFromAST(const libsbml::ASTNode *node, std::vector<std::string> &species,
                                   std::vector<std::string> &speciesNames);
-
-        /*
-        * check and remove all parameter without any assignments
-        */
-        void checkGlobalParameters();
 
         void saveSelectionVector(std::ostream &, std::vector<SelectionRecord> &);
 

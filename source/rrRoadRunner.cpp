@@ -4437,9 +4437,11 @@ namespace rr {
 
         std::stringstream stream;
         libsbml::SBMLDocument doc(*impl->document);
-        libsbml::Model *model = 0;
+        libsbml::Model *model = doc.getModel();
 
-        model = doc.getModel();
+        while (model->getNumInitialAssignments() > 0) {
+            model->removeInitialAssignment(0);
+        }
 
         std::vector<std::string> array = getFloatingSpeciesIds();
         for (int i = 0; i < array.size(); i++) {
@@ -4517,9 +4519,14 @@ namespace rr {
     void RoadRunner::setValue(const std::string &sId, double dValue) {
         check_model();
 
-        impl->model->setValue(sId, dValue);
-
         SelectionRecord sel(sId);
+
+        if (sel.selectionType & SelectionRecord::INITIAL) {
+            //Don't worry if it doesn't exist, and don't regenerate yet.
+            removeInitialAssignment(sel.p1, true, false);
+        }
+        
+        impl->model->setValue(sId, dValue);
 
         if (sel.selectionType & SelectionRecord::INITIAL) {
             reset(
@@ -6412,7 +6419,6 @@ namespace rr {
         }
         rrLog(Logger::LOG_DEBUG) << "Removing rule for variable" << vid << "..." << std::endl;
         delete toDelete;
-        checkGlobalParameters();
 
         regenerateModel(forceRegenerate);
         // grab the initial initial value from sbml model
@@ -6551,64 +6557,31 @@ namespace rr {
         regenerateModel(forceRegenerate, true);
     }
 
-    void RoadRunner::removeInitialAssignment(const std::string &vid, bool forceRegenerate) {
+    void RoadRunner::removeInitialAssignment(const std::string &vid, bool forceRegenerate, bool errIfNotExist) {
         using namespace libsbml;
         Model *sbmlModel = impl->document->getModel();
 
         InitialAssignment *toDelete = sbmlModel->removeInitialAssignment(vid);
         if (toDelete == NULL) {
-            throw std::invalid_argument(
+            if (errIfNotExist) {
+                throw std::invalid_argument(
                     "Roadrunner::removeInitialAssignment failed, no initial assignment for symbol " + vid +
                     " existed in the model");
+            }
+            // Otherwise, we don't need to do anything.
+            return;
         }
         rrLog(Logger::LOG_DEBUG) << "Removing initial assignment for variable" << vid << "..." << std::endl;
         delete toDelete;
-        checkGlobalParameters();
 
         regenerateModel(forceRegenerate);
-
-        // TODO: read-only mode does not have setters
-        if (!impl->simulatedSinceReset) {
-
-            int index = impl->model->getFloatingSpeciesIndex(vid);
-            if (index >= 0 && index < impl->model->getNumIndFloatingSpecies()) {
-
-                double initValue = 0;
-                if (sbmlModel->getSpecies(vid)->isSetInitialAmount()) {
-                    initValue = sbmlModel->getSpecies(vid)->getInitialAmount();
-                } else if (sbmlModel->getSpecies(vid)->isSetInitialConcentration()) {
-                    double initConcentration = sbmlModel->getSpecies(vid)->getInitialConcentration();
-                    int compartment = impl->model->getCompartmentIndex(sbmlModel->getSpecies(vid)->getCompartment());
-                    double compartmentSize = 1;
-                    impl->model->getCompartmentVolumes(1, &compartment, &compartmentSize);
-
-                    initValue = initConcentration * compartmentSize;
-                }
-
-                impl->model->setFloatingSpeciesInitAmounts(1, &index, &initValue);
-                impl->model->setFloatingSpeciesAmounts(1, &index, &initValue);
-            }
-
-            index = impl->model->getCompartmentIndex(vid);
-            if (index >= 0 && index < impl->model->getNumCompartments()) {
-                double initValue = 0;
-                if (sbmlModel->getCompartment(vid)->isSetSize()) {
-                    initValue = sbmlModel->getCompartment(vid)->getSize();
-                }
-                impl->model->setCompartmentInitVolumes(1, &index, &initValue);
-                impl->model->setCompartmentVolumes(1, &index, &initValue);
-            }
-
-            index = impl->model->getGlobalParameterIndex(vid);
-            if (index >= 0 && index < impl->model->getNumGlobalParameters()) {
-                double initValue = 0;
-                if (sbmlModel->getParameter(vid)->isSetValue()) {
-                    initValue = sbmlModel->getParameter(vid)->getValue();
-                }
-                impl->model->setGlobalParameterInitValues(1, &index, &initValue);
-                impl->model->setGlobalParameterValues(1, &index, &initValue);
-            }
-        }
+        reset(
+            SelectionRecord::TIME |
+            SelectionRecord::RATE |
+            SelectionRecord::FLOATING |
+            SelectionRecord::BOUNDARY |
+            SelectionRecord::COMPARTMENT |
+            SelectionRecord::GLOBAL_PARAMETER);
     }
 
 
@@ -7116,8 +7089,6 @@ namespace rr {
             // not remove this event
             index++;
         }
-
-        checkGlobalParameters();
     }
 
     void RoadRunner::getAllVariables(const libsbml::ASTNode *node, std::set<std::string> &ids) {
@@ -7170,31 +7141,6 @@ namespace rr {
         }
     }
 
-
-    void RoadRunner::checkGlobalParameters() {
-        // check for global parameters
-        // if we delete all initial assignments and rules for global parameters,
-        // we need to delete that global parameter as well
-        using namespace libsbml;
-        Model *sbmlModel = impl->document->getModel();
-
-        int index = 0;
-        while (index < sbmlModel->getNumParameters()) {
-            const Parameter *param = sbmlModel->getParameter(index);
-            const std::string &id = param->getId();
-
-            if (!param->isSetValue() && sbmlModel->getInitialAssignment(id) == NULL &&
-                sbmlModel->getAssignmentRule(id) == NULL) {
-                // check if we have an initial assignment for this param.
-                removeParameter(id, false);
-                // go back and check the first parameter;
-                index = 0;
-            } else {
-                index++;
-            }
-
-        }
-    }
 
     void writeDoubleVectorListToStream(std::ostream &out, const DoubleVectorList &results) {
         for (const std::vector<double> &row: results) {
