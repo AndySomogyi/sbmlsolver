@@ -591,7 +591,7 @@ stages:
           - powershell: |
               where.exe conda
               where.exe python
-              #conda update conda -y -c conda-forge
+              # conda update conda -y -c conda-forge
               conda install numpy
               conda install python=3.11 -c conda-forge
               conda --version
@@ -772,7 +772,7 @@ stages:
               BuildDocs: OFF
         variables:
           MinicondaRoot : '/usr/share/miniconda'
-          PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
+          PythonRoot: '$(MinicondaRoot)/'
           PythonLibDir: '$(PythonRoot)/lib'
           PythonExecutable: '$(PythonRoot)/bin/python'
           PipExecutable: '$(PythonRoot)/bin/pip'
@@ -845,7 +845,7 @@ stages:
             displayName: Install g++10 and doxygen
           - script: |
               eval "$(conda shell.bash hook)"
-              conda create -y --name $(PythonName) python=$(PythonVersion)
+              # conda create -y --name $(PythonName) python=$(PythonVersion)
               $(PipExecutable) install requests
             displayName: "Install Python via conda"
           - script: |
