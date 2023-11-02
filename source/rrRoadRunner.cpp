@@ -33,6 +33,7 @@
 #include "sbml/Model.h"
 #include "sbml/common/operationReturnValues.h"
 #include "sbml/math/FormulaParser.h"
+#include "sbml/packages/fbc/extension/FbcSBMLDocumentPlugin.h"
 
 //Have to include these last because of something to do with min and max in Random.h
 #include <rr-libstruct/lsLibStructural.h>
@@ -513,6 +514,29 @@ namespace rr {
         void changeParameter(ParameterType parameterType, int reactionIndex, int parameterIndex,
                              double originalValue, double increment) {
             setParameterValue(parameterType, parameterIndex, originalValue + increment);
+        }
+
+        //If a kinetic law or two is actually set, even in an FBC model, that means roadrunner can simulate it.  It's possible that someone has loaded an FBC model into rr and has set the kinetic laws for simulation.
+        bool isCompleteFBC() {
+            libsbml::FbcSBMLDocumentPlugin* fdp = static_cast<libsbml::FbcSBMLDocumentPlugin*>(document->getPlugin("fbc"));
+            if (fdp == NULL)
+            {
+                return false;
+            }
+            if (fdp->isSetRequired()) {
+                libsbml::Model* model = document->getModel();
+                for (unsigned int r = 0; r < model->getNumReactions(); r++) {
+                    libsbml::Reaction* rxn = model->getReaction(r);
+                    if (!rxn->isSetKineticLaw()) {
+                        continue;
+                    }
+                    if (rxn->getKineticLaw()->isSetMath()) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
         }
 
         friend RoadRunner;
@@ -1826,7 +1850,7 @@ namespace rr {
             int parameterIndex;
 
             int l = impl->model->getNumFloatingSpecies();
-            double *ref = new double[l];
+            double* ref = new double[l];
             impl->model->getFloatingSpeciesConcentrations(l, NULL, ref);
 
             // Check the reaction name
@@ -1839,22 +1863,26 @@ namespace rr {
                 parameterType = ptFloatingSpecies;
                 originalParameterValue = 0;
                 impl->model->getFloatingSpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
-            } else if ((parameterIndex = impl->model->getBoundarySpeciesIndex(parameterName)) >= 0) {
+            }
+            else if ((parameterIndex = impl->model->getBoundarySpeciesIndex(parameterName)) >= 0) {
                 parameterType = ptBoundaryParameter;
                 originalParameterValue = 0;
                 impl->model->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
-            } else if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0) {
+            }
+            else if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0) {
                 if (impl->model->getConservedMoietyIndex(parameterName) >= 0) {
                     throw std::invalid_argument("Cannot calculate elasticities for conserved moieties.");
                 }
                 parameterType = ptGlobalParameter;
                 originalParameterValue = 0;
                 impl->model->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
-            } else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0) {
+            }
+            else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0) {
                 parameterType = ptConservationParameter;
                 originalParameterValue = 0;
                 impl->model->getConservedMoietyValues(1, &parameterIndex, &originalParameterValue);
-            } else {
+            }
+            else {
                 throw CoreException("Unable to locate variable: [" + parameterName + "]");
             }
 
@@ -1896,12 +1924,12 @@ namespace rr {
 
             return 1 / (12 * hstep) * (f1 + f2);
         }
-        catch (const Exception &e) {
+        catch (const Exception& e) {
             throw CoreException("Unexpected error from getuEE(): " + e.Message());
         }
     }
 
-// Help("Updates the model based on all recent changes")
+    // Help("Updates the model based on all recent changes")
     void RoadRunner::evalModel() {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
@@ -1910,12 +1938,18 @@ namespace rr {
     }
 
 
-    const ls::DoubleMatrix *RoadRunner::simulate(const SimulateOptions *opt) {
+    const ls::DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt) {
         get_self();
         check_model();
 
         if (opt) {
             self.simulateOpt = *opt;
+        }
+
+        if (impl->isCompleteFBC()) {
+            rrLog(Logger::LOG_ERROR) << "FBC model discovered, but not simulatable.";
+            throw std::domain_error("This SBML model contains information from the 'fbc' package for Flux Balance Control analysis, or constraint-based modeling.  These models can be analyzed but not simulated by roadrunner or tellurium.  The most popular software package that supports fbc (as of 2023) is COBRA (https://opencobra.github.io/), and other software packages exist as well.");
+
         }
 
         applySimulateOptions();
