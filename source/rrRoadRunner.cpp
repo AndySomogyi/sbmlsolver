@@ -1282,6 +1282,7 @@ namespace rr {
             case SelectionRecord::UNSCALED_CONTROL:
                 dResult = getuCC(record.p1, record.p2);
                 break;
+
             case SelectionRecord::EIGENVALUE_REAL: {
                 std::string species = record.p1;
                 int index = impl->model->getFloatingSpeciesIndex(species);
@@ -1331,35 +1332,31 @@ namespace rr {
                 throw std::invalid_argument(err.str());
             }
                 break;
-            case SelectionRecord::INITIAL_FLOATING_CONCENTRATION: {
+            case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
                 impl->model->getFloatingSpeciesInitConcentrations(1, &record.index, &dResult);
-            }
                 break;
-            case SelectionRecord::INITIAL_FLOATING_AMOUNT: {
+            case SelectionRecord::INITIAL_FLOATING_AMOUNT:
                 impl->model->getFloatingSpeciesInitAmounts(1, &record.index, &dResult);
-            }
                 break;
-            case SelectionRecord::INITIAL_BOUNDARY_CONCENTRATION: {
+            case SelectionRecord::INITIAL_BOUNDARY_CONCENTRATION:
                 impl->model->getBoundarySpeciesInitConcentrations(1, &record.index, &dResult);
-            }
                 break;
-            case SelectionRecord::INITIAL_BOUNDARY_AMOUNT: {
+            case SelectionRecord::INITIAL_BOUNDARY_AMOUNT:
                 impl->model->getBoundarySpeciesInitAmounts(1, &record.index, &dResult);
-            }
                 break;
-            case SelectionRecord::INITIAL_GLOBAL_PARAMETER: {
+            case SelectionRecord::INITIAL_GLOBAL_PARAMETER:
                 impl->model->getGlobalParameterInitValues(1, &record.index, &dResult);
-            }
                 break;
-            case SelectionRecord::INITIAL_COMPARTMENT: {
+            case SelectionRecord::INITIAL_COMPARTMENT: 
                 impl->model->getCompartmentInitVolumes(1, &record.index, &dResult);
-            }
                 break;
             case SelectionRecord::STOICHIOMETRY: {
                 int speciesIndex = impl->model->getFloatingSpeciesIndex(record.p1);
                 int reactionIndex = impl->model->getReactionIndex(record.p2);
                 return impl->model->getStoichiometry(speciesIndex, reactionIndex);
             }
+            case SelectionRecord::TIME:
+                dResult = getCurrentTime();
                 break;
 
             default:
