@@ -1519,6 +1519,19 @@ TEST_F(ModelAnalysisTests, SimulateGillespieMaxRows) {
     delete rr;
 }
 
+TEST_F(ModelAnalysisTests, SimulateAndCheckTime) {
+    RoadRunner* rr = new RoadRunner((modelAnalysisModelsDir / "BIOMD0000000035_url.xml").string());
+    rr->simulate(0, 5, 10);
+    EXPECT_NEAR(rr->getValue("time"), 5.0, 0.00001);
+
+    rr->reset();
+    rr->setIntegrator("gillespie");
+    rr->simulate(0, 5, 10);
+    EXPECT_NEAR(rr->getValue("time"), 5.0, 0.001);
+
+    delete rr;
+}
+
 TEST_F(ModelAnalysisTests, SimulateGillespieZeroDuration) {
     RoadRunner *rr = new RoadRunner((modelAnalysisModelsDir / "BIOMD0000000035_url.xml").string());
     rr->setIntegrator("gillespie");
