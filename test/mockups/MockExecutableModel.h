@@ -67,7 +67,6 @@ public:
     MOCK_METHOD(int, getSupportedIdTypes, (), (override));
     MOCK_METHOD(double, getValue, (const std::string &id), (override));
     MOCK_METHOD(void, setValue, (const std::string &id, double value), (override));
-    MOCK_METHOD(int, getStoichiometryMatrix, (int * rows, int * cols, double * *data), (override));
     MOCK_METHOD(double, getStoichiometry, (int speciesIndex, int reactionIndex), (override));
     MOCK_METHOD(int, getNumConservedMoieties, (), (override));
     MOCK_METHOD(int, getConservedMoietyIndex, (const std::string &eid), (override));

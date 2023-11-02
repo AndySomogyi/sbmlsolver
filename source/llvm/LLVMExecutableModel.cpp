@@ -2278,46 +2278,6 @@ double LLVMExecutableModel::getStoichiometry(int speciesIndex, int reactionIndex
     return isnan(result) ? 0 : result;
 }
 
-int LLVMExecutableModel::getStoichiometryMatrix(int* pRows, int* pCols,
-        double** pData)
-{
-    // asking for matrix size
-    if (pRows && pCols && pData == 0)
-    {
-        *pRows = modelData->stoichiometry->m;
-        *pCols = modelData->stoichiometry->n;
-        return modelData->stoichiometry->m * modelData->stoichiometry->n;
-    }
-
-    // allocate data
-    if (pRows && pCols && pData && *pData == 0)
-    {
-        double* data = (double*)malloc(modelData->stoichiometry->m *
-                modelData->stoichiometry->n * sizeof(double));
-        *pRows = modelData->stoichiometry->m;
-        *pCols = modelData->stoichiometry->n;
-        *pData = data;
-        csr_matrix_fill_dense(modelData->stoichiometry, data);
-
-        return modelData->stoichiometry->m * modelData->stoichiometry->n;
-    }
-
-    // use user data
-    if (pRows && *pRows == modelData->stoichiometry->m &&
-            pCols && *pCols == modelData->stoichiometry->n && pData && *pData)
-    {
-        double* data = *pData;
-        csr_matrix_fill_dense(modelData->stoichiometry, data);
-
-        return modelData->stoichiometry->m * modelData->stoichiometry->n;
-    }
-
-
-    throw_llvm_exception("invalid args");
-}
-
-
-
 /******************************* Events Section *******************************/
 #if (1) /**********************************************************************/
 /******************************************************************************/
