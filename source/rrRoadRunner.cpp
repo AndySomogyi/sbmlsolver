@@ -33,6 +33,7 @@
 #include "sbml/Model.h"
 #include "sbml/common/operationReturnValues.h"
 #include "sbml/math/FormulaParser.h"
+#include "sbml/packages/fbc/extension/FbcSBMLDocumentPlugin.h"
 
 //Have to include these last because of something to do with min and max in Random.h
 #include <rr-libstruct/lsLibStructural.h>
@@ -513,6 +514,29 @@ namespace rr {
         void changeParameter(ParameterType parameterType, int reactionIndex, int parameterIndex,
                              double originalValue, double increment) {
             setParameterValue(parameterType, parameterIndex, originalValue + increment);
+        }
+
+        //If a kinetic law or two is actually set, even in an FBC model, that means roadrunner can simulate it.  It's possible that someone has loaded an FBC model into rr and has set the kinetic laws for simulation.
+        bool isCompleteFBC() {
+            libsbml::FbcSBMLDocumentPlugin* fdp = static_cast<libsbml::FbcSBMLDocumentPlugin*>(document->getPlugin("fbc"));
+            if (fdp == NULL)
+            {
+                return false;
+            }
+            if (fdp->isSetRequired()) {
+                libsbml::Model* model = document->getModel();
+                for (unsigned int r = 0; r < model->getNumReactions(); r++) {
+                    libsbml::Reaction* rxn = model->getReaction(r);
+                    if (!rxn->isSetKineticLaw()) {
+                        continue;
+                    }
+                    if (rxn->getKineticLaw()->isSetMath()) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
         }
 
         friend RoadRunner;
@@ -1282,6 +1306,7 @@ namespace rr {
             case SelectionRecord::UNSCALED_CONTROL:
                 dResult = getuCC(record.p1, record.p2);
                 break;
+
             case SelectionRecord::EIGENVALUE_REAL: {
                 std::string species = record.p1;
                 int index = impl->model->getFloatingSpeciesIndex(species);
@@ -1331,29 +1356,23 @@ namespace rr {
                 throw std::invalid_argument(err.str());
             }
                 break;
-            case SelectionRecord::INITIAL_FLOATING_CONCENTRATION: {
+            case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
                 impl->model->getFloatingSpeciesInitConcentrations(1, &record.index, &dResult);
-            }
                 break;
-            case SelectionRecord::INITIAL_FLOATING_AMOUNT: {
+            case SelectionRecord::INITIAL_FLOATING_AMOUNT:
                 impl->model->getFloatingSpeciesInitAmounts(1, &record.index, &dResult);
-            }
                 break;
-            case SelectionRecord::INITIAL_BOUNDARY_CONCENTRATION: {
+            case SelectionRecord::INITIAL_BOUNDARY_CONCENTRATION:
                 impl->model->getBoundarySpeciesInitConcentrations(1, &record.index, &dResult);
-            }
                 break;
-            case SelectionRecord::INITIAL_BOUNDARY_AMOUNT: {
+            case SelectionRecord::INITIAL_BOUNDARY_AMOUNT:
                 impl->model->getBoundarySpeciesInitAmounts(1, &record.index, &dResult);
-            }
                 break;
-            case SelectionRecord::INITIAL_GLOBAL_PARAMETER: {
+            case SelectionRecord::INITIAL_GLOBAL_PARAMETER:
                 impl->model->getGlobalParameterInitValues(1, &record.index, &dResult);
-            }
                 break;
-            case SelectionRecord::INITIAL_COMPARTMENT: {
+            case SelectionRecord::INITIAL_COMPARTMENT: 
                 impl->model->getCompartmentInitVolumes(1, &record.index, &dResult);
-            }
                 break;
             case SelectionRecord::STOICHIOMETRY: {
                 // in case it is entered in the form of stoich(SpeciesId, ReactionId)
@@ -1365,6 +1384,8 @@ namespace rr {
                 // in case it is entered in the form of a stoichiometry parameter
                 return impl->model->getStoichiometry(impl->model->getStoichiometryIndex(record.p1));
             }
+            case SelectionRecord::TIME:
+                dResult = getCurrentTime();
                 break;
 
             default:
@@ -1467,6 +1488,9 @@ namespace rr {
             throw e;
         }
         catch (const std::runtime_error &e) {
+            throw e;
+        }
+        catch (const std::domain_error& e) {
             throw e;
         }
         catch (const std::exception &e) {
@@ -1834,7 +1858,7 @@ namespace rr {
             int parameterIndex;
 
             int l = impl->model->getNumFloatingSpecies();
-            double *ref = new double[l];
+            double* ref = new double[l];
             impl->model->getFloatingSpeciesConcentrations(l, NULL, ref);
 
             // Check the reaction name
@@ -1847,22 +1871,26 @@ namespace rr {
                 parameterType = ptFloatingSpecies;
                 originalParameterValue = 0;
                 impl->model->getFloatingSpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
-            } else if ((parameterIndex = impl->model->getBoundarySpeciesIndex(parameterName)) >= 0) {
+            }
+            else if ((parameterIndex = impl->model->getBoundarySpeciesIndex(parameterName)) >= 0) {
                 parameterType = ptBoundaryParameter;
                 originalParameterValue = 0;
                 impl->model->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
-            } else if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0) {
+            }
+            else if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0) {
                 if (impl->model->getConservedMoietyIndex(parameterName) >= 0) {
                     throw std::invalid_argument("Cannot calculate elasticities for conserved moieties.");
                 }
                 parameterType = ptGlobalParameter;
                 originalParameterValue = 0;
                 impl->model->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
-            } else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0) {
+            }
+            else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0) {
                 parameterType = ptConservationParameter;
                 originalParameterValue = 0;
                 impl->model->getConservedMoietyValues(1, &parameterIndex, &originalParameterValue);
-            } else {
+            }
+            else {
                 throw CoreException("Unable to locate variable: [" + parameterName + "]");
             }
 
@@ -1904,12 +1932,12 @@ namespace rr {
 
             return 1 / (12 * hstep) * (f1 + f2);
         }
-        catch (const Exception &e) {
+        catch (const Exception& e) {
             throw CoreException("Unexpected error from getuEE(): " + e.Message());
         }
     }
 
-// Help("Updates the model based on all recent changes")
+    // Help("Updates the model based on all recent changes")
     void RoadRunner::evalModel() {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
@@ -1918,12 +1946,18 @@ namespace rr {
     }
 
 
-    const ls::DoubleMatrix *RoadRunner::simulate(const SimulateOptions *opt) {
+    const ls::DoubleMatrix* RoadRunner::simulate(const SimulateOptions* opt) {
         get_self();
         check_model();
 
         if (opt) {
             self.simulateOpt = *opt;
+        }
+
+        if (impl->isCompleteFBC()) {
+            rrLog(Logger::LOG_ERROR) << "FBC model discovered, but not simulatable.";
+            throw std::domain_error("This SBML model contains information from the 'fbc' package for Flux Balance Control analysis, or constraint-based modeling.  These models can be analyzed but not simulated by roadrunner or tellurium.  The most popular software package that supports fbc (as of 2023) is COBRA (https://opencobra.github.io/), and other software packages exist as well.");
+
         }
 
         applySimulateOptions();
@@ -4442,9 +4476,11 @@ namespace rr {
 
         std::stringstream stream;
         libsbml::SBMLDocument doc(*impl->document);
-        libsbml::Model *model = 0;
+        libsbml::Model *model = doc.getModel();
 
-        model = doc.getModel();
+        while (model->getNumInitialAssignments() > 0) {
+            model->removeInitialAssignment(0);
+        }
 
         std::vector<std::string> array = getFloatingSpeciesIds();
         for (int i = 0; i < array.size(); i++) {
@@ -4522,9 +4558,14 @@ namespace rr {
     void RoadRunner::setValue(const std::string &sId, double dValue) {
         check_model();
 
-        impl->model->setValue(sId, dValue);
-
         SelectionRecord sel(sId);
+
+        if (sel.selectionType & SelectionRecord::INITIAL) {
+            //Don't worry if it doesn't exist, and don't regenerate yet.
+            removeInitialAssignment(sel.p1, true, false);
+        }
+        
+        impl->model->setValue(sId, dValue);
 
         if (sel.selectionType & SelectionRecord::INITIAL) {
             reset(
@@ -6420,7 +6461,6 @@ namespace rr {
         }
         rrLog(Logger::LOG_DEBUG) << "Removing rule for variable" << vid << "..." << std::endl;
         delete toDelete;
-        checkGlobalParameters();
 
         regenerateModel(forceRegenerate);
         // grab the initial initial value from sbml model
@@ -6559,64 +6599,31 @@ namespace rr {
         regenerateModel(forceRegenerate, true);
     }
 
-    void RoadRunner::removeInitialAssignment(const std::string &vid, bool forceRegenerate) {
+    void RoadRunner::removeInitialAssignment(const std::string &vid, bool forceRegenerate, bool errIfNotExist) {
         using namespace libsbml;
         Model *sbmlModel = impl->document->getModel();
 
         InitialAssignment *toDelete = sbmlModel->removeInitialAssignment(vid);
         if (toDelete == NULL) {
-            throw std::invalid_argument(
+            if (errIfNotExist) {
+                throw std::invalid_argument(
                     "Roadrunner::removeInitialAssignment failed, no initial assignment for symbol " + vid +
                     " existed in the model");
+            }
+            // Otherwise, we don't need to do anything.
+            return;
         }
         rrLog(Logger::LOG_DEBUG) << "Removing initial assignment for variable" << vid << "..." << std::endl;
         delete toDelete;
-        checkGlobalParameters();
 
         regenerateModel(forceRegenerate);
-
-        // TODO: read-only mode does not have setters
-        if (!impl->simulatedSinceReset) {
-
-            int index = impl->model->getFloatingSpeciesIndex(vid);
-            if (index >= 0 && index < impl->model->getNumIndFloatingSpecies()) {
-
-                double initValue = 0;
-                if (sbmlModel->getSpecies(vid)->isSetInitialAmount()) {
-                    initValue = sbmlModel->getSpecies(vid)->getInitialAmount();
-                } else if (sbmlModel->getSpecies(vid)->isSetInitialConcentration()) {
-                    double initConcentration = sbmlModel->getSpecies(vid)->getInitialConcentration();
-                    int compartment = impl->model->getCompartmentIndex(sbmlModel->getSpecies(vid)->getCompartment());
-                    double compartmentSize = 1;
-                    impl->model->getCompartmentVolumes(1, &compartment, &compartmentSize);
-
-                    initValue = initConcentration * compartmentSize;
-                }
-
-                impl->model->setFloatingSpeciesInitAmounts(1, &index, &initValue);
-                impl->model->setFloatingSpeciesAmounts(1, &index, &initValue);
-            }
-
-            index = impl->model->getCompartmentIndex(vid);
-            if (index >= 0 && index < impl->model->getNumCompartments()) {
-                double initValue = 0;
-                if (sbmlModel->getCompartment(vid)->isSetSize()) {
-                    initValue = sbmlModel->getCompartment(vid)->getSize();
-                }
-                impl->model->setCompartmentInitVolumes(1, &index, &initValue);
-                impl->model->setCompartmentVolumes(1, &index, &initValue);
-            }
-
-            index = impl->model->getGlobalParameterIndex(vid);
-            if (index >= 0 && index < impl->model->getNumGlobalParameters()) {
-                double initValue = 0;
-                if (sbmlModel->getParameter(vid)->isSetValue()) {
-                    initValue = sbmlModel->getParameter(vid)->getValue();
-                }
-                impl->model->setGlobalParameterInitValues(1, &index, &initValue);
-                impl->model->setGlobalParameterValues(1, &index, &initValue);
-            }
-        }
+        reset(
+            SelectionRecord::TIME |
+            SelectionRecord::RATE |
+            SelectionRecord::FLOATING |
+            SelectionRecord::BOUNDARY |
+            SelectionRecord::COMPARTMENT |
+            SelectionRecord::GLOBAL_PARAMETER);
     }
 
 
@@ -7124,8 +7131,6 @@ namespace rr {
             // not remove this event
             index++;
         }
-
-        checkGlobalParameters();
     }
 
     void RoadRunner::getAllVariables(const libsbml::ASTNode *node, std::set<std::string> &ids) {
@@ -7178,31 +7183,6 @@ namespace rr {
         }
     }
 
-
-    void RoadRunner::checkGlobalParameters() {
-        // check for global parameters
-        // if we delete all initial assignments and rules for global parameters,
-        // we need to delete that global parameter as well
-        using namespace libsbml;
-        Model *sbmlModel = impl->document->getModel();
-
-        int index = 0;
-        while (index < sbmlModel->getNumParameters()) {
-            const Parameter *param = sbmlModel->getParameter(index);
-            const std::string &id = param->getId();
-
-            if (!param->isSetValue() && sbmlModel->getInitialAssignment(id) == NULL &&
-                sbmlModel->getAssignmentRule(id) == NULL) {
-                // check if we have an initial assignment for this param.
-                removeParameter(id, false);
-                // go back and check the first parameter;
-                index = 0;
-            } else {
-                index++;
-            }
-
-        }
-    }
 
     void writeDoubleVectorListToStream(std::ostream &out, const DoubleVectorList &results) {
         for (const std::vector<double> &row: results) {

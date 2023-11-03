@@ -71,7 +71,6 @@ public:
     MOCK_METHOD(int, setStoichiometries, (size_t len, int const* indx, const double* values, bool strict), (override));
     MOCK_METHOD(int, setStoichiometry, (int index, double value), (override));
     MOCK_METHOD(int, setStoichiometry, (int speciesIndex, int reactionIndex, double value), (override));
-    MOCK_METHOD(int, getStoichiometryMatrix, (int * rows, int * cols, double * *data), (override));
     MOCK_METHOD(double, getStoichiometry, (int index), (override));
     MOCK_METHOD(double, getStoichiometry, (int speciesIndex, int reactionIndex), (override));
     MOCK_METHOD(int, getNumConservedMoieties, (), (override));
