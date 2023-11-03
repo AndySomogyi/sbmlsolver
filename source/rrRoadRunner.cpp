@@ -1485,6 +1485,9 @@ namespace rr {
         catch (const std::runtime_error &e) {
             throw e;
         }
+        catch (const std::domain_error& e) {
+            throw e;
+        }
         catch (const std::exception &e) {
             std::string errors = validateSBML(impl->document.get());
 
