@@ -3250,37 +3250,21 @@ namespace rr {
     }
 
     size_t RoadRunner::createDefaultSteadyStateSelectionList() {
+        impl->mSteadyStateSelection.clear();
+        // default should be independent floating species only ...
         std::vector<std::string> floatingSpecies = getFloatingSpeciesIds();
         size_t numFloatingSpecies = floatingSpecies.size();
-        // default should be independent floating species only ...
         //int numIndSpecies = getNumberOfIndependentSpecies();
-        int numberOfMatchedFloatingSpecies = 0;
+        //impl->mSteadyStateSelection.resize(numIndSpecies);
+        impl->mSteadyStateSelection.resize(numFloatingSpecies);
+        //for (int i = 0; i < numIndSpecies; i++)
         for (int i = 0; i < numFloatingSpecies; i++) {
-            for (int j = 0; j < impl->mSteadyStateSelection.size(); j++) {
-                if (floatingSpecies[i] == impl->mSteadyStateSelection[j].p1) {
-                    numberOfMatchedFloatingSpecies++;
-                    break;
-                }
-            }
+            SelectionRecord aRec;
+            aRec.selectionType = SelectionRecord::FLOATING_CONCENTRATION;
+            aRec.p1 = floatingSpecies[i];
+            aRec.index = i;
+            impl->mSteadyStateSelection[i] = aRec;
         }
-
-        // only creates the list if floating species are changed since the previous list was created
-        if (numberOfMatchedFloatingSpecies != numFloatingSpecies ||
-            numberOfMatchedFloatingSpecies != impl->mSteadyStateSelection.size()) {
-            impl->mSteadyStateSelection.clear();
-            // default should be independent floating species only ...
-            //impl->mSteadyStateSelection.resize(numIndSpecies);
-            impl->mSteadyStateSelection.resize(numFloatingSpecies);
-            //for (int i = 0; i < numIndSpecies; i++)
-            for (int i = 0; i < numFloatingSpecies; i++) {
-                SelectionRecord aRec;
-                aRec.selectionType = SelectionRecord::FLOATING_CONCENTRATION;
-                aRec.p1 = floatingSpecies[i];
-                aRec.index = i;
-                impl->mSteadyStateSelection[i] = aRec;
-            }
-        }
-
         return impl->mSteadyStateSelection.size();
     }
 
@@ -3292,7 +3276,7 @@ namespace rr {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
-        if (impl->mSteadyStateSelection.size() == 0) {
+        if ((impl->loadOpt.loadFlags & LoadSBMLOptions::NO_DEFAULT_STEADY_STATE_SELECTIONS) == 0) {
             createDefaultSteadyStateSelectionList();
         }
 
@@ -3319,7 +3303,7 @@ namespace rr {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
-        if (impl->mSteadyStateSelection.size() == 0) {
+        if ((impl->loadOpt.loadFlags & LoadSBMLOptions::NO_DEFAULT_STEADY_STATE_SELECTIONS) == 0) {
             createDefaultSteadyStateSelectionList();
         }
 
@@ -4826,6 +4810,7 @@ namespace rr {
             selstr[i] = impl->mSelectionList[i].to_string();
         }
         impl->simulationResult.setColNames(selstr.begin(), selstr.end());
+        impl->loadOpt.loadFlags = impl->loadOpt.loadFlags | LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
     }
 
     void RoadRunner::setSelections(const std::vector<rr::SelectionRecord> &ss) {
@@ -4838,7 +4823,7 @@ namespace rr {
         for (int i = 0; i < ss.size(); ++i) {
             impl->mSteadyStateSelection.push_back(createSelection(ss[i]));
         }
-        impl->loadOpt.loadFlags = impl->loadOpt.loadFlags | LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
+        impl->loadOpt.loadFlags = impl->loadOpt.loadFlags | LoadSBMLOptions::NO_DEFAULT_STEADY_STATE_SELECTIONS;
     }
 
     void RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord> &ss) {
