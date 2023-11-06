@@ -2324,18 +2324,21 @@ int LLVMExecutableModel::setStoichiometries(size_t len, const int* indx,
 
 int LLVMExecutableModel::setStoichiometry(int index, double value)
 {
-    if (!std::signbit(value)) {
-        std::list <LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = symbols->getStoichiometryIndx();
-        std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::const_iterator stoichiometry = stoichiometryIndx.begin();
-        for (int i = 0; i < index; i++)
-            ++stoichiometry;
-        if (!std::signbit(getStoichiometry(index)))
-            return setStoichiometry(stoichiometry->row, stoichiometry->column, std::abs(value));
-        else
-            return setStoichiometry(stoichiometry->row, stoichiometry->column, -1 * std::abs(value));
-    }
-    else
+    if (!std::signbit(value))
         throw LLVMException("Invalid stoichiometry value");
+
+    std::list <LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = symbols->getStoichiometryIndx();
+    std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::const_iterator stoichiometry = stoichiometryIndx.begin();
+    for (int i = 0; i < index; i++)
+        ++stoichiometry;
+    if (stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::Product)
+        return setStoichiometry(stoichiometry->row, stoichiometry->column, -1 * value);
+    else if (stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::Reactant)
+        return setStoichiometry(stoichiometry->row, stoichiometry->column, -1 * value);
+    else if (stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::MultiReactantProduct)
+        throw LLVMException("Cannot set stoichiometry for a MultiReactantProduct");
+    else
+        throw LLVMException("Cannot set stoichiometry for a Modifier");
 
     return -1;
 }
@@ -2348,12 +2351,19 @@ int LLVMExecutableModel::setStoichiometry(int speciesIndex, int reactionIndex, d
 
 double LLVMExecutableModel::getStoichiometry(int index)
 {
+    if (index < 0)
+        throw LLVMException("The stoichiometry index is not valid");
     std::list<LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = symbols->getStoichiometryIndx();
     std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::const_iterator stoichiometry = stoichiometryIndx.begin();
     for (int i = 0; i < index; i++)
         ++stoichiometry;
-    // returns the unsigned form of the stoichiometry
-    return std::abs(getStoichiometry(stoichiometry->row, stoichiometry->column));
+    if (stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::Reactant ||
+            stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::Product)
+        return getStoichiometry(stoichiometry->row, stoichiometry->column);
+    else if (stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::MultiReactantProduct)
+        throw LLVMException("Cannot return stoichiometry for a MultiReactantProduct");
+    else
+        throw LLVMException("Cannot return stoichiometry for a Modifier");
 }
 
 double LLVMExecutableModel::getStoichiometry(int speciesIndex, int reactionIndex)
