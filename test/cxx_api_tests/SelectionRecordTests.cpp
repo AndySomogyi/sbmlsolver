@@ -392,3 +392,25 @@ TEST_F(SelectionRecordTests, AllIDs) {
         }
     }
 }
+
+TEST_F(SelectionRecordTests, MODIFY_SELECTIONS_LIST) {
+    RoadRunner rr((rrTestModelsDir_ / "ModelAnalysis" / "long_selection_record.xml").string());
+    std::string users_favorite_selection_record = "x0";
+    std::vector<std::string> selectionRecordStrings;
+    selectionRecordStrings.push_back(users_favorite_selection_record);
+    rr.setSelections(selectionRecordStrings);
+    std::vector<SelectionRecord> selectionRecords = rr.getSelections();
+    EXPECT_EQ(selectionRecords.size(), 1);
+    EXPECT_EQ(selectionRecords.front().p1, users_favorite_selection_record);
+}
+
+TEST_F(SelectionRecordTests, MODIFY_STEADY_STATE_SELECTIONS_LIST) {
+    RoadRunner rr((rrTestModelsDir_ / "ModelAnalysis" / "long_selection_record.xml").string());
+    std::string users_favorite_steady_state_selection_record = "x0";
+    std::vector<std::string> steadyStateSelectionRecordStrings;
+    steadyStateSelectionRecordStrings.push_back(users_favorite_steady_state_selection_record);
+    rr.setSteadyStateSelections(steadyStateSelectionRecordStrings);
+    std::vector<SelectionRecord> steadyStateSelectionRecords = rr.getSteadyStateSelections();
+    EXPECT_EQ(steadyStateSelectionRecords.size(), 1);
+    EXPECT_EQ(steadyStateSelectionRecords.front().p1, users_favorite_steady_state_selection_record);
+}
