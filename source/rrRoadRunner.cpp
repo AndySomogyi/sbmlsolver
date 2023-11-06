@@ -185,9 +185,7 @@ namespace rr {
     public:
 
         int mInstanceID;
-        double mDiffStepSize;
 
-        double mSteadyStateThreshold;
         ls::DoubleMatrix simulationResult;
 
         /**
@@ -253,8 +251,6 @@ namespace rr {
         bool simulatedSinceReset = false;
 
         RoadRunnerImpl(const std::string &uriOrSBML, const Dictionary *dict) :
-                mDiffStepSize(0.02),
-                mSteadyStateThreshold(1.E-2),
                 simulationResult(),
                 integrator(0),
                 mSelectionList(),
@@ -268,28 +264,8 @@ namespace rr {
             //memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
         }
 
-        RoadRunnerImpl(const std::istream &in) :
-                mDiffStepSize(0.02),
-                mSteadyStateThreshold(1.E-2),
-                simulationResult(),
-                integrator(NULL),
-                integrators(),
-                steady_state_solver(NULL),
-                steady_state_solvers(),
-                mSelectionList(),
-                mSteadyStateSelection(),
-                mLS(0),
-                simulateOpt(),
-                mInstanceID(0),
-                compiler(Compiler::New()) {
-
-        }
-
-
         RoadRunnerImpl(const std::string &_compiler, const std::string &_tempDir,
                        const std::string &_supportCodeDir) :
-                mDiffStepSize(0.02),
-                mSteadyStateThreshold(1.E-2),
                 simulationResult(),
                 integrator(NULL),
                 integrators(),
@@ -311,8 +287,6 @@ namespace rr {
 
         RoadRunnerImpl(const RoadRunnerImpl &rri) :
                 mInstanceID(0),
-                mDiffStepSize(rri.mDiffStepSize),
-                mSteadyStateThreshold(rri.mSteadyStateThreshold),
                 simulationResult(rri.simulationResult),
                 integrator(NULL),
                 integrators(),
@@ -706,6 +680,8 @@ namespace rr {
 
         ss << "'libSBMLVersion' : " << getVersionStr(VERSIONSTR_LIBSBML) << std::endl;
         ss << "'jacobianStepSize' : " << impl->roadRunnerOptions.jacobianStepSize << std::endl;
+        ss << "'steadyStateThreshold' : " << impl->roadRunnerOptions.steadyStateThreshold << std::endl;
+        ss << "'fluxThreshold' : " << impl->roadRunnerOptions.fluxThreshold << std::endl;
         ss << "'conservedMoietyAnalysis' : " << rr::toString(impl->loadOpt.getConservedMoietyConversion()) << std::endl;
 
 #if defined(BUILD_LEGACY_C)
@@ -1773,25 +1749,37 @@ namespace rr {
     double RoadRunner::getDiffStepSize() const {
         if (!impl)
             throw std::runtime_error("Missing impl");
-        return impl->mDiffStepSize;
+        return impl->roadRunnerOptions.diffStepSize;
     }
 
     void RoadRunner::setDiffStepSize(double val) {
         if (!impl)
             throw std::runtime_error("Missing impl");
-        impl->mDiffStepSize = val;
+        impl->roadRunnerOptions.diffStepSize = val;
     }
 
     double RoadRunner::getSteadyStateThreshold() const {
         if (!impl)
             throw std::runtime_error("Missing impl");
-        return impl->mSteadyStateThreshold;
+        return impl->roadRunnerOptions.steadyStateThreshold;
     }
 
     void RoadRunner::setSteadyStateThreshold(double val) {
         if (!impl)
             throw std::runtime_error("Missing impl");
-        impl->mSteadyStateThreshold = val;
+        impl->roadRunnerOptions.steadyStateThreshold = val;
+    }
+
+    double RoadRunner::getFluxThreshold() const {
+        if (!impl)
+            throw std::runtime_error("Missing impl");
+        return impl->roadRunnerOptions.fluxThreshold;
+    }
+
+    void RoadRunner::setFluxThreshold(double val) {
+        if (!impl)
+            throw std::runtime_error("Missing impl");
+        impl->roadRunnerOptions.fluxThreshold = val;
     }
 
     double RoadRunner::getuEE(const std::string &reactionName, const std::string &parameterName) {
@@ -1889,9 +1877,9 @@ namespace rr {
                 throw CoreException("Unable to locate variable: [" + parameterName + "]");
             }
 
-            double hstep = impl->mDiffStepSize * originalParameterValue;
+            double hstep = impl->roadRunnerOptions.diffStepSize * originalParameterValue;
             if (fabs(hstep) < 1E-12) {
-                hstep = impl->mDiffStepSize;
+                hstep = impl->roadRunnerOptions.diffStepSize;
             }
 
             impl->setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
@@ -2772,9 +2760,9 @@ namespace rr {
                         assert_similar(originalConc, tmp);
 
                         // things check out, start fiddling...
-                        double hstep = self.mDiffStepSize * originalConc;
+                        double hstep = self.roadRunnerOptions.diffStepSize * originalConc;
                         if (fabs(hstep) < 1E-12) {
-                            hstep = self.mDiffStepSize;
+                            hstep = self.roadRunnerOptions.diffStepSize;
                         }
 
                         value = originalConc + hstep;
@@ -3924,9 +3912,9 @@ namespace rr {
             // Get the original parameter value
             originalParameterValue = impl->getParameterValue(parameterType, parameterIndex);
 
-            double hstep = impl->mDiffStepSize * originalParameterValue;
+            double hstep = impl->roadRunnerOptions.diffStepSize * originalParameterValue;
             if (fabs(hstep) < 1E-12) {
-                hstep = impl->mDiffStepSize;
+                hstep = impl->roadRunnerOptions.diffStepSize;
             }
 
             try {
@@ -4015,6 +4003,9 @@ namespace rr {
         }
 
         double variableValue = getVariableValue(variableType, variableIndex);
+        if (variableType == vtFlux && abs(variableValue) < impl->roadRunnerOptions.fluxThreshold) {
+            return 0.0;
+        }
         double parameterValue = impl->getParameterValue(parameterType, parameterIndex);
         return getuCC(variableNameMod, parameterName) * parameterValue / variableValue;
     }
@@ -4121,9 +4112,9 @@ namespace rr {
 
             // things check out, start fiddling...
 
-            double hstep = self.mDiffStepSize * origCurrentVal;
+            double hstep = self.roadRunnerOptions.diffStepSize * origCurrentVal;
             if (fabs(hstep) < 1E-12) {
-                hstep = self.mDiffStepSize;
+                hstep = self.roadRunnerOptions.diffStepSize;
             }
 
             value = origCurrentVal + hstep;
@@ -4283,7 +4274,7 @@ namespace rr {
 
         check_model();
 
-        if (steadyState() > impl->mSteadyStateThreshold) {
+        if (steadyState() > impl->roadRunnerOptions.steadyStateThreshold) {
             if (steadyState() > 1E-2) {
                 //impl->simulateOpt.steps = orig_steps;
                 throw CoreException("Unable to locate steady state during control coefficient computation");
@@ -4998,9 +4989,9 @@ namespace rr {
                     throw (Exception("This parameterType is not supported in getUnscaledParameterElasticity"));
             }
 
-            double hstep = impl->mDiffStepSize * originalParameterValue;
+            double hstep = impl->roadRunnerOptions.diffStepSize * originalParameterValue;
             if (fabs(hstep) < 1E-12) {
-                hstep = impl->mDiffStepSize;
+                hstep = impl->roadRunnerOptions.diffStepSize;
             }
 
             double f1, f2, fi, fi2, fd, fd2;
@@ -5328,8 +5319,6 @@ namespace rr {
                 rr::saveBinary(*outPtr, dataVersionNumber);
                 //Save all of roadrunner's data to the file
                 rr::saveBinary(*outPtr, impl->mInstanceID);
-                rr::saveBinary(*outPtr, impl->mDiffStepSize);
-                rr::saveBinary(*outPtr, impl->mSteadyStateThreshold);
 
                 saveSelectionVector(*outPtr, impl->mSelectionList);
 
@@ -5370,6 +5359,9 @@ namespace rr {
 
                 rr::saveBinary(*outPtr, impl->roadRunnerOptions.flags);
                 rr::saveBinary(*outPtr, impl->roadRunnerOptions.jacobianStepSize);
+                rr::saveBinary(*outPtr, impl->roadRunnerOptions.diffStepSize);
+                rr::saveBinary(*outPtr, impl->roadRunnerOptions.steadyStateThreshold);
+                rr::saveBinary(*outPtr, impl->roadRunnerOptions.fluxThreshold);
 
                 rr::saveBinary(*outPtr, impl->configurationXML);
                 //Save the model (which saves the model data symbols and model resources)
@@ -5419,13 +5411,11 @@ namespace rr {
                 //                }
 
                 *outPtr << "mInstanceID: " << impl->mInstanceID << std::endl;
-                *outPtr << "mDiffStepSize: " << impl->mDiffStepSize << std::endl;
-                *outPtr << "mSteadyStateThreshold: " << impl->mSteadyStateThreshold << std::endl << std::endl;
-
                 *outPtr << "roadRunnerOptions: " << std::endl;
                 *outPtr << "	flags: " << impl->roadRunnerOptions.flags << std::endl;
-                *outPtr << "	jacobianStepSize: " << impl->roadRunnerOptions.jacobianStepSize << std::endl
-                        << std::endl;
+                *outPtr << "	jacobianStepSize: " << impl->roadRunnerOptions.jacobianStepSize << std::endl;
+                *outPtr << "    diffStepSize: " << impl->roadRunnerOptions.diffStepSize << std::endl;
+                *outPtr << "    steadyStateThreshold: " << impl->roadRunnerOptions.steadyStateThreshold << std::endl << std::endl;
 
                 *outPtr << "loadOpt: " << std::endl;
                 *outPtr << "	version: " << impl->loadOpt.version << std::endl;
@@ -5558,8 +5548,6 @@ namespace rr {
         //load roadrunner's data in the same order saveState saves it in
         int oldInstanceID;
         rr::loadBinary(*in, oldInstanceID); //Keep our current one; it's supposed to be unique.
-        rr::loadBinary(*in, impl->mDiffStepSize);
-        rr::loadBinary(*in, impl->mSteadyStateThreshold);
 
         loadSelectionVector(*in, impl->mSelectionList);
 
@@ -5607,6 +5595,9 @@ namespace rr {
         //}
         rr::loadBinary(*in, impl->roadRunnerOptions.flags);
         rr::loadBinary(*in, impl->roadRunnerOptions.jacobianStepSize);
+        rr::loadBinary(*in, impl->roadRunnerOptions.diffStepSize);
+        rr::loadBinary(*in, impl->roadRunnerOptions.steadyStateThreshold);
+        rr::loadBinary(*in, impl->roadRunnerOptions.fluxThreshold);
 
         rr::loadBinary(*in, impl->configurationXML);
         //Create a new model from the stream

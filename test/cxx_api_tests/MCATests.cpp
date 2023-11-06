@@ -99,26 +99,11 @@ TEST_F(MCATests, BimolecularEndScaledFluxControlMatrix){
     checkScaledFluxControlMatrix("BimolecularEnd",  1e-3);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Scaled Flux control coefficients that should be zero
+TEST_F(MCATests, ZeroFluxCC) {
+    RoadRunner rr((rrTestModelsDir_ / "ModelAnalysis" / "zero_flux_cc_ss.xml").string());
+    EXPECT_EQ(rr.getValue("cc(vAK, e_vATP)"), 0.0);
+}
 
 
 

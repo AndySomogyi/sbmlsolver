@@ -906,6 +906,19 @@ namespace rr {
         void setSteadyStateThreshold(double val);
 
         /**
+         * @brief Get the flux threshold used in getCC
+         * @details In the MCA routines, RoadRunner will keep trying to
+         * converge to a steady state until this threshold is met
+         */
+        double getFluxThreshold() const;
+
+        /**
+         * @brief Set the flux threshold used in getCC
+         * @details In getCC, RoadRunner will return 0.0 for flux control coefficients if the 
+         */
+        void setFluxThreshold(double val);
+
+        /**
          * Get unscaled control coefficient with respect to a global parameter
          *
          * variableName must be either a reaction or floating species.

@@ -438,6 +438,9 @@ namespace rr
         * step size used for numeric Jacobian calculations.
         */
         double jacobianStepSize;
+        double diffStepSize;
+        double steadyStateThreshold;
+        double fluxThreshold;
 
         /**
         * load default valued from config.
