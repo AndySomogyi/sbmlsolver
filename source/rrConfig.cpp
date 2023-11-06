@@ -146,7 +146,7 @@ namespace rr {
             Setting((std::int32_t)Config::NONE),        // LLJIT_OPTIMIZATION_LEVEL
             Setting(1),                                 // LLJIT_NUM_THREADS
             Setting(1.e-9),                             // METABOLIC_CONTROL_ANALYSIS_FLUX_THRESHOLD
-            Setting(0.2),                               // METABOLIC_CONTROL_ANALYSIS_DIFFERENTIAL_STEP_SIZE
+            Setting(0.02),                              // METABOLIC_CONTROL_ANALYSIS_DIFFERENTIAL_STEP_SIZE
             Setting(1.e-2)                              // METABOLIC_CONTROL_ANALYSIS_STEADY_STATE_THRESHOLD
     };
 
