@@ -690,6 +690,12 @@ namespace rr {
         virtual int getStoichiometryIndex(const std::string&) = 0;
 
         /**
+         * get the index of a named stoichiometry
+         * @returns >= 0 on success, < 0 on failure.
+         */
+        virtual int getStoichiometryIndex(const std::string&, const std::string&) = 0;
+
+        /**
          * get the name of the specified stoichiometry
          */
         virtual std::string getStoichiometryId(size_t index) = 0 ;
