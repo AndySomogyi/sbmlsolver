@@ -571,7 +571,7 @@ namespace rr {
         double getValue(const SelectionRecord &record);
 
 
-        void setSelections(const std::vector<std::string> &selections);
+        void setSelections(const std::vector<std::string> &selections, const bool isSetImplicitly = false);
 
         void setSelections(const std::vector<rr::SelectionRecord> &selections);
 
