@@ -1376,13 +1376,11 @@ namespace rr {
                 break;
             case SelectionRecord::STOICHIOMETRY: {
                 // in case it is entered in the form of stoich(SpeciesId, ReactionId)
-                int speciesIndex = impl->model->getFloatingSpeciesIndex(record.p1);
-                int reactionIndex = impl->model->getReactionIndex(record.p2);
-                if (speciesIndex != -1 && reactionIndex != -1)
-                    return impl->model->getStoichiometry(speciesIndex, reactionIndex);
-
+                if (impl->model->getFloatingSpeciesIndex(record.p1) != -1 && impl->model->getReactionIndex(record.p2) != -1)
+                    return impl->model->getStoichiometry(impl->model->getStoichiometryIndex(record.p1, record.p2));
                 // in case it is entered in the form of a stoichiometry parameter
-                return impl->model->getStoichiometry(impl->model->getStoichiometryIndex(record.p1));
+                else
+                    return impl->model->getStoichiometry(impl->model->getStoichiometryIndex(record.p1));
             }
             case SelectionRecord::TIME:
                 dResult = getCurrentTime();
