@@ -1481,6 +1481,10 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                     stoichIds.push_back(p->isSetId() ? p->getId() : "");
                     stoichTypes.push_back(Product);
 
+                    // in case this species is both a product and reactant, can look up
+                    // index of the just added Reactant
+                    speciesMap[speciesIdx] = stoichTypes.size() - 1;
+
                     if (p->isSetId() && p->getId().length() > 0)
                     {
                         if (namedSpeciesReferenceInfo.find(p->getId())
