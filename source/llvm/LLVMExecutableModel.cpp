@@ -2324,7 +2324,7 @@ int LLVMExecutableModel::setStoichiometries(size_t len, const int* indx,
 
 int LLVMExecutableModel::setStoichiometry(int index, double value)
 {
-    if (!std::signbit(value))
+    if (std::signbit(value))
         throw LLVMException("Invalid stoichiometry value");
 
     std::list <LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = symbols->getStoichiometryIndx();
@@ -2332,7 +2332,7 @@ int LLVMExecutableModel::setStoichiometry(int index, double value)
     for (int i = 0; i < index; i++)
         ++stoichiometry;
     if (stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::Product)
-        return setStoichiometry(stoichiometry->row, stoichiometry->column, -1 * value);
+        return setStoichiometry(stoichiometry->row, stoichiometry->column, value);
     else if (stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::Reactant)
         return setStoichiometry(stoichiometry->row, stoichiometry->column, -1 * value);
     else if (stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::MultiReactantProduct)
@@ -2357,8 +2357,9 @@ double LLVMExecutableModel::getStoichiometry(int index)
     std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::const_iterator stoichiometry = stoichiometryIndx.begin();
     for (int i = 0; i < index; i++)
         ++stoichiometry;
-    if (stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::Reactant ||
-            stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::Product)
+    if (stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::Reactant)
+        return -1 * getStoichiometry(stoichiometry->row, stoichiometry->column);
+    else if (stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::Product)
         return getStoichiometry(stoichiometry->row, stoichiometry->column);
     else if (stoichiometry->type == LLVMModelDataSymbols::SpeciesReferenceType::MultiReactantProduct)
         throw LLVMException("Cannot return stoichiometry for a MultiReactantProduct");
