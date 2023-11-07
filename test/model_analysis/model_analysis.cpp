@@ -1617,7 +1617,7 @@ TEST_F(ModelAnalysisTests, ResetAfterControlCalc) {
     EXPECT_EQ(pre, post);
 }
 
-TEST_F(ModelAnalysisTests, Stoichiometry) {
+TEST_F(ModelAnalysisTests, Stoichiometry_Reactant_Or_Product) {
     RoadRunner rr((modelAnalysisModelsDir / "get_set_stoichiometry.xml").string());
 
     // get the initial value with parameter and stoich(Species,Reaction)
@@ -1639,4 +1639,16 @@ TEST_F(ModelAnalysisTests, Stoichiometry) {
     // set with stoich(Species,Reaction) and get with parameter
     rr.setValue("stoich(S2,_J0)", 6);
     EXPECT_EQ(rr.getValue("m"), 6);
+}
+
+TEST_F(ModelAnalysisTests, Stoichiometry_MultiReactantProduct) {
+RoadRunner rr((modelAnalysisModelsDir / "get_set_stoichiometry.xml").string());
+
+    // get the initial value with parameter and stoich(Species,Reaction)
+    EXPECT_THROW(rr.getValue("n"), rrllvm::LLVMException);
+    EXPECT_THROW(rr.getValue("stoich(S1,_J0)"), rrllvm::LLVMException);
+
+    // set the initial value with parameter and stoich(Species,Reaction)
+    EXPECT_THROW(rr.setValue("n", 3), rrllvm::LLVMException);
+    EXPECT_THROW(rr.setValue("stoich(S1,_J0)", 3), rrllvm::LLVMException);
 }
