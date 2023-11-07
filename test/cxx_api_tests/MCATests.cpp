@@ -103,6 +103,7 @@ TEST_F(MCATests, BimolecularEndScaledFluxControlMatrix){
 TEST_F(MCATests, ZeroFluxCC) {
     RoadRunner rr((rrTestModelsDir_ / "ModelAnalysis" / "zero_flux_cc_ss.xml").string());
     EXPECT_EQ(rr.getValue("cc(vAK, e_vATP)"), 0.0);
+    rr.reset();
     ls::DoubleMatrix results = rr.getScaledFluxControlCoefficientMatrix();
     for (size_t col = 0; col < 18; col++) {
         EXPECT_EQ(results[17][col], 0.0);
