@@ -1616,3 +1616,27 @@ TEST_F(ModelAnalysisTests, ResetAfterControlCalc) {
 
     EXPECT_EQ(pre, post);
 }
+
+TEST_F(ModelAnalysisTests, Stoichiometry) {
+    RoadRunner rr((modelAnalysisModelsDir / "get_set_stoichiometry.xml").string());
+
+    // get the initial value with parameter and stoich(Species,Reaction)
+    EXPECT_EQ(rr.getValue("m"), 2);
+    EXPECT_EQ(rr.getValue("stoich(S2,_J0)"), 2);
+
+    // set and get with parameter
+    rr.setValue("m", 3);
+    EXPECT_EQ(rr.getValue("m"), 3);
+
+    // set and get with stoich(Species,Reaction)
+    rr.setValue("stoich(S2,_J0)", 4);
+    EXPECT_EQ(rr.getValue("stoich(S2,_J0)"), 4);
+
+    // set with parameter and get with stoich(Species,Reaction)
+    rr.setValue("m", 5);
+    EXPECT_EQ(rr.getValue("stoich(S2,_J0)"), 5);
+
+    // set with stoich(Species,Reaction) and get with parameter
+    rr.setValue("stoich(S2,_J0)", 6);
+    EXPECT_EQ(rr.getValue("m"), 6);
+}
