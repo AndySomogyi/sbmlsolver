@@ -25,10 +25,10 @@ public:
         RoadRunner rr(testModel->str());
         ls::Matrix<double> actual = rr.getUnscaledConcentrationControlCoefficientMatrix();
         rr::Matrix<double> expected = mcaTestModel->unscaledConcentrationControlCoefficientMatrix();
-        std::cout << "expected" << std::endl;
-        std::cout << expected << std::endl;
-        std::cout << "actual" << std::endl;
-        std::cout << actual << std::endl;
+        //std::cout << "expected" << std::endl;
+        //std::cout << expected << std::endl;
+        //std::cout << "actual" << std::endl;
+        //std::cout << actual << std::endl;
         checkMatrixEqual(expected, actual, tol);
         delete testModel;
     }
@@ -40,10 +40,10 @@ public:
         RoadRunner rr(testModel->str());
         ls::Matrix<double> actual = rr.getScaledConcentrationControlCoefficientMatrix();
         rr::Matrix<double> expected = mcaTestModel->scaledConcentrationControlCoefficientMatrix();
-        std::cout << "expected" << std::endl;
-        std::cout << expected << std::endl;
-        std::cout << "actual" << std::endl;
-        std::cout << actual << std::endl;
+        //std::cout << "expected" << std::endl;
+        //std::cout << expected << std::endl;
+        //std::cout << "actual" << std::endl;
+        //std::cout << actual << std::endl;
 
         checkMatrixEqual(expected, actual, tol);
         delete testModel;
@@ -56,10 +56,10 @@ public:
         RoadRunner rr(testModel->str());
         ls::Matrix<double> actual = rr.getUnscaledFluxControlCoefficientMatrix();
         rr::Matrix<double> expected = mcaTestModel->unscaledFluxControlCoefficientMatrix();
-        std::cout << "expected" << std::endl;
-        std::cout << expected << std::endl;
-        std::cout << "actual" << std::endl;
-        std::cout << actual << std::endl;
+        //std::cout << "expected" << std::endl;
+        //std::cout << expected << std::endl;
+        //std::cout << "actual" << std::endl;
+        //std::cout << actual << std::endl;
         checkMatrixEqual(expected, actual, tol);
         delete testModel;
     }
@@ -71,10 +71,10 @@ public:
         RoadRunner rr(testModel->str());
         ls::Matrix<double> actual = rr.getScaledFluxControlCoefficientMatrix();
         rr::Matrix<double> expected = mcaTestModel->scaledFluxControlCoefficientMatrix();
-        std::cout << "expected" << std::endl;
-        std::cout << expected << std::endl;
-        std::cout << "actual" << std::endl;
-        std::cout << actual << std::endl;
+        //std::cout << "expected" << std::endl;
+        //std::cout << expected << std::endl;
+        //std::cout << "actual" << std::endl;
+        //std::cout << actual << std::endl;
         checkMatrixEqual(expected, actual, tol);
         delete testModel;
     }
@@ -103,6 +103,10 @@ TEST_F(MCATests, BimolecularEndScaledFluxControlMatrix){
 TEST_F(MCATests, ZeroFluxCC) {
     RoadRunner rr((rrTestModelsDir_ / "ModelAnalysis" / "zero_flux_cc_ss.xml").string());
     EXPECT_EQ(rr.getValue("cc(vAK, e_vATP)"), 0.0);
+    ls::DoubleMatrix results = rr.getScaledFluxControlCoefficientMatrix();
+    for (size_t col = 0; col < 18; col++) {
+        EXPECT_EQ(results[17][col], 0.0);
+    }
 }
 
 

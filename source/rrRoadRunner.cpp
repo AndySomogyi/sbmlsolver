@@ -4002,12 +4002,13 @@ namespace rr {
             throw CoreException("Unable to locate parameter: [" + parameterName + "]");
         }
 
+        double ucc = getuCC(variableNameMod, parameterName);
         double variableValue = getVariableValue(variableType, variableIndex);
         if (variableType == vtFlux && abs(variableValue) < impl->roadRunnerOptions.fluxThreshold) {
             return 0.0;
         }
         double parameterValue = impl->getParameterValue(parameterType, parameterIndex);
-        return getuCC(variableNameMod, parameterName) * parameterValue / variableValue;
+        return ucc * parameterValue / variableValue;
     }
 
 
@@ -4368,10 +4369,11 @@ namespace rr {
                 for (int i = 0; i < ufcc.RSize(); i++) {
                     double irate = 0;
                     impl->model->getReactionRates(1, &i, &irate);
-                    if (irate == 0) {
-                        rrLog(rr::Logger::LOG_WARNING) << "Unable to properly scale values for reaction '";
-                        rrLog(rr::Logger::LOG_WARNING) << impl->model->getReactionId(i);
-                        rrLog(rr::Logger::LOG_WARNING) << "': its value is zero, so we cannot divide by it.  Setting the scaled coefficients to zero instead.";
+                    if (abs(irate) < impl->roadRunnerOptions.fluxThreshold) {
+                        rrLog(rr::Logger::LOG_INFORMATION) << "The reaction '";
+                        rrLog(rr::Logger::LOG_INFORMATION) << impl->model->getReactionId(i);
+                        rrLog(rr::Logger::LOG_INFORMATION) << "' value is close to zero, so setting the scaled coefficients to zero as well.";
+                        irate = 0;
                     }
                     for (int j = 0; j < ufcc.CSize(); j++) {
                         if (irate != 0) {
