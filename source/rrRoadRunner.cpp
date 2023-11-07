@@ -1058,10 +1058,10 @@ namespace rr {
         // fall back if unable to use rate laws
         // see https://github.com/sys-bio/roadrunner/issues/88
         try {
-            setSelections(selections_with_ratelaws);
+            setSelections(selections_with_ratelaws, true);
         } catch (...) {
             rrLog(Logger::LOG_WARNING) << "Rate laws exist but cannot be added to default selections";
-            setSelections(selections);
+            setSelections(selections, true);
         }
 
         rrLog(lDebug) << "The following is selected:";
@@ -1081,7 +1081,7 @@ namespace rr {
         // if settings has any selections, this overrides the selection list.
         if (settingsList.size() > 1) {
             rrLog(Logger::LOG_INFORMATION) << "overriding selection list with values from SimulateOptions.";
-            setSelections(settingsList);
+            setSelections(settingsList, true);
         }
 
         for (int i = 0; i < impl->mSelectionList.size(); i++) {
@@ -4792,7 +4792,7 @@ namespace rr {
         return res == 0 ? true : false;
     }
 
-    void RoadRunner::setSelections(const std::vector<std::string> &_selList) {
+    void RoadRunner::setSelections(const std::vector<std::string> &_selList, const bool isSetImplicitly) {
         impl->mSelectionList.clear();
 
         for (int i = 0; i < _selList.size(); ++i) {
@@ -4810,7 +4810,8 @@ namespace rr {
             selstr[i] = impl->mSelectionList[i].to_string();
         }
         impl->simulationResult.setColNames(selstr.begin(), selstr.end());
-        impl->loadOpt.loadFlags = impl->loadOpt.loadFlags | LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
+        if (!isSetImplicitly)
+            impl->loadOpt.loadFlags = impl->loadOpt.loadFlags | LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
     }
 
     void RoadRunner::setSelections(const std::vector<rr::SelectionRecord> &ss) {
