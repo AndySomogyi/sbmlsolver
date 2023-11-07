@@ -426,6 +426,20 @@ public:
 };
 
 std::ostream& operator<< (std::ostream& stream, const SelectionRecord& rec);
+static bool is_time(const std::string& str);
+static bool is_uec(const std::string& str, std::string& p1, std::string& p2);
+static bool is_ec(const std::string& str, std::string& p1, std::string& p2);
+static bool is_ucc(const std::string& str, std::string& p1, std::string& p2);
+static bool is_cc(const std::string& str, std::string& p1, std::string& p2);
+static bool is_stoich(const std::string& str, std::string& p1, std::string& p2);
+static bool is_concentration(const std::string& str, std::string& p1);
+static bool is_concentration_rate(const std::string& str, std::string& p1);
+static bool is_symbol(const std::string& str, std::string& p1);
+static bool is_amount_rate(const std::string& str, std::string& p1);
+static bool is_eigen(const std::string& str, std::string& p1, int& complex);
+static bool is_init_value(const std::string& str, std::string& p1);
+static bool is_init_conc(const std::string& str, std::string& p1);
+
 }
 
 
