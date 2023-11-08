@@ -638,6 +638,13 @@ namespace rr {
         virtual int setStoichiometry(int speciesIndex, int reactionIndex, double value) = 0;
 
         /**
+         * Get the current stiochiometry value with the given index
+         *
+         * If either are not valid, NaN is returned.
+         */
+        virtual double getStoichiometry(int index) = 0;
+
+        /**
          * Get the current stiochiometry value for the given species / reaction.
          *
          * If either are not valid, NaN is returned.
