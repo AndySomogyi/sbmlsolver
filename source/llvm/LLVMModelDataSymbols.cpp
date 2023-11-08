@@ -431,10 +431,12 @@ int LLVMModelDataSymbols::getStoichiometryIndex(const std::string& speciesId, co
     int speciesIndex = getFloatingSpeciesIndex(speciesId);
     int reactionIndex = getReactionIndex(reactionId);
     std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::const_iterator stoichiometry = stoichiometryIndx.begin();
+    int stoichiometryIndex = 0;
     while (stoichiometry != stoichiometryIndx.end()) {
         if (stoichiometry->row == speciesIndex && stoichiometry->column == reactionIndex)
-            return getStoichiometryIndex(stoichiometry->id);
+            return stoichiometryIndex;
         ++stoichiometry;
+        ++stoichiometryIndex;
     }
 
     return -1;
