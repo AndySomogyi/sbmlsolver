@@ -1495,7 +1495,7 @@ namespace rr {
         }
 
         //Create a defualt steady state selectionlist
-        if (!createDefaultSteadyStateSelectionList()) {
+        if ((impl->loadOpt.loadFlags & LoadSBMLOptions::NO_DEFAULT_STEADY_STATE_SELECTIONS) == 0 && !createDefaultSteadyStateSelectionList()) {
             rrLog(lDebug) << "Failed creating default steady state selectionList.";
             result = false;
         } else {
