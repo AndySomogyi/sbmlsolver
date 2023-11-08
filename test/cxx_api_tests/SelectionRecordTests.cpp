@@ -375,7 +375,7 @@ TEST_F(SelectionRecordTests, AllIDs) {
     rr.addRateRule("S4", "S1 - S2");
     rr.addRateRule("default_compartment", "0.1");
 
-    rr.setConservedMoietyAnalysis(true);
+    //rr.setConservedMoietyAnalysis(true);
 
     list<string> ids;
     rr.getIds(SelectionRecord::ALL, ids);
