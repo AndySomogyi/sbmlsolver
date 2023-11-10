@@ -1620,7 +1620,7 @@ TEST_F(ModelAnalysisTests, ResetAfterControlCalc) {
 TEST_F(ModelAnalysisTests, Stoichiometry_Reactant_Or_Product) {
     RoadRunner rr((modelAnalysisModelsDir / "get_set_stoichiometry.xml").string());
 
-    // get the initial value with parameter and stoich(Species,Reaction)
+    // get the initial stoichiometry value with parameter and stoich(Species,Reaction)
     EXPECT_EQ(rr.getValue("m"), 2);
     EXPECT_EQ(rr.getValue("stoich(S2,_J0)"), 2);
 
@@ -1641,14 +1641,28 @@ TEST_F(ModelAnalysisTests, Stoichiometry_Reactant_Or_Product) {
     EXPECT_EQ(rr.getValue("m"), 6);
 }
 
-TEST_F(ModelAnalysisTests, Stoichiometry_MultiReactantProduct) {
-RoadRunner rr((modelAnalysisModelsDir / "get_set_stoichiometry.xml").string());
+TEST_F(ModelAnalysisTests, Stoichiometry_Reactant_Or_Product_With_Conserved_Moiety_ON) {
+    RoadRunner rr((modelAnalysisModelsDir / "get_set_stoichiometry.xml").string());
 
-    // get the initial value with parameter and stoich(Species,Reaction)
+    rr.setConservedMoietyAnalysis(true);
+
+    // get the initial stoichiometry value with parameter and stoich(Species,Reaction)
+    EXPECT_THROW(rr.getValue("m"), rrllvm::LLVMException);
+    EXPECT_THROW(rr.getValue("stoich(S2,_J0)"), rrllvm::LLVMException);
+
+    // set the stoichiometry value with parameter and stoich(Species,Reaction)
+    EXPECT_THROW(rr.setValue("m", 3), rrllvm::LLVMException);
+    EXPECT_THROW(rr.setValue("stoich(S2,_J0)", 3), rrllvm::LLVMException);
+}
+
+TEST_F(ModelAnalysisTests, Stoichiometry_MultiReactantProduct) {
+    RoadRunner rr((modelAnalysisModelsDir / "get_set_stoichiometry.xml").string());
+
+    // get the initial stoichiometry value with parameter and stoich(Species,Reaction)
     EXPECT_THROW(rr.getValue("n"), rrllvm::LLVMException);
     EXPECT_THROW(rr.getValue("stoich(S1,_J0)"), rrllvm::LLVMException);
 
-    // set the initial value with parameter and stoich(Species,Reaction)
+    // set the initial stoichiometry value with parameter and stoich(Species,Reaction)
     EXPECT_THROW(rr.setValue("n", 3), rrllvm::LLVMException);
     EXPECT_THROW(rr.setValue("stoich(S1,_J0)", 3), rrllvm::LLVMException);
 }
