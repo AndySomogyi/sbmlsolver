@@ -62,8 +62,8 @@ TEST_F(RoadRunnerAPITestsWithLLJit, loadSBMLWithLeadingNewlineCharacter){
     loadSBMLWithLeadingNewlineCharacter();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_RoadRunnerConstructorVersion){
-    DISABLED_RoadRunnerConstructorVersion();
+TEST_F(RoadRunnerAPITestsWithLLJit, RoadRunnerConstructorVersion){
+    RoadRunnerConstructorVersion();
 }
 
 TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_RoadRunnerConstructorFromURL){
@@ -74,8 +74,8 @@ TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_CompilerTempDirSupportCodeDir){
     DISABLED_CompilerTempDirSupportCodeDir();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_CopyConstructor){
-    DISABLED_CopyConstructor();
+TEST_F(RoadRunnerAPITestsWithLLJit, CopyConstructor){
+    CopyConstructor();
 }
 
 TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_EqualityOperators){
@@ -422,8 +422,8 @@ TEST_F(RoadRunnerAPITestsWithLLJit, setBoundary){
     setBoundary();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_setHasOnlySubstanceUnits){
-    DISABLED_setHasOnlySubstanceUnits();
+TEST_F(RoadRunnerAPITestsWithLLJit, setHasOnlySubstanceUnits){
+    setHasOnlySubstanceUnits();
 }
 
 TEST_F(RoadRunnerAPITestsWithLLJit, setInitAmount){
@@ -446,12 +446,12 @@ TEST_F(RoadRunnerAPITestsWithLLJit, addReactionDirect){
     addReactionDirect();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_removeReactionWithUnusedParameters){
-    DISABLED_removeReactionWithUnusedParameters();
+TEST_F(RoadRunnerAPITestsWithLLJit, removeReactionAndUnusedParameters){
+    removeReactionAndUnusedParameters();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, removeReactionWithoutUnusedParameters){
-    removeReactionWithoutUnusedParameters();
+TEST_F(RoadRunnerAPITestsWithLLJit, removeReactionButNotUnusedParameters){
+    removeReactionButNotUnusedParameters();
 }
 
 TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_setReversible){

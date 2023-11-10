@@ -183,10 +183,31 @@ public:
      * It appears that support for various SBML versions is not a functional
      * feature at the moment.
      */
-    void DISABLED_RoadRunnerConstructorVersion() {
-        RoadRunner rr(3, 2);
-        rr.load(sbml);
-        std::cout << rr.getSBML(3, 2) << std::endl;
+    void RoadRunnerConstructorVersion() {
+        RoadRunner rr(1, 2);
+        rr.addCompartment("C1", 1.0);
+        std::cout << rr.getSBML() << std::endl;
+        rr = RoadRunner(2, 1);
+        rr.addCompartment("C1", 1.0);
+        std::cout << rr.getSBML() << std::endl;
+        rr = RoadRunner(2, 2);
+        rr.addCompartment("C1", 1.0);
+        std::cout << rr.getSBML() << std::endl;
+        rr = RoadRunner(2, 3);
+        rr.addCompartment("C1", 1.0);
+        std::cout << rr.getSBML() << std::endl;
+        rr = RoadRunner(2, 4);
+        rr.addCompartment("C1", 1.0);
+        std::cout << rr.getSBML() << std::endl;
+        rr = RoadRunner(2, 5);
+        rr.addCompartment("C1", 1.0);
+        std::cout << rr.getSBML() << std::endl;
+        rr = RoadRunner(3, 1);
+        rr.addCompartment("C1", 1.0);
+        std::cout << rr.getSBML() << std::endl;
+        rr = RoadRunner(3, 2);
+        rr.addCompartment("C1", 1.0);
+        std::cout << rr.getSBML() << std::endl;
     }
 
     /**
@@ -195,7 +216,7 @@ public:
      *  C++ exception with description "Could not open stream: HTTPS transport not supported" thrown in the test body.
      */
     void DISABLED_RoadRunnerConstructorFromURL() {
-        std::string url = "https://www.ebi.ac.uk/biomodels/model/download/BIOMD0000000373.3?filename=BIOMD0000000373_url.xml";
+        std::string url = "https://raw.githubusercontent.com/sys-bio/roadrunner/develop/test/models/CAPICore/Test_1.xml";
         RoadRunner rr(url);
         std::cout << rr.getSBML(3, 2) << std::endl;
 
@@ -212,14 +233,10 @@ public:
 
     }
 
-    /**
-     * The copy constructor errors out on CVODE, for somereason the
-     * maximum adams order is too large. disable until fixed.
-     */
-    void DISABLED_CopyConstructor() {
+    void CopyConstructor() {
         TestModel *testModel = TestModelFactory("SimpleFlux");
         RoadRunner rr1(testModel->str());
-        RoadRunner rr2 = rr1; // logs a error from cvode
+        RoadRunner rr2 = rr1;
         // todo, use equality operators once they are built
         ASSERT_STREQ(rr1.getSBML().c_str(), rr2.getSBML().c_str());
         delete testModel;
@@ -1133,13 +1150,10 @@ public:
 
     }
 
-    /**
-     * There is no "getHasOnlySubstanceUnits" and the flag doesn't appear to
-     * do anything so I'm not sure how to test this.
-     */
-    void DISABLED_setHasOnlySubstanceUnits() {
-        RoadRunner rr(SimpleFlux().str());
+    void setHasOnlySubstanceUnits() {
+        RoadRunner rr((rrTestModelsDir_ / "CAPICore" / "decay.xml").string());
         rr.setHasOnlySubstanceUnits("S1", true, true);
+        ASSERT_NEAR(rr.getValue("J0"), 10.0, 0.0000001);
     }
 
     void setInitAmount() {
@@ -1163,6 +1177,10 @@ public:
     /**
      * We can set something to constant, but how can
      * we verify that something *is* constant?
+     *
+     * LS:  The answer is that you can't; it's just a validation thing.  I suppose you could invalidate a model?
+     * Another option is to implement support for algebraic rules, which rely on the 'constant' flags, but
+     * that seems unlikely to happen any time soon.
      */
     void DISABLED_setConstant() {
         RoadRunner rr(SimpleFlux().str());
@@ -1203,18 +1221,14 @@ public:
         ASSERT_EQ(3, rr.getFullStoichiometryMatrix().numCols());
     }
 
-    /*
-     * this test fails with
-     *  unknown file: error: C++ exception with description "Roadrunner::removeParameter failed, no parameter with ID S2 existed in the model" thrown in the test body.
-     */
-    void DISABLED_removeReactionWithUnusedParameters() {
+    void removeReactionAndUnusedParameters() {
         RoadRunner rr(SimpleFlux().str());
         rr.removeReaction("_J1", true, true);
-        ASSERT_EQ(1, rr.getFullStoichiometryMatrix().numCols());
-        ASSERT_EQ(1, rr.getGlobalParameterIds().size());
+        EXPECT_EQ(1, rr.getFullStoichiometryMatrix().numCols());
+        EXPECT_EQ(1, rr.getGlobalParameterIds().size());
     }
 
-    void removeReactionWithoutUnusedParameters() {
+    void removeReactionButNotUnusedParameters() {
         RoadRunner rr(SimpleFlux().str());
         rr.removeReaction("_J1", false, true);
         ASSERT_EQ(1, rr.getFullStoichiometryMatrix().numCols());
