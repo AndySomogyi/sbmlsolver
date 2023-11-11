@@ -2327,7 +2327,7 @@ int LLVMExecutableModel::setStoichiometry(int index, double value)
     if (std::signbit(value))
         throw LLVMException("Invalid stoichiometry value");
 
-    if (symbols->getConservedMoietySize())
+    if (symbols->isConservedMoietyAnalysis())
         throw LLVMException("Unable to set stoichiometries when conserved moieties are on");
 
     std::list <LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = symbols->getStoichiometryIndx();
@@ -2354,7 +2354,7 @@ int LLVMExecutableModel::setStoichiometry(int speciesIndex, int reactionIndex, d
 
 double LLVMExecutableModel::getStoichiometry(int index)
 {
-    if (symbols->getConservedMoietySize())
+    if (symbols->isConservedMoietyAnalysis())
         throw LLVMException("Unable to get stoichiometries when conserved moieties are on");
 
     if (index < 0)
