@@ -6108,8 +6108,10 @@ namespace rr {
                 }
             }
             for (std::string sid: toCheck) {
-                if (!isParameterUsed(sid)) {
-                    removeParameter(sid, false);
+                if (impl->document->getModel()->getParameter(sid) != NULL) {
+                    if (!isParameterUsed(sid)) {
+                        removeParameter(sid, false);
+                    }
                 }
             }
         }
@@ -6158,6 +6160,9 @@ namespace rr {
         // Check if this parameter occurs in an assignment rule or rate rule
         for (uint i = 0; i < sbmlModel->getNumRules(); i++) {
             Rule *rule = sbmlModel->getRule(i);
+            if (rule->getId() == sid) {
+                return true;
+            }
             if (hasVariable(rule->getMath(), sid)) {
                 return true;
             }
@@ -6165,6 +6170,9 @@ namespace rr {
         // Check if this parameter occurs in an initial assigment
         for (uint i = 0; i < sbmlModel->getNumInitialAssignments(); i++) {
             InitialAssignment *initialAssignment = sbmlModel->getInitialAssignment(i);
+            if (initialAssignment->getId() == sid) {
+                return true;
+            }
             if (hasVariable(initialAssignment->getMath(), sid)) {
                 return true;
             }
