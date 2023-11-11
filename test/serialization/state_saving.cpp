@@ -578,27 +578,6 @@ TEST_F(StateSavingTests, SaveThenLoadWithADiffentModelTwice) {
     }, "l3v1"));
 }
 
-TEST_F(StateSavingTests, DISABLED_SAVE_STATE_8) {
-    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri, std::string fname) {
-        rri->loadState(fname);
-    }, "l3v1"));
-}
-
-TEST_F(StateSavingTests, DISABLED_SAVE_STATE_9) {
-    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri, std::string fname) {
-        rri->loadState(fname);
-        rri->loadState(fname);
-    }, "l3v1"));
-}
-
-TEST_F(StateSavingTests, DISABLED_SAVE_STATE_10) {
-    ASSERT_TRUE(RunStateSavingTest(1121, [](RoadRunner *rri, std::string fname) {
-        rri->loadState(fname);
-        rri->saveState(fname);
-        rri->loadState(fname);
-    }, "l3v1"));
-}
-
 TEST_F(StateSavingTests, SimulateThenSaveLoadThenReset) {
     ASSERT_TRUE(RunStateSavingTest(1, [](RoadRunner *rri, std::string fname) {
         rri->simulate();
@@ -627,27 +606,6 @@ TEST_F(StateSavingTests, SaveThenLoadCase1120) {
 TEST_F(StateSavingTests, SaveThenLoadTwiceCase1120) {
     ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri, std::string fname) {
         rri->saveState(fname);
-        rri->loadState(fname);
-        rri->saveState(fname);
-        rri->loadState(fname);
-    }, "l3v1"));
-}
-
-TEST_F(StateSavingTests, DISABLED_SAVE_STATE_15) {
-    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri, std::string fname) {
-        rri->loadState(fname);
-    }, "l3v1"));
-}
-
-TEST_F(StateSavingTests, DISABLED_SAVE_STATE_16) {
-    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri, std::string fname) {
-        rri->loadState(fname);
-        rri->loadState(fname);
-    }, "l3v1"));
-}
-
-TEST_F(StateSavingTests, DISABLED_SAVE_STATE_17) {
-    ASSERT_TRUE(RunStateSavingTest(1120, [](RoadRunner *rri, std::string fname) {
         rri->loadState(fname);
         rri->saveState(fname);
         rri->loadState(fname);

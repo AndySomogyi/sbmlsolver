@@ -11,7 +11,7 @@ class RoadRunnerAPITestsWithLLJit : public RoadRunnerAPITests {
 public:
     RoadRunnerAPITestsWithLLJit() 
         : RoadRunnerAPITests(){
-        Logger::setLevel(Logger::LOG_DEBUG);
+        //Logger::setLevel(Logger::LOG_DEBUG);
         Config::setValue(Config::LLVM_BACKEND, Config::LLVM_BACKEND_VALUES::LLJIT);
     }
 };
@@ -502,32 +502,32 @@ TEST_F(RoadRunnerAPITestsWithLLJit, addEvent){
     addEvent();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_addTrigger){
-    DISABLED_addTrigger();
+TEST_F(RoadRunnerAPITestsWithLLJit, addTrigger){
+    addTrigger();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_setPersistent){
-    DISABLED_setPersistent();
+TEST_F(RoadRunnerAPITestsWithLLJit, setPersistent){
+    setPersistent();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_setTriggerInitialValue){
-    DISABLED_setTriggerInitialValue();
+TEST_F(RoadRunnerAPITestsWithLLJit, setTriggerInitialValue){
+    setTriggerInitialValue();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_addPriority){
-    DISABLED_addPriority();
+TEST_F(RoadRunnerAPITestsWithLLJit, addPriority){
+    addPriority();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_addDelay){
-    DISABLED_addDelay();
+TEST_F(RoadRunnerAPITestsWithLLJit, addDelay){
+    addDelay();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_addEventAssignment){
-    DISABLED_addEventAssignment();
+TEST_F(RoadRunnerAPITestsWithLLJit, addEventAssignment){
+    addEventAssignment();
 }
 
-TEST_F(RoadRunnerAPITestsWithLLJit, DISABLED_removeEventAssignments){
-    DISABLED_removeEventAssignments();
+TEST_F(RoadRunnerAPITestsWithLLJit, removeEventAssignments){
+    removeEventAssignments();
 }
 
 TEST_F(RoadRunnerAPITestsWithLLJit, removeEvent){
