@@ -1934,6 +1934,13 @@ int LLVMModelDataSymbols::getConservedMoietyIndex(
     return -1;
 }
 
+bool LLVMModelDataSymbols::isConservedMoietyAnalysis() const {
+    if (conservedMoietyGlobalParameter.size())
+        return true;
+
+    return false;
+}
+
 void LLVMModelDataSymbols::saveState(std::ostream& out) const
 {
 	rr::saveBinary(out, conservedMoietySpeciesSet);

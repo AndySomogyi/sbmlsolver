@@ -428,6 +428,11 @@ public:
      */
     int getConservedMoietyIndex(const std::string& name) const;
 
+    /**
+     * check if the conserved moiety is turned on for this model
+     */
+    bool isConservedMoietyAnalysis() const;
+
 private:
 
     /**
