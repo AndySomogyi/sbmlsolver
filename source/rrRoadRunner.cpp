@@ -1495,7 +1495,7 @@ namespace rr {
         }
 
         //Create a defualt steady state selectionlist
-        if (!createDefaultSteadyStateSelectionList()) {
+        if ((impl->loadOpt.loadFlags & LoadSBMLOptions::NO_DEFAULT_STEADY_STATE_SELECTIONS) == 0 && !createDefaultSteadyStateSelectionList()) {
             rrLog(lDebug) << "Failed creating default steady state selectionList.";
             result = false;
         } else {
@@ -3276,7 +3276,7 @@ namespace rr {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
-        if (impl->mSteadyStateSelection.size() == 0) {
+        if ((impl->loadOpt.loadFlags & LoadSBMLOptions::NO_DEFAULT_STEADY_STATE_SELECTIONS) == 0) {
             createDefaultSteadyStateSelectionList();
         }
 
@@ -3303,7 +3303,7 @@ namespace rr {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
-        if (impl->mSteadyStateSelection.size() == 0) {
+        if ((impl->loadOpt.loadFlags & LoadSBMLOptions::NO_DEFAULT_STEADY_STATE_SELECTIONS) == 0) {
             createDefaultSteadyStateSelectionList();
         }
 
@@ -4822,7 +4822,7 @@ namespace rr {
         for (int i = 0; i < ss.size(); ++i) {
             impl->mSteadyStateSelection.push_back(createSelection(ss[i]));
         }
-        impl->loadOpt.loadFlags = impl->loadOpt.loadFlags | LoadSBMLOptions::NO_DEFAULT_SELECTIONS;
+        impl->loadOpt.loadFlags = impl->loadOpt.loadFlags | LoadSBMLOptions::NO_DEFAULT_STEADY_STATE_SELECTIONS;
     }
 
     void RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord> &ss) {
