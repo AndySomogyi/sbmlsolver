@@ -1351,9 +1351,13 @@ namespace rr {
                 impl->model->getCompartmentInitVolumes(1, &record.index, &dResult);
                 break;
             case SelectionRecord::STOICHIOMETRY: {
-                int speciesIndex = impl->model->getFloatingSpeciesIndex(record.p1);
-                int reactionIndex = impl->model->getReactionIndex(record.p2);
-                return impl->model->getStoichiometry(speciesIndex, reactionIndex);
+                // in case it is entered in the form of stoich(SpeciesId, ReactionId)
+                if (impl->model->getFloatingSpeciesIndex(record.p1) != -1 && impl->model->getReactionIndex(record.p2) != -1)
+                    dResult = impl->model->getStoichiometry(impl->model->getStoichiometryIndex(record.p1, record.p2));
+                // in case it is entered in the form of a stoichiometry parameter
+                else
+                    dResult = impl->model->getStoichiometry(impl->model->getStoichiometryIndex(record.p1));
+                break;
             }
             case SelectionRecord::TIME:
                 dResult = getCurrentTime();
@@ -4562,7 +4566,8 @@ namespace rr {
                 SelectionRecord::FLOATING |
                 SelectionRecord::BOUNDARY |
                 SelectionRecord::COMPARTMENT |
-                SelectionRecord::GLOBAL_PARAMETER);
+                SelectionRecord::GLOBAL_PARAMETER |
+                SelectionRecord::STOICHIOMETRY);
         }
     }
 
@@ -4639,6 +4644,9 @@ namespace rr {
                     break;
                 } else if ((sel.index = impl->model->getReactionIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::REACTION_RATE;
+                    break;
+                } else if ((sel.index = impl->model->getStoichiometryIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::STOICHIOMETRY;
                     break;
                 } else if (sel.selectionType == SelectionRecord::TIME) {
                     //Need to put this here in case there's an actual SBML variable called 'time'
@@ -4744,7 +4752,6 @@ namespace rr {
                 } else {
                     throw Exception("first argument to stoich '" + sel.p1 + "' is not a floating species id.");
                 }
-                break;
             case SelectionRecord::INITIAL_CONCENTRATION:
                 if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::INITIAL_FLOATING_CONCENTRATION;

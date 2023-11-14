@@ -4,6 +4,7 @@
 #include "rrRoadRunner.h"
 #include "TestModelFactory.h"
 #include "RoadRunnerTest.h"
+#include "llvm/LLVMException.h"
 
 using namespace rr;
 using namespace testing;
@@ -375,9 +376,11 @@ TEST_F(SelectionRecordTests, AllIDs) {
     rr.addRateRule("S4", "S1 - S2");
     rr.addRateRule("default_compartment", "0.1");
 
+    //Set to test _CSUM values.
     rr.setConservedMoietyAnalysis(true);
 
     list<string> ids;
+    vector<string> stoichids;
     rr.getIds(SelectionRecord::ALL, ids);
     for (list<string>::iterator id = ids.begin(); id != ids.end(); id++)
     {
@@ -386,10 +389,22 @@ TEST_F(SelectionRecordTests, AllIDs) {
             EXPECT_THROW(rr.getValue(record), CoreException);
             std::cout << *id << ": [uncalculatable; no steady state]" << std::endl;
         }
+        else if ((*id).find("stoich(") < 2) {
+            EXPECT_THROW(rr.getValue(record), rrllvm::LLVMException);
+            std::cout << *id << ": [uncalculatable when conserved moieties are on]" << std::endl;
+            stoichids.push_back(*id);
+        }
         else {
             double val = rr.getValue(record);
             std::cout << *id << ": " << val << std::endl;
         }
+    }
+    //Set to test stoich values.
+    rr.setConservedMoietyAnalysis(false);
+    for (size_t sid = 0; sid < stoichids.size(); sid++) {
+        SelectionRecord record = rr.createSelection(stoichids[sid]);
+        double val = rr.getValue(record);
+        std::cout << stoichids[sid] << ": " << val << std::endl;
     }
 }
 
