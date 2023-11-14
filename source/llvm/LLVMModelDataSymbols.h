@@ -316,7 +316,7 @@ public:
      * in the list of pairs, first is the row (species) index,
      * and second is the column (reaction) index.
      */
-    std::list<SpeciesReferenceInfo> getStoichiometryIndx() const;
+    std::list<SpeciesReferenceInfo> getStoichiometryList() const;
 
     /**
      * initialize and allocate the buffers (including the stoich matrix)

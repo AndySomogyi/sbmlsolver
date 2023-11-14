@@ -2330,7 +2330,7 @@ int LLVMExecutableModel::setStoichiometry(int index, double value)
     if (symbols->isConservedMoietyAnalysis())
         throw LLVMException("Unable to set stoichiometries when conserved moieties are on");
 
-    std::list <LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = symbols->getStoichiometryIndx();
+    std::list <LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = symbols->getStoichiometryList();
     std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::const_iterator stoichiometry = stoichiometryIndx.begin();
     for (int i = 0; i < index; i++)
         ++stoichiometry;
@@ -2359,7 +2359,7 @@ double LLVMExecutableModel::getStoichiometry(int index)
 
     if (index < 0)
         throw LLVMException("The stoichiometry index is not valid");
-    std::list<LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = symbols->getStoichiometryIndx();
+    std::list<LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = symbols->getStoichiometryList();
     std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::const_iterator stoichiometry = stoichiometryIndx.begin();
     for (int i = 0; i < index; i++)
         ++stoichiometry;

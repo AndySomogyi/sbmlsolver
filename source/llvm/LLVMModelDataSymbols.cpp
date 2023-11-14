@@ -427,7 +427,7 @@ int LLVMModelDataSymbols::getStoichiometryIndex(const std::string& id) const
 
 int LLVMModelDataSymbols::getStoichiometryIndex(const std::string& speciesId, const std::string& reactionId) const
 {
-    std::list<LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = getStoichiometryIndx();
+    std::list<LLVMModelDataSymbols::SpeciesReferenceInfo> stoichiometryIndx = getStoichiometryList();
     int speciesIndex = getFloatingSpeciesIndex(speciesId);
     int reactionIndex = getReactionIndex(reactionId);
     std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::const_iterator stoichiometry = stoichiometryIndx.begin();
@@ -449,7 +449,7 @@ std::vector<std::string> LLVMModelDataSymbols::getStoichiometryIds() const
 
 size_t LLVMModelDataSymbols::getStoichiometrySize() const
 {
-    return getStoichiometryIndx().size();
+    return getStoichiometryList().size();
 }
 
 size_t  LLVMModelDataSymbols::getFloatingSpeciesSize() const
@@ -458,7 +458,7 @@ size_t  LLVMModelDataSymbols::getFloatingSpeciesSize() const
 }
 
 std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>
-    LLVMModelDataSymbols::getStoichiometryIndx() const
+    LLVMModelDataSymbols::getStoichiometryList() const
 {
     std::list<SpeciesReferenceInfo> result;
 
