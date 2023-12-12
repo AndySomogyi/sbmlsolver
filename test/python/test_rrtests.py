@@ -221,7 +221,6 @@ def checkSteadyStateFluxes(rrInstance, testId):
     rrInstance.reset()
     print("Computing Steady State.  Distance to SteadyState:", rrInstance.steadyState())
     print(("Check " + testId).ljust( rpadding), end="")
-    rrInstance.conservedMoietyAnalysis = True
     errorFlag = False
     n = rrInstance.model.getNumReactions();
     for i in range (0,n):
@@ -538,7 +537,6 @@ def checkGetTimeCourseSelectionList(rrInstance, testId):
 def checkComputeSteadyStateValues(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     ss = rrInstance.getSteadyStateValues()
-    rrInstance.conservedMoietyAnalysis = True
     compareUpcomingValuesWith(ss, 1E-6)
 
 
