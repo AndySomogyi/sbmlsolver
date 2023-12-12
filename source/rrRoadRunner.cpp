@@ -1673,7 +1673,8 @@ namespace rr {
         // so the next call to steadyState starts
         // without any decorators.
         setSteadyStateSolver(solverName);
-        setConservedMoietyAnalysis(currentConservedMoietyAnalysisStatus);
+        if (!currentConservedMoietyAnalysisStatus)
+            setConservedMoietyAnalysis(currentConservedMoietyAnalysisStatus);
 
         return ss;
     }
