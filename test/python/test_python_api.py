@@ -609,6 +609,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getSteadyStateValues(self):
+        self.rr.conservedMoietyAnalysis = True
         expected = self.testModel.steadyState()
         actual = self.rr.getSteadyStateValues()
         print(expected)
@@ -617,6 +618,7 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertEqual(expected["S2"], actual[1])
 
     def test_getSteadyStateValuesNamedArray(self):
+        self.rr.conservedMoietyAnalysis = True
         expected = self.testModel.steadyState()
         actual = self.rr.getSteadyStateValuesNamedArray()
         print(expected)
@@ -1104,6 +1106,7 @@ class RoadRunnerTests(unittest.TestCase):
         self.checkMatricesAlmostEqual(expected, actual, 4)
 
     def test_steadyState(self):
+        self.rr.conservedMoietyAnalysis = True
         expected = self.testModel.steadyState()
         self.rr.steadyState()
         actual = self.rr.getFloatingSpeciesAmountsNamedArray()
@@ -1113,6 +1116,7 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertAlmostEqual(expected["S2"], actual[0][1])
 
     def test_steadyStateNamedArray(self):
+        self.rr.conservedMoietyAnalysis = True
         expected = self.testModel.steadyState()
         self.rr.steadyState()
         actual = self.rr.steadyStateNamedArray()
