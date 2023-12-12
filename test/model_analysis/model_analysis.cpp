@@ -1423,6 +1423,7 @@ TEST_F(ModelAnalysisTests, ResetManyParameters) {
 TEST_F(ModelAnalysisTests, ResetConservedCycles) {
     RoadRunner rr((modelAnalysisModelsDir / "conserved_cycle.xml").string());
     rr.steadyState();
+    rr.setConservedMoietyAnalysis(true)
     rr.setValue("_CSUM0", 1000);
     rr.reset();
     double val = rr.getValue("_CSUM0");
