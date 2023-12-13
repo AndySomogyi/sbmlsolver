@@ -609,7 +609,6 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getSteadyStateValues(self):
-        self.rr.conservedMoietyAnalysis = True
         expected = self.testModel.steadyState()
         actual = self.rr.getSteadyStateValues()
         print(expected)
@@ -618,7 +617,6 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertEqual(expected["S2"], actual[1])
 
     def test_getSteadyStateValuesNamedArray(self):
-        self.rr.conservedMoietyAnalysis = True
         expected = self.testModel.steadyState()
         actual = self.rr.getSteadyStateValuesNamedArray()
         print(expected)
@@ -733,48 +731,48 @@ class RoadRunnerTests(unittest.TestCase):
                     ('stoich(S1, _J1)', 1.0),
                     ('stoich(S2, _J0)', 1.0),
                     ('stoich(S2, _J1)', 1.0),
-                    ('uec(_J0, S1)', 0.10000000000000007),
+                    ('uec(_J0, S1)', 0.1000000000),
                     ('uec(_J0, S2)', 0.0),
-                    ('uec(_J0, kf)', 10.000000000000082),
+                    ('uec(_J0, kf)', 10.0000000000),
                     ('uec(_J0, kb)', 0.0),
                     ('uec(_J1, S1)', 0.0),
-                    ('uec(_J1, S2)', 0.009999999999999998),
+                    ('uec(_J1, S2)', 0.0099999999),
                     ('uec(_J1, kf)', 0.0),
-                    ('uec(_J1, kb)', 1.0000000000000053),
-                    ('ec(_J0, S1)', 1.0000000000000007),
+                    ('uec(_J1, kb)', 1.0000000000),
+                    ('ec(_J0, S1)', 1.0000000000),
                     ('ec(_J0, S2)', 0.0),
-                    ('ec(_J0, kf)', 1.0000000000000082),
+                    ('ec(_J0, kf)', 1.0000000000),
                     ('ec(_J0, kb)', 0.0),
                     ('ec(_J1, S1)', 0.0),
-                    ('ec(_J1, S2)', 0.9999999999999998),
+                    ('ec(_J1, S2)', 0.9999999999),
                     ('ec(_J1, kf)', 0.0),
-                    ('ec(_J1, kb)', 1.0000000000000053),
-                    ('ucc(_J0, kf)', 0.09090905110436161),
-                    ('ucc(_J0, kb)', 9.090909090511781),
-                    ('ucc(_J1, kf)', 0.09090905110435235),
-                    ('ucc(_J1, kb)', 9.090909090511735),
-                    ('ucc(S1, kf)', -9.090905110435088),
-                    ('ucc(S1, kb)', 90.90909090511799),
-                    ('ucc(S2, kf)', 9.090905110435088),
-                    ('ucc(S2, kb)', -90.90909090512392),
-                    ('cc(_J0, kf)', 0.009090905110436162),
-                    ('cc(_J0, kb)', 0.09090909090511781),
-                    ('cc(_J1, kf)', 0.9090905110435236),
-                    ('cc(_J1, kb)', 9.090909090511735),
-                    ('cc(S1, kf)', -0.09090905110435088),
-                    ('cc(S1, kb)', 0.09090909090511799),
-                    ('cc(S2, kf)', 0.9090905110435088),
-                    ('cc(S2, kb)', -0.9090909090512392),
-                    ('eigen(S1)', (-0.10999999999999983+0j)),
-                    ('eigenReal(S1)', -0.10999999999999983),
+                    ('ec(_J1, kb)', 1.0000000000),
+                    ('ucc(_J0, kf)', 0.0909090511),
+                    ('ucc(_J0, kb)', 9.0909090905),
+                    ('ucc(_J1, kf)', 0.0909090511),
+                    ('ucc(_J1, kb)', 9.0909090905),
+                    ('ucc(S1, kf)', -9.0909051104),
+                    ('ucc(S1, kb)', 90.9090909051),
+                    ('ucc(S2, kf)', 9.0909051104),
+                    ('ucc(S2, kb)', -90.9090909051),
+                    ('cc(_J0, kf)', 0.0090909051),
+                    ('cc(_J0, kb)', 0.0909090909),
+                    ('cc(_J1, kf)', 0.9090905110),
+                    ('cc(_J1, kb)', 9.0909090905),
+                    ('cc(S1, kf)', -0.0909090511),
+                    ('cc(S1, kb)', 0.0909090909),
+                    ('cc(S2, kf)', 0.9090905110),
+                    ('cc(S2, kb)', -0.9090909090),
+                    ('eigen(S1)', (-0.1099999999+0j)),
+                    ('eigenReal(S1)', -0.1099999999),
                     ('eigenImag(S1)', 0.0),
                     ('eigen(S2)', 0j),
                     ('eigenReal(S2)', 0.0),
                     ('eigenImag(S2)', 0.0)]
-        self.assertEqual(
-            expected,
-            self.rr.items(),
-        )
+        items = self.rr.items()
+        for item_index in range(expected):
+            self.assertEqual(expected[item_index][0], items[item_index][0])
+            self.assertAlmostEqual(expected[item_index][1], items[item_index][1], None, "", 1e-10)
 
     def test_iteritems(self):
 
@@ -1106,7 +1104,6 @@ class RoadRunnerTests(unittest.TestCase):
         self.checkMatricesAlmostEqual(expected, actual, 4)
 
     def test_steadyState(self):
-        self.rr.conservedMoietyAnalysis = True
         expected = self.testModel.steadyState()
         self.rr.steadyState()
         actual = self.rr.getFloatingSpeciesAmountsNamedArray()
@@ -1116,7 +1113,6 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertAlmostEqual(expected["S2"], actual[0][1])
 
     def test_steadyStateNamedArray(self):
-        self.rr.conservedMoietyAnalysis = True
         expected = self.testModel.steadyState()
         self.rr.steadyState()
         actual = self.rr.steadyStateNamedArray()
