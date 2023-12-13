@@ -770,7 +770,7 @@ class RoadRunnerTests(unittest.TestCase):
                     ('eigenReal(S2)', 0.0),
                     ('eigenImag(S2)', 0.0)]
         items = self.rr.items()
-        for item_index in range(expected):
+        for item_index in range(len(expected)):
             self.assertEqual(expected[item_index][0], items[item_index][0])
             self.assertAlmostEqual(expected[item_index][1], items[item_index][1], None, "", 1e-10)
 
