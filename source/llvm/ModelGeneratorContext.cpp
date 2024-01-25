@@ -210,29 +210,12 @@ namespace rrllvm {
             symbols(new LLVMModelDataSymbols(doc->getModel(), 0)),
             modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
             options(0)
-//        functionPassManager(0)
     {
         // initialize LLVM
         // TODO check result
         InitializeNativeTarget();
         InitializeNativeTargetAsmPrinter();
         InitializeNativeTargetAsmParser();
-
-//    context = std::unique_ptr<LLVMContext>();
-//    // Make the module, which holds all the code.
-//    module_owner = std::unique_ptr<Module>(new Module("LLVM Module", *context));
-//	module = module_owner.get();
-//
-//    builder = std::make_unique<IRBuilder<>>(*context);
-//
-//    errString = new std::string();
-//
-//	addGlobalMappings();
-//
-//    EngineBuilder engineBuilder(std::move(module_owner));
-//    //engineBuilder.setEngineKind(EngineKind::JIT);
-//    engineBuilder.setErrorStr(errString);
-//    executionEngine = std::unique_ptr<llvm::ExecutionEngine>(engineBuilder.create());
 
     }
 
@@ -243,23 +226,11 @@ namespace rrllvm {
     void ModelGeneratorContext::cleanup() {
         delete ownedDoc;
         ownedDoc = 0;
-//    delete errString; errString = 0;
     }
-
 
     ModelGeneratorContext::~ModelGeneratorContext() {
         cleanup();
     }
-
-//llvm::LLVMContext &ModelGeneratorContext::getContext() const
-//{
-//    return *context;
-//}
-//
-//llvm::ExecutionEngine &ModelGeneratorContext::getExecutionEngine() const
-//{
-//    return *executionEngine;
-//}
 
     const LLVMModelDataSymbols &ModelGeneratorContext::getModelDataSymbols() const {
         return *symbols;
@@ -269,26 +240,13 @@ namespace rrllvm {
         return doc;
     }
 
-
     Jit *ModelGeneratorContext::getJitNonOwning() const {
         return jit.get();
     }
 
-
     const libsbml::Model *ModelGeneratorContext::getModel() const {
         return doc->getModel();
     }
-
-
-//llvm::Module *ModelGeneratorContext::getModule() const
-//{
-//	return jit->getModuleNonOwning();
-//}
-//
-//llvm::IRBuilder<> &ModelGeneratorContext::getBuilder() const
-//{
-//    return *jit->getBuilderNonOwning();
-//}
 
     void ModelGeneratorContext::transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> modelResources) {
         modelResources->symbols = symbols;
@@ -299,14 +257,6 @@ namespace rrllvm {
 
         modelResources->random = random;
         random = nullptr;
-
-//    modelResources->context = std::move(context);
-//    context = nullptr;
-//    modelResources->executionEngine = std::move(executionEngine);
-//    executionEngine = nullptr;
-//
-//	modelResources->errStr = errString;
-//    errString = nullptr;
     }
 
     const LLVMModelSymbols &ModelGeneratorContext::getModelSymbols() const {
@@ -320,7 +270,6 @@ namespace rrllvm {
     bool ModelGeneratorContext::useSymbolCache() const {
         return (options & LoadSBMLOptions::LLVM_SYMBOL_CACHE) != 0;
     }
-
 
     static SBMLDocument *checkedReadSBMLFromString(const char *xml) {
         SBMLDocument *doc = readSBMLFromString(xml);

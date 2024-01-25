@@ -89,6 +89,7 @@ protected:
      * could potentially be null, everything else is guaranteed to be valid
      */
     const libsbml::Model *model;
+    const std::vector<const libsbml::ASTNode> piecewiseTriggers;
 
     const LLVMModelDataSymbols &dataSymbols;
     const LLVMModelSymbols &modelSymbols;

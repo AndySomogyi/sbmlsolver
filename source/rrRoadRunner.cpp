@@ -1511,7 +1511,7 @@ namespace rr {
     bool RoadRunner::clearModel() {
         // The model owns the shared library (if it exists), when the model is deleted,
         // its dtor unloads the shared lib.
-        impl->document.reset(new libsbml::SBMLDocument());
+        impl->document.reset(new libsbml::SBMLDocument(3, 2));
         impl->document->createModel();
         if (impl->model) {
             impl->model = nullptr;
