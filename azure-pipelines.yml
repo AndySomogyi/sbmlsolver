@@ -195,9 +195,6 @@ stages:
           vmImage: 'macOS-11'
         strategy:
           matrix:
-            py38:
-              PythonVersion: 3.8
-              PythonName: py38
             py39:
               PythonVersion: 3.9
               PythonName: py39
@@ -207,6 +204,9 @@ stages:
             py311:
               PythonVersion: 3.11
               PythonName: py311
+            py312:
+              PythonVersion: 3.12
+              PythonName: py312
         variables:
           MinicondaRoot : '/usr/local/miniconda'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
@@ -413,8 +413,8 @@ stages:
         variables:
           LLVM_CACHE: 'false'
           MinicondaRoot : 'C:\Miniconda'
-          PythonName: 'py39'
-          PythonVersion: '3.9'
+          PythonName: 'py311'
+          PythonVersion: '3.11'
           PythonRoot: '$(MinicondaRoot)\envs\$(PythonName)'
           PythonLibDir: '$(PythonRoot)\Lib'
           PythonScriptsDir: '$(PythonRoot)\Scripts'
@@ -557,9 +557,6 @@ stages:
           vmImage: 'windows-2019'
         strategy:
           matrix:
-            py38:
-              PythonVersion: 3.8
-              PythonName: py38
             py39:
               PythonVersion: 3.9
               PythonName: py39
@@ -569,6 +566,9 @@ stages:
             py311:
               PythonVersion: 3.11
               PythonName: py311
+            py312:
+              PythonVersion: 3.12
+              PythonName: py312
         variables:
           MinicondaRoot : 'C:\Miniconda'
           PythonRoot: '$(MinicondaRoot)\envs\$(PythonName)'
@@ -963,9 +963,6 @@ stages:
       - job:
         strategy:
           matrix:
-            py38:
-              PythonVersion: 3.8
-              PythonName: py38
             py39:
               PythonVersion: 3.9
               PythonName: py39
@@ -975,6 +972,9 @@ stages:
             py311:
               PythonVersion: 3.11
               PythonName: py311
+            py312:
+              PythonVersion: 3.12
+              PythonName: py312
         pool:
           vmImage: 'ubuntu-20.04'
         container: sysbiouw/roadrunner-manylinux2014:latest
