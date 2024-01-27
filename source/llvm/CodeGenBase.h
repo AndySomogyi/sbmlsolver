@@ -78,7 +78,6 @@ protected:
             builder(*mgc.getJitNonOwning()->getBuilderNonOwning()),
             options(mgc.getOptions()),
             function(0)
-//            functionPassManager(mgc.getJitNonOwning().getFunctionPassManager())
     {
 
     };
@@ -89,7 +88,6 @@ protected:
      * could potentially be null, everything else is guaranteed to be valid
      */
     const libsbml::Model *model;
-    const std::vector<const libsbml::ASTNode> piecewiseTriggers;
 
     const LLVMModelDataSymbols &dataSymbols;
     const LLVMModelSymbols &modelSymbols;

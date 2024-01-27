@@ -20,6 +20,11 @@ using namespace libsbml;
 
 namespace rrllvm
 {
+    GetPiecewiseTriggersCodeGen::GetPiecewiseTriggersCodeGen(const ModelGeneratorContext& mgc)
+        : CodeGenBase<GetPiecewiseTriggersCodeGen_FunctionPtr>(mgc)
+        , piecewiseTriggers(mgc.getPiecewiseTriggers())
+    {
+    };
 
     llvm::Value* GetPiecewiseTriggersCodeGen::codeGen()
     {
@@ -55,7 +60,7 @@ namespace rrllvm
         // entry block terminator
         this->builder.SetInsertPoint(entry);
 
-        llvm::SwitchInst* s = this->builder.CreateSwitch(args[1], def, this->piecewiseTriggers->size());
+        llvm::SwitchInst* s = this->builder.CreateSwitch(args[1], def, piecewiseTriggers->size());
 
         for (uint i = 0; i < piecewiseTriggers->size(); ++i)
         {
@@ -65,7 +70,7 @@ namespace rrllvm
             this->builder.SetInsertPoint(block);
             resolver.flushCache();
 
-            llvm::Value* value = astCodeGen.codeGenBoolean(this->piecewiseTriggers[i]);
+            llvm::Value* value = astCodeGen.codeGenBoolean((*piecewiseTriggers)[i]);
 
             // convert type to return type
             value = createRet(value);

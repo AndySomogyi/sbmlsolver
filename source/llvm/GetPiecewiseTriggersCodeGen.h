@@ -25,20 +25,13 @@
 namespace rrllvm
 {
 
-    typedef double (*GetPiecewiseTriggersCodeGen_FunctionPtr)(LLVMModelData*, size_t);
+    typedef void (*GetPiecewiseTriggersCodeGen_FunctionPtr)(LLVMModelData*);
 
-    /** @class GetPiecewiseTriggersCodeGen
-    * Class for getting piecewise trigger values.
-    */
-    class GetPiecewiseTriggersCodeGen : public
-        CodeGenBase<GetPiecewiseTriggersCodeGen>
+    class GetPiecewiseTriggersCodeGen :
+        public CodeGenBase<GetPiecewiseTriggersCodeGen_FunctionPtr>
     {
     public:
-        GetPiecewiseTriggersCodeGen(const ModelGeneratorContext& mgc) :
-            CodeGenBase<GetPiecewiseTriggersCodeGen_FunctionPtr>(mgc)
-        {
-        };
-
+        GetPiecewiseTriggersCodeGen(const ModelGeneratorContext& mgc);
         virtual ~GetPiecewiseTriggersCodeGen() {};
 
         llvm::Value* codeGen();
@@ -51,6 +44,9 @@ namespace rrllvm
         llvm::Type* getRetType();
 
         llvm::Value* createRet(llvm::Value*);
+
+    private:
+        const std::vector<libsbml::ASTNode*>* piecewiseTriggers;
     };
 
 

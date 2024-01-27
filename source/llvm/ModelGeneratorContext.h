@@ -120,25 +120,9 @@ namespace rrllvm {
 
         const libsbml::Model *getModel() const;
 
+        const std::vector<libsbml::ASTNode*>* getPiecewiseTriggers() const;
+
         Jit *getJitNonOwning() const;
-
-        /**
-         * nearly all llvm functions expect a pointer to module, so we define this
-         * as a pointer type instead of reference, even though we gaurantee this to
-         * be non-null
-         */
-//        llvm::Module *getModule() const;
-
-        /**
-         * if optimization is enabled, this gets the function pass
-         * manager loaded with all the requested optimizers.
-         * NULL if no optimization is specified.
-         *
-         * @return a borrowed reference that is owned by ModelGeneratorContext
-         */
-//        llvm::legacy::FunctionPassManager* getFunctionPassManager() const;
-
-//        llvm::IRBuilder<> &getBuilder() const;
 
         /**
          * A lot can go wrong in the process of generating a model from  an sbml doc.
@@ -183,6 +167,8 @@ namespace rrllvm {
          * always references the sbml doc.
          */
         const libsbml::SBMLDocument *doc;
+
+        std::vector<libsbml::ASTNode*> mPiecewiseTriggers;
 
         const LLVMModelDataSymbols *symbols;
 
@@ -231,6 +217,26 @@ namespace rrllvm {
          * converted document.
          */
         std::unique_ptr<rr::conservation::ConservedMoietyConverter> moietyConverter;
+
+        /**
+         * Get all transitions from any piecewise equations in the model.
+         */
+        void addAllPiecewiseTriggers(const libsbml::Model* model);
+
+        /**
+         * Get all transitions from any piecewise equations in the model.
+         */
+        void addPiecewiseTriggersFrom(const libsbml::ASTNode* node);
+
+        /**
+         * Get all transitions from any piecewise equations in the model.
+         */
+        bool containsPiecewise(const libsbml::ASTNode* node);
+
+        /**
+         * Delete any piecewise trigger nodes (which we own)
+         */
+        void clearPiecewiseTriggers();
 
         /**
          * free any memory this class allocated.
