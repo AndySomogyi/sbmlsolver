@@ -846,6 +846,8 @@ namespace rr {
          */
         virtual void getEventRoots(double time, const double *y, double *gdot) = 0;
 
+        virtual void getPiecewiseTriggerRoots(double time, const double* y, double* gdot) = 0;
+
         virtual double getNextPendingEventTime(bool pop) = 0;
 
         virtual int getPendingEventSize() = 0;

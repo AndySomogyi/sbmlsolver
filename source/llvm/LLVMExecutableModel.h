@@ -490,6 +490,8 @@ public:
 
     virtual void getEventRoots(double time, const double* y, double* gdot);
 
+    virtual void getPiecewiseTriggerRoots(double time, const double* y, double* gdot);
+
     virtual double getNextPendingEventTime(bool pop);
 
     virtual int getPendingEventSize();

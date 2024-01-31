@@ -315,6 +315,8 @@ namespace rr {
 
         friend int cvodeRootFcn(double t, N_Vector y, double *gout, void *g_data);
 
+        friend int cvodePiecewiseRootFcn(double t, N_Vector y, double* gout, void* g_data);
+
     };
 
     template <class SundialsType = CVODEIntegrator>

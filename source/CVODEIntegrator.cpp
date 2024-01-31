@@ -39,6 +39,8 @@ namespace rr {
 
     int cvodeRootFcn(realtype t, N_Vector y, realtype *gout, void *userData);
 
+    int cvodePiecewiseRootFcn(realtype t, N_Vector y, realtype* gout, void* userData);
+
 
     // Sets the value of an element in a N_Vector object
     inline void SetVector(N_Vector v, int Index, double Value) {
@@ -698,15 +700,15 @@ namespace rr {
                                      cvodeRootFcn)) != CV_SUCCESS) {
                 handleCVODEError(err);
             }
-            rrLog(Logger::LOG_TRACE) << "CVRootInit executed.....";
+            rrLog(Logger::LOG_TRACE) << "CVRootInit executed for events.....";
         }
 
         if (mModel->getNumPiecewiseTriggers() > 0) {
-            if ((err = CVodeRootInit(mCVODE_Memory, mModel->getNumEvents(),
-                cvodeRootFcn)) != CV_SUCCESS) {
+            if ((err = CVodeRootInit(mCVODE_Memory, mModel->getNumPiecewiseTriggers(),
+                                     cvodePiecewiseRootFcn)) != CV_SUCCESS) {
                 handleCVODEError(err);
             }
-            rrLog(Logger::LOG_TRACE) << "CVRootInit executed.....";
+            rrLog(Logger::LOG_TRACE) << "CVRootInit executed for piecewise functions.....";
         }
 
         /**
@@ -1047,6 +1049,21 @@ namespace rr {
         double *y = NV_DATA_S(y_vector);
 
         model->getEventRoots(time, y, gout);
+
+        return CV_SUCCESS;
+    }
+
+
+    int cvodePiecewiseRootFcn(realtype time, N_Vector y_vector, realtype* gout, void* user_data) {
+        CVODEIntegrator* cvInstance = (CVODEIntegrator*)user_data;
+
+        assert(cvInstance && "user data pointer is NULL on CVODE root callback");
+
+        ExecutableModel* model = cvInstance->mModel;
+
+        double* y = NV_DATA_S(y_vector);
+
+        model->getPiecewiseTriggerRoots(time, y, gout);
 
         return CV_SUCCESS;
     }

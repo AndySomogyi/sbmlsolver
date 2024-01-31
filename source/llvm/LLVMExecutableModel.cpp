@@ -2489,6 +2489,34 @@ void  LLVMExecutableModel::getEventRoots(double time, const double* y, double* g
     return;
 }
 
+void  LLVMExecutableModel::getPiecewiseTriggerRoots(double time, const double* y, double* gdot)
+{
+    modelData->time = time;
+
+    double* savedRateRules = modelData->rateRuleValuesAlias;
+    double* savedFloatingSpeciesAmounts = modelData->floatingSpeciesAmountsAlias;
+
+    if (y)
+    {
+        modelData->rateRuleValuesAlias = const_cast<double*>(y);
+        modelData->floatingSpeciesAmountsAlias = const_cast<double*>(y + modelData->numRateRules);
+
+        evalVolatileStoichPtr(modelData);
+    }
+
+    for (uint i = 0; i < modelData->numPiecewiseTriggers; ++i)
+    {
+        unsigned char triggered = getPiecewiseTriggerPtr(modelData, i);
+
+        gdot[i] = triggered ? 1.0 : -1.0;
+    }
+
+    modelData->rateRuleValuesAlias = savedRateRules;
+    modelData->floatingSpeciesAmountsAlias = savedFloatingSpeciesAmounts;
+
+    return;
+}
+
 double LLVMExecutableModel::getNextPendingEventTime(bool pop)
 {
     return pendingEvents.getNextPendingEventTime();
