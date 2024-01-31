@@ -3250,7 +3250,7 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfConfigKeys();
 
 /*!
  \brief Set the selection list for output from simulate(void) or simulateEx(void)
- Use setTimeCourseSelectionListEx(handle, length, list) to set the the simulate selection list.
+ Use setTimeCourseSelectionListEx(handle, length, list) to set the simulate selection list.
  Compared to setTimeCourseSelectionList, setTimeCourseSelectionListEx, expects a list of char* strings
  otherwise it has identical functionality.
  \param[in] handle Handle to a RoadRunner instance

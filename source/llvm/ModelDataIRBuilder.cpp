@@ -52,23 +52,22 @@ static bool isAliasOrPointer(ModelDataFields f)
 {
     /* Model Data alias are between one of the following values */
     /*
-    StateVector,                              // 18
-    StateVectorRate,                          // 19
-    RateRuleRates,                            // 20
-    FloatingSpeciesAmountRates,               // 21
+        "StateVector",                          // 18
+        "StateVectorRate",                      // 19
+        "RateRuleRates",                        // 20
+        "FloatingSpeciesAmountRates",           // 21
 
-    CompartmentVolumesAlias,                  // 22
-    CompartmentVolumesInitAlias,              // 23
-    FloatingSpeciesAmountsInitAlias,          // 24
-    ConservedSpeciesAmountsInitAlias,         // 25
-    BoundarySpeciesAmountsAlias,              // 26
-    BoundarySpeciesAmountsInitAlias,          // 27
-    GlobalParametersAlias,                    // 28
-    GlobalParametersInitAlias,                // 29
-    ReactionRatesAlias,                       // 30
+        "CompartmentVolumesAlias",              // 22
+        "InitCompartmentVolumesAlias",          // 23
+        "InitFloatingSpeciesAmountsAlias",      // 24
+        "BoundarySpeciesAmountsAlias",          // 25
+        "InitBoundarySpeciesAmountsAlias",      // 26
+        "GlobalParametersAlias",                // 27
+        "InitGlobalParametersAlias",            // 28
+        "ReactionRatesAlias",                   // 29
 
-    RateRuleValuesAlias,                      // 31
-    FloatingSpeciesAmountsAlias,              // 32
+        "RateRuleValuesAlias",                  // 30
+        "FloatingSpeciesAmountsAlias",          // 31
      */
     return f >= StateVector && f <= FloatingSpeciesAmountsAlias;
 }
@@ -77,17 +76,16 @@ static bool isArray(ModelDataFields f)
 {
     /* arrays are the last elements in the model data struct */
     /*
-     CompartmentVolumes,                       // 28
-     CompartmentVolumesInit,                   // 29
-     FloatingSpeciesAmounts,                   // 30
-     FloatingSpeciesAmountsInit,               // 31
-     ConservedSpeciesAmountsInit,              // 32
-     BoundarySpeciesAmounts,                   // 33
-     BoundarySpeciesAmountsInit,               // 34
-     GlobalParameters,                         // 35
-     GlobalParametersInit,                     // 36
-     RateRuleValues,                           // 37
-     ReactionRates,                            // 38
+        "CompartmentVolumes",                   // 32
+        "InitCompartmentVolumes",               // 33
+        "InitFloatingSpeciesAmounts",           // 34
+        "BoundarySpeciesAmounts",               // 35
+        "InitBoundarySpeciesAmounts",           // 36
+        "GlobalParameters",                     // 37
+        "InitGlobalParameters",                 // 38
+        "ReactionRates",                        // 39
+        "NotSafe_RateRuleValues",               // 40
+        "NotSafe_FloatingSpeciesAmounts"        // 41
      */
 
     return f >= CompartmentVolumes && f <= NotSafe_FloatingSpeciesAmounts;
@@ -687,7 +685,7 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
         elements.push_back(csrSparsePtrType); // 13     dcsr_matrix              stoichiometry;
         elements.push_back(voidPtrType);      // 14     void*                    random;
         elements.push_back(int32Type);        // 15     int                      numEvents;
-        //elements.push_back(int32Type);        // 16     int                      numPiecewiseTriggers;
+        elements.push_back(int32Type);        // 16     int                      numPiecewiseTriggers;
         elements.push_back(int32Type);        // 17     int                      stateVectorSize;
         elements.push_back(doublePtrType);    // 18     double*                  stateVector;
         elements.push_back(doublePtrType);    // 19     double*                  stateVectorRate;

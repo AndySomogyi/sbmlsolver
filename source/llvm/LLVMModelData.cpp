@@ -121,7 +121,7 @@ void LLVMModelData_save(LLVMModelData *data, std::ostream& out)
 	rr::saveBinary(out, data->numInitGlobalParameters);
     
 	rr::saveBinary(out, data->numEvents);
-	//rr::saveBinary(out, data->numPiecewiseTriggers);
+	rr::saveBinary(out, data->numPiecewiseTriggers);
 	rr::saveBinary(out, data->stateVectorSize);
 	//Save the stoichiometry matrix
 	rr::csr_matrix_dump_binary(data->stoichiometry, out);
@@ -200,7 +200,7 @@ LLVMModelData* LLVMModelData_from_save(std::istream& in)
 	rr::loadBinary(in, data->numInitGlobalParameters);
 
 	rr::loadBinary(in, data->numEvents);
-	//rr::loadBinary(in, data->numPiecewiseTriggers);
+	rr::loadBinary(in, data->numPiecewiseTriggers);
 	rr::loadBinary(in, data->stateVectorSize);
 
 	//Load the stoichiometry matrix

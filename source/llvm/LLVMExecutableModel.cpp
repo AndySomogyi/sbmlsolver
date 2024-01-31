@@ -1876,8 +1876,7 @@ void LLVMExecutableModel::getEventIds(std::list<std::string>& out)
 
 int LLVMExecutableModel::getNumPiecewiseTriggers()
 {
-    return 0;
-    //return modelData->numPiecewiseTriggers;
+    return modelData->numPiecewiseTriggers;
 }
 
 void LLVMExecutableModel::getAssignmentRuleIds(std::list<std::string>& out)

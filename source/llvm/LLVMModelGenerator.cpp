@@ -661,7 +661,7 @@ namespace rrllvm {
         modelData->numRateRules = numRateRules;
         modelData->numReactions = numReactions;
         modelData->numEvents = static_cast<uint>(symbols.getEventAttributes().size());
-        //modelData->numPiecewiseTriggers = numPiecewiseTriggers;
+        modelData->numPiecewiseTriggers = numPiecewiseTriggers;
 
         // set the aliases to the offsets
         uint offset = 0;

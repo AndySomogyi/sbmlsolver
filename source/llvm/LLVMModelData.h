@@ -118,7 +118,7 @@ struct LLVMModelData
     unsigned                            numEvents;                        // 15
 
     //Piecewise triggers that get treated like events for rootfinding purposes.
-    //unsigned                            numPiecewiseTriggers;             // 16
+    unsigned                            numPiecewiseTriggers;             // 16
 
     /**
      * number of items in the state std::vector.
