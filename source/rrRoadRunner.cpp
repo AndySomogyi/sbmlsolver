@@ -128,7 +128,7 @@ namespace rr {
 /**
  * check if metabolic control analysis is valid for the model.
  *
- * In effect, this checks that the the model is a pure
+ * In effect, this checks that the model is a pure
  * reaction-kinetics model with no rate rules, no events.
  *
  * Throws an invaid arg exception if not valid.

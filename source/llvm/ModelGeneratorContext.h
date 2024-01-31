@@ -122,6 +122,8 @@ namespace rrllvm {
 
         const std::vector<libsbml::ASTNode*>* getPiecewiseTriggers() const;
 
+        size_t getNumPiecewiseTriggers() const;
+
         Jit *getJitNonOwning() const;
 
         /**
@@ -159,7 +161,7 @@ namespace rrllvm {
 
         /**
          * these point to the same location, ownedDoc is set if we create the doc,
-         * otherwise its nullptr, meaning we're borrowing the the doc.
+         * otherwise its nullptr, meaning we're borrowing the doc.
          */
         libsbml::SBMLDocument *ownedDoc;
 
@@ -245,7 +247,7 @@ namespace rrllvm {
     };
 
 
-    LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols, const Random *random);
+    LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols, const Random *random, uint numPiecewiseTriggers);
 
 
 } /* namespace rr */

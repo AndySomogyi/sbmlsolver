@@ -117,7 +117,7 @@ enum EventAtributes
  * * Most of the indexes used in this class are indexes into ModelData
  * arrays, therefore we use unsigned integers -- these are less error
  * prone and its easier to check if they are valid i.e. only check that
- * they are less than the the array size and we do not have to check that
+ * they are less than the array size and we do not have to check that
  * it is positive.
  *
  * * All symbols from the sbml are reordered such that the independent
@@ -486,12 +486,12 @@ public:
     size_t getEventBufferSize(size_t eventId) const;
 
     /**
-     * the the row indices of non-zero stoichiometry values
+     * the row indices of non-zero stoichiometry values
      */
     const std::vector<uint>& getStoichRowIndx() const;
 
     /**
-     * the the column indices of non-zero stoichiometry values
+     * the column indices of non-zero stoichiometry values
      */
     const std::vector<uint>& getStoichColIndx() const;
 

@@ -657,11 +657,6 @@ namespace rr {
         mStateVector = N_VNew_Serial(allocStateVectorSize);
         variableStepPostEventState.resize(allocStateVectorSize);
 
-
-//        for (int i = 0; i < allocStateVectorSize; i++) {
-//            SetVector(mStateVector, i, 0.);
-//        }
-//         set mStateVector to the values that are currently in the model
         auto states = new double[allocStateVectorSize];
         mModel->getStateVector(states);
 
@@ -701,6 +696,14 @@ namespace rr {
         if (mModel->getNumEvents() > 0) {
             if ((err = CVodeRootInit(mCVODE_Memory, mModel->getNumEvents(),
                                      cvodeRootFcn)) != CV_SUCCESS) {
+                handleCVODEError(err);
+            }
+            rrLog(Logger::LOG_TRACE) << "CVRootInit executed.....";
+        }
+
+        if (mModel->getNumPiecewiseTriggers() > 0) {
+            if ((err = CVodeRootInit(mCVODE_Memory, mModel->getNumEvents(),
+                cvodeRootFcn)) != CV_SUCCESS) {
                 handleCVODEError(err);
             }
             rrLog(Logger::LOG_TRACE) << "CVRootInit executed.....";

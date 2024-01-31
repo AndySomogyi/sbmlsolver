@@ -1,12 +1,12 @@
 /*
- * GetPiecewiseTriggersCodeGen.h
+ * GetPiecewiseTriggerCodeGen.h
  *
  *  Created on: Aug 10, 2013
  *      Author: andy
  */
 
-#ifndef RRLLVMGetPiecewiseTriggersCodeGen_H_
-#define RRLLVMGetPiecewiseTriggersCodeGen_H_
+#ifndef RRLLVMGetPiecewiseTriggerCodeGen_H_
+#define RRLLVMGetPiecewiseTriggerCodeGen_H_
 
 #include "CodeGenBase.h"
 #include "ModelGeneratorContext.h"
@@ -24,19 +24,20 @@
 
 namespace rrllvm
 {
+    //Based on GetEventTriggerCodeGen (-LS)
 
-    typedef void (*GetPiecewiseTriggersCodeGen_FunctionPtr)(LLVMModelData*);
+    typedef unsigned char (*GetPiecewiseTriggerCodeGen_FunctionPtr)(LLVMModelData*, size_t);
 
-    class GetPiecewiseTriggersCodeGen :
-        public CodeGenBase<GetPiecewiseTriggersCodeGen_FunctionPtr>
+    class GetPiecewiseTriggerCodeGen :
+        public CodeGenBase<GetPiecewiseTriggerCodeGen_FunctionPtr>
     {
     public:
-        GetPiecewiseTriggersCodeGen(const ModelGeneratorContext& mgc);
-        virtual ~GetPiecewiseTriggersCodeGen() {};
+        GetPiecewiseTriggerCodeGen(const ModelGeneratorContext& mgc);
+        virtual ~GetPiecewiseTriggerCodeGen() {};
 
         llvm::Value* codeGen();
 
-        typedef GetPiecewiseTriggersCodeGen_FunctionPtr FunctionPtr;
+        typedef GetPiecewiseTriggerCodeGen_FunctionPtr FunctionPtr;
 
         static const char* FunctionName;
         static const char* IndexArgName;

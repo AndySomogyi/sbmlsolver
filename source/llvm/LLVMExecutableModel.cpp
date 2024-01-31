@@ -182,6 +182,7 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getEventDelayPtr(0),
     eventTriggerPtr(0),
     eventAssignPtr(0),
+    getPiecewiseTriggerPtr(0),
     evalVolatileStoichPtr(0),
     evalConversionFactorPtr(0),
     setBoundarySpeciesAmountPtr(0),
@@ -229,6 +230,7 @@ LLVMExecutableModel::LLVMExecutableModel(
     getEventDelayPtr(modelResources->getEventDelayPtr),
     eventTriggerPtr(modelResources->eventTriggerPtr),
     eventAssignPtr(modelResources->eventAssignPtr),
+    getPiecewiseTriggerPtr(modelResources->getPiecewiseTriggerPtr),
     evalVolatileStoichPtr(modelResources->evalVolatileStoichPtr),
     evalConversionFactorPtr(modelResources->evalConversionFactorPtr),
     setBoundarySpeciesAmountPtr(modelResources->setBoundarySpeciesAmountPtr),
@@ -294,6 +296,7 @@ LLVMExecutableModel::LLVMExecutableModel(std::istream& in, uint modelGeneratorOp
     getEventDelayPtr = resources->getEventDelayPtr;
     eventTriggerPtr = resources->eventTriggerPtr;
     eventAssignPtr = resources->eventAssignPtr;
+    getPiecewiseTriggerPtr = resources->getPiecewiseTriggerPtr;
     evalVolatileStoichPtr = resources->evalVolatileStoichPtr;
     evalConversionFactorPtr = resources->evalConversionFactorPtr;
     setBoundarySpeciesAmountPtr = resources->setBoundarySpeciesAmountPtr;
@@ -1871,6 +1874,12 @@ void LLVMExecutableModel::getEventIds(std::list<std::string>& out)
     std::copy(eventIds.begin(), eventIds.end(), std::back_inserter(out));
 }
 
+int LLVMExecutableModel::getNumPiecewiseTriggers()
+{
+    return 0;
+    //return modelData->numPiecewiseTriggers;
+}
+
 void LLVMExecutableModel::getAssignmentRuleIds(std::list<std::string>& out)
 {
     std::vector<std::string> arIds = symbols->getAssignmentRuleIds();
@@ -2462,12 +2471,6 @@ void  LLVMExecutableModel::getEventRoots(double time, const double* y, double* g
 
     if (y)
     {
-        //memcpy(modelData->rateRuleValues, y,
-        //        modelData->numRateRules * sizeof(double));
-
-        //memcpy(modelData->floatingSpeciesAmounts, y + modelData->numRateRules,
-        //        modelData->numIndFloatingSpecies * sizeof(double));
-
         modelData->rateRuleValuesAlias = const_cast<double*>(y);
         modelData->floatingSpeciesAmountsAlias = const_cast<double*>(y + modelData->numRateRules);
 

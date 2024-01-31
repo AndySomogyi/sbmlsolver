@@ -333,47 +333,6 @@ int LLVMModelDataSymbols::getGlobalParameterIndex(
     return -1;
 }
 
-/*
-void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
-{
-    // zero out the structure
-    LLVMModelData::init(m);
-
-    // set the buffer sizes
-    m.numIndFloatingSpecies         = independentFloatingSpeciesSize;
-
-    //mData.numDependentSpecies           = ms.mNumDependentSpecies;
-    m.numIndGlobalParameters        = independentGlobalParameterSize;
-    m.numReactions                  = reactionsMap.size();
-    m.numEvents                     = eventAttributes.size();
-    m.numRateRules                  = rateRules.size();
-    m.numIndCompartments            = independentCompartmentSize;
-    m.numIndBoundarySpecies         = independentBoundarySpeciesSize;
-
-    // in certain cases, the data returned by c++ new may be alligned differently than
-    // malloc, so just use calloc here just to be safe, plus calloc returns zero
-    // initialized memory.
-
-    m.floatingSpeciesAmountsAlias = (double*)calloc(m.numIndFloatingSpecies, sizeof(double));
-    m.floatingSpeciesAmountRates = 0;
-    m.rateRuleValuesAlias = (double*)calloc(m.numRateRules, sizeof(double));
-    m.rateRuleRates = 0;
-
-    m.reactionRatesAlias = (double*)calloc(m.numReactions, sizeof(double));
-
-    m.globalParametersAlias = (double*)calloc(m.numIndGlobalParameters, sizeof(double));
-    m.compartmentVolumesAlias = (double*)calloc(m.numIndCompartments, sizeof(double));
-
-    m.boundarySpeciesAmountsAlias = (double*)calloc(m.numIndBoundarySpecies, sizeof(double));
-
-
-    // allocate the stoichiometry matrix
-    m.stoichiometry = rr::csr_matrix_new(m.numIndFloatingSpecies, getReactionSize(),
-            stoichRowIndx, stoichColIndx, std::vector<double>(stoichRowIndx.size(), 0));
-}
-*/
-
-
 const std::vector<uint>& LLVMModelDataSymbols::getStoichRowIndx() const
 {
     return stoichRowIndx;

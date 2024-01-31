@@ -225,7 +225,7 @@ if (BUILD_LLVM)
             llvm/FunctionResolver.cpp
             llvm/GetEventValuesCodeGen.cpp
             llvm/GetInitialValuesCodeGen.cpp
-            llvm/GetPiecewiseTriggersCodeGen.cpp
+            llvm/getPiecewiseTriggerCodeGen.cpp
             llvm/GetValuesCodeGen.cpp
             llvm/Jit.cpp
             llvm/JitFactory.cpp
@@ -271,7 +271,7 @@ if (BUILD_LLVM)
             llvm/GetEventValuesCodeGen.h
             llvm/GetInitialValueCodeGenBase.h
             llvm/GetInitialValuesCodeGen.h
-            llvm/GetPiecewiseTriggersCodeGen.h
+            llvm/getPiecewiseTriggerCodeGen.h
             llvm/GetValueCodeGenBase.h
             llvm/GetValuesCodeGen.h
             llvm/Jit.h

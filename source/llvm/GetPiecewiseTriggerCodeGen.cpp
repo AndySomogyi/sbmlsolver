@@ -1,17 +1,17 @@
 /*
- * GetPiecewiseTriggersCodeGen.cpp
+ * GetPiecewiseTriggerCodeGen.cpp
  *
  *  Created on: Aug 10, 2013
  *      Author: andy
  */
 #pragma hdrstop
-#include "GetPiecewiseTriggersCodeGen.h"
+#include "GetPiecewiseTriggerCodeGen.h"
 #include "LLVMException.h"
 #include "ModelDataSymbolResolver.h"
 #include "rrLogger.h"
 
 #include <Poco/Logger.h>
-#include <llvm/GetPiecewiseTriggersCodeGen.h>
+#include <llvm/GetPiecewiseTriggerCodeGen.h>
 #include <vector>
 
 using namespace llvm;
@@ -20,13 +20,16 @@ using namespace libsbml;
 
 namespace rrllvm
 {
-    GetPiecewiseTriggersCodeGen::GetPiecewiseTriggersCodeGen(const ModelGeneratorContext& mgc)
-        : CodeGenBase<GetPiecewiseTriggersCodeGen_FunctionPtr>(mgc)
+    const char* GetPiecewiseTriggerCodeGen::FunctionName = "getPiecewiseTrigger";
+    const char* GetPiecewiseTriggerCodeGen::IndexArgName = "triggerIndx";
+
+    GetPiecewiseTriggerCodeGen::GetPiecewiseTriggerCodeGen(const ModelGeneratorContext& mgc)
+        : CodeGenBase<GetPiecewiseTriggerCodeGen_FunctionPtr>(mgc)
         , piecewiseTriggers(mgc.getPiecewiseTriggers())
     {
     };
 
-    llvm::Value* GetPiecewiseTriggersCodeGen::codeGen()
+    llvm::Value* GetPiecewiseTriggerCodeGen::codeGen()
     {
         // make the set init value function
         llvm::Type* argTypes[] = {
@@ -82,15 +85,12 @@ namespace rrllvm
         return this->verifyFunction();
     }
 
-    const char* GetPiecewiseTriggersCodeGen::FunctionName = "getPiecewiseTriggers";
-    const char* GetPiecewiseTriggersCodeGen::IndexArgName = "triggerIndx";
-
-    llvm::Type* GetPiecewiseTriggersCodeGen::getRetType()
+    llvm::Type* GetPiecewiseTriggerCodeGen::getRetType()
     {
         return llvm::Type::getInt8Ty(context);
     };
 
-    llvm::Value* GetPiecewiseTriggersCodeGen::createRet(llvm::Value* value)
+    llvm::Value* GetPiecewiseTriggerCodeGen::createRet(llvm::Value* value)
     {
         if (!value)
         {

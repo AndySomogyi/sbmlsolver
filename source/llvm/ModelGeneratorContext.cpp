@@ -382,6 +382,11 @@ namespace rrllvm {
         return &mPiecewiseTriggers;
     }
 
+    size_t ModelGeneratorContext::getNumPiecewiseTriggers() const
+    {
+        return mPiecewiseTriggers.size();
+    }
+
     void ModelGeneratorContext::transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> modelResources) {
         modelResources->symbols = symbols;
         symbols = nullptr;
