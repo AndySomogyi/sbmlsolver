@@ -1282,6 +1282,11 @@ namespace std { class ostream{}; }
                 return _roadrunner.RoadRunner__getValue(self, *args)
 
         def setValues(self, keys, values):
+            """
+            Sets the values as defined in the 'keys' list to be the corresponding value in the 'values' list.
+            :param keys (list): The list of id strings to set.
+            :param values (list): The list of values to use.  Must be identical in length to 'keys'.
+            """
             for key, val in zip(keys, values):
                 _roadrunner.RoadRunner_setValue(self, key, val)
 
