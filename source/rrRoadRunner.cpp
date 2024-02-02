@@ -128,7 +128,7 @@ namespace rr {
 /**
  * check if metabolic control analysis is valid for the model.
  *
- * In effect, this checks that the the model is a pure
+ * In effect, this checks that the model is a pure
  * reaction-kinetics model with no rate rules, no events.
  *
  * Throws an invaid arg exception if not valid.
@@ -1511,7 +1511,7 @@ namespace rr {
     bool RoadRunner::clearModel() {
         // The model owns the shared library (if it exists), when the model is deleted,
         // its dtor unloads the shared lib.
-        impl->document.reset(new libsbml::SBMLDocument());
+        impl->document.reset(new libsbml::SBMLDocument(3, 2));
         impl->document->createModel();
         if (impl->model) {
             impl->model = nullptr;
