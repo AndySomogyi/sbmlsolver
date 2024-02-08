@@ -241,7 +241,9 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_FUNCTION_DELAY:
         result = delayExprCodeGen(ast);
         break;
-
+    case AST_FUNCTION_RATE_OF:
+        result = rateOfCodeGen(ast);
+        break;
     case AST_LAMBDA:
         result = notImplemented(ast);
         break;
@@ -635,6 +637,24 @@ llvm::Value* ASTNodeCodeGen::delayExprCodeGen(const libsbml::ASTNode* ast)
     //  << str << "'.";
 
     //return codeGen(ast->getChild(0));
+}
+
+llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
+{
+    if (ast->getNumChildren() != 1) {
+        throw_llvm_exception("AST type 'rateOf' requires exactly one child.");
+    }
+
+    ASTNode* child = ast->getChild(0);
+    if (child->getType() != AST_NAME)
+    {
+        char* formula = SBML_formulaToL3String(ast);
+        std::stringstream err;
+        err << "The rateOf csymbol may only be used on individual symbols, i.e. 'rateOf(S1)'.  The expression '" << formula << "' is illegal.";
+        free(formula);
+        throw_llvm_exception(err.str())
+    }
+    return resolver.loadSymbolValue(string(child->getName()) + "'");
 }
 
 llvm::Value* ASTNodeCodeGen::nameExprCodeGen(const libsbml::ASTNode* ast)

@@ -219,6 +219,36 @@ namespace rrllvm
             return loadReactionRate(reaction);
         }
 
+        /*************************************************************************/
+        /* RateOf */
+        /*************************************************************************/
+        {
+            if (symbol[symbol.size() - 1] == '\'')
+            {
+                Value* rate = 0;
+                string subsymbol = symbol.substr(0, symbol.size() - 1);
+                //Looking for a rate.  Our options are: floating species, rate rule target, assignment rule target (an error), and everything else is zero.
+                if (modelDataSymbols.isIndependentFloatingSpecies(subsymbol))
+                {
+                    rate = mdbuilder.createFloatSpeciesAmtRateLoad(subsymbol, subsymbol + "_rate");
+                }
+                else if (modelDataSymbols.hasRateRule(subsymbol))
+                {
+                    rate = mdbuilder.createRateRuleRateLoad(subsymbol, subsymbol + "_rate");
+                }
+                else if (modelDataSymbols.hasAssignmentRule(subsymbol))
+                {
+                    throw_llvm_exception("Unable to define the rateOf for symbol '" + symbol + "' as it is changed by an assignment rule.");
+                }
+                else
+                {
+                    return ConstantFP::get(builder.getContext(), APFloat(0.0));
+                }
+                assert(rate);
+                return cacheValue(symbol, args, rate);
+            }
+        }
+
         std::string msg = "Could not find requested symbol \'";
         msg += symbol;
         msg += "\' in the model";
