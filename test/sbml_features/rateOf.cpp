@@ -20,6 +20,22 @@ public:
     SBMLFeatures() = default;
 };
 
+TEST_F(SBMLFeatures, RATEOF_RNX1)
+{
+    try
+    {
+        RoadRunner rri((SBMLFeaturesDir / "rateOf_1reaction.xml").string());
+        rri.getSimulateOptions().duration = 2;
+        rri.simulate();
+        EXPECT_EQ(rri.getValue(rri.createSelection("s2")), 1.2);
+    }
+    catch (std::exception& ex)
+    {
+        std::cout << "Exception: " << ex.what() << std::endl;
+        EXPECT_TRUE(false);
+    }
+}
+
 TEST_F(SBMLFeatures, RATEOF_AR1)
 {
     try
@@ -35,15 +51,18 @@ TEST_F(SBMLFeatures, RATEOF_AR1)
         EXPECT_TRUE(false);
     }
 }
+
 TEST_F(SBMLFeatures, RATEOF_AR2)
 {
     try
     {
         RoadRunner rri((SBMLFeaturesDir / "rateOf_assignmentRule2.xml").string());
-        rri.validateCurrentSBML();
+        EXPECT_EQ(rri.getValue(rri.createSelection("s2")), 1.0);
+        EXPECT_EQ(rri.getValue(rri.createSelection("s1'")), 1.0);
         rri.getSimulateOptions().duration = 1;
         rri.simulate();
-        EXPECT_EQ(rri.getValue(rri.createSelection("s1")), 1.0);
+        EXPECT_EQ(rri.getValue(rri.createSelection("s2")), 1.0);
+        EXPECT_NEAR(rri.getValue(rri.createSelection("s1")), 6.0, 0.0001);
     }
     catch (std::exception& ex)
     {
@@ -51,3 +70,43 @@ TEST_F(SBMLFeatures, RATEOF_AR2)
         EXPECT_TRUE(false);
     }
 }
+
+TEST_F(SBMLFeatures, RATEOF_AR_recursive_err)
+{
+    try
+    {
+        RoadRunner rri((SBMLFeaturesDir / "rateOf_assignmentRule_recursive_invalid.xml").string());
+        EXPECT_EQ(rri.getValue(rri.createSelection("s2")), 1.0);
+        EXPECT_EQ(rri.getValue(rri.createSelection("s1'")), 1.0);
+        rri.getSimulateOptions().duration = 1;
+        rri.simulate();
+        EXPECT_EQ(rri.getValue(rri.createSelection("s2")), 1.0);
+        EXPECT_NEAR(rri.getValue(rri.createSelection("s1")), 6.0, 0.0001);
+    }
+    catch (std::exception& ex)
+    {
+        std::cout << "Exception: " << ex.what() << std::endl;
+        EXPECT_TRUE(true);
+    }
+}
+
+TEST_F(SBMLFeatures, RATEOF_AR_recursive_err2)
+{
+    try
+    {
+        RoadRunner rri((SBMLFeaturesDir / "rateOf_assignmentRule_recursive_invalid2.xml").string());
+        EXPECT_EQ(rri.getValue(rri.createSelection("s2")), 1.0);
+        EXPECT_EQ(rri.getValue(rri.createSelection("s1'")), 1.0);
+        rri.getSimulateOptions().duration = 1;
+        rri.simulate();
+        EXPECT_EQ(rri.getValue(rri.createSelection("s2")), 1.0);
+        EXPECT_NEAR(rri.getValue(rri.createSelection("s1")), 6.0, 0.0001);
+    }
+    catch (std::exception& ex)
+    {
+        std::cout << "Exception: " << ex.what() << std::endl;
+        //HOWEVER:  this should be caught by us, not by falling over and dying.
+        EXPECT_TRUE(true);
+    }
+}
+

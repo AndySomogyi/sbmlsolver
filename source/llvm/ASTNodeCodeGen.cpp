@@ -654,7 +654,40 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
         free(formula);
         throw_llvm_exception(err.str())
     }
-    return resolver.loadSymbolValue(string(child->getName()) + "'");
+    string name = child->getName();
+    const LLVMModelDataSymbols& dataSymbols = ctx.getModelDataSymbols();
+    const LLVMModelSymbols& modelSymbols = ctx.getModelSymbols();
+    ModelDataIRBuilder mdbuilder(modelData, dataSymbols, builder);
+    Value* rate = 0;
+	//Looking for a rate.  Our options are: floating species, rate rule target, assignment rule target (an error), and everything else is zero.
+	if (dataSymbols.isIndependentFloatingSpecies(name))
+	{
+        rate = mdbuilder.createFloatSpeciesAmtRateLoad(name, name + "_amtRate");
+        //rate = mdbuilder.createFloatSpeciesAmtRateLoad(name, name + "_rate");
+	}
+	else if (dataSymbols.hasRateRule(name))
+	{
+        SymbolForest::ConstIterator i = modelSymbols.getRateRules().find(
+            name);
+        if (i != modelSymbols.getRateRules().end())
+        {
+            //recursiveSymbolPush(symbol);
+			Value* result = ASTNodeCodeGen(builder, resolver, ctx, modelData).codeGenDouble(i->second);
+            //recursiveSymbolPop();
+            return result; // resolver.cacheValue(name, args, result);
+        }
+        //rate = mdbuilder.createRateRuleRateLoad(name, name + "_rate");
+	}
+	else if (dataSymbols.hasAssignmentRule(name))
+	{
+		throw_llvm_exception("Unable to define the rateOf for symbol '" + name + "' as it is changed by an assignment rule.");
+	}
+	else
+	{
+		return ConstantFP::get(builder.getContext(), APFloat(0.0));
+	}
+	assert(rate);
+	return rate;
 }
 
 llvm::Value* ASTNodeCodeGen::nameExprCodeGen(const libsbml::ASTNode* ast)
