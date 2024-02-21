@@ -219,35 +219,33 @@ namespace rrllvm
             return loadReactionRate(reaction);
         }
 
-        /*************************************************************************/
-        /* RateOf */
-        /*************************************************************************/
-        //{
-        //    if (symbol[symbol.size() - 1] == '\'')
-        //    {
-        //        Value* rate = 0;
-        //        string subsymbol = symbol.substr(0, symbol.size() - 1);
-        //        //Looking for a rate.  Our options are: floating species, rate rule target, assignment rule target (an error), and everything else is zero.
-        //        if (modelDataSymbols.isIndependentFloatingSpecies(subsymbol))
-        //        {
-        //            rate = mdbuilder.createFloatSpeciesAmtRateLoad(subsymbol, subsymbol + "_rate");
-        //        }
-        //        else if (modelDataSymbols.hasRateRule(subsymbol))
-        //        {
-        //            rate = mdbuilder.createRateRuleRateLoad(subsymbol, subsymbol + "_rate");
-        //        }
-        //        else if (modelDataSymbols.hasAssignmentRule(subsymbol))
-        //        {
-        //            throw_llvm_exception("Unable to define the rateOf for symbol '" + symbol + "' as it is changed by an assignment rule.");
-        //        }
-        //        else
-        //        {
-        //            return ConstantFP::get(builder.getContext(), APFloat(0.0));
-        //        }
-        //        assert(rate);
-        //        return cacheValue(symbol, args, rate);
-        //    }
-        //}
+        if (modelDataSymbols.isNamedSpeciesReference(symbol))
+        {
+            const LLVMModelDataSymbols::SpeciesReferenceInfo& info =
+                modelDataSymbols.getNamedSpeciesReferenceInfo(symbol);
+
+            Value* value = mdbuilder.createStoichiometryLoad(info.row, info.column, symbol);
+
+            if (info.type == LLVMModelDataSymbols::MultiReactantProduct)
+            {
+                std::string msg = "Mutable stochiometry for species which appear "
+                    "multiple times in a single reaction is not currently "
+                    "supported, species reference id: ";
+                msg += symbol;
+                throw_llvm_exception(msg);
+            }
+
+            if (info.type == LLVMModelDataSymbols::Reactant)
+            {
+                // its consumed in the reaction, so has a negative in the stoich
+                // matrix
+                Value* negOne = ConstantFP::get(builder.getContext(), APFloat(-1.0));
+                negOne->setName("neg_one");
+                value = builder.CreateFMul(negOne, value, "neg_" + symbol);
+            }
+
+            return cacheValue(symbol, args, value);
+        }
 
         std::string msg = "Could not find requested symbol \'";
         msg += symbol;

@@ -662,9 +662,23 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
 	//Looking for a rate.  Our options are: floating species, rate rule target, assignment rule target (an error), and everything else is zero.
 	if (dataSymbols.isIndependentFloatingSpecies(name))
 	{
-        rate = mdbuilder.createFloatSpeciesAmtRateLoad(name, name + "_amtRate");
-        //rate = mdbuilder.createFloatSpeciesAmtRateLoad(name, name + "_rate");
-	}
+        //NOTE:  if we stored rates persistently, we could use the following instead:
+        //rate = mdbuilder.createFloatSpeciesAmtRateLoad(name, name + "_amtRate");
+        int speciesIndex = dataSymbols.getFloatingSpeciesIndex(name);
+        const Model* model = ctx.getModel();
+        ASTNode base(AST_PLUS);
+        for (int rxn = 0; rxn < model->getNumReactions(); rxn++) {
+            ASTNode* times = new ASTNode(AST_TIMES);
+            const Reaction* reaction = model->getReaction(rxn);
+            ASTNode* stoich = new ASTNode(AST_NAME);
+            stoich->setName((reaction->getId() + ":" + name).c_str());
+            times->addChild(stoich);
+            times->addChild(reaction->getKineticLaw()->getMath()->deepCopy());
+            base.addChild(times);
+        }
+        Value* result = ASTNodeCodeGen(builder, resolver, ctx, modelData).codeGenDouble(&base);
+        return result;
+    }
 	else if (dataSymbols.hasRateRule(name))
 	{
         SymbolForest::ConstIterator i = modelSymbols.getRateRules().find(
@@ -674,9 +688,8 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
             //recursiveSymbolPush(symbol);
 			Value* result = ASTNodeCodeGen(builder, resolver, ctx, modelData).codeGenDouble(i->second);
             //recursiveSymbolPop();
-            return result; // resolver.cacheValue(name, args, result);
+            return result;
         }
-        //rate = mdbuilder.createRateRuleRateLoad(name, name + "_rate");
 	}
 	else if (dataSymbols.hasAssignmentRule(name))
 	{

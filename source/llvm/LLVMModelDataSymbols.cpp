@@ -1625,7 +1625,13 @@ size_t LLVMModelDataSymbols::getEventBufferSize(size_t eventId) const
 
 bool LLVMModelDataSymbols::isNamedSpeciesReference(const std::string& id) const
 {
-    return namedSpeciesReferenceInfo.find(id) != namedSpeciesReferenceInfo.end();
+    if (namedSpeciesReferenceInfo.find(id) != namedSpeciesReferenceInfo.end()) {
+        return true;
+    }
+    if (id.find(":") != string::npos) {
+        return true;
+    }
+    return false;
 }
 
 const LLVMModelDataSymbols::SpeciesReferenceInfo&
@@ -1635,6 +1641,16 @@ const LLVMModelDataSymbols::SpeciesReferenceInfo&
     if (i != namedSpeciesReferenceInfo.end())
     {
         return i->second;
+    }
+    else if (id.find(":") != string::npos) {
+        //LS: This whole section is for when we ask for rateOf(specid).
+        string rxnid = id.substr(0, id.find(":"));
+        string specid = id.substr(id.find(":") + 1, id.length());
+        int rxnIdx = getReactionIndex(rxnid);
+        int speciesIdx = getFloatingSpeciesIndex(specid);
+        SpeciesReferenceInfo info =
+        { static_cast<uint>(speciesIdx), static_cast<uint>(rxnIdx), Product, rxnid };
+        return info;
     }
     else
     {
