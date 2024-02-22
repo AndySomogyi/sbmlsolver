@@ -664,12 +664,17 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
 	{
         //NOTE:  if we stored rates persistently, we could use the following instead:
         //rate = mdbuilder.createFloatSpeciesAmtRateLoad(name, name + "_amtRate");
+        resolver.recursiveSymbolPush("rateOf(" + name + ")");
         int speciesIndex = dataSymbols.getFloatingSpeciesIndex(name);
         const Model* model = ctx.getModel();
         ASTNode base(AST_PLUS);
         for (int rxn = 0; rxn < model->getNumReactions(); rxn++) {
-            ASTNode* times = new ASTNode(AST_TIMES);
             const Reaction* reaction = model->getReaction(rxn);
+            if (reaction->getReactant(name) == NULL &&
+                reaction->getProduct(name) == NULL) {
+                continue;
+            }
+            ASTNode* times = new ASTNode(AST_TIMES);
             ASTNode* stoich = new ASTNode(AST_NAME);
             stoich->setName((reaction->getId() + ":" + name).c_str());
             times->addChild(stoich);
@@ -677,17 +682,20 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
             base.addChild(times);
         }
         Value* result = ASTNodeCodeGen(builder, resolver, ctx, modelData).codeGenDouble(&base);
+        resolver.recursiveSymbolPop();
         return result;
     }
 	else if (dataSymbols.hasRateRule(name))
 	{
+        //NOTE:  if we stored rates persistently, we could use the following instead:
+        //rate = mdbuilder.createRateRuleRateLoad(name, name + "_rate");
         SymbolForest::ConstIterator i = modelSymbols.getRateRules().find(
             name);
         if (i != modelSymbols.getRateRules().end())
         {
-            //recursiveSymbolPush(symbol);
+            resolver.recursiveSymbolPush("rateOf(" + name + ")");
 			Value* result = ASTNodeCodeGen(builder, resolver, ctx, modelData).codeGenDouble(i->second);
-            //recursiveSymbolPop();
+            resolver.recursiveSymbolPop();
             return result;
         }
 	}

@@ -88,10 +88,12 @@ llvm::Value* SBMLInitialValueSymbolResolver::loadSymbolValue(
         return loadReactionRate(reaction);
     }
 
+    LLVMModelDataSymbols* modelDataSymbolsPtr = const_cast<LLVMModelDataSymbols*>(&modelDataSymbols);
+
     if (modelDataSymbols.isNamedSpeciesReference(symbol))
     {
         const LLVMModelDataSymbols::SpeciesReferenceInfo& info =
-            modelDataSymbols.getNamedSpeciesReferenceInfo(symbol);
+            modelDataSymbolsPtr->getNamedSpeciesReferenceInfo(symbol);
 
         ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols, builder);
         Value* value = mdbuilder.createStoichiometryLoad(info.row, info.column, symbol);
@@ -107,7 +109,7 @@ llvm::Value* SBMLInitialValueSymbolResolver::loadSymbolValue(
 
         if (info.type == LLVMModelDataSymbols::Reactant)
         {
-            // its consumed in the reaction, so has a negative in the stoich
+            // it's consumed in the reaction, so has a negative in the stoich
             // matrix
             Value* negOne = ConstantFP::get(builder.getContext(), APFloat(-1.0));
             negOne->setName("neg_one");

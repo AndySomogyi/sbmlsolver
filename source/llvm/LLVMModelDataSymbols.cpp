@@ -1635,7 +1635,7 @@ bool LLVMModelDataSymbols::isNamedSpeciesReference(const std::string& id) const
 }
 
 const LLVMModelDataSymbols::SpeciesReferenceInfo&
-    LLVMModelDataSymbols::getNamedSpeciesReferenceInfo(const std::string& id) const
+    LLVMModelDataSymbols::getNamedSpeciesReferenceInfo(const std::string& id)
 {
     StringRefInfoMap::const_iterator i = namedSpeciesReferenceInfo.find(id);
     if (i != namedSpeciesReferenceInfo.end())
@@ -1650,7 +1650,8 @@ const LLVMModelDataSymbols::SpeciesReferenceInfo&
         int speciesIdx = getFloatingSpeciesIndex(specid);
         SpeciesReferenceInfo info =
         { static_cast<uint>(speciesIdx), static_cast<uint>(rxnIdx), Product, rxnid };
-        return info;
+        namedSpeciesReferenceInfo[id] = info;
+        return namedSpeciesReferenceInfo[id];
     }
     else
     {

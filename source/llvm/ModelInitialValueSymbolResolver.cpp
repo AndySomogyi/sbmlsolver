@@ -219,10 +219,12 @@ namespace rrllvm
             return loadReactionRate(reaction);
         }
 
+        LLVMModelDataSymbols* modelDataSymbolsPtr = const_cast<LLVMModelDataSymbols*>(&modelDataSymbols);
+
         if (modelDataSymbols.isNamedSpeciesReference(symbol))
         {
             const LLVMModelDataSymbols::SpeciesReferenceInfo& info =
-                modelDataSymbols.getNamedSpeciesReferenceInfo(symbol);
+                modelDataSymbolsPtr->getNamedSpeciesReferenceInfo(symbol);
 
             Value* value = mdbuilder.createStoichiometryLoad(info.row, info.column, symbol);
 
