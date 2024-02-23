@@ -69,7 +69,10 @@ void KineticLawParameterResolver::recursiveSymbolPop()
 
 bool KineticLawParameterResolver::isLocalParameter(const std::string& symbol)
 {
-    return kineticLaw.getLocalParameter(symbol) != NULL;
+    if (kineticLaw.getLocalParameter(symbol) != NULL) {
+        return true;
+    }
+    return kineticLaw.getParameter(symbol) != NULL;
 }
 
 } /* namespace rr */

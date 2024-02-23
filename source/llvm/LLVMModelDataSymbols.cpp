@@ -1629,7 +1629,12 @@ bool LLVMModelDataSymbols::isNamedSpeciesReference(const std::string& id) const
         return true;
     }
     if (id.find(":") != string::npos) {
-        return true;
+        //LS: This whole section is for when we ask for rateOf(specid).
+        string rxnid = id.substr(0, id.find(":"));
+        string specid = id.substr(id.find(":") + 1, id.length());
+        if (getReactionIndex(rxnid) != -1 && getFloatingSpeciesIndex(specid) != -1) {
+            return true;
+        }
     }
     return false;
 }
@@ -1648,6 +1653,9 @@ const LLVMModelDataSymbols::SpeciesReferenceInfo&
         string specid = id.substr(id.find(":") + 1, id.length());
         int rxnIdx = getReactionIndex(rxnid);
         int speciesIdx = getFloatingSpeciesIndex(specid);
+        if (rxnIdx == -1 || speciesIdx == -1) {
+            throw_llvm_exception(id + " is not a named SpeciesReference: '" + rxnid + "' and '" + specid + "' are not a valid combination of reaction and species.");
+        }
         SpeciesReferenceInfo info =
         { static_cast<uint>(speciesIdx), static_cast<uint>(rxnIdx), Product, rxnid };
         namedSpeciesReferenceInfo[id] = info;
