@@ -665,7 +665,7 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
         return ConstantFP::get(builder.getContext(), APFloat(0.0));
     }
     else if (dataSymbols.isIndependentFloatingSpecies(name))
-	{
+    {
         //NOTE:  if we stored rates persistently, we could use the following instead:
         //rate = mdbuilder.createFloatSpeciesAmtRateLoad(name, name + "_amtRate");
         resolver.recursiveSymbolPush("rateOf(" + name + ")");
@@ -673,8 +673,28 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
         const Model* model = ctx.getModel();
         const Species* species = model->getSpecies(name);
         bool speciesIsAmount = species->getHasOnlySubstanceUnits();
-        const Compartment* compartment = model->getCompartment(species->getCompartment());
-        bool compIsConst = compartment->getConstant();
+        string compId = species->getCompartment();
+        bool compIsConst = false;
+
+        if (!speciesIsAmount) {
+            //Determine if the compartment changes in time.
+            const Compartment* compartment = model->getCompartment(compId);
+            const Rule* compRule = model->getRule(compId);
+            if (compRule != NULL && compRule->getType() == SBML_ASSIGNMENT_RULE) {
+                std::stringstream err;
+                err << "Unable to calculate rateOf(" << name << "), because "
+                    << name << " is a concentration, not an amount, but its compartment ("
+                    << compId << ") chages due to an assignment rule.  Since we cannot"
+                    << " calculate derivatives on the fly, we cannot determine the rate of"
+                    << " change of the species " << name << " concentration.";
+                throw_llvm_exception(err.str());
+            }
+            else {
+                //The only other option is a rate rule, which means the compartment changes in time.
+                compIsConst = true;
+            }
+        }
+
         string conversion_factor = "";
         if (model->isSetConversionFactor()) {
             conversion_factor = model->getConversionFactor();
@@ -682,17 +702,17 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
         if (species->isSetConversionFactor()) {
             conversion_factor = species->getConversionFactor();
         }
-        ASTNode base(AST_PLUS);
-        ASTNode* baseref = &base;
-        ASTNode* genref = &base;
+        ASTNode amtRate(AST_PLUS);
+        ASTNode* amtRateRef = &amtRate;
+        ASTNode* overallRef = &amtRate;
         if (!conversion_factor.empty()) {
-            base.setType(AST_TIMES);
+            amtRate.setType(AST_TIMES);
             ASTNode* cf = new ASTNode(AST_NAME);
-            ASTNode* subbase = new ASTNode(AST_PLUS);
+            ASTNode* unscaledRate = new ASTNode(AST_PLUS);
             cf->setName(conversion_factor.c_str());
-            base.addChild(subbase);
-            base.addChild(cf);
-            baseref = subbase;
+            amtRate.addChild(unscaledRate);
+            amtRate.addChild(cf);
+            amtRateRef = unscaledRate;
         }
         for (int rxn = 0; rxn < model->getNumReactions(); rxn++) {
             const Reaction* reaction = model->getReaction(rxn);
@@ -705,21 +725,22 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
             stoich->setName((reaction->getId() + ":" + name).c_str());
             times->addChild(stoich);
             times->addChild(reaction->getKineticLaw()->getMath()->deepCopy());
-            baseref->addChild(times);
+            amtRateRef->addChild(times);
         }
-        ASTNode divide(AST_DIVIDE);
-        ASTNode minus(AST_MINUS);
+        ASTNode scaledConcentrationRate(AST_DIVIDE);
+        ASTNode combinedConcentrationRate(AST_MINUS);
         if (!speciesIsAmount) {
             //Need to divide by the compartment size:
-            divide.addChild(genref->deepCopy());
+            scaledConcentrationRate.addChild(overallRef->deepCopy());
             ASTNode* compsize = new ASTNode(AST_NAME);
-            compsize->setName(species->getCompartment().c_str());
-            divide.addChild(compsize);
-            genref = &divide;
+            compsize->setName(compId.c_str());
+            scaledConcentrationRate.addChild(compsize);
+            overallRef = &scaledConcentrationRate;
 
             //If the compartment changes in time, it becomes even more complicated!
             if (!compIsConst) {
-                minus.addChild(genref->deepCopy());
+                //The equation is: rateOf([S1]) = rateOf(S1)/C - [S1]/C * rateOf(C)
+                combinedConcentrationRate.addChild(overallRef->deepCopy());
                 ASTNode* subdiv = new ASTNode(AST_DIVIDE);
                 ASTNode* mult = new ASTNode(AST_TIMES);
                 ASTNode* species = new ASTNode(AST_NAME);
@@ -732,14 +753,13 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
                 mult->addChild(species);
                 subdiv->addChild(mult);
                 subdiv->addChild(comp->deepCopy());
-                minus.addChild(subdiv);
-                genref = &minus;
-                //The equation is: rateOf([S1]) = rateOf(S1)/C - [S1]/C * rateOf(C)
+                combinedConcentrationRate.addChild(subdiv);
+                overallRef = &combinedConcentrationRate;
             }
 
         }
-        string formula = SBML_formulaToL3String(genref);
-        Value* result = ASTNodeCodeGen(builder, resolver, ctx, modelData).codeGenDouble(genref);
+        //string formula = SBML_formulaToL3String(overallRef);
+        Value* result = ASTNodeCodeGen(builder, resolver, ctx, modelData).codeGenDouble(overallRef);
         resolver.recursiveSymbolPop();
         return result;
     }
