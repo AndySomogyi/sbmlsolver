@@ -678,13 +678,13 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
             //Determine if the compartment changes in time.
             const Rule* compRule = model->getRule(compId);
             if (compRule != NULL) {
-                if (compRule->getType() == SBML_ASSIGNMENT_RULE) {
+                if (compRule->getTypeCode() == SBML_ASSIGNMENT_RULE) {
                     std::stringstream err;
                     err << "Unable to calculate rateOf(" << name << "), because "
                         << name << " is a concentration, not an amount, but its compartment ("
                         << compId << ") chages due to an assignment rule.  Since we cannot"
                         << " calculate derivatives on the fly, we cannot determine the rate of"
-                        << " change of the species " << name << " concentration.";
+                        << " change of the species " << name << " concentration";
                     throw_llvm_exception(err.str());
                 }
                 else {
