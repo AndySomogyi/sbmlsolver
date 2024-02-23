@@ -659,15 +659,41 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
     const LLVMModelSymbols& modelSymbols = ctx.getModelSymbols();
     ModelDataIRBuilder mdbuilder(modelData, dataSymbols, builder);
     Value* rate = 0;
-	//Looking for a rate.  Our options are: floating species, rate rule target, assignment rule target (an error), and everything else is zero.
-	if (dataSymbols.isIndependentFloatingSpecies(name))
+	//Looking for a rate.  Our options are: local parameter, floating species, rate rule target, assignment rule target (an error), and everything else is zero.
+    if (resolver.isLocalParameter(name))
+    {
+        return ConstantFP::get(builder.getContext(), APFloat(0.0));
+    }
+    else if (dataSymbols.isIndependentFloatingSpecies(name))
 	{
         //NOTE:  if we stored rates persistently, we could use the following instead:
         //rate = mdbuilder.createFloatSpeciesAmtRateLoad(name, name + "_amtRate");
         resolver.recursiveSymbolPush("rateOf(" + name + ")");
         int speciesIndex = dataSymbols.getFloatingSpeciesIndex(name);
         const Model* model = ctx.getModel();
+        const Species* species = model->getSpecies(name);
+        bool speciesIsAmount = species->getHasOnlySubstanceUnits();
+        const Compartment* compartment = model->getCompartment(species->getCompartment());
+        bool compIsConst = compartment->getConstant();
+        string conversion_factor = "";
+        if (model->isSetConversionFactor()) {
+            conversion_factor = model->getConversionFactor();
+        }
+        if (species->isSetConversionFactor()) {
+            conversion_factor = species->getConversionFactor();
+        }
         ASTNode base(AST_PLUS);
+        ASTNode* baseref = &base;
+        ASTNode* genref = &base;
+        if (!conversion_factor.empty()) {
+            base.setType(AST_TIMES);
+            ASTNode* cf = new ASTNode(AST_NAME);
+            ASTNode* subbase = new ASTNode(AST_PLUS);
+            cf->setName(conversion_factor.c_str());
+            base.addChild(subbase);
+            base.addChild(cf);
+            baseref = subbase;
+        }
         for (int rxn = 0; rxn < model->getNumReactions(); rxn++) {
             const Reaction* reaction = model->getReaction(rxn);
             if (reaction->getReactant(name) == NULL &&
@@ -679,9 +705,41 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
             stoich->setName((reaction->getId() + ":" + name).c_str());
             times->addChild(stoich);
             times->addChild(reaction->getKineticLaw()->getMath()->deepCopy());
-            base.addChild(times);
+            baseref->addChild(times);
         }
-        Value* result = ASTNodeCodeGen(builder, resolver, ctx, modelData).codeGenDouble(&base);
+        ASTNode divide(AST_DIVIDE);
+        ASTNode minus(AST_MINUS);
+        if (!speciesIsAmount) {
+            //Need to divide by the compartment size:
+            divide.addChild(genref->deepCopy());
+            ASTNode* compsize = new ASTNode(AST_NAME);
+            compsize->setName(species->getCompartment().c_str());
+            divide.addChild(compsize);
+            genref = &divide;
+
+            //If the compartment changes in time, it becomes even more complicated!
+            if (!compIsConst) {
+                minus.addChild(genref->deepCopy());
+                ASTNode* subdiv = new ASTNode(AST_DIVIDE);
+                ASTNode* mult = new ASTNode(AST_TIMES);
+                ASTNode* species = new ASTNode(AST_NAME);
+                species->setName(name.c_str());
+                ASTNode* rateOfComp = new ASTNode(AST_FUNCTION_RATE_OF);
+                ASTNode* comp = new ASTNode(AST_NAME);
+                comp->setName(compartment->getId().c_str());
+                rateOfComp->addChild(comp);
+                mult->addChild(rateOfComp);
+                mult->addChild(species);
+                subdiv->addChild(mult);
+                subdiv->addChild(comp->deepCopy());
+                minus.addChild(subdiv);
+                genref = &minus;
+                //The equation is: rateOf([S1]) = rateOf(S1)/C - [S1]/C * rateOf(C)
+            }
+
+        }
+        string formula = SBML_formulaToL3String(genref);
+        Value* result = ASTNodeCodeGen(builder, resolver, ctx, modelData).codeGenDouble(genref);
         resolver.recursiveSymbolPop();
         return result;
     }

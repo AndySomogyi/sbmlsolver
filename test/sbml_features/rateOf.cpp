@@ -22,6 +22,9 @@ public:
 
 TEST_F(SBMLFeatures, RATEOF_RNX1)
 {
+    //Logger::enableConsoleLogging();
+    //Logger::setLevel(Logger::LOG_DEBUG);
+
     try
     {
         RoadRunner rri((SBMLFeaturesDir / "rateOf_1reaction.xml").string());
