@@ -708,11 +708,11 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
             conversion_factor = species->getConversionFactor();
         }
         if (!conversion_factor.empty()) {
-            amtRate.setType(AST_TIMES);
-            ASTNode* cf = new ASTNode(AST_NAME);
+            amtRate.setType(AST_TIMES); //rate * conversion factor
             ASTNode* unscaledRate = new ASTNode(AST_PLUS);
-            cf->setName(conversion_factor.c_str());
             amtRate.addChild(unscaledRate);
+            ASTNode* cf = new ASTNode(AST_NAME);
+            cf->setName(conversion_factor.c_str());
             amtRate.addChild(cf);
             amtRateRef = unscaledRate;
         }
@@ -736,7 +736,7 @@ llvm::Value* ASTNodeCodeGen::rateOfCodeGen(const libsbml::ASTNode* ast)
         ASTNode scaledConcentrationRate(AST_DIVIDE);
         ASTNode combinedConcentrationRate(AST_MINUS);
         if (!speciesIsAmount) {
-            //Need to divide by the compartment size:
+            //Need to divide by the compartment size (rate / comp)
             scaledConcentrationRate.addChild(overallRef->deepCopy());
             ASTNode* compsize = new ASTNode(AST_NAME);
             compsize->setName(compId.c_str());
