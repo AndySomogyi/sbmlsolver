@@ -19,7 +19,7 @@ RUN cd gcc-11.1.0/build && make -j 12 CPPFLAGS=-O3 CXXFLAGS=-O3
 RUN cd gcc-11.1.0/build && make install
 RUN cd .. && rm -rf gcc-11.1.0
 
-RUN yum install -y nano
+#RUN yum install -y nano
 
 RUN yum install -y pcre-devel.x86_64
 
@@ -29,10 +29,9 @@ RUN  mkdir -p $swig_source_dir && wget -q --no-check-certificate https://netcolo
 RUN  tar -xf swig-4.0.2.tar.gz
 RUN  cd $swig_source_dir && ./configure --prefix=$swig_install_dir
 RUN  cd $swig_source_dir && make -j 12 && make install
+RUN  rm -r -f $swig_source_dir swig-4.0.2.tar.gz
 
-
-RUN yum install -y ncurses-devel
-RUN git config --global core.editor nano && git config --global pager.branch false
+#RUN git config --global core.editor nano && git config --global pager.branch false
 
 
 #RUN echo -e "export PATH=\"/usr/local/gcc-11.1.0/bin:$PATH\"" >> ~/.bashrc \
