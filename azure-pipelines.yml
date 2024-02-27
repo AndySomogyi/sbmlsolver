@@ -763,7 +763,7 @@ stages:
         displayName: UbuntuBuildRoadrunnerCpp
         continueOnError: "false"
         pool:
-          vmImage: 'Ubuntu-20.04'
+          vmImage: 'Ubuntu-latest'
         strategy:
           matrix:
             64-bit Linux Release:
@@ -978,7 +978,7 @@ stages:
               PythonVersion: 3.12
               PythonName: py312
         pool:
-          vmImage: 'ubuntu-20.04'
+          vmImage: 'ubuntu-latest'
         container: sysbiouw/roadrunner-manylinux2014:latest
         variables:
           CCACHE_DIR: '$(Pipeline.Workspace)/ccache'
