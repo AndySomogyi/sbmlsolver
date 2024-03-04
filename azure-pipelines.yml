@@ -321,7 +321,7 @@ stages:
               project: 'libroadrunner-deps'
               pipeline: 9
               runVersion: 'latest'
-              artifact: libroadrunner-deps-$(Agent.OS)-Release
+              artifact: libroadrunner-deps-$(Agent.OS)-Release-$(arch)
               path: $(DEPS_INSTALL_PREFIX)
             displayName: Download libroadrunner-deps install artifacts
           - script: |
