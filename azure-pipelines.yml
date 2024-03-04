@@ -32,7 +32,6 @@ stages:
         timeoutInMinutes: "0"
         displayName: MacBuildRoadrunnerCpp
         continueOnError: "false"
-          matrix:
         strategy:
           matrix:
             64-bit Mac Release x86:
@@ -56,7 +55,7 @@ stages:
             #   vmImage: macOS-14
             #   arch: arm64
         pool:
-          vmImage: 'macOS-11'
+          vmImage: $(vmImage)
         variables:
           LLVM_CACHE: 'false'
           PythonName: 'py39'
